@@ -13,73 +13,56 @@ abstract class AbstractView
 {
     const DEFAULT_TITLE = 'Page Title';
 
+    /** @var \Exception */
+    private $exception = null;
+
     abstract protected function renderHTMLBody();
 
-    protected function getTitle() { return static::DEFAULT_TITLE; }
+    protected function getTitle()       { return static::DEFAULT_TITLE; }
+
+    public function setException($ex)   { $this->exception = $ex; }
+    public function getException()      { return $this->exception; }
+    public function hasException()     { return $this->exception !== null; }
 
     public function renderHTML() {
+        if($this->exception)
+            header('HTTP/1.1 400 ' . $this->exception->getMessage());
 
-?><!DOCTYPE html>
-<html lang="en">
-    <?php $this->renderHTMLHead(); ?>
-    <?php $this->renderHTMLBody(); ?>
-</html>
-<?php
-
-}
+        echo "<!DOCTYPE html>\n";
+        echo "<html lang='en'>\n";
+        $this->renderHTMLHead();
+        $this->renderHTMLBody();
+        echo "</html>";
+    }
 
     protected function renderHTMLHead()
     {
-
-?>
-    <head>
-        <title><?php echo $this->getTitle(); ?></title>
-
-        <?php $this->renderHTMLMetaTags(); ?>
-        <?php $this->renderHTMLHeadLinks(); ?>
-
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-        <!--[if lt IE 9]>
-        <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-
-    </head>
-<?php
-
+        echo "\t<head>\n";
+        echo "\t\t<title>", $this->getTitle(), "</title>\n";
+        $this->renderHTMLMetaTags();
+        $this->renderHTMLHeadLinks();
+        $this->renderHTMLHeadScripts();
+        echo "\t</head>\n";
     }
 
-
-    protected function renderHTMLFooter($title=null)
-    {
-
-?>
-<?php
-
-    }
 
     protected function renderHTMLHeadLinks() {
-        ?>
-        <link href="assets/css/main.css" type="text/css" rel="stylesheet" media="screen, projection" />
-        <link href="assets/css/main-responsive.css" type="text/css" rel="stylesheet" media="screen, projection" />
-        <link href="assets/css/theme_light.css" type="text/css" rel="stylesheet" media="screen, projection" />
-        <link href="assets/fonts/style.css" type="text/css" rel="stylesheet" media="screen, projection" />
-        <link href="assets/css/login.css" type="text/css" rel="stylesheet" media="screen, projection" />
-        <?php
+        echo "\t\t<link href='assets/css/main.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<link href='assets/css/main-responsive.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<link href='assets/css/theme_light.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<link href='assets/fonts/style.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<link href='assets/css/login.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<link href='assets/css/main.css' type='text/css' rel='stylesheet' />\n";
     }
+
+    protected function renderHTMLHeadScripts() {
+//        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+//        <!--[if lt IE 9]>
+//        echo "\t\t<script src='https://html5shim.googlecode.com/svn/trunk/html5.js'></script>\n";
+//        <![endif]-->
+    }
+
     protected function renderHTMLMetaTags() {
-        ?>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <!-- start: META -->
-        <meta charset="utf-8">
-        <meta name="layout" content="login">
-        <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,IE=9,IE=8,chrome=1"/>
-        <![endif]-->
-        <?php
+        echo "\t\t<meta charset='utf-8' />\n";
     }
 }

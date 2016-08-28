@@ -32,11 +32,8 @@ class Index extends AbstractView {
 						</div>
 					</div>
 				</div>
-			</div></div>
-
-
-
-
+			</div>
+		</div>
 
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<!-- start: TOP NAVIGATION CONTAINER -->

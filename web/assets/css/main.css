@@ -3587,11 +3587,12 @@ body.login .logo {
 
 body.login .box-login, body.login .box-forgot, body.login .box-register {
    background:#fff;
-    border-radius: 5px;
-    box-shadow:-5px 8px 92px rgba(0, 0, 0, 0.32);
-    overflow: hidden;
-    padding: 15px;
-	
+   border-radius: 5px;
+   box-shadow:-5px 8px 92px rgba(0, 0, 0, 0.32);
+   overflow: hidden;
+   padding: 15px;
+   width: 27em;
+   margin: auto;
 }
 
 body.login .box-forgot, body.login .box-register {
@@ -5631,7 +5632,7 @@ a [class*=" icon-"] {
 }
 
 .wdt02{width: 32.667%!important; font-weight:bold!important; font-size:12px!important; color:#555;}
-.wdt03{width: 100%!important;}
+.wdt03{/* width: 100%!important; */}
 .wdt04{/*width: 100%!important;*/ font-weight:bold!important; font-size:12px!important; color:#555;}
 .wdt05{width: 100%!important; padding-left:0px!important;font-weight:bold!important; font-size:14px!important; color:#333; text-transform:uppercase!important;}
 .form-actions {
@@ -5677,7 +5678,26 @@ a [class*=" icon-"] {
 .btn-org {
     border:solid 1px #fa761e;
     color: #ffffff;
-	background:#ff822e; margin-right:10px;
+    background:#ff822e;
+    margin-right:10px;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    float: right;
 }
 
 .btn-org:hover, .btn-org:focus, .btn-org:active, .btn-org.active {
@@ -5695,7 +5715,7 @@ text-shadow:0 1px #052846;
 font-family: 'Istok Web', sans-serif; font-weight:700;
 }
 
-.box-login input[type="text"], input[type="password"]{padding: 12px 6px 12px 26px!important; height:auto!important;} 
+.box-login input[type="text"], input[type="password"]{padding: 12px 6px 12px 26px!important;height:auto!important;width: 89%;} 
 .pd{padding-left:30px;}
 .brd{border:0px!important;}
 a.act {
@@ -5752,3 +5772,16 @@ table.sortable th.sortable:hover {
 .text-right {text-align:right;}
 .text-left {text-align:left;}
 
+
+
+.alert-danger {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

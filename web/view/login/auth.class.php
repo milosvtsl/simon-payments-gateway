@@ -6,41 +6,48 @@ use View\AbstractView;
 
 class Auth extends AbstractView {
 
+
     protected function renderHTMLBody()
     {
-
+        // Create Session class, attempt login
+        // Process POST params. render error page or redirect
+        // POST Processing is not handled in views, only rendering of POST requests
 ?>
     <body class="login">
-
         <div class="main-login col-sm-4 col-sm-offset-4">
             <div class="logo">
-
                 <img src="assets/images/paylogic-logo.png" width="173" height="64" alt="PayLogic Networks Inc." />
             </div>
 
             <div class="box-login">
                 <h3>Sign in to your account</h3>
-
                 <p>
                     Please enter your name and password to log in.
                 </p>
 
-                <form class="form-login" action='/paylogic-web/j_spring_security_check' method='POST' id='loginForm'>
+                <form class="form-login" action='' method='POST' id='loginForm'>
 
+                    <?php if($this->hasException()) { ?>
+                    <div class="errorHandler alert alert-danger">
+                        <i class="fa fa-remove-sign"></i>
+                        Sorry, we were not able to find a user with that username and password.
+                        <div><?php echo $this->getException(); ?></div>
+                    </div>
+                    <?php } ?>
 
                     <fieldset>
                         <div class="form-group">
-        <span class="input-icon">
-          <input type="text" name="j_username" id="username" class="form-control wdt03" placeholder="Username" clickev="true" value="" />
-          <i class="fa fa-user"></i>
-        </span>
+                            <span class="input-icon">
+                                <input type="text" name="j_username" id="username" class="form-control wdt03" placeholder="Username" clickev="true" value="" />
+                                <i class="fa fa-user"></i>
+                            </span>
                         </div>
 
                         <div class="form-group form-actions">
-        <span class="input-icon">
-          <input type="password" name="j_password" id="password" class="form-control password wdt03" placeholder="Password" clickev="true" value="" />
-          <i class="fa fa-lock"></i>
-        </span>
+                            <span class="input-icon">
+                                <input type="password" name="j_password" id="password" class="form-control password wdt03" placeholder="Password" clickev="true" value="" />
+                                <i class="fa fa-lock"></i>
+                            </span>
                         </div>
 
                         <div class="form-actions">
@@ -61,15 +68,10 @@ class Auth extends AbstractView {
                 &copy; 2014 PayLogic Network, LLC. All Rights Reserved
             </div>
         </div>
-        <script>
-            jQuery(document).ready(function() {
-                Main.init();
-                Login.init();
-            });
-        </script>
 </body>
     <?php
 
     }
+
 }
 
