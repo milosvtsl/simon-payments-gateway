@@ -7,7 +7,7 @@
  */
 
 // Enable class autoloader
-spl_autoload_extensions('.php');
+spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // Render View

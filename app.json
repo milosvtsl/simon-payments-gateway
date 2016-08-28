@@ -1,0 +1,6 @@
+{
+  "name": "Simon Payments Gateway",
+  "description": "Simon Payments Gateway app that makes use of the Silex web framework",
+  "repository": "https://github.com/clevertree",
+  "addons": []
+}
