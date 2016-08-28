@@ -6,23 +6,9 @@ use View\AbstractView;
 
 class Index extends AbstractView {
 
-	public function render()
+	public function renderHTMLBody()
 	{
 ?>
-<%@ page import="java.util.TimeZone" %>
-<%@ page import="com.paylogic.web.security.SecUser" %>
-<!doctype html>
-<html xmlns:g="http://www.w3.org/1999/XSL/Transform">
-<head>
-    <title><g:message code="default.welcome.title" args="[meta(name:'app.name')]"/> </title>
-    <meta name="layout" content="main" />
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(".page-header").hide();
-        });
-    </script>
-</head>
-
 <body>
 
 	<section id="intro" class="first">
@@ -68,7 +54,6 @@ class Index extends AbstractView {
 		<p><em><g:message code="no.news.for.merchant"/></em></p>
 	</g:else>
 </body>
-</html>
 <?php
 
 	}

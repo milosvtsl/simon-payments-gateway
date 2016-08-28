@@ -12,4 +12,4 @@ spl_autoload_register();
 
 // Render View
 $View = new \View\Pages\Index();
-$View->render();
+$View->renderHTML();

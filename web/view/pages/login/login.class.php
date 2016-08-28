@@ -32,5 +32,6 @@ class Auth extends AbstractView {
     <?php
 
     }
+
 }
 
