@@ -14,19 +14,19 @@ abstract class AbstractView
     const DEFAULT_TITLE = 'Page Title';
 
     /** @var \Exception */
-    private $exception = null;
+    private $_exception = null;
 
     abstract protected function renderHTMLBody();
 
     protected function getTitle()       { return static::DEFAULT_TITLE; }
 
-    public function setException($ex)   { $this->exception = $ex; }
-    public function getException()      { return $this->exception; }
-    public function hasException()     { return $this->exception !== null; }
+    public function setException($ex)   { $this->_exception = $ex; }
+    public function getException()      { return $this->_exception; }
+    public function hasException()     { return $this->_exception !== null; }
 
     public function renderHTML() {
-        if($this->exception)
-            header('HTTP/1.1 400 ' . $this->exception->getMessage());
+        if($this->_exception)
+            header('HTTP/1.1 400 ' . $this->_exception->getMessage());
 
         echo "<!DOCTYPE html>\n";
         echo "<html lang='en'>\n";
