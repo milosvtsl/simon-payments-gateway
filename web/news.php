@@ -11,5 +11,5 @@ spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // Render View
-$View = new \View\Pages\Index();
+$View = new \View\Index();
 $View->renderHTML();

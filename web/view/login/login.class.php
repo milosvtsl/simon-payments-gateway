@@ -1,5 +1,5 @@
 <?php
-namespace View\Pages\Login;
+namespace View\Login;
 
 use View\AbstractView;
 
@@ -32,5 +32,6 @@ class Auth extends AbstractView {
     <?php
 
     }
+
 }
 
