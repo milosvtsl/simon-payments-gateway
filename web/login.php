@@ -12,6 +12,7 @@ ini_set('display_errors', 1);
 spl_autoload_extensions('.class.php');
 spl_autoload_register(function ($class) {
     $path = __DIR__ . '/' . strtolower(str_replace('\\', '/', $class)) . '.class.php';
+    var_dump(file_exists($path));
     var_dump($path);
     include $path;
 });
