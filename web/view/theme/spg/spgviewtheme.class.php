@@ -16,13 +16,13 @@ class SPGViewTheme extends AbstractViewTheme
     {
         $SessionManager = new SessionManager();
         $this->addNavLink('home.php', "Home");
+        $this->addNavLink('merchant.php', "Merchant");
+        $this->addNavLink('user.php', "User");
+        $this->addNavLink('news.php', "News");
+        $this->addNavLink('charge.php', "Charge");
+        $this->addNavLink('search.php', "Search");
 
         if($SessionManager->isLoggedIn()) {
-            $this->addNavLink('merchant.php', "Merchant");
-            $this->addNavLink('user.php', "User");
-            $this->addNavLink('news.php', "News");
-            $this->addNavLink('charge.php', "Charge");
-            $this->addNavLink('search.php', "Search");
             $this->addNavLink('logout.php', "Log Out");
 
         } else {
