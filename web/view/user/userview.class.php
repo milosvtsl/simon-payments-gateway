@@ -21,12 +21,17 @@ class UserView extends AbstractView
         $this->_user = UserRow::fetchByID($id);
         if(!$this->_user)
             throw new \InvalidArgumentException("Invalid User ID: " . $id);
+        parent::__construct();
     }
 
     /** @return UserRow */
     public function getUser() { return $this->_user; }
 
     public function renderHTMLBody(Array $params) {
+        // Add Breadcrumb links
+        $this->getTheme()->addCrumbLink('?id=' . $this->_user->getID(), $this->_user->getUsername());
+        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "View");
+
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 
@@ -41,6 +46,11 @@ class UserView extends AbstractView
             case 'delete':
                 include('.delete.php');
                 break;
+            case 'change':
+                include('.change.php');
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
 
         // Render footer

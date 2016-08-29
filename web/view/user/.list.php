@@ -26,7 +26,6 @@
                 <legend>Search</legend>
                 User Name:
                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" />
-                <input type="submit" value="Search" />
                 <select name="limit">
                     <?php
                     $limit = @$_GET['limit'] ?: 50;
@@ -34,7 +33,7 @@
                         echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                     ?>
                 </select>
-
+                <input type="submit" value="Search" />
 
             </fieldset>
             <fieldset>

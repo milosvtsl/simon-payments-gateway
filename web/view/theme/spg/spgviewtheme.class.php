@@ -28,10 +28,12 @@ class SPGViewTheme extends AbstractViewTheme
         } else {
             $this->addNavLink('login.php?action=login', "Log In");
         }
+
     }
 
     public function renderHTMLBodyHeader()
     {
+
         ?>
     <body class="spg-theme">
         <header>
@@ -42,18 +44,18 @@ class SPGViewTheme extends AbstractViewTheme
 <!--            <img class="nav-user-photo" src="assets/images/bg_3.png" alt="User Profile Image">-->
 <!--            <span class="user-info">Welcome, Sherlock Holmes</span>-->
         </header>
-        <aside>
-            <?php
-            foreach ($this->getCrumbLinkHTML() as $html)
-                echo "\n\t\t", $html;
-            ?>
-        </aside>
         <nav>
             <?php
             foreach ($this->getNavLinkHTML() as $html)
                 echo "\n\t\t", $html;
             ?>
         </nav>
+        <aside class="bread-crumbs">
+            <?php
+            foreach ($this->getCrumbLinkHTML() as $i=>$html)
+                echo ($i>0?' / ':''), "\n\t\t", $html;
+            ?>
+        </aside>
 
         <article>
         <?php
@@ -64,7 +66,7 @@ class SPGViewTheme extends AbstractViewTheme
         ?>
         </article>
     </body>
-        <?php
+<?php
     }
 
     // Static

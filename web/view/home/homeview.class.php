@@ -13,6 +13,9 @@ class HomeView extends AbstractView {
 
 	public function renderHTMLBody(Array $params)
 	{
+        // Add Breadcrumb links
+        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Home");
+
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
 

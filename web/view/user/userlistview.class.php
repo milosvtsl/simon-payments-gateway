@@ -2,13 +2,20 @@
 namespace View\User;
 
 use Config\DBConfig;
-use User\UserRow;
 use View\AbstractView;
 
 
 class UserListView extends AbstractView {
 
+
+
 	public function renderHTMLBody(Array $params) {
+		// Add Breadcrumb links
+		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Users");
+
+		// Render Header
+		$this->getTheme()->renderHTMLBodyHeader();
+
 		$page = intval(@$params['page']) ?: 1;
 		$limit = intval(@$params['limit']) ?: 50;
 		if($limit > 250) $limit = 250;
@@ -32,8 +39,6 @@ class UserListView extends AbstractView {
 		$UserQuery->execute($sqlParams);
 
 
-		// Render Header
-		$this->getTheme()->renderHTMLBodyHeader();
 
 		// Render Page
 		include ('.list.php');

@@ -18,24 +18,30 @@
     </section>
 
     <section class="content">
-        <form class="form-view-user themed">
+        <?php
+        $User = $this->getUser();
+        $odd = false;
+        $action_url = '?id=' . $User->getID() . '&action=';
+        ?>
+        <form class="form-view-user themed" onsubmit="return false;">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
-                <input type="submit" value="User List" />
-                <input type="submit" value="Edit" />
-                <input type="submit" value="Delete" />
-                <input type="submit" value="Change Password" />
+
+                <input type="submit" value="User List" onclick="document.location.href = '?';" />
+                <input type="submit" value="Edit" onclick="document.location.href = '<?php echo $action_url; ?>edit';"/>
+                <input type="submit" value="Delete" onclick="document.location.href = '<?php echo $action_url; ?>delete';"/>
+                <input type="submit" value="Change Password" onclick="document.location.href = '<?php echo $action_url; ?>change';"/>
             </fieldset>
             <fieldset>
                 <legend>User Information</legend>
-                <?php
-                $User = $this->getUser();
-                $odd = false;
-                ?>
                 <table class="table-user-info themed">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>ID</td>
+                        <td><?php echo $User->getID(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Username</td>
@@ -50,6 +56,10 @@
                         <td><?php echo $User->getEmail(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>UID</td>
+                        <td><?php echo $User->getUID(); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchants</td>
                         <td><?php
                             /** @var \Merchant\MerchantRow $Merchant */
@@ -59,10 +69,6 @@
                                     . "</a><br/>";
                             } ?>
                         </td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Time Zone</td>
-                        <td></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Password Expired</td>

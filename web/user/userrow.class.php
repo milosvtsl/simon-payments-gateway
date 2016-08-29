@@ -23,6 +23,7 @@ class UserRow
 
 
     public function getID()         { return $this->id; }
+    public function getUID()        { return $this->uid; }
     public function getUsername()   { return $this->username; }
     public function getEmail()      { return $this->email; }
     public function getFullName()   { return $this->fname . ' ' . $this->lname; }
