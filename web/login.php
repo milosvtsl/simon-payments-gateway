@@ -11,7 +11,7 @@ ini_set('display_errors', 1);
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
 spl_autoload_register(function ($class) {
-    $path = __DIR__ . strtolower($class) . '.class.php';
+    $path = __DIR__ . '/' . strtolower($class) . '.class.php';
     var_dump($path);
     include $path;
 });
