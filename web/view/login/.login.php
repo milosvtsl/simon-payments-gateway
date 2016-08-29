@@ -1,3 +1,4 @@
+<?php /** @var \View\Login\LoginView $this  **/ ?>
     <body class="login">
         <div class="main-login col-sm-4 col-sm-offset-4">
             <div class="logo">
@@ -10,20 +11,17 @@
                     Please enter your name and password to log in.
                 </p>
 
-                <form class="form-login" action='login.php' method='POST' id='loginForm'>
+                <form class="form-login" action='login.php?action=login' method='POST' id='loginForm'>
 
                     <?php if($this->hasException()) { ?>
                         <div class="errorHandler alert alert-danger">
-                            <i class="fa fa-remove-sign"></i>
-                            Sorry, we were not able to find a user with that username and password.
-                            <div><?php // echo $this->getException()->getMessage(); ?></div>
+                            <div><?php echo $this->getException()->getMessage(); ?></div>
                         </div>
 
-                    <?php } else if (@$_GET['action'] == 'logout') { ?>
-                    <div class="alert">
-                        <i class="fa fa-remove-sign"></i>
-                        Logged out successfully.
-                    </div>
+                    <?php } else if ($this->hasSessionMessage()) { ?>
+                        <div class="alert">
+                            <div><?php echo $this->popSessionMessage(); ?></div>
+                        </div>
                     <?php } ?>
 
                     <fieldset>
@@ -48,7 +46,7 @@
                                 </button>
                             </div>
                             <div class="margin-top_10 clearfix ">
-                                <a href="login.php?forgot=1" class="forgot-password">Forgot Your Password?</a>
+                                <a href="login.php?action=reset" class="forgot-password">Forgot Your Password?</a>
                             </div>
                         </div>
                     </fieldset>

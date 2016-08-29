@@ -15,4 +15,4 @@ session_start();
 
 // Render View
 $View = new View\Index();
-$View->renderHTML();
+$View->handleRequest();

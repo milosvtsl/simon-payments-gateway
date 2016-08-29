@@ -10,7 +10,9 @@ body.spg-theme > header {
 
 body.spg-theme > nav {
     float: left;
+    /* max-width: 10em; */
     padding-right: 1em;
+    /* height: 24em; */
 }
 
 body.spg-theme > nav > a {
@@ -37,7 +39,53 @@ body.spg-theme > nav > a.current {
 }
 
 
-body.spg-theme > article {
+body.spg-theme > article {}
 
+
+
+/** Tables **/
+
+body.spg-theme form.themed {
+    font-family: monospace;
+    background-color: #FAFAFA;
+    display: inline-block;
 }
+
+body.spg-theme form.themed a {
+    text-decoration: none;
+}
+
+body.spg-theme form.themed > fieldset {
+    border-radius: 0.3em;
+    margin-bottom: 0.5em;
+}
+
+body.spg-theme table.themed {
+    /* width: 100%; */
+    /* white-space: nowrap; */
+}
+
+body.spg-theme table.themed > tbody > tr > th {
+    background-color: #DDD;
+    color: #000;
+}
+
+body.spg-theme table.themed > tbody > tr > td {
+    padding: 0.4em 1em ;
+    vertical-align: top;
+}
+
+
+body.spg-theme table.themed > tbody > tr.row-even {
+    background-color: #EFEFEF;
+}
+
+body.spg-theme table.themed > tbody > tr:hover {
+    background-color: #DDF;
+}
+
+body.spg-theme table.themed > tbody > tr {
+    /*text-align: center;*/
+}
+
 

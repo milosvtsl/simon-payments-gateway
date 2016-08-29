@@ -6,6 +6,7 @@
  * Time: 10:47 PM
  */
 
+chdir('web');
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
 spl_autoload_register();

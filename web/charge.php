@@ -14,5 +14,5 @@ spl_autoload_register();
 session_start();
 
 // Render View
-$View = new \View\Home\Index();
-$View->renderHTML();
+$View = new \View\Home\HomeView();
+$View->handleRequest();

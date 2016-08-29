@@ -23,10 +23,10 @@ class SPGViewTheme extends AbstractViewTheme
         $this->addNavLink('search.php', "Search");
 
         if($SessionManager->isLoggedIn()) {
-            $this->addNavLink('logout.php', "Log Out");
+            $this->addNavLink('login.php?action=logout', "Log Out");
 
         } else {
-            $this->addNavLink('login.php', "Log In");
+            $this->addNavLink('login.php?action=login', "Log In");
         }
     }
 

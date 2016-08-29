@@ -22,7 +22,11 @@ class UserRow
     protected $username;
 
 
-    public function getID() { return $this->id; }
+    public function getID()         { return $this->id; }
+    public function getUsername()   { return $this->username; }
+    public function getEmail()      { return $this->email; }
+    public function getFullName()   { return $this->fname . ' ' . $this->lname; }
+
 
     public function validatePassword($password) {
         if(md5($password) === $this->password)
@@ -37,22 +41,46 @@ class UserRow
         throw new \InvalidArgumentException("Invalid Password");
     }
 
+    public function queryMerchants() {
+        $sql = "
+            SELECT *
+            FROM merchant m, user_merchants um
+            WHERE m.id = um.id_merchant AND um.id_user = ?";
+        $DB = DBConfig::getInstance();
+        $MerchantQuery = $DB->prepare($sql);
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\MerchantRow');
+        $MerchantQuery->execute(array($this->getID()));
+        return $MerchantQuery;
+    }
+
     // Static
 
+    /**
+     * @param $id
+     * @return UserRow
+     */
     public static function fetchByID($id) {
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare("SELECT * FROM user where id = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\UserRow');
         $stmt->execute(array($id));
         return $stmt->fetch();
     }
 
+    /**
+     * @param $username
+     * @return UserRow
+     */
     public static function fetchByUsername($username) {
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare("SELECT * FROM user where username = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\UserRow');
         $stmt->execute(array($username));
         return $stmt->fetch();
     }
+
 }
 

@@ -24,6 +24,11 @@ class SessionManager
             $_SESSION[self::SESSION_KEY][self::SESSION_ID]);
     }
 
+    /**
+     * @param $username
+     * @param $password
+     * @return UserRow
+     */
     public function login($username, $password)
     {
         $User = UserRow::fetchByUsername($username);

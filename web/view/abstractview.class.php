@@ -15,6 +15,7 @@ use View\Theme\SPG\DefaultViewTheme;
 
 abstract class AbstractView
 {
+    const SESSION_MESSAGE_KEY = 'session-message';
     const DEFAULT_TITLE = null;
 
     /** @var \Exception */
@@ -29,18 +30,41 @@ abstract class AbstractView
 
     abstract protected function renderHTMLBody(Array $params);
 
+    abstract protected function processRequest(Array $post);
+
     protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
     public function setException($ex)   { $this->_exception = $ex; }
     public function getException()      { return $this->_exception; }
     public function hasException()      { return $this->_exception !== null; }
 
-    public function setTheme(AbstractViewTheme $Theme) { $this->_theme = $Theme; }
+    public function setSessionMessage($message) {
+        $_SESSION[static::SESSION_MESSAGE_KEY] = $message;
+    }
 
-    /**
-     * @return AbstractViewTheme
-     */
+    public function hasSessionMessage() {
+        return isset($_SESSION, $_SESSION[static::SESSION_MESSAGE_KEY]);
+    }
+
+    public function popSessionMessage() {
+        $message = $_SESSION[static::SESSION_MESSAGE_KEY];
+        unset($_SESSION[static::SESSION_MESSAGE_KEY]);
+        return $message;
+    }
+
+    public function processAndRedirect($post) {
+        try {
+            $this->processRequest($post);
+        } catch (\Exception $ex) {
+            $this->setSessionMessage($ex->getMessage());
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+    }
+
+
+    /** @return AbstractViewTheme */
     public function getTheme()          { return $this->_theme ?: SiteConfig::getDefaultViewTheme(); }
+    public function setTheme(AbstractViewTheme $Theme) { $this->_theme = $Theme; }
 
     public function renderHTML($params=null) {
         if(!$params)
@@ -68,6 +92,7 @@ abstract class AbstractView
 
 
     protected function renderHTMLHeadLinks() {
+        echo "\t\t<link href='assets/css/general.css' type='text/css' rel='stylesheet' />\n";
         $this->getTheme()->renderHTMLHeadLinks();
     }
 
@@ -82,5 +107,24 @@ abstract class AbstractView
     protected function renderHTMLMetaTags() {
         echo "\t\t<meta charset='utf-8' />\n";
         $this->getTheme()->renderHTMLMetaTags();
+    }
+
+    public function handleRequest() {
+        switch(strtoupper($_SERVER['REQUEST_METHOD'])) {
+
+            // Handle GET Requests
+            case 'GET':
+                $this->renderHTML($_GET);
+                break;
+
+            // Handle POST Requests
+            case 'POST':
+                $this->processAndRedirect($_POST);
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Unknown method: " . $_SERVER['REQUEST_METHOD']);
+        }
+
     }
 }
