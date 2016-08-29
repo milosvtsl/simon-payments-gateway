@@ -5,6 +5,8 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
