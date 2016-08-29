@@ -6,8 +6,8 @@
  * Time: 10:47 PM
  */
 // Enable error reporting for this page
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+ error_reporting(E_ALL);
+ ini_set('display_errors', 1);
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
