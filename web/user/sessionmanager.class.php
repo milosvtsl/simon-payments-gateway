@@ -41,6 +41,11 @@ class SessionManager
         return $User;
     }
 
+    public function logout() {
+        $_SESSION[static::SESSION_KEY] = null;
+        self::$_session_user = null;
+    }
+
     public function getSessionUser() {
         if(self::$_session_user)
             return self::$_session_user;

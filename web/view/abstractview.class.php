@@ -27,7 +27,7 @@ abstract class AbstractView
         $this->_title = $title;
     }
 
-    abstract protected function renderHTMLBody();
+    abstract protected function renderHTMLBody(Array $params);
 
     protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
@@ -42,14 +42,17 @@ abstract class AbstractView
      */
     public function getTheme()          { return $this->_theme ?: SiteConfig::getDefaultViewTheme(); }
 
-    public function renderHTML() {
+    public function renderHTML($params=null) {
+        if(!$params)
+            $params = $_GET;
+
         if($this->_exception)
             header('HTTP/1.1 400 ' . $this->_exception->getMessage());
 
         echo "<!DOCTYPE html>\n";
         echo "<html lang='en'>\n";
         $this->renderHTMLHead();
-        $this->renderHTMLBody();
+        $this->renderHTMLBody($params);
         echo "</html>";
     }
 
@@ -65,12 +68,7 @@ abstract class AbstractView
 
 
     protected function renderHTMLHeadLinks() {
-        echo "\t\t<link href='assets/css/main.css' type='text/css' rel='stylesheet' />\n";
-        echo "\t\t<link href='assets/css/main-responsive.css' type='text/css' rel='stylesheet' />\n";
-        echo "\t\t<link href='assets/css/theme_light.css' type='text/css' rel='stylesheet' />\n";
-        echo "\t\t<link href='assets/fonts/style.css' type='text/css' rel='stylesheet' />\n";
-        echo "\t\t<link href='assets/css/login.css' type='text/css' rel='stylesheet' />\n";
-        echo "\t\t<link href='assets/css/main.css' type='text/css' rel='stylesheet' />\n";
+        $this->getTheme()->renderHTMLHeadLinks();
     }
 
     protected function renderHTMLHeadScripts() {
@@ -78,9 +76,11 @@ abstract class AbstractView
 //        <!--[if lt IE 9]>
 //        echo "\t\t<script src='https://html5shim.googlecode.com/svn/trunk/html5.js'></script>\n";
 //        <![endif]-->
+        $this->getTheme()->renderHTMLHeadScripts();
     }
 
     protected function renderHTMLMetaTags() {
         echo "\t\t<meta charset='utf-8' />\n";
+        $this->getTheme()->renderHTMLMetaTags();
     }
 }

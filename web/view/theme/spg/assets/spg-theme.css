@@ -1,0 +1,43 @@
+body.spg-theme {
+    color: #7F7F7F;
+
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body.spg-theme > header {
+    border-bottom: 1px solid #ccc;
+}
+
+body.spg-theme > nav {
+    float: left;
+    padding-right: 1em;
+}
+
+body.spg-theme > nav > a {
+    display: block;
+    text-decoration: none;
+    color: black;
+    font-size: small;
+
+    border: 1px solid #ccc;
+    border-top-width: 0px;
+    padding: 0.5em 1em;
+    min-width: 10em;
+
+    background-color: #FAFAFA;
+}
+
+body.spg-theme > nav > a:hover {
+    background-color: #EFAFAF;
+}
+
+
+body.spg-theme > nav > a.current {
+    background-color: #DDD;
+}
+
+
+body.spg-theme > article {
+
+}
+

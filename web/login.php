@@ -14,7 +14,7 @@ spl_autoload_register();
 session_start();
 
 // Render View
-$View = new View\Login\Auth();
+$View = new View\Login\LoginView();
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $username = $View->validateUsername($_POST);
@@ -33,5 +33,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 } else {
+
     $View->renderHTML();
 }

@@ -49,4 +49,16 @@ class DefaultViewTheme extends AbstractViewTheme
         static $inst = null;
         return $inst ?: $inst = new static();
     }
+
+    public function renderHTMLHeadScripts() {
+        // TODO: Implement renderHTMLHeadScripts() method.
+    }
+
+    public function renderHTMLHeadLinks() {
+        // TODO: Implement renderHTMLHeadLinks() method.
+    }
+
+    public function renderHTMLMetaTags() {
+        // TODO: Implement renderHTMLMetaTags() method.
+    }
 }

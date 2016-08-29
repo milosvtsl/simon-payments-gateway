@@ -14,5 +14,21 @@ spl_autoload_register();
 session_start();
 
 // Render View
-$View = new \View\Index();
-$View->renderHTML();
+$View = new View\Login\LogoutView();
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        // try log in
+        $SessionManager = new User\SessionManager();
+        $SessionManager->logout();
+
+        header("Location: login.php?action=logout");
+
+    } catch (Exception $ex) {
+        // If error, render view with exception
+        $View->setException($ex);
+        $View->renderHTML();
+    }
+
+} else {
+    $View->renderHTML();
+}
