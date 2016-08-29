@@ -16,7 +16,7 @@ spl_autoload_register(function ($class) {
     var_dump(__FILE__);
     var_dump(file_exists($path));
     var_dump($path);
-    include $path;
+    require $path;
 });
 
 // Start or resume the session
