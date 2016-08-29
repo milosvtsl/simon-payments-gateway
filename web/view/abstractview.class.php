@@ -9,20 +9,38 @@
 namespace View;
 
 
+use Config\SiteConfig;
+use View\Theme\AbstractViewTheme;
+use View\Theme\SPG\DefaultViewTheme;
+
 abstract class AbstractView
 {
-    const DEFAULT_TITLE = 'Page Title';
+    const DEFAULT_TITLE = null;
 
     /** @var \Exception */
     private $_exception = null;
+    private $_theme = null;
+    private $_title = null;
+
+    public function __construct($title=null, AbstractViewTheme $Theme=null) {
+        $this->_theme = $Theme;
+        $this->_title = $title;
+    }
 
     abstract protected function renderHTMLBody();
 
-    protected function getTitle()       { return static::DEFAULT_TITLE; }
+    protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
     public function setException($ex)   { $this->_exception = $ex; }
     public function getException()      { return $this->_exception; }
-    public function hasException()     { return $this->_exception !== null; }
+    public function hasException()      { return $this->_exception !== null; }
+
+    public function setTheme(AbstractViewTheme $Theme) { $this->_theme = $Theme; }
+
+    /**
+     * @return AbstractViewTheme
+     */
+    public function getTheme()          { return $this->_theme ?: SiteConfig::getDefaultViewTheme(); }
 
     public function renderHTML() {
         if($this->_exception)

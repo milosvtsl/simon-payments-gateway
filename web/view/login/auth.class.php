@@ -38,13 +38,13 @@ class Auth extends AbstractView {
                     Please enter your name and password to log in.
                 </p>
 
-                <form class="form-login" action='' method='POST' id='loginForm'>
+                <form class="form-login" action='login.php' method='POST' id='loginForm'>
 
                     <?php if($this->hasException()) { ?>
                     <div class="errorHandler alert alert-danger">
                         <i class="fa fa-remove-sign"></i>
                         Sorry, we were not able to find a user with that username and password.
-                        <div><?php echo $this->getException(); ?></div>
+                        <div><?php // echo $this->getException()->getMessage(); ?></div>
                     </div>
                     <?php } ?>
 

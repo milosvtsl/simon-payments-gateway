@@ -16,5 +16,13 @@ $SessionUser = $SessionManager->getSessionUser();
 
 assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
 
+// Create Test User
+
+
+// Set Test User Password
+
+
+// Validate login
+
 $TestUser = \User\UserRow::fetchByUsername('testuser');
 assert($TestUser !== null);

@@ -15,17 +15,23 @@ session_start();
 
 // Render View
 $View = new View\Login\Auth();
-if($_POST) try {
-    $username = $View->validateUsername($_POST);
-    $password = $View->validatePassword($_POST);
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $username = $View->validateUsername($_POST);
+        $password = $View->validatePassword($_POST);
 
-    // try log in
-    $SessionManager = new User\SessionManager();
-    $NewUser = $SessionManager->login($username, $password);
+        // try log in
+        $SessionManager = new User\SessionManager();
+        $NewUser = $SessionManager->login($username, $password);
 
-} catch (Exception $ex) {
+        header("Location: home.php");
 
-    // If error, render view with exception
-    $View->setException($ex);
+    } catch (Exception $ex) {
+        // If error, render view with exception
+        $View->setException($ex);
+        $View->renderHTML();
+    }
+
+} else {
+    $View->renderHTML();
 }
-$View->renderHTML();

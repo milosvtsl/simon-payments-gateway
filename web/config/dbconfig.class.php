@@ -1,11 +1,6 @@
 <?php
 namespace Config;
-/**
- * Created by PhpStorm.
- * User: ari
- * Date: 8/28/2016
- * Time: 1:18 PM
- */
+
 
 class DBConfig
 {
@@ -37,4 +32,5 @@ class DBConfig
 
 
 }
-include __DIR__ .'/../../config.php';
+
+include_once __DIR__ .'/../../config.php';

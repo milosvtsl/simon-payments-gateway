@@ -6,6 +6,15 @@
  * Time: 1:26 PM
  */
 
-\Config\DBConfig::$DB_HOST = 'localhost';
-\Config\DBConfig::$DB_USERNAME = 'spg';
-\Config\DBConfig::$DB_PASSWORD = 'Uj3QgkMg';
+use Config\SiteConfig;
+use Config\DBConfig;
+use View\Theme\SPG\SPGViewTheme;
+
+// Database Config
+DBConfig::$DB_HOST = 'localhost';
+DBConfig::$DB_USERNAME = 'spg';
+DBConfig::$DB_PASSWORD = 'Uj3QgkMg';
+
+// Site Config
+SiteConfig::$SITE_NAME = "Simon Payments Gateway";
+SiteConfig::$DEFAULT_THEME = new SPGViewTheme();
