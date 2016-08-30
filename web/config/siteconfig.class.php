@@ -18,6 +18,7 @@ class SiteConfig
 {
     static $SITE_NAME = 'PHP Website';
     static $DEFAULT_THEME = null;
+    static $BASE_URL = '/';
 
     public static function getDefaultViewTheme()
     {

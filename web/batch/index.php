@@ -5,6 +5,7 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
+chdir('..');
 
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
@@ -14,5 +15,5 @@ spl_autoload_register();
 session_start();
 
 // Render View
-$View = new View\Index();
+$View = new \Home\View\HomeView();
 $View->handleRequest();

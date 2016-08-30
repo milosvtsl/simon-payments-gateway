@@ -6,8 +6,11 @@
  * Time: 10:47 PM
  */
 // Enable error reporting for this page
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Go up 1 directory
+chdir('..');
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -16,5 +19,11 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
-$View = new View\Home\HomeView(); // @$_GET['action']
-$View->handleRequest();
+if(isset($_GET['id'])) {
+    $View = new \User\View\UserView($_GET['id'], @$_GET['action']);
+    $View->handleRequest();
+
+} else {
+    $View = new User\View\UserListView();
+    $View->handleRequest();
+}

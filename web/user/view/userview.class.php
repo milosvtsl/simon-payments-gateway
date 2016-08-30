@@ -5,7 +5,7 @@
  * Date: 8/29/2016
  * Time: 1:25 PM
  */
-namespace View\User;
+namespace User\View;
 
 use Config\DBConfig;
 use User\UserRow;
@@ -29,8 +29,9 @@ class UserView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('?id=' . $this->_user->getID(), $this->_user->getUsername());
-        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "View");
+        $this->getTheme()->addCrumbLink('user', "Users");
+        $this->getTheme()->addCrumbLink('user?id=' . $this->_user->getID(), $this->_user->getUsername());
+        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
@@ -57,8 +58,33 @@ class UserView extends AbstractView
         $this->getTheme()->renderHTMLBodyFooter();
     }
 
-    protected function processRequest(Array $post) {
-        // Render on POST
-        $this->renderHTML();
+    public function processFormRequest(Array $post) {
+        try {
+            // Render Page
+            switch($this->_action) {
+                case 'edit':
+                    $EditUser = $this->getUser();
+                    $EditUser->updateFields($post)
+                        ? $this->setSessionMessage("User Updated Successfully: " . $EditUser->getUID())
+                        : $this->setSessionMessage("No changes detected: " . $EditUser->getUID());
+                    header('Location: user.php?id=' . $EditUser->getID());
+
+                    break;
+                case 'delete':
+                    print_r($post);
+                    die();
+                    break;
+                case 'change':
+                    print_r($post);
+                    die();
+                    break;
+                default:
+                    throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
+            }
+
+        } catch (\Exception $ex) {
+            $this->setSessionMessage($ex->getMessage());
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
     }
 }

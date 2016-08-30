@@ -23,5 +23,5 @@ spl_autoload_register(function ($class) {
 session_start();
 
 // Render View
-$View = new View\Login\LoginView();
+$View = new User\View\LoginView();
 $View->handleRequest();

@@ -1,17 +1,16 @@
 <?php
-namespace View\User;
+namespace Merchant\View;
 
 use Config\DBConfig;
 use View\AbstractView;
 
 
-class UserListView extends AbstractView {
-
+class MerchantListView extends AbstractView {
 
 
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
-		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Users");
+		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Merchants");
 
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
@@ -22,10 +21,10 @@ class UserListView extends AbstractView {
 		$offset = ($page-1) * $limit;
 
 		$sqlParams = array();
-		$sql = "SELECT * FROM USER ";
+		$sql = "SELECT * FROM MERCHANT ";
 
 		if(isset($params['search'])) {
-			$sql .= "\nWHERE username LIKE ? OR fname LIKE ? OR lname LIKE ? OR email LIKE ? OR uid = ?";
+			$sql .= "\nWHERE merchantname LIKE ? OR fname LIKE ? OR lname LIKE ? OR email LIKE ? OR uid = ?";
 			$sqlParams = array($params['search'].'%', $params['search'].'%', $params['search'].'%', '%'.$params['search'].'%', $params['search']);
 		}
 
@@ -33,10 +32,10 @@ class UserListView extends AbstractView {
 		$sql .= "\nLIMIT {$offset}, {$limit}";
 
 		$DB = DBConfig::getInstance();
-		$UserQuery = $DB->prepare($sql);
+		$MerchantQuery = $DB->prepare($sql);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$UserQuery->setFetchMode(\PDO::FETCH_CLASS, 'User\UserRow');
-		$UserQuery->execute($sqlParams);
+		$MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\MerchantRow');
+		$MerchantQuery->execute($sqlParams);
 
 
 
@@ -47,9 +46,15 @@ class UserListView extends AbstractView {
 		$this->getTheme()->renderHTMLBodyFooter();
 	}
 
-	protected function processRequest(Array $post) {
-		// Render on POST
-		$this->renderHTML();
+	public function processFormRequest(Array $post) {
+		try {
+			$this->setSessionMessage("Unhandled Form Post");
+			header("Location: home.php");
+
+		} catch (\Exception $ex) {
+			$this->setSessionMessage($ex->getMessage());
+			header("Location: login.php");
+		}
 	}
 }
 

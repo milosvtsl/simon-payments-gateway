@@ -1,9 +1,9 @@
 <?php /**
- * @var \View\Login\LoginView $this
- * @var PDOStatement $UserQuery
+ * @var \User\View\LoginView $this
+ * @var PDOStatement $MerchantQuery
  **/?>
     <section class="message">
-        <h1>User List</h1>
+        <h1>Merchant List</h1>
 
         <?php if($this->hasException()) { ?>
             <h5><?php echo $this->hasException(); ?></h5>
@@ -11,11 +11,11 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($UserQuery) { ?>
-            <h5><?php echo $UserQuery->rowCount() ?> users found</h5>
+        <?php } else if($MerchantQuery) { ?>
+            <h5><?php echo $MerchantQuery->rowCount() ?> merchants found</h5>
 
         <?php } else { ?>
-            <h5>Search for User Accounts...</h5>
+            <h5>Search for Merchant Accounts...</h5>
 
         <?php } ?>
     </section>
@@ -24,7 +24,7 @@
         <form class="form-search themed">
             <fieldset class="search-fields">
                 <legend>Search</legend>
-                User Name:
+                Merchant Name:
                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" />
                 <select name="limit">
                     <?php
@@ -41,23 +41,23 @@
                 <table class="table-results themed">
                     <tr>
                         <th>ID</th>
-                        <th>Username</th>
+                        <th>Merchantname</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Merchant</th>
                     </tr>
                     <?php
-                    /** @var \User\UserRow $User */
+                    /** @var \Merchant\MerchantRow $Merchant */
                     $odd = false;
-                    foreach($UserQuery as $User) { ?>
+                    foreach($MerchantQuery as $Merchant) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td><a href='user.php?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
-                        <td><?php echo $User->getUsername(); ?></td>
-                        <td><?php echo $User->getFullName(); ?></td>
-                        <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
+                        <td><a href='merchant.php?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
+                        <td><?php echo $Merchant->getMerchantname(); ?></td>
+                        <td><?php echo $Merchant->getFullName(); ?></td>
+                        <td><a href='mailto:<?php echo $Merchant->getEmail(); ?>'><?php echo $Merchant->getEmail(); ?></a></td>
                         <td><?php
                             /** @var \Merchant\MerchantRow $Merchant */
-                            foreach($User->queryMerchants() as $Merchant) {
+                            foreach($Merchant->queryMerchants() as $Merchant) {
                                 echo "<a href='merchant.php?id=" . $Merchant->getID() . "'>"
                                     . $Merchant->getShortName()
                                     . "</a><br/>";

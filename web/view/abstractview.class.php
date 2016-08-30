@@ -11,7 +11,6 @@ namespace View;
 
 use Config\SiteConfig;
 use View\Theme\AbstractViewTheme;
-use View\Theme\SPG\DefaultViewTheme;
 
 abstract class AbstractView
 {
@@ -30,7 +29,7 @@ abstract class AbstractView
 
     abstract protected function renderHTMLBody(Array $params);
 
-    abstract protected function processRequest(Array $post);
+    abstract public function processFormRequest(Array $post);
 
     protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
@@ -50,15 +49,6 @@ abstract class AbstractView
         $message = $_SESSION[static::SESSION_MESSAGE_KEY];
         unset($_SESSION[static::SESSION_MESSAGE_KEY]);
         return $message;
-    }
-
-    public function processAndRedirect($post) {
-        try {
-            $this->processRequest($post);
-        } catch (\Exception $ex) {
-            $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        }
     }
 
 
@@ -84,6 +74,7 @@ abstract class AbstractView
     {
         echo "\t<head>\n";
         echo "\t\t<title>", $this->getTitle(), "</title>\n";
+        echo "\t\t<base href='", SiteConfig::$BASE_URL, "'>\n";
         $this->renderHTMLMetaTags();
         $this->renderHTMLHeadLinks();
         $this->renderHTMLHeadScripts();
@@ -119,7 +110,7 @@ abstract class AbstractView
 
             // Handle POST Requests
             case 'POST':
-                $this->processAndRedirect($_POST);
+                $this->processFormRequest($_POST);
                 break;
 
             default:

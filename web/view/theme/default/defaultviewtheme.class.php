@@ -24,12 +24,7 @@ class DefaultViewTheme extends AbstractViewTheme
 
         </header>
         <nav>
-            <a href="home.php">Home</a>
-            <a href="merchant.php">Merchant</a>
-            <a href="user.php">User</a>
-            <a href="news.php">News</a>
-            <a href="charge.php">Charge</a>
-            <a href="search.php">Search</a>
+            <a href="/">Home</a>
         </nav>
         <article>
         <?php

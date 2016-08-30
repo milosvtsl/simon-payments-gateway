@@ -1,4 +1,4 @@
-<?php /** @var \View\Login\LoginView $this  **/ ?>
+<?php /** @var \User\View\LoginView $this  **/ ?>
     <body class="login">
         <div class="main-login col-sm-4 col-sm-offset-4">
             <div class="logo">

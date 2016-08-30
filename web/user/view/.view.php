@@ -1,7 +1,12 @@
-<?php /**
- * @var \View\User\UserView $this
+<?php
+/**
+ * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
- **/?>
+ **/
+$User = $this->getUser();
+$odd = false;
+$action_url = 'user?id=' . $User->getID() . '&action=';
+?>
     <section class="message">
         <h1>View User</h1>
 
@@ -18,19 +23,14 @@
     </section>
 
     <section class="content">
-        <?php
-        $User = $this->getUser();
-        $odd = false;
-        $action_url = '?id=' . $User->getID() . '&action=';
-        ?>
         <form class="form-view-user themed" onsubmit="return false;">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
+                <a href="user?" class="button">User List</a>
+                <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+                <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
+                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
 
-                <input type="submit" value="User List" onclick="document.location.href = '?';" />
-                <input type="submit" value="Edit" onclick="document.location.href = '<?php echo $action_url; ?>edit';"/>
-                <input type="submit" value="Delete" onclick="document.location.href = '<?php echo $action_url; ?>delete';"/>
-                <input type="submit" value="Change Password" onclick="document.location.href = '<?php echo $action_url; ?>change';"/>
             </fieldset>
             <fieldset>
                 <legend>User Information</legend>
@@ -71,24 +71,15 @@
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Password Expired</td>
-                        <td></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Account Expired</td>
-                        <td></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Account Locked</td>
-                        <td></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Account Enabled</td>
-                        <td></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Roles</td>
-                        <td></td>
+                        <td><?php
+                            /** @var \User\UserAuthorityRow $Role */
+                            foreach($User->queryRoles() as $Role) {
+                                echo "<a href='role.php?id=" . $Role->getID() . "'>"
+                                    . $Role->getAuthority()
+                                    . "</a><br/>";
+                            } ?>
+                        </td>
                     </tr>
                 </table>
             </fieldset>

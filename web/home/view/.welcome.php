@@ -1,4 +1,4 @@
-<?php /** @var \View\Login\LoginView $this  **/ ?>
+<?php /** @var \User\View\LoginView $this  **/ ?>
     <section id="intro" class="first">
         <h1>Home Page</h1>
 

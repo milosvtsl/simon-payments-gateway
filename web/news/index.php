@@ -6,6 +6,9 @@
  * Time: 10:47 PM
  */
 
+// Go up 1 directory
+chdir('..');
+
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
@@ -14,5 +17,5 @@ spl_autoload_register();
 session_start();
 
 // Render View
-$View = new \View\Home\HomeView();
-$View->renderHTML();
+$View = new \Home\View\HomeView();
+$View->handleRequest();
