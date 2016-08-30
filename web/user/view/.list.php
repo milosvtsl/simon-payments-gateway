@@ -58,7 +58,7 @@
                         <td><?php
                             /** @var \Merchant\MerchantRow $Merchant */
                             foreach($User->queryMerchants() as $Merchant) {
-                                echo "<a href='merchant.php?id=" . $Merchant->getID() . "'>"
+                                echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
                                     . $Merchant->getShortName()
                                     . "</a><br/>";
                             } ?>

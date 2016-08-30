@@ -41,28 +41,18 @@
                 <table class="table-results themed">
                     <tr>
                         <th>ID</th>
-                        <th>Merchantname</th>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Merchant</th>
                     </tr>
                     <?php
                     /** @var \Merchant\MerchantRow $Merchant */
                     $odd = false;
                     foreach($MerchantQuery as $Merchant) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td><a href='merchant.php?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
-                        <td><?php echo $Merchant->getMerchantname(); ?></td>
-                        <td><?php echo $Merchant->getFullName(); ?></td>
+                        <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
+                        <td><?php echo $Merchant->getShortName(); ?></td>
                         <td><a href='mailto:<?php echo $Merchant->getEmail(); ?>'><?php echo $Merchant->getEmail(); ?></a></td>
-                        <td><?php
-                            /** @var \Merchant\MerchantRow $Merchant */
-                            foreach($Merchant->queryMerchants() as $Merchant) {
-                                echo "<a href='merchant.php?id=" . $Merchant->getID() . "'>"
-                                    . $Merchant->getShortName()
-                                    . "</a><br/>";
-                            } ?>
-                        </td>
+
                     </tr>
                     <?php } ?>
                 </table>

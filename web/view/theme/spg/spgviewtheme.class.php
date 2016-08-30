@@ -53,7 +53,7 @@ class SPGViewTheme extends AbstractViewTheme
         <aside class="bread-crumbs">
             <?php
             foreach ($this->getCrumbLinkHTML() as $i=>$html)
-                echo ($i>0?' / ':''), "\n\t\t", $html;
+                echo ($i>0?' \ ':''), "\n\t\t", $html;
             ?>
         </aside>
 

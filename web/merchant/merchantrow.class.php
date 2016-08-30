@@ -43,6 +43,8 @@ class MerchantRow
 
 
     public function getID()         { return $this->id; }
+    public function getUID()        { return $this->uid; }
+    public function getName()       { return $this->name; }
     public function getShortName()  { return $this->short_name; }
     public function getEmail()      { return $this->main_email_id; }
 

@@ -5,10 +5,10 @@
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = '?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
     <section class="message">
-        <h1>Edit <?php echo $Merchant->getFullName(); ?></h1>
+        <h1>Edit <?php echo $Merchant->getShortName(); ?></h1>
 
         <?php if($this->hasException()) { ?>
             <h5><?php echo $this->hasException(); ?></h5>
@@ -26,11 +26,10 @@ $action_url = '?id=' . $Merchant->getID() . '&action=';
         <form class="form-view-merchant themed" method="POST">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
-
-                <input type="submit" value="Merchant List" onclick="document.location.href = '?';" />
-                <input type="submit" value="View" onclick="document.location.href = '<?php echo $action_url; ?>view';"/>
-                <input type="submit" value="Delete" onclick="document.location.href = '<?php echo $action_url; ?>delete';"/>
-                <input type="submit" value="Change Password" onclick="document.location.href = '<?php echo $action_url; ?>change';"/>
+                <a href="merchant?" class="button">Merchant List</a>
+                <a href="<?php echo $action_url; ?>view" class="button">View</a>
+                <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
+                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
             </fieldset>
             <fieldset>
                 <legend>Edit Merchant Fields</legend>
@@ -48,16 +47,12 @@ $action_url = '?id=' . $Merchant->getID() . '&action=';
                         <td><?php echo $Merchant->getUID(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Merchantname</td>
-                        <td><input type="text" name="merchantname" value="<?php echo $Merchant->getMerchantname(); ?>" /></td>
+                        <td>Short Name</td>
+                        <td><input type="text" name="short_name" value="<?php echo $Merchant->getShortName(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>First Name</td>
-                        <td><input type="text" name="fname" value="<?php echo $Merchant->getFirstName(); ?>" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Last Name</td>
-                        <td><input type="text" name="lname" value="<?php echo $Merchant->getLastName(); ?>" /></td>
+                        <td>Full Name</td>
+                        <td><input type="text" name="name" value="<?php echo $Merchant->getName(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Email</td>

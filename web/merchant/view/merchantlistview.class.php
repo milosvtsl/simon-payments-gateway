@@ -24,8 +24,8 @@ class MerchantListView extends AbstractView {
 		$sql = "SELECT * FROM MERCHANT ";
 
 		if(isset($params['search'])) {
-			$sql .= "\nWHERE merchantname LIKE ? OR fname LIKE ? OR lname LIKE ? OR email LIKE ? OR uid = ?";
-			$sqlParams = array($params['search'].'%', $params['search'].'%', $params['search'].'%', '%'.$params['search'].'%', $params['search']);
+			$sql .= "\nWHERE name LIKE ? OR short_name LIKE ? OR main_email_id LIKE ? OR uid = ?";
+			$sqlParams = array($params['search'].'%', $params['search'].'%', '%'.$params['search'].'%', $params['search']);
 		}
 
 		$sql .= "\nORDER BY ID DESC";

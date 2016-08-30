@@ -28,8 +28,8 @@ class MerchantView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('?', "Merchants");
-        $this->getTheme()->addCrumbLink('?id=' . $this->_merchant->getID(), $this->_merchant->getMerchantname());
+        $this->getTheme()->addCrumbLink('merchant?', "Merchants");
+        $this->getTheme()->addCrumbLink('merchant?id=' . $this->_merchant->getID(), $this->_merchant->getShortName());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
@@ -66,7 +66,7 @@ class MerchantView extends AbstractView
                     $EditMerchant->updateFields($post)
                         ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditMerchant->getUID());
-                    header('Location: merchant.php?id=' . $EditMerchant->getID());
+                    header('Location: merchant?id=' . $EditMerchant->getID());
 
                     break;
                 case 'delete':
