@@ -58,7 +58,7 @@ class LoginView extends AbstractView {
                     $NewUser = $SessionManager->login($username, $password);
 
                     $this->setSessionMessage("Welcome, " . $NewUser->getUsername());
-                    header("Location: home.php?action=start");
+                    header("Location: home?action=start");
                     break;
 
                 case 'logout':

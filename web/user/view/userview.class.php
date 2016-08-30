@@ -67,7 +67,7 @@ class UserView extends AbstractView
                     $EditUser->updateFields($post)
                         ? $this->setSessionMessage("User Updated Successfully: " . $EditUser->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditUser->getUID());
-                    header('Location: user.php?id=' . $EditUser->getID());
+                    header('Location: user?id=' . $EditUser->getID());
 
                     break;
                 case 'delete':

@@ -7,7 +7,7 @@
             <div class="box-login">
                 <h3>Log out of your session</h3>
 
-                <form class="form-login" action='login.php?action=logout' method='POST' id='logoutForm'>
+                <form class="form-login" action='?action=logout' method='POST' id='logoutForm'>
 
 
                     <fieldset>

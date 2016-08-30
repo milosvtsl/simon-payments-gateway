@@ -23,7 +23,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
     </section>
 
     <section class="content">
-        <form class="form-view-user themed" method="POST">
+        <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
                 <a href="user?" class="button">User List</a>
