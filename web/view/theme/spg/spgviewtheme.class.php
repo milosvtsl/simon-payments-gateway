@@ -20,7 +20,7 @@ class SPGViewTheme extends AbstractViewTheme
         $this->addNavLink('user', "User");
         $this->addNavLink('news', "News");
         $this->addNavLink('transaction/charge.php', "Charge");
-        $this->addNavLink('transaction', "Tran");
+        $this->addNavLink('transaction', "Transactions");
 
         if($SessionManager->isLoggedIn()) {
             $this->addNavLink('login.php?action=logout', "Log Out");

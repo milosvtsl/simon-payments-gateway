@@ -29,7 +29,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
         clearTimeout(keyTimeout);
         keyTimeout = setTimeout(function() {
-            setStatus("Card Swipe Ready!");
+            if(charHistory)
+                setStatus("Card read successfully!");
+            else
+                setStatus("Card Swipe Ready!");
+
             charHistory = '';
         }, 2000);
 
@@ -68,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.payee_last_name.value = lastParseData.payee_last_name;
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
+            lastParseData = null;
         }
 
         // Update card type

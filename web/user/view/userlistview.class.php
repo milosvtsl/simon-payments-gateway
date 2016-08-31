@@ -22,7 +22,7 @@ class UserListView extends AbstractView {
 		$offset = ($page-1) * $limit;
 
 		$sqlParams = array();
-		$sql = "SELECT * FROM USER ";
+		$sql = "SELECT * FROM user ";
 
 		if(isset($params['search'])) {
 			$sql .= "\nWHERE username LIKE ? OR fname LIKE ? OR lname LIKE ? OR email LIKE ? OR uid = ?";
