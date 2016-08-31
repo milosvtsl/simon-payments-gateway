@@ -8,12 +8,14 @@
 namespace User\Model;
 
 use Config\DBConfig;
+use Merchant\Model\MerchantRow;
 use User\Model\UserAuthorityRow;
 
 class UserRow
 {
     const TABLE_NAME = 'user';
 
+    // Table user
     protected $id;
     protected $uid;
     protected $version;
@@ -24,6 +26,18 @@ class UserRow
     protected $password;
     protected $username;
 
+    // Table authority
+    protected $authority;
+    protected $authority_uid;
+    protected $authority_name;
+    protected $authority_version;
+
+    const SQL_SELECT = "
+SELECT u.*, a.uid authority_uid, a.version authority_version, a.authority, a.authority_name
+FROM user u
+LEFT JOIN user_authorities ua on u.id = ua.id_user
+LEFT JOIN authority a on a.id = ua.id_authority
+";
 
     public function getID()         { return $this->id; }
     public function getUID()        { return $this->uid; }
@@ -33,6 +47,9 @@ class UserRow
     public function getFirstName()  { return $this->fname; }
     public function getLastName()   { return $this->lname; }
 
+    public function hasAuthority($authority) {
+        return strcasecmp($this->authority, $authority) === 0;
+    }
 
     public function validatePassword($password) {
         if(md5($password) === $this->password)
@@ -48,10 +65,9 @@ class UserRow
     }
 
     public function queryMerchants() {
-        $sql = "
-            SELECT *
-            FROM merchant m, user_merchants um
-            WHERE m.id = um.id_merchant AND um.id_user = ?";
+        $sql = MerchantRow::SQL_SELECT
+            . "\nLEFT JOIN user_merchants um on m.id = um.id_merchant "
+            . "\nWHERE um.id_user = ?";
         $DB = DBConfig::getInstance();
         $MerchantQuery = $DB->prepare($sql);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -94,7 +110,7 @@ class UserRow
      */
     public static function fetchByID($id) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare("SELECT * FROM user where id = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
         $stmt->execute(array($id));
@@ -107,12 +123,11 @@ class UserRow
      */
     public static function fetchByUsername($username) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare("SELECT * FROM user where username = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.username = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
         $stmt->execute(array($username));
         return $stmt->fetch();
     }
-
 }
 

@@ -5,7 +5,7 @@
  * Date: 8/28/2016
  * Time: 8:15 PM
  */
-namespace View\Theme\SPG;
+namespace View\Theme\Basic;
 
 use Config\SiteConfig;
 use View\Theme\AbstractViewTheme;

@@ -9,9 +9,8 @@
 
                 <form class="form-login" action='?action=logout' method='POST' id='logoutForm'>
 
-
                     <fieldset>
-
+                        <input type="hidden" name="action" value="logout" />
                         <div class="form-actions">
                             <div class="clearfix">
                                 <button type="submit" class="btn btn-org pull-right">

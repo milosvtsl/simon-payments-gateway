@@ -15,14 +15,22 @@ class SPGViewTheme extends AbstractViewTheme
     public function __construct()
     {
         $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
         $this->addNavLink('home', "Home");
-        $this->addNavLink('merchant', "Merchant");
-        $this->addNavLink('user', "User");
         $this->addNavLink('news', "News");
-        $this->addNavLink('transaction/charge.php', "Charge");
         $this->addNavLink('transaction', "Transactions");
 
         if($SessionManager->isLoggedIn()) {
+            if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                $this->addNavLink('merchant', "Merchant");
+                $this->addNavLink('user', "User");
+                $this->addNavLink('transaction/charge.php', "Charge");
+
+            } else if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) {
+                $this->addNavLink('transaction/charge.php', "Charge");
+            }
+
             $this->addNavLink('login.php?action=logout', "Log Out");
 
         } else {

@@ -18,4 +18,4 @@ DBConfig::$DB_PASSWORD = 'Uj3QgkMg';
 
 // Site Config
 SiteConfig::$SITE_NAME = "Simon Payments Gateway";
-SiteConfig::$DEFAULT_THEME = new SPGViewTheme();
+SiteConfig::$DEFAULT_THEME = 'View\Theme\SPG\SPGViewTheme';

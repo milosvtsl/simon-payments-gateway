@@ -54,6 +54,9 @@ class SessionManager
         self::$_session_user = null;
     }
 
+    /**
+     * @return UserRow
+     */
     public function getSessionUser() {
         if(self::$_session_user)
             return self::$_session_user;

@@ -6,10 +6,8 @@ use View\AbstractView;
 
 
 class LoginView extends AbstractView {
-    private $_action;
 
-    public function __construct($action=null) {
-        $this->_action = $action ?: 'login';
+    public function __construct() {
         parent::__construct();
     }
 
@@ -19,7 +17,8 @@ class LoginView extends AbstractView {
     }
 
     protected function renderHTMLBody(Array $params) {
-        switch($this->_action) {
+        $action = isset($params['action']) ? $params['action'] : 'login';
+        switch($action) {
             case 'login':
                 include ('.login.php');
                 break;
@@ -42,8 +41,9 @@ class LoginView extends AbstractView {
 
 
     public function processFormRequest(Array $post) {
+        $action = isset($post['action']) ? $post['action'] : 'login';
         try {
-            switch ($this->_action) {
+            switch ($action) {
                 case 'login':
                     if (!isset($post['username']))
                         throw new \InvalidArgumentException("Missing field: username");
