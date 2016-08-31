@@ -29,7 +29,6 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 <a href="merchant?" class="button">Merchant List</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
                 <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
             </fieldset>
             <fieldset>
                 <legend>Merchant Information</legend>

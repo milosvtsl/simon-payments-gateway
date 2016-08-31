@@ -43,15 +43,19 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>State</th>
+                        <th>Zipcode</th>
                     </tr>
                     <?php
-                    /** @var \Merchant\MerchantRow $Merchant */
+                    /** @var \Merchant\Model\MerchantRow $Merchant */
                     $odd = false;
                     foreach($MerchantQuery as $Merchant) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
-                        <td><?php echo $Merchant->getShortName(); ?></td>
+                        <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
                         <td><a href='mailto:<?php echo $Merchant->getEmail(); ?>'><?php echo $Merchant->getEmail(); ?></a></td>
+                        <td><?php echo $Merchant->getStateCode(); ?></td>
+                        <td><?php echo $Merchant->getZipCode(); ?></td>
 
                     </tr>
                     <?php } ?>

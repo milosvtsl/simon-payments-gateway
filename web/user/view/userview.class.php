@@ -8,7 +8,7 @@
 namespace User\View;
 
 use Config\DBConfig;
-use User\UserRow;
+use User\Model\UserRow;
 use View\AbstractView;
 
 class UserView extends AbstractView

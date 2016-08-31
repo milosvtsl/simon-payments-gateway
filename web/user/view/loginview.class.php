@@ -1,7 +1,7 @@
 <?php
 namespace User\View;
 
-use User\SessionManager;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 

@@ -2,6 +2,7 @@
 namespace Merchant\View;
 
 use Config\DBConfig;
+use Merchant\Model\MerchantRow;
 use View\AbstractView;
 
 
@@ -21,10 +22,10 @@ class MerchantListView extends AbstractView {
 		$offset = ($page-1) * $limit;
 
 		$sqlParams = array();
-		$sql = "SELECT * FROM MERCHANT ";
+		$sql = MerchantRow::SQL_SELECT;
 
 		if(isset($params['search'])) {
-			$sql .= "\nWHERE name LIKE ? OR short_name LIKE ? OR main_email_id LIKE ? OR uid = ?";
+			$sql .= "\nWHERE m.name LIKE ? OR m.short_name LIKE ? OR m.main_email_id LIKE ? OR m.uid = ?";
 			$sqlParams = array($params['search'].'%', $params['search'].'%', '%'.$params['search'].'%', $params['search']);
 		}
 
@@ -34,7 +35,7 @@ class MerchantListView extends AbstractView {
 		$DB = DBConfig::getInstance();
 		$MerchantQuery = $DB->prepare($sql);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\MerchantRow');
+		$MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
 		$MerchantQuery->execute($sqlParams);
 
 

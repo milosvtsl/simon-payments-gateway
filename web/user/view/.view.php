@@ -62,7 +62,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchants</td>
                         <td><?php
-                            /** @var \Merchant\MerchantRow $Merchant */
+                            /** @var \Merchant\Model\MerchantRow $Merchant */
                             foreach($User->queryMerchants() as $Merchant) {
                                 echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
                                     . $Merchant->getShortName()
@@ -73,7 +73,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Roles</td>
                         <td><?php
-                            /** @var \User\UserAuthorityRow $Role */
+                            /** @var \User\Model\UserAuthorityRow $Role */
                             foreach($User->queryRoles() as $Role) {
                                 echo "<a href='role.php?id=" . $Role->getID() . "'>"
                                     . $Role->getAuthority()

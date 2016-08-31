@@ -7,7 +7,7 @@
  */
 namespace View\Theme\SPG;
 
-use User\SessionManager;
+use User\Session\SessionManager;
 use View\Theme\AbstractViewTheme;
 
 class SPGViewTheme extends AbstractViewTheme
@@ -19,8 +19,8 @@ class SPGViewTheme extends AbstractViewTheme
         $this->addNavLink('merchant', "Merchant");
         $this->addNavLink('user', "User");
         $this->addNavLink('news', "News");
-        $this->addNavLink('charge', "Charge");
-        $this->addNavLink('search', "Search");
+        $this->addNavLink('transaction/charge.php', "Charge");
+        $this->addNavLink('transaction', "Tran");
 
         if($SessionManager->isLoggedIn()) {
             $this->addNavLink('login.php?action=logout', "Log Out");

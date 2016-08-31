@@ -12,7 +12,7 @@ spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // try log in
-$SessionManager = new User\SessionManager();
+$SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
@@ -25,5 +25,5 @@ assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
 
 // Validate login
 
-$TestUser = \User\UserRow::fetchByUsername('testuser');
+$TestUser = \User\Model\UserRow::fetchByUsername('testuser');
 assert($TestUser !== null);

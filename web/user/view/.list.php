@@ -47,7 +47,7 @@
                         <th>Merchant</th>
                     </tr>
                     <?php
-                    /** @var \User\UserRow $User */
+                    /** @var \User\Model\UserRow $User */
                     $odd = false;
                     foreach($UserQuery as $User) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -56,7 +56,7 @@
                         <td><?php echo $User->getFullName(); ?></td>
                         <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                         <td><?php
-                            /** @var \Merchant\MerchantRow $Merchant */
+                            /** @var \Merchant\Model\MerchantRow $Merchant */
                             foreach($User->queryMerchants() as $Merchant) {
                                 echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
                                     . $Merchant->getShortName()

@@ -7,7 +7,7 @@
  */
 namespace Merchant\View;
 
-use Merchant\MerchantRow;
+use Merchant\Model\MerchantRow;
 use View\AbstractView;
 
 class MerchantView extends AbstractView

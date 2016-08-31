@@ -35,7 +35,7 @@ class UserListView extends AbstractView {
 		$DB = DBConfig::getInstance();
 		$UserQuery = $DB->prepare($sql);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$UserQuery->setFetchMode(\PDO::FETCH_CLASS, 'User\UserRow');
+		$UserQuery->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
 		$UserQuery->execute($sqlParams);
 
 
