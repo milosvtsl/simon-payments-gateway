@@ -5,31 +5,33 @@
  * Date: 8/29/2016
  * Time: 1:25 PM
  */
-namespace Transaction\View;
+namespace Order\View;
 
+use Config\DBConfig;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 use View\AbstractView;
 
-class TransactionView extends AbstractView
+class OrderView extends AbstractView
 {
-    private $_transaction;
+    private $_order;
     private $_action;
 
     public function __construct($id, $action=null) {
         $this->_action = $action ?: 'view';
-        $this->_transaction = TransactionRow::fetchByID($id);
-        if(!$this->_transaction)
-            throw new \InvalidArgumentException("Invalid Transaction ID: " . $id);
+        $this->_order = OrderRow::fetchByID($id);
+        if(!$this->_order)
+            throw new \InvalidArgumentException("Invalid Order ID: " . $id);
         parent::__construct();
     }
 
-    /** @return TransactionRow */
-    public function getTransaction() { return $this->_transaction; }
+    /** @return OrderRow */
+    public function getOrder() { return $this->_order; }
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('transaction?', "Transactions");
-        $this->getTheme()->addCrumbLink('transaction?id=' . $this->_transaction->getID(), $this->_transaction->getID());
+        $this->getTheme()->addCrumbLink('order?', "Orders");
+        $this->getTheme()->addCrumbLink('order?id=' . $this->_order->getID(), $this->_order->getID());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
@@ -38,6 +40,13 @@ class TransactionView extends AbstractView
         // Render Page
         switch($this->_action) {
             case 'view':
+
+                $DB = DBConfig::getInstance();
+                $TransactionQuery = $DB->prepare(TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ?");
+                /** @noinspection PhpMethodParametersCountMismatchInspection */
+                $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+                $TransactionQuery->execute(array($this->getOrder()->getID()));
+
                 include('.view.php');
                 break;
             case 'edit':
@@ -62,11 +71,11 @@ class TransactionView extends AbstractView
             // Render Page
             switch($this->_action) {
                 case 'edit':
-                    $EditTransaction = $this->getTransaction();
-                    $EditTransaction->updateFields($post)
-                        ? $this->setSessionMessage("Transaction Updated Successfully: " . $EditTransaction->getUID())
-                        : $this->setSessionMessage("No changes detected: " . $EditTransaction->getUID());
-                    header('Location: transaction?id=' . $EditTransaction->getID());
+                    $EditOrder = $this->getOrder();
+                    $EditOrder->updateFields($post)
+                        ? $this->setSessionMessage("Order Updated Successfully: " . $EditOrder->getUID())
+                        : $this->setSessionMessage("No changes detected: " . $EditOrder->getUID());
+                    header('Location: order?id=' . $EditOrder->getID());
 
                     break;
                 case 'delete':

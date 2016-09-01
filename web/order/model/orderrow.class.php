@@ -5,37 +5,19 @@
  * Date: 8/28/2016
  * Time: 1:32 PM
  */
-namespace Transaction\Model;
+namespace Order\Model;
 
 use Config\DBConfig;
 
-class TransactionRow
+class OrderRow
 {
     const _CLASS = __CLASS__;
 
-    // Table transaction
+    // Table order_item
     protected $id;
     protected $uid;
-    protected $version;
-    protected $action;
     protected $amount;
-    protected $auth_code_or_batch_id;
-    protected $capture_to;
-    protected $date;
-    protected $entry_method;
-    protected $is_reviewed;
-    protected $return_type;
-    protected $returned_amount;
-    protected $reviewed_by;
-    protected $reviewed_date_time;
-    protected $service_fee;
-    protected $status_code;
-    protected $status_message;
-    protected $transaction_id;
-    protected $batch_item_id;
-    protected $order_item_id;
 
-    // Table order_item
     protected $card_exp_month;
     protected $card_exp_year;
     protected $card_number;
@@ -61,9 +43,8 @@ class TransactionRow
     protected $merchant_short_name;
 
     const SQL_SELECT = "
-SELECT oi.*, t.*, m.short_name as merchant_short_name
-FROM transaction t
-LEFT JOIN order_item oi on t.order_item_id = oi.id
+SELECT oi.*, m.short_name as merchant_short_name
+FROM order_item oi
 LEFT JOIN merchant m on oi.merchant_id = m.id
 ";
 
@@ -74,8 +55,6 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }
-    public function getOrderID()            { return $this->order_item_id; }
-    public function getTransactionID()      { return $this->transaction_id; }
     public function getHolderFullFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
@@ -84,26 +63,26 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
 
     /**
      * @param $id
-     * @return TransactionRow
+     * @return OrderRow
      */
     public static function fetchByID($id) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.id = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE oi.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
         $stmt->execute(array($id));
         return $stmt->fetch();
     }
 
     /**
      * @param $uid
-     * @return TransactionRow
+     * @return OrderRow
      */
     public static function fetchByUID($uid) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.uid = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE oi.uid = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
         $stmt->execute(array($uid));
         return $stmt->fetch();
     }

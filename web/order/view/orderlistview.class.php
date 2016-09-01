@@ -1,19 +1,21 @@
 <?php
-namespace Transaction\View;
+namespace Order\View;
 
 use Config\DBConfig;
 use Merchant\Model\MerchantRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\OrderRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
 
-class TransactionListView extends AbstractView {
+class OrderListView extends AbstractView {
 
+//What kind of report and queries are possible?
+//Need to be able to pull information by batch, day, card #, amount, MID, TID ect.
 
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
-		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Transactions");
+		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Orders");
 
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
@@ -24,15 +26,12 @@ class TransactionListView extends AbstractView {
 		$offset = ($page-1) * $limit;
 
 		$sqlParams = array();
-		$sql = TransactionRow::SQL_SELECT . "WHERE 1";
+		$sql = OrderRow::SQL_SELECT . "WHERE 1";
 
 		if(isset($params['search'])) {
 			$sql .= "\nAND
 			(
-				t.uid = :exact
-				OR t.transaction_id = :exact
-
-				OR oi.uid = :exact
+				oi.uid = :exact
 
 				OR oi.amount = :exact
 				OR oi.invoice_number = :exact
@@ -45,13 +44,12 @@ class TransactionListView extends AbstractView {
 				OR oi.customer_last_name LIKE :startswith
 
 				OR m.uid = :exact
-
 			)
 			";
 			$sqlParams = array(
 				'exact' => $params['search'],
 				'startswith' => $params['search'].'%',
-                'endswith' => '%'.$params['search'],
+				'endswith' => '%'.$params['search'],
 			);
 		}
 
@@ -68,15 +66,15 @@ class TransactionListView extends AbstractView {
 			$sql .= "\nAND 0\n";
 		}
 
-		$sql .= "\nGROUP BY t.id ";
-		$sql .= "\nORDER BY t.id DESC";
+		// $sql .= "\nGROUP BY oi.id ";
+		$sql .= "\nORDER BY oi.id DESC";
 		$sql .= "\nLIMIT {$offset}, {$limit}";
 
 		$DB = DBConfig::getInstance();
-		$TransactionQuery = $DB->prepare($sql);
+		$OrderQuery = $DB->prepare($sql);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
-		$TransactionQuery->execute($sqlParams);
+		$OrderQuery->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
+		$OrderQuery->execute($sqlParams);
 
 
 		// Render Page

@@ -1,6 +1,6 @@
 /**
  * Created by PhpStorm.
- * Transaction: ari
+ * User: ari
  * Date: 8/30/2016
  * Time: 11:11 PM
  */

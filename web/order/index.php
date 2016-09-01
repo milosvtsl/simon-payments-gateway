@@ -20,9 +20,10 @@ spl_autoload_register();
 session_start();
 
 if(isset($_GET['id'])) {
-    $View = new \Transaction\View\TransactionView($_GET['id'], @$_GET['action']);
+    $View = new \Order\View\OrderView($_GET['id'], @$_GET['action']);
     $View->handleRequest();
 
 } else {
-    header('Location transaction/list.php');
+    $View = new Order\View\OrderListView();
+    $View->handleRequest();
 }
