@@ -54,6 +54,14 @@ class TransactionListView extends AbstractView {
                 'endswith' => '%'.$params['search'],
 			);
 		}
+        if(isset($params['date_from'])) {
+            $sql .= "\nAND t.date >= :from";
+            $sqlParams['from'] = $params['date_from'];
+        }
+        if(isset($params['date_to'])) {
+            $sql .= "\nAND t.date <= :to";
+            $sqlParams['to'] = $params['date_to'];
+        }
 
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();

@@ -17,6 +17,7 @@ class OrderRow
     protected $id;
     protected $uid;
     protected $amount;
+    protected $date;
 
     protected $card_exp_month;
     protected $card_exp_year;
@@ -52,6 +53,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getUID()                { return $this->uid; }
     public function getAmount()             { return $this->amount; }
     public function getStatus()             { return $this->status; }
+    public function getDate()               { return $this->date; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }

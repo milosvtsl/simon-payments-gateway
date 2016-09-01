@@ -29,7 +29,6 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                 <a href="transaction?" class="button">Transaction List</a>
                 <a href="<?php echo $action_url; ?>view" class="button">View</a>
                 <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
                 <a href="transaction/charge.php?" class="button">Charge</a>
 
             </fieldset>

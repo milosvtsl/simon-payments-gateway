@@ -29,18 +29,31 @@
             </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
-                Search:
-                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, Order, Invoice, Name" />
-                <select name="limit">
-                    <?php
-                    $limit = @$_GET['limit'] ?: 50;
-                    foreach(array(10,25,50,100,250) as $opt)
-                        echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
-                    ?>
-                </select>
-
-                <input type="submit" value="Search" />
-
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>From</th>
+                            <td>
+                                <input type="date" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d', time()-30*24*60*60);?>" /> to
+                                <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d');?>"  />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Value</th>
+                            <td>
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="TID, MID, Amount, Card" />
+                                <select name="limit">
+                                    <?php
+                                    $limit = @$_GET['limit'] ?: 50;
+                                    foreach(array(10,25,50,100,250) as $opt)
+                                        echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
+                                    ?>
+                                </select>
+                                <input type="submit" value="Search" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
@@ -48,8 +61,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Order</th>
-                        <th>Card Holder / TID</th>
-                        <th>Customer ID</th>
+                        <th>Card Holder</th>
+                        <th>Date</th>
                         <th>Invoice ID</th>
                         <th>User Name</th>
                         <th>Amount</th>
@@ -65,9 +78,9 @@
                         <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a></td>
                         <td>
                             <?php echo $Transaction->getHolderFullFullName(); ?>  <br/>
-                            <?php echo $Transaction->getTransactionID(); ?>
+                            <?php // echo $Transaction->getTransactionID(); ?>
                         </td>
-                        <td><?php echo $Transaction->getCustomerID(); ?></td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
                         <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
                         <td><?php echo $Transaction->getUsername(); ?></td>
                         <td><?php echo $Transaction->getAmount(); ?></td>

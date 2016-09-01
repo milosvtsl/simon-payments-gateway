@@ -22,6 +22,8 @@ class TransactionRow
     protected $auth_code_or_batch_id;
     protected $capture_to;
     protected $date;
+    protected $transaction_date;
+    protected $order_date;
     protected $entry_method;
     protected $is_reviewed;
     protected $return_type;
@@ -61,7 +63,7 @@ class TransactionRow
     protected $merchant_short_name;
 
     const SQL_SELECT = "
-SELECT oi.*, t.*, m.short_name as merchant_short_name
+SELECT oi.*, t.*, t.date as transaction_date, oi.date as order_date, m.short_name as merchant_short_name
 FROM transaction t
 LEFT JOIN order_item oi on t.order_item_id = oi.id
 LEFT JOIN merchant m on oi.merchant_id = m.id
@@ -71,6 +73,9 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getUID()                { return $this->uid; }
     public function getAmount()             { return $this->amount; }
     public function getStatus()             { return $this->status; }
+    public function getDate()               { return $this->date; }
+    public function getTransactionDate()    { return $this->transaction_date; }
+    public function getOrderDate()          { return $this->order_date; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }

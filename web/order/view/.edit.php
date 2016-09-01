@@ -28,8 +28,6 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                 <legend>Actions</legend>
                 <a href="order?" class="button">Order List</a>
                 <a href="<?php echo $action_url; ?>view" class="button">View</a>
-                <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
 
             </fieldset>
             <fieldset>
