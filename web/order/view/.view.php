@@ -17,7 +17,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
         <?php } else { ?>
-            <h5>View a order...</h5>
+            <h5>View an order...</h5>
 
         <?php } ?>
     </section>

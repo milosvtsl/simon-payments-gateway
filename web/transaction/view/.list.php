@@ -1,6 +1,7 @@
 <?php /**
  * @var \User\View\LoginView $this
- * @var PDOStatement $TransactionQuery
+ * @var PDOStatement $Query
+ * @var \Transaction\Model\TransactionQueryStats $Stats
  **/?>
     <section class="message">
         <h1>Transaction List</h1>
@@ -11,8 +12,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($TransactionQuery) { ?>
-            <h5><?php echo $TransactionQuery->rowCount() ?> Transactions found</h5>
+        <?php } else if($Stats) { ?>
+            <h5><?php echo $Stats->getMessage(); ?></h5>
 
         <?php } else { ?>
             <h5>Search for Transaction Accounts...</h5>
@@ -34,8 +35,8 @@
                         <tr>
                             <th>From</th>
                             <td>
-                                <input type="date" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d', time()-30*24*60*60);?>" /> to
-                                <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d');?>"  />
+                                <input type="datetime-local" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d\TH:i:s', time()-30*24*60*60);?>" /> to
+                                <input type="datetime-local" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d\TH:i:s');?>"  />
                             </td>
                         </tr>
                         <tr>
@@ -55,6 +56,10 @@
                     </tbody>
                 </table>
             </fieldset>
+            <fieldset class="paginate">
+                <legend>Pagination</legend>
+                <?php $Stats->printPagination('transaction?'); ?>
+            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed">
@@ -62,7 +67,7 @@
                         <th>ID</th>
                         <th>Order</th>
                         <th>Card Holder</th>
-                        <th>Date</th>
+                        <th>Date / TID</th>
                         <th>Invoice ID</th>
                         <th>User Name</th>
                         <th>Amount</th>
@@ -72,42 +77,24 @@
                     <?php
                     /** @var \Transaction\Model\TransactionRow $Transaction */
                     $odd = false;
-                    foreach($TransactionQuery as $Transaction) { ?>
+                    foreach($Query as $Transaction) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
                         <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a></td>
-                        <td>
-                            <?php echo $Transaction->getHolderFullFullName(); ?>  <br/>
-                            <?php // echo $Transaction->getTransactionID(); ?>
-                        </td>
+                        <td><?php echo $Transaction->getHolderFullFullName(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
                         <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
                         <td><?php echo $Transaction->getUsername(); ?></td>
                         <td><?php echo $Transaction->getAmount(); ?></td>
                         <td><?php echo $Transaction->getStatus(); ?></td>
                         <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
-
                     </tr>
                     <?php } ?>
                 </table>
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php
-                $limit = @$_GET['limit'] ?: 10;
-                $page = @$_GET['page'] ?: 1;
-
-                $args = $_GET;
-                if($page > 1) {
-                    $args['page'] = $page - 1;
-                    $url = '?' . http_build_query($args);
-                    echo "<a href='?" . http_build_query($args) . "'>Previous</a> ";
-                }
-
-                $args['page'] = $page + 1;
-                $url = '?' . http_build_query($args);
-                echo "<a href='transaction?" . http_build_query($args) . "'>Next</a> ";
-                ?>
+                <?php $Stats->printPagination('transaction?'); ?>
             </fieldset>
         </form>
     </section>

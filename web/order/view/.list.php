@@ -1,6 +1,7 @@
 <?php /**
  * @var \User\View\LoginView $this
- * @var PDOStatement $OrderQuery
+ * @var PDOStatement $Query
+ * @var \Order\Model\OrderQueryStats $Stats
  **/?>
     <section class="message">
         <h1>Order List</h1>
@@ -11,8 +12,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($OrderQuery) { ?>
-            <h5><?php echo $OrderQuery->rowCount() ?> Orders found</h5>
+        <?php } else if($Stats) { ?>
+            <h5><?php echo $Stats->getMessage() ?></h5>
 
         <?php } else { ?>
             <h5>Search for Order Accounts...</h5>
@@ -33,8 +34,8 @@
                     <tr>
                         <th>From</th>
                         <td>
-                            <input type="date" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d', time()-30*24*60*60);?>" /> to
-                            <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d');?>"  />
+                            <input type="datetime-local" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d\TH:i:s', time()-30*24*60*60);?>" /> to
+                            <input type="datetime-local" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d\TH:i:s');?>"  />
                         </td>
                     </tr>
                     <tr>
@@ -54,6 +55,10 @@
                     </tbody>
                 </table>
             </fieldset>
+            <fieldset class="paginate">
+                <legend>Pagination</legend>
+                <?php $Stats->printPagination('order?'); ?>
+            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed">
@@ -70,7 +75,7 @@
                     <?php
                     /** @var \Order\Model\OrderRow $Order */
                     $odd = false;
-                    foreach($OrderQuery as $Order) { ?>
+                    foreach($Query as $Order) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='order?id=<?php echo $Order->getID(); ?>'><?php echo $Order->getID(); ?></a></td>
                         <td><?php echo $Order->getHolderFullFullName(); ?></td>
@@ -87,21 +92,7 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php
-                $limit = @$_GET['limit'] ?: 10;
-                $page = @$_GET['page'] ?: 1;
-
-                $args = $_GET;
-                if($page > 1) {
-                    $args['page'] = $page - 1;
-                    $url = '?' . http_build_query($args);
-                    echo "<a href='?" . http_build_query($args) . "'>Previous</a> ";
-                }
-
-                $args['page'] = $page + 1;
-                $url = '?' . http_build_query($args);
-                echo "<a href='order?" . http_build_query($args) . "'>Next</a> ";
-                ?>
+                <?php $Stats->printPagination('order?'); ?>
             </fieldset>
         </form>
     </section>

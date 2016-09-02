@@ -4,6 +4,7 @@ namespace Transaction\View;
 use Config\DBConfig;
 use Merchant\Model\MerchantRow;
 use Transaction\Model\TransactionRow;
+use Transaction\Model\TransactionQueryStats;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -18,16 +19,11 @@ class TransactionListView extends AbstractView {
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
 
-		$page = intval(@$params['page']) ?: 1;
-		$limit = intval(@$params['limit']) ?: 50;
-		if($limit > 250) $limit = 250;
-		$offset = ($page-1) * $limit;
-
 		$sqlParams = array();
-		$sql = TransactionRow::SQL_SELECT . "WHERE 1";
+		$whereSQL = "WHERE 1";
 
 		if(isset($params['search'])) {
-			$sql .= "\nAND
+			$whereSQL .= "\nAND
 			(
 				t.uid = :exact
 				OR t.transaction_id = :exact
@@ -54,13 +50,17 @@ class TransactionListView extends AbstractView {
                 'endswith' => '%'.$params['search'],
 			);
 		}
+
+        $statsMessage = '';
         if(isset($params['date_from'])) {
-            $sql .= "\nAND t.date >= :from";
+            $whereSQL .= "\nAND t.date >= :from";
             $sqlParams['from'] = $params['date_from'];
+            $statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
         }
         if(isset($params['date_to'])) {
-            $sql .= "\nAND t.date <= :to";
+            $whereSQL .= "\nAND t.date <= :to";
             $sqlParams['to'] = $params['date_to'];
+            $statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
         }
 
 		$SessionManager = new SessionManager();
@@ -73,19 +73,37 @@ class TransactionListView extends AbstractView {
 		} else {
 
 			// TODO: merchant login?
-			$sql .= "\nAND 0\n";
+			$whereSQL .= "\nAND 0\n";
 		}
 
-		$sql .= "\nGROUP BY t.id ";
-		$sql .= "\nORDER BY t.id DESC";
-		$sql .= "\nLIMIT {$offset}, {$limit}";
 
-		$DB = DBConfig::getInstance();
-		$TransactionQuery = $DB->prepare($sql);
+        $DB = DBConfig::getInstance();
+        // Fetch Stats
+        $countSQL = TransactionQueryStats::SQL_SELECT . $whereSQL;
+        $StatsQuery = $DB->prepare($countSQL);
+        $StatsQuery->execute($sqlParams);
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $StatsQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionQueryStats');
+        /** @var TransactionQueryStats $Stats */
+        $Stats = $StatsQuery->fetch();
+        $Stats->setMessage($statsMessage);
+        $Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+
+
+        $groupSQL = "\nGROUP BY t.id ";
+        $groupSQL .= "\nORDER BY t.id DESC";
+        $groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
+
+        $mainSQL = TransactionRow::SQL_SELECT . $whereSQL . $groupSQL;
+        $time = -microtime(true);
+		$Query = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
-		$TransactionQuery->execute($sqlParams);
+		$Query->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+		$Query->execute($sqlParams);
+        $time += microtime(true);
 
+        $statsMessage = $Stats->getCount() . " transactions found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+        $Stats->setMessage($statsMessage);
 
 		// Render Page
 		include ('.list.php');

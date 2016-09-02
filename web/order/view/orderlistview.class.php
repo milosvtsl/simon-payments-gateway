@@ -2,8 +2,9 @@
 namespace Order\View;
 
 use Config\DBConfig;
-use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+use Order\Model\OrderStats;
+use Order\Model\OrderQueryStats;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -20,16 +21,12 @@ class OrderListView extends AbstractView {
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
 
-		$page = intval(@$params['page']) ?: 1;
-		$limit = intval(@$params['limit']) ?: 50;
-		if($limit > 250) $limit = 250;
-		$offset = ($page-1) * $limit;
 
 		$sqlParams = array();
-		$sql = OrderRow::SQL_SELECT . "WHERE 1";
+		$whereSQL = "WHERE 1";
 
 		if(isset($params['search'])) {
-			$sql .= "\nAND
+			$whereSQL .= "\nAND
 			(
 				oi.uid = :exact
 
@@ -52,13 +49,17 @@ class OrderListView extends AbstractView {
 				'endswith' => '%'.$params['search'],
 			);
 		}
+
+		$statsMessage = '';
 		if(isset($params['date_from'])) {
-			$sql .= "\nAND oi.date >= :from";
+			$whereSQL .= "\nAND oi.date >= :from";
 			$sqlParams['from'] = $params['date_from'];
+			$statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
 		}
 		if(isset($params['date_to'])) {
-			$sql .= "\nAND oi.date <= :to";
+			$whereSQL .= "\nAND oi.date <= :to";
 			$sqlParams['to'] = $params['date_to'];
+			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
 		}
 
 		$SessionManager = new SessionManager();
@@ -71,18 +72,38 @@ class OrderListView extends AbstractView {
 		} else {
 
 			// TODO: merchant login?
-			$sql .= "\nAND 0\n";
+			$whereSQL .= "\nAND 0\n";
 		}
 
-		// $sql .= "\nGROUP BY oi.id ";
-		$sql .= "\nORDER BY oi.id DESC";
-		$sql .= "\nLIMIT {$offset}, {$limit}";
+
+
 
 		$DB = DBConfig::getInstance();
-		$OrderQuery = $DB->prepare($sql);
+		// Fetch Stats
+		$countSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
+		$StatsQuery = $DB->prepare($countSQL);
+		$StatsQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$OrderQuery->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
-		$OrderQuery->execute($sqlParams);
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderQueryStats');
+		/** @var OrderQueryStats $Stats */
+		$Stats = $StatsQuery->fetch();
+		$Stats->setMessage($statsMessage);
+		$Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+
+
+		$groupSQL = "\nORDER BY oi.id DESC";
+		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
+
+		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL;
+		$time = -microtime(true);
+		$Query = $DB->prepare($mainSQL);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		$Query->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
+		$Query->execute($sqlParams);
+		$time += microtime(true);
+
+		$statsMessage = $Stats->getCount() . " transactions found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$Stats->setMessage($statsMessage);
 
 
 		// Render Page
