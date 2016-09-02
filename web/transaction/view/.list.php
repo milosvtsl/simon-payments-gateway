@@ -42,7 +42,7 @@
                         <tr>
                             <th>Value</th>
                             <td>
-                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="TID, MID, Amount, Card" />
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="TID, MID, Amount, Card Number, Batch ID" size="51" />
                                 <select name="limit">
                                     <?php
                                     $limit = @$_GET['limit'] ?: 50;
@@ -66,6 +66,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Order</th>
+                        <th>Batch</th>
                         <th>Card Holder</th>
                         <th>Date / TID</th>
                         <th>Invoice ID</th>
@@ -80,7 +81,8 @@
                     foreach($Query as $Transaction) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
-                        <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a></td>
+                        <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
+                        <td><?php if($Transaction->getBatchID()) { ?><a href='batch?id=<?php echo $Transaction->getBatchID(); ?>'><?php echo $Transaction->getBatchID(); ?></a><?php } else echo 'N/A'; ?></td>
                         <td><?php echo $Transaction->getHolderFullFullName(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
                         <td><?php echo $Transaction->getInvoiceNumber(); ?></td>

@@ -53,27 +53,30 @@ abstract class AbstractQueryStats
 
         $page = $this->getCurrentPage();
         $pageTotal = $this->getTotalPages();
-        $fraction = (floor($pageTotal / 100) * 10) ?: 1;
+        $fraction = (floor($pageTotal / 50) * 10) ?: 1;
 
         $args = $_GET;
-        if ($page > 1) {
-            $args['page'] = $page - 1;
-            echo "<a href='", $baseURL, http_build_query($args), "'>Previous</a> ";
+        $pages = array(1, $pageTotal);
+        $pi = 1;
+        while(sqrt($pageTotal) > sizeof($pages)) {
+            if($page - $pi > 0)
+                $pages[] = $page - $pi;
+            if($page + $pi < $pageTotal)
+                $pages[] = $page + $pi;
+            $pi*=2;
+            if($pi > 999999) break;
         }
+        $pages = array_unique($pages);
+        sort($pages);
 
-        // TODO print current page
-        echo "<a href='", $baseURL, http_build_query(array('page' => 1) + $args), "'>", 1, "</a> ";
-
-        for ($i = 2; $i <= $pageTotal; $i += $fraction) {
-            if ($i == $page) {
-                echo '[', $i, '] ';
-            } else {
-                echo "<a href='", $baseURL, http_build_query(array('page' => $i) + $args), "'>", $i, "</a> ";
-            }
+        if($page > 1)
+           echo "<a href='", $baseURL, http_build_query(array('page' => $page - 1) + $args), "'>Previous</a> ";
+        foreach($pages as $p) {
+            if($p != $page)
+                echo "<a href='", $baseURL, http_build_query(array('page' => $p) + $args), "'>", $p, "</a> ";
+            else
+                echo '[', $p, '] ';
         }
-        if($i-$fraction<$pageTotal)
-            echo "<a href='", $baseURL, http_build_query(array('page' => $pageTotal) + $args), "'>", $pageTotal, "</a> ";
-
         echo "<a href='", $baseURL, http_build_query(array('page' => $page + 1) + $args), "'>Next</a> ";
     }
 }

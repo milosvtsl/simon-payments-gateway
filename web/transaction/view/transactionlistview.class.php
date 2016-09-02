@@ -12,6 +12,9 @@ use View\AbstractView;
 class TransactionListView extends AbstractView {
 
 
+	/**
+	 * @param array $params
+     */
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
 		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Transactions");
@@ -22,7 +25,7 @@ class TransactionListView extends AbstractView {
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
 
-		if(isset($params['search'])) {
+		if(!empty($params['search'])) {
 			$whereSQL .= "\nAND
 			(
 				t.uid = :exact
@@ -76,19 +79,21 @@ class TransactionListView extends AbstractView {
 			$whereSQL .= "\nAND 0\n";
 		}
 
+		// Query Statistics
+		/** @var TransactionQueryStats $Stats */
 
         $DB = DBConfig::getInstance();
         // Fetch Stats
         $countSQL = TransactionQueryStats::SQL_SELECT . $whereSQL;
-        $StatsQuery = $DB->prepare($countSQL);
-        $StatsQuery->execute($sqlParams);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $StatsQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionQueryStats');
-        /** @var TransactionQueryStats $Stats */
-        $Stats = $StatsQuery->fetch();
+        $Query = $DB->prepare($countSQL);
+        $Query->execute($sqlParams);
+        $Query->setFetchMode(\PDO::FETCH_CLASS, TransactionQueryStats::_CLASS);
+        $Stats = $Query->fetch();
+		unset ($Query);
         $Stats->setMessage($statsMessage);
         $Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
 
+		// Query Rows
 
         $groupSQL = "\nGROUP BY t.id ";
         $groupSQL .= "\nORDER BY t.id DESC";
@@ -97,8 +102,7 @@ class TransactionListView extends AbstractView {
         $mainSQL = TransactionRow::SQL_SELECT . $whereSQL . $groupSQL;
         $time = -microtime(true);
 		$Query = $DB->prepare($mainSQL);
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+		$Query->setFetchMode(\PDO::FETCH_CLASS, TransactionRow::_CLASS);
 		$Query->execute($sqlParams);
         $time += microtime(true);
 

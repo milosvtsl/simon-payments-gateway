@@ -19,11 +19,5 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
-if(isset($_GET['id'])) {
-    $View = new \Batch\View\BatchView($_GET['id'], @$_GET['action']);
-    $View->handleRequest();
-
-} else {
-    $View = new Batch\View\BatchListView();
-    $View->handleRequest();
-}
+$View = new Batch\View\BatchListView();
+$View->handleRequest();

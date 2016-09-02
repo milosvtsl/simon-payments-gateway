@@ -26,6 +26,7 @@ class SPGViewTheme extends AbstractViewTheme
             if($SessionUser->hasAuthority('ROLE_ADMIN')) {
                 $this->addNavLink('merchant', "Merchant");
                 $this->addNavLink('user', "User");
+                $this->addNavLink('batch', "Batch");
                 $this->addNavLink('transaction/charge.php', "Charge");
 
             } else if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) {

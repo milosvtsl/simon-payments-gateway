@@ -80,6 +80,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }
     public function getOrderID()            { return $this->order_item_id; }
+    public function getBatchID()            { return $this->batch_item_id; }
     public function getTransactionID()      { return $this->transaction_id; }
     public function getHolderFullFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getMerchantID()         { return $this->merchant_id; }

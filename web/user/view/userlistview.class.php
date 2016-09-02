@@ -24,8 +24,8 @@ class UserListView extends AbstractView {
 		$sqlParams = array();
 		$sql = "SELECT * FROM user ";
 
-		if(isset($params['search'])) {
-			$sql .= "\nWHERE username LIKE ? OR fname LIKE ? OR lname LIKE ? OR email LIKE ? OR uid = ?";
+		if(!empty($params['search'])) {
+ 			$sql .= "\nWHERE username LIKE ? OR fname LIKE ? OR lname LIKE ? OR email LIKE ? OR uid = ?";
 			$sqlParams = array($params['search'].'%', $params['search'].'%', $params['search'].'%', '%'.$params['search'].'%', $params['search']);
 		}
 

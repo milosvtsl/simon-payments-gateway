@@ -1,22 +1,22 @@
 <?php
-namespace Order\View;
+namespace Batch\View;
 
 use Config\DBConfig;
-use Order\Model\OrderRow;
-use Order\Model\OrderStats;
-use Order\Model\OrderQueryStats;
+use Batch\Model\BatchRow;
+use Batch\Model\BatchStats;
+use Batch\Model\BatchQueryStats;
 use User\Session\SessionManager;
 use View\AbstractView;
 
 
-class OrderListView extends AbstractView {
+class BatchListView extends AbstractView {
 
 //Need to be able to pull information by batch, day, card #, amount, MID, TID ect.
 // TODO batch id
 
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
-		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Orders");
+		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Batchs");
 
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
@@ -28,36 +28,27 @@ class OrderListView extends AbstractView {
 		if(!empty($params['search'])) {
 			$whereSQL .= "\nAND
 			(
-				oi.uid = :exact
+				b.uid = :exact
 
-				OR oi.amount = :exact
-				OR oi.invoice_number = :exact
-				OR oi.customer_id = :exact
-				OR oi.username = :exact
-
-                OR SUBSTRING(oi.card_number, -4) = :exact
-
-				OR oi.customer_first_name LIKE :startswith
-				OR oi.customer_last_name LIKE :startswith
+				OR b.batch_id = :exact
+				OR b.batch_status = :exact
 
 				OR m.uid = :exact
 			)
 			";
 			$sqlParams = array(
 				'exact' => $params['search'],
-				'startswith' => $params['search'].'%',
-				'endswith' => '%'.$params['search'],
 			);
 		}
 
 		$statsMessage = '';
 		if(isset($params['date_from'])) {
-			$whereSQL .= "\nAND oi.date >= :from";
+			$whereSQL .= "\nAND b.date >= :from";
 			$sqlParams['from'] = $params['date_from'];
 			$statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
 		}
 		if(isset($params['date_to'])) {
-			$whereSQL .= "\nAND oi.date <= :to";
+			$whereSQL .= "\nAND b.date <= :to";
 			$sqlParams['to'] = $params['date_to'];
 			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
 		}
@@ -76,28 +67,28 @@ class OrderListView extends AbstractView {
 		}
 
 		// Query Statistics
-		/** @var OrderQueryStats $Stats */
+		/** @var BatchQueryStats $Stats */
 
 		$DB = DBConfig::getInstance();
-		$countSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
+		$countSQL = BatchQueryStats::SQL_SELECT . $whereSQL;
 		$Query = $DB->prepare($countSQL);
 		$Query->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+		$Query->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
 		$Stats = $Query->fetch();
 		$Stats->setMessage($statsMessage);
 		$Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
 
 		// Query Rows
 
-		$groupSQL = "\nORDER BY oi.id DESC";
+		$groupSQL = "\nORDER BY b.id DESC";
 		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 
-		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL;
+		$mainSQL = BatchRow::SQL_SELECT . $whereSQL . $groupSQL;
 		$time = -microtime(true);
 		$Query = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
+		$Query->setFetchMode(\PDO::FETCH_CLASS, BatchRow::_CLASS);
 		$Query->execute($sqlParams);
 		$time += microtime(true);
 

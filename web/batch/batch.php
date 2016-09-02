@@ -24,6 +24,5 @@ if(isset($_GET['id'])) {
     $View->handleRequest();
 
 } else {
-    $View = new Batch\View\BatchListView();
-    $View->handleRequest();
+    header('Location batch/list.php');
 }

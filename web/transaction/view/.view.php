@@ -54,6 +54,10 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                         <td><?php echo $Transaction->getAmount(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Date</td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getDate())); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Invoice</td>
                         <td><?php echo $Transaction->getInvoiceNumber() ?: 'N/A'; ?></td>
                     </tr>

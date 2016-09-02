@@ -53,6 +53,10 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                         <td><?php echo $Order->getAmount(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Date</td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Invoice</td>
                         <td><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
                     </tr>

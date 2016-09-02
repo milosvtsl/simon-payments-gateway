@@ -24,7 +24,7 @@ class MerchantListView extends AbstractView {
 		$sqlParams = array();
 		$sql = MerchantRow::SQL_SELECT;
 
-		if(isset($params['search'])) {
+		if(!empty($params['search'])) {
 			$sql .= "\nWHERE m.name LIKE ? OR m.short_name LIKE ? OR m.main_email_id LIKE ? OR m.uid = ?";
 			$sqlParams = array($params['search'].'%', $params['search'].'%', '%'.$params['search'].'%', $params['search']);
 		}

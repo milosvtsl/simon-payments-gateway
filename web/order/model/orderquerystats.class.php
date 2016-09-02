@@ -12,6 +12,8 @@ use Model\AbstractQueryStats;
 
 class OrderQueryStats extends AbstractQueryStats
 {
+    const _CLASS = __CLASS__;
+
     protected $count;
 
     const SQL_SELECT = "

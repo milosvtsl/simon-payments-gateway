@@ -1,10 +1,10 @@
 <?php /**
  * @var \User\View\LoginView $this
  * @var PDOStatement $Query
- * @var \Order\Model\OrderQueryStats $Stats
+ * @var \Batch\Model\BatchQueryStats $Stats
  **/?>
     <section class="message">
-        <h1>Order List</h1>
+        <h1>Batch List</h1>
 
         <?php if($this->hasException()) { ?>
             <h5><?php echo $this->hasException(); ?></h5>
@@ -16,7 +16,7 @@
             <h5><?php echo $Stats->getMessage() ?></h5>
 
         <?php } else { ?>
-            <h5>Search for Order Accounts...</h5>
+            <h5>Search for batches...</h5>
 
         <?php } ?>
     </section>
@@ -25,7 +25,7 @@
         <form class="form-search themed">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
-                <a href="order?" class="button">Order List</a>
+                <a href="batch?" class="button">Batch List</a>
             </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
@@ -41,7 +41,7 @@
                     <tr>
                         <th>Value</th>
                         <td>
-                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, MID, Amount, Card, Name, Invoice ID" size="51" />
+                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, Batch ID" size="51" />
                             <select name="limit">
                                 <?php
                                 $limit = @$_GET['limit'] ?: 50;
@@ -57,34 +57,28 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('order?'); ?>
+                <?php $Stats->printPagination('batch?'); ?>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed">
                     <tr>
                         <th>ID</th>
-                        <th>Card Holder</th>
+                        <th>Batch ID</th>
                         <th>Date</th>
-                        <th>Invoice ID</th>
-                        <th>User Name</th>
-                        <th>Amount</th>
                         <th>Status</th>
                         <th>Merchant</th>
                     </tr>
                     <?php
-                    /** @var \Order\Model\OrderRow $Order */
+                    /** @var \Batch\Model\BatchRow $Batch */
                     $odd = false;
-                    foreach($Query as $Order) { ?>
+                    foreach($Query as $Batch) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td><a href='order?id=<?php echo $Order->getID(); ?>'><?php echo $Order->getID(); ?></a></td>
-                        <td><?php echo $Order->getHolderFullFullName(); ?></td>
-                        <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
-                        <td><?php echo $Order->getInvoiceNumber(); ?></td>
-                        <td><?php echo $Order->getUsername(); ?></td>
-                        <td><?php echo $Order->getAmount(); ?></td>
-                        <td><?php echo $Order->getStatus(); ?></td>
-                        <td><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+                        <td><a href='batch?id=<?php echo $Batch->getID(); ?>'><?php echo $Batch->getID(); ?></a></td>
+                        <td><?php echo $Batch->getBatchID(); ?></td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Batch->getDate())); ?></td>
+                        <td><?php echo $Batch->getBatchStatus(); ?></td>
+                        <td><a href='merchant?id=<?php echo $Batch->getMerchantID(); ?>'><?php echo $Batch->getMerchantShortName(); ?></a></td>
 
                     </tr>
                     <?php } ?>
@@ -92,7 +86,7 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('order?'); ?>
+                <?php $Stats->printPagination('batch?'); ?>
             </fieldset>
         </form>
     </section>
