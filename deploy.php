@@ -25,10 +25,15 @@ if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') ===
 }
 
 // Local Test
+echo "\nTesting locally...";
 require 'test.php';
 
 // Deploy
+echo "\nDeploying remotely...";
 $ret = system($cmd_deploy, $out);
 
 // Remote Test
+echo "\nTesting remotely...";
 $ret = system($cmd_test, $out);
+
+// TODO revert on fail remotely?
