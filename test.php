@@ -17,13 +17,11 @@ $SessionUser = $SessionManager->getSessionUser();
 
 assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
 
-// Create Test User
+// TODO: Create Test User
 
+// TODO: Set Test User Password
 
-// Set Test User Password
-
-
-// Validate login
+// TODO: Validate login
 
 $TestUser = \User\Model\UserRow::fetchByUsername('testuser');
 assert($TestUser !== null);
