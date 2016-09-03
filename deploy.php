@@ -11,6 +11,10 @@ chdir('web');
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-$out = system('git status');
+exec('git status', $out, $ret);
+if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') === false) {
+    echo "Commit and push code before deploying, n00b";
+    exit(1);
+}
 
 var_dump($out);
