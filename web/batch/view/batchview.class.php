@@ -9,6 +9,7 @@ namespace Batch\View;
 
 use Config\DBConfig;
 use Batch\Model\BatchRow;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 use View\AbstractView;
 
@@ -42,10 +43,12 @@ class BatchView extends AbstractView
             case 'view':
 
                 $DB = DBConfig::getInstance();
-                $TransactionQuery = $DB->prepare(TransactionRow::SQL_SELECT . "WHERE t.batch_item_id = ?");
+                $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
+                    . "\nLEFT JOIN batch_orderitems boi on oi.id = boi.id_orderitem"
+                    . "\nWHERE boi.id_batch = ?");
                 /** @noinspection PhpMethodParametersCountMismatchInspection */
-                $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
-                $TransactionQuery->execute(array($this->getBatch()->getID()));
+                $OrderQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+                $OrderQuery->execute(array($this->getBatch()->getID()));
 
                 include('.view.php');
                 break;

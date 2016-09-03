@@ -51,12 +51,12 @@ class OrderListView extends AbstractView {
 		}
 
 		$statsMessage = '';
-		if(isset($params['date_from'])) {
+		if(!empty($params['date_from'])) {
 			$whereSQL .= "\nAND oi.date >= :from";
 			$sqlParams['from'] = $params['date_from'];
 			$statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
 		}
-		if(isset($params['date_to'])) {
+		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
 			$sqlParams['to'] = $params['date_to'];
 			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
@@ -90,6 +90,8 @@ class OrderListView extends AbstractView {
 
 		// Query Rows
 
+		$groupSQL = OrderRow::SQL_GROUP_BY;
+		$groupSQL .= OrderRow::SQL_ORDER_BY;
 		$groupSQL = "\nORDER BY oi.id DESC";
 		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 

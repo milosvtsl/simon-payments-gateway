@@ -55,12 +55,12 @@ class TransactionListView extends AbstractView {
 		}
 
         $statsMessage = '';
-        if(isset($params['date_from'])) {
+        if(!empty($params['date_from'])) {
             $whereSQL .= "\nAND t.date >= :from";
             $sqlParams['from'] = $params['date_from'];
             $statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
         }
-        if(isset($params['date_to'])) {
+        if(!empty($params['date_to'])) {
             $whereSQL .= "\nAND t.date <= :to";
             $sqlParams['to'] = $params['date_to'];
             $statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
@@ -87,6 +87,7 @@ class TransactionListView extends AbstractView {
         $countSQL = TransactionQueryStats::SQL_SELECT . $whereSQL;
         $Query = $DB->prepare($countSQL);
         $Query->execute($sqlParams);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
         $Query->setFetchMode(\PDO::FETCH_CLASS, TransactionQueryStats::_CLASS);
         $Stats = $Query->fetch();
 		unset ($Query);
@@ -95,13 +96,15 @@ class TransactionListView extends AbstractView {
 
 		// Query Rows
 
-        $groupSQL = "\nGROUP BY t.id ";
-        $groupSQL .= "\nORDER BY t.id DESC";
+        // $groupSQL = "\nGROUP BY t.id ";
+		$groupSQL = TransactionRow::SQL_GROUP_BY;
+		$groupSQL .= TransactionRow::SQL_ORDER_BY;
         $groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 
         $mainSQL = TransactionRow::SQL_SELECT . $whereSQL . $groupSQL;
         $time = -microtime(true);
 		$Query = $DB->prepare($mainSQL);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
 		$Query->setFetchMode(\PDO::FETCH_CLASS, TransactionRow::_CLASS);
 		$Query->execute($sqlParams);
         $time += microtime(true);

@@ -1,6 +1,7 @@
 <?php /**
  * @var \User\View\LoginView $this
- * @var PDOStatement $UserQuery
+ * @var PDOStatement $Query
+ * @var \User\Model\UserQueryStats $Stats
  **/?>
     <section class="message">
         <h1>User List</h1>
@@ -11,8 +12,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($UserQuery) { ?>
-            <h5><?php echo $UserQuery->rowCount() ?> users found</h5>
+        <?php } else if($Stats) { ?>
+            <h5><?php echo $Stats->getMessage(); ?></h5>
 
         <?php } else { ?>
             <h5>Search for User Accounts...</h5>
@@ -22,6 +23,10 @@
 
     <section class="content">
         <form class="form-search themed">
+            <fieldset class="action-fields">
+                <legend>Actions</legend>
+                <a href="user?" class="button">User List</a>
+            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 User Name:
@@ -36,6 +41,10 @@
                 <input type="submit" value="Search" />
 
             </fieldset>
+            <fieldset class="paginate">
+                <legend>Pagination</legend>
+                <?php $Stats->printPagination('user?'); ?>
+            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed">
@@ -49,7 +58,7 @@
                     <?php
                     /** @var \User\Model\UserRow $User */
                     $odd = false;
-                    foreach($UserQuery as $User) { ?>
+                    foreach($Query as $User) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
                         <td><?php echo $User->getUsername(); ?></td>
@@ -69,21 +78,7 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php
-                $limit = @$_GET['limit'] ?: 10;
-                $page = @$_GET['page'] ?: 1;
-
-                $args = $_GET;
-                if($page > 1) {
-                    $args['page'] = $page - 1;
-                    $url = '?' . http_build_query($args);
-                    echo "<a href='?" . http_build_query($args) . "'>Previous</a> ";
-                }
-
-                $args['page'] = $page + 1;
-                $url = '?' . http_build_query($args);
-                echo "<a href='?" . http_build_query($args) . "'>Next</a> ";
-                ?>
+                <?php $Stats->printPagination('user?'); ?>
             </fieldset>
         </form>
     </section>

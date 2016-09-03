@@ -14,6 +14,7 @@ use User\Model\UserAuthorityRow;
 class UserRow
 {
     const TABLE_NAME = 'user';
+    const _CLASS = __CLASS__;
 
     // Table user
     protected $id;
@@ -38,6 +39,8 @@ FROM user u
 LEFT JOIN user_authorities ua on u.id = ua.id_user
 LEFT JOIN authority a on a.id = ua.id_authority
 ";
+    const SQL_GROUP_BY = "\nGROUP BY u.id";
+    const SQL_ORDER_BY = "\nORDER BY u.id DESC";
 
     public function getID()         { return $this->id; }
     public function getUID()        { return $this->uid; }

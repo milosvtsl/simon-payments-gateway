@@ -35,14 +35,14 @@
                         <tr>
                             <th>From</th>
                             <td>
-                                <input type="datetime-local" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d\TH:i:s', time()-30*24*60*60);?>" /> to
-                                <input type="datetime-local" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d\TH:i:s');?>"  />
+                                <input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
+                                <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
                             </td>
                         </tr>
                         <tr>
                             <th>Value</th>
                             <td>
-                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="TID, MID, Amount, Card Number, Batch ID" size="51" />
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="TID, MID, Amount, Card Number, Batch ID" size="24" />
                                 <select name="limit">
                                     <?php
                                     $limit = @$_GET['limit'] ?: 50;

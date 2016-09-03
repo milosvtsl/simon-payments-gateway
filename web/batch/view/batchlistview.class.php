@@ -29,6 +29,7 @@ class BatchListView extends AbstractView {
 			$whereSQL .= "\nAND
 			(
 				b.uid = :exact
+				OR b.id = :exact
 
 				OR b.batch_id = :exact
 				OR b.batch_status = :exact
@@ -42,15 +43,15 @@ class BatchListView extends AbstractView {
 		}
 
 		$statsMessage = '';
-		if(isset($params['date_from'])) {
+		if(!empty($params['date_from'])) {
 			$whereSQL .= "\nAND b.date >= :from";
 			$sqlParams['from'] = $params['date_from'];
-			$statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
+			$statsMessage .= " from " . date("M jS Y", strtotime($params['date_from'])) . ' 00:00:00';
 		}
-		if(isset($params['date_to'])) {
+		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND b.date <= :to";
 			$sqlParams['to'] = $params['date_to'];
-			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
+			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to'])) . ' 23:59:59';
 		}
 
 		$SessionManager = new SessionManager();
@@ -81,7 +82,8 @@ class BatchListView extends AbstractView {
 
 		// Query Rows
 
-		$groupSQL = "\nORDER BY b.id DESC";
+		$groupSQL = BatchRow::SQL_GROUP_BY;
+		$groupSQL .= BatchRow::SQL_ORDER_BY;
 		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 
 		$mainSQL = BatchRow::SQL_SELECT . $whereSQL . $groupSQL;
@@ -92,7 +94,7 @@ class BatchListView extends AbstractView {
 		$Query->execute($sqlParams);
 		$time += microtime(true);
 
-		$statsMessage = $Stats->getCount() . " transactions found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$statsMessage = $Stats->getCount() . " batch entries found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
 		$Stats->setMessage($statsMessage);
 
 

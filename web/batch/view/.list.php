@@ -34,14 +34,14 @@
                     <tr>
                         <th>From</th>
                         <td>
-                            <input type="datetime-local" name="date_from" value="<?php echo @$_GET['date_from'] ?: date('Y-m-d\TH:i:s', time()-30*24*60*60);?>" /> to
-                            <input type="datetime-local" name="date_to"   value="<?php echo @$_GET['date_to']   ?: date('Y-m-d\TH:i:s');?>"  />
+                            <input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
+                            <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
                         </td>
                     </tr>
                     <tr>
                         <th>Value</th>
                         <td>
-                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, Batch ID" size="51" />
+                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, Batch ID" size="24" />
                             <select name="limit">
                                 <?php
                                 $limit = @$_GET['limit'] ?: 50;
@@ -66,6 +66,10 @@
                         <th>ID</th>
                         <th>Batch ID</th>
                         <th>Date</th>
+                        <th>Orders</th>
+                        <th>Settled</th>
+                        <th>Authorized</th>
+                        <th>Void</th>
                         <th>Status</th>
                         <th>Merchant</th>
                     </tr>
@@ -77,6 +81,10 @@
                         <td><a href='batch?id=<?php echo $Batch->getID(); ?>'><?php echo $Batch->getID(); ?></a></td>
                         <td><?php echo $Batch->getBatchID(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Batch->getDate())); ?></td>
+                        <td><?php echo $Batch->getOrderCount(); ?></td>
+                        <td><?php echo $Batch->getOrderSettled() ? number_format ($Batch->getOrderSettled(), 2) : '(0)'; ?></td>
+                        <td><?php echo $Batch->getOrderAuthorized() ? number_format ($Batch->getOrderAuthorized(), 2) : '(0)'; ?></td>
+                        <td><?php echo $Batch->getOrderVoid() ? number_format ($Batch->getOrderVoid(), 2) : '(0)'; ?></td>
                         <td><?php echo $Batch->getBatchStatus(); ?></td>
                         <td><a href='merchant?id=<?php echo $Batch->getMerchantID(); ?>'><?php echo $Batch->getMerchantShortName(); ?></a></td>
 

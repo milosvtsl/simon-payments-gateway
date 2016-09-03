@@ -11,6 +11,7 @@ use Config\DBConfig;
 
 class MerchantRow
 {
+    const _CLASS = __CLASS__;
     protected $id;
     protected $uid;
     protected $version;
@@ -50,6 +51,8 @@ SELECT m.*, s.name as state_name, s.short_code as state_short_code
 FROM merchant m
 LEFT JOIN state s on m.state_id = s.id
 ";
+    const SQL_GROUP_BY = "\nGROUP BY m.id";
+    const SQL_ORDER_BY = "\nORDER BY m.id DESC";
 
     public function getID()         { return $this->id; }
     public function getUID()        { return $this->uid; }

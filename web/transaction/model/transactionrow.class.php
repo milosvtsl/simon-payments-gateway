@@ -68,6 +68,8 @@ FROM transaction t
 LEFT JOIN order_item oi on t.order_item_id = oi.id
 LEFT JOIN merchant m on oi.merchant_id = m.id
 ";
+    const SQL_GROUP_BY = "\nGROUP BY t.id";
+    const SQL_ORDER_BY = "\nORDER BY t.id DESC";
 
     public function getID()                 { return $this->id; }
     public function getUID()                { return $this->uid; }

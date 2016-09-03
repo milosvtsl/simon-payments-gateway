@@ -1,6 +1,7 @@
 <?php /**
  * @var \User\View\LoginView $this
- * @var PDOStatement $MerchantQuery
+ * @var PDOStatement $Query
+ * @var \Merchant\Model\MerchantQueryStats $Stats
  **/?>
     <section class="message">
         <h1>Merchant List</h1>
@@ -11,8 +12,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($MerchantQuery) { ?>
-            <h5><?php echo $MerchantQuery->rowCount() ?> merchants found</h5>
+        <?php } else if($Stats) { ?>
+            <h5><?php echo $Stats->getMessage(); ?></h5>
 
         <?php } else { ?>
             <h5>Search for Merchant Accounts...</h5>
@@ -36,6 +37,10 @@
                 <input type="submit" value="Search" />
 
             </fieldset>
+            <fieldset class="paginate">
+                <legend>Pagination</legend>
+                <?php $Stats->printPagination('merchant?'); ?>
+            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed">
@@ -49,7 +54,7 @@
                     <?php
                     /** @var \Merchant\Model\MerchantRow $Merchant */
                     $odd = false;
-                    foreach($MerchantQuery as $Merchant) { ?>
+                    foreach($Query as $Merchant) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
@@ -63,21 +68,7 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php
-                $limit = @$_GET['limit'] ?: 10;
-                $page = @$_GET['page'] ?: 1;
-
-                $args = $_GET;
-                if($page > 1) {
-                    $args['page'] = $page - 1;
-                    $url = '?' . http_build_query($args);
-                    echo "<a href='?" . http_build_query($args) . "'>Previous</a> ";
-                }
-
-                $args['page'] = $page + 1;
-                $url = '?' . http_build_query($args);
-                echo "<a href='?" . http_build_query($args) . "'>Next</a> ";
-                ?>
+                <?php $Stats->printPagination('merchant?'); ?>
             </fieldset>
         </form>
     </section>
