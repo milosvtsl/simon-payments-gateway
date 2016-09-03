@@ -17,4 +17,5 @@ if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') ===
     exit(1);
 }
 
-var_dump($out);
+
+$ret = system('ssh admin.paylogicnetwork.com -t "cd /usr/share/nginx/spg; git pull;"', $out);
