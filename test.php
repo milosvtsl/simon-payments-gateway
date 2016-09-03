@@ -29,3 +29,4 @@ $TestUser = \User\Model\UserRow::fetchByUsername('testuser');
 assert($TestUser !== null);
 
 echo 'Test successful';
+chdir('..');

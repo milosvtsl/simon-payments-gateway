@@ -6,10 +6,10 @@
  * Time: 10:47 PM
  */
 
-chdir('web');
+//chdir('web');
 // Enable class autoloader
-spl_autoload_extensions('.class.php');
-spl_autoload_register();
+//spl_autoload_extensions('.class.php');
+//spl_autoload_register();
 
 // Test command
 $cmd_test = 'ssh admin.paylogicnetwork.com -t "cd /usr/share/nginx/spg; php test.php;"';
@@ -24,7 +24,11 @@ if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') ===
     exit(1);
 }
 
+// Local Test
+require 'test.php';
 
+// Deploy
 $ret = system($cmd_deploy, $out);
 
+// Remote Test
 $ret = system($cmd_test, $out);
