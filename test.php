@@ -27,3 +27,5 @@ assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
 
 $TestUser = \User\Model\UserRow::fetchByUsername('testuser');
 assert($TestUser !== null);
+
+echo 'Test successful';
