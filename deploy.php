@@ -25,6 +25,6 @@ if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') ===
 }
 
 
-$ret = system($cmd_test, $out);
-
 $ret = system($cmd_deploy, $out);
+
+$ret = system($cmd_test, $out);
