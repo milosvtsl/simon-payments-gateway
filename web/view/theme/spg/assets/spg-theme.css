@@ -81,6 +81,7 @@ body.spg-theme form.themed > fieldset {
 }
 
 body.spg-theme form.themed select,
+body.spg-theme form.themed textarea,
 body.spg-theme form.themed input {
     padding: 0.3em 0.5em;
     border-radius: 0.3em;
@@ -125,6 +126,9 @@ body.spg-theme table.themed > tbody > tr > td {
     padding: 0.4em 1em;
     vertical-align: top;
     white-space: nowrap;
+}
+
+body.spg-theme table.themed.small > tbody > tr > td {
     font-size: smaller;
 }
 
@@ -148,6 +152,7 @@ body.spg-theme table.themed > tbody > tr > td.name {
 
 body.spg-theme table.themed > tbody > tr.required > td.name {
     font-weight: bold;
+    font-size: inherit;
 }
 
 

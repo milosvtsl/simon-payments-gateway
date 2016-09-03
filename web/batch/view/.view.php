@@ -61,7 +61,7 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
             </fieldset>
             <fieldset>
                 <legend>Orders</legend>
-                <table class="table-results themed">
+                <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
                         <th>Card Holder</th>

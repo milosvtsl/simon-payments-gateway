@@ -42,6 +42,8 @@ class MerchantRow
     protected $telephone;
     protected $zipcode;
 
+    protected $status_id;
+
     // Table state
     protected $state_short_code;
     protected $state_name;
@@ -54,15 +56,41 @@ LEFT JOIN state s on m.state_id = s.id
     const SQL_GROUP_BY = "\nGROUP BY m.id";
     const SQL_ORDER_BY = "\nORDER BY m.id DESC";
 
-    public function getID()         { return $this->id; }
-    public function getUID()        { return $this->uid; }
-    public function getName()       { return $this->name; }
-    public function getShortName()  { return $this->short_name; }
-    public function getEmail()      { return $this->main_email_id; }
-    public function getCity()       { return $this->city; }
-    public function getState()      { return $this->state_name; }
-    public function getStateCode()  { return $this->state_short_code; }
-    public function getZipCode()   { return $this->zipcode; }
+    public function getID()             { return $this->id; }
+    public function getUID()            { return $this->uid; }
+    public function getName()           { return $this->name; }
+    public function getShortName()      { return $this->short_name; }
+    public function getMerchantID()     { return $this->merchant_id; }
+    public function getMerchantSIC()    { return $this->sic; }
+
+    public function getFeeLimit()       { return $this->convenience_fee_limit; }
+    public function getFeeFlat()        { return $this->convenience_fee_flat; }
+    public function getFeeVariable()    { return $this->convenience_fee_variable_rate; }
+
+    public function getBatchTime()      { return $this->batch_capture_time; }
+    public function getBatchTimeZone()  { return $this->batch_capture_time_zone; }
+
+    public function getOpenDate()       { return $this->open_date; }
+    public function getStatusID()       { return $this->status_id; }
+    public function getStoreID()        { return $this->store_id; }
+
+    public function getDiscoverExt()    { return $this->discover_external; }
+    public function getAmexExt()        { return $this->amex_external; }
+
+    public function getAgentChain()     { return $this->agent_chain; }
+    public function getMainContact()    { return $this->main_contact; }
+    public function getTelephone()      { return $this->telephone; }
+    public function getAddress()        { return $this->address1; }
+    public function getAddress2()       { return $this->address2; }
+
+    public function getCity()           { return $this->city; }
+    public function getState()          { return $this->state_name; }
+    public function getStateCode()      { return $this->state_short_code; }
+    public function getZipCode()        { return $this->zipcode; }
+
+    public function getMainEmailID()    { return $this->main_email_id; }
+    public function getSaleRep()        { return $this->sale_rep; }
+    public function getNotes()          { return $this->notes; }
 
     // Static
 

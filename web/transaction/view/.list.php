@@ -79,7 +79,7 @@
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed">
+                <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
                         <th>Order</th>

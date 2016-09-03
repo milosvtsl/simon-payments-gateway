@@ -5,6 +5,7 @@ use Config\DBConfig;
 use Batch\Model\BatchRow;
 use Batch\Model\BatchStats;
 use Batch\Model\BatchQueryStats;
+use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -54,6 +55,13 @@ class BatchListView extends AbstractView {
 			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to'])) . ' 23:59:59';
 		}
 
+		if(!empty($params['merchant_id'])) {
+			$Merchant = MerchantRow::fetchByID($params['merchant_id']);
+			$whereSQL .= "\nAND b.merchant_id = :merchant_id";
+			$sqlParams['merchant_id'] = $Merchant->getID();
+			$statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
+		}
+
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
 		if($SessionUser->hasAuthority('ROLE_ADMIN')) {
@@ -97,6 +105,14 @@ class BatchListView extends AbstractView {
 		$statsMessage = $Stats->getCount() . " batch entries found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
 		$Stats->setMessage($statsMessage);
 
+
+		// Query Merchant List
+		$sql = "SELECT m.id, m.short_name FROM merchant m ORDER BY m.id DESC";
+		$DB = DBConfig::getInstance();
+		$MerchantQuery = $DB->prepare($sql);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		$MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
+		$MerchantQuery->execute();
 
 		// Render Page
 		include ('.list.php');

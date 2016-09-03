@@ -4,7 +4,6 @@ namespace Order\View;
 use Config\DBConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Order\Model\OrderStats;
 use Order\Model\OrderQueryStats;
 use User\Session\SessionManager;
 use View\AbstractView;
@@ -100,7 +99,6 @@ class OrderListView extends AbstractView {
 
 		$groupSQL = OrderRow::SQL_GROUP_BY;
 		$groupSQL .= OrderRow::SQL_ORDER_BY;
-		$groupSQL = "\nORDER BY oi.id DESC";
 		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 
 		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL;

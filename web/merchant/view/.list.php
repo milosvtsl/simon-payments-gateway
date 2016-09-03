@@ -43,7 +43,7 @@
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed">
+                <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -58,7 +58,7 @@
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
-                        <td><a href='mailto:<?php echo $Merchant->getEmail(); ?>'><?php echo $Merchant->getEmail(); ?></a></td>
+                        <td><a href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo $Merchant->getMainEmailID(); ?></a></td>
                         <td><?php echo $Merchant->getStateCode(); ?></td>
                         <td><?php echo $Merchant->getZipCode(); ?></td>
 

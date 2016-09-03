@@ -28,16 +28,14 @@ class UserRow
     protected $username;
 
     // Table authority
-    protected $authority;
-    protected $authority_uid;
-    protected $authority_name;
-    protected $authority_version;
+    protected $merchant_count;
+    protected $authority_list;
 
     const SQL_SELECT = "
-SELECT u.*, a.uid authority_uid, a.version authority_version, a.authority, a.authority_name
+SELECT u.*,
+ (SELECT COUNT(*) FROM user_merchants um, merchant m WHERE m.id = um.id_merchant AND um.id_user = u.id ) as merchant_count,
+ (SELECT GROUP_CONCAT(CONCAT_WS(';', a.authority, a.authority_name) SEPARATOR '\n') FROM user_authorities ua, authority a WHERE a.id = ua.id_authority AND ua.id_user = u.id ) as authority_list
 FROM user u
-LEFT JOIN user_authorities ua on u.id = ua.id_user
-LEFT JOIN authority a on a.id = ua.id_authority
 ";
     const SQL_GROUP_BY = "\nGROUP BY u.id";
     const SQL_ORDER_BY = "\nORDER BY u.id DESC";
@@ -50,8 +48,23 @@ LEFT JOIN authority a on a.id = ua.id_authority
     public function getFirstName()  { return $this->fname; }
     public function getLastName()   { return $this->lname; }
 
+    public function getMerchantCount() { return $this->merchant_count; }
+
+    public function getAuthorityList() {
+        if(is_array($this->authority_list))
+            return $this->authority_list;
+        $list = explode("\n", $this->authority_list);
+        $this->authority_list = array();
+        foreach($list as $authority) {
+            list($id, $name) = explode(';', $authority);
+            $this->authority_list[strtoupper($id)] = $name;
+        }
+        return $this->authority_list;
+    }
+
     public function hasAuthority($authority) {
-        return strcasecmp($this->authority, $authority) === 0;
+        $list = $this->getAuthorityList();
+        return isset($list[strtoupper($authority)]);
     }
 
     public function validatePassword($password) {

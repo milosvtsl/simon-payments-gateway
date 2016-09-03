@@ -37,3 +37,4 @@ echo "\nTesting remotely...\n";
 $ret = system($cmd_test, $out);
 
 // TODO revert on fail remotely?
+// TODO check out production branch?

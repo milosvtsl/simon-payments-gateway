@@ -47,7 +47,7 @@
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed">
+                <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
                         <th>Username</th>
@@ -61,17 +61,10 @@
                     foreach($Query as $User) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
-                        <td><?php echo $User->getUsername(); ?></td>
+                        <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getUsername(); ?></a></td>
                         <td><?php echo $User->getFullName(); ?></td>
                         <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
-                        <td><?php
-                            /** @var \Merchant\Model\MerchantRow $Merchant */
-                            foreach($User->queryMerchants() as $Merchant) {
-                                echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
-                                    . $Merchant->getShortName()
-                                    . "</a><br/>";
-                            } ?>
-                        </td>
+                        <td><?php echo $User->getMerchantCount(); ?></td>
                     </tr>
                     <?php } ?>
                 </table>
