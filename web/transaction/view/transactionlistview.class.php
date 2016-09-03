@@ -66,6 +66,13 @@ class TransactionListView extends AbstractView {
             $statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
         }
 
+        if(!empty($params['merchant_id'])) {
+            $Merchant = MerchantRow::fetchByID($params['merchant_id']);
+            $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
+            $sqlParams['merchant_id'] = $Merchant->getID();
+            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
+        }
+
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
 		if($SessionUser->hasAuthority('ROLE_ADMIN')) {
@@ -111,6 +118,14 @@ class TransactionListView extends AbstractView {
 
         $statsMessage = $Stats->getCount() . " transactions found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
         $Stats->setMessage($statsMessage);
+
+        // Query Merchant List
+		$sql = "SELECT m.id, m.short_name FROM merchant m ORDER BY m.id DESC";
+		$DB = DBConfig::getInstance();
+		$MerchantQuery = $DB->prepare($sql);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		$MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
+		$MerchantQuery->execute();
 
 		// Render Page
 		include ('.list.php');

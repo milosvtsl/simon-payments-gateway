@@ -26,7 +26,6 @@ class ChargeView extends AbstractView
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 
-
         $sql = "SELECT m.id, m.short_name FROM merchant m ORDER BY m.id DESC";
         $DB = DBConfig::getInstance();
         $MerchantQuery = $DB->prepare($sql);
@@ -43,27 +42,7 @@ class ChargeView extends AbstractView
 
     public function processFormRequest(Array $post) {
         try {
-            // Render Page
-            switch($this->_action) {
-                case 'edit':
-                    $EditTransaction = $this->getTransaction();
-                    $EditTransaction->updateFields($post)
-                        ? $this->setSessionMessage("Transaction Updated Successfully: " . $EditTransaction->getUID())
-                        : $this->setSessionMessage("No changes detected: " . $EditTransaction->getUID());
-                    header('Location: transaction?id=' . $EditTransaction->getID());
-
-                    break;
-                case 'delete':
-                    print_r($post);
-                    die();
-                    break;
-                case 'change':
-                    print_r($post);
-                    die();
-                    break;
-                default:
-                    throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
-            }
+            print_r($post);die();
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());

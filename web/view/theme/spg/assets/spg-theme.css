@@ -57,7 +57,9 @@ body.spg-theme .bread-crumbs a {
     border-radius: 0.5em;
 }
 
-body.spg-theme > article {}
+body.spg-theme > article {
+    /* white-space: nowrap; */
+}
 
 
 
@@ -120,8 +122,10 @@ body.spg-theme table.themed > tbody > tr > th {
 }
 
 body.spg-theme table.themed > tbody > tr > td {
-    padding: 0.4em 1em ;
+    padding: 0.4em 1em;
     vertical-align: top;
+    white-space: nowrap;
+    font-size: smaller;
 }
 
 

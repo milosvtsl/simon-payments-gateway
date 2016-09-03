@@ -1,6 +1,7 @@
 <?php /**
  * @var \User\View\LoginView $this
  * @var PDOStatement $Query
+ * @var PDOStatement $MerchantQuery
  * @var \Order\Model\OrderQueryStats $Stats
  **/?>
     <section class="message">
@@ -39,9 +40,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Value</th>
+                        <th>Limit</th>
                         <td>
-                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, MID, Amount, Card, Name, Invoice ID" size="24" />
                             <select name="limit">
                                 <?php
                                 $limit = @$_GET['limit'] ?: 50;
@@ -49,6 +49,22 @@
                                     echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                 ?>
                             </select>
+                            <select name="merchant_id" style="min-width: 20.5em;" >
+                                <option value="">By Merchant</option>
+                                <?php
+                                /** @var \Merchant\Model\MerchantRow $Merchant */
+                                foreach($MerchantQuery as $Merchant)
+                                    echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
+                                        ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+                                        "'>", $Merchant->getShortName(), "</option>";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Value</th>
+                        <td>
+                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, MID, Amount, Card, Name, Invoice ID" size="33" />
                             <input type="submit" value="Search" />
                         </td>
                     </tr>

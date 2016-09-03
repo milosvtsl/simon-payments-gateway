@@ -39,7 +39,7 @@ $odd = false;
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Merchant</td>
                         <td class="value">
-                            <select name="merchant_id" class="" required>
+                            <select name="merchant_id" class="" size="30">
                                 <option value="">Choose a Merchant</option>
                                 <?php
                                 /** @var \Merchant\Model\MerchantRow $Merchant */
