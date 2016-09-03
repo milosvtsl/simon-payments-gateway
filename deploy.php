@@ -11,6 +11,8 @@ chdir('web');
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
+$cmd_deploy = 'ssh admin.paylogicnetwork.com -t "cd /usr/share/nginx/spg; git pull;"';
+
 exec('git status', $out, $ret);
 if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') === false) {
     echo "Commit and push code before deploying, n00b";
@@ -18,4 +20,4 @@ if(strpos(implode("\n", $out), 'nothing to commit, working directory clean') ===
 }
 
 
-$ret = system('ssh admin.paylogicnetwork.com -t "cd /usr/share/nginx/spg; git pull;"', $out);
+$ret = system($cmd_deploy, $out);
