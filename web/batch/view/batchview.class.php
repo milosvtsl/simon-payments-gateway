@@ -79,6 +79,7 @@ class BatchView extends AbstractView
                         ? $this->setSessionMessage("Batch Updated Successfully: " . $EditBatch->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditBatch->getUID());
                     header('Location: batch?id=' . $EditBatch->getID());
+                    die();
 
                     break;
                 case 'delete':
@@ -96,6 +97,7 @@ class BatchView extends AbstractView
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
             header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
         }
     }
 }

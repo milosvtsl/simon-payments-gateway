@@ -55,15 +55,8 @@ class MerchantListView extends AbstractView {
 			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
 		}
 
-		$SessionManager = new SessionManager();
-		$SessionUser = $SessionManager->getSessionUser();
-		if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-		} else if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) {
-		} else if($SessionUser->hasAuthority('ROLE_VOID_CHARGE')) {
-		} else if($SessionUser->hasAuthority('ROLE_RUN_REPORTS')) {
-		} else if($SessionUser->hasAuthority('ROLE_RETURN_CHARGES')) {
-		} else {
-
+		$SessionUser = SessionManager::get()->getSessionUser();
+		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) { // ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES
 			// TODO: merchant login?
 			$whereSQL .= "\nAND 0\n";
 		}

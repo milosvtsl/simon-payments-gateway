@@ -83,7 +83,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Status</td>
-                        <td><?php echo $Merchant->getStatusID(); ?></td>
+                        <td><?php echo $Merchant->getStatusName(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Store ID</td>
@@ -131,7 +131,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Email</td>
-                        <td><?php echo $Merchant->getMainEmailID(); ?></td>
+                        <td><a href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo $Merchant->getMainEmailID(); ?></a></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Sale Rep</td>

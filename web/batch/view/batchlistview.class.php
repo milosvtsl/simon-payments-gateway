@@ -64,11 +64,8 @@ class BatchListView extends AbstractView {
 
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
-		if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-		} else if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) {
-		} else if($SessionUser->hasAuthority('ROLE_VOID_CHARGE')) {
-		} else if($SessionUser->hasAuthority('ROLE_RUN_REPORTS')) {
-		} else if($SessionUser->hasAuthority('ROLE_RETURN_CHARGES')) {
+
+		if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES')) {
 		} else {
 
 			// TODO: merchant login?
@@ -104,15 +101,6 @@ class BatchListView extends AbstractView {
 
 		$statsMessage = $Stats->getCount() . " batch entries found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
 		$Stats->setMessage($statsMessage);
-
-
-		// Query Merchant List
-		$sql = "SELECT m.id, m.short_name FROM merchant m ORDER BY m.id DESC";
-		$DB = DBConfig::getInstance();
-		$MerchantQuery = $DB->prepare($sql);
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
-		$MerchantQuery->execute();
 
 		// Render Page
 		include ('.list.php');

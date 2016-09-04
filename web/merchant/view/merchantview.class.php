@@ -7,7 +7,9 @@
  */
 namespace Merchant\View;
 
+use Config\DBConfig;
 use Merchant\Model\MerchantRow;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 class MerchantView extends AbstractView
@@ -27,6 +29,14 @@ class MerchantView extends AbstractView
     public function getMerchant() { return $this->_merchant; }
 
     public function renderHTMLBody(Array $params) {
+        $SessionUser = SessionManager::get()->getSessionUser();
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+            // Only admins may edit/view merchants
+            $this->setSessionMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
+        }
+
         // Add Breadcrumb links
         $this->getTheme()->addCrumbLink('merchant?', "Merchants");
         $this->getTheme()->addCrumbLink('merchant?id=' . $this->_merchant->getID(), $this->_merchant->getShortName());
@@ -41,13 +51,12 @@ class MerchantView extends AbstractView
                 include('.view.php');
                 break;
             case 'edit':
+
+
                 include('.edit.php');
                 break;
             case 'delete':
                 include('.delete.php');
-                break;
-            case 'change':
-                include('.change.php');
                 break;
             default:
                 throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
@@ -58,6 +67,14 @@ class MerchantView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $SessionUser = SessionManager::get()->getSessionUser();
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+            // Only admins may edit/view merchants
+            $this->setSessionMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
+        }
+
         try {
             // Render Page
             switch($this->_action) {
@@ -67,13 +84,10 @@ class MerchantView extends AbstractView
                         ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditMerchant->getUID());
                     header('Location: merchant?id=' . $EditMerchant->getID());
+                    die();
 
                     break;
                 case 'delete':
-                    print_r($post);
-                    die();
-                    break;
-                case 'change':
                     print_r($post);
                     die();
                     break;
@@ -84,6 +98,7 @@ class MerchantView extends AbstractView
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
             header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
         }
     }
 }

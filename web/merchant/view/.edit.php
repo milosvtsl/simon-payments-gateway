@@ -82,11 +82,22 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Open Date</td>
-                        <td><input type="datetime-local" name="open_date" value="<?php echo $Merchant->getOpenDate(); ?>" /></td>
+                        <td><input type="datetime-local" name="open_date" value="<?php echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Status</td>
-                        <td><?php echo $Merchant->getStatusID(); ?></td>
+                        <td>
+                            <select name="status_id">
+                            <?php
+                            $StatusQuery = \Merchant\Model\MerchantStatusRow::queryAll();
+                            foreach($StatusQuery as $State)
+                                /** @var \Merchant\Model\MerchantStatusRow $State */
+                                echo "<option value='", $State->getID(), "'",
+                                ($State->getID() === $Merchant->getStatusID() ? ' selected="selected"' : ''),
+                                ">", $State->getName(), "</option>\n";
+                            ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Store ID</td>
@@ -126,7 +137,18 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>State</td>
-                        <td><?php echo $Merchant->getStateCode(); ?></td>
+                        <td>
+                            <select name="status_id">
+                                <?php
+                                $StateQuery = \System\Model\StateRow::queryAll();
+                                foreach($StateQuery as $State)
+                                    /** @var \System\Model\StateRow $State */
+                                    echo "<option value='", $State->getID(), "'",
+                                    ($State->getShortCode() === $Merchant->getStateCode() ? ' selected="selected"' : ''),
+                                    ">", $State->getName(), "</option>\n";
+                                ?>
+                            </select>
+                        </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Zip</td>

@@ -2,8 +2,8 @@
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
+ * @var \User\Model\UserRow $User
  **/
-$User = $this->getUser();
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
@@ -29,7 +29,6 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                 <a href="user?" class="button">User List</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
                 <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
 
             </fieldset>
             <fieldset>
@@ -53,7 +52,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Email</td>
-                        <td><?php echo $User->getEmail(); ?></td>
+                        <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>UID</td>
@@ -62,8 +61,9 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchants</td>
                         <td><?php
-                            /** @var \Merchant\Model\MerchantRow $Merchant */
-                            foreach($User->queryMerchants() as $Merchant) {
+                            $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+                            foreach($User->queryUserMerchants() as $Merchant) {
+                                /** @var \Merchant\Model\MerchantRow $Merchant */
                                 echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
                                     . $Merchant->getShortName()
                                     . "</a><br/>";

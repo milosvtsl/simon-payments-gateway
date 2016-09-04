@@ -73,6 +73,12 @@ class SessionManager
         return $User;
     }
 
+    // Static
+
+    public static function get() {
+        static $inst = null;
+        return $inst ?: $inst = new SessionManager();
+    }
 }
 
 

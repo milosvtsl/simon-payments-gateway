@@ -67,6 +67,7 @@ class TransactionView extends AbstractView
                         ? $this->setSessionMessage("Transaction Updated Successfully: " . $EditTransaction->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditTransaction->getUID());
                     header('Location: transaction?id=' . $EditTransaction->getID());
+                    die();
 
                     break;
                 case 'delete':
@@ -84,6 +85,7 @@ class TransactionView extends AbstractView
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
             header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
         }
     }
 }

@@ -9,35 +9,39 @@ namespace User\View;
 
 use Config\DBConfig;
 use User\Model\UserRow;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 class UserView extends AbstractView
 {
-    private $_user;
-    private $_action;
-
-    public function __construct($id, $action=null) {
-        $this->_action = $action ?: 'view';
-        $this->_user = UserRow::fetchByID($id);
-        if(!$this->_user)
-            throw new \InvalidArgumentException("Invalid User ID: " . $id);
-        parent::__construct();
-    }
-
-    /** @return UserRow */
-    public function getUser() { return $this->_user; }
 
     public function renderHTMLBody(Array $params) {
+        $User = UserRow::fetchByID($params['id']);
+        if(!$User)
+            throw new \InvalidArgumentException("Invalid User ID: " . $params['id']);
+        $action = @$params['action'] ?: 'view';
+
         // Add Breadcrumb links
         $this->getTheme()->addCrumbLink('user', "Users");
-        $this->getTheme()->addCrumbLink('user?id=' . $this->_user->getID(), $this->_user->getUsername());
-        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
+        $this->getTheme()->addCrumbLink('user?id=' . $User->getID(), $User->getUsername());
+        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($action));
 
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 
+        $SessionUser = SessionManager::get()->getSessionUser();
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+            // Only admins may edit other users
+            if($SessionUser->getID() !== $User->getID()) {
+                $this->setSessionMessage("Unable to view user. Permission required: ROLE_ADMIN");
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                die();
+            }
+        }
+
         // Render Page
-        switch($this->_action) {
+        switch($action) {
+            default:
             case 'view':
                 include('.view.php');
                 break;
@@ -47,11 +51,6 @@ class UserView extends AbstractView
             case 'delete':
                 include('.delete.php');
                 break;
-            case 'change':
-                include('.change.php');
-                break;
-            default:
-                throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
 
         // Render footer
@@ -59,32 +58,58 @@ class UserView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
-        try {
-            // Render Page
-            switch($this->_action) {
-                case 'edit':
-                    $EditUser = $this->getUser();
-                    $EditUser->updateFields($post)
-                        ? $this->setSessionMessage("User Updated Successfully: " . $EditUser->getUID())
-                        : $this->setSessionMessage("No changes detected: " . $EditUser->getUID());
-                    header('Location: user?id=' . $EditUser->getID());
+        $User = UserRow::fetchByID($post['id']);
+        if(!$User)
+            throw new \InvalidArgumentException("Invalid User ID: " . $post['id']);
 
-                    break;
-                case 'delete':
-                    print_r($post);
-                    die();
-                    break;
-                case 'change':
-                    print_r($post);
-                    die();
-                    break;
-                default:
-                    throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
+        $SessionUser = SessionManager::get()->getSessionUser();
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+            // Only admins may edit other users
+            if($SessionUser->getID() !== $User->getID()) {
+                $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                die();
             }
-
-        } catch (\Exception $ex) {
-            $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
         }
+
+        // Process POST
+        switch(@$post['action']) {
+            case 'edit':
+                try {
+                    // Update User fields
+                    $updates = $User->updateFields($post['fname'], $post['lname'], $post['username'], $post['email']);
+
+                    // Change Password
+                    if(!empty($post['password']))
+                        $updates += $User->changePassword($post['password'], $post['password_confirm']);
+
+                    // Set message and redirect
+                    $updates > 0
+                        ? $this->setSessionMessage($updates . " user fields updated successfully: " . $User->getUID())
+                        : $this->setSessionMessage("No changes detected: " . $User->getUID());
+                    header('Location: user?id=' . $User->getID());
+                    die();
+
+                } catch (\Exception $ex) {
+                    $this->setSessionMessage($ex->getMessage());
+                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    die();
+                }
+                break;
+
+            case 'delete':
+                if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+                    $this->setSessionMessage("Could not delete user. Permission required: ROLE_ADMIN");
+                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    die();
+                }
+                print_r($post);
+                die();
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Invalid Action");
+        }
+
     }
 }

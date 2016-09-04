@@ -43,18 +43,22 @@ class MerchantRow
     protected $zipcode;
 
     protected $status_id;
+    protected $status_name;
 
     // Table state
     protected $state_short_code;
     protected $state_name;
 
     const SQL_SELECT = "
-SELECT m.*, s.name as state_name, s.short_code as state_short_code
+SELECT m.*,
+  (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
+  s.name as state_name, s.short_code as state_short_code
 FROM merchant m
 LEFT JOIN state s on m.state_id = s.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY m.id";
     const SQL_ORDER_BY = "\nORDER BY m.id DESC";
+
 
     public function getID()             { return $this->id; }
     public function getUID()            { return $this->uid; }
@@ -72,6 +76,7 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getOpenDate()       { return $this->open_date; }
     public function getStatusID()       { return $this->status_id; }
+    public function getStatusName()     { return $this->status_name; }
     public function getStoreID()        { return $this->store_id; }
 
     public function getDiscoverExt()    { return $this->discover_external; }
@@ -102,7 +107,7 @@ LEFT JOIN state s on m.state_id = s.id
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE m.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($id));
         return $stmt->fetch();
     }
@@ -115,9 +120,30 @@ LEFT JOIN state s on m.state_id = s.id
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE m.uid = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($uid));
         return $stmt->fetch();
+    }
+
+    public static function queryAll() {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(static::SQL_SELECT );
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public static function queryByUserID($id) {
+        $sql = MerchantRow::SQL_SELECT
+            . "\nLEFT JOIN user_merchants um on m.id = um.id_merchant "
+            . "\nWHERE um.id_user = ?";
+        $DB = DBConfig::getInstance();
+        $MerchantQuery = $DB->prepare($sql);
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
+        $MerchantQuery->execute(array($id));
+        return $MerchantQuery;
     }
 
 }

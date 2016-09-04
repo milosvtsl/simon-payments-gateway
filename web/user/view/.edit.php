@@ -2,8 +2,8 @@
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
+ * @var \User\Model\UserRow $User
  **/
-$User = $this->getUser();
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
@@ -24,12 +24,13 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
     <section class="content">
         <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
+            <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
+            <input type="hidden" name="action" value="edit" />
             <fieldset class="action-fields">
                 <legend>Actions</legend>
                 <a href="user?" class="button">User List</a>
                 <a href="<?php echo $action_url; ?>view" class="button">View</a>
                 <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-                <a href="<?php echo $action_url; ?>change" class="button">Change Password</a>
             </fieldset>
             <fieldset>
                 <legend>Edit User Fields</legend>
@@ -51,6 +52,10 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                         <td><input type="text" name="username" value="<?php echo $User->getUsername(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Email</td>
+                        <td><input type="text" name="email" value="<?php echo $User->getEmail(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>First Name</td>
                         <td><input type="text" name="fname" value="<?php echo $User->getFirstName(); ?>" /></td>
                     </tr>
@@ -59,8 +64,26 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                         <td><input type="text" name="lname" value="<?php echo $User->getLastName(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Email</td>
-                        <td><input type="text" name="email" value="<?php echo $User->getEmail(); ?>" /></td>
+                        <td>Change Password</td>
+                        <td><input type="password" name="password" value="" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Confirm Password</td>
+                        <td><input type="password" name="password_confirm" value="" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Merchants</td>
+                        <td>
+                            <?php
+                            $list = $User->getMerchantList();
+                            $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+                            foreach($MerchantQuery as $Merchant)
+                                /** @var \Merchant\Model\MerchantRow $Merchant */
+                                echo "<label><input type='checkbox' value='", $Merchant->getID(), "'",
+                                (in_array($Merchant->getID(), $list) ? ' checked="checked"' : ''),
+                                "/>", $Merchant->getName(), "</label><br/>\n";
+                            ?>
+                        </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Update</td>

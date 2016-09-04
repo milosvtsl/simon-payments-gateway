@@ -20,7 +20,7 @@ spl_autoload_register();
 session_start();
 
 if(isset($_GET['id'])) {
-    $View = new \User\View\UserView($_GET['id'], @$_GET['action']);
+    $View = new \User\View\UserView();
     $View->handleRequest();
 
 } else {

@@ -76,6 +76,7 @@ class OrderView extends AbstractView
                         ? $this->setSessionMessage("Order Updated Successfully: " . $EditOrder->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditOrder->getUID());
                     header('Location: order?id=' . $EditOrder->getID());
+                    die();
 
                     break;
                 case 'delete':
@@ -93,6 +94,7 @@ class OrderView extends AbstractView
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
             header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
         }
     }
 }

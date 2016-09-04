@@ -1,7 +1,6 @@
 <?php /**
  * @var \User\View\LoginView $this
  * @var PDOStatement $Query
- * @var PDOStatement $MerchantQuery
  * @var \Transaction\Model\TransactionQueryStats $Stats
  **/?>
     <section class="message">
@@ -53,8 +52,9 @@
                                 <select name="merchant_id" style="min-width: 20.5em;" >
                                     <option value="">By Merchant</option>
                                     <?php
-                                    /** @var \Merchant\Model\MerchantRow $Merchant */
+                                    $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
                                     foreach($MerchantQuery as $Merchant)
+                                        /** @var \Merchant\Model\MerchantRow $Merchant */
                                         echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
                                         ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
                                         "'>", $Merchant->getShortName(), "</option>";

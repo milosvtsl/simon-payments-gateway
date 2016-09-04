@@ -1,7 +1,6 @@
 <?php
 /**
  * @var \Transaction\View\TransactionView $this
- * @var PDOStatement $MerchantQuery
  **/
 $odd = false;
 ?>
@@ -42,8 +41,9 @@ $odd = false;
                             <select name="merchant_id" class="">
                                 <option value="">Choose a Merchant</option>
                                 <?php
-                                /** @var \Merchant\Model\MerchantRow $Merchant */
+                                $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
                                 foreach($MerchantQuery as $Merchant)
+                                    /** @var \Merchant\Model\MerchantRow $Merchant */
                                     echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "'>", $Merchant->getShortName(), "</option>";
                                 ?>
                             </select>

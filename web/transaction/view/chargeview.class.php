@@ -26,13 +26,6 @@ class ChargeView extends AbstractView
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 
-        $sql = "SELECT m.id, m.short_name FROM merchant m ORDER BY m.id DESC";
-        $DB = DBConfig::getInstance();
-        $MerchantQuery = $DB->prepare($sql);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, 'Merchant\Model\MerchantRow');
-        $MerchantQuery->execute();
-
         // Render Page
         include('.charge.php');
 
@@ -47,6 +40,7 @@ class ChargeView extends AbstractView
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
             header('Location: ' . $_SERVER['HTTP_REFERER']);
+            die();
         }
     }
 }

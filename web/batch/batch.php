@@ -25,4 +25,5 @@ if(isset($_GET['id'])) {
 
 } else {
     header('Location batch/list.php');
+    die();
 }
