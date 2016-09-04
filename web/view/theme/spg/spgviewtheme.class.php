@@ -25,11 +25,14 @@ class SPGViewTheme extends AbstractViewTheme
         if($SessionManager->isLoggedIn()) {
             if($SessionUser->hasAuthority('ROLE_ADMIN')) {
                 $this->addNavLink('merchant', "Merchant");
-                $this->addNavLink('user', "User");
+                $this->addNavLink('user', "Users");
                 $this->addNavLink('batch', "Batch");
-                $this->addNavLink('transaction/charge.php', "Charge");
 
-            } else if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) {
+            } else {
+                $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
+            }
+            
+            if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
                 $this->addNavLink('transaction/charge.php', "Charge");
             }
 
