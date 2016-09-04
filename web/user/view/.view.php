@@ -61,7 +61,6 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchants</td>
                         <td><?php
-                            $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
                             foreach($User->queryUserMerchants() as $Merchant) {
                                 /** @var \Merchant\Model\MerchantRow $Merchant */
                                 echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
