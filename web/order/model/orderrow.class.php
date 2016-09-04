@@ -48,8 +48,8 @@ SELECT oi.*, m.short_name as merchant_short_name
 FROM order_item oi
 LEFT JOIN merchant m on oi.merchant_id = m.id
 ";
-    const SQL_GROUP_BY = '\nGROUP BY oi.id';
-    const SQL_ORDER_BY = '\nORDER BY oi.id DESC';
+    const SQL_GROUP_BY = "\nGROUP BY oi.id";
+    const SQL_ORDER_BY = "\nORDER BY oi.id DESC";
 
     public function getID()                 { return $this->id; }
     public function getUID()                { return $this->uid; }
