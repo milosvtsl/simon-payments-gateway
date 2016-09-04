@@ -71,6 +71,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                         <td>Confirm Password</td>
                         <td><input type="password" name="password_confirm" value="" /></td>
                     </tr>
+                    <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchants</td>
                         <td>
@@ -85,6 +86,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             ?>
                         </td>
                     </tr>
+                    <?php } ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Update</td>
                         <td><input type="submit" value="Update" /></td>

@@ -31,7 +31,7 @@ class SPGViewTheme extends AbstractViewTheme
             } else {
                 $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
             }
-            
+
             if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
                 $this->addNavLink('transaction/charge.php', "Charge");
             }

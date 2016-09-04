@@ -86,11 +86,13 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
 
             <fieldset>
                 <legend>Transactions</legend>
-                <table class="table-results themed">
+                <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
-                        <th>Card Holder / TID</th>
-                        <th>Customer ID</th>
+                        <th>Order</th>
+                        <th>Batch</th>
+                        <th>Card Holder</th>
+                        <th>Date</th>
                         <th>Invoice ID</th>
                         <th>User Name</th>
                         <th>Amount</th>
@@ -98,23 +100,20 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                         <th>Merchant</th>
                     </tr>
                     <?php
-                    /** @var PDO $TransactionQuery */
                     /** @var \Transaction\Model\TransactionRow $Transaction */
                     $odd = false;
                     foreach($TransactionQuery as $Transaction) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
-                            <td>
-                                <?php echo $Transaction->getHolderFullFullName(); ?>  <br/>
-                                <?php echo $Transaction->getTransactionID(); ?>
-                            </td>
-                            <td><?php echo $Transaction->getCustomerID(); ?></td>
+                            <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
+                            <td><?php if($Transaction->getBatchID()) { ?><a href='batch?id=<?php echo $Transaction->getBatchID(); ?>'><?php echo $Transaction->getBatchID(); ?></a><?php } else echo 'N/A'; ?></td>
+                            <td><?php echo $Transaction->getHolderFullFullName(); ?></td>
+                            <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
                             <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
                             <td><?php echo $Transaction->getUsername(); ?></td>
                             <td><?php echo $Transaction->getAmount(); ?></td>
                             <td><?php echo $Transaction->getStatus(); ?></td>
                             <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
-
                         </tr>
                     <?php } ?>
                 </table>

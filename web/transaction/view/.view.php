@@ -46,6 +46,10 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                         <td><?php echo $Transaction->getUID(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Order ID</td>
+                        <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Transaction</td>
                         <td><?php echo $Transaction->getTransactionID() ?></td>
                     </tr>
@@ -68,10 +72,6 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Username</td>
                         <td><?php echo $Transaction->getUsername() ?: 'N/A' ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Order ID</td>
-                        <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Card Holder</td>
