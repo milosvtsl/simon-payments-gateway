@@ -13,7 +13,7 @@
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
         <?php } else if($Stats) { ?>
-            <h5><?php echo $Stats->getMessage() ?></h5>
+            <h6><?php echo $Stats->getMessage() ?></h6>
 
         <?php } else { ?>
             <h5>Search for batches...</h5>
@@ -64,7 +64,7 @@
                     <tr>
                         <th>Value</th>
                         <td>
-                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, Batch ID" size="33" />
+                            <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, Batch ID, Status" size="33" />
                             <input type="submit" value="Search" />
                         </td>
                     </tr>
@@ -79,15 +79,22 @@
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
                     <tr>
-                        <th>ID</th>
-                        <th>Batch ID</th>
-                        <th>Date</th>
+                        <?php
+                            function getOrderURL($field) {
+                                if(@$_GET['orderby'] == $field)
+                                    return http_build_query(array('orderby' => $field, 'order' => strcasecmp(@$_GET['order'], 'DESC') === 0 ? 'ASC' : 'DESC') + $_GET);
+                                return http_build_query(array('orderby' => $field, 'order' => 'ASC') + $_GET);
+                            }
+                        ?>
+                        <th><a href="batch?<?php echo getOrderURL('id'); ?>">ID</a></th>
+                        <th><a href="batch?<?php echo getOrderURL('batch_id'); ?>">Batch ID</a></th>
+                        <th><a href="batch?<?php echo getOrderURL('date'); ?>">Date</a></th>
                         <th>Orders</th>
                         <th>Settled</th>
                         <th>Authorized</th>
                         <th>Void</th>
-                        <th>Status</th>
-                        <th>Merchant</th>
+                        <th><a href="batch?<?php echo getOrderURL('batch_status'); ?>">Status</a></th>
+                        <th><a href="batch?<?php echo getOrderURL('merchant_id'); ?>">Merchant</a></th>
                     </tr>
                     <?php
                     /** @var \Batch\Model\BatchRow $Batch */

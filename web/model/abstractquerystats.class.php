@@ -49,13 +49,12 @@ abstract class AbstractQueryStats
         return ceil($this->getCount() / $this->getLimit());
     }
 
-    public function printPagination($baseURL) {
+    public function printPagination($baseURL, Array $args=null) {
 
         $page = $this->getCurrentPage();
         $pageTotal = $this->getTotalPages();
-        $fraction = (floor($pageTotal / 50) * 10) ?: 1;
 
-        $args = $_GET;
+        $args = $args ?: $_GET;
         $pages = array(1, $pageTotal);
         $pi = 1;
         while(sqrt($pageTotal) > sizeof($pages)) {

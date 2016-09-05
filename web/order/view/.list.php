@@ -13,10 +13,9 @@
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
         <?php } else if($Stats) { ?>
-            <h5><?php echo $Stats->getMessage() ?></h5>
+            <h6><?php echo $Stats->getMessage() ?></h6>
 
         <?php } else { ?>
-            <h5>Search for Order Accounts...</h5>
 
         <?php } ?>
     </section>
@@ -79,14 +78,21 @@
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
                     <tr>
-                        <th>ID</th>
+                        <?php
+                        function getOrderURL($field) {
+                            if(@$_GET['orderby'] == $field)
+                                return http_build_query(array('orderby' => $field, 'order' => strcasecmp(@$_GET['order'], 'DESC') === 0 ? 'ASC' : 'DESC') + $_GET);
+                            return http_build_query(array('orderby' => $field, 'order' => 'ASC') + $_GET);
+                        }
+                        ?>
+                        <th><a href="order?<?php echo getOrderURL('id'); ?>">ID</a></th>
                         <th>Card Holder</th>
-                        <th>Date</th>
-                        <th>Invoice ID</th>
-                        <th>User Name</th>
+                        <th><a href="order?<?php echo getOrderURL('date'); ?>">Date</a></th>
+                        <th><a href="order?<?php echo getOrderURL('invoice_number'); ?>">Invoice ID</a></th>
+                        <th><a href="order?<?php echo getOrderURL('username'); ?>">Username</a></th>
                         <th>Amount</th>
-                        <th>Status</th>
-                        <th>Merchant</th>
+                        <th><a href="order?<?php echo getOrderURL('status'); ?>">Status</a></th>
+                        <th><a href="order?<?php echo getOrderURL('merchant_id'); ?>">Merchant</a></th>
                     </tr>
                     <?php
                     /** @var \Order\Model\OrderRow $Order */

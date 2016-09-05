@@ -91,13 +91,33 @@ class OrderListView extends AbstractView {
 		$Stats->setMessage($statsMessage);
 		$Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
 
-		// Query Rows
-
+		// Calculate GROUP BY
 		$groupSQL = OrderRow::SQL_GROUP_BY;
-		$groupSQL .= OrderRow::SQL_ORDER_BY;
-		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 
-		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL;
+		// Calculate ORDER BY
+		$orderSQL = OrderRow::SQL_ORDER_BY;
+		if(!empty($params['orderby'])) {
+			$order = strcasecmp($params['order'], 'DESC') === 0 ? 'DESC' : 'ASC';
+			switch($params['orderby']) {
+				case 'id':
+				case 'date':
+				case 'status':
+				case 'merchant_id':
+				case 'username':
+				case 'invoice_number':
+					$orderSQL = "\nORDER BY oi." . $params['orderby'] . ' ' . $order;
+					break;
+
+				default:
+					throw new \InvalidArgumentException("Invalid order-by field");
+			}
+			$statsMessage .= "sorted by field '" .$params['orderby'] . "' " . strtolower($order) . "ending";
+		}
+
+		$limitSQL = "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
+
+		// Query Rows
+		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
 		$time = -microtime(true);
 		$Query = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -105,7 +125,7 @@ class OrderListView extends AbstractView {
 		$Query->execute($sqlParams);
 		$time += microtime(true);
 
-		$statsMessage = $Stats->getCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$statsMessage = $Stats->getCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
 		$Stats->setMessage($statsMessage);
 
 		// Render Page

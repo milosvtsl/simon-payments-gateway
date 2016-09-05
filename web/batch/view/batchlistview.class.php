@@ -30,8 +30,6 @@ class BatchListView extends AbstractView {
 			$whereSQL .= "\nAND
 			(
 				b.uid = :exact
-				OR b.id = :exact
-
 				OR b.batch_id = :exact
 				OR b.batch_status = :exact
 
@@ -62,6 +60,30 @@ class BatchListView extends AbstractView {
 			$statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
 		}
 
+		// Calculate GROUP BY
+		$groupSQL = BatchRow::SQL_GROUP_BY;
+
+		// Calculate ORDER BY
+		$orderSQL = BatchRow::SQL_ORDER_BY;
+		if(!empty($params['orderby'])) {
+			$order = strcasecmp($params['order'], 'DESC') === 0 ? 'DESC' : 'ASC';
+			switch($params['orderby']) {
+				case 'id':
+				case 'batch_id':
+				case 'date':
+				case 'batch_status':
+				case 'merchant_id':
+					$orderSQL = "\nORDER BY b." . $params['orderby'] . ' ' . $order;
+					break;
+
+				default:
+					throw new \InvalidArgumentException("Invalid order-by field");
+			}
+			$statsMessage .= "ordered by field '" .$params['orderby'] . "' " . strtolower($order) . "ending";
+		}
+
+
+
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
 
@@ -85,13 +107,11 @@ class BatchListView extends AbstractView {
 		$Stats->setMessage($statsMessage);
 		$Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
 
+		// Calculate LIMIT
+		$limitSQL = "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
+
 		// Query Rows
-
-		$groupSQL = BatchRow::SQL_GROUP_BY;
-		$groupSQL .= BatchRow::SQL_ORDER_BY;
-		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
-
-		$mainSQL = BatchRow::SQL_SELECT . $whereSQL . $groupSQL;
+		$mainSQL = BatchRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
 		$time = -microtime(true);
 		$Query = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -99,7 +119,7 @@ class BatchListView extends AbstractView {
 		$Query->execute($sqlParams);
 		$time += microtime(true);
 
-		$statsMessage = $Stats->getCount() . " batch entries found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$statsMessage = $Stats->getCount() . " batch entries found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
 		$Stats->setMessage($statsMessage);
 
 		// Render Page

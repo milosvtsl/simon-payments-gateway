@@ -73,6 +73,33 @@ class TransactionListView extends AbstractView {
             $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
         }
 
+        // Calculate GROUP BY
+        $groupSQL = TransactionRow::SQL_GROUP_BY;
+
+        // Calculate ORDER BY
+        $orderSQL = TransactionRow::SQL_ORDER_BY;
+        if(!empty($params['orderby'])) {
+            $order = strcasecmp($params['order'], 'DESC') === 0 ? 'DESC' : 'ASC';
+            switch($params['orderby']) {
+                case 'id':
+                case 'order_item_id':
+                case 'batch_item_id':
+                case 'date':
+                    $orderSQL = "\nORDER BY t." . $params['orderby'] . ' ' . $order;
+                    break;
+                case 'status':
+                case 'merchant_id':
+                case 'username':
+                case 'invoice_number':
+                    $orderSQL = "\nORDER BY oi." . $params['orderby'] . ' ' . $order;
+                    break;
+
+                default:
+                    throw new \InvalidArgumentException("Invalid order-by field");
+            }
+            $statsMessage .= "sorted by field '" .$params['orderby'] . "' " . strtolower($order) . "ending";
+        }
+
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
         if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES')) {
@@ -83,7 +110,6 @@ class TransactionListView extends AbstractView {
 		}
 
 		// Query Statistics
-		/** @var TransactionQueryStats $Stats */
 
         $DB = DBConfig::getInstance();
         // Fetch Stats
@@ -92,19 +118,17 @@ class TransactionListView extends AbstractView {
         $Query->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
         $Query->setFetchMode(\PDO::FETCH_CLASS, TransactionQueryStats::_CLASS);
+        /** @var TransactionQueryStats $Stats */
         $Stats = $Query->fetch();
 		unset ($Query);
         $Stats->setMessage($statsMessage);
         $Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
 
-		// Query Rows
+        // Calculate LIMIT
+        $limitSQL = "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
 
-        // $groupSQL = "\nGROUP BY t.id ";
-		$groupSQL = TransactionRow::SQL_GROUP_BY;
-		$groupSQL .= TransactionRow::SQL_ORDER_BY;
-        $groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
-
-        $mainSQL = TransactionRow::SQL_SELECT . $whereSQL . $groupSQL;
+        // Query Rows
+        $mainSQL = TransactionRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
         $time = -microtime(true);
 		$Query = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -112,7 +136,7 @@ class TransactionListView extends AbstractView {
 		$Query->execute($sqlParams);
         $time += microtime(true);
 
-        $statsMessage = $Stats->getCount() . " transactions found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+        $statsMessage = $Stats->getCount() . " transactions found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
         $Stats->setMessage($statsMessage);
 
 		// Render Page

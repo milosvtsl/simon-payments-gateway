@@ -162,3 +162,14 @@ body.spg-theme table.themed .alert {
     font-weight: bold;
     color: blue;
 }
+
+
+
+body.spg-theme h1,
+body.spg-theme h2,
+body.spg-theme h3,
+body.spg-theme h4,
+body.spg-theme h5,
+body.spg-theme h6 {
+    margin-bottom: 0.5em;
+}

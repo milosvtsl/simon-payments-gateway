@@ -80,17 +80,24 @@
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
+                    <?php
+                    function getOrderURL($field) {
+                        if(@$_GET['orderby'] == $field)
+                            return http_build_query(array('orderby' => $field, 'order' => strcasecmp(@$_GET['order'], 'DESC') === 0 ? 'ASC' : 'DESC') + $_GET);
+                        return http_build_query(array('orderby' => $field, 'order' => 'ASC') + $_GET);
+                    }
+                    ?>
                     <tr>
-                        <th>ID</th>
-                        <th>Order</th>
-                        <th>Batch</th>
+                        <th><a href="transaction?<?php echo getOrderURL('id'); ?>">ID</a></th>
+                        <th><a href="transaction?<?php echo getOrderURL('order_item_id'); ?>">Order</a></th>
+                        <th><a href="transaction?<?php echo getOrderURL('batch_item_id'); ?>">Batch</a></th>
                         <th>Card Holder</th>
-                        <th>Date</th>
-                        <th>Invoice ID</th>
-                        <th>User Name</th>
+                        <th><a href="transaction?<?php echo getOrderURL('date'); ?>">Date</a></th>
+                        <th><a href="transaction?<?php echo getOrderURL('invoice_number'); ?>">Invoice ID</a></th>
+                        <th><a href="transaction?<?php echo getOrderURL('username'); ?>">Username</a></th>
                         <th>Amount</th>
-                        <th>Status</th>
-                        <th>Merchant</th>
+                        <th><a href="transaction?<?php echo getOrderURL('status'); ?>">Status</a></th>
+                        <th><a href="transaction?<?php echo getOrderURL('merchant_id'); ?>">Merchant</a></th>
                     </tr>
                     <?php
                     /** @var \Transaction\Model\TransactionRow $Transaction */
