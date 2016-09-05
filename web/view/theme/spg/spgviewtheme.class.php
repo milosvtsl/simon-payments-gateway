@@ -96,7 +96,7 @@ class SPGViewTheme extends AbstractViewTheme
     public function renderHTMLHeadLinks() {
 ?>
         <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
-        <link rel="icon" href="favicon.ico?v=1.1">
+        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
 <?php
     }
 

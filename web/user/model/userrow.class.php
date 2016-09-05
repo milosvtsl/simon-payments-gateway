@@ -59,6 +59,8 @@ FROM user u
     public function getAuthorityList() {
         if(is_array($this->authority_list))
             return $this->authority_list;
+        if(!$this->authority_list)
+            return array();
         $list = explode("\n", $this->authority_list);
         $this->authority_list = array();
         foreach($list as $authority) {
