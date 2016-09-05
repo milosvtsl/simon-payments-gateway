@@ -8,9 +8,8 @@
 namespace Order\Model;
 
 
-use Model\AbstractQueryStats;
 
-class OrderQueryStats extends AbstractQueryStats
+class OrderQueryStats
 {
     const _CLASS = __CLASS__;
 
@@ -21,9 +20,6 @@ SELECT count(*) count
 FROM order_item oi
 LEFT JOIN merchant m on oi.merchant_id = m.id
 ";
-//sum(action = 'Settled') settled,
-//sum(action = 'Authorized') authorized,
-//sum(action = 'Void') void
 
     public function getCount() {
         return $this->count;

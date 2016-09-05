@@ -1,7 +1,8 @@
-<?php /**
- * @var \User\View\LoginView $this
- * @var PDOStatement $Query
- * @var \Batch\Model\BatchQueryStats $Stats
+<?php
+use \Batch\Model\BatchRow;
+use \Merchant\Model\MerchantRow;
+/**
+ * @var \View\AbstractListView $this
  **/?>
     <section class="message">
         <h1>Batch List</h1>
@@ -12,8 +13,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($Stats) { ?>
-            <h6><?php echo $Stats->getMessage() ?></h6>
+        <?php } else if($this->hasMessage()) { ?>
+            <h6><?php echo $this->getMessage() ?></h6>
 
         <?php } else { ?>
             <h5>Search for batches...</h5>
@@ -51,9 +52,9 @@
                             <select name="merchant_id" style="min-width: 20.5em;" >
                                 <option value="">By Merchant</option>
                                 <?php
-                                $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+                                $MerchantQuery = MerchantRow::queryAll();
                                 foreach($MerchantQuery as $Merchant)
-                                    /** @var \Merchant\Model\MerchantRow $Merchant */
+                                    /** @var MerchantRow $Merchant */
                                     echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
                                     ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
                                     "'>", $Merchant->getShortName(), "</option>";
@@ -73,51 +74,39 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('batch?'); ?>
+                <?php $this->printPagination('batch?'); ?>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
                     <tr>
-                        <?php
-                            function getOrderURL($field) {
-                                if(@$_GET['orderby'] == $field)
-                                    return http_build_query(array('orderby' => $field, 'order' => strcasecmp(@$_GET['order'], 'DESC') === 0 ? 'ASC' : 'DESC') + $_GET);
-                                return http_build_query(array('orderby' => $field, 'order' => 'ASC') + $_GET);
-                            }
-                        ?>
-                        <th><a href="batch?<?php echo getOrderURL('id'); ?>">ID</a></th>
-                        <th><a href="batch?<?php echo getOrderURL('batch_id'); ?>">Batch ID</a></th>
-                        <th><a href="batch?<?php echo getOrderURL('date'); ?>">Date</a></th>
+                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_ID); ?>">ID</a></th>
+                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_BATCH_ID); ?>">Batch ID</a></th>
+                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_DATE); ?>">Date</a></th>
                         <th>Orders</th>
-                        <th>Settled</th>
-                        <th>Authorized</th>
-                        <th>Void</th>
-                        <th><a href="batch?<?php echo getOrderURL('batch_status'); ?>">Status</a></th>
-                        <th><a href="batch?<?php echo getOrderURL('merchant_id'); ?>">Merchant</a></th>
+                        <th>Total</th>
+                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_BATCH_STATUS); ?>">Status</a></th>
+                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                     </tr>
                     <?php
-                    /** @var \Batch\Model\BatchRow $Batch */
                     $odd = false;
-                    foreach($Query as $Batch) { ?>
+                    foreach($this->getListQuery() as $Batch) {
+                        /** @var \Batch\Model\BatchRow $Batch */ ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='batch?id=<?php echo $Batch->getID(); ?>'><?php echo $Batch->getID(); ?></a></td>
                         <td><?php echo $Batch->getBatchID(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Batch->getDate())); ?></td>
                         <td><?php echo $Batch->getOrderCount(); ?></td>
-                        <td><?php echo $Batch->getOrderSettled() ? number_format ($Batch->getOrderSettled(), 2) : '(0)'; ?></td>
-                        <td><?php echo $Batch->getOrderAuthorized() ? number_format ($Batch->getOrderAuthorized(), 2) : '(0)'; ?></td>
-                        <td><?php echo $Batch->getOrderVoid() ? number_format ($Batch->getOrderVoid(), 2) : '(0)'; ?></td>
+                        <td><?php echo $Batch->getOrderAmount() ? number_format ($Batch->getOrderTotal(), 2) : '(0)'; ?></td>
                         <td><?php echo $Batch->getBatchStatus(); ?></td>
                         <td><a href='merchant?id=<?php echo $Batch->getMerchantID(); ?>'><?php echo $Batch->getMerchantShortName(); ?></a></td>
-
                     </tr>
                     <?php } ?>
                 </table>
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('batch?'); ?>
+                <?php $this->printPagination('batch?'); ?>
             </fieldset>
         </form>
     </section>

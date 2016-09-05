@@ -12,6 +12,19 @@ use Config\DBConfig;
 class MerchantRow
 {
     const _CLASS = __CLASS__;
+
+
+    const SORT_BY_ID                = 'm.id';
+    const SORT_BY_NAME              = 'm.name';
+    const SORT_BY_MAIN_EMAIL_ID     = 'm.main_email_id';
+
+    public static $SORT_FIELDS = array(
+        self::SORT_BY_ID,
+        self::SORT_BY_NAME,
+        self::SORT_BY_MAIN_EMAIL_ID,
+    );
+
+
     protected $id;
     protected $uid;
     protected $version;

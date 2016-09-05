@@ -8,9 +8,7 @@
 namespace Batch\Model;
 
 
-use Model\AbstractQueryStats;
-
-class BatchQueryStats extends AbstractQueryStats
+class BatchQueryStats
 {
     const _CLASS = __CLASS__;
 

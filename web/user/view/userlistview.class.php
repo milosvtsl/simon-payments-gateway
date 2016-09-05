@@ -5,10 +5,11 @@ use Config\DBConfig;
 use User\Model\UserQueryStats;
 use User\Model\UserRow;
 use User\Session\SessionManager;
+use View\AbstractListView;
 use View\AbstractView;
 
 
-class UserListView extends AbstractView {
+class UserListView extends AbstractListView {
 
 
 	/**
@@ -21,8 +22,12 @@ class UserListView extends AbstractView {
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
 
+		// Set up page parameters
+		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
+		$statsMessage = '';
 
 		if(!empty($params['search'])) {
 			$whereSQL .= "\nAND
@@ -43,56 +48,57 @@ class UserListView extends AbstractView {
 			);
 		}
 
-		$statsMessage = '';
-		if(!empty($params['date_from'])) {
-			$whereSQL .= "\nAND u.date >= :from";
-			$sqlParams['from'] = $params['date_from'];
-			$statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
-		}
-		if(!empty($params['date_to'])) {
-			$whereSQL .= "\nAND u.date <= :to";
-			$sqlParams['to'] = $params['date_to'];
-			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
-		}
 
+		// Handle authority
 		$SessionUser = SessionManager::get()->getSessionUser();
 		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
 			$whereSQL .= "\nAND u.id = :id\n";
 			$sqlParams[':id'] = $SessionUser->getID();
 		}
 
-		// Query Statistics
-		/** @var UserQueryStats $Stats */
-
+		// Get Database Instance
 		$DB = DBConfig::getInstance();
+
 		// Fetch Stats
 		$countSQL = UserQueryStats::SQL_SELECT . $whereSQL;
-		$Query = $DB->prepare($countSQL);
-		$Query->execute($sqlParams);
+		$StatsQuery = $DB->prepare($countSQL);
+		$StatsQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, UserQueryStats::_CLASS);
-		$Stats = $Query->fetch();
-		unset ($Query);
-		$Stats->setMessage($statsMessage);
-		$Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, UserQueryStats::_CLASS);
+		/** @var UserQueryStats $Stats */
+		$Stats = $StatsQuery->fetch();
+		$this->setRowCount($Stats->getCount());
+
+
+		// Calculate GROUP BY
+		$groupSQL = UserRow::SQL_GROUP_BY;
+
+		// Calculate ORDER BY
+		$orderSQL = UserRow::SQL_ORDER_BY;
+		if(!empty($params[self::FIELD_ORDER_BY])) {
+			$sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
+			$sortField = $params[self::FIELD_ORDER_BY];
+			if(!in_array($sortField, UserRow::$SORT_FIELDS))
+				throw new \InvalidArgumentException("Invalid order-by field");
+			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
+			$statsMessage .= "sorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
+		}
+
+		// Calculate LIMIT
+		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
 
 		// Query Rows
-
-		// $groupSQL = "\nGROUP BY u.id ";
-		$groupSQL = UserRow::SQL_GROUP_BY;
-		$groupSQL .= UserRow::SQL_ORDER_BY;
-		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
-
-		$mainSQL = UserRow::SQL_SELECT . $whereSQL . $groupSQL;
-		$time = -microtime(true);
-		$Query = $DB->prepare($mainSQL);
+		$mainSQL = UserRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
+		$ListQuery = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, UserRow::_CLASS);
-		$Query->execute($sqlParams);
+		$ListQuery->setFetchMode(\PDO::FETCH_CLASS, UserRow::_CLASS);
+		$time = -microtime(true);
+		$ListQuery->execute($sqlParams);
 		$time += microtime(true);
+		$this->setListQuery($ListQuery);
 
-		$statsMessage = $Stats->getCount() . " users found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
-		$Stats->setMessage($statsMessage);
+		$statsMessage = $this->getRowCount() . " users found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$this->setMessage($statsMessage);
 
 		// Render Page
 		include ('.list.php');

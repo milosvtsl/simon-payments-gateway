@@ -1,7 +1,7 @@
-<?php /**
- * @var \User\View\LoginView $this
- * @var PDOStatement $Query
- * @var \User\Model\UserQueryStats $Stats
+<?php
+use \User\Model\UserRow;
+/**
+ * @var \View\AbstractListView $this
  **/?>
     <section class="message">
         <h1>User List</h1>
@@ -12,8 +12,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($Stats) { ?>
-            <h5><?php echo $Stats->getMessage(); ?></h5>
+        <?php } else if($this->hasMessage()) { ?>
+            <h6><?php echo $this->getMessage() ?></h6>
 
         <?php } else { ?>
             <h5>Search for User Accounts...</h5>
@@ -43,22 +43,22 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('user?'); ?>
+                <?php $this->printPagination('user?'); ?>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
                     <tr>
-                        <th>ID</th>
-                        <th>Username</th>
-                        <th>Name</th>
-                        <th>Email</th>
+                        <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
+                        <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_USERNAME); ?>">Username</a></th>
+                        <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>
+                        <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
                         <th>Merchant</th>
                     </tr>
                     <?php
                     /** @var \User\Model\UserRow $User */
                     $odd = false;
-                    foreach($Query as $User) { ?>
+                    foreach($this->getListQuery() as $User) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
                         <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getUsername(); ?></a></td>
@@ -71,7 +71,7 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('user?'); ?>
+                <?php $this->printPagination('user?'); ?>
             </fieldset>
         </form>
     </section>

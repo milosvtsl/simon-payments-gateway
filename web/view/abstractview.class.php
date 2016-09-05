@@ -9,6 +9,7 @@
 namespace View;
 
 
+use Config\DBConfig;
 use Config\SiteConfig;
 use View\Theme\AbstractViewTheme;
 
@@ -19,6 +20,7 @@ abstract class AbstractView
 
     /** @var \Exception */
     private $_exception = null;
+    private $_message = null;
     private $_theme = null;
     private $_title = null;
 
@@ -33,9 +35,13 @@ abstract class AbstractView
 
     protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
-    public function setException($ex)   { $this->_exception = $ex; }
-    public function getException()      { return $this->_exception; }
-    public function hasException()      { return $this->_exception !== null; }
+    public function setException($ex)       { $this->_exception = $ex; }
+    public function getException()          { return $this->_exception; }
+    public function hasException()          { return $this->_exception !== null; }
+
+    public function setMessage($message)    { $this->_message = $message; }
+    public function getMessage()            { return $this->_message; }
+    public function hasMessage()            { return $this->_message !== null; }
 
     public function setSessionMessage($message) {
         $_SESSION[static::SESSION_MESSAGE_KEY] = $message;

@@ -12,6 +12,27 @@ use Config\DBConfig;
 class TransactionRow
 {
     const _CLASS = __CLASS__;
+    const SORT_BY_ID                = 't.id';
+    const SORT_BY_DATE              = 't.date';
+    const SORT_BY_ORDER_ITEM        = 't.order_item_id';
+    const SORT_BY_BATCH_ITEM        = 't.batch_item_id';
+
+    const SORT_BY_STATUS            = 'oi.status';
+    const SORT_BY_MERCHANT_ID       = 'oi.merchant_id';
+    const SORT_BY_USERNAME          = 'oi.username';
+    const SORT_BY_INVOICE_NUMBER    = 'oi.invoice_number';
+
+    public static $SORT_FIELDS = array(
+        self::SORT_BY_ID,
+        self::SORT_BY_DATE,
+        self::SORT_BY_ORDER_ITEM,
+        self::SORT_BY_BATCH_ITEM,
+
+        self::SORT_BY_STATUS,
+        self::SORT_BY_MERCHANT_ID,
+        self::SORT_BY_USERNAME,
+        self::SORT_BY_INVOICE_NUMBER,
+    );
 
     // Table transaction
     protected $id;

@@ -5,10 +5,10 @@ use Config\DBConfig;
 use Merchant\Model\MerchantQueryStats;
 use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
-use View\AbstractView;
+use View\AbstractListView;
 
 
-class MerchantListView extends AbstractView {
+class MerchantListView extends AbstractListView {
 
 
 	/**
@@ -21,9 +21,14 @@ class MerchantListView extends AbstractView {
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
 
+		// Set up page parameters
+		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
+		$statsMessage = '';
 
+		// Set up WHERE conditions
 		if(!empty($params['search'])) {
 			$whereSQL .= "\nAND
 			(
@@ -43,56 +48,56 @@ class MerchantListView extends AbstractView {
 			);
 		}
 
-		$statsMessage = '';
-		if(!empty($params['date_from'])) {
-			$whereSQL .= "\nAND u.date >= :from";
-			$sqlParams['from'] = $params['date_from'];
-			$statsMessage .= " from " . date("M jS Y G:i:s", strtotime($params['date_from']));
-		}
-		if(!empty($params['date_to'])) {
-			$whereSQL .= "\nAND u.date <= :to";
-			$sqlParams['to'] = $params['date_to'];
-			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
-		}
 
-		$SessionUser = SessionManager::get()->getSessionUser();
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) { // ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES
+		// Handle authority
+		$SessionManager = new SessionManager();
+		$SessionUser = $SessionManager->getSessionUser();
+		if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES')) {
 			// TODO: merchant login?
 			$whereSQL .= "\nAND 0\n";
 		}
 
 		// Query Statistics
-		/** @var MerchantQueryStats $Stats */
-
 		$DB = DBConfig::getInstance();
-		// Fetch Stats
 		$countSQL = MerchantQueryStats::SQL_SELECT . $whereSQL;
-		$Query = $DB->prepare($countSQL);
-		$Query->execute($sqlParams);
+		$StatsQuery = $DB->prepare($countSQL);
+		$StatsQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, MerchantQueryStats::_CLASS);
-		$Stats = $Query->fetch();
-		unset ($Query);
-		$Stats->setMessage($statsMessage);
-		$Stats->setPage(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, MerchantQueryStats::_CLASS);
+		/** @var MerchantQueryStats $Stats */
+		$Stats = $StatsQuery->fetch();
+		$this->setRowCount($Stats->getCount());
+
+
+		// Calculate GROUP BY
+		$groupSQL = MerchantRow::SQL_GROUP_BY;
+
+		// Calculate ORDER BY
+		$orderSQL = MerchantRow::SQL_ORDER_BY;
+		if(!empty($params[self::FIELD_ORDER_BY])) {
+			$sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
+			$sortField = $params[self::FIELD_ORDER_BY];
+			if(!in_array($sortField, MerchantRow::$SORT_FIELDS))
+				throw new \InvalidArgumentException("Invalid order-by field");
+			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
+			$statsMessage .= "sorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
+		}
+
+		// Calculate LIMIT
+		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
 
 		// Query Rows
-
-		// $groupSQL = "\nGROUP BY u.id ";
-		$groupSQL = MerchantRow::SQL_GROUP_BY;
-		$groupSQL .= MerchantRow::SQL_ORDER_BY;
-		$groupSQL .= "\nLIMIT " . $Stats->getOffset() . ', ' . $Stats->getLimit();
-
-		$mainSQL = MerchantRow::SQL_SELECT . $whereSQL . $groupSQL;
-		$time = -microtime(true);
-		$Query = $DB->prepare($mainSQL);
+		$mainSQL = MerchantRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
+		$ListQuery = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, MerchantRow::_CLASS);
-		$Query->execute($sqlParams);
+		$ListQuery->setFetchMode(\PDO::FETCH_CLASS, MerchantRow::_CLASS);
+		$time = -microtime(true);
+		$ListQuery->execute($sqlParams);
 		$time += microtime(true);
+		$this->setListQuery($ListQuery);
 
-		$statsMessage = $Stats->getCount() . " merchants found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
-		$Stats->setMessage($statsMessage);
+		$statsMessage = $this->getRowCount() . " merchants found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$this->setMessage($statsMessage);
 
 		// Render Page
 		include ('.list.php');

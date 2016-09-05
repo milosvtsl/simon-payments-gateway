@@ -1,7 +1,8 @@
-<?php /**
- * @var \User\View\LoginView $this
+<?php
+use Transaction\Model\TransactionRow;
+/**
+ * @var \View\AbstractListView $this
  * @var PDOStatement $Query
- * @var \Transaction\Model\TransactionQueryStats $Stats
  **/?>
     <section class="message">
         <h1>Transaction List</h1>
@@ -12,8 +13,8 @@
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else if($Stats) { ?>
-            <h5><?php echo $Stats->getMessage(); ?></h5>
+        <?php } else if($this->hasMessage()) { ?>
+            <h6><?php echo $this->getMessage() ?></h6>
 
         <?php } else { ?>
             <h5>Search for Transaction Accounts...</h5>
@@ -75,29 +76,22 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('transaction?'); ?>
+                <?php $this->printPagination('transaction?'); ?>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
-                    <?php
-                    function getOrderURL($field) {
-                        if(@$_GET['orderby'] == $field)
-                            return http_build_query(array('orderby' => $field, 'order' => strcasecmp(@$_GET['order'], 'DESC') === 0 ? 'ASC' : 'DESC') + $_GET);
-                        return http_build_query(array('orderby' => $field, 'order' => 'ASC') + $_GET);
-                    }
-                    ?>
                     <tr>
-                        <th><a href="transaction?<?php echo getOrderURL('id'); ?>">ID</a></th>
-                        <th><a href="transaction?<?php echo getOrderURL('order_item_id'); ?>">Order</a></th>
-                        <th><a href="transaction?<?php echo getOrderURL('batch_item_id'); ?>">Batch</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_ID); ?>">ID</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_ORDER_ITEM); ?>">Order</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_BATCH_ITEM); ?>">Batch</a></th>
                         <th>Card Holder</th>
-                        <th><a href="transaction?<?php echo getOrderURL('date'); ?>">Date</a></th>
-                        <th><a href="transaction?<?php echo getOrderURL('invoice_number'); ?>">Invoice ID</a></th>
-                        <th><a href="transaction?<?php echo getOrderURL('username'); ?>">Username</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_DATE); ?>">Date</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice ID</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_USERNAME); ?>">Username</a></th>
                         <th>Amount</th>
-                        <th><a href="transaction?<?php echo getOrderURL('status'); ?>">Status</a></th>
-                        <th><a href="transaction?<?php echo getOrderURL('merchant_id'); ?>">Merchant</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_STATUS); ?>">Status</a></th>
+                        <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                     </tr>
                     <?php
                     /** @var \Transaction\Model\TransactionRow $Transaction */
@@ -120,7 +114,7 @@
             </fieldset>
             <fieldset class="paginate">
                 <legend>Pagination</legend>
-                <?php $Stats->printPagination('transaction?'); ?>
+                <?php $this->printPagination('transaction?'); ?>
             </fieldset>
         </form>
     </section>

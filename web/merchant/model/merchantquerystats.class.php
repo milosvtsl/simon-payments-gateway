@@ -7,10 +7,7 @@
  */
 namespace Merchant\Model;
 
-
-use Model\AbstractQueryStats;
-
-class MerchantQueryStats extends AbstractQueryStats
+class MerchantQueryStats
 {
     const _CLASS = __CLASS__;
 

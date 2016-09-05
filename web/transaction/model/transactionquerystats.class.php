@@ -8,9 +8,7 @@
 namespace Transaction\Model;
 
 
-use Model\AbstractQueryStats;
-
-class TransactionQueryStats extends AbstractQueryStats
+class TransactionQueryStats
 {
     const _CLASS = __CLASS__;
 

@@ -13,6 +13,20 @@ class BatchRow
 {
     const _CLASS = __CLASS__;
 
+    const SORT_BY_ID                = 'b.id';
+    const SORT_BY_BATCH_ID          = 'b.batch_id';
+    const SORT_BY_DATE              = 'b.date';
+    const SORT_BY_BATCH_STATUS      = 'b.batch_status';
+    const SORT_BY_MERCHANT_ID       = 'b.merchant_id';
+
+    public static $SORT_FIELDS = array(
+        self::SORT_BY_ID,
+        self::SORT_BY_BATCH_ID,
+        self::SORT_BY_DATE,
+        self::SORT_BY_BATCH_STATUS,
+        self::SORT_BY_MERCHANT_ID,
+    );
+
     // Table batch
     protected $id;
     protected $uid;
@@ -27,16 +41,14 @@ class BatchRow
 
     // Table order
     protected $order_count;
-    protected $order_settled;
-    protected $order_authorized;
-    protected $order_void;
+    protected $order_amount;
+    protected $order_fees;
 
     const SQL_SELECT = "
 SELECT b.*, m.short_name as merchant_short_name,
     (SELECT count(*) FROM batch_orderitems boi WHERE b.id = boi.id_batch) order_count,
-    (SELECT sum(oi.amount) FROM batch_orderitems boi, order_item oi WHERE boi.id_orderitem = oi.id AND b.id = boi.id_batch AND oi.status = 'Settled') order_settled,
-    (SELECT sum(oi.amount) FROM batch_orderitems boi, order_item oi WHERE boi.id_orderitem = oi.id AND b.id = boi.id_batch AND oi.status = 'Authorized') order_authorized,
-    (SELECT sum(oi.amount) FROM batch_orderitems boi, order_item oi WHERE boi.id_orderitem = oi.id AND b.id = boi.id_batch AND oi.status = 'Void') order_void
+    (SELECT sum(oi.amount) FROM batch_orderitems boi, order_item oi WHERE boi.id_orderitem = oi.id AND b.id = boi.id_batch) order_amount,
+    (SELECT sum(t.service_fee) FROM batch_orderitems boi, order_item oi, transaction t WHERE boi.id_orderitem = oi.id AND b.id = boi.id_batch AND t.order_item_id = oi.id) order_fees
 FROM batch b
 LEFT JOIN merchant m on b.merchant_id = m.id
 ";
@@ -52,9 +64,9 @@ LEFT JOIN merchant m on b.merchant_id = m.id
     public function getMerchantShortName()  { return $this->merchant_short_name; }
 
     public function getOrderCount()         { return $this->order_count; }
-    public function getOrderSettled()       { return $this->order_settled; }
-    public function getOrderAuthorized()    { return $this->order_authorized; }
-    public function getOrderVoid()          { return $this->order_void; }
+    public function getOrderAmount()        { return $this->order_amount; }
+    public function getOrderFees()          { return $this->order_fees; }
+    public function getOrderTotal()         { return $this->order_amount + $this->order_fees; }
 
     // Static
 

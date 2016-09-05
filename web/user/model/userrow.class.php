@@ -16,6 +16,21 @@ class UserRow
     const TABLE_NAME = 'user';
     const _CLASS = __CLASS__;
 
+    const SORT_BY_ID                = 'u.id';
+    const SORT_BY_USERNAME          = 'u.username';
+    const SORT_BY_FNAME             = 'u.fname';
+    const SORT_BY_LNAME             = 'u.lname';
+    const SORT_BY_EMAIL             = 'u.email';
+
+    public static $SORT_FIELDS = array(
+        self::SORT_BY_ID,
+        self::SORT_BY_USERNAME,
+        self::SORT_BY_FNAME,
+        self::SORT_BY_LNAME,
+        self::SORT_BY_EMAIL,
+    );
+
+
     // Table user
     protected $id;
     protected $uid;

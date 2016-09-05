@@ -8,9 +8,8 @@
 namespace User\Model;
 
 
-use Model\AbstractQueryStats;
 
-class UserQueryStats extends AbstractQueryStats
+class UserQueryStats
 {
     const _CLASS = __CLASS__;
 
