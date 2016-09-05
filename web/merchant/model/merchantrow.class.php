@@ -125,9 +125,9 @@ LEFT JOIN state s on m.state_id = s.id
         return $stmt->fetch();
     }
 
-    public static function queryAll() {
+    public static function queryAll($order = 'm.id DESC') {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT );
+        $stmt = $DB->prepare(static::SQL_SELECT . "\nORDER BY " . $order);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute();
