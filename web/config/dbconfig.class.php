@@ -20,11 +20,15 @@ class DBConfig
         $dbname   = static::$DB_NAME;
         $port     = static::$DB_PORT;
 
-        $PDO = new \PDO("mysql:host={$host};port={$port};dbname={$dbname}",
-            static::$DB_USERNAME,
-            static::$DB_PASSWORD,
-            $options);
+        try {
+            $PDO = new \PDO("mysql:host={$host};port={$port};dbname={$dbname}",
+                static::$DB_USERNAME,
+                static::$DB_PASSWORD,
+                $options);
 
+        } catch (\PDOException $ex) {
+            throw new \Exception($ex->getMessage());
+        }
         $PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         static::$_dbInstance = $PDO;
         return $PDO;
