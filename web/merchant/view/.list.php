@@ -63,7 +63,7 @@ use \Merchant\Model\MerchantRow;
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
                         <td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
                         <td><a href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo $Merchant->getMainEmailID(); ?></a></td>
-                        <td><?php echo $Merchant->getStateCode(); ?></td>
+                        <td><?php echo $Merchant->getRegionCode(); ?></td>
                         <td><?php echo $Merchant->getZipCode(); ?></td>
 
                     </tr>

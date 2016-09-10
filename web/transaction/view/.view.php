@@ -1,7 +1,6 @@
 <?php
 /**
  * @var \Transaction\View\TransactionView $this
- * @var PDOStatement $TransactionQuery
  **/
 $Transaction = $this->getTransaction();
 $odd = false;

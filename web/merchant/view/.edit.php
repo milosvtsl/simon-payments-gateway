@@ -144,7 +144,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                                 foreach($StateQuery as $State)
                                     /** @var \System\Model\StateRow $State */
                                     echo "<option value='", $State->getID(), "'",
-                                    ($State->getShortCode() === $Merchant->getStateCode() ? ' selected="selected"' : ''),
+                                    ($State->getShortCode() === $Merchant->getRegionCode() ? ' selected="selected"' : ''),
                                     ">", $State->getName(), "</option>\n";
                                 ?>
                             </select>

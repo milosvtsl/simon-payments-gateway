@@ -81,7 +81,7 @@ use \Merchant\Model\MerchantRow;
                 <table class="table-results themed small">
                     <tr>
                         <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_ID); ?>">ID</a></th>
-                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_BATCH_ID); ?>">Batch ID</a></th>
+                        <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_BATCH_ID); ?>">Batch</a></th>
                         <th><a href="batch?<?php echo $this->getSortURL(BatchRow::SORT_BY_DATE); ?>">Date</a></th>
                         <th>Orders</th>
                         <th>Total</th>

@@ -29,6 +29,7 @@ class UserListView extends AbstractListView {
 		$whereSQL = "WHERE 1";
 		$statsMessage = '';
 
+		// Set up WHERE conditions
 		if(!empty($params['search'])) {
 			$whereSQL .= "\nAND
 			(

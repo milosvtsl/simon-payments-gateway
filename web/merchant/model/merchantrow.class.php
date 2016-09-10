@@ -103,13 +103,39 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getCity()           { return $this->city; }
     public function getState()          { return $this->state_name; }
-    public function getStateCode()      { return $this->state_short_code; }
+    public function getRegionCode()      { return $this->state_short_code; }
     public function getZipCode()        { return $this->zipcode; }
 
     public function getMainEmailID()    { return $this->main_email_id; }
     public function getSaleRep()        { return $this->sale_rep; }
     public function getNotes()          { return $this->notes; }
 
+    public function getMainContactFirstName() {
+        list($first, $last) = explode(" ", $this->getMainContact(), 2);
+        return $first;
+    }
+    public function getMainContactLastName() {
+        list($first, $last) = explode(" ", $this->getMainContact(), 2);
+        return $last;
+    }
+    public function getCountryCode() {
+        return "USA";
+    }
+    public function getTitle() {
+        return "CEO";
+    }
+    public function getTaxID() {
+        return "123456789";
+    }
+    public function getBusinessTaxID() {
+        return "123456789";
+    }
+    public function getBusinessType() {
+        return "INDIVIDUAL_SOLE_PROPRIETORSHIP";
+    }
+    public function getDOB() {
+        return "1978-02-03";
+    }
     // Static
 
     /**
@@ -158,6 +184,7 @@ LEFT JOIN state s on m.state_id = s.id
         $MerchantQuery->execute(array($id));
         return $MerchantQuery;
     }
+
 
 }
 

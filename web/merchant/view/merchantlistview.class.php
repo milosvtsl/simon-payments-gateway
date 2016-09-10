@@ -16,7 +16,7 @@ class MerchantListView extends AbstractListView {
 	 */
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
-		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Users");
+		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Merchants");
 
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();

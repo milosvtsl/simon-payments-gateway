@@ -123,7 +123,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>State</td>
-                        <td><?php echo $Merchant->getStateCode(); ?></td>
+                        <td><?php echo $Merchant->getRegionCode(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Zip</td>

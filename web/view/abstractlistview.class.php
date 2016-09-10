@@ -7,8 +7,6 @@
  */
 namespace View;
 
-use Config\DBConfig;
-
 abstract class AbstractListView extends AbstractView
 {
     const DEFAULT_LIMIT = 50;

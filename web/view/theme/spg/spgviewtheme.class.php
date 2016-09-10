@@ -27,6 +27,7 @@ class SPGViewTheme extends AbstractViewTheme
                 $this->addNavLink('merchant', "Merchant");
                 $this->addNavLink('user', "Users");
                 $this->addNavLink('batch', "Batch");
+                $this->addNavLink('integration', "Integration");
 
             } else {
                 $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
