@@ -51,8 +51,6 @@ class MerchantView extends AbstractView
                 include('.view.php');
                 break;
             case 'edit':
-
-
                 include('.edit.php');
                 break;
             case 'delete':
@@ -81,8 +79,8 @@ class MerchantView extends AbstractView
                 case 'edit':
                     $EditMerchant = $this->getMerchant();
                     $EditMerchant->updateFields($post)
-                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getUID())
-                        : $this->setSessionMessage("No changes detected: " . $EditMerchant->getUID());
+                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getName())
+                        : $this->setSessionMessage("No changes detected: " . $EditMerchant->getName());
                     header('Location: merchant?id=' . $EditMerchant->getID());
                     die();
 

@@ -28,7 +28,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 <legend>Actions</legend>
                 <a href="merchant?" class="button">Merchant List</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-                <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
+<!--                <a href="--><?php //echo $action_url; ?><!--delete" class="button">Delete</a>-->
             </fieldset>
             <fieldset>
                 <legend>Merchant Information</legend>
@@ -138,8 +138,9 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><?php echo $Merchant->getSaleRep(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Notes</td>
-                        <td><?php echo $Merchant->getNotes(); ?></td>
+                        <td colspan="2">
+                            <pre><?php echo $Merchant->getNotes() ?: "No Notes"; ?></pre>
+                        </td>
                     </tr>
                 </table>
             </fieldset>

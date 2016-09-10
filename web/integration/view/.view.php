@@ -66,8 +66,7 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td colspan="2">
-                            Notes<br/>
-                            <p><?php echo $Integration->getNotes(); ?></p>
+                            <pre><?php echo $Integration->getNotes() ?: "No Notes"; ?></pre>
                         </td>
                     </tr>
                 </table>

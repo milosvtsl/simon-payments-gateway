@@ -138,7 +138,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>State</td>
                         <td>
-                            <select name="status_id">
+                            <select name="state_id">
                                 <?php
                                 $StateQuery = \System\Model\StateRow::queryAll();
                                 foreach($StateQuery as $State)
@@ -162,7 +162,10 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td>Notes</td>
                         <td><textarea type="text" name="notes" rows="5" cols="34" ><?php echo $Merchant->getNotes(); ?></textarea></td>
                     </tr>
-
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Update</td>
+                        <td><input type="submit" value="Update" /></td>
+                    </tr>
                 </table>
             </fieldset>
         </form>

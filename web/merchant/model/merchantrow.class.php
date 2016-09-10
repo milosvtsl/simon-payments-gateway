@@ -12,7 +12,7 @@ use Config\DBConfig;
 class MerchantRow
 {
     const _CLASS = __CLASS__;
-
+    const TABLE_NAME = 'merchant';
 
     const SORT_BY_ID                = 'm.id';
     const SORT_BY_NAME              = 'm.name';
@@ -22,6 +22,36 @@ class MerchantRow
         self::SORT_BY_ID,
         self::SORT_BY_NAME,
         self::SORT_BY_MAIN_EMAIL_ID,
+    );
+    public static $UPDATE_FIELDS = array(
+        'name',
+        'short_name',
+        'main_email_id',
+        'merchant_id',
+        'sic',
+        'notes',
+        'convenience_fee_flat',
+        'convenience_fee_limit',
+        'convenience_fee_variable_rate',
+        'batch_capture_time',
+        'batch_capture_time_zone',
+        'open_date',
+        'status_id',
+        'store_id',
+        'discover_external',
+        'amex_external',
+        'agent_chain',
+        'main_contact',
+        'telephone',
+        'address1',
+        'address2',
+        'agent_chain',
+        'city',
+        'agent_chain',
+        'state_id',
+        'zipcode',
+        'sale_rep',
+        'notes',
     );
 
 
@@ -136,6 +166,28 @@ LEFT JOIN state s on m.state_id = s.id
     public function getDOB() {
         return "1978-02-03";
     }
+
+
+    public function updateFields($post) {
+        $sqlSet = "";
+        $params = array();
+        foreach(self::$UPDATE_FIELDS as $field) {
+            if(!empty($post[$field])) {
+                $params[':'.$field] = $post[$field];
+                $sqlSet .= ($sqlSet ? ",\n" : "\nSET ") . $field . '=:' . $field;
+                $this->$field = $post[$field];
+            }
+        }
+        if(!$sqlSet)
+            return 0;
+        $sql = "UPDATE " . self::TABLE_NAME . $sqlSet . "\nWHERE id=:id";
+        $params[':id'] = $this->getID();
+        $DB = DBConfig::getInstance();
+        $EditQuery = $DB->prepare($sql);
+        $EditQuery->execute($params);
+        return $EditQuery->rowCount();
+    }
+
     // Static
 
     /**
@@ -184,6 +236,7 @@ LEFT JOIN state s on m.state_id = s.id
         $MerchantQuery->execute(array($id));
         return $MerchantQuery;
     }
+
 
 
 }
