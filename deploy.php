@@ -31,11 +31,11 @@ require 'test.php';
 // Deploy
 echo "\nDeploying remotely...\n";
 exec($cmd_deploy, $out, $ret);
+echo implode("\n", $out);
 if(strpos(implode("\n", $out), 'error') !== false) {
     echo "Looks like there was an error";
     exit(1);
 }
-echo implode("\n", $out);
 
 // Remote Test
 echo "\nTesting remotely...\n";
