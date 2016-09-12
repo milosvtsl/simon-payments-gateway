@@ -35,6 +35,7 @@ if(strpos(implode("\n", $out), 'error') === false) {
     echo "Looks like there was an error";
     exit(1);
 }
+echo implode("\n", $out);
 
 // Remote Test
 echo "\nTesting remotely...\n";
