@@ -31,7 +31,7 @@ require 'test.php';
 // Deploy
 echo "\nDeploying remotely...\n";
 exec($cmd_deploy, $out, $ret);
-if(strpos(implode("\n", $out), 'error') === false) {
+if(strpos(implode("\n", $out), 'error') !== false) {
     echo "Looks like there was an error";
     exit(1);
 }
