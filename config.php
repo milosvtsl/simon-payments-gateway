@@ -12,7 +12,7 @@ use View\Theme\SPG\SPGViewTheme;
 
 // Database Config
 DBConfig::$DB_HOST = 'localhost';
-DBConfig::$DB_NAME = 'paylogic2';
+DBConfig::$DB_NAME = 'paylogic';
 DBConfig::$DB_USERNAME = 'paylogic2';
 DBConfig::$DB_PASSWORD = 'eVw{P7mphBn';
 //DBConfig::$DB_PASSWORD = 'Uj3QgkMg';
