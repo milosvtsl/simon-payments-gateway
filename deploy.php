@@ -29,6 +29,7 @@ echo "\nTesting locally...\n";
 require 'test.php';
 
 // Deploy
+
 echo "\nDeploying remotely...\n";
 exec($cmd_deploy, $out, $ret);
 echo implode("\n", $out);

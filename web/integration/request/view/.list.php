@@ -27,6 +27,7 @@ use Integration\Request\Model\IntegrationRequestRow;
         <form class="form-search themed">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
+                <a href="integration?" class="button">Integrations</a>
                 <a href="integration/request?" class="button">Request List</a>
             </fieldset>
             <fieldset class="search-fields">

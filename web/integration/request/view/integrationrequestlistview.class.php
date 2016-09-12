@@ -18,7 +18,8 @@ class IntegrationRequestListView extends AbstractListView {
      */
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
-		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Integration Requests");
+        $this->getTheme()->addCrumbLink('integrations?', "Integrations");
+        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Requests");
 
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();

@@ -26,6 +26,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
         <form class="form-view-integration-request themed" onsubmit="return false;">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
+                <a href="integration?" class="button">Integrations</a>
                 <a href="integration/request?" class="button">Request List</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
             </fieldset>

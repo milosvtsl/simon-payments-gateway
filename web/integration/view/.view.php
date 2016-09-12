@@ -26,7 +26,8 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
         <form class="form-view-integration themed" onsubmit="return false;">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
-                <a href="integration?" class="button">Integration List</a>
+                <a href="integration?" class="button">Integrations</a>
+                <a href="integration/request?" class="button">Requests</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit <?php echo $Integration->getName(); ?></a>
             </fieldset>
             <fieldset>

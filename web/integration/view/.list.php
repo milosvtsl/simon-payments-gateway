@@ -25,7 +25,8 @@ use \Integration\Model\IntegrationRow;
         <form class="form-search themed">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
-                <a href="integration?" class="button">Integration List</a>
+                <a href="integration?" class="button">Integrations</a>
+                <a href="integration/request?" class="button">Requests</a>
             </fieldset>
             <fieldset>
                 <legend>Integrations</legend>
