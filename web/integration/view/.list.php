@@ -35,7 +35,6 @@ use \Integration\Model\IntegrationRow;
                         <th><a href="integration?<?php echo $this->getSortURL(IntegrationRow::SORT_BY_NAME); ?>">Name</a></th>
                         <th>Success</th>
                         <th>Fail</th>
-                        <th>Total</th>
                         <th>Notes</th>
                     </tr>
                     <?php
@@ -47,7 +46,6 @@ use \Integration\Model\IntegrationRow;
                         <td><a href='integration?id=<?php echo $Integration->getID(); ?>'><?php echo $Integration->getName(); ?></a></td>
                         <td><a href='integration/request?result=success&integration_id=<?php echo $Integration->getID(); ?>'><?php echo $Integration->getSuccessCount(); ?></a></td>
                         <td><a href='integration/request?result=fail&integration_id=<?php echo $Integration->getID(); ?>'><?php echo $Integration->getFailCount(); ?></a></td>
-                        <td><a href='integration/request?integration_id=<?php echo $Integration->getID(); ?>'><?php echo $Integration->getTotalCount(); ?></a></td>
                         <td><?php echo $Integration->getNotes(); ?></td>
 
                     </tr>

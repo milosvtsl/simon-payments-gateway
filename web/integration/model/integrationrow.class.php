@@ -40,7 +40,7 @@ SELECT i.*,
 FROM integration i
 ";
     const SQL_GROUP_BY = "\nGROUP BY i.id";
-    const SQL_ORDER_BY = "\nORDER BY i.id DESC";
+    const SQL_ORDER_BY = "\nORDER BY i.id ASC";
 
     // Properties
 
