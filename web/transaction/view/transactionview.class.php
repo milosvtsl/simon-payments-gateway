@@ -12,6 +12,9 @@ use View\AbstractView;
 
 class TransactionView extends AbstractView
 {
+    const VIEW_PATH = 'transaction';
+    const VIEW_NAME = 'Transactions';
+
     private $_transaction;
     private $_action;
 
@@ -28,8 +31,8 @@ class TransactionView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('transaction?', "Transactions");
-        $this->getTheme()->addCrumbLink('transaction?id=' . $this->_transaction->getID(), $this->_transaction->getID());
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getTransaction()->getID(), $this->getTransaction()->getID());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header

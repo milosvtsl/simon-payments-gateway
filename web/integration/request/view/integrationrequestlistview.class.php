@@ -11,7 +11,7 @@ use View\AbstractListView;
 
 
 class IntegrationRequestListView extends AbstractListView {
-
+    const VIEW_PATH = 'integrations';
 
 	/**
 	 * @param array $params

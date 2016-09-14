@@ -14,6 +14,9 @@ use View\AbstractView;
 
 class MerchantView extends AbstractView
 {
+    const VIEW_PATH = 'integration';
+    const VIEW_NAME = 'Integrations';
+
     private $_merchant;
     private $_action;
 
@@ -38,8 +41,8 @@ class MerchantView extends AbstractView
         }
 
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('merchant?', "Merchants");
-        $this->getTheme()->addCrumbLink('merchant?id=' . $this->_merchant->getID(), $this->_merchant->getShortName());
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getMerchant()->getID(), $this->getMerchant()->getShortName());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header

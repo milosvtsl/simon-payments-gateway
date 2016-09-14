@@ -14,6 +14,9 @@ use View\AbstractView;
 
 class OrderView extends AbstractView
 {
+    const VIEW_PATH = 'order';
+    const VIEW_NAME = 'Orders';
+
     private $_order;
     private $_action;
 
@@ -30,8 +33,8 @@ class OrderView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('order?', "Orders");
-        $this->getTheme()->addCrumbLink('order?id=' . $this->_order->getID(), $this->_order->getID());
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getOrder()->getID(), $this->getOrder()->getID());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header

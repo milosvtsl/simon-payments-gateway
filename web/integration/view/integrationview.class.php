@@ -14,6 +14,9 @@ use View\AbstractView;
 
 class IntegrationView extends AbstractView
 {
+    const VIEW_PATH = 'integration';
+    const VIEW_NAME = 'Integrations';
+
     private $_integration;
     private $_action;
 
@@ -38,8 +41,8 @@ class IntegrationView extends AbstractView
         }
 
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('integration?', "Integrations");
-        $this->getTheme()->addCrumbLink('integration?id=' . $this->getIntegration()->getID(), $this->getIntegration()->getName());
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getIntegration()->getID(), $this->getIntegration()->getName());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header

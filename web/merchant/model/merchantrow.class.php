@@ -8,6 +8,8 @@
 namespace Merchant\Model;
 
 use Config\DBConfig;
+use Integration\Model\AbstractIntegration;
+use Integration\Request\Model\IntegrationRequestRow;
 
 class MerchantRow
 {
@@ -61,13 +63,13 @@ class MerchantRow
     protected $address1;
     protected $address2;
     protected $agent_chain;
-    protected $amex_external;
     protected $batch_capture_time;
     protected $batch_capture_time_zone;
     protected $city;
     protected $convenience_fee_flat;
     protected $convenience_fee_limit;
     protected $convenience_fee_variable_rate;
+    protected $amex_external;
     protected $discover_external;
     protected $gateway_id;
     protected $gateway_token;
@@ -84,6 +86,7 @@ class MerchantRow
     protected $store_id;
     protected $telephone;
     protected $zipcode;
+    protected $url;
 
     protected $status_id;
     protected $status_name;
@@ -102,6 +105,14 @@ LEFT JOIN state s on m.state_id = s.id
     const SQL_GROUP_BY = "\nGROUP BY m.id";
     const SQL_ORDER_BY = "\nORDER BY m.id DESC";
 
+
+    public function __construct(Array $params=array()) {
+        foreach($params as $key=>$param)
+            $this->$key = $param;
+    }
+    public function __set($key, $value) {
+        throw new \InvalidArgumentException("Property does not exist: " . $key);
+    }
 
     public function getID()             { return $this->id; }
     public function getUID()            { return $this->uid; }
@@ -139,6 +150,8 @@ LEFT JOIN state s on m.state_id = s.id
     public function getMainEmailID()    { return $this->main_email_id; }
     public function getSaleRep()        { return $this->sale_rep; }
     public function getNotes()          { return $this->notes; }
+
+    public function getURL()            { return $this->url; }
 
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
@@ -186,6 +199,21 @@ LEFT JOIN state s on m.state_id = s.id
         $EditQuery = $DB->prepare($sql);
         $EditQuery->execute($params);
         return $EditQuery->rowCount();
+    }
+
+    /**
+     * @param AbstractIntegration $Integration
+     * @param string $result
+     * @param string $type
+     * @return IntegrationRequestRow
+     */
+    public function fetchAPIRequest(AbstractIntegration $Integration, $result='success', $type=IntegrationRequestRow::ENUM_TYPE_MERCHANT) {
+        return IntegrationRequestRow::fetchByType(
+            $type,
+            $this->getID(),
+            $Integration->getIntegrationRow()->getID(),
+            $result
+        );
     }
 
     // Static
@@ -236,7 +264,6 @@ LEFT JOIN state s on m.state_id = s.id
         $MerchantQuery->execute(array($id));
         return $MerchantQuery;
     }
-
 
 
 }

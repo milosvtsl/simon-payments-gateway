@@ -20,9 +20,15 @@ spl_autoload_register();
 session_start();
 
 if(!empty($_GET['id'])) {
-    $View = new \Integration\Request\View\IntegrationRequestView($_GET['id'], @$_GET['action']);
-    $View->handleRequest();
+    try {
+        $View = new \Integration\Request\View\IntegrationRequestView($_GET['id'], @$_GET['action']);
+        $View->handleRequest();
 
+    } catch (Exception $ex) {
+        $View = new Integration\Request\View\IntegrationRequestListView();
+        $View->setSessionMessage($ex->getMessage());
+        $View->redirectRequest();
+    }
 } else {
     $View = new Integration\Request\View\IntegrationRequestListView();
     $View->handleRequest();

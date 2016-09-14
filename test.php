@@ -6,6 +6,7 @@
  * Time: 10:47 PM
  */
 
+$cwd = getcwd();
 chdir('web');
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
@@ -27,5 +28,8 @@ assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
 $TestUser = \User\Model\UserRow::fetchByUsername('testuser');
 assert($TestUser !== null);
 
-echo 'Test successful';
-chdir('..');
+chdir('integration/finix/test');
+require ('test.php');
+chdir($cwd);
+
+echo "\nAll Tests successful";

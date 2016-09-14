@@ -8,6 +8,7 @@
 namespace Integration\Model;
 
 use Config\DBConfig;
+use Merchant\Model\MerchantRow;
 
 class IntegrationRow
 {
@@ -41,6 +42,15 @@ FROM integration i
 ";
     const SQL_GROUP_BY = "\nGROUP BY i.id";
     const SQL_ORDER_BY = "\nORDER BY i.id ASC";
+
+
+    public function __construct(Array $params=array()) {
+        foreach($params as $key=>$param)
+            $this->$key = $param;
+    }
+    public function __set($key, $value) {
+        throw new \InvalidArgumentException("Property does not exist: " . $key);
+    }
 
     // Properties
 
@@ -94,6 +104,25 @@ FROM integration i
         $EditQuery = $DB->prepare($sql);
         $EditQuery->execute($params);
         return $EditQuery->rowCount();
+    }
+
+    /**
+     * Get or create a Merchant Identity
+     * @param MerchantRow $Merchant
+     * @return IntegrationRequestParser
+     */
+    public function createMerchantIdentity(MerchantRow $Merchant) {
+        $Integration = $this->getIntegration();
+        return $Integration->createMerchantIdentity($Merchant);
+    }
+
+    /**
+     * @return AbstractIntegration
+     */
+    public function getIntegration() {
+        $class = $this->getClassPath();
+        $Integration = new $class($this);
+        return $Integration;
     }
 
     // Static

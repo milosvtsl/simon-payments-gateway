@@ -15,6 +15,9 @@ use View\Theme\AbstractViewTheme;
 
 abstract class AbstractView
 {
+    const VIEW_PATH = '?';
+    const VIEW_NAME = 'Unnamed View';
+
     const SESSION_MESSAGE_KEY = 'session-message';
     const DEFAULT_TITLE = null;
 
@@ -123,5 +126,10 @@ abstract class AbstractView
                 throw new \InvalidArgumentException("Unknown method: " . $_SERVER['REQUEST_METHOD']);
         }
 
+    }
+
+
+    public function redirectRequest() {
+        header("Location: " . static::VIEW_PATH);
     }
 }

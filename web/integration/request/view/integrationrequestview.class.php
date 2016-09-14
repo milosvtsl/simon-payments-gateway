@@ -12,6 +12,9 @@ use View\AbstractView;
 
 class IntegrationRequestView extends AbstractView
 {
+    const VIEW_PATH = 'integration/request';
+    const VIEW_NAME = 'Integration Requests';
+
     private $_request;
     private $_action;
 
@@ -28,8 +31,8 @@ class IntegrationRequestView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('integration/request?', "Integration Requests");
-        $this->getTheme()->addCrumbLink('integration/request?id=' . $this->_request->getID(), $this->_request->getID());
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getRequest()->getID(), $this->getRequest()->getID());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header

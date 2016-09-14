@@ -7,6 +7,9 @@ use View\AbstractView;
 
 class LoginView extends AbstractView {
 
+    const VIEW_PATH = '?';
+    const VIEW_NAME = 'Login';
+
     public function __construct() {
         parent::__construct();
     }

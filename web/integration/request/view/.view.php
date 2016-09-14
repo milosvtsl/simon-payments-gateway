@@ -27,7 +27,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
             <fieldset class="action-fields">
                 <legend>Actions</legend>
                 <a href="integration?" class="button">Integrations</a>
-                <a href="integration/request?" class="button">Request List</a>
+                <a href="integration/request?" class="button">Requests</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
             </fieldset>
             <fieldset>
@@ -58,22 +58,24 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Request</td>
-                        <td><?php echo $Request->getRequest(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Response</td>
-                        <td><?php echo $Request->getResponse(); ?></td>
+                        <td>Date</td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Result</td>
                         <td><?php echo $Request->getResult(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Date</td>
-                        <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
+                        <td>Response</td>
+                        <td>
+                            <textarea rows="30" cols="48" onclick="this.rows++; this.cols+=3;"><?php
+                                //                                echo "Response:\n";
+                                echo $Request->getResponse();
+                                echo "\n\nRequest:\n";
+                                echo $Request->getRequest();
+                                ?></textarea>
+                        </td>
                     </tr>
-
                 </table>
             </fieldset>
         </form>

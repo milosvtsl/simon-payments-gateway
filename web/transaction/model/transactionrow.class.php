@@ -8,6 +8,8 @@
 namespace Transaction\Model;
 
 use Config\DBConfig;
+use Integration\Model\AbstractIntegration;
+use Integration\Request\Model\IntegrationRequestRow;
 
 class TransactionRow
 {
@@ -119,7 +121,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($id));
         return $stmt->fetch();
     }
@@ -132,11 +134,23 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.uid = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($uid));
         return $stmt->fetch();
     }
 
+
+    /**
+     * @param AbstractIntegration $Integration
+     * @return IntegrationRequestRow|null
+     */
+    public function fetchAPIRequest(AbstractIntegration $Integration) {
+        return IntegrationRequestRow::fetchByType(
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION,
+            $this->getID(),
+            $Integration->getIntegrationRow()
+        );
+    }
 
 }
 

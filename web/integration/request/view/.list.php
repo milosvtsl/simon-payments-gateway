@@ -28,7 +28,7 @@ use Integration\Request\Model\IntegrationRequestRow;
             <fieldset class="action-fields">
                 <legend>Actions</legend>
                 <a href="integration?" class="button">Integrations</a>
-                <a href="integration/request?" class="button">Request List</a>
+                <a href="integration/request?" class="button">Requests</a>
             </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
@@ -92,10 +92,9 @@ use Integration\Request\Model\IntegrationRequestRow;
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_INTEGRATION_ID); ?>">Integration</a></th>
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE); ?>">Type</a></th>
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE_ID); ?>">Type ID</a></th>
-                        <th>Request</th>
-                        <th>Response</th>
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESULT); ?>">Result</a></th>
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_DATE); ?>">Date</a></th>
+                        <th>Response</th>
                     </tr>
                     <?php
                     /** @var IntegrationRequestRow $Request */
@@ -110,10 +109,16 @@ use Integration\Request\Model\IntegrationRequestRow;
                                 <?php echo $Request->getIntegrationTypeID(); ?>
                             </a>
                         </td>
-                        <td><?php echo $Request->getRequest(); ?></td>
-                        <td><?php echo $Request->getResponse(); ?></td>
                         <td><?php echo $Request->getResult(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
+                        <td>
+                            <textarea rows="2" cols="24" onclick="this.rows++; this.cols+=3;"><?php
+//                                echo "Response:\n";
+                                echo $Request->getResponse();
+                                echo "\n\nRequest:\n";
+                                echo $Request->getRequest();
+                                ?></textarea>
+                        </td>
                     </tr>
                     <?php } ?>
                 </table>

@@ -15,6 +15,9 @@ use View\AbstractView;
 
 class BatchView extends AbstractView
 {
+    const VIEW_PATH = 'batch';
+    const VIEW_NAME = 'Batches';
+
     private $_batch;
     private $_action;
 
@@ -31,8 +34,8 @@ class BatchView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('batch?', "Batchs");
-        $this->getTheme()->addCrumbLink('batch?id=' . $this->_batch->getID(), $this->_batch->getID());
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->_batch->getID(), $this->_batch->getID());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
