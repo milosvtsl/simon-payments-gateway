@@ -20,6 +20,23 @@ class MerchantRow
     const SORT_BY_NAME              = 'm.name';
     const SORT_BY_MAIN_EMAIL_ID     = 'm.main_email_id';
 
+    public static $ENUM_BUSINESS_TYPE = array(
+        'INDIVIDUAL_SOLE_PROPRIETORSHIP' => "Individual Sole Proprietorship",
+        'CORPORATION'                    => "Corporation",
+        'LIMITED_LIABILITY_COMPANY'      => "Limited Liability Company",
+        'PARTNERSHIP'                    => "Partnership",
+        'ASSOCIATION_ESTATE_TRUST'       => "Association Estate Trust",
+        'TAX_EXEMPT_ORGANIZATION'        => "Tax Exempt Organization",
+        'INTERNATIONAL_ORGANIZATION'     => "International Organization",
+        'GOVERNMENT_AGENCY'              => "Government Agency",
+    );
+
+    public static $ENUM_STATUS = array(
+        1 => "Live",
+        2 => "In Progress",
+        3 => "Canceled",
+    );
+
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,
         self::SORT_BY_NAME,
@@ -53,6 +70,14 @@ class MerchantRow
         'state_id',
         'zipcode',
         'sale_rep',
+
+        'title',
+        'dob',
+        'country',
+        'tax_id',
+        'business_tax_id',
+        'business_type',
+
         'notes',
     );
 
@@ -77,6 +102,8 @@ class MerchantRow
     protected $main_email_id;
     protected $merchant_id;
     protected $name;
+    protected $title;
+    protected $dob;
     protected $notes;
     protected $open_date;
     protected $profile_id;
@@ -86,9 +113,16 @@ class MerchantRow
     protected $store_id;
     protected $telephone;
     protected $zipcode;
+    protected $country;
     protected $url;
+    protected $state_id;
 
     protected $status_id;
+    protected $tax_id;
+    protected $business_tax_id;
+    protected $business_type;
+
+    // Table status
     protected $status_name;
 
     // Table state
@@ -133,6 +167,13 @@ LEFT JOIN state s on m.state_id = s.id
     public function getStatusName()     { return $this->status_name; }
     public function getStoreID()        { return $this->store_id; }
 
+    public function getCountryCode()    { return $this->country; }
+    public function getTitle()          { return $this->title; }
+    public function getTaxID()          { return $this->tax_id; }
+    public function getBusinessTaxID()  { return $this->business_tax_id; }
+    public function getBusinessType()   { return $this->business_type; }
+    public function getDOB()            { return $this->dob; }
+
     public function getDiscoverExt()    { return $this->discover_external; }
     public function getAmexExt()        { return $this->amex_external; }
 
@@ -144,7 +185,7 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getCity()           { return $this->city; }
     public function getState()          { return $this->state_name; }
-    public function getRegionCode()      { return $this->state_short_code; }
+    public function getRegionCode()     { return $this->state_short_code; }
     public function getZipCode()        { return $this->zipcode; }
 
     public function getMainEmailID()    { return $this->main_email_id; }
@@ -160,24 +201,6 @@ LEFT JOIN state s on m.state_id = s.id
     public function getMainContactLastName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $last;
-    }
-    public function getCountryCode() {
-        return "USA";
-    }
-    public function getTitle() {
-        return "CEO";
-    }
-    public function getTaxID() {
-        return "123456789";
-    }
-    public function getBusinessTaxID() {
-        return "123456789";
-    }
-    public function getBusinessType() {
-        return "INDIVIDUAL_SOLE_PROPRIETORSHIP";
-    }
-    public function getDOB() {
-        return "1978-02-03";
     }
 
 

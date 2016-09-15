@@ -85,7 +85,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
             </fieldset>
 
             <fieldset>
-                <legend>Transactions</legend>
+                <legend>Transactions: Order #<?php echo $Order->getID(); ?></legend>
                 <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
@@ -101,6 +101,11 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                     </tr>
                     <?php
                     /** @var \Transaction\Model\TransactionRow $Transaction */
+                    $DB = \Config\DBConfig::getInstance();
+                    $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ? LIMIT 100");
+                    /** @noinspection PhpMethodParametersCountMismatchInspection */
+                    $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
+                    $TransactionQuery->execute(array($this->getOrder()->getID()));
                     $odd = false;
                     foreach($TransactionQuery as $Transaction) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

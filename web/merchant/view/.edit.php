@@ -1,4 +1,6 @@
 <?php
+use Merchant\Model\MerchantRow;
+use Merchant\Model\MerchantStatusRow;
 /**
  * @var \Merchant\View\MerchantView $this
  * @var PDOStatement $MerchantQuery
@@ -57,6 +59,10 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><input type="text" name="email" size="32" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>URL</td>
+                        <td><input type="text" name="url" size="32" value="<?php echo $Merchant->getURL(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchant ID</td>
                         <td><input type="text" name="merchant_id" size="12" value="<?php echo $Merchant->getID(); ?>" /></td>
                     </tr>
@@ -89,12 +95,10 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td>
                             <select name="status_id">
                             <?php
-                            $StatusQuery = \Merchant\Model\MerchantStatusRow::queryAll();
-                            foreach($StatusQuery as $State)
-                                /** @var \Merchant\Model\MerchantStatusRow $State */
-                                echo "<option value='", $State->getID(), "'",
-                                ($State->getID() === $Merchant->getStatusID() ? ' selected="selected"' : ''),
-                                ">", $State->getName(), "</option>\n";
+                            foreach(MerchantRow::$ENUM_STATUS as $code=>$title)
+                                echo "<option value='", $code, "'",
+                                    ($Merchant->getStatusID() === $code ? ' selected="selected"' : ''),
+                                    ">", $title, "</option>\n";
                             ?>
                             </select>
                         </td>
@@ -102,6 +106,10 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Store ID</td>
                         <td><input type="text" name="store_id" size="12" value="<?php echo $Merchant->getStoreID(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Sale Rep</td>
+                        <td><input type="text" name="sale_rep" size="32" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Discover Ext</td>
@@ -119,6 +127,38 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td>Main Contact</td>
                         <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getMainContact(); ?>" /></td>
                     </tr>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Title</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTitle(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>DOB</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getDOB(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Tax ID</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTaxID(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Business Tax ID</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
+                    </tr>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Business Type</td>
+                        <td>
+                            <select name="business_type">
+                                <?php
+                                foreach(MerchantRow::$ENUM_BUSINESS_TYPE as $code=>$title)
+                                    echo "<option value='", $code, "'",
+                                        ($Merchant->getBusinessType() === $code ? ' selected="selected"' : ''),
+                                        ">", $title, "</option>\n";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Telephone Number</td>
                         <td><input type="text" name="telephone" size="32" value="<?php echo $Merchant->getTelephone(); ?>" /></td>
@@ -154,9 +194,24 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td>Zip</td>
                         <td><input type="text" name="zipcode" size="12" value="<?php echo $Merchant->getZipCode(); ?>" /></td>
                     </tr>
+
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Sale Rep</td>
-                        <td><input type="text" name="sale_rep" size="32" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
+                        <td>Country</td>
+                        <td>
+                            <select name="country">
+                                <?php
+                                foreach(\System\Arrays\Locations::$COUNTRIES as $code => $name)
+                                    if(strlen($code) === 3)
+                                        echo "<option value='", $code, "'",
+                                        ($code === $Merchant->getCountryCode() ? ' selected="selected"' : ''),
+                                        ">", $name, "</option>\n";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Zip</td>
+                        <td><input type="text" name="zipcode" size="12" value="<?php echo $Merchant->getZipCode(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Notes</td>

@@ -44,11 +44,6 @@ class OrderView extends AbstractView
         switch($this->_action) {
             case 'view':
 
-                $DB = DBConfig::getInstance();
-                $TransactionQuery = $DB->prepare(TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ?");
-                /** @noinspection PhpMethodParametersCountMismatchInspection */
-                $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, 'Transaction\Model\TransactionRow');
-                $TransactionQuery->execute(array($this->getOrder()->getID()));
 
                 include('.view.php');
                 break;
