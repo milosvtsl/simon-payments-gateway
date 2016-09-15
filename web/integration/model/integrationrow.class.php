@@ -109,11 +109,11 @@ FROM integration i
     /**
      * Get or create a Merchant Identity
      * @param MerchantRow $Merchant
-     * @return IntegrationRequestParser
+     * @return AbstractMerchantIdentity
      */
-    public function createMerchantIdentity(MerchantRow $Merchant) {
+    public function getOrCreateMerchantIdentity(MerchantRow $Merchant) {
         $Integration = $this->getIntegration();
-        return $Integration->createMerchantIdentity($Merchant);
+        return $Integration->getOrCreateMerchantIdentity($Merchant);
     }
 
     /**

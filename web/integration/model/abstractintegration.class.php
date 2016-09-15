@@ -7,27 +7,63 @@
  */
 namespace Integration\Model;
 
+use Integration\Model\Ex\IntegrationException;
+use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 
 abstract class AbstractIntegration
 {
-    protected $row;
+    /**
+     * Return an instance of the Integration Row + Credentials
+     * @return IntegrationRow
+     */
+    abstract function getIntegrationRow();
+
+    /**
+     * Execute a prepared request
+     * @param IntegrationRequestRow $Request
+     * @return void
+     * @throws IntegrationException if the request execution failed
+     */
+    abstract function execute(IntegrationRequestRow $Request);
+
+    /**
+     * Was this request successful?
+     * @param IntegrationRequestRow $Request
+     * @return bool
+     * @throws IntegrationException if the request status could not be processed
+     */
+    abstract function isRequestSuccessful(IntegrationRequestRow $Request);
+
+    /**
+     * Print an HTML form containing the request fields
+     * @param IntegrationRequestRow $Request
+     * @return void
+     * @throws IntegrationException if the form failed to print
+     */
+    abstract function printFormHTML(IntegrationRequestRow $Request);
+
+    /**
+     * Parse the response data and return a data object
+     * @param IntegrationRequestRow $Request
+     * @return mixed
+     * @throws IntegrationException if response failed to parse
+     */
+    abstract function parseResponseData(IntegrationRequestRow $Request);
+
+    /**
+     * Return the API Request URL for this request
+     * @param IntegrationRequestRow $Request
+     * @return string
+     * @throws IntegrationException
+     */
+    abstract function getRequestURL(IntegrationRequestRow $Request);
 
     /**
      * Get or create a Merchant Identity
      * @param MerchantRow $Merchant
-     * @return IntegrationRequestParser
+     * @return AbstractMerchantIdentity
      */
-    abstract public function createMerchantIdentity(MerchantRow $Merchant);
+    abstract function getOrCreateMerchantIdentity(MerchantRow $Merchant);
 
-    public function __construct(IntegrationRow $integrationRow) {
-        $this->row = $integrationRow;
-    }
-
-    /**
-     * @return IntegrationRow
-     */
-    public function getIntegrationRow() {
-        return $this->row;
-    }
 }

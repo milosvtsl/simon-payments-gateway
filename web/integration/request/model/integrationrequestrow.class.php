@@ -8,6 +8,7 @@
 namespace Integration\Request\Model;
 
 use Config\DBConfig;
+use Integration\Model\AbstractIntegration;
 use Integration\Model\IntegrationRow;
 
 class IntegrationRequestRow
@@ -48,10 +49,6 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     const SQL_GROUP_BY = "\nGROUP BY ir.id";
     const SQL_ORDER_BY = "\nORDER BY ir.id DESC";
 
-    public function __construct(Array $params=array()) {
-        foreach($params as $key=>$param)
-            $this->$key = $param;
-    }
     public function __set($key, $value) {
         throw new \InvalidArgumentException("Property does not exist: " . $key);
     }
@@ -86,9 +83,55 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     public function getResult()             { return $this->result; }
     public function getDate()               { return $this->date; }
 
+    public function setRequest($request)    { $this->request = $request; }
+    public function setResponse($response)  { $this->response = $response; }
     public function setResult($result)      { $this->result = $result; }
 
+    /**
+     * @return AbstractIntegration
+     */
+    function getIntegration() {
+        $class = $this->getClassPath();
+        /** @var AbstractIntegration $Integration */
+        $Integration = new $class;
+        return $Integration;
+    }
+
+    function execute() {
+        $Integration = $this->getIntegration();
+        $Integration->execute($this);
+    }
+
+    function isRequestSuccessful() {
+        $Integration = $this->getIntegration();
+        return $Integration->isRequestSuccessful($this);
+    }
+
+    function printFormHTML() {
+        $Integration = $this->getIntegration();
+        $Integration->printFormHTML($this);
+    }
+
+    function parseResponseData() {
+        $Integration = $this->getIntegration();
+        return $Integration->parseResponseData($this);
+    }
+
+    public function getRequestURL() {
+        $Integration = $this->getIntegration();
+        return $Integration->getRequestURL($this);
+    }
+
     // Static
+
+    public static function prepareNew($integration_class_path, $integration_id, $type, $type_id) {
+        $Request = new self;
+        $Request->integration_class_path = $integration_class_path;
+        $Request->integration_id = $integration_id;
+        $Request->type = $type;
+        $Request->type_id = $type_id;
+        return $Request;
+    }
 
     /**
      * @param $id

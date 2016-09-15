@@ -230,7 +230,7 @@ LEFT JOIN state s on m.state_id = s.id
      * @param string $type
      * @return IntegrationRequestRow
      */
-    public function fetchAPIRequest(AbstractIntegration $Integration, $result='success', $type=IntegrationRequestRow::ENUM_TYPE_MERCHANT) {
+    public function fetchAPIRequest(AbstractIntegration $Integration, $type, $result=IntegrationRequestRow::ENUM_RESULT_SUCCESS) {
         return IntegrationRequestRow::fetchByType(
             $type,
             $this->getID(),

@@ -8,7 +8,6 @@
 
 namespace Integration\Finix\Test;
 
-use Integration\Finix\FinixIdentityRequestParser;
 use Integration\Model\IntegrationRow;
 use Merchant\Test\TestMerchantRow;
 
@@ -29,11 +28,10 @@ $Integration = IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'
 
 // Test Data!
 
-$MerchantIdentity = $Integration->createMerchantIdentity($Merchant);
-if(!$MerchantIdentity->requestIsSuccessful())
-    throw new \Exception("Request was not successful");
+$MerchantIdentity = $Integration->getOrCreateMerchantIdentity($Merchant);
 //$ResponseData = $MerchantIdentity->getParsedResponseData();
-print_r($MerchantIdentity->parseRemoteID());
+print_r($MerchantIdentity->getID());
+print_r($MerchantIdentity->getCreateDate());
 // Done
 
 echo "\nFinix Integration Test successful";

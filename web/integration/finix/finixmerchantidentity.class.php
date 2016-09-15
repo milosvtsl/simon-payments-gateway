@@ -7,86 +7,34 @@
  */
 namespace Integration\Finix;
 
-use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRequestParser;
-use Integration\Model\Ex\IntegrationException;
+use Integration\Model\AbstractMerchantIdentity;
+use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 
-// TODO: IntegrationRequestParser => IntegrationRequest
-class FinixIdentityRequestParser extends IntegrationRequestParser
+class FinixMerchantIdentity extends AbstractMerchantIdentity
 {
-    const POST_URL = "/identities/";
-
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
 
-    protected function parseResponse() {
-        $response = $this->getRequestRow()->getResponse();
-        $data = json_decode($response, true);
-        if(!$data)
-            throw new IntegrationException("Response failed to parse JSON");
 
-        $errorMessage = null;
-        if(!empty($data['_embedded'])) {
-            if(!empty($data['_embedded']['errors'])) {
-                foreach($data['_embedded']['errors'] as $i => $errInfo) {
-                    $errorMessage .= ($errorMessage ? "\n" : '') . '#' . ($i+1) . ' ' . $errInfo['code'] . ': ' . $errInfo['message'];
-                }
-            }
-        }
-
-        if($errorMessage)
-            throw new IntegrationException($errorMessage);
-
-        if(empty($data['entity']))
-            throw new IntegrationException("Missing response key: 'entity'");
-//        $id = $data['id'];
-//        $entity = $data['entity'];
-        return $data;
-    }
-
-    public function requestIsSuccessful() {
-//        if($this->getRequestRow()->getResult() !== IntegrationRequestRow::ENUM_RESULT_SUCCESS)
-//            return false;
-        $data = $this->getParsedResponseData();
-        if(empty($data['id']))
-            return false;
-
-        return true;
-    }
-
-    public function parseRemoteID() {
-        $data = $this->getParsedResponseData();
+    public function getID() {
+        $data = $this->getRequestData();
         return $data['id'];
     }
 
-    public function parseRemoteCreateDate() {
-        $data = $this->getParsedResponseData();
+    public function getCreateDate() {
+        $data = $this->getRequestData();
         return $data['created_at'];
     }
 
-    public function parseRemoteUpdateDate() {
-        $data = $this->getParsedResponseData();
+    public function getRemoteUpdateDate() {
+        $data = $this->getRequestData();
         return $data['updated_at'];
     }
 
-
     // Static
 
-    /**
-     * @param AbstractIntegration $Integration
-     * @param MerchantRow $M
-     * @param resource $ch
-     * @return string
-     */
-    public static function prepareCURL(AbstractIntegration $Integration, MerchantRow $M, $ch) {
-        $APIData = $Integration->getIntegrationRow();
-        $url = $APIData->getAPIURLBase() . self::POST_URL;
-        $userpass = $APIData->getAPIUsername() . ':' . $APIData->getAPIPassword();
-        $headers = array(
-            "Content-Type: application/vnd.json+api",
-        );
-
+    public static function prepareMerchantRequest(IntegrationRequestRow $NewRequest, MerchantRow $M) {
         $POST = array(
             'tags' => array(
                 'key' => 'value'
@@ -140,16 +88,7 @@ class FinixIdentityRequestParser extends IntegrationRequestParser
         );
 
         $request = json_encode($POST, JSON_PRETTY_PRINT);
-
-        // Set CURL options
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_USERPWD, $userpass);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
-
-        return $request;
-
+        $NewRequest->setRequest($request);
     }
 }
 

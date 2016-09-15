@@ -13,180 +13,198 @@ use Integration\Model\IntegrationRow;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Integration\Model\AbstractMerchantIdentity;
 
 // https://finix-payments.github.io/simonpay-docs/?shell#step-1-create-an-identity-for-a-merchant
 class FinixIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
-    const POST_URL = "identities/";
 
-    const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
-    const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
-
-    public function __construct(IntegrationRow $IntegrationRow) {
-        parent::__construct($IntegrationRow);
-    }
+    const POST_URL_IDENTITIES = "/identities/";
 
     /**
      * @param MerchantRow $Merchant
-     * @return FinixIdentityRequestParser
+     * @return AbstractMerchantIdentity
      */
-    public function createMerchantIdentity(MerchantRow $Merchant) {
-        $MerchantRequestRow = $Merchant->fetchAPIRequest($this);
+    public function getOrCreateMerchantIdentity(MerchantRow $Merchant) {
+        $MerchantRequestRow = $Merchant->fetchAPIRequest($this, IntegrationRequestRow::ENUM_TYPE_MERCHANT);
         // If identity was already found, return it
         if($MerchantRequestRow)
-            return new FinixIdentityRequestParser($MerchantRequestRow);
+            return new FinixMerchantIdentity($Merchant, $MerchantRequestRow);
 
+        // Create new Integration Request
+        $NewRequest = IntegrationRequestRow::prepareNew(
+            __CLASS__,
+            $this->getIntegrationRow()->getID(),
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT,
+            $Merchant->getID()
+        );
 
-        // No remote identity found, so we have to provision the merchant
-        $FinixAPIUtil = new FinixAPIUtil();
+        // Prepare Merchant Identity Request
+        FinixMerchantIdentity::prepareMerchantRequest($NewRequest, $Merchant);
+
+        // Execute Merchant Identity Request
+        $this->execute($NewRequest);
+
+        // Return new Identity
+        return new FinixMerchantIdentity($Merchant, $NewRequest);
+    }
+
+    /**
+     * @return IntegrationRow
+     */
+    function getIntegrationRow() {
+        static $Integration = null; // Cache a copy
+        $Integration = $Integration
+            ?: IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'); // Finix.io Staging
+        return $Integration;
+    }
+
+    /**
+     * Execute a prepared request
+     * @param IntegrationRequestRow $Request
+     * @return void
+     * @throws IntegrationException if the request execution failed
+     */
+    function execute(IntegrationRequestRow $Request) {
+        if(!$Request->getRequest())
+            throw new IntegrationException("Request content is empty");
+        if($Request->getResponse())
+            throw new IntegrationException("This request instance already has a response");
+
+        $APIData = $this->getIntegrationRow();
+        $url = $Request->getRequestURL();
+        $userpass = $APIData->getAPIUsername() . ':' . $APIData->getAPIPassword();
+        $headers = array(
+            "Content-Type: application/vnd.json+api",
+        );
+
+        // Init curl
         $ch = curl_init();
-        $result = IntegrationRequestRow::ENUM_RESULT_FAIL;
 
         // Disable SSL verification
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
 
-        $request = $FinixAPIUtil->prepareMerchantIdentityCURL($this, $Merchant, $ch);
+
+        // Set CURL options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_USERPWD, $userpass);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
+
         if(!$response = curl_exec($ch)) {
             $response = curl_error($ch);
             trigger_error($response);
-            $result = IntegrationRequestRow::ENUM_RESULT_ERROR;
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
         curl_close($ch);
 
-        // Create new Merchant Identity
-        $MerchantRequestRow = new IntegrationRequestRow(array(
-            'type' => IntegrationRequestRow::ENUM_TYPE_MERCHANT,
-            'type_id' => $Merchant->getID(),
-            'integration_id' => $this->getIntegrationRow()->getID(),
-            'request' => $request,
-            'response' => $response,
-            'result' => $result
-        ));
+        // Save the response
+        $Request->setResponse($response);
 
-        $MerchantIdentity = new FinixIdentityRequestParser($MerchantRequestRow);
         try {
-            $MerchantIdentity->getParsedResponseData();
-            if($MerchantIdentity->requestIsSuccessful())
-                $MerchantRequestRow->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+            // Try parsing the response
+            $Request->parseResponseData();
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
+            if($Request->isRequestSuccessful())
+                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         } catch (IntegrationException $ex) {
-            $MerchantRequestRow->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
 
         // Insert Request
-        IntegrationRequestRow::insert($MerchantRequestRow);
+        IntegrationRequestRow::insert($Request);
 
-        return $MerchantIdentity;
     }
 
     /**
-     * @param MerchantRow $Merchant
-     * @return FinixIdentityRequestParser
+     * Was this request successful?
+     * @param IntegrationRequestRow $Request
+     * @return bool
+     * @throws IntegrationException if the request status could not be processed
      */
-    public function createPaymentInstrument(MerchantRow $Merchant) {
-        $MerchantRequestRow = $Merchant->fetchAPIRequest($this);
-        // If identity was already found, return it
-        if($MerchantRequestRow)
-            return new FinixIdentityRequestParser($MerchantRequestRow);
-
-
-        // No remote identity found, so we have to provision the merchant
-        $FinixAPIUtil = new FinixAPIUtil();
-        $ch = curl_init();
-        $result = IntegrationRequestRow::ENUM_RESULT_FAIL;
-
-        // Disable SSL verification
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-        $request = $FinixAPIUtil->prepareMerchantIdentityCURL($this, $Merchant, $ch);
-        if(!$response = curl_exec($ch)) {
-            $response = curl_error($ch);
-            trigger_error($response);
-            $result = IntegrationRequestRow::ENUM_RESULT_ERROR;
+    function isRequestSuccessful(IntegrationRequestRow $Request) {
+        switch($Request->getIntegrationType()) {
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+                $data = $Request->parseResponseData();
+                if(!empty($data['id']))
+                    return true;
+                return false;
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                return false;
+            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+                return false;
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+                return false;
         }
-        curl_close($ch);
-
-        // Create new Merchant Identity
-        $MerchantRequestRow = new IntegrationRequestRow(array(
-            'type' => IntegrationRequestRow::ENUM_TYPE_MERCHANT,
-            'type_id' => $Merchant->getID(),
-            'integration_id' => $this->getIntegrationRow()->getID(),
-            'request' => $request,
-            'response' => $response,
-            'result' => $result
-        ));
-
-        $MerchantIdentity = new FinixIdentityRequestParser($MerchantRequestRow);
-        try {
-            $MerchantIdentity->getParsedResponseData();
-            if($MerchantIdentity->requestIsSuccessful())
-                $MerchantRequestRow->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-
-        } catch (IntegrationException $ex) {
-            $MerchantRequestRow->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
-        }
-
-        // Insert Request
-        IntegrationRequestRow::insert($MerchantRequestRow);
-
-        return $MerchantIdentity;
+        return false;
     }
 
+    /**
+     * Print an HTML form containing the request fields
+     * @param IntegrationRequestRow $Request
+     * @return void
+     * @throws IntegrationException if the form failed to print
+     */
+    function printFormHTML(IntegrationRequestRow $Request) {
+        switch($Request->getIntegrationType()) {
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+                break;
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                break;
+            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+                break;
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+                break;
+        }
+    }
 
     /**
-     * @param MerchantRow $Merchant
-     * @return FinixIdentityRequestParser
+     * Return the API Request URL for this request
+     * @param IntegrationRequestRow $Request
+     * @return string
+     * @throws IntegrationException
      */
-    public function provisionMerchant(MerchantRow $Merchant) {
-        $MerchantRequestRow = $Merchant->fetchAPIRequest($this);
-        // If identity was already found, return it
-        if($MerchantRequestRow)
-            return new FinixIdentityRequestParser($MerchantRequestRow);
-
-
-        // No remote identity found, so we have to provision the merchant
-        $FinixAPIUtil = new FinixAPIUtil();
-        $ch = curl_init();
-        $result = IntegrationRequestRow::ENUM_RESULT_FAIL;
-
-        // Disable SSL verification
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-        $request = $FinixAPIUtil->prepareMerchantIdentityCURL($this, $Merchant, $ch);
-        if(!$response = curl_exec($ch)) {
-            $response = curl_error($ch);
-            trigger_error($response);
-            $result = IntegrationRequestRow::ENUM_RESULT_ERROR;
+    function getRequestURL(IntegrationRequestRow $Request) {
+        switch($Request->getIntegrationType()) {
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+                return $this->getIntegrationRow()->getAPIURLBase() . self::POST_URL_IDENTITIES;
         }
-        curl_close($ch);
+        throw new IntegrationException("No API url for this request type");
+    }
 
-        // Create new Merchant Identity
-        $MerchantRequestRow = new IntegrationRequestRow(array(
-            'type' => IntegrationRequestRow::ENUM_TYPE_MERCHANT,
-            'type_id' => $Merchant->getID(),
-            'integration_id' => $this->getIntegrationRow()->getID(),
-            'request' => $request,
-            'response' => $response,
-            'result' => $result
-        ));
+    /**
+     * Parse the response data and return a data object
+     * @param IntegrationRequestRow $Request
+     * @return mixed
+     * @throws IntegrationException if response failed to parse
+     */
+    function parseResponseData(IntegrationRequestRow $Request) {
+        $response = $Request->getResponse();
+        if(!$response)
+            throw new IntegrationException("Empty Request response");
+        $data = json_decode($response, true);
+        if(!$data)
+            throw new IntegrationException("Response failed to parse JSON");
 
-        $MerchantIdentity = new FinixIdentityRequestParser($MerchantRequestRow);
-        try {
-            $MerchantIdentity->getParsedResponseData();
-            if($MerchantIdentity->requestIsSuccessful())
-                $MerchantRequestRow->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-
-        } catch (IntegrationException $ex) {
-            $MerchantRequestRow->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+        $errorMessage = null;
+        if(!empty($data['_embedded'])) {
+            if(!empty($data['_embedded']['errors'])) {
+                foreach($data['_embedded']['errors'] as $i => $errInfo) {
+                    $errorMessage .= ($errorMessage ? "\n" : '') . '#' . ($i+1) . ' ' . $errInfo['code'] . ': ' . $errInfo['message'];
+                }
+            }
         }
 
-        // Insert Request
-        IntegrationRequestRow::insert($MerchantRequestRow);
-        return $MerchantIdentity;
+        if($errorMessage)
+            throw new IntegrationException($errorMessage);
+
+        if(empty($data['entity']))
+            throw new IntegrationException("Missing response key: 'entity'");
+        return $data;
     }
 
 }
