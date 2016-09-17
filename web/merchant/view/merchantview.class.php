@@ -53,6 +53,12 @@ class MerchantView extends AbstractView
             case 'view':
                 include('.view.php');
                 break;
+            case 'settle':
+                include('.settle.php');
+                break;
+            case 'provision':
+                include('.provision.php');
+                break;
             case 'edit':
                 include('.edit.php');
                 break;

@@ -9,6 +9,7 @@ namespace Merchant\Model;
 
 use Config\DBConfig;
 use Integration\Model\AbstractIntegration;
+use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 
 class MerchantRow
@@ -19,6 +20,17 @@ class MerchantRow
     const SORT_BY_ID                = 'm.id';
     const SORT_BY_NAME              = 'm.name';
     const SORT_BY_MAIN_EMAIL_ID     = 'm.main_email_id';
+
+    const SQL_SELECT = "
+SELECT m.*,
+  (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
+  s.name as state_name, s.short_code as state_short_code
+FROM merchant m
+LEFT JOIN state s on m.state_id = s.id
+";
+    const SQL_GROUP_BY = "\nGROUP BY m.id";
+    const SQL_ORDER_BY = "\nORDER BY m.id DESC";
+    const SQL_WHERE =    "\nWHERE m.status_id != 4";
 
     public static $ENUM_BUSINESS_TYPE = array(
         'INDIVIDUAL_SOLE_PROPRIETORSHIP' => "Individual Sole Proprietorship",
@@ -35,6 +47,7 @@ class MerchantRow
         1 => "Live",
         2 => "In Progress",
         3 => "Canceled",
+        4 => "Hidden",
     );
 
     public static $SORT_FIELDS = array(
@@ -128,17 +141,6 @@ class MerchantRow
     // Table state
     protected $state_short_code;
     protected $state_name;
-
-    const SQL_SELECT = "
-SELECT m.*,
-  (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
-  s.name as state_name, s.short_code as state_short_code
-FROM merchant m
-LEFT JOIN state s on m.state_id = s.id
-";
-    const SQL_GROUP_BY = "\nGROUP BY m.id";
-    const SQL_ORDER_BY = "\nORDER BY m.id DESC";
-
 
     public function __construct(Array $params=array()) {
         foreach($params as $key=>$param)
@@ -237,6 +239,22 @@ LEFT JOIN state s on m.state_id = s.id
             $Integration->getIntegrationRow()->getID(),
             $result
         );
+    }
+
+    public function getProvisionRequest(IntegrationRow $IntegrationRow) {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(IntegrationRequestRow::SQL_SELECT
+            . "WHERE ir.type LIKE :type"
+            . "\n\tAND ir.type_id = :type_id"
+            . "\n\tAND ir.integration_id = :integration_id"
+            . "\n\tSORT BY ir.result='success' DESC");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, IntegrationRequestRow::_CLASS);
+        $stmt->execute(array(
+            ':type' => "merchant%",
+            ':type_id' => $this->getID(),
+            ':integration_id' => $IntegrationRow->getID(),
+        ));
     }
 
     // Static

@@ -5,7 +5,7 @@
  * Date: 9/2/2016
  * Time: 11:13 AM
  */
-namespace Integration\Finix;
+namespace Integration\Element;
 
 use Integration\Model;
 use Integration\Model\AbstractIntegration;
@@ -15,8 +15,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
 
-// https://finix-payments.github.io/simonpay-docs/?shell#step-1-create-an-identity-for-a-merchant
-class FinixIntegration extends AbstractIntegration
+class ElementIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
 
@@ -29,7 +28,7 @@ class FinixIntegration extends AbstractIntegration
      * @return AbstractMerchantIdentity
      */
     public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new FinixMerchantIdentity($Merchant, $integrationRow);
+        return new ElementMerchantIdentity($Merchant, $integrationRow);
     }
 
     /**

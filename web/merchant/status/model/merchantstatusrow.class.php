@@ -5,9 +5,10 @@
  * Date: 8/28/2016
  * Time: 1:32 PM
  */
-namespace Merchant\Model;
+namespace Merchant\Status\Model;
 
 use Config\DBConfig;
+use Merchant\Model\MerchantRow;
 
 class MerchantStatusRow
 {

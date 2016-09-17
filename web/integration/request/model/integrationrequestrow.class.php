@@ -117,9 +117,9 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         return $Integration->parseResponseData($this);
     }
 
-    public function getRequestURL() {
+    public function getRequestURL(IntegrationRow $APIData=null) {
         $Integration = $this->getIntegration();
-        return $Integration->getRequestURL($this);
+        return $Integration->getRequestURL($this, $APIData);
     }
 
     // Static

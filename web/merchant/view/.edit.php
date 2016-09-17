@@ -1,6 +1,5 @@
 <?php
 use Merchant\Model\MerchantRow;
-use Merchant\Model\MerchantStatusRow;
 /**
  * @var \Merchant\View\MerchantView $this
  * @var PDOStatement $MerchantQuery
@@ -18,9 +17,6 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else { ?>
-            <h5>Edit this Merchant Account...</h5>
-
         <?php } ?>
     </section>
 
@@ -30,10 +26,12 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 <legend>Actions</legend>
                 <a href="merchant?" class="button">Merchant List</a>
                 <a href="<?php echo $action_url; ?>view" class="button">View</a>
+                <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
+                <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
             </fieldset>
             <fieldset>
                 <legend>Edit Merchant Fields</legend>
-                <table class="table-merchant-info themed">
+                <table class="table-merchant-info themed" style="float: left;">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -43,9 +41,22 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><?php echo $Merchant->getID(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>UID</td>
-                        <td><?php echo $Merchant->getUID(); ?></td>
+                        <td>Status</td>
+                        <td>
+                            <select name="status_id">
+                                <?php
+                                foreach(MerchantRow::$ENUM_STATUS as $code=>$title)
+                                    echo "<option value='", $code, "'",
+                                    ($Merchant->getStatusID() === $code ? ' selected="selected"' : ''),
+                                    ">", $title, "</option>\n";
+                                ?>
+                            </select>
+                        </td>
                     </tr>
+<!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                        <td>UID</td>-->
+<!--                        <td>--><?php //echo $Merchant->getUID(); ?><!--</td>-->
+<!--                    </tr>-->
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Name</td>
                         <td><input type="text" name="name" size="32" value="<?php echo $Merchant->getName(); ?>" /></td>
@@ -91,25 +102,8 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><input type="datetime-local" name="open_date" value="<?php echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Status</td>
-                        <td>
-                            <select name="status_id">
-                            <?php
-                            foreach(MerchantRow::$ENUM_STATUS as $code=>$title)
-                                echo "<option value='", $code, "'",
-                                    ($Merchant->getStatusID() === $code ? ' selected="selected"' : ''),
-                                    ">", $title, "</option>\n";
-                            ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Store ID</td>
                         <td><input type="text" name="store_id" size="12" value="<?php echo $Merchant->getStoreID(); ?>" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Sale Rep</td>
-                        <td><input type="text" name="sale_rep" size="32" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Discover Ext</td>
@@ -122,19 +116,6 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Agent Chain</td>
                         <td><input type="text" name="agent_chain" size="32" value="<?php echo $Merchant->getAgentChain(); ?>" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Main Contact</td>
-                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getMainContact(); ?>" /></td>
-                    </tr>
-
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Title</td>
-                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTitle(); ?>" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>DOB</td>
-                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getDOB(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Tax ID</td>
@@ -214,12 +195,37 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><input type="text" name="zipcode" size="12" value="<?php echo $Merchant->getZipCode(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Notes</td>
-                        <td><textarea type="text" name="notes" rows="5" cols="34" ><?php echo $Merchant->getNotes(); ?></textarea></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Update</td>
                         <td><input type="submit" value="Update" /></td>
+                    </tr>
+                </table>
+                <table class="table-merchant-info themed">
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Main Contact</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getMainContact(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Sale Rep</td>
+                        <td><input type="text" name="sale_rep" size="32" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
+                    </tr>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Title</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTitle(); ?>" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>DOB</td>
+                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getDOB(); ?>" /></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><?php echo $Merchant->getShortName(); ?> Notes</th>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td colspan="2"><textarea type="text" name="notes" rows="45" cols="44" placeholder="Merchant-specific notes" ><?php echo $Merchant->getNotes(); ?></textarea></td>
                     </tr>
                 </table>
             </fieldset>

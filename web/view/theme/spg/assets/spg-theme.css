@@ -75,9 +75,16 @@ body.spg-theme form.themed a {
     text-decoration: none;
 }
 
-body.spg-theme form.themed > fieldset {
+body.spg-theme form.themed > fieldset,
+body.spg-theme fieldset.themed {
     border-radius: 0.3em;
     margin-bottom: 0.5em;
+}
+
+body.spg-theme form.themed > fieldset > legend,
+body.spg-theme fieldset.themed > legend,
+body.spg-theme legend.themed {
+    font-weight: bold;
 }
 
 body.spg-theme form.themed select,
@@ -86,6 +93,10 @@ body.spg-theme form.themed input {
     padding: 0.3em 0.5em;
     border-radius: 0.3em;
     border-width: 1px;
+}
+body.spg-theme form.themed select,
+body.spg-theme form.themed input {
+    max-width: 16em;
 }
 
 body.spg-theme form.themed select.large,
@@ -97,8 +108,10 @@ body.spg-theme form.themed input.large {
 
 
 body.spg-theme a.button {
-    padding: 0.5em 1.0em;
+    padding: 0.3em 1.0em;
     display: inline-block;
+    min-width: 4.5em;
+    text-align: center;
     border-radius: 0.3em;
     border-width: 1px;
     font: bold 9pt Arial;
@@ -111,6 +124,10 @@ body.spg-theme a.button {
 }
 body.spg-theme a.button:hover {
     background-color: #DDD;
+}
+body.spg-theme a.button[disabled] {
+    color: gray;
+    cursor: default;
 }
 
 

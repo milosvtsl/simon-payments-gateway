@@ -1,5 +1,7 @@
 <?php
 use Merchant\Model\MerchantRow;
+use Integration\Model\IntegrationRow;
+use Integration\Request\Model\IntegrationRequestRow;
 /**
  * @var \Merchant\View\MerchantView $this
  * @var PDOStatement $MerchantQuery
@@ -24,12 +26,15 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
     </section>
 
     <section class="content">
-        <form class="form-view-merchant themed" onsubmit="return false;">
+        <form class="form-view-merchant themed" method="GET">
             <fieldset class="action-fields">
                 <legend>Actions</legend>
                 <a href="merchant?" class="button">Merchant List</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-<!--                <a href="--><?php //echo $action_url; ?><!--delete" class="button">Delete</a>-->
+                <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
+                <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
+
+                <!--                <a href="--><?php //echo $action_url; ?><!--delete" class="button">Delete</a>-->
             </fieldset>
             <fieldset>
                 <legend>Merchant Information</legend>
@@ -60,7 +65,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>URL</td>
-                        <td><a href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
+                        <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchant ID</td>
@@ -162,7 +167,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>State</td>
-                        <td><?php echo $Merchant->getRegionCode(); ?></td>
+                        <td><?php echo \System\Arrays\Locations::$STATES[$Merchant->getRegionCode()]; ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Zip</td>
@@ -170,7 +175,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Country</td>
-                        <td><?php echo $Merchant->getCountryCode(); ?></td>
+                        <td><?php echo \System\Arrays\Locations::$COUNTRIES[$Merchant->getCountryCode()]; ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td colspan="2">
@@ -178,6 +183,49 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         </td>
                     </tr>
                 </table>
+            </fieldset>
+
+            <fieldset>
+                <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
+                <table class="table-merchant-info themed">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Complete</th>
+                        <th>Provisioned</th>
+                        <th>Settle</th>
+                        <th>Notes</th>
+                    </tr>
+                    <?php
+
+                    $DB = \Config\DBConfig::getInstance();
+                    $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+                    /** @noinspection PhpMethodParametersCountMismatchInspection */
+                    $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
+                    $IntegrationQuery->execute(array($this->getMerchant()->getID()));
+
+                    $odd = false;
+                    /** @var IntegrationRow $IntegrationRow **/
+                    foreach($IntegrationQuery as $IntegrationRow) {
+                        $id = $IntegrationRow->getID();
+                        $MerchantIdentity = $IntegrationRow->getMerchantIdentity($Merchant);
+                        if(!$MerchantIdentity->isProvisioned())
+                            continue;
+                    ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td><?php echo $IntegrationRow->getID(); ?></td>
+                            <td><?php echo $IntegrationRow->getName(); ?></td>
+                            <td><?php echo $IntegrationRow->getAPIType(); ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete(NULL) ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->canSettleFunds() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td style="max-width: 24em; overflow-x: hidden;"><?php echo $IntegrationRow->getNotes(); ?></td>
+                        </tr>
+
+                    <?php } ?>
+
+                    </table>
             </fieldset>
 
             <fieldset>

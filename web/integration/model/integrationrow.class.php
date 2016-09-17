@@ -15,6 +15,8 @@ class IntegrationRow
     const TABLE_NAME = 'integration';
     const _CLASS = __CLASS__;
 
+    const ENUM_API_TYPE_PRODUCTION  = 'production';
+    const ENUM_API_TYPE_TESTING     = 'testing';
 
     const SORT_BY_ID                = 'i.id';
     const SORT_BY_NAME              = 'i.name';
@@ -41,7 +43,7 @@ SELECT i.*,
 FROM integration i
 ";
     const SQL_GROUP_BY = "\nGROUP BY i.id";
-    const SQL_ORDER_BY = "\nORDER BY i.id ASC";
+    const SQL_ORDER_BY = "\nORDER BY i.api_type='production' DESC";
 
 
     public function __construct(Array $params=array()) {
@@ -62,6 +64,7 @@ FROM integration i
     protected $api_username;
     protected $api_password;
     protected $api_app_id;
+    protected $api_type;
     protected $notes;
 
     // Calculated
@@ -80,6 +83,7 @@ FROM integration i
     public function getAPIUsername()    { return $this->api_username; }
     public function getAPIPassword()    { return $this->api_password; }
     public function getAPIAppID()       { return $this->api_app_id; }
+    public function getAPIType()        { return $this->api_type; }
     public function getNotes()          { return $this->notes; }
 
     public function getSuccessCount()   { return $this->request_success; }
@@ -111,9 +115,9 @@ FROM integration i
      * @param MerchantRow $Merchant
      * @return AbstractMerchantIdentity
      */
-    public function getOrCreateMerchantIdentity(MerchantRow $Merchant) {
+    public function getMerchantIdentity(MerchantRow $Merchant) {
         $Integration = $this->getIntegration();
-        return $Integration->getOrCreateMerchantIdentity($Merchant);
+        return $Integration->getMerchantIdentity($Merchant, $this);
     }
 
     /**

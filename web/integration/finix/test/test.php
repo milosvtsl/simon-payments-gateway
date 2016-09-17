@@ -11,6 +11,8 @@ namespace Integration\Finix\Test;
 use Integration\Model\IntegrationRow;
 use Merchant\Test\TestMerchantRow;
 
+echo "Testing ... ", __FILE__, PHP_EOL;
+
 // Go to root directory
 $cwd = getcwd();
 chdir('../../..');
@@ -22,16 +24,16 @@ spl_autoload_register();
 
 // Test Data
 $Merchant = new TestMerchantRow();
-$Integration = IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'); // Finix.io Staging
+$FinixAPI = IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'); // Finix.io Staging
 //$Integration = new TestFinixIntegrationRow();
 
 
 // Test Data!
 
-$MerchantIdentity = $Integration->getOrCreateMerchantIdentity($Merchant);
+$MerchantIdentity = $FinixAPI->getMerchantIdentity($Merchant);
 //$ResponseData = $MerchantIdentity->getParsedResponseData();
-print_r($MerchantIdentity->getID());
-print_r($MerchantIdentity->getCreateDate());
+var_dump($MerchantIdentity->getRemoteID());
+var_dump($MerchantIdentity->getCreateDate());
 // Done
 
 echo "\nFinix Integration Test successful";

@@ -14,12 +14,6 @@ use Merchant\Model\MerchantRow;
 abstract class AbstractIntegration
 {
     /**
-     * Return an instance of the Integration Row + Credentials
-     * @return IntegrationRow
-     */
-    abstract function getIntegrationRow();
-
-    /**
      * Execute a prepared request
      * @param IntegrationRequestRow $Request
      * @return void
@@ -54,16 +48,17 @@ abstract class AbstractIntegration
     /**
      * Return the API Request URL for this request
      * @param IntegrationRequestRow $Request
+     * @param IntegrationRow $APIData
      * @return string
-     * @throws IntegrationException
      */
-    abstract function getRequestURL(IntegrationRequestRow $Request);
+    abstract function getRequestURL(IntegrationRequestRow $Request, IntegrationRow $APIData=null);
 
     /**
      * Get or create a Merchant Identity
      * @param MerchantRow $Merchant
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    abstract function getOrCreateMerchantIdentity(MerchantRow $Merchant);
+    abstract function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $IntegrationRow);
 
 }

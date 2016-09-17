@@ -25,7 +25,7 @@ class MerchantListView extends AbstractListView {
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 50);
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = MerchantRow::SQL_WHERE;
 		$statsMessage = '';
 
 		// Set up WHERE conditions

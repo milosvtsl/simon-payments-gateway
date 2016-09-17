@@ -5,7 +5,7 @@
  * Date: 9/12/2016
  * Time: 6:00 PM
  */
-namespace Integration\Finix;
+namespace Integration\Element;
 
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
@@ -13,7 +13,7 @@ use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 
-class FinixMerchantIdentity extends AbstractMerchantIdentity
+class ElementMerchantIdentity extends AbstractMerchantIdentity
 {
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
@@ -38,8 +38,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
 
     function isProfileComplete(&$message=null) {
-        $message = "Ready";
-        return true;
+        $message = "Incomplete";
+        return false;
     }
 
     function isProvisioned(&$message=null) {
@@ -48,46 +48,44 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     }
 
     function canSettleFunds(&$message=null) {
-        $message = "Needs PI";
+        $message = "No";
         return false;
     }
 
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();
-        $data = json_decode($response, true);
-        if(!$data)
-            throw new IntegrationException("Response failed to parse JSON");
-
-        $errorMessage = null;
-        if(!empty($data['_embedded'])) {
-            if(!empty($data['_embedded']['errors'])) {
-                foreach($data['_embedded']['errors'] as $i => $errInfo) {
-                    $errorMessage .= ($errorMessage ? "\n" : '') . '#' . ($i+1) . ' ' . $errInfo['code'] . ': ' . $errInfo['message'];
-                }
-            }
-        }
-
-        if($errorMessage)
-            throw new IntegrationException($errorMessage);
-
-        if(!empty($data['entity']))
-            $this->entity = $data['entity'];
-
-        switch($APIRequest->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
-                $this->id = $data['id'];
-                $this->updated_at = $data['updated_at'];
-                $this->created_at = $data['created_at'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
-                break;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
-                break;
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                break;
-        }
+        throw new IntegrationException("TODO");
+//
+//        $errorMessage = null;
+//        if(!empty($data['_embedded'])) {
+//            if(!empty($data['_embedded']['errors'])) {
+//                foreach($data['_embedded']['errors'] as $i => $errInfo) {
+//                    $errorMessage .= ($errorMessage ? "\n" : '') . '#' . ($i+1) . ' ' . $errInfo['code'] . ': ' . $errInfo['message'];
+//                }
+//            }
+//        }
+//
+//        if($errorMessage)
+//            throw new IntegrationException($errorMessage);
+//
+//        if(!empty($data['entity']))
+//            $this->entity = $data['entity'];
+//
+//        switch($APIRequest->getIntegrationType()) {
+//            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+//                $this->id = $data['id'];
+//                $this->updated_at = $data['updated_at'];
+//                $this->created_at = $data['created_at'];
+//                break;
+//
+//            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+//                break;
+//            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+//                break;
+//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+//                break;
+//        }
     }
 
 
@@ -95,9 +93,6 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
     public static function prepareMerchantRequest(IntegrationRequestRow $NewRequest, MerchantRow $M) {
         $POST = array(
-            'tags' => array(
-                'key' => 'value'
-            ),
             'entity' => array(
                 "last_name" => $M->getMainContactLastName(),                        // "Sunkhronos",
                 "max_transaction_amount" => self::DEFAULT_MAX_TRANSACTION_AMOUNT,   // 120000,
@@ -151,90 +146,3 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     }
 
 }
-
-//{
-//  "id" : "IDhnR4KxxqzQczVdXjnm4DLH",
-//  "entity" : {
-//        "title" : "CEO",
-//    "first_name" : "Sandra",
-//    "last_name" : "Test",
-//    "email" : "sandra@test.com",
-//    "business_name" : "Interamerica Data Florida",
-//    "business_type" : "INDIVIDUAL_SOLE_PROPRIETORSHIP",
-//    "doing_business_as" : "Interamerica Data Florida",
-//    "phone" : "305 9828371",
-//    "business_phone" : "305 9828371",
-//    "personal_address" : {
-//            "line1" : "Fake Address 123",
-//      "line2" : "#101",
-//      "city" : "Miami",
-//      "region" : null,
-//      "postal_code" : "33147",
-//      "country" : "USA"
-//    },
-//    "business_address" : {
-//            "line1" : "Fake Address 123",
-//      "line2" : "#101",
-//      "city" : "Miami",
-//      "region" : null,
-//      "postal_code" : "33147",
-//      "country" : "USA"
-//    },
-//    "mcc" : 3137,
-//    "dob" : {
-//            "day" : 3,
-//      "month" : 2,
-//      "year" : 1978
-//    },
-//    "max_transaction_amount" : 12000,
-//    "amex_mid" : null,
-//    "discover_mid" : null,
-//    "url" : "http://paylogicnetwork.com",
-//    "annual_card_volume" : 12000000,
-//    "has_accepted_credit_cards_previously" : false,
-//    "incorporation_date" : {
-//            "day" : 4,
-//      "month" : 3,
-//      "year" : 2015
-//    },
-//    "principal_percentage_ownership" : 100,
-//    "short_business_name" : null,
-//    "tax_id_provided" : true,
-//    "business_tax_id_provided" : true,
-//    "default_statement_descriptor" : "Interamerica Data Fl"
-//  },
-//  "tags" : {
-//        "key" : "value"
-//  },
-//  "created_at" : "2016-09-13T15:33:22.23Z",
-//  "updated_at" : "2016-09-13T15:33:22.23Z",
-//  "_links" : {
-//        "self" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH"
-//    },
-//    "verifications" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/verifications"
-//    },
-//    "merchants" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/merchants"
-//    },
-//    "settlements" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/settlements"
-//    },
-//    "authorizations" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/authorizations"
-//    },
-//    "transfers" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/transfers"
-//    },
-//    "payment_instruments" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/payment_instruments"
-//    },
-//    "disputes" : {
-//            "href" : "https://simonpay-staging.finix.io/identities/IDhnR4KxxqzQczVdXjnm4DLH/disputes"
-//    },
-//    "application" : {
-//            "href" : "https://simonpay-staging.finix.io/applications/APeALXKsYEYgsn9QBdHmy9hP"
-//    }
-//  }
-//}
