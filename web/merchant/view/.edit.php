@@ -201,8 +201,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 </table>
                 <table class="table-merchant-info themed">
                     <tr>
-                        <th>Field</th>
-                        <th>Value</th>
+                        <th colspan="2">Contact Information</th>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Main Contact</td>
@@ -219,10 +218,57 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>DOB</td>
-                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getDOB(); ?>" /></td>
+                        <td><input type="date" name="main_contact" value="<?php echo $Merchant->getDOB(); ?>" /></td>
                     </tr>
+
+
                     <tr>
-                        <th colspan="2"><?php echo $Merchant->getShortName(); ?> Notes</th>
+                        <th colspan="2">Payment Instrument</th>
+                    </tr>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Payment Type</td>
+                        <td>
+                            <select name="payout_type">
+                                <option value="">Choose a payout type</option>
+                                <?php
+                                foreach(MerchantRow::$ENUM_PAYOUT_TYPES as $type => $name)
+                                    echo "<option value='", $type, "'",
+                                    ($type === $Merchant->getPayoutType() ? ' selected="selected"' : ''),
+                                    ">", $name, "</option>\n";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Account Name</td>
+                        <td><input type="text" name="payout_account_name" value="<?php echo $Merchant->getPayoutAccountName();  ?>" placeholder="Name on Account" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Account Type</td>
+                        <td>
+                            <select name="payout_account_type">
+                                <option value="">Choose an Account Type</option>
+                                <?php
+                                foreach(MerchantRow::$ENUM_PAYOUT_ACCOUNT_TYPES as $type => $name)
+                                    echo "<option value='", $type, "'",
+                                    ($type === $Merchant->getPayoutType() ? ' selected="selected"' : ''),
+                                    ">", $name, "</option>\n";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Account Number</td>
+                        <td><input type="text" name="payout_account_number" value="<?php echo $Merchant->getPayoutAccountNumber(); ?>" placeholder="Account Number" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Routing Number</td>
+                        <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutBankCode(); ?>" placeholder="Routing Number" /></td>
+                    </tr>
+
+                    <tr>
+                        <th colspan="2">Notes: <?php echo $Merchant->getShortName(); ?></th>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td colspan="2"><textarea type="text" name="notes" rows="45" cols="44" placeholder="Merchant-specific notes" ><?php echo $Merchant->getNotes(); ?></textarea></td>

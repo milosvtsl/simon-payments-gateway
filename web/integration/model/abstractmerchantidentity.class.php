@@ -13,6 +13,8 @@ use Merchant\Model\MerchantRow;
  */
 abstract class AbstractMerchantIdentity {
 
+    private $merchant;
+    private $integration;
 
     abstract function getRemoteID();
     abstract function getCreateDate();
@@ -23,9 +25,29 @@ abstract class AbstractMerchantIdentity {
     abstract function canSettleFunds(&$reason=null);
 //    abstract function settleFunds();
 
+
+    /**
+     * Remove provision a merchant
+     * @return mixed
+     */
+    abstract function provisionRemote();
+
+    /**
+     * Settle funds to a merchant
+     * @return mixed
+     */
+    abstract function settleRemote();
+
+    /**
+     * Parse remote response and return a data object
+     * @param IntegrationRequestRow $APIRequest
+     * @return mixed
+     */
     abstract protected function parseRequest(IntegrationRequestRow $APIRequest);
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
+        $this->merchant = $Merchant;
+        $this->integration = $APIData;
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(IntegrationRequestRow::SQL_SELECT
             . "WHERE ir.type LIKE :type"
@@ -47,5 +69,10 @@ abstract class AbstractMerchantIdentity {
         }
     }
 
-
+    public function getMerchantRow() {
+        return $this->merchant;
+    }
+    public function getIntegrationRow() {
+        return $this->integration;
+    }
 }

@@ -49,6 +49,13 @@ LEFT JOIN state s on m.state_id = s.id
         3 => "Canceled",
         4 => "Hidden",
     );
+    public static $ENUM_PAYOUT_TYPES = array(
+        'BANK_ACCOUNT' => 'Bank Account',
+    );
+    public static $ENUM_PAYOUT_ACCOUNT_TYPES = array(
+        'CHECKING' => 'Checking',
+        'SAVINGS' => 'Savings',
+    );
 
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,
@@ -90,6 +97,12 @@ LEFT JOIN state s on m.state_id = s.id
         'tax_id',
         'business_tax_id',
         'business_type',
+
+        'payout_type',
+        'payout_account_name',
+        'payout_account_type',
+        'payout_account_number',
+        'payout_bank_code',
 
         'notes',
     );
@@ -134,6 +147,13 @@ LEFT JOIN state s on m.state_id = s.id
     protected $tax_id;
     protected $business_tax_id;
     protected $business_type;
+
+
+    protected $payout_type;
+    protected $payout_account_name;
+    protected $payout_account_type;
+    protected $payout_account_number;
+    protected $payout_bank_code;
 
     // Table status
     protected $status_name;
@@ -192,6 +212,13 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getMainEmailID()    { return $this->main_email_id; }
     public function getSaleRep()        { return $this->sale_rep; }
+
+    public function getPayoutType()     { return $this->payout_type; }
+    public function getPayoutAccountName()    { return $this->payout_account_name; }
+    public function getPayoutAccountType()    { return $this->payout_account_type; }
+    public function getPayoutAccountNumber()  { return $this->payout_account_number; }
+    public function getPayoutBankCode() { return $this->payout_bank_code; }
+
     public function getNotes()          { return $this->notes; }
 
     public function getURL()            { return $this->url; }

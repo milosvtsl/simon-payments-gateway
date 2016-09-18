@@ -30,7 +30,10 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
 //    abstract function hasPaymentInstrument();
 
-    public function getRemoteID()       { return $this->id; }
+    public function getRemoteID()       {
+        if(!$this->id) throw new IntegrationException("Remote ID not set");
+        return $this->id;
+    }
     public function getEntityData()     { return $this->entity; }
     public function getTags()           { return $this->tags; }
     public function getCreateDate()     { return $this->created_at; }
@@ -52,6 +55,42 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         return false;
     }
 
+    /**
+     * Remove provision a merchant
+     * @return mixed
+     */
+    function provisionRemote() {
+        if($this->isProvisioned())
+            throw new IntegrationException("Merchant is already provisioned");
+
+        $IntegrationRow = $this->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
+
+        // Create Identity Request
+        $IdentityRequest = $this->prepareMerchantIdentityRequest();
+
+        // Execute Identity Request
+        $Integration->execute($IdentityRequest);
+        $this->parseRequest($IdentityRequest);
+
+
+        // Create Payment Instrument Request
+        $PaymentRequest = $this->prepareMerchantPaymentInstrumentRequest();
+
+        // Execute Identity Request
+        $Integration->execute($PaymentRequest);
+        $this->parseRequest($PaymentRequest);
+
+
+    }
+
+    /**
+     * Settle funds to a merchant
+     * @return mixed
+     */
+    function settleRemote() {
+        // TODO: Implement settleRemote() method.
+    }
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();
@@ -91,9 +130,16 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     }
 
 
-    // Static
+    public function prepareMerchantIdentityRequest() {
+        $IntegrationRow = $this->getIntegrationRow();
+        $NewRequest = IntegrationRequestRow::prepareNew(
+            $IntegrationRow->getClassPath(),
+            $IntegrationRow->getID(),
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT,
+            $this->getMerchantRow()->getID()
+        );
 
-    public static function prepareMerchantRequest(IntegrationRequestRow $NewRequest, MerchantRow $M) {
+        $M = $this->getMerchantRow();
         $POST = array(
             'tags' => array(
                 'key' => 'value'
@@ -148,8 +194,38 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
         $request = json_encode($POST, JSON_PRETTY_PRINT);
         $NewRequest->setRequest($request);
+        return $NewRequest;
     }
 
+
+    public function prepareMerchantPaymentInstrumentRequest() {
+        $IntegrationRow = $this->getIntegrationRow();
+        $NewRequest = IntegrationRequestRow::prepareNew(
+            $IntegrationRow->getClassPath(),
+            $IntegrationRow->getID(),
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT,
+            $this->getMerchantRow()->getID()
+        );
+
+        $M = $this->getMerchantRow();
+        $POST = array(
+            "account_type" => "SAVINGS",
+            "name" => "Fran Lemke",
+            "tags" => array(
+                "Bank Account" => "Company Account"
+            ),
+            "country" => "USA",
+            "bank_code" => "123123123",
+            "account_number" => "123123123",
+            "type" => "BANK_ACCOUNT",
+            "identity" => $this->getRemoteID()
+        );
+
+        $request = json_encode($POST, JSON_PRETTY_PRINT);
+        $NewRequest->setRequest($request);
+        return $NewRequest;
+
+    }
 }
 
 //{

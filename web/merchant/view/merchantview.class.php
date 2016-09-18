@@ -8,6 +8,8 @@
 namespace Merchant\View;
 
 use Config\DBConfig;
+use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
 use View\AbstractView;
@@ -91,6 +93,26 @@ class MerchantView extends AbstractView
                         ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getName())
                         : $this->setSessionMessage("No changes detected: " . $EditMerchant->getName());
                     header('Location: merchant?id=' . $EditMerchant->getID());
+                    die();
+
+                    break;
+
+                case 'provision':
+                    $IntegrationRow = IntegrationRow::fetchByID($_GET['integration_id']);
+                    $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
+                    if($MerchantIdentity->isProvisioned()) {
+                        $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
+                        header('Location: merchant?id=' . $this->getMerchant->getID());
+                        die();
+                    }
+
+                    try {
+                        $MerchantIdentity->provisionRemote();
+                        $this->setSessionMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
+                    } catch (IntegrationException $ex) {
+                        $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
+                    }
+                    header('Location: merchant?id=' . $this->getMerchant->getID());
                     die();
 
                     break;

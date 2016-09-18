@@ -13,6 +13,7 @@ use Merchant\Model\MerchantRow;
 
 abstract class AbstractIntegration
 {
+
     /**
      * Execute a prepared request
      * @param IntegrationRequestRow $Request

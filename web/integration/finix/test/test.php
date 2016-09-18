@@ -31,9 +31,11 @@ $FinixAPI = IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'); 
 // Test Data!
 
 $MerchantIdentity = $FinixAPI->getMerchantIdentity($Merchant);
+if(!$MerchantIdentity->isProvisioned())
+    $MerchantIdentity->provisionRemote();
 //$ResponseData = $MerchantIdentity->getParsedResponseData();
-var_dump($MerchantIdentity->getRemoteID());
-var_dump($MerchantIdentity->getCreateDate());
+assert($MerchantIdentity->getRemoteID());
+assert($MerchantIdentity->getCreateDate());
 // Done
 
 echo "\nFinix Integration Test successful";

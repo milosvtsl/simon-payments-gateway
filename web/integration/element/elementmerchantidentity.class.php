@@ -52,6 +52,21 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
         return false;
     }
 
+    /**
+     * Remove provision a merchant
+     * @return mixed
+     */
+    function provisionRemote() {
+        // TODO: Implement provisionRemote() method.
+    }
+
+    /**
+     * Settle funds to a merchant
+     * @return mixed
+     */
+    function settleRemote() {
+        // TODO: Implement settleRemote() method.
+    }
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();
