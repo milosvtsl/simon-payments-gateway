@@ -114,7 +114,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             $this->entity = $data['entity'];
 
         switch($APIRequest->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 $this->id = $data['id'];
                 $this->updated_at = $data['updated_at'];
                 $this->created_at = $data['created_at'];
@@ -135,7 +135,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $NewRequest = IntegrationRequestRow::prepareNew(
             $IntegrationRow->getClassPath(),
             $IntegrationRow->getID(),
-            IntegrationRequestRow::ENUM_TYPE_MERCHANT,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY,
             $this->getMerchantRow()->getID()
         );
 
@@ -203,21 +203,21 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $NewRequest = IntegrationRequestRow::prepareNew(
             $IntegrationRow->getClassPath(),
             $IntegrationRow->getID(),
-            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT,
+            IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT,
             $this->getMerchantRow()->getID()
         );
 
         $M = $this->getMerchantRow();
         $POST = array(
-            "account_type" => "SAVINGS",
-            "name" => "Fran Lemke",
+            "account_type" => $M->getPayoutAccountType(),
+            "name" => $M->getPayoutAccountName(),
             "tags" => array(
                 "Bank Account" => "Company Account"
             ),
             "country" => "USA",
-            "bank_code" => "123123123",
-            "account_number" => "123123123",
-            "type" => "BANK_ACCOUNT",
+            "bank_code" => $M->getPayoutBankCode(),
+            "account_number" => $M->getPayoutAccountNumber(),
+            "type" => $M->getPayoutType(),
             "identity" => $this->getRemoteID()
         );
 

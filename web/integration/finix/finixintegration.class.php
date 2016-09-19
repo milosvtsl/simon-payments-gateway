@@ -21,6 +21,7 @@ class FinixIntegration extends AbstractIntegration
     const _CLASS = __CLASS__;
 
     const POST_URL_IDENTITIES = "/identities/";
+    const POST_URL_PAYMENT_INSTRUMENT = "/payment_instruments/";
 
 
     /**
@@ -101,7 +102,7 @@ class FinixIntegration extends AbstractIntegration
      */
     function isRequestSuccessful(IntegrationRequestRow $Request) {
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 $data = $Request->parseResponseData();
                 if(!empty($data['id']))
                     return true;
@@ -124,7 +125,7 @@ class FinixIntegration extends AbstractIntegration
      */
     function printFormHTML(IntegrationRequestRow $Request) {
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 break;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 break;
@@ -145,8 +146,10 @@ class FinixIntegration extends AbstractIntegration
     function getRequestURL(IntegrationRequestRow $Request, IntegrationRow $APIData=null) {
         $APIData = $APIData ?: IntegrationRow::fetchByID($Request->getIntegrationID());
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
+            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+                return $APIData->getAPIURLBase() . self::POST_URL_PAYMENT_INSTRUMENT;
         }
         throw new IntegrationException("No API url for this request type");
     }

@@ -42,6 +42,13 @@ class TestMerchantRow extends MerchantRow
                 'store_id' => 0020,
                 'telephone' => '305 9828371',
                 'zipcode' => 33147,
+
+                'payout_type' => 'BANK_ACCOUNT',
+                'payout_account_name' => 'Fran Lemke',
+                'payout_account_type' => 'SAVINGS',
+                'payout_account_number' => '123123123',
+                'payout_bank_code' => '123123123',
+
                 'url' => 'http://paylogicnetwork.com',
             ) + $params);
     }

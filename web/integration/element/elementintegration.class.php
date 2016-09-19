@@ -100,7 +100,7 @@ class ElementIntegration extends AbstractIntegration
      */
     function isRequestSuccessful(IntegrationRequestRow $Request) {
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 $data = $Request->parseResponseData();
                 if(!empty($data['id']))
                     return true;
@@ -123,7 +123,7 @@ class ElementIntegration extends AbstractIntegration
      */
     function printFormHTML(IntegrationRequestRow $Request) {
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 break;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 break;
@@ -144,7 +144,7 @@ class ElementIntegration extends AbstractIntegration
     function getRequestURL(IntegrationRequestRow $Request, IntegrationRow $APIData=null) {
         $APIData = $APIData ?: IntegrationRow::fetchByID($Request->getIntegrationID());
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
         }
         throw new IntegrationException("No API url for this request type");
