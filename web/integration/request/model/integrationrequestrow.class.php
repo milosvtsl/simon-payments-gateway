@@ -61,6 +61,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     protected $integration_id;
     protected $type;
     protected $type_id;
+    protected $url;
     protected $request;
     protected $response;
     protected $result;
@@ -79,6 +80,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     public function getClassPath()          { return $this->integration_class_path; }
     public function getIntegrationType()    { return $this->type; }
     public function getIntegrationTypeID()  { return $this->type_id; }
+    public function getRequestURL()         { return $this->url; }
     public function getRequest()            { return $this->request; }
     public function getResponse()           { return $this->response; }
     public function getResult()             { return $this->result; }
@@ -87,6 +89,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     public function setRequest($request)    { $this->request = $request; }
     public function setResponse($response)  { $this->response = $response; }
     public function setResult($result)      { $this->result = $result; }
+    public function setRequestURL($url)     { $this->url = $url; }
 
     /**
      * @return AbstractIntegration

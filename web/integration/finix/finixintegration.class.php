@@ -22,6 +22,7 @@ class FinixIntegration extends AbstractIntegration
 
     const POST_URL_IDENTITIES = "/identities/";
     const POST_URL_PAYMENT_INSTRUMENT = "/payment_instruments/";
+    const POST_URL_MERCHANT_PROVISION = "/identities/:IDENTITY_ID/merchants/";
 
 
     /**
@@ -150,6 +151,8 @@ class FinixIntegration extends AbstractIntegration
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
             case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
                 return $APIData->getAPIURLBase() . self::POST_URL_PAYMENT_INSTRUMENT;
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                return $APIData->getAPIURLBase() . self::POST_URL_MERCHANT_PROVISION; // TODO: parse? no, elsewhere
         }
         throw new IntegrationException("No API url for this request type");
     }

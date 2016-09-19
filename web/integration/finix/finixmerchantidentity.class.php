@@ -23,6 +23,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     protected $tags;
     protected $created_at;
     protected $updated_at;
+    protected $payment_instrument_id;
+    protected $payment_instrument_fingerprint;
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
         parent::__construct($Merchant, $APIData);
@@ -46,18 +48,25 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     }
 
     function isProvisioned(&$message=null) {
+        if($this->id) {
+            $message = "Ready";
+            return true;
+        }
         $message = "No";
         return false;
     }
 
     function canSettleFunds(&$message=null) {
+        if($this->payment_instrument_id) {
+            $message = "Ready";
+            return true;
+        }
         $message = "Needs PI";
         return false;
     }
 
     /**
      * Remove provision a merchant
-     * @return mixed
      */
     function provisionRemote() {
         if($this->isProvisioned())
@@ -66,20 +75,36 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $IntegrationRow = $this->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
 
-        // Create Identity Request
+        // Create Request
         $IdentityRequest = $this->prepareMerchantIdentityRequest();
 
         // Execute Identity Request
         $Integration->execute($IdentityRequest);
         $this->parseRequest($IdentityRequest);
-
+        if(!$this->id)
+            throw new IntegrationException("Identity Request failed to return id");
+        unset($IdentityRequest);
 
         // Create Payment Instrument Request
         $PaymentRequest = $this->prepareMerchantPaymentInstrumentRequest();
 
-        // Execute Identity Request
+        // Execute Request
         $Integration->execute($PaymentRequest);
         $this->parseRequest($PaymentRequest);
+        if(!$this->payment_instrument_id)
+            throw new IntegrationException("Payment Instrument Request failed to return id");
+        unset($PaymentRequest);
+
+
+        // Create Merchant Provision Request
+        $ProvisionRequest = $this->prepareMerchantProvisionRequest();
+
+        // Execute Request
+        $Integration->execute($ProvisionRequest);
+        $this->parseRequest($ProvisionRequest);
+        if(!$this->id)
+            throw new IntegrationException("Payment Instrument Request failed to return id");
+        unset($ProvisionRequest);
 
 
     }
@@ -123,6 +148,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 break;
             case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+                $this->payment_instrument_id = $data['id'];
+                $this->payment_instrument_fingerprint = $data['fingerprint'];
                 break;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 break;
@@ -219,6 +246,29 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             "account_number" => $M->getPayoutAccountNumber(),
             "type" => $M->getPayoutType(),
             "identity" => $this->getRemoteID()
+        );
+
+        $request = json_encode($POST, JSON_PRETTY_PRINT);
+        $NewRequest->setRequest($request);
+        return $NewRequest;
+
+    }
+
+    public function prepareMerchantProvisionRequest() {
+
+        $IntegrationRow = $this->getIntegrationRow();
+        $NewRequest = IntegrationRequestRow::prepareNew(
+            $IntegrationRow->getClassPath(),
+            $IntegrationRow->getID(),
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION,
+            $this->getMerchantRow()->getID()
+        );
+
+//        $M = $this->getMerchantRow();
+        $POST = array(
+            'tags' => array(
+                'key' => 'value'
+            )
         );
 
         $request = json_encode($POST, JSON_PRETTY_PRINT);
