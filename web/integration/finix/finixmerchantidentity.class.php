@@ -31,7 +31,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 //    abstract function hasPaymentInstrument();
 
     public function getRemoteID()       {
-        if(!$this->id) throw new IntegrationException("Remote ID not set");
+//        if(!$this->id) throw new IntegrationException("Remote ID not set");
         return $this->id;
     }
     public function getEntityData()     { return $this->entity; }
