@@ -79,38 +79,49 @@ class FinixIntegration extends AbstractIntegration
         // Save the response
         $Request->setResponse($response);
 
+        $error = null;
         try {
             // Try parsing the response
             $Request->parseResponseData();
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful())
+            if($Request->isRequestSuccessful($error))
                 $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         } catch (IntegrationException $ex) {
+            $error = $ex->getMessage();
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
 
         // Insert Request
         IntegrationRequestRow::insert($Request);
 
+        if($Request->getResult() !== IntegrationRequestRow::ENUM_RESULT_SUCCESS)
+            throw new IntegrationException($error);
     }
 
     /**
      * Was this request successful?
      * @param IntegrationRequestRow $Request
+     * @param null $reason
      * @return bool
-     * @throws IntegrationException if the request status could not be processed
      */
-    function isRequestSuccessful(IntegrationRequestRow $Request) {
+    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
+        $data = $Request->parseResponseData();
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                $data = $Request->parseResponseData();
                 if(!empty($data['id']))
                     return true;
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                $reason = "Missing 'id' field";
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
+                if(!empty($data['fingerprint']))
+                    return true;
+                $reason = "Missing 'fingerprint' field";
+                return false;
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                if(!empty($data['identity']))
+                    return true;
+                $reason = "Missing 'identity' field";
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 return false;
@@ -182,8 +193,8 @@ class FinixIntegration extends AbstractIntegration
         if($errorMessage)
             throw new IntegrationException($errorMessage);
 
-        if(empty($data['entity']))
-            throw new IntegrationException("Missing response key: 'entity'");
+//        if(empty($data['entity']))
+//            throw new IntegrationException("Missing response key: 'entity'");
         return $data;
     }
 

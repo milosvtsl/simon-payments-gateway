@@ -145,6 +145,9 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         if($errorMessage)
             throw new IntegrationException($errorMessage);
 
+        if($APIRequest->getResult() !== IntegrationRequestRow::ENUM_RESULT_SUCCESS)
+            throw new IntegrationException("Only successful responses may be parsed");
+
         if(!empty($data['entity']))
             $this->entity = $data['entity'];
 

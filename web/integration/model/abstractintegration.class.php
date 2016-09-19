@@ -28,7 +28,7 @@ abstract class AbstractIntegration
      * @return bool
      * @throws IntegrationException if the request status could not be processed
      */
-    abstract function isRequestSuccessful(IntegrationRequestRow $Request);
+    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null);
 
     /**
      * Print an HTML form containing the request fields

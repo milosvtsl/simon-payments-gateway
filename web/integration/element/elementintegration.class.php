@@ -95,19 +95,26 @@ class ElementIntegration extends AbstractIntegration
     /**
      * Was this request successful?
      * @param IntegrationRequestRow $Request
+     * @param null $reason
      * @return bool
-     * @throws IntegrationException if the request status could not be processed
      */
-    function isRequestSuccessful(IntegrationRequestRow $Request) {
+    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
+        $data = $Request->parseResponseData();
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                $data = $Request->parseResponseData();
                 if(!empty($data['id']))
                     return true;
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                $reason = "Missing 'id' field";
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
+                if(!empty($data['fingerprint']))
+                    return true;
+                $reason = "Missing 'fingerprint' field";
+                return false;
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                if(!empty($data['identity']))
+                    return true;
+                $reason = "Missing 'identity' field";
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 return false;

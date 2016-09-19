@@ -105,9 +105,9 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         $Integration->execute($this);
     }
 
-    function isRequestSuccessful() {
+    function isRequestSuccessful(&$reason=null) {
         $Integration = $this->getIntegration();
-        return $Integration->isRequestSuccessful($this);
+        return $Integration->isRequestSuccessful($this, $reason);
     }
 
     function printFormHTML() {
