@@ -217,7 +217,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             <td><?php echo $IntegrationRow->getID(); ?></td>
                             <td><?php echo $IntegrationRow->getName(); ?></td>
                             <td><?php echo $IntegrationRow->getAPIType(); ?></td>
-                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete(NULL) ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                             <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                             <td><?php echo "<span style='color:", ($MerchantIdentity->canSettleFunds() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                             <td style="max-width: 24em; overflow-x: hidden;"><?php echo $IntegrationRow->getNotes(); ?></td>

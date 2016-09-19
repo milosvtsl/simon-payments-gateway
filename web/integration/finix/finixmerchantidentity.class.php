@@ -167,10 +167,13 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
                 $this->settlement_enabled = $data['settlement_enabled'];
                 $this->onboarding_state = $data['onboarding_state'];
                 break;
+
+
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 $this->payment_instrument_id = $data['id'];
                 $this->payment_instrument_fingerprint = $data['fingerprint'];
                 break;
+
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 break;
         }

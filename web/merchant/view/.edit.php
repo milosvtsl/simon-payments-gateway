@@ -119,11 +119,11 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Tax ID</td>
-                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTaxID(); ?>" /></td>
+                        <td><input type="text" name="tax_id" size="32" value="<?php echo $Merchant->getTaxID(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Business Tax ID</td>
-                        <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
+                        <td><input type="text" name="business_tax_id" size="32" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

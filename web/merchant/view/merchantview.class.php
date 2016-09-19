@@ -102,7 +102,7 @@ class MerchantView extends AbstractView
                     $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
                     if($MerchantIdentity->isProvisioned()) {
                         $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
-                        header('Location: merchant?id=' . $this->getMerchant->getID());
+                        header('Location: merchant?id=' . $this->getMerchant()->getID());
                         die();
                     }
 
@@ -112,7 +112,7 @@ class MerchantView extends AbstractView
                     } catch (IntegrationException $ex) {
                         $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
                     }
-                    header('Location: merchant?id=' . $this->getMerchant->getID());
+                    header('Location: merchant?id=' . $this->getMerchant()->getID());
                     die();
 
                     break;

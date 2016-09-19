@@ -32,6 +32,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 <a href="merchant?" class="button">Merchant List</a>
                 <a href="<?php echo $action_url; ?>view" class="button">View</a>
                 <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+                <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
                 <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
             </fieldset>
 
@@ -168,17 +169,26 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
             <?php } else { ?>
 
             <fieldset class="themed" style="max-width: 59em;">
-                <legend>Provision Now</legend>
                 <?php
                 $integration_id = $_GET['integration_id'];
-                $DB = \Config\DBConfig::getInstance();
-                $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . "\nWHERE i.id = ?");
-                /** @noinspection PhpMethodParametersCountMismatchInspection */
-                $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
-                $IntegrationQuery->execute(array($integration_id));
-                var_dump($IntegrationQuery);
+                $IntegrationRow = IntegrationRow::fetchByID($integration_id);
+                $MerchantIdentity = $IntegrationRow->getMerchantIdentity($Merchant);
+
                 ?>
 
+                <legend>Provision Now: <?php echo $IntegrationRow->getName(); ?></legend>
+                <table class="table-merchant-info themed" style="float: left; min-width: 27em;">
+                    <tr>
+                        <th>Action</th>
+                        <th>Notes</th>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td><button type="submit">Provision <br/> <?php echo $Merchant->getName(); ?></button> </td>
+                        <td>
+                            <pre><?php echo $IntegrationRow->getNotes() ?: "No Notes"; ?></pre>
+                        </td>
+                    </tr>
+                </table>
             </fieldset>
             <?php } ?>
 
