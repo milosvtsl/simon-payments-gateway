@@ -107,7 +107,7 @@ class ElementIntegration extends AbstractIntegration
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 return false;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 return false;
@@ -127,7 +127,7 @@ class ElementIntegration extends AbstractIntegration
                 break;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 break;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 break;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 break;

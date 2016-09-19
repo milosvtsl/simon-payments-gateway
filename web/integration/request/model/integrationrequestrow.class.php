@@ -18,7 +18,7 @@ class IntegrationRequestRow
     const ENUM_TYPE_MERCHANT            = 'merchant';
     const ENUM_TYPE_MERCHANT_IDENTITY   = 'merchant-identity';
     const ENUM_TYPE_MERCHANT_PROVISION  = 'merchant-provision';
-    const ENUM_TYPE_PAYMENT_INSTRUMENT  = 'payment-instrument';
+    const ENUM_TYPE_MERCHANT_PAYMENT    = 'merchant-payment';
     const ENUM_TYPE_TRANSACTION         = 'transaction';
 
     const ENUM_RESULT_SUCCESS           = 'success';

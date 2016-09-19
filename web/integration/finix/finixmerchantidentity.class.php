@@ -27,7 +27,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     protected $payment_instrument_fingerprint;
     protected $onboarding_state;
     protected $settlement_enabled;
-    protected $processor_enabled;
+    protected $processing_enabled;
     protected $processor;
     protected $merchant_profile;
     protected $verification;
@@ -160,11 +160,11 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
                 $this->verification = $data['verification'];
                 $this->merchant_profile = $data['merchant_profile'];
                 $this->processor = $data['processor'];
-                $this->processor_enabled = $data['processor_enabled'];
+                $this->processing_enabled = $data['processing_enabled'];
                 $this->settlement_enabled = $data['settlement_enabled'];
                 $this->onboarding_state = $data['onboarding_state'];
                 break;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 $this->payment_instrument_id = $data['id'];
                 $this->payment_instrument_fingerprint = $data['fingerprint'];
                 break;
@@ -247,7 +247,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $NewRequest = IntegrationRequestRow::prepareNew(
             $IntegrationRow->getClassPath(),
             $IntegrationRow->getID(),
-            IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT,
             $this->getMerchantRow()->getID()
         );
 

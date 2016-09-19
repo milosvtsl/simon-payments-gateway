@@ -110,7 +110,7 @@ class FinixIntegration extends AbstractIntegration
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 return false;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 return false;
@@ -130,7 +130,7 @@ class FinixIntegration extends AbstractIntegration
                 break;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 break;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 break;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 break;
@@ -148,7 +148,7 @@ class FinixIntegration extends AbstractIntegration
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
-            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
+            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
                 return $APIData->getAPIURLBase() . self::POST_URL_PAYMENT_INSTRUMENT;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
                 return $APIData->getAPIURLBase() . self::POST_URL_MERCHANT_PROVISION; // TODO: parse? no, elsewhere
