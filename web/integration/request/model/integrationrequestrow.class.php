@@ -80,7 +80,6 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     public function getClassPath()          { return $this->integration_class_path; }
     public function getIntegrationType()    { return $this->type; }
     public function getIntegrationTypeID()  { return $this->type_id; }
-    public function getRequestURL()         { return $this->url; }
     public function getRequest()            { return $this->request; }
     public function getResponse()           { return $this->response; }
     public function getResult()             { return $this->result; }
@@ -122,6 +121,11 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     }
 
     public function getRequestURL(IntegrationRow $APIData=null) {
+        // If URL was defined, return it
+        if($this->url)
+            return $this->url;
+
+        // If URL was not defined yet, generate it now
         $Integration = $this->getIntegration();
         return $Integration->getRequestURL($this, $APIData);
     }

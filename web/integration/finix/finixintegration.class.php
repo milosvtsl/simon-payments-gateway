@@ -140,12 +140,11 @@ class FinixIntegration extends AbstractIntegration
     /**
      * Return the API Request URL for this request
      * @param IntegrationRequestRow $Request
-     * @param IntegrationRow $APIData
      * @return string
      * @throws IntegrationException
      */
-    function getRequestURL(IntegrationRequestRow $Request, IntegrationRow $APIData=null) {
-        $APIData = $APIData ?: IntegrationRow::fetchByID($Request->getIntegrationID());
+    function getRequestURL(IntegrationRequestRow $Request) {
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;

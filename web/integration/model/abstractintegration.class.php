@@ -52,7 +52,7 @@ abstract class AbstractIntegration
      * @param IntegrationRow $APIData
      * @return string
      */
-    abstract function getRequestURL(IntegrationRequestRow $Request, IntegrationRow $APIData=null);
+    abstract function getRequestURL(IntegrationRequestRow $Request);
 
     /**
      * Get or create a Merchant Identity
