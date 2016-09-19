@@ -65,7 +65,8 @@ abstract class AbstractMerchantIdentity {
             /** @var IntegrationRequestRow $Request */
             if(!$Request->getResponse())
                 throw new IntegrationException("Empty response");
-            $this->parseRequest($Request);
+            if($Request->getResult() === IntegrationRequestRow::ENUM_RESULT_SUCCESS)
+                $this->parseRequest($Request);
         }
     }
 

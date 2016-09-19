@@ -48,7 +48,7 @@ class FinixIntegration extends AbstractIntegration
 
         /** @var IntegrationRow $APIData */
         $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $Request->getRequestURL($APIData);
+        $url = $Request->getRequestURL();
         $userpass = $APIData->getAPIUsername() . ':' . $APIData->getAPIPassword();
         $headers = array(
             "Content-Type: application/vnd.json+api",

@@ -25,6 +25,13 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     protected $updated_at;
     protected $payment_instrument_id;
     protected $payment_instrument_fingerprint;
+    protected $onboarding_state;
+    protected $settlement_enabled;
+    protected $processor_enabled;
+    protected $processor;
+    protected $merchant_profile;
+    protected $verification;
+    protected $identity;
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
         parent::__construct($Merchant, $APIData);
@@ -48,7 +55,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     }
 
     function isProvisioned(&$message=null) {
-        if($this->id) {
+        if($this->identity) {
             $message = "Ready";
             return true;
         }
@@ -75,26 +82,29 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $IntegrationRow = $this->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
 
-        // Create Request
-        $IdentityRequest = $this->prepareMerchantIdentityRequest();
+        if(!$this->id) {
+            // Create Request
+            $IdentityRequest = $this->prepareMerchantIdentityRequest();
 
-        // Execute Identity Request
-        $Integration->execute($IdentityRequest);
-        $this->parseRequest($IdentityRequest);
-        if(!$this->id)
-            throw new IntegrationException("Identity Request failed to return id");
-        unset($IdentityRequest);
+            // Execute Identity Request
+            $Integration->execute($IdentityRequest);
+            $this->parseRequest($IdentityRequest);
+            if (!$this->id)
+                throw new IntegrationException("Identity Request failed to return id");
+            unset($IdentityRequest);
+        }
 
-        // Create Payment Instrument Request
-        $PaymentRequest = $this->prepareMerchantPaymentInstrumentRequest();
+        if(!$this->payment_instrument_id) {
+            // Create Payment Instrument Request
+            $PaymentRequest = $this->prepareMerchantPaymentInstrumentRequest();
 
-        // Execute Request
-        $Integration->execute($PaymentRequest);
-        $this->parseRequest($PaymentRequest);
-        if(!$this->payment_instrument_id)
-            throw new IntegrationException("Payment Instrument Request failed to return id");
-        unset($PaymentRequest);
-
+            // Execute Request
+            $Integration->execute($PaymentRequest);
+            $this->parseRequest($PaymentRequest);
+            if (!$this->payment_instrument_id)
+                throw new IntegrationException("Payment Instrument Request failed to return id");
+            unset($PaymentRequest);
+        }
 
         // Create Merchant Provision Request
         $ProvisionRequest = $this->prepareMerchantProvisionRequest();
@@ -146,6 +156,13 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
                 break;
 
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
+                $this->identity = $data['identity'];
+                $this->verification = $data['verification'];
+                $this->merchant_profile = $data['merchant_profile'];
+                $this->processor = $data['processor'];
+                $this->processor_enabled = $data['processor_enabled'];
+                $this->settlement_enabled = $data['settlement_enabled'];
+                $this->onboarding_state = $data['onboarding_state'];
                 break;
             case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
                 $this->payment_instrument_id = $data['id'];
@@ -257,12 +274,16 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     public function prepareMerchantProvisionRequest() {
 
         $IntegrationRow = $this->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
         $NewRequest = IntegrationRequestRow::prepareNew(
             $IntegrationRow->getClassPath(),
             $IntegrationRow->getID(),
             IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION,
             $this->getMerchantRow()->getID()
         );
+        $url = $Integration->getRequestURL($NewRequest);
+        $url = str_replace(':IDENTITY_ID', $this->getRemoteID(), $url);
+        $NewRequest->setRequestURL($url);
 
 //        $M = $this->getMerchantRow();
         $POST = array(

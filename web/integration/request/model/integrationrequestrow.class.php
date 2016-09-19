@@ -120,14 +120,14 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         return $Integration->parseResponseData($this);
     }
 
-    public function getRequestURL(IntegrationRow $APIData=null) {
+    public function getRequestURL() {
         // If URL was defined, return it
         if($this->url)
             return $this->url;
 
         // If URL was not defined yet, generate it now
         $Integration = $this->getIntegration();
-        return $Integration->getRequestURL($this, $APIData);
+        return $Integration->getRequestURL($this);
     }
 
     // Static
@@ -183,6 +183,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
             . "SET `type` = :type,"
             . "\n\t`type_id` = :type_id,"
             . "\n\t`integration_id` = :integration_id,"
+            . "\n\t`url` = :url,"
             . "\n\t`request` = :request,"
             . "\n\t`response` = :response,"
             . "\n\t`result` = :result,"
@@ -191,6 +192,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
             ':type' => $NewRow->getIntegrationType(),
             ':type_id' => $NewRow->getIntegrationTypeID(),
             ':integration_id' => $NewRow->getIntegrationID(),
+            ':url' => $NewRow->getRequestURL(),
             ':request' => $NewRow->getRequest(),
             ':response' => $NewRow->getResponse(),
             ':result' => $NewRow->getResult(),
