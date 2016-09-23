@@ -75,10 +75,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
             lastParseData = null;
         }
 
-        var total_amount = form.amount.value || 0;
-        if(form.convenience_fee)
-            total_amount += form.convenience_fee.value;
-        form.total_amount.value = '$' + parseFloat(total_amount).toFixed(2);
+        var total_amount = parseFloat(form.amount.value) || 0;
+        var fee_amount = 0;
+        if(form.convenience_fee_limit)
+            fee_amount += parseFloat(form.convenience_fee_limit.value);
+        if(form.convenience_fee_flat)
+            fee_amount += parseFloat(form.convenience_fee_flat.value);
+        if(form.convenience_fee_variable_rate)
+            fee_amount += parseFloat(form.convenience_fee_variable_rate.value);
+        total_amount += fee_amount;
+        form.total_amount.value = '$' + (total_amount).toFixed(2);
 
         // Update card type
         if(form.card_number && form.card_number.value)

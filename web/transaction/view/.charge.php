@@ -3,6 +3,8 @@
  * @var \Transaction\View\TransactionView $this
  **/
 $odd = false;
+$MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+$Merchant = $MerchantQuery->fetch(); // TODO: fix
 ?>
     <section class="message">
         <h1>Charge a card</h1>
@@ -19,6 +21,9 @@ $odd = false;
     <section class="content">
         <script src="transaction/view/assets/charge.js"></script>
         <form name="form-transaction-charge" class=" themed" method="POST">
+            <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getFeeFlat(); ?>" />
+            <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getFeeLimit(); ?>" />
+            <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getFeeVariable(); ?>" />
             <fieldset class="action-fields">
                 <legend>Actions</legend>
                 <a href="transaction?" class="button">Transaction List</a>
