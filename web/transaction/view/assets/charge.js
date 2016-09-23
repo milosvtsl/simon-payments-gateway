@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         charHistory += String.fromCharCode(charCode);
         var parseData = parseMagTekTrack(charHistory);
-        if(parseData && parseData.card_number && parseData.payee_last_name) {
+        if(parseData && parseData.success) {
             charHistory = '';
             lastParseData = parseData;
             console.log("Card tracks parsed successfully", lastParseData);
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function updateChargeForm(e, form) {
         // Enter in swiped data
-        if(lastParseData) {
+        if(lastParseData && lastParseData.success) {
             form.entry_method.value = 'Swipe';
             form.card_number.value = lastParseData.card_number;
             form.payee_first_name.value = lastParseData.payee_first_name;
@@ -101,17 +101,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var arr = string.split('^');
             var nameArr = arr[1].split(' ');
             var len = nameArr.length;
-
+//console.log(arr);
             var data = {};
             data.card_number = arr[0];
-            data.card_exp_month = arr[2].substring(2, 4);
             data.card_exp_year = arr[2].substring(0, 2);
+            data.card_exp_month = arr[2].substring(2, 4);
             data.payee_first_name = '';
             data.payee_last_name = '';
 
             nameArr = arr[1].split('/');
             data.payee_first_name = nameArr[1];
             data.payee_last_name = nameArr[0];
+
+            data.success = data.card_exp_month.length == 2
+                && data.card_exp_year.length == 2
+                && data.card_number.length == 16
+                && data.payee_first_name.length > 0
+                && data.payee_first_name.length > 0;
             return data;
         } catch (e) {
             return false;
