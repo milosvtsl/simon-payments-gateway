@@ -50,8 +50,14 @@ class SPGViewTheme extends AbstractViewTheme
 
         ?>
     <body class="spg-theme">
+        <aside class="bread-crumbs">
+            <?php
+            foreach ($this->getCrumbLinkHTML() as $i=>$html)
+                echo ($i>0?' | ':''), "\n\t\t", $html;
+            ?>
+        </aside>
         <header>
-            <a href="/">
+            <a href="/home">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway">
             </a>
 
@@ -62,13 +68,7 @@ class SPGViewTheme extends AbstractViewTheme
                 echo "\n\t\t", $html;
             ?>
         </nav>
-        <aside class="bread-crumbs">
-            <?php
-            foreach ($this->getCrumbLinkHTML() as $i=>$html)
-                echo ($i>0?' \ ':''), "\n\t\t", $html;
-            ?>
-        </aside>
-
+        <hr class="themed" style="clear: both;"/>
         <article class="themed">
         <?php
     }

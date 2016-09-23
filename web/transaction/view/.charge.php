@@ -27,10 +27,10 @@ $odd = false;
             <fieldset style="float:left;">
                 <legend>Charge Fields</legend>
                 <table class="table-transaction-charge themed">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                    </tr>
+<!--                    <tr>-->
+<!--                        <th>Field</th>-->
+<!--                        <th>Value</th>-->
+<!--                    </tr>-->
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Payment Amount</td>
                         <td class="value"><input type="text" name="amount" value="" size="10" placeholder="0.00" required /></td>

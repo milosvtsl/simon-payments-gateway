@@ -29,7 +29,7 @@ use \Merchant\Model\MerchantRow;
             </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
-                Merchant Name:
+                MERCHANT NAME:
                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" />
                 <select name="limit">
                     <?php
