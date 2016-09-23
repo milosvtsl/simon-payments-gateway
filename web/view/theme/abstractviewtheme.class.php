@@ -29,10 +29,11 @@ abstract class AbstractViewTheme
     protected function getNavLinkHTML() {
         foreach($this->_nav_links as $arr) {
             list($url, $name) = $arr;
-            $selected = '';
+            $class = 'nav_' . preg_replace('/[^\w]+/', '', strtolower($name));
+            $class .= ' nav_' . trim(preg_replace('/\.php$|[^\w]+/', '_', strtolower($url)), '_');
             if(basename($url) === basename($_SERVER["SCRIPT_FILENAME"]))
-                $selected = " class='current'";
-            yield "<a href='{$url}'" . $selected . ">{$name}</a>";
+                $class .= ' current';
+            yield "<a href='{$url}' class='" . $class . "''>{$name}</a>";
         }
     }
 

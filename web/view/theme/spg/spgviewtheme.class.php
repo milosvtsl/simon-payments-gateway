@@ -17,17 +17,17 @@ class SPGViewTheme extends AbstractViewTheme
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
-        $this->addNavLink('home', "Home");
-        $this->addNavLink('news', "News");
-        $this->addNavLink('order', "Orders");
+//        $this->addNavLink('home', "Home");
+//        $this->addNavLink('news', "News");
+//        $this->addNavLink('order', "Orders");
         $this->addNavLink('transaction', "Transactions");
 
         if($SessionManager->isLoggedIn()) {
             if($SessionUser->hasAuthority('ROLE_ADMIN')) {
                 $this->addNavLink('merchant', "Merchant");
-                $this->addNavLink('user', "Users");
-                $this->addNavLink('batch', "Batch");
-                $this->addNavLink('integration', "Integration");
+//                $this->addNavLink('user', "Users");
+//                $this->addNavLink('batch', "Batch");
+//                $this->addNavLink('integration', "Integration");
 
             } else {
                 $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
@@ -37,10 +37,10 @@ class SPGViewTheme extends AbstractViewTheme
                 $this->addNavLink('transaction/charge.php', "Charge");
             }
 
-            $this->addNavLink('login.php?action=logout', "Log Out");
+//            $this->addNavLink('login.php?action=logout', "Log Out");
 
         } else {
-            $this->addNavLink('login.php?action=login', "Log In");
+//            $this->addNavLink('login.php?action=login', "Log In");
         }
 
     }
@@ -55,8 +55,6 @@ class SPGViewTheme extends AbstractViewTheme
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway">
             </a>
 
-<!--            <img class="nav-user-photo" src="assets/images/bg_3.png" alt="User Profile Image">-->
-<!--            <span class="user-info">Welcome, Sherlock Holmes</span>-->
         </header>
         <nav>
             <?php
@@ -71,7 +69,7 @@ class SPGViewTheme extends AbstractViewTheme
             ?>
         </aside>
 
-        <article>
+        <article class="themed">
         <?php
     }
 

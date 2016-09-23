@@ -34,4 +34,9 @@ chdir('integration/finix/test');
 require ('test.php');
 chdir($cwd);
 
+
+chdir('integration/element/test');
+require ('test.php');
+chdir($cwd);
+
 echo "\nAll Tests successful";

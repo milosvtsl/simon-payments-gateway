@@ -73,10 +73,20 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getDate()               { return $this->date; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
+    public function getCustomerFirstName()  { return $this->customer_first_name; }
+    public function getCustomerLastName()   { return $this->customer_last_name; }
+    public function getPayeeZipCode()       { return $this->payee_zipcode; }
+    public function getPayeeEmail()         { return $this->payee_reciept_email; }
+    public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
     public function getHolderFullFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
+
+    public function getCardExpMonth()       { return $this->card_exp_month; }
+    public function getCardExpYear()        { return $this->card_exp_year; }
+    public function getCardType()           { return $this->card_type; }
+    public function getCardNumber()         { return $this->card_number; }
 
     // Static
 

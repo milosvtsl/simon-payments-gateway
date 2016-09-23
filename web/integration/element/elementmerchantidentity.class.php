@@ -37,6 +37,14 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     public function getUpdateDate()     { return $this->updated_at; }
 
 
+    public function getAccountID()      { return $this->account_id; }
+
+    public function getAccountToken()   { return $this->account_token; }
+
+
+    public function getAcceptorID()     { return $this->acceptor_id; }
+
+
     function isProfileComplete(&$message=null) {
         $message = "Incomplete";
         return false;
@@ -67,6 +75,8 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     function settleRemote() {
         // TODO: Implement settleRemote() method.
     }
+
+
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();

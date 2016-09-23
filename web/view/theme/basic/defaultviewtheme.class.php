@@ -8,25 +8,70 @@
 namespace View\Theme\Basic;
 
 use Config\SiteConfig;
+use User\Session\SessionManager;
 use View\Theme\AbstractViewTheme;
 
 class DefaultViewTheme extends AbstractViewTheme
 {
 
+    public function __construct()
+    {
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
+//        $this->addNavLink('home', "Home");
+//        $this->addNavLink('news', "News");
+//        $this->addNavLink('order', "Orders");
+        $this->addNavLink('transaction', "Transactions");
+
+        if($SessionManager->isLoggedIn()) {
+            if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                $this->addNavLink('merchant', "Merchant");
+//                $this->addNavLink('user', "Users");
+//                $this->addNavLink('batch', "Batch");
+//                $this->addNavLink('integration', "Integration");
+
+            } else {
+                $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
+            }
+
+            if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
+                $this->addNavLink('transaction/charge.php', "Charge");
+            }
+
+//            $this->addNavLink('login.php?action=logout', "Log Out");
+
+        } else {
+//            $this->addNavLink('login.php?action=login', "Log In");
+        }
+
+    }
+
     public function renderHTMLBodyHeader()
     {
+
         ?>
-        <body>
+        <body class="basic-theme">
         <header>
             <a href="/">
-                <h1><?php echo SiteConfig::$SITE_NAME; ?></h1>
+                <img src="view/theme/basic/assets/img/logo.png" alt="Simon Payments Gateway">
             </a>
 
         </header>
         <nav>
-            <a href="/">Home</a>
+            <?php
+            foreach ($this->getNavLinkHTML() as $html)
+                echo "\n\t\t", $html;
+            ?>
         </nav>
-        <article>
+        <aside class="bread-crumbs">
+            <?php
+            foreach ($this->getCrumbLinkHTML() as $i=>$html)
+                echo ($i>0?' \ ':''), "\n\t\t", $html;
+            ?>
+        </aside>
+
+        <article class="themed">
         <?php
     }
 
@@ -40,20 +85,22 @@ class DefaultViewTheme extends AbstractViewTheme
 
     // Static
 
-    public static function get() {
+    public static function get()
+    {
         static $inst = null;
         return $inst ?: $inst = new static();
     }
 
     public function renderHTMLHeadScripts() {
-        // TODO: Implement renderHTMLHeadScripts() method.
     }
 
     public function renderHTMLHeadLinks() {
-        // TODO: Implement renderHTMLHeadLinks() method.
+        ?>
+        <link href='view/theme/basic/assets/basic-theme.css' type='text/css' rel='stylesheet'>
+        <link rel="icon" href="view/theme/basic/assets/img/favicon.ico">
+        <?php
     }
 
     public function renderHTMLMetaTags() {
-        // TODO: Implement renderHTMLMetaTags() method.
     }
 }
