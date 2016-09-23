@@ -82,10 +82,10 @@ body.spg-theme .bread-crumbs a {
 
 body.spg-theme > article.themed {
     /* white-space: nowrap; */
-    background-color: white;
-    border-radius: 1em;
-    margin: 1em 0.5em;
-    padding: 0.1em 1em;
+    /* background-color: white; */
+    /* border-radius: 1em; */
+    /* margin: 1em 0.5em; */
+    padding: 0 0.5em;
     display: block;
     /* width: 96%; */
 }
@@ -96,7 +96,7 @@ body.spg-theme > article.themed {
 
 body.spg-theme form.themed {
     font-family: monospace;
-    background-color: #FAFAFA;
+    /* background-color: #FAFAFA; */
     display: inline-block;
 }
 
@@ -107,13 +107,22 @@ body.spg-theme form.themed a {
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border-radius: 0.3em;
-    margin-bottom: 0.5em;
+    border-width: 1px;
+    border: 1px outset #EEE;
+    /* margin-bottom: 0.5em; */
+    background-color: #FFF;
+    margin: 0 1em 1.5em 1em;
+    box-shadow: 2px 2px 4px #CCC;
 }
 
 body.spg-theme form.themed > fieldset > legend,
 body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
     font-weight: bold;
+    font-size: large;
+    background: #FFF;
+    border-radius: 1em;
+    padding: 0.1em 0.8em;
 }
 
 body.spg-theme form.themed select,
