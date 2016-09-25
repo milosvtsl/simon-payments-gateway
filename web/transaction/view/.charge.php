@@ -6,7 +6,12 @@ $odd = false;
 $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
 $Merchant = $MerchantQuery->fetch(); // TODO: fix
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="transaction?" class="button">Transactions</a>
+            <a href="transaction/charge.php?" class="button">Charge</a>
+        </div>
+
         <h1>Charge a card</h1>
 
         <?php if($this->hasException()) { ?>
@@ -16,19 +21,12 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <script src="transaction/view/assets/charge.js"></script>
         <form name="form-transaction-charge" class=" themed" method="POST">
             <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getFeeFlat(); ?>" />
             <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getFeeLimit(); ?>" />
             <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getFeeVariable(); ?>" />
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="transaction?" class="button">Transaction List</a>
-                <a href="transaction/charge.php?" class="button">Charge</a>
-            </fieldset>
             <fieldset style="float:left;">
                 <legend>Charge Fields</legend>
                 <table class="table-transaction-charge themed">

@@ -3,7 +3,11 @@ use \Merchant\Model\MerchantRow;
 /**
  * @var \View\AbstractListView $this
  **/?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="merchant?" class="button">Merchant List</a>
+        </div>
+
         <h1>Merchant List</h1>
 
         <?php if($this->hasException()) { ?>
@@ -19,14 +23,8 @@ use \Merchant\Model\MerchantRow;
             <h5>Search for Merchant Accounts...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="merchant?" class="button">Merchant List</a>
-            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 MERCHANT NAME:

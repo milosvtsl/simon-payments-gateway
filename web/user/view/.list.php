@@ -3,7 +3,11 @@ use \User\Model\UserRow;
 /**
  * @var \View\AbstractListView $this
  **/?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="user?" class="button">User List</a>
+        </div>
+
         <h1>User List</h1>
 
         <?php if($this->hasException()) { ?>
@@ -19,14 +23,8 @@ use \User\Model\UserRow;
             <h5>Search for User Accounts...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="user?" class="button">User List</a>
-            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 User Name:

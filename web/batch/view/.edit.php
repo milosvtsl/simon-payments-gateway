@@ -7,7 +7,12 @@ $Batch = $this->getBatch();
 $odd = false;
 $action_url = 'batch?id=' . $Batch->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="batch?" class="button">Batch List</a>
+            <a href="<?php echo $action_url; ?>view" class="button">View</a>
+        </div>
+
         <h1>Edit <?php echo $Batch->getID(); ?></h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,16 +25,8 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
             <h5>Edit this Batch Account...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-Batch themed" method="POST">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="batch?" class="button">Batch List</a>
-                <a href="<?php echo $action_url; ?>view" class="button">View</a>
-
-            </fieldset>
             <fieldset>
                 <legend>Edit Batch Fields</legend>
                 <table class="table-batch-info themed">

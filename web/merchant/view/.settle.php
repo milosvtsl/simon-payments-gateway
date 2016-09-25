@@ -10,7 +10,14 @@ $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="merchant?" class="button">Merchant List</a>
+            <a href="<?php echo $action_url; ?>view" class="button">View</a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+            <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
+        </div>
+
         <h1>Settle Funds for <?php echo $Merchant->getShortName(); ?></h1>
 
         <?php if($this->hasException()) { ?>
@@ -23,17 +30,8 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
             <h5>Choose an integration to settle funds for merchant...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-merchant themed" method="POST">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="merchant?" class="button">Merchant List</a>
-                <a href="<?php echo $action_url; ?>view" class="button">View</a>
-                <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-                <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
-            </fieldset>
 
             <fieldset class="themed">
                 <legend>Merchant Information</legend>

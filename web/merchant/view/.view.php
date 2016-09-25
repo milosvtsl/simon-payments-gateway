@@ -10,7 +10,14 @@ $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="merchant?" class="button">Merchant List</a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+            <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
+            <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
+        </div>
+
         <h1>View Merchant</h1>
 
         <?php if($this->hasException()) { ?>
@@ -23,19 +30,8 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
             <h5>View a Merchant Account...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-merchant themed" method="GET">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="merchant?" class="button">Merchant List</a>
-                <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-                <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
-                <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
-
-                <!--                <a href="--><?php //echo $action_url; ?><!--delete" class="button">Delete</a>-->
-            </fieldset>
             <fieldset>
                 <legend>Merchant Information</legend>
                 <table class="table-merchant-info themed" style="float: left;">

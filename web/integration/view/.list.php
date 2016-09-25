@@ -3,7 +3,12 @@ use \Integration\Model\IntegrationRow;
 /**
  * @var \View\AbstractListView $this
  **/?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="integration?" class="button">Integrations</a>
+            <a href="integration/request?" class="button">Requests</a>
+        </div>
+
         <h1>Integration List</h1>
 
         <?php if($this->hasException()) { ?>
@@ -19,15 +24,7 @@ use \Integration\Model\IntegrationRow;
             <h5>Listing Integrations...</h5>
 
         <?php } ?>
-    </section>
-
-    <section class="content">
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="integration?" class="button">Integrations</a>
-                <a href="integration/request?" class="button">Requests</a>
-            </fieldset>
             <fieldset>
                 <legend>Integrations</legend>
                 <table class="table-results themed small">

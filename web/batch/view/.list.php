@@ -4,7 +4,11 @@ use \Merchant\Model\MerchantRow;
 /**
  * @var \View\AbstractListView $this
  **/?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="batch?" class="button">Batch List</a>
+        </div>
+
         <h1>Batch List</h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,14 +24,8 @@ use \Merchant\Model\MerchantRow;
             <h5>Search for batches...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="batch?" class="button">Batch List</a>
-            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 <table>

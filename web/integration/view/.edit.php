@@ -7,7 +7,12 @@ $Integration = $this->getIntegration();
 $odd = false;
 $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="integration?" class="button">Integration List</a>
+            <a href="<?php echo $action_url; ?>view" class="button">View</a>
+        </div>
+
         <h1>Edit <?php echo $Integration->getName(); ?></h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,15 +25,8 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
             <h5>Edit this Integration Entry...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-integration themed" method="POST">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="integration?" class="button">Integration List</a>
-                <a href="<?php echo $action_url; ?>view" class="button">View</a>
-            </fieldset>
             <fieldset>
                 <legend>Edit Integration Fields</legend>
                 <table class="table-integration-info themed">

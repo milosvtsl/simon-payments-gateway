@@ -7,7 +7,13 @@
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="user?" class="button">User List</a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+            <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
+        </div>
+
         <h1>View User</h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,17 +26,8 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <h5>View a User Account...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-user themed" onsubmit="return false;">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="user?" class="button">User List</a>
-                <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-                <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-
-            </fieldset>
             <fieldset>
                 <legend>User Information</legend>
                 <table class="table-user-info themed">

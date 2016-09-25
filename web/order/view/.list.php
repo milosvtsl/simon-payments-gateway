@@ -4,7 +4,11 @@ use Order\Model\OrderRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="order?" class="button">Order List</a>
+        </div>
+
         <h1>Order List</h1>
 
         <?php if($this->hasException()) { ?>
@@ -19,14 +23,8 @@ use Order\Model\OrderRow;
         <?php } else { ?>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="order?" class="button">Order List</a>
-            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 <table>

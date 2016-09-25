@@ -5,7 +5,12 @@ use Integration\Request\Model\IntegrationRequestRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="integration?" class="button">Integrations</a>
+            <a href="integration/request?" class="button">Requests</a>
+        </div>
+
         <h1>Request List</h1>
 
         <?php if($this->hasException()) { ?>
@@ -21,15 +26,7 @@ use Integration\Request\Model\IntegrationRequestRow;
             <h5>Search for Integration Requests...</h5>
 
         <?php } ?>
-    </section>
-
-    <section class="content">
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="integration?" class="button">Integrations</a>
-                <a href="integration/request?" class="button">Requests</a>
-            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 <table>

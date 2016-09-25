@@ -5,11 +5,9 @@ body.spg-theme {
 }
 
 body.spg-theme > header {
-    /* border-bottom: 1px solid #ccc; */
     display: block;
-    /* width: 10em; */
     float: left;
-    padding: 1em 0em 3em 2em;
+    padding: 1em 0px 1em 1em;
     margin-right: 2em;
     /* text-align: right; */
 }
@@ -21,7 +19,7 @@ body.spg-theme > hr.themed {
 
 body.spg-theme > nav {
     /* float: right; */
-    min-width: 35em;
+    /* min-width: 35em; */
     /* padding-right: 1em; */
     /* height: 24em; */
     display: inline-block;
@@ -36,8 +34,8 @@ body.spg-theme > nav > a {
     /* border: 1px outset #EEE; */
     border-top-width: 0px;
     border-radius: 1em;
-    margin: 4em 0.6em 0 0.6em;
-    padding: 0.5em 1em;
+    /* margin: 4em 0.1em 0 0.1em; */
+    padding: 0.5em 0.5em;
     width: 9em;
     height: 5em;
     background-color: #FAFAFA;
@@ -126,6 +124,10 @@ body.spg-theme fieldset.themed {
     box-shadow: 2px 2px 4px #CCC;
 }
 
+fieldset.action-fields {
+    display: inline-block;
+}
+
 body.spg-theme form.themed > fieldset > legend,
 body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
@@ -158,20 +160,27 @@ body.spg-theme form.themed input.large {
 
 
 body.spg-theme a.button {
-    padding: 0.3em 1.0em;
+    text-decoration: none;
+    padding: 1em 0 0 0;
     display: inline-block;
-    min-width: 4.5em;
+    min-height: 2em;
+    min-width: 10em;
+    /* max-width: 14.5em; */
     text-align: center;
-    border-radius: 0.3em;
-    border-width: 1px;
-    font: bold 11pt Arial;
-    background-color: #EEEEEE;
-    color: #333333;
+    box-shadow: 1em;
+    /* border-width: 1px; */
+    font: 16pt Arial;
+    text-transform: uppercase;
+    background-color: #00a8ff;
+    color: #fff;
     border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #333333;
-    border-bottom: 1px solid #333333;
+    border-right: 1px solid #adabab;
+    border-bottom: 1px solid #adabab;
     border-left: 1px solid #CCCCCC;
+    box-shadow: 2px 2px 4px #CCC;
 }
+
+a.button {}
 body.spg-theme a.button:hover {
     background-color: #DDD;
 }
@@ -244,5 +253,5 @@ body.spg-theme h6 {
     font-style: italic;
     padding: 0em 1em;
     font-weight: normal;
-    font-size: x-large;
+    font-size: small;
 }

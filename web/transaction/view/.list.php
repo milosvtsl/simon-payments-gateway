@@ -4,34 +4,16 @@ use Transaction\Model\TransactionRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
-    <section class="message">
-        <h1>Transaction List</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else if($this->hasMessage()) { ?>
-            <h6><?php echo $this->getMessage() ?></h6>
-
-        <?php } else { ?>
-            <h5>Search for Transaction Accounts...</h5>
-
-        <?php } ?>
-    </section>
-
     <section class="content">
+        <div class="action-fields">
+            <a href="transaction?" class="button">Transactions</a>
+            <a href="transaction/charge.php?" class="button">Charge</a>
+        </div>
+
         <form class="form-search themed">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="transaction?" class="button">Transaction List</a>
-                <a href="transaction/charge.php?" class="button">Charge</a>
-            </fieldset>
             <fieldset class="search-fields">
                 <legend>Search</legend>
-                <table>
+                <table style="min-width: 40em;">
                     <tbody>
                         <tr>
                             <th>From</th>
@@ -74,10 +56,6 @@ use Transaction\Model\TransactionRow;
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset class="paginate">
-                <legend>Pagination</legend>
-                <?php $this->printPagination('transaction?'); ?>
-            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
@@ -115,6 +93,22 @@ use Transaction\Model\TransactionRow;
             <fieldset class="paginate">
                 <legend>Pagination</legend>
                 <?php $this->printPagination('transaction?'); ?>
+
+
+                <?php if($this->hasException()) { ?>
+                    <h5><?php echo $this->hasException(); ?></h5>
+
+                <?php } else if ($this->hasSessionMessage()) { ?>
+                    <h5><?php echo $this->popSessionMessage(); ?></h5>
+
+                <?php } else if($this->hasMessage()) { ?>
+                    <h6><?php echo $this->getMessage() ?></h6>
+
+                <?php } else { ?>
+                    <h5>Search for Transaction Accounts...</h5>
+
+                <?php } ?>
+
             </fieldset>
         </form>
     </section>

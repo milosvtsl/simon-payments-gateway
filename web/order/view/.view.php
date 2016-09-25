@@ -7,7 +7,12 @@ $Order = $this->getOrder();
 $odd = false;
 $action_url = 'order?id=' . $Order->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="order?" class="button">Order List</a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+        </div>
+
         <h1>View Order</h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,15 +25,8 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
             <h5>View an order...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-order themed" onsubmit="return false;">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="order?" class="button">Order List</a>
-                <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-            </fieldset>
             <fieldset>
                 <legend>Order Information</legend>
                 <table class="table-order-info themed">

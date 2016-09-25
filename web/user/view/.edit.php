@@ -7,7 +7,13 @@
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="user?" class="button">User List</a>
+            <a href="<?php echo $action_url; ?>view" class="button">View</a>
+            <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
+        </div>
+
         <h1>Edit <?php echo $User->getFullName(); ?></h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,18 +26,10 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <h5>Edit this User Account...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
             <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
             <input type="hidden" name="action" value="edit" />
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="user?" class="button">User List</a>
-                <a href="<?php echo $action_url; ?>view" class="button">View</a>
-                <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-            </fieldset>
             <fieldset>
                 <legend>Edit User Fields</legend>
                 <table class="table-user-info themed">

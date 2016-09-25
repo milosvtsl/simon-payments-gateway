@@ -7,7 +7,13 @@ $Request = $this->getRequest();
 $odd = false;
 $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
 ?>
-    <section class="message">
+    <section class="content">
+        <div class="action-fields">
+            <a href="integration?" class="button">Integrations</a>
+            <a href="integration/request?" class="button">Requests</a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
+        </div>
+
         <h1>View Integration Request</h1>
 
         <?php if($this->hasException()) { ?>
@@ -20,16 +26,8 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
             <h5>View an integration request...</h5>
 
         <?php } ?>
-    </section>
 
-    <section class="content">
         <form class="form-view-integration-request themed" onsubmit="return false;">
-            <fieldset class="action-fields">
-                <legend>Actions</legend>
-                <a href="integration?" class="button">Integrations</a>
-                <a href="integration/request?" class="button">Requests</a>
-                <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-            </fieldset>
             <fieldset>
                 <legend>Request Information</legend>
                 <table class="table-integration-request-info themed">
