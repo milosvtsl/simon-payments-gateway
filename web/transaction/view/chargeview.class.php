@@ -20,6 +20,7 @@ class ChargeView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
+        $this->getTheme()->addCrumbLink('home', "Home");
         $this->getTheme()->addCrumbLink('transaction?', "Transactions");
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], 'New Charge');
 

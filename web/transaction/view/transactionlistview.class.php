@@ -17,7 +17,8 @@ class TransactionListView extends AbstractListView {
      */
 	public function renderHTMLBody(Array $params) {
 		// Add Breadcrumb links
-		$this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Transactions");
+        $this->getTheme()->addCrumbLink('home', "Home");
+        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], "Transactions");
 
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();

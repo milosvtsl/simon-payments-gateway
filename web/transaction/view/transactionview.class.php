@@ -31,9 +31,11 @@ class TransactionView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         // Add Breadcrumb links
+        $this->getTheme()->addCrumbLink('home', "Home");
         $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getTransaction()->getID(), $this->getTransaction()->getID());
-        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
+        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getTransaction()->getID(), '#' . $this->getTransaction()->getID());
+        if($this->_action !== 'view')
+            $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();

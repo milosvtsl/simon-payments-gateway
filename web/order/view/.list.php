@@ -6,8 +6,11 @@ use Order\Model\OrderRow;
  **/?>
     <section class="content">
         <div class="action-fields">
-            <a href="order?" class="button current">Order List</a>
+            <a href="transaction?" class="button">Transactions</a>
+            <a href="order?" class="button current">Orders</a>
+            <a href="transaction/charge.php?" class="button">Charge</a>
         </div>
+
 
         <h1>Order List</h1>
 

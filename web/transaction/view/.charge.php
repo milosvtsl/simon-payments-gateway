@@ -9,6 +9,7 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
     <section class="content">
         <div class="action-fields">
             <a href="transaction?" class="button">Transactions</a>
+            <a href="order?" class="button">Orders</a>
             <a href="transaction/charge.php?" class="button current">Charge</a>
         </div>
 

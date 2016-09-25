@@ -10,6 +10,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
     <section class="content">
         <div class="action-fields">
             <a href="order?" class="button">Order List</a>
+            <a href="<?php echo $action_url; ?>view" class="button current">View</a>
             <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
         </div>
 

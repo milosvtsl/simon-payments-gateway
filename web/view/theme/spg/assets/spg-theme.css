@@ -5,11 +5,12 @@ body.spg-theme {
 }
 
 body.spg-theme > header {
-    display: block;
-    float: left;
+    display: inline-block;
+    /* float: left; */
     padding: 1em 0px 1em 1em;
-    margin-right: 2em;
+    margin-right: -6em;
     /* text-align: right; */
+    margin-top: -2em;
 }
 
 body.spg-theme > hr.themed {
@@ -20,11 +21,10 @@ border-color: #00a8ff;
 }
 
 body.spg-theme > nav {
-    /* float: right; */
+    float: right;
     /* min-width: 35em; */
-    /* padding-right: 1em; */
     /* height: 24em; */
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 body.spg-theme > nav > a {
@@ -36,17 +36,14 @@ body.spg-theme > nav > a {
     /* border: 1px outset #EEE; */
     border-top-width: 0px;
     border-radius: 1em;
-    /* margin: 4em 0.1em 0 0.1em; */
+    margin: 0 0.6em 0 0;
     padding: 0.5em 0.5em;
     width: 9em;
     height: 5em;
-    background-color: #FAFAFA;
-}
-
-
-body.spg-theme > nav > a {
-    background: #EEE url(img/nav/nav_transaction.png) no-repeat bottom;
-    text-transform: uppercase;
+    
+    background: #EAEAEA url(img/nav/nav_transaction.png) no-repeat bottom;
+    /* text-transform: uppercase; */
+    /* border: 1px outset #FFF; */
 }
 body.spg-theme > nav > a.nav_transaction {
     /* background: #00a8ff url(img/nav/nav_transaction.png) no-repeat bottom; */
@@ -67,13 +64,15 @@ body.spg-theme > nav > a.current {
 }
 
 body.spg-theme .bread-crumbs {
-    margin: 0.5em 0.5em 0 0;
-    border-bottom: 1px solid #ccc;
+    /* margin: 0.5em 0.5em 0 0; */
+    /* border-bottom: 1px solid #ccc; */
     display: block;
-    clear: both;
-    padding: 0em;
+    /* clear: both; */
+    /* padding: 0em; */
     background-color: eee;
     /* text-transform: capitalize; */
+    z-index: 1;
+    position: relative;
 }
 body.spg-theme .bread-crumbs a:hover {
     background-color: #DDD;
@@ -86,8 +85,8 @@ body.spg-theme .bread-crumbs a {
     font-size: medium;
     text-transform: uppercase;
     display: inline-block;
-    padding: 0.3em 0.6em;
-    margin: 0.2em;
+    padding: 0em 0.6em;
+    margin: 0 0.2em 1em 0;
     border-radius: 0.5em;
 }
 
@@ -163,15 +162,16 @@ body.spg-theme form.themed input.large {
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 1em 0 0 0;
+    padding: 0.5em 0 0 0;
     display: inline-block;
-    min-height: 2em;
+    min-height: 1.5em;
     min-width: 10em;
     /* max-width: 14.5em; */
     text-align: center;
     box-shadow: 1em;
     /* border-width: 1px; */
-    font: 16pt Arial;
+    border-radius: 0.5em;
+    font: 15pt Arial;
     text-transform: uppercase;
     background-color: #00a8ff;
     color: #fff;
@@ -182,11 +182,12 @@ body.spg-theme a.button {
     box-shadow: 2px 2px 4px #CCC;
 }
 
-body.spg-theme a.button:hover {
-    background-color: #DDD;
-}
 body.spg-theme a.button.current {
-    background-color: #0068aa;
+    background-color: #0071AB;
+    font-weight: bold;
+}
+body.spg-theme a.button:hover {
+    background-color: #2288cc;
 }
 body.spg-theme a.button[disabled] {
     color: gray;

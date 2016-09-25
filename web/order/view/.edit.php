@@ -11,6 +11,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
         <div class="action-fields">
             <a href="order?" class="button">Order List</a>
             <a href="<?php echo $action_url; ?>view" class="button">View</a>
+            <a href="<?php echo $action_url; ?>edit" class="button current">Edit</a>
         </div>
 
         <h1>Edit #<?php echo $Order->getID(); ?></h1>

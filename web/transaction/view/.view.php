@@ -9,8 +9,9 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
     <section class="content">
         <div class="action-fields">
             <a href="transaction?" class="button">Transactions</a>
+            <a href="<?php echo $action_url; ?>view" class="button current">View</a>
             <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-<!--            <a href="transaction/charge.php?" class="button">Charge</a>-->
+            <a href="transaction/charge.php?" class="button">Charge</a>
         </div>
 
         <h1>View Transaction #<?php echo $Transaction->getID(); ?></h1>

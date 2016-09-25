@@ -22,6 +22,7 @@ class UserView extends AbstractView
         $action = @$params['action'] ?: 'view';
 
         // Add Breadcrumb links
+        $this->getTheme()->addCrumbLink('home', "Home");
         $this->getTheme()->addCrumbLink('user', "Users");
         $this->getTheme()->addCrumbLink('user?id=' . $User->getID(), $User->getUsername());
         $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($action));
