@@ -6,7 +6,7 @@ use \Merchant\Model\MerchantRow;
  **/?>
     <section class="content">
         <div class="action-fields">
-            <a href="batch?" class="button">Batch List</a>
+            <a href="batch?" class="button current">Batch List</a>
         </div>
 
         <h1>Batch List</h1>
@@ -69,10 +69,6 @@ use \Merchant\Model\MerchantRow;
                     </tr>
                     </tbody>
                 </table>
-            </fieldset>
-            <fieldset class="paginate">
-                <legend>Pagination</legend>
-                <?php $this->printPagination('batch?'); ?>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>

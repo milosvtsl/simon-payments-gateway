@@ -5,22 +5,14 @@ use \Merchant\Model\MerchantRow;
  **/?>
     <section class="content">
         <div class="action-fields">
-            <a href="merchant?" class="button">Merchant List</a>
+            <a href="merchant?" class="button current">Merchant List</a>
         </div>
-
-        <h1>Merchant List</h1>
 
         <?php if($this->hasException()) { ?>
             <h5><?php echo $this->hasException(); ?></h5>
 
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else if($this->hasMessage()) { ?>
-            <h6><?php echo $this->getMessage() ?></h6>
-
-        <?php } else { ?>
-            <h5>Search for Merchant Accounts...</h5>
 
         <?php } ?>
 
@@ -38,10 +30,6 @@ use \Merchant\Model\MerchantRow;
                 </select>
                 <input type="submit" value="Search" />
 
-            </fieldset>
-            <fieldset class="paginate">
-                <legend>Pagination</legend>
-                <?php $this->printPagination('merchant?'); ?>
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
@@ -70,6 +58,16 @@ use \Merchant\Model\MerchantRow;
             <fieldset class="paginate">
                 <legend>Pagination</legend>
                 <?php $this->printPagination('merchant?'); ?>
+
+
+                <?php if($this->hasException()) { ?>
+                    <h5><?php echo $this->hasException(); ?></h5>
+
+                <?php } else if($this->hasMessage()) { ?>
+                    <h6><?php echo $this->getMessage() ?></h6>
+
+                <?php } ?>
+
             </fieldset>
         </form>
     </section>

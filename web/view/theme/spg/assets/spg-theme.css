@@ -13,8 +13,10 @@ body.spg-theme > header {
 }
 
 body.spg-theme > hr.themed {
-border-width: 9px;
-border-color: #00a8ff;
+
+border-width: 9px;
+
+border-color: #00a8ff;
 }
 
 body.spg-theme > nav {
@@ -180,9 +182,11 @@ body.spg-theme a.button {
     box-shadow: 2px 2px 4px #CCC;
 }
 
-a.button {}
 body.spg-theme a.button:hover {
     background-color: #DDD;
+}
+body.spg-theme a.button.current {
+    background-color: #0068aa;
 }
 body.spg-theme a.button[disabled] {
     color: gray;

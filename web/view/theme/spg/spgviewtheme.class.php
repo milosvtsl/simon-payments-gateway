@@ -20,21 +20,27 @@ class SPGViewTheme extends AbstractViewTheme
 //        $this->addNavLink('home', "Home");
 //        $this->addNavLink('news', "News");
 //        $this->addNavLink('order', "Orders");
-        $this->addNavLink('transaction', "Transactions");
+//        $this->addNavLink('transaction', "Orders");
 
         if($SessionManager->isLoggedIn()) {
             if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-                $this->addNavLink('merchant', "Merchant");
+                $this->addNavLink('transaction', "Orders");
+                $this->addNavLink('merchant', "Merchants");
+                $this->addNavLink('transaction/charge.php', "Charge");
 //                $this->addNavLink('user', "Users");
 //                $this->addNavLink('batch', "Batch");
 //                $this->addNavLink('integration', "Integration");
 
-            } else {
+            } else if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) {
+                $this->addNavLink('transaction', "Orders");
                 $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
-            }
-
-            if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
                 $this->addNavLink('transaction/charge.php', "Charge");
+
+            } else {
+                $this->addNavLink('transaction', "Orders");
+                $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
+//                $this->addNavLink('transaction/charge.php', "Charge");
+                $this->addNavLink('login.php?action=logout', "Log Out");
             }
 
 //            $this->addNavLink('login.php?action=logout', "Log Out");

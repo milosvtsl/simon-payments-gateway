@@ -11,7 +11,7 @@ namespace Integration\Finix\Test;
 use Integration\Model\IntegrationRow;
 use Merchant\Test\TestMerchantRow;
 
-echo "Testing ... ", __FILE__, PHP_EOL;
+echo "\nTesting ... ", __FILE__, PHP_EOL;
 
 // Go to root directory
 $cwd1 = getcwd();

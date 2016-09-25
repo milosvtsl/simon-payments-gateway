@@ -77,10 +77,6 @@ use Integration\Request\Model\IntegrationRequestRow;
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset class="paginate">
-                <legend>Pagination</legend>
-                <?php $this->printPagination('integration/request?'); ?>
-            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">

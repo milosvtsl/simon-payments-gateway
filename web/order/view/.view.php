@@ -13,7 +13,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
             <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
         </div>
 
-        <h1>View Order</h1>
+        <h1>View Order #<?php echo $Order->getID(); ?></h1>
 
         <?php if($this->hasException()) { ?>
             <h5><?php echo $this->hasException(); ?></h5>
@@ -21,15 +21,13 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else { ?>
-            <h5>View an order...</h5>
 
         <?php } ?>
 
         <form class="form-view-order themed" onsubmit="return false;">
             <fieldset>
                 <legend>Order Information</legend>
-                <table class="table-order-info themed">
+                <table class="table-order-info themed" style="float: left;">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -53,6 +51,12 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Date</td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                    </tr>
+                </table>
+                <table class="table-order-info themed">
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Invoice</td>

@@ -39,10 +39,6 @@ use \User\Model\UserRow;
                 <input type="submit" value="Search" />
 
             </fieldset>
-            <fieldset class="paginate">
-                <legend>Pagination</legend>
-                <?php $this->printPagination('user?'); ?>
-            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">

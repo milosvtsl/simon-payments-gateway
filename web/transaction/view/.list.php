@@ -6,7 +6,7 @@ use Transaction\Model\TransactionRow;
  **/?>
     <section class="content">
         <div class="action-fields">
-            <a href="transaction?" class="button">Transactions</a>
+            <a href="transaction?" class="button current">Transactions</a>
             <a href="transaction/charge.php?" class="button">Charge</a>
         </div>
 

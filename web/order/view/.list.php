@@ -6,7 +6,7 @@ use Order\Model\OrderRow;
  **/?>
     <section class="content">
         <div class="action-fields">
-            <a href="order?" class="button">Order List</a>
+            <a href="order?" class="button current">Order List</a>
         </div>
 
         <h1>Order List</h1>
@@ -16,11 +16,6 @@ use Order\Model\OrderRow;
 
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else if($this->hasMessage()) { ?>
-            <h6><?php echo $this->getMessage() ?></h6>
-
-        <?php } else { ?>
 
         <?php } ?>
 
@@ -69,10 +64,6 @@ use Order\Model\OrderRow;
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset class="paginate">
-                <legend>Pagination</legend>
-                <?php $this->printPagination('order?'); ?>
-            </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
                 <table class="table-results themed small">
@@ -107,6 +98,16 @@ use Order\Model\OrderRow;
             <fieldset class="paginate">
                 <legend>Pagination</legend>
                 <?php $this->printPagination('order?'); ?>
+
+
+                <?php if($this->hasException()) { ?>
+                    <h5><?php echo $this->hasException(); ?></h5>
+
+                <?php } else if($this->hasMessage()) { ?>
+                    <h6><?php echo $this->getMessage() ?></h6>
+
+                <?php } ?>
+
             </fieldset>
         </form>
     </section>

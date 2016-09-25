@@ -12,7 +12,7 @@ $cwd0 = getcwd().'';
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-echo "Testing ... ", __FILE__, PHP_EOL;
+echo "\nTesting ... ", __FILE__, PHP_EOL;
 
 // try log in
 $SessionManager = new \User\Session\SessionManager();

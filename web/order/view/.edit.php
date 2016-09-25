@@ -13,16 +13,13 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
             <a href="<?php echo $action_url; ?>view" class="button">View</a>
         </div>
 
-        <h1>Edit <?php echo $Order->getID(); ?></h1>
+        <h1>Edit #<?php echo $Order->getID(); ?></h1>
 
         <?php if($this->hasException()) { ?>
             <h5><?php echo $this->hasException(); ?></h5>
 
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else { ?>
-            <h5>Edit this Order Account...</h5>
 
         <?php } ?>
 
