@@ -6,8 +6,8 @@
  * Time: 10:47 PM
  */
 
-$cwd = getcwd();
 chdir('web');
+$cwd0 = getcwd().'';
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
@@ -32,11 +32,11 @@ assert($TestUser !== null);
 
 chdir('integration/finix/test');
 require ('test.php');
-chdir($cwd);
+chdir($cwd0);
 
 
 chdir('integration/element/test');
 require ('test.php');
-chdir($cwd);
+chdir($cwd0);
 
 echo "\nAll Tests successful";

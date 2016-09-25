@@ -13,7 +13,7 @@ use Merchant\Test\TestMerchantRow;
 echo "Testing ... ", __FILE__, PHP_EOL;
 
 // Go to root directory
-$cwd = getcwd();
+$cwd1 = getcwd();
 chdir('../../..');
 
 // Enable class autoloader
@@ -38,4 +38,4 @@ if(!$MerchantIdentity->isProvisioned())
 // Done
 
 echo "\nElement Integration Test successful";
-chdir($cwd);
+chdir($cwd1);
