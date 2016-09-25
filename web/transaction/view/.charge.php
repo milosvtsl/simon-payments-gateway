@@ -145,6 +145,10 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
                 <table class="table-transaction-charge themed">
                     <caption class="alert reader-status">Card Swipe Ready!</caption>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Convenience Fee</td>
+                        <td class="value"><input type="text" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Total Charge Amount</td>
                         <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
                     </tr>

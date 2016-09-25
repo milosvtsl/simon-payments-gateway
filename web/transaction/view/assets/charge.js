@@ -85,6 +85,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             fee_amount += parseFloat(form.convenience_fee_variable_rate.value);
         form.total_amount.value = '$' + (amount+fee_amount).toFixed(2);
         form.amount.value = (amount).toFixed(2);
+        if(form.convenience_fee_total)
+            form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
 
         // Update card type
         if(form.card_number && form.card_number.value)
