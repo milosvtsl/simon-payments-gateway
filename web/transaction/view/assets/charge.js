@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
         clearTimeout(keyTimeout);
         keyTimeout = setTimeout(function() {
-            if(charHistory) {
+            if(charHistory > 100) {
                 console.log("Card tracks parsed successfully", lastParseData);
                 var forms = document.getElementsByName('form-transaction-charge');
                 if(forms.length === 0)
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
             if(formClasses)
                 form.setAttribute('class', 'themed ' + formClasses);
-            console.log("Merchant: ", form.merchant_id.value, formClasses);
+//             console.log("Merchant: ", form.merchant_id.value, formClasses);
 
         } else {
 
