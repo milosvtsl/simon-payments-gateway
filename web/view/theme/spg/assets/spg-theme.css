@@ -70,7 +70,7 @@ body.spg-theme .bread-crumbs {
     min-height: 2em;
     /* clear: both; */
     /* padding: 0em; */
-    background-color: eee;
+    background-color: #eeeeee;
     /* text-transform: capitalize; */
     z-index: 1;
     position: relative;
@@ -121,7 +121,7 @@ body.spg-theme fieldset.themed {
     border-width: 1px;
     border: 1px outset #EEE;
     /* margin-bottom: 0.5em; */
-    background-color: #FFF;
+    background-color: #ebf2f5;
     margin: 1em;
     box-shadow: 2px 2px 4px #CCC;
 }
@@ -139,6 +139,9 @@ body.spg-theme legend.themed {
     border-radius: 1em;
     padding: 0.4em 0.8em;
     font-family: monospace;
+    border-bottom: 1px inset #DADADA;
+    margin-left: -1em;
+    margin-bottom: .5em;
 }
 
 body.spg-theme form.themed select,
@@ -174,7 +177,7 @@ body.spg-theme a.button {
     border-radius: 0.5em;
     font: 15pt Arial;
     text-transform: uppercase;
-    background-color: #00a8ff;
+    background-color: #679ece;
     color: #fff;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
@@ -184,7 +187,7 @@ body.spg-theme a.button {
 }
 
 body.spg-theme a.button.current {
-    background-color: #0071AB;
+    background-color: #51d0d0;
     font-weight: bold;
 }
 body.spg-theme a.button:hover {
