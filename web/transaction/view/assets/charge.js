@@ -84,24 +84,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.card_number.value = lastParseData.card_number;
             form.payee_first_name.value = lastParseData.payee_first_name;
             form.payee_last_name.value = lastParseData.payee_last_name;
+            form.customer_first_name.value = lastParseData.payee_first_name;
+            form.customer_last_name.value = lastParseData.payee_last_name;
+
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
             lastParseData = null;
         }
 
         var amount = parseFloat(form.amount.value) || 0;
-        var fee_amount = 0;
-        if(form.convenience_fee_limit)
-            fee_amount += parseFloat(form.convenience_fee_limit.value);
-        if(form.convenience_fee_flat)
-            fee_amount += parseFloat(form.convenience_fee_flat.value);
-        if(form.convenience_fee_variable_rate)
-            fee_amount += parseFloat(form.convenience_fee_variable_rate.value);
-        form.total_amount.value = '$' + (amount+fee_amount).toFixed(2);
-        form.amount.value = (amount).toFixed(2);
-        if(form.convenience_fee_total)
-            form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
-
+        if(amount) {
+            var fee_amount = 0;
+            if (form.convenience_fee_limit)
+                fee_amount += parseFloat(form.convenience_fee_limit.value);
+            if (form.convenience_fee_flat)
+                fee_amount += parseFloat(form.convenience_fee_flat.value);
+            if (form.convenience_fee_variable_rate)
+                fee_amount += parseFloat(form.convenience_fee_variable_rate.value);
+            form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
+            form.amount.value = (amount).toFixed(2);
+            if (form.convenience_fee_total)
+                form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
+        }
+        
         // Update card type
         if(form.card_number && form.card_number.value)
             form.card_type.value = getCreditCardType(form.card_number.value);
