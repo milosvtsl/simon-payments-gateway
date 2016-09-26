@@ -28,30 +28,27 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
             <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getFeeFlat(); ?>" />
             <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getFeeLimit(); ?>" />
             <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getFeeVariable(); ?>" />
-            <fieldset style="float:left;">
-                <legend>Charge Fields</legend>
-                <table class="table-transaction-charge themed">
-<!--                    <tr>-->
-<!--                        <th>Field</th>-->
-<!--                        <th>Value</th>-->
-<!--                    </tr>-->
+            <fieldset>
+                <legend>Choose a Merchant</legend>
+                <select name="merchant_id" class="" autofocus>
+                    <option value="">Choose a Merchant</option>
+                    <?php
+                    $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+                    foreach($MerchantQuery as $Merchant)
+                        /** @var \Merchant\Model\MerchantRow $Merchant */
+                        echo "\n\t\t\t\t\t\t\t<option",
+                            " data-form-class='", $Merchant->getFormClass(), "'",
+                            " value='", $Merchant->getID(), "'>",
+                        $Merchant->getShortName(), "</option>";
+                    ?>
+                </select>
+            </fieldset>
+            <fieldset style="display: inline-block;">
+                <legend>Customer Fields</legend>
+                <table class="table-transaction-charge themed" style="float: left;">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Payment Amount</td>
-                        <td class="value"><input type="text" name="amount" value="" size="10" placeholder="0.00" required /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                        <td class="name">Merchant</td>
-                        <td class="value">
-                            <select name="merchant_id" class="">
-                                <option value="">Choose a Merchant</option>
-                                <?php
-                                $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
-                                foreach($MerchantQuery as $Merchant)
-                                    /** @var \Merchant\Model\MerchantRow $Merchant */
-                                    echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "'>", $Merchant->getShortName(), "</option>";
-                                ?>
-                            </select>
-                        </td>
+                        <td class="value"><input type="text" name="amount" value="" size="10" placeholder="0.00" required autofocus /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Customer Name</td>
@@ -62,6 +59,15 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Email</td>
+                        <td class="value"><input type="text" name="payee_receipt_email" value="" placeholder="" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Phone</td>
+                        <td class="value"><input type="text" name="payee_phone_number" value="" placeholder="" /></td>
+                    </tr>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Customer ID#</td>
                         <td class="value"><input type="text" name="customer_id" value="" placeholder="" /></td>
                     </tr>
@@ -69,25 +75,46 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
                         <td class="name">Invoice ID#</td>
                         <td class="value"><input type="text" name="invoice_number" value="" placeholder="" /></td>
                     </tr>
+                </table>
+            </fieldset>
+
+            <fieldset style="display: inline-block;">
+                <legend>Submit Payment</legend>
+                <table class="table-transaction-charge themed">
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Convenience Fee</td>
+                        <td class="value"><input type="text" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Total Charge Amount</td>
+                        <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Method</td>
+                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Submit</td>
+                        <td class="value"><input type="submit" value="Pay Now" class="large" /></td>
+                    </tr>
+                </table>
+            </fieldset>
+
+
+            <fieldset style="float: left; display: inline-block;">
+                <legend>Cardholder Information</legend>
+                <table class="table-transaction-charge themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                        <td class="name">Cardholder First Name</td>
+                        <td class="name">First Name</td>
                         <td class="value"><input type="text" name="payee_first_name" value="" placeholder="" required /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                        <td class="name">Cardholder Last Name</td>
+                        <td class="name">Last Name</td>
                         <td class="value"><input type="text" name="payee_last_name" value="" placeholder="" required /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Billing Zipcode</td>
                         <td class="value"><input type="text" name="payee_zipcode" value="" placeholder="" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Email</td>
-                        <td class="value"><input type="text" name="payee_receipt_email" value="" placeholder="" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Phone</td>
-                        <td class="value"><input type="text" name="payee_phone_number" value="" placeholder="" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Card Number</td>
@@ -141,27 +168,13 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
 
                 </table>
             </fieldset>
-            <fieldset style="display: inline-block;">
-                <legend>Submit Payment</legend>
-                <table class="table-transaction-charge themed">
-                    <caption class="alert reader-status">Card Swipe Ready!</caption>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Convenience Fee</td>
-                        <td class="value"><input type="text" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Total Charge Amount</td>
-                        <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Method</td>
-                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Submit</td>
-                        <td class="value"><input type="submit" value="Pay Now" class="large" /></td>
-                    </tr>
-                </table>
+
+
+            <fieldset style="float: left; text-align: center;">
+                <legend>Cardholder Information</legend>
+                <input type="text" name="swipe_input" size="40" />
+                <div class="alert reader-status">Card Swipe Ready!</div>
             </fieldset>
+
         </form>
     </section>

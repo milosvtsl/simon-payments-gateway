@@ -15,7 +15,7 @@ class HomeView extends AbstractView {
         $Theme = $this->getTheme();
 
         // Add Breadcrumb links
-		$Theme->addCrumbLink('home', "Home");
+//		$Theme->addCrumbLink('home', "Home");
 
 		// Render Header
         $Theme->renderHTMLBodyHeader();

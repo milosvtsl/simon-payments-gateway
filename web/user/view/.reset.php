@@ -1,9 +1,8 @@
-    <body class="login">
+<h3>Forget Password?</h3>
         <div class="main-login col-sm-4 col-sm-offset-4">
             <div
                 class="box-login                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ">
 
-                <h3>Forget Password?</h3>
 
                 <p>
                     Enter your registered E-mail Id to get PIN to reset password
@@ -30,4 +29,3 @@
                 </form>
             </div>
         </div>
-    </body>

@@ -21,9 +21,6 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
         <?php } else if ($this->hasSessionMessage()) { ?>
             <h5><?php echo $this->popSessionMessage(); ?></h5>
 
-        <?php } else { ?>
-            <h5>View a batch entry...</h5>
-
         <?php } ?>
         <form class="form-view-batch themed" onsubmit="return false;">
             <fieldset>

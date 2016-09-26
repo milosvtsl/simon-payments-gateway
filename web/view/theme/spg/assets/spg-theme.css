@@ -7,7 +7,7 @@ body.spg-theme {
 body.spg-theme > header {
     display: inline-block;
     /* float: left; */
-    padding: 1em 0px 1em 1em;
+    padding: 1em 0px 0em 0em;
     margin-right: -6em;
     /* text-align: right; */
     margin-top: -2em;
@@ -67,6 +67,7 @@ body.spg-theme .bread-crumbs {
     /* margin: 0.5em 0.5em 0 0; */
     /* border-bottom: 1px solid #ccc; */
     display: block;
+    min-height: 2em;
     /* clear: both; */
     /* padding: 0em; */
     background-color: eee;
@@ -149,7 +150,7 @@ body.spg-theme form.themed input {
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {
-    max-width: 16em;
+    /* max-width: 16em; */
 }
 
 body.spg-theme form.themed select.large,
@@ -241,7 +242,7 @@ body.spg-theme table.themed > tbody > tr.required > td.name {
 
 
 
-body.spg-theme table.themed .alert {
+body.spg-theme .themed .alert {
     font-weight: bold;
     color: blue;
 }

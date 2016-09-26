@@ -20,6 +20,7 @@ class LoginView extends AbstractView {
     }
 
     protected function renderHTMLBody(Array $params) {
+        $Theme = $this->getTheme();
         $action = isset($params['action']) ? $params['action'] : 'login';
         switch($action) {
             case 'login':
@@ -27,11 +28,16 @@ class LoginView extends AbstractView {
                 break;
 
             case 'logout':
+                // Render Header
+                $Theme->renderHTMLBodyHeader();
                 include ('.logout.php');
+                $Theme->renderHTMLBodyFooter();
                 break;
 
             case 'reset':
+                $Theme->renderHTMLBodyHeader();
                 include ('.reset.php');
+                $Theme->renderHTMLBodyFooter();
                 break;
 
             default:

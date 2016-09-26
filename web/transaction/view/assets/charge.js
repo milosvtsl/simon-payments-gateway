@@ -51,8 +51,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var forms = document.getElementsByName('form-transaction-charge');
             if(forms.length === 0)
                 throw new Exception("No Charge form found");
-            for(var i=0; i<forms.length; i++)
-                updateChargeForm(e, forms[i]);
+            for(var i=0; i<forms.length; i++) {
+                var form = forms[i];
+                form.swipe_input.value = charHistory;
+                updateChargeForm(e, form);
+            }
         }
 
     }
@@ -64,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function updateChargeForm(e, form) {
+        updateStyleSheetTheme(form);
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
             form.entry_method.value = 'Swipe';
@@ -91,7 +95,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // Update card type
         if(form.card_number && form.card_number.value)
             form.card_type.value = getCreditCardType(form.card_number.value);
+
+
     }
+
+    function updateStyleSheetTheme(form) {
+
+
+        if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
+            var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
+            var formClasses = selectedOption.getAttribute('data-form-class');
+            if(formClasses)
+                form.setAttribute('class', 'themed ' + formClasses);
+            console.log("Merchant: ", form.merchant_id.value, formClasses);
+
+        } else {
+
+        }
+    }
+
+    // Utilities
 
     function getCreditCardType(number) {
         if (/^5[1-5]/.test(number))

@@ -223,6 +223,12 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getURL()            { return $this->url; }
 
+    public function getFormClass() {
+        return 'full-charge-form';
+    }
+
+
+
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $first;
