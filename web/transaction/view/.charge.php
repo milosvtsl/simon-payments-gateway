@@ -3,8 +3,8 @@
  * @var \Transaction\View\TransactionView $this
  **/
 $odd = false;
-$MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
-$Merchant = $MerchantQuery->fetch(); // TODO: fix
+//$MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+//$Merchant = $MerchantQuery->fetch(); // TODO: fix
 ?>
     <section class="content">
         <div class="action-fields">
@@ -25,9 +25,9 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
 
         <script src="transaction/view/assets/charge.js"></script>
         <form name="form-transaction-charge" class=" themed" method="POST">
-            <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getFeeFlat(); ?>" />
-            <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getFeeLimit(); ?>" />
-            <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getFeeVariable(); ?>" />
+            <input type="hidden" name="convenience_fee_flat" value="" />
+            <input type="hidden" name="convenience_fee_limit" value="" />
+            <input type="hidden" name="convenience_fee_variable_rate" value="" />
             <fieldset>
                 <legend>Choose a Merchant</legend>
                 <select name="merchant_id" class="" autofocus>
@@ -37,7 +37,10 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
                     foreach($MerchantQuery as $Merchant)
                         /** @var \Merchant\Model\MerchantRow $Merchant */
                         echo "\n\t\t\t\t\t\t\t<option",
-                            " data-form-class='", $Merchant->getFormClass(), "'",
+                            " data-form-class='", $Merchant->getChargeFormClasses(), "'",
+                            " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
+                            " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
+                            " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
                             " value='", $Merchant->getID(), "'>",
                         $Merchant->getShortName(), "</option>";
                     ?>

@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (form.convenience_fee_total)
                 form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
         }
-        
+
         // Update card type
         if(form.card_number && form.card_number.value)
             form.card_type.value = getCreditCardType(form.card_number.value);
@@ -120,6 +120,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
             var formClasses = selectedOption.getAttribute('data-form-class');
+            form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
+            form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
+            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
             if(formClasses)
                 form.setAttribute('class', 'themed ' + formClasses);
             console.log("Merchant: ", form.merchant_id.value, formClasses);

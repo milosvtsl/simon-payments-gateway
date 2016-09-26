@@ -141,6 +141,8 @@ LEFT JOIN state s on m.state_id = s.id
     protected $zipcode;
     protected $country;
     protected $url;
+    protected $charge_form_classes;
+
     protected $state_id;
 
     protected $status_id;
@@ -205,27 +207,25 @@ LEFT JOIN state s on m.state_id = s.id
     public function getAddress()        { return $this->address1; }
     public function getAddress2()       { return $this->address2; }
 
-    public function getCity()           { return $this->city; }
-    public function getState()          { return $this->state_name; }
-    public function getRegionCode()     { return $this->state_short_code; }
-    public function getZipCode()        { return $this->zipcode; }
+    public function getCity()               { return $this->city; }
+    public function getState()              { return $this->state_name; }
+    public function getRegionCode()         { return $this->state_short_code; }
+    public function getZipCode()            { return $this->zipcode; }
 
-    public function getMainEmailID()    { return $this->main_email_id; }
-    public function getSaleRep()        { return $this->sale_rep; }
+    public function getMainEmailID()        { return $this->main_email_id; }
+    public function getSaleRep()            { return $this->sale_rep; }
 
-    public function getPayoutType()     { return $this->payout_type; }
-    public function getPayoutAccountName()    { return $this->payout_account_name; }
-    public function getPayoutAccountType()    { return $this->payout_account_type; }
-    public function getPayoutAccountNumber()  { return $this->payout_account_number; }
-    public function getPayoutBankCode() { return $this->payout_bank_code; }
+    public function getPayoutType()         { return $this->payout_type; }
+    public function getPayoutAccountName()  { return $this->payout_account_name; }
+    public function getPayoutAccountType()  { return $this->payout_account_type; }
+    public function getPayoutAccountNumber(){ return $this->payout_account_number; }
+    public function getPayoutBankCode()     { return $this->payout_bank_code; }
 
-    public function getNotes()          { return $this->notes; }
+    public function getNotes()              { return $this->notes; }
 
-    public function getURL()            { return $this->url; }
+    public function getURL()                { return $this->url; }
 
-    public function getFormClass() {
-        return 'full-charge-form';
-    }
+    public function getChargeFormClasses()  { return $this->charge_form_classes; }
 
 
 
@@ -259,20 +259,6 @@ LEFT JOIN state s on m.state_id = s.id
         return $EditQuery->rowCount();
     }
 
-    /**
-     * @param AbstractIntegration $Integration
-     * @param string $result
-     * @param string $type
-     * @return IntegrationRequestRow
-     */
-    public function fetchAPIRequest(AbstractIntegration $Integration, $type, $result=IntegrationRequestRow::ENUM_RESULT_SUCCESS) {
-        return IntegrationRequestRow::fetchByType(
-            $type,
-            $this->getID(),
-            $Integration->getIntegrationRow()->getID(),
-            $result
-        );
-    }
 
     public function getProvisionRequest(IntegrationRow $IntegrationRow) {
         $DB = DBConfig::getInstance();
