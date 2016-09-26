@@ -170,10 +170,10 @@ $Merchant = $MerchantQuery->fetch(); // TODO: fix
             </fieldset>
 
 
-            <fieldset style="float: left; text-align: center;">
-                <legend>Cardholder Information</legend>
+            <fieldset style="float: left;">
+                <legend>Swipe Card</legend>
                 <input type="text" name="swipe_input" size="40" />
-                <div class="alert reader-status">Card Swipe Ready!</div>
+                <div class="alert reader-status" style="text-align: center;">Card Swipe Ready!</div>
             </fieldset>
 
         </form>

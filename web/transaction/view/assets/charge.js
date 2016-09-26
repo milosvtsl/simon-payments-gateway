@@ -29,10 +29,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
         clearTimeout(keyTimeout);
         keyTimeout = setTimeout(function() {
-            if(charHistory)
+            if(charHistory) {
+                console.log("Card tracks parsed successfully", lastParseData);
+                var forms = document.getElementsByName('form-transaction-charge');
+                if(forms.length === 0)
+                    throw new Exception("No Charge form found");
+                for(var i=0; i<forms.length; i++) {
+                    var form = forms[i];
+                    updateChargeForm(e, form);
+                    form.swipe_input.value = charHistory;
+                }
+                charHistory = '';
                 setStatus("Card read successfully!");
-            else
+            } else {
                 setStatus("Card Swipe Ready!");
+            }
 
             charHistory = '';
         }, 2000);
@@ -45,16 +56,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
         charHistory += String.fromCharCode(charCode);
         var parseData = parseMagTekTrack(charHistory);
         if(parseData && parseData.success) {
-            charHistory = '';
             lastParseData = parseData;
-            console.log("Card tracks parsed successfully", lastParseData);
             var forms = document.getElementsByName('form-transaction-charge');
             if(forms.length === 0)
                 throw new Exception("No Charge form found");
             for(var i=0; i<forms.length; i++) {
                 var form = forms[i];
-                form.swipe_input.value = charHistory;
                 updateChargeForm(e, form);
+                form.swipe_input.value = charHistory;
+                form.swipe_input.focus();
             }
         }
 
