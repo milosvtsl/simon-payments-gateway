@@ -33,12 +33,6 @@ class BatchView extends AbstractView
     public function getBatch() { return $this->_batch; }
 
     public function renderHTMLBody(Array $params) {
-        // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('home', "Home");
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->_batch->getID(), $this->_batch->getID());
-        if($this->_action !== 'view')
-            $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();

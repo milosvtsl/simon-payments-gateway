@@ -7,21 +7,25 @@ $Batch = $this->getBatch();
 $odd = false;
 $action_url = 'batch?id=' . $Batch->getID() . '&action=';
 ?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button">Transactions</a>
+        <a href="order?" class="button">Orders</a>
+        <a href="batch?" class="button">Batches</a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Batch->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Batch->getID(); ?></a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="batch" class="nav_batch">Batches</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_batch_view">#<?php echo $Batch->getID(); ?></a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="batch?" class="button">Batch List</a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-        </div>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <h1>View Batch</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } ?>
         <form class="form-view-batch themed" onsubmit="return false;">
             <fieldset>
                 <legend>Batch Information</legend>
