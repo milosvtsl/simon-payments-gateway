@@ -179,12 +179,12 @@ $SessionUser = $SessionManager->getSessionUser();
                 <table class="table-transaction-charge themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Account Name</td>
-                        <td class="value"><input type="text" name="payee_first_name" value="" placeholder="" required /></td>
+                        <td class="value"><input type="text" name="check_account_name" value="" placeholder="" required /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Account Type</td>
                         <td class="value">
-                            <select name="card_type" required>
+                            <select name="check_type" required>
                                 <option value="">Choose an option</option>
                                 <option>Checking</option>
                                 <option>Savings</option>
@@ -230,10 +230,10 @@ $SessionUser = $SessionManager->getSessionUser();
                         <td class="name">Total Charge Amount</td>
                         <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
                     </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Method</td>
-                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>
-                    </tr>
+<!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                        <td class="name">Method</td>-->
+<!--                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>-->
+<!--                    </tr>-->
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Submit</td>
                         <td class="value"><input type="submit" value="Pay Now" class="large" /></td>

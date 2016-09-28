@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         updateStyleSheetTheme(form);
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
-            form.entry_method.value = 'Swipe';
+            //form.entry_method.value = 'Swipe';
+            form.payment_method.value = 'swipe';
             form.card_number.value = lastParseData.card_number;
             form.payee_first_name.value = lastParseData.payee_first_name;
             form.payee_last_name.value = lastParseData.payee_last_name;
