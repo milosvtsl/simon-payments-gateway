@@ -42,13 +42,6 @@ class MerchantView extends AbstractView
             die();
         }
 
-        // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('home', "Home");
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getMerchant()->getID(), '#' . $this->getMerchant()->getShortName());
-        if($this->_action !== 'view')
-            $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
-
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 

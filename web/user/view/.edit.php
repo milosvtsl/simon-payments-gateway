@@ -7,25 +7,24 @@
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="user?" class="button">User List</a>
+        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $User->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $User->getID(); ?></a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="user" class="nav_user">Users</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="user?" class="button">User List</a>
-            <a href="<?php echo $action_url; ?>view" class="button">View</a>
-            <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-        </div>
-
-        <h1>Edit <?php echo $User->getFullName(); ?></h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else { ?>
-            <h5>Edit this User Account...</h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
             <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />

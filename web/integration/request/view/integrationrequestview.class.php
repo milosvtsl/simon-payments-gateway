@@ -30,11 +30,6 @@ class IntegrationRequestView extends AbstractView
     public function getRequest() { return $this->_request; }
 
     public function renderHTMLBody(Array $params) {
-        // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getRequest()->getID(), '#' . $this->getRequest()->getID());
-        if($this->_action !== 'view')
-            $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
 
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();

@@ -6,23 +6,25 @@ $Transaction = $this->getTransaction();
 $odd = false;
 $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
 ?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button">Transactions</a>
+        <a href="order?" class="button">Orders</a>
+        <a href="transaction/charge.php?" class="button">Charge</a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Transaction->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Transaction->getID(); ?></a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="transaction" class="nav_transaction">Transactions</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Transaction->getID(); ?></a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="transaction?" class="button">Transactions</a>
-            <a href="<?php echo $action_url; ?>view" class="button current">View</a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-            <a href="transaction/charge.php?" class="button">Charge</a>
-        </div>
-
-        <h1>View Transaction #<?php echo $Transaction->getID(); ?></h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-transaction themed" onsubmit="return false;">
             <fieldset>
@@ -42,7 +44,7 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Order ID</td>
-                        <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a></td>
+                        <td><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'>#<?php echo $Transaction->getOrderID(); ?></a></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Transaction</td>

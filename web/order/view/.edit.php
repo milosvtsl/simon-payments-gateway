@@ -7,22 +7,25 @@ $Order = $this->getOrder();
 $odd = false;
 $action_url = 'order?id=' . $Order->getID() . '&action=';
 ?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button">Transactions</a>
+        <a href="order?" class="button">Orders</a>
+        <a href="transaction/charge.php?" class="button">Charge</a>
+        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Order->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Order->getID(); ?></a>
+    </nav>
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="order" class="nav_order">Orders</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_order_view">#<?php echo $Order->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="nav_order_edit">Edit</a>
+    </aside>
+    
     <section class="content">
-        <div class="action-fields">
-            <a href="order?" class="button">Order List</a>
-            <a href="<?php echo $action_url; ?>view" class="button">View</a>
-            <a href="<?php echo $action_url; ?>edit" class="button current">Edit</a>
-        </div>
-
-        <h1>Edit #<?php echo $Order->getID(); ?></h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-Order themed" method="POST">
             <fieldset>

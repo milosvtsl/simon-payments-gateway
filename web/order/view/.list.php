@@ -4,23 +4,23 @@ use Order\Model\OrderRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button">Transactions</a>
+        <a href="order?" class="button current">Orders</a>
+        <a href="transaction/charge.php?" class="button">Charge</a>
+    </nav>
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="order" class="nav_order">Orders</a>
+        <a href="order/list.php" class="nav_order_list">Search</a>
+    </aside>
+    
     <section class="content">
-        <div class="action-fields">
-            <a href="transaction?" class="button">Transactions</a>
-            <a href="order?" class="button current">Orders</a>
-            <a href="transaction/charge.php?" class="button">Charge</a>
-        </div>
-
-
-        <h1>Order List</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-search themed">
             <fieldset class="search-fields">

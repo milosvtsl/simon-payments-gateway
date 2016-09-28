@@ -7,25 +7,24 @@ $Request = $this->getRequest();
 $odd = false;
 $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
 ?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="integration?" class="button">Integration List</a>
+        <a href="integration/request?" class="button">Requests</a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Request->getID(); ?></a>
+<!--        <a href="--><?php //echo $action_url; ?><!--edit" class="button">Edit #--><?php //echo $Request->getID(); ?><!--</a>-->
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="integration" class="nav_integration">Integrations</a>
+        <a href="request" class="nav_integration_request">Requests</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="integration?" class="button">Integrations</a>
-            <a href="integration/request?" class="button">Requests</a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-        </div>
-
-        <h1>View Integration Request</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else { ?>
-            <h5>View an integration request...</h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-integration-request themed" onsubmit="return false;">
             <fieldset>
@@ -58,6 +57,10 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Date</td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>URL</td>
+                        <td><a href="<?php echo $Request->getRequestURL(); ?>" target="_blank">Request URL</a></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Result</td>

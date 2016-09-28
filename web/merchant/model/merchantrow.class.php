@@ -225,8 +225,9 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getURL()                { return $this->url; }
 
-    public function getChargeFormClasses()  { return $this->charge_form_classes; }
+    public function getChargeFormClasses()  { return $this->charge_form_classes ?: 'default'; }
 
+    public function getCheckFormClasses()   { return 'default'; }
 
 
     public function getMainContactFirstName() {
@@ -324,6 +325,7 @@ LEFT JOIN state s on m.state_id = s.id
         $MerchantQuery->execute(array($id));
         return $MerchantQuery;
     }
+
 
 
 }

@@ -1,51 +1,68 @@
 <?php
+use User\Session\SessionManager;
+use Merchant\Model\MerchantRow;
 /**
  * @var \Transaction\View\TransactionView $this
  **/
 $odd = false;
-//$MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
-//$Merchant = $MerchantQuery->fetch(); // TODO: fix
+$SessionManager = new SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
+
 ?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button">Transactions</a>
+        <a href="order?" class="button">Orders</a>
+        <a href="transaction/charge.php?" class="button current">Charge</a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="transaction" class="nav_transaction">Transactions</a>
+        <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="transaction?" class="button">Transactions</a>
-            <a href="order?" class="button">Orders</a>
-            <a href="transaction/charge.php?" class="button current">Charge</a>
-        </div>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <h1>Charge a card</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } ?>
-
-        <script src="transaction/view/assets/charge.js"></script>
         <form name="form-transaction-charge" class=" themed" method="POST">
             <input type="hidden" name="convenience_fee_flat" value="" />
             <input type="hidden" name="convenience_fee_limit" value="" />
             <input type="hidden" name="convenience_fee_variable_rate" value="" />
+
             <fieldset>
                 <legend>Choose a Merchant</legend>
                 <select name="merchant_id" class="" autofocus>
                     <option value="">Choose a Merchant</option>
                     <?php
-                    $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
-                    foreach($MerchantQuery as $Merchant)
+                    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                        $MerchantQuery = MerchantRow::queryAll();
+                    } else {
+                        $MerchantQuery = $SessionUser->queryUserMerchants();
+                    }
+                    foreach ($MerchantQuery as $Merchant)
                         /** @var \Merchant\Model\MerchantRow $Merchant */
                         echo "\n\t\t\t\t\t\t\t<option",
-                            " data-form-class='", $Merchant->getChargeFormClasses(), "'",
-                            " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
-                            " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
-                            " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
-                            " value='", $Merchant->getID(), "'>",
+                        " data-form-class='", $Merchant->getChargeFormClasses(), "'",
+                        " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
+                        " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
+                        " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
+                        " value='", $Merchant->getID(), "'>",
                         $Merchant->getShortName(), "</option>";
                     ?>
                 </select>
             </fieldset>
+
+            <fieldset>
+                <legend>Choose a Payment Method</legend>
+                <select name="payment_method" class="" autofocus>
+                    <option value="keyed">Keyed Card</option>
+                    <option value="swipe">Swipe Card</option>
+                    <option value="check">e-Check</option>
+                </select>
+            </fieldset>
+
             <fieldset style="display: inline-block;">
                 <legend>Customer Fields</legend>
                 <table class="table-transaction-charge themed" style="float: left;">

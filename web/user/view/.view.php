@@ -7,25 +7,23 @@
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="user?" class="button">User List</a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $User->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $User->getID(); ?></a>
+    </nav>
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="user" class="nav_user">Users</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+    </aside>
+    
     <section class="content">
-        <div class="action-fields">
-            <a href="user?" class="button">User List</a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-            <a href="<?php echo $action_url; ?>delete" class="button">Delete</a>
-        </div>
-
-        <h1>View User</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else { ?>
-            <h5>View a User Account...</h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-user themed" onsubmit="return false;">
             <fieldset>
@@ -58,6 +56,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchants</td>
                         <td><?php
+                            $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
                             foreach($User->queryUserMerchants() as $Merchant) {
                                 /** @var \Merchant\Model\MerchantRow $Merchant */
                                 echo "<a href='merchant?id=" . $Merchant->getID() . "'>"

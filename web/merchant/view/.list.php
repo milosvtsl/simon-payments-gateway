@@ -3,18 +3,24 @@ use \Merchant\Model\MerchantRow;
 /**
  * @var \View\AbstractListView $this
  **/?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="merchant?" class="button current">Merchant List</a>
+        <a href="integration?" class="button">Integrations</a>
+        <a href="user?" class="button">Users</a>
+        <a href="user/logout.php" class="button">Log Out</a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="merchant" class="nav_merchant">Merchants</a>
+        <a href="merchant/list.php" class="nav_merchant_list">Search</a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="merchant?" class="button current">Merchant List</a>
-        </div>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-search themed">
             <fieldset class="search-fields">

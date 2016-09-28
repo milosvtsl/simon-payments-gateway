@@ -32,13 +32,6 @@ class OrderView extends AbstractView
     public function getOrder() { return $this->_order; }
 
     public function renderHTMLBody(Array $params) {
-        // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('home', "Home");
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH, static::VIEW_NAME);
-        $this->getTheme()->addCrumbLink(static::VIEW_PATH . '?id=' . $this->getOrder()->getID(), '#' . $this->getOrder()->getID());
-        if($this->_action !== 'view')
-            $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], ucfirst($this->_action));
-
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 

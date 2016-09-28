@@ -5,27 +5,24 @@ use Integration\Request\Model\IntegrationRequestRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="integration?" class="button">Integrations</a>
+        <a href="integration/request?" class="button current">Requests</a>
+        <a href="user/logout.php" class="button">Log Out</a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="integration" class="nav_integration">Integrations</a>
+        <a href="integration/request?" class="nav_integration_request">Requests</a>
+        <a href="integration/request/list.php" class="nav_integration_list">Search</a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="integration?" class="button">Integrations</a>
-            <a href="integration/request?" class="button">Requests</a>
-        </div>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <h1>Request List</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else if($this->hasMessage()) { ?>
-            <h6><?php echo $this->getMessage() ?></h6>
-
-        <?php } else { ?>
-            <h5>Search for Integration Requests...</h5>
-
-        <?php } ?>
         <form class="form-search themed">
             <fieldset class="search-fields">
                 <legend>Search</legend>

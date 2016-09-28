@@ -10,27 +10,25 @@ $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="merchant?" class="button">Merchant List</a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Merchant->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Merchant->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
+        <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
+    </nav>
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="merchant" class="nav_merchant">Merchants</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
+    </aside>
+    
     <section class="content">
-        <div class="action-fields">
-            <a href="merchant?" class="button">Merchant List</a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit</a>
-            <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
-            <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds</a>
-        </div>
-
-        <h1>View Merchant</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else { ?>
-            <h5>View a Merchant Account...</h5>
-
-        <?php } ?>
-
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+    
         <form class="form-view-merchant themed" method="GET">
             <fieldset>
                 <legend>Merchant Information</legend>

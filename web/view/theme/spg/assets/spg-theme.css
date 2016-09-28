@@ -7,10 +7,10 @@ body.spg-theme {
 body.spg-theme > header {
     display: inline-block;
     /* float: left; */
-    padding: 1em 0px 0em 0em;
+    /* padding: 1em 0px 0em 0em; */
     margin-right: -6em;
     /* text-align: right; */
-    margin-top: -2em;
+    /* margin-top: -2em; */
 }
 
 body.spg-theme > hr.themed {
@@ -20,7 +20,7 @@ border-width: 9px;
 border-color: #00a8ff;
 }
 
-body.spg-theme > nav {
+body.spg-theme nav.site-menu {
     float: right;
     /* min-width: 35em; */
     /* height: 24em; */
@@ -40,8 +40,7 @@ body.spg-theme > nav > a {
     padding: 0.5em 0.5em;
     width: 9em;
     height: 5em;
-    
-    background: #EAEAEA url(img/nav/nav_transaction.png) no-repeat bottom;
+    background: url(img/nav/nav_transaction.png) no-repeat bottom;
     /* text-transform: uppercase; */
     /* border: 1px outset #FFF; */
 }
@@ -66,7 +65,7 @@ body.spg-theme > nav > a.current {
 body.spg-theme .bread-crumbs {
     /* margin: 0.5em 0.5em 0 0; */
     /* border-bottom: 1px solid #ccc; */
-    display: block;
+    display: inline-block;
     min-height: 2em;
     /* clear: both; */
     /* padding: 0em; */
@@ -82,14 +81,22 @@ body.spg-theme .bread-crumbs a:hover {
 body.spg-theme .bread-crumbs a {
     text-decoration: none;
     color: black;
-    font-size: small;
     font-size: medium;
     text-transform: uppercase;
     display: inline-block;
-    padding: 0em 0.6em;
-    margin: 0 0.2em 1em 0;
+    /* padding: 0em 0.6em; */
     border-radius: 0.5em;
+    font-style: italic;
 }
+
+
+body.spg-theme .bread-crumbs a::after {
+    content: ' -';
+}
+body.spg-theme .bread-crumbs a:last-child:after {
+    content: '';
+}
+
 
 body.spg-theme > article.themed {
     /* white-space: nowrap; */
@@ -108,7 +115,8 @@ body.spg-theme > article.themed {
 body.spg-theme form.themed {
     font-family: arial;
     /* background-color: #FAFAFA; */
-    display: inline-block;
+    /* display: inline-block; */
+    min-width: 30em;
 }
 
 body.spg-theme form.themed a {
@@ -126,8 +134,10 @@ body.spg-theme fieldset.themed {
     box-shadow: 2px 2px 4px #CCC;
 }
 
-fieldset.action-fields {
+body.spg-theme nav.page-menu {
     display: inline-block;
+    float: left;
+    margin: 0 2em 2em 0;
 }
 
 body.spg-theme form.themed > fieldset > legend,
@@ -167,7 +177,8 @@ body.spg-theme form.themed input.large {
 body.spg-theme a.button {
     text-decoration: none;
     padding: 0.5em 0 0 0;
-    display: inline-block;
+    margin: 0 0 0.3em 0;
+    display: block;
     min-height: 1.5em;
     min-width: 10em;
     /* max-width: 14.5em; */

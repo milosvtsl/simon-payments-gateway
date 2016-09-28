@@ -3,28 +3,23 @@ use \User\Model\UserRow;
 /**
  * @var \View\AbstractListView $this
  **/?>
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="user?" class="button current">User List</a>
+        <a href="user/logout.php" class="button">Log Out</a>
+    </nav>
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="user" class="nav_user">Users</a>
+        <a href="user/list.php" class="nav_user_list">Search</a>
+    </aside>
+    
     <section class="content">
-        <div class="action-fields">
-            <a href="user?" class="button">User List</a>
-        </div>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <h1>User List</h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-        <?php } else if($this->hasMessage()) { ?>
-            <h6><?php echo $this->getMessage() ?></h6>
-
-        <?php } else { ?>
-            <h5>Search for User Accounts...</h5>
-
-        <?php } ?>
-
-        <form class="form-search themed">
+        <form class="form-user-search themed">
             <fieldset class="search-fields">
                 <legend>Search</legend>
                 User Name:

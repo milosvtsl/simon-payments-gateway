@@ -39,8 +39,9 @@ abstract class AbstractView
     protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
     public function setException($ex)       { $this->_exception = $ex; }
-    public function getException()          { return $this->_exception; }
-    public function hasException()          { return $this->_exception !== null; }
+    /** @return \Exception */
+    public function getException()          { return $this->_exception ?: $this->_exception = $this->popSessionMessage(); }
+    public function hasException()          { return $this->_exception !== null && !$this->hasSessionMessage(); }
 
     public function setMessage($message)    { $this->_message = $message; }
     public function getMessage()            { return $this->_message; }

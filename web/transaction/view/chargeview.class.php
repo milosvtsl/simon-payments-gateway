@@ -14,16 +14,9 @@ use View\AbstractView;
 
 class ChargeView extends AbstractView
 {
-    private $_transaction;
-    private $_action;
 
 
     public function renderHTMLBody(Array $params) {
-        // Add Breadcrumb links
-        $this->getTheme()->addCrumbLink('home', "Home");
-        $this->getTheme()->addCrumbLink('transaction?', "Transactions");
-        $this->getTheme()->addCrumbLink($_SERVER['REQUEST_URI'], 'New Charge');
-
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();
 
@@ -44,4 +37,16 @@ class ChargeView extends AbstractView
             die();
         }
     }
+
+    protected function renderHTMLHeadLinks() {
+        parent::renderHTMLHeadLinks();
+        echo <<<HEAD
+        <script src="transaction/view/assets/charge.js"></script>
+        <link href='transaction/view/assets/charge.css' type='text/css' rel='stylesheet' />
+        <link href='transaction/view/assets/template/full.charge.css' type='text/css' rel='stylesheet' />
+        <link href='transaction/view/assets/template/simple.charge.css' type='text/css' rel='stylesheet' />
+HEAD;
+
+    }
+
 }

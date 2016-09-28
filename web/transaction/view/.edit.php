@@ -7,25 +7,26 @@ $Transaction = $this->getTransaction();
 $odd = false;
 $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
 ?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button">Transactions</a>
+        <a href="order?" class="button">Orders</a>
+        <a href="transaction/charge.php?" class="button">Charge</a>
+        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Transaction->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Transaction->getID(); ?></a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="transaction" class="nav_transaction">Transactions</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Transaction->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="nav_transaction_edit">Edit</a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="transaction?" class="button">Transactions</a>
-            <a href="<?php echo $action_url; ?>view" class="button">View</a>
-            <a href="<?php echo $action_url; ?>view" class="button current">Edit</a>
-<!--            <a href="--><?php //echo $action_url; ?><!--delete" class="button">Delete</a>-->
-            <a href="transaction/charge.php?" class="button">Charge</a>
-        </div>
-
-        <h1>Edit Transaction #<?php echo $Transaction->getID(); ?></h1>
-
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
-
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
-
-
-        <?php } ?>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-Transaction themed" method="POST">
             <fieldset>

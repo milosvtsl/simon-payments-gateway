@@ -4,16 +4,28 @@ use Transaction\Model\TransactionRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu">
+        <a href="transaction?" class="button current">Transactions</a>
+        <a href="order?" class="button">Orders</a>
+        <a href="transaction/charge.php?" class="button">Charge</a>
+    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="home" class="nav_home">Home</a>
+        <a href="transaction" class="nav_transaction">Transactions</a>
+        <a href="transaction/list.php" class="nav_transaction_list">Search</a>
+    </aside>
+
     <section class="content">
-        <div class="action-fields">
-            <a href="transaction?" class="button current">Transactions</a>
-            <a href="order?" class="button">Orders</a>
-            <a href="transaction/charge.php?" class="button">Charge</a>
-        </div>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+
         <form class="form-search themed">
             <fieldset class="search-fields">
                 <legend>Search</legend>
-                <table style="min-width: 40em;">
+                <table style1="min-width: 40em;">
                     <tbody>
                         <tr>
                             <th>From</th>

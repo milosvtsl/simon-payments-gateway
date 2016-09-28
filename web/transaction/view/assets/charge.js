@@ -116,20 +116,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function updateStyleSheetTheme(form) {
 
+        var formClasses = 'themed';
+        if(form.merchant_id.value)
+            formClasses += ' merchant-selected';
+        if(form.payment_method.value)
+            formClasses += ' payment-method-' + form.payment_method.value;
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
-            var formClasses = selectedOption.getAttribute('data-form-class');
+            formClasses += ' ' + selectedOption.getAttribute('data-form-class');
             form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
             form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
             form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
-            if(formClasses)
-                form.setAttribute('class', 'themed ' + formClasses);
 //             console.log("Merchant: ", form.merchant_id.value, formClasses);
 
         } else {
 
         }
+        form.setAttribute('class', formClasses);
     }
 
     // Utilities
