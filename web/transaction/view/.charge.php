@@ -65,7 +65,7 @@ $SessionUser = $SessionManager->getSessionUser();
 
             <fieldset style="display: inline-block" class="show-on-payment-method-swipe">
                 <legend class="alert reader-status">Card Swipe Ready</legend>
-                <input type="text" name="swipe_input" size="40" />
+                <input type="text" name="swipe_input" size="30" />
             </fieldset>
 
             <hr/>

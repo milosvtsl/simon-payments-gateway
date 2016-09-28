@@ -109,9 +109,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
 
         // Update card type
-        if(form.card_number && form.card_number.value)
-            form.card_type.value = getCreditCardType(form.card_number.value);
-
+        if(form.card_number && form.card_number.value) {
+            var newType = getCreditCardType(form.card_number.value);
+            if(newType)
+                form.card_type.value = newType;
+        }
 
     }
 
@@ -135,6 +137,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         }
         form.setAttribute('class', formClasses);
+        var fieldsets = form.getElementsByTagName('fieldset');
+        for(var i=0; i<fieldsets.length; i++) {
+            var style = getComputedStyle(fieldsets[i]);
+            console.log(style.display);
+            if(style.display == 'none') {
+                fieldsets[i].setAttribute('disabled', 'disabled');
+            } else {
+                fieldsets[i].removeAttribute('disabled');
+            }
+        }
     }
 
     // Utilities
@@ -181,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if (number.match(re) != null)
             return "Visa Electron";
 
-        return "Unknown";
+        return null;
     }
 
     function parseMagTekTrack(string) {
