@@ -22,31 +22,38 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
+    function updateAllForms(force) {
+        if(force || charHistory.length > 100) {
+            console.log("Card tracks parsed successfully", lastParseData);
+            var forms = document.getElementsByName('form-transaction-charge');
+            if(forms.length === 0)
+                throw new Exception("No Charge form found");
+            for(var i=0; i<forms.length; i++) {
+                var form = forms[i];
+                var e = {target: form};
+                updateChargeForm(e, form);
+                form.swipe_input.value = charHistory;
+            }
+            if(charHistory.length > 0)
+                setStatus("Card read successfully!");
+            charHistory = '';
+        } else {
+            setStatus("Card Swipe Ready!");
+        }
+
+        charHistory = '';
+    }
+    setTimeout(function() {
+        updateAllForms(true);
+    }, 200);
+
     var charHistory = '';
     var lastParseData = false;
     var keyTimeout = false;
     function onKeypress(e) {
         var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
         clearTimeout(keyTimeout);
-        keyTimeout = setTimeout(function() {
-            if(charHistory > 100) {
-                console.log("Card tracks parsed successfully", lastParseData);
-                var forms = document.getElementsByName('form-transaction-charge');
-                if(forms.length === 0)
-                    throw new Exception("No Charge form found");
-                for(var i=0; i<forms.length; i++) {
-                    var form = forms[i];
-                    updateChargeForm(e, form);
-                    form.swipe_input.value = charHistory;
-                }
-                charHistory = '';
-                setStatus("Card read successfully!");
-            } else {
-                setStatus("Card Swipe Ready!");
-            }
-
-            charHistory = '';
-        }, 2000);
+        keyTimeout = setTimeout(updateAllForms, 2000);
 
         if(lastParseData)
             setStatus("Card Track Parsed Successfully");

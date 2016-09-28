@@ -34,9 +34,9 @@ $SessionUser = $SessionManager->getSessionUser();
             <fieldset class="inline-on-merchant-selected">
                 <legend>Choose a Merchant</legend>
                 <select name="merchant_id" class="" autofocus>
-                    <option value="">Choose a Merchant</option>
                     <?php
                     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                        echo '<option value="">Choose a Merchant</option>';
                         $MerchantQuery = MerchantRow::queryAll();
                     } else {
                         $MerchantQuery = $SessionUser->queryUserMerchants();
@@ -57,6 +57,7 @@ $SessionUser = $SessionManager->getSessionUser();
             <fieldset style="display: inline-block;" class="show-on-merchant-selected">
                 <legend>Choose a Payment Method</legend>
                 <select name="payment_method" class="" autofocus>
+                    <option value="">Choose a method</option>
                     <option value="keyed">Keyed Card</option>
                     <option value="swipe">Swipe Card</option>
                     <option value="check">e-Check</option>
