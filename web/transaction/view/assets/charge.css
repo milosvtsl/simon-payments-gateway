@@ -1,23 +1,20 @@
-form[form-transaction-charge].merchant-selected {
 
+form[name=form-transaction-charge]:not(.merchant-selected) .show-on-merchant-selected {
+    display: none !important;
+}
+form[name=form-transaction-charge].payment-method-selected .inline-on-payment-method-selected,
+form[name=form-transaction-charge].merchant-selected .inline-on-merchant-selected {
+    display: inline-block !important;
 }
 
-form[form-transaction-charge].merchant-selected .show-on-merchant-selected {
-
+form[name=form-transaction-charge]:not(.payment-method-swipe) .show-on-payment-method-swipe,
+form[name=form-transaction-charge]:not(.payment-method-keyed) .show-on-payment-method-keyed,
+form[name=form-transaction-charge]:not(.payment-method-check) .show-on-payment-method-check {
+    display: none !important;
 }
-form[form-transaction-charge].merchant-selected .hide-on-merchant-selected {
-
-}
-
-form[form-transaction-charge].payment-method-swipe {
-
-}
-
-form[form-transaction-charge].payment-method-keyed {
-
-}
-
-form[form-transaction-charge].payment-method-check {
-
+form[name=form-transaction-charge].payment-method-swipe .show-on-payment-method-swipe,
+form[name=form-transaction-charge].payment-method-keyed .show-on-payment-method-keyed,
+form[name=form-transaction-charge].payment-method-check .show-on-payment-method-check {
+    display: inline-block !important;
 }
 

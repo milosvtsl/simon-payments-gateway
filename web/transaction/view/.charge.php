@@ -10,11 +10,11 @@ $SessionUser = $SessionManager->getSessionUser();
 
 ?>
     <!-- Page Navigation -->
-    <nav class="page-menu">
-        <a href="transaction?" class="button">Transactions</a>
-        <a href="order?" class="button">Orders</a>
-        <a href="transaction/charge.php?" class="button current">Charge</a>
-    </nav>
+<!--    <nav class="page-menu">-->
+<!--        <a href="transaction?" class="button">Transactions</a>-->
+<!--        <a href="order?" class="button">Orders</a>-->
+<!--        <a href="transaction/charge.php?" class="button current">Charge</a>-->
+<!--    </nav>-->
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
@@ -31,7 +31,7 @@ $SessionUser = $SessionManager->getSessionUser();
             <input type="hidden" name="convenience_fee_limit" value="" />
             <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-            <fieldset>
+            <fieldset class="inline-on-merchant-selected">
                 <legend>Choose a Merchant</legend>
                 <select name="merchant_id" class="" autofocus>
                     <option value="">Choose a Merchant</option>
@@ -54,7 +54,7 @@ $SessionUser = $SessionManager->getSessionUser();
                 </select>
             </fieldset>
 
-            <fieldset>
+            <fieldset style="display: inline-block;" class="show-on-merchant-selected">
                 <legend>Choose a Payment Method</legend>
                 <select name="payment_method" class="" autofocus>
                     <option value="keyed">Keyed Card</option>
@@ -63,7 +63,14 @@ $SessionUser = $SessionManager->getSessionUser();
                 </select>
             </fieldset>
 
-            <fieldset style="display: inline-block;">
+            <fieldset style="display: inline-block" class="show-on-payment-method-swipe">
+                <legend class="alert reader-status">Card Swipe Ready</legend>
+                <input type="text" name="swipe_input" size="40" />
+            </fieldset>
+
+            <hr/>
+
+            <fieldset style="display: inline-block;" class="show-on-merchant-selected">
                 <legend>Customer Fields</legend>
                 <table class="table-transaction-charge themed" style="float: left;">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -98,30 +105,7 @@ $SessionUser = $SessionManager->getSessionUser();
                 </table>
             </fieldset>
 
-            <fieldset style="display: inline-block;">
-                <legend>Submit Payment</legend>
-                <table class="table-transaction-charge themed">
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Convenience Fee</td>
-                        <td class="value"><input type="text" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Total Charge Amount</td>
-                        <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Method</td>
-                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Submit</td>
-                        <td class="value"><input type="submit" value="Pay Now" class="large" /></td>
-                    </tr>
-                </table>
-            </fieldset>
-
-
-            <fieldset style="float: left; display: inline-block;">
+            <fieldset style="display: inline-block;" class="show-on-payment-method-keyed show-on-payment-method-swipe">
                 <legend>Cardholder Information</legend>
                 <table class="table-transaction-charge themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -190,11 +174,71 @@ $SessionUser = $SessionManager->getSessionUser();
                 </table>
             </fieldset>
 
+            <fieldset style="display: inline-block;" class="show-on-payment-method-check">
+                <legend>e-Check Information</legend>
+                <table class="table-transaction-charge themed">
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <td class="name">Account Name</td>
+                        <td class="value"><input type="text" name="payee_first_name" value="" placeholder="" required /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <td class="name">Account Type</td>
+                        <td class="value">
+                            <select name="card_type" required>
+                                <option value="">Choose an option</option>
+                                <option>Checking</option>
+                                <option>Savings</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <td class="name">Account Number</td>
+                        <td class="value"><input type="text" name="check_account_number" value="" placeholder="" required /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <td class="name">Routing Number</td>
+                        <td class="value"><input type="text" name="check_routing_number" value="" placeholder="" required /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Check Type</td>
+                        <td class="value">
+                            <select name="check_type" required>
+                                <option value="">Choose an option</option>
+                                <option>Personal</option>
+                                <option>Business</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <td class="name">Check Number</td>
+                        <td class="value"><input type="text" name="check_number" value="" placeholder="" /></td>
+                    </tr>
 
-            <fieldset style="float: left;">
-                <legend>Swipe Card</legend>
-                <input type="text" name="swipe_input" size="40" />
-                <div class="alert reader-status" style="text-align: center;">Card Swipe Ready!</div>
+                </table>
+            </fieldset>
+
+            <hr />
+
+            <fieldset style="display: inline-block;" class="show-on-merchant-selected">
+                <legend>Submit Payment</legend>
+                <table class="table-transaction-charge themed">
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Convenience Fee</td>
+                        <td class="value"><input type="text" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Total Charge Amount</td>
+                        <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Method</td>
+                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Submit</td>
+                        <td class="value"><input type="submit" value="Pay Now" class="large" /></td>
+                    </tr>
+                </table>
             </fieldset>
 
         </form>

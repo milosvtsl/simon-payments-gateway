@@ -115,8 +115,9 @@ body.spg-theme > article.themed {
 body.spg-theme form.themed {
     font-family: arial;
     /* background-color: #FAFAFA; */
-    /* display: inline-block; */
+    display: block;
     min-width: 30em;
+    /* clear: both; */
 }
 
 body.spg-theme form.themed a {

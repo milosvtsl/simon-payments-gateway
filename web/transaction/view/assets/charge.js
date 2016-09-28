@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
 
         var amount = parseFloat(form.amount.value) || 0;
+        form.amount.value = (amount).toFixed(2);
         if(amount) {
             var fee_amount = 0;
             if (form.convenience_fee_limit)
@@ -102,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (form.convenience_fee_variable_rate)
                 fee_amount += parseFloat(form.convenience_fee_variable_rate.value);
             form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
-            form.amount.value = (amount).toFixed(2);
             if (form.convenience_fee_total)
                 form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
         }
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(form.merchant_id.value)
             formClasses += ' merchant-selected';
         if(form.payment_method.value)
-            formClasses += ' payment-method-' + form.payment_method.value;
+            formClasses += ' payment-method-selected payment-method-' + form.payment_method.value;
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
