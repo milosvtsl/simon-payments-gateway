@@ -17,7 +17,7 @@ body.spg-theme > hr.themed {
 
 border-width: 9px;
 
-border-color: #00a8ff;
+border-color: #3291c1;
 }
 
 body.spg-theme nav.site-menu {
@@ -86,12 +86,12 @@ body.spg-theme .bread-crumbs a {
     display: inline-block;
     /* padding: 0em 0.6em; */
     border-radius: 0.5em;
-    font-style: italic;
+    /* font-style: italic; */
 }
 
 
 body.spg-theme .bread-crumbs a::after {
-    content: ' -';
+    content: ' |';
 }
 body.spg-theme .bread-crumbs a:last-child:after {
     content: '';
@@ -188,7 +188,7 @@ body.spg-theme a.button {
     border-radius: 0.5em;
     font: 15pt Arial;
     text-transform: uppercase;
-    background-color: #679ece;
+    background-color: #277094;
     color: #fff;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
@@ -198,8 +198,9 @@ body.spg-theme a.button {
 }
 
 body.spg-theme a.button.current {
-    background-color: #51d0d0;
-    font-weight: bold;
+    background-color: #d5e8ef;
+    font-weight: lighter;
+    color: #1f5473;
 }
 body.spg-theme a.button:hover {
     background-color: #2288cc;

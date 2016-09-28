@@ -148,6 +148,7 @@ $SessionUser = $SessionManager->getSessionUser();
                                 <option>Visa</option>
                                 <option>MasterCard</option>
                                 <option>Amex</option>
+                                <option>Discover</option>
                             </select>
                         </td>
                     </tr>
