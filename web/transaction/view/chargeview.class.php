@@ -29,6 +29,7 @@ class ChargeView extends AbstractView
 
     public function processFormRequest(Array $post) {
         try {
+            echo "<pre>";
             print_r($post);die();
 
         } catch (\Exception $ex) {

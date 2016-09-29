@@ -6,7 +6,7 @@ use \Merchant\Model\MerchantRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu">
-        <a href="merchant?" class="button current">Merchant List</a>
+        <a href="merchant?" class="button current">Merchants</a>
         <a href="integration?" class="button">Integrations</a>
         <a href="user?" class="button">Users</a>
         <a href="user/logout.php" class="button">Log Out</a>

@@ -8,7 +8,7 @@ use \Integration\Model\IntegrationRow;
     <nav class="page-menu">
         <a href="integration?" class="button current">Integrations</a>
         <a href="integration/request?" class="button">Requests</a>
-        <a href="merchant?" class="button">Merchant List</a>
+        <a href="merchant?" class="button">Merchants</a>
         <a href="user?" class="button">Users</a>
         <a href="user/logout.php" class="button">Log Out</a>
     </nav>

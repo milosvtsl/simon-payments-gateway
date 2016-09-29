@@ -12,7 +12,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu">
-        <a href="merchant?" class="button">Merchant List</a>
+        <a href="merchant?" class="button">Merchants</a>
         <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Merchant->getID(); ?></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Merchant->getID(); ?></a>
         <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>

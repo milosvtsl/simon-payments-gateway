@@ -9,7 +9,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu">
-        <a href="integration?" class="button">Integration List</a>
+        <a href="integration?" class="button">Integrations</a>
         <a href="integration/request?" class="button">Requests</a>
         <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Request->getID(); ?></a>
 <!--        <a href="--><?php //echo $action_url; ?><!--edit" class="button">Edit #--><?php //echo $Request->getID(); ?><!--</a>-->
