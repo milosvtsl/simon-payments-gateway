@@ -87,7 +87,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
                 /** @noinspection PhpMethodParametersCountMismatchInspection */
                 $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
-                $IntegrationQuery->execute(array($this->getMerchant()->getID()));
+                $IntegrationQuery->execute();
 
                 $odd = false;
                 /** @var IntegrationRow $IntegrationRow **/

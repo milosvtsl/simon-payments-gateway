@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 var form = forms[i];
                 var e = {target: form};
                 updateChargeForm(e, form);
-                form.swipe_input.value = charHistory;
+                form.card_track.value = charHistory;
             }
             if(charHistory.length > 0)
                 setStatus("Card read successfully!");
@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             for(var i=0; i<forms.length; i++) {
                 var form = forms[i];
                 updateChargeForm(e, form);
-                form.swipe_input.value = charHistory;
-                form.swipe_input.focus();
+                form.card_track.value = charHistory;
+                form.card_track.focus();
             }
         }
 
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
             //form.entry_method.value = 'Swipe';
-            form.payment_method.value = 'swipe';
+            form.entry_mode.value = 'swipe';
             form.card_number.value = lastParseData.card_number;
             form.payee_first_name.value = lastParseData.payee_first_name;
             form.payee_last_name.value = lastParseData.payee_last_name;
@@ -129,15 +129,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var formClasses = 'themed';
         if(form.merchant_id.value)
             formClasses += ' merchant-selected';
-        if(form.payment_method.value)
-            formClasses += ' payment-method-selected payment-method-' + form.payment_method.value;
+        if(form.entry_mode.value)
+            formClasses += ' payment-method-selected payment-method-' + form.entry_mode.value;
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
             formClasses += ' ' + selectedOption.getAttribute('data-form-class');
+            form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
             form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
             form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
             form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
+
 //             console.log("Merchant: ", form.merchant_id.value, formClasses);
 
         } else {

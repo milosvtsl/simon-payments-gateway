@@ -4,6 +4,7 @@ use Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Transaction\Model\TransactionRow;
 
 /**
  * Created by PhpStorm.
@@ -14,6 +15,7 @@ use Merchant\Model\MerchantRow;
 abstract class AbstractMerchantIdentity {
 
     private $merchant;
+    /** @var IntegrationRow */
     private $integration;
 
     abstract function getRemoteID();
@@ -23,6 +25,7 @@ abstract class AbstractMerchantIdentity {
     abstract function isProfileComplete(&$message=null);
     abstract function isProvisioned(&$reason=null);
     abstract function canSettleFunds(&$reason=null);
+
 //    abstract function settleFunds();
 
 
@@ -44,6 +47,16 @@ abstract class AbstractMerchantIdentity {
      * @return mixed
      */
     abstract protected function parseRequest(IntegrationRequestRow $APIRequest);
+
+    /**
+     * Submit a new transaction
+     * @param array $post
+     * @return TransactionRow
+     */
+    function submitNewTransaction(Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->submitNewTransaction($post);
+    }
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
         $this->merchant = $Merchant;
@@ -76,4 +89,11 @@ abstract class AbstractMerchantIdentity {
     public function getIntegrationRow() {
         return $this->integration;
     }
+
+//    public function submitNewTransaction(Array $post) {
+//        $Order = OrderRow::createNewOrder($post);
+//        OrderRow::insert($Order);
+//        $Transaction = $Order->createNewTransaction($post);
+//        TransactionRow::insert($Transaction);
+//    }
 }

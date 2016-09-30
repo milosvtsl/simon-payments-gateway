@@ -9,7 +9,10 @@ namespace Transaction\Model;
 
 use Config\DBConfig;
 use Integration\Model\AbstractIntegration;
+use Integration\Model\AbstractMerchantIdentity;
+use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
+use Order\Model\OrderRow;
 
 class TransactionRow
 {
@@ -151,6 +154,51 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
             $Integration->getIntegrationRow()
         );
     }
+
+
+    /**
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $OrderRow
+     * @param array $post
+     * @return OrderRow
+     * @throws IntegrationException
+     */
+    public static function createTransactionFromPost(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
+        $TransactionRow = new TransactionRow();
+        $TransactionRow->uid = uniqid();
+        $TransactionRow->order_item_id = $OrderRow->getID();
+
+//        $OrderRow->date = ;
+        if (!($TransactionRow->amount = $post['amount']))                         throw new IntegrationException("Invalid Amount");
+//        $TransactionRow->entry_method = $post['entry_mode'];
+
+        $TransactionRow->username = $post['username'];
+//        $TransactionRow->version;
+        $TransactionRow->action = $action;
+        $TransactionRow->capture_to;
+        $TransactionRow->auth_code_or_batch_id;
+
+        $TransactionRow->date = date('Y-m-d G:i:s');
+        $TransactionRow->entry_method = $post['entry_method'];
+        $TransactionRow->is_reviewed = 0;
+        $TransactionRow->return_type = 'Both';
+//        $TransactionRow->returned_amount = 0;
+//        $TransactionRow->reviewed_by;
+//        $TransactionRow->reviewed_date_time;
+        $TransactionRow->service_fee;
+        $TransactionRow->status_code;
+        $TransactionRow->status_message;
+        $TransactionRow->transaction_id;
+        $TransactionRow->batch_item_id;
+        $TransactionRow->order_item_id;
+
+        if ($TransactionRow->payee_reciept_email && !filter_var($TransactionRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
+            throw new IntegrationException("Invalid Email");
+
+        return $TransactionRow;
+    }
+
+
 
 }
 

@@ -9,6 +9,7 @@ namespace Merchant\Model;
 
 use Config\DBConfig;
 use Integration\Model\AbstractIntegration;
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 
@@ -275,6 +276,28 @@ LEFT JOIN state s on m.state_id = s.id
             ':type_id' => $this->getID(),
             ':integration_id' => $IntegrationRow->getID(),
         ));
+    }
+
+    /**
+     * @return AbstractMerchantIdentity[]
+     * @throws \Exception
+     */
+    public function getMerchantIdentities() {
+        $DB = DBConfig::getInstance();
+        $IntegrationQuery = $DB->prepare(
+            IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
+        $IntegrationQuery->execute();
+
+        $Identities = array();
+        foreach($IntegrationQuery as $IntegrationRow) {
+            /** @var IntegrationRow $IntegrationRow */
+            $Identity = $IntegrationRow->getMerchantIdentity($this);
+            $Identities[] = $Identity;
+        }
+
+        return $Identities;
     }
 
     // Static

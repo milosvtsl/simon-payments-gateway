@@ -8,8 +8,12 @@
 namespace Transaction\View;
 
 use Config\DBConfig;
+use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 class ChargeView extends AbstractView
@@ -30,7 +34,23 @@ class ChargeView extends AbstractView
     public function processFormRequest(Array $post) {
         try {
             echo "<pre>";
-            print_r($post);die();
+            $Integration = IntegrationRow::fetchByID($post['integration_id']);
+            $Merchant = MerchantRow::fetchByID($post['merchant_id']);
+            $MerchantIdentity = $Integration->getMerchantIdentity($Merchant);
+
+            $SessionManager = new SessionManager();
+            $SessionUser = $SessionManager->getSessionUser();
+            if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+
+            } else {
+                if(!$SessionUser->hasMerchant($Merchant->getID()))
+                    throw new IntegrationException("User does not have authority");
+            }
+
+            print_r($MerchantIdentity);
+            $Transaction = $MerchantIdentity->submitNewTransaction($post);
+            print_r($Transaction);
+            die();
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());

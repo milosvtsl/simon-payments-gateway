@@ -71,6 +71,10 @@ FROM user u
         return $this->merchant_list;
     }
 
+    public function hasMerchant($merchant_id) {
+        return in_array($merchant_id, $this->merchant_list);
+    }
+
     public function getAuthorityList() {
         if(is_array($this->authority_list))
             return $this->authority_list;

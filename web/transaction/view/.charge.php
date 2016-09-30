@@ -1,4 +1,5 @@
 <?php
+use Integration\Model\IntegrationRow;
 use User\Session\SessionManager;
 use Merchant\Model\MerchantRow;
 /**
@@ -27,6 +28,7 @@ $SessionUser = $SessionManager->getSessionUser();
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form name="form-transaction-charge" class=" themed" method="POST">
+            <input type="hidden" name="integration_id" value="" />
             <input type="hidden" name="convenience_fee_flat" value="" />
             <input type="hidden" name="convenience_fee_limit" value="" />
             <input type="hidden" name="convenience_fee_variable_rate" value="" />
@@ -41,22 +43,37 @@ $SessionUser = $SessionManager->getSessionUser();
                     } else {
                         $MerchantQuery = $SessionUser->queryUserMerchants();
                     }
-                    foreach ($MerchantQuery as $Merchant)
-                        /** @var \Merchant\Model\MerchantRow $Merchant */
-                        echo "\n\t\t\t\t\t\t\t<option",
-                        " data-form-class='", $Merchant->getChargeFormClasses(), "'",
-                        " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
-                        " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
-                        " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
-                        " value='", $Merchant->getID(), "'>",
-                        $Merchant->getShortName(), "</option>";
+                    foreach ($MerchantQuery as $Merchant) {
+                        /** @var MerchantRow $Merchant */
+                        foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
+                            $reason = null;
+                            $Integration = $MerchantIdentity->getIntegrationRow();
+                            if($MerchantIdentity->isProvisioned($reason)) {
+                                echo "\n\t\t\t\t\t\t\t<option",
+                                " data-integration-id='", $Integration->getID(), "'",
+                                " data-form-class='", $Merchant->getChargeFormClasses(), "'",
+                                " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
+                                " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
+                                " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
+                                " value='", $Merchant->getID(), "'>",
+                                    $Merchant->getShortName(),
+                                    " (", $Integration->getName(), ")",
+                                "</option>";
+                            } else {
+                                echo "\n\t\t\t\t\t\t\t<!--option disabled='disabled'>",
+                                    $Merchant->getShortName(),
+                                    " (", $Integration->getName(), ")",
+                                '</option-->';
+                            }
+                        }
+                    }
                     ?>
                 </select>
             </fieldset>
 
             <fieldset style="display: inline-block;" class="show-on-merchant-selected">
                 <legend>Choose a Payment Method</legend>
-                <select name="payment_method" class="" autofocus>
+                <select name="entry_mode" class="" autofocus>
                     <option value="">Choose a method</option>
                     <option value="keyed">Keyed Card</option>
                     <option value="swipe">Swipe Card</option>
@@ -66,7 +83,7 @@ $SessionUser = $SessionManager->getSessionUser();
 
             <fieldset style="display: inline-block" class="show-on-payment-method-swipe">
                 <legend class="alert reader-status">Card Swipe Ready</legend>
-                <input type="text" name="swipe_input" size="30" />
+                <input type="text" name="card_track" size="30" />
             </fieldset>
 
             <hr/>
@@ -185,7 +202,7 @@ $SessionUser = $SessionManager->getSessionUser();
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Account Type</td>
                         <td class="value">
-                            <select name="check_type" required>
+                            <select name="check_account_type" required>
                                 <option value="">Choose an option</option>
                                 <option>Checking</option>
                                 <option>Savings</option>
@@ -237,7 +254,7 @@ $SessionUser = $SessionManager->getSessionUser();
 <!--                    </tr>-->
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Submit</td>
-                        <td class="value"><input type="submit" value="Pay Now" class="large" /></td>
+                        <td class="value"><input type="submit" value="Pay Now" class="themed" /></td>
                     </tr>
                 </table>
             </fieldset>

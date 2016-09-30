@@ -10,6 +10,7 @@ namespace Integration\Model;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Transaction\Model\TransactionRow;
 
 abstract class AbstractIntegration
 {
@@ -61,5 +62,14 @@ abstract class AbstractIntegration
      * @return AbstractMerchantIdentity
      */
     abstract function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $IntegrationRow);
+
+
+    /**
+     * Submit a new transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return TransactionRow
+     */
+    abstract function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post);
 
 }

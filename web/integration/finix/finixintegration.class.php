@@ -14,6 +14,8 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
+use Order\Model\OrderRow;
+use Transaction\Model\TransactionRow;
 
 // https://finix-payments.github.io/simonpay-docs/?shell#step-1-create-an-identity-for-a-merchant
 class FinixIntegration extends AbstractIntegration
@@ -198,5 +200,19 @@ class FinixIntegration extends AbstractIntegration
         return $data;
     }
 
+
+    /**
+     * Submit a new transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return TransactionRow
+     */
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+
+        OrderRow::insert($Order);
+        TransactionRow::insert($Transaction);
+    }
 }
 

@@ -14,6 +14,8 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
+use Order\Model\OrderRow;
+use Transaction\Model\TransactionRow;
 
 class ElementIntegration extends AbstractIntegration
 {
@@ -187,5 +189,15 @@ class ElementIntegration extends AbstractIntegration
         return $data;
     }
 
+    /**
+     * Submit a new transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return TransactionRow
+     */
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+        $Transaction = $Order->createOrderFromPost($MerchantIdentity, $post);
+    }
 }
 
