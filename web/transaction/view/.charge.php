@@ -188,7 +188,11 @@ $SessionUser = $SessionManager->getSessionUser();
                             </select>
                         </td>
                     </tr>
-
+                    <tr>
+                        <td colspan="2">
+                            <div class="credit-image"></div>
+                        </td>
+                    </tr>
                 </table>
             </fieldset>
 
@@ -231,7 +235,11 @@ $SessionUser = $SessionManager->getSessionUser();
                         <td class="name">Check Number</td>
                         <td class="value"><input type="text" name="check_number" value="" placeholder="" /></td>
                     </tr>
-
+                    <tr>
+                        <td colspan="2">
+                            <div class="check-image"></div>
+                        </td>
+                    </tr>
                 </table>
             </fieldset>
 

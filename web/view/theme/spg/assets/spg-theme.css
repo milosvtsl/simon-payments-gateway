@@ -85,7 +85,7 @@ body.spg-theme .bread-crumbs a {
     text-transform: uppercase;
     display: inline-block;
     /* padding: 0em 0.6em; */
-    border-radius: 0.5em;
+    /* border-radius: 0.5em; */
     /* font-style: italic; */
 }
 
@@ -159,7 +159,7 @@ body.spg-theme legend.themed {
 body.spg-theme form.themed select,
 body.spg-theme form.themed textarea,
 body.spg-theme form.themed input {
-    padding: 0.3em 0.5em;
+    padding: 0.5em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
 }
@@ -228,7 +228,7 @@ body.spg-theme table.themed > tbody > tr > th {
 }
 
 body.spg-theme table.themed > tbody > tr > td {
-    padding: 0.1em .4em;
+    padding: 0.1em 0 0.3em 0.6em;
     vertical-align: top;
     white-space: nowrap;
 }
@@ -246,22 +246,22 @@ body.spg-theme table.themed > tbody > tr:hover {
     background-color: #dce6ea;
 }
 
-body.spg-theme table.themed > tbody > tr {
-    /*text-align: center;*/
-    vertical-align: center;
-}
+body.spg-theme table.themed > tbody > tr {}
 
 
 body.spg-theme table.themed > tbody > tr > td.name {
     text-align: right;
     text-transform: uppercase;
     font-size: small;
+    padding-top: 0.6em;
+}
+
+body.spg-theme table.themed > tbody > tr.required > td.name::before {
+    content: '*';
+    color: red;
 }
 
 body.spg-theme table.themed > tbody > tr.required > td.name {
-    /* font-weight: bold; */
-    /* font-size: inherit; */
-    vertical-align: middle;
 }
 
 
