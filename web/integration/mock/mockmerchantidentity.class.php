@@ -38,12 +38,12 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
     public function getUpdateDate()     { return $this->updated_at; }
 
 
-    public function getAccountID()      { return $this->account_id; }
+    public function getAccountID()      { return "MOCK-ONLY"; }
 
-    public function getAccountToken()   { return $this->account_token; }
+    public function getAccountToken()   { return "MOCK-ONLY"; }
 
 
-    public function getAcceptorID()     { return $this->acceptor_id; }
+    public function getAcceptorID()     { return "MOCK-ONLY"; }
 
     private static $mock_merchant_id = null;
     function isProfileComplete(&$message=null) {

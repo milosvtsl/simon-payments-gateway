@@ -209,15 +209,27 @@ class FinixIntegration extends AbstractIntegration
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
 
+        // Capture Order
         OrderRow::insert($Order);
+
+        // Create Transaction
+        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+        try {
+            // Store Transaction Result
+            $Transaction->setAction("Authorized");
+            $Transaction->setAuthCodeOrBatchID("Authorized");
+            $Transaction->setStatus("Success", "Mock Transaction Approved");
+
+        } catch (IntegrationException $Ex) {
+            // Catch Integration Exception
+            $Transaction->setAction("Error");
+            $Transaction->setAuthCodeOrBatchID("Authorized");
+            $Transaction->setStatus("Error", $Ex->getMessage());
+
+        }
         TransactionRow::insert($Transaction);
-
-
-//        $Transaction->setAction("Authorized");
-//        $Transaction->setAuthCodeOrBatchID("Authorized");
-//        $Transaction->setStatus("Authorized");
+        return $Transaction;
     }
 }
 
