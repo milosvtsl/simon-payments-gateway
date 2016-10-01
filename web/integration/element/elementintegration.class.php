@@ -197,7 +197,18 @@ class ElementIntegration extends AbstractIntegration
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-        $Transaction = $Order->createOrderFromPost($MerchantIdentity, $post);
+        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+
+        // Capture Order
+        OrderRow::insert($Order);
+
+        // Store Transaction Result
+        TransactionRow::insert($Transaction);
+
+
+//        $Transaction->setAction("Authorized");
+//        $Transaction->setAuthCodeOrBatchID("Authorized");
+//        $Transaction->setStatus("Authorized");
     }
 }
 

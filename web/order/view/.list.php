@@ -86,7 +86,7 @@ use Order\Model\OrderRow;
                     foreach($Query as $Order) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='order?id=<?php echo $Order->getID(); ?>'><?php echo $Order->getID(); ?></a></td>
-                        <td><?php echo $Order->getHolderFullFullName(); ?></td>
+                        <td><?php echo $Order->getCardHolderFullName(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
                         <td><?php echo $Order->getInvoiceNumber(); ?></td>
                         <td><?php echo $Order->getUsername(); ?></td>

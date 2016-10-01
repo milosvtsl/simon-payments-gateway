@@ -40,8 +40,21 @@ abstract class AbstractView
 
     public function setException($ex)       { $this->_exception = $ex; }
     /** @return \Exception */
-    public function getException()          { return $this->_exception ?: $this->_exception = $this->popSessionMessage(); }
-    public function hasException()          { return $this->_exception !== null && !$this->hasSessionMessage(); }
+    public function getException() {
+        if ($this->_exception)
+            return $this->_exception;
+        if (!$this->hasSessionMessage())
+            return NULL;
+        $this->_exception = new \Exception($this->popSessionMessage());
+        return $this->_exception;
+    }
+    public function hasException() {
+        if ($this->_exception !== null)
+            return true;
+        if ($this->hasSessionMessage())
+            return true;
+        return false;
+    }
 
     public function setMessage($message)    { $this->_message = $message; }
     public function getMessage()            { return $this->_message; }

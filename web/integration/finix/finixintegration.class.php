@@ -213,6 +213,11 @@ class FinixIntegration extends AbstractIntegration
 
         OrderRow::insert($Order);
         TransactionRow::insert($Transaction);
+
+
+//        $Transaction->setAction("Authorized");
+//        $Transaction->setAuthCodeOrBatchID("Authorized");
+//        $Transaction->setStatus("Authorized");
     }
 }
 

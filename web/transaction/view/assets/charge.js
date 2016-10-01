@@ -146,16 +146,22 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         }
         form.setAttribute('class', formClasses);
-        var fieldsets = form.getElementsByTagName('fieldset');
-        for(var i=0; i<fieldsets.length; i++) {
-            var style = getComputedStyle(fieldsets[i]);
-            console.log(style.display);
-            if(style.display == 'none') {
-                fieldsets[i].setAttribute('disabled', 'disabled');
-            } else {
-                fieldsets[i].removeAttribute('disabled');
-            }
+
+        // Disable unused payment methods
+        switch(form.entry_mode.value.toLowerCase()) {
+            case 'check':
+                form.getElementsByClassName('form-payment-method-check')[0].removeAttribute('disabled');
+                form.getElementsByClassName('form-payment-method-credit')[0].setAttribute('disabled', 'disabled');
+                break;
+
+            case 'swipe':
+            case 'keyed':
+                form.getElementsByClassName('form-payment-method-check')[0].setAttribute('disabled', 'disabled');
+                form.getElementsByClassName('form-payment-method-credit')[0].removeAttribute('disabled');
+                break;
         }
+
+
     }
 
     // Utilities

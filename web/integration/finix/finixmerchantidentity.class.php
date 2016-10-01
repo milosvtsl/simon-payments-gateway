@@ -12,6 +12,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Transaction\Model\TransactionRow;
 
 class FinixMerchantIdentity extends AbstractMerchantIdentity
 {
@@ -39,20 +40,21 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
 //    abstract function hasPaymentInstrument();
 
+
     public function getRemoteID()       {
 //        if(!$this->id) throw new IntegrationException("Remote ID not set");
         return $this->id;
     }
+
     public function getEntityData()     { return $this->entity; }
     public function getTags()           { return $this->tags; }
     public function getCreateDate()     { return $this->created_at; }
     public function getUpdateDate()     { return $this->updated_at; }
-
-
     function isProfileComplete(&$message=null) {
         $message = "Ready";
         return true;
     }
+
 
     function isProvisioned(&$message=null) {
         if($this->identity) {
@@ -179,7 +181,6 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         }
     }
 
-
     public function prepareMerchantIdentityRequest() {
         $IntegrationRow = $this->getIntegrationRow();
         $NewRequest = IntegrationRequestRow::prepareNew(
@@ -245,6 +246,22 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $request = json_encode($POST, JSON_PRETTY_PRINT);
         $NewRequest->setRequest($request);
         return $NewRequest;
+    }
+
+
+    /**
+     * Calculate Transaction Service Fee
+     * @param TransactionRow $TransactionRow
+     * @return mixed
+     */
+    public function calculateServiceFee(TransactionRow $TransactionRow) {
+        $Merchant = $this->getMerchantRow();
+        $amount = $TransactionRow->getAmount();
+        $fee = $Merchant->getFeeFlat();
+        $fee += $amount * $Merchant->getFeeVariable();
+        if($fee > $Merchant->getFeeLimit())
+            $fee = $Merchant->getFeeLimit();
+        return $fee;
     }
 
 

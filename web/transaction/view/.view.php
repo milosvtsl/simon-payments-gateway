@@ -72,7 +72,7 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Card Holder</td>
-                        <td><?php echo $Transaction->getHolderFullFullName() ?></td>
+                        <td><?php echo $Transaction->getHolderFullName() ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Order Status</td>

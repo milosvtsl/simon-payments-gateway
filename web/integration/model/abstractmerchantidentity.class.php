@@ -49,15 +49,19 @@ abstract class AbstractMerchantIdentity {
     abstract protected function parseRequest(IntegrationRequestRow $APIRequest);
 
     /**
-     * Submit a new transaction
-     * @param array $post
-     * @return TransactionRow
+     * Calculate Transaction Service Fee
+     * @param TransactionRow $TransactionRow
+     * @return mixed
      */
-    function submitNewTransaction(Array $post) {
-        $Integration = $this->integration->getIntegration();
-        return $Integration->submitNewTransaction($post);
-    }
+    abstract public function calculateServiceFee(TransactionRow $TransactionRow);
 
+    /**
+     * Construct a new Merchant Identity
+     * @param MerchantRow $Merchant
+     * @param IntegrationRow $APIData
+     * @throws IntegrationException
+     * @throws \Exception
+     */
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
         $this->merchant = $Merchant;
         $this->integration = $APIData;
@@ -83,12 +87,23 @@ abstract class AbstractMerchantIdentity {
         }
     }
 
+    /**
+     * Submit a new transaction
+     * @param array $post
+     * @return TransactionRow
+     */
+    function submitNewTransaction(Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->submitNewTransaction($this, $post);
+    }
+
     public function getMerchantRow() {
         return $this->merchant;
     }
     public function getIntegrationRow() {
         return $this->integration;
     }
+
 
 //    public function submitNewTransaction(Array $post) {
 //        $Order = OrderRow::createNewOrder($post);

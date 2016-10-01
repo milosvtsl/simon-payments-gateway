@@ -36,6 +36,7 @@ class OrderRow
     protected $uid;
     protected $amount;
     protected $date;
+    protected $version;
 
     protected $card_exp_month;
     protected $card_exp_year;
@@ -58,6 +59,7 @@ class OrderRow
     protected $entry_mode;
 
     protected $invoice_number;
+    protected $order_item_id;
 
     protected $payee_first_name;
     protected $payee_last_name;
@@ -82,6 +84,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     const SQL_ORDER_BY = "\nORDER BY oi.id DESC";
 
     public function getID()                 { return $this->id; }
+
     public function getUID()                { return $this->uid; }
     public function getAmount()             { return $this->amount; }
     public function getStatus()             { return $this->status; }
@@ -94,17 +97,17 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-    public function getHolderFullFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getCardHolderFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
-
     public function getCardExpMonth()       { return $this->card_exp_month; }
+
     public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
     public function getCardTrack()          { return $this->card_track; }
-
     public function getCheckAccountName()   { return $this->check_account_name; }
+
     public function getCheckAccountNumber() { return $this->check_account_number; }
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
@@ -112,9 +115,53 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getCheckType()          { return $this->check_type; }
 
 
-
-
     // Static
+
+
+    public static function insert(OrderRow $OrderRow) {
+        $values = array(
+            ':uid' => $OrderRow->uid,
+            ':merchant_id' => $OrderRow->merchant_id,
+            ':version' => $OrderRow->version,
+            ':amount' => $OrderRow->amount,
+            ':card_exp_month' => $OrderRow->card_exp_month,
+            ':card_exp_year' => $OrderRow->card_exp_year,
+            ':card_number' => $OrderRow->card_number,
+            ':card_type' => $OrderRow->card_type,
+            ':check_account_name' => $OrderRow->check_account_name,
+            ':check_account_type' => $OrderRow->check_account_type,
+            ':check_account_number' => $OrderRow->check_account_number,
+            ':check_routing_number' => $OrderRow->check_routing_number,
+            ':check_type' => $OrderRow->check_type,
+            ':check_number' => $OrderRow->check_number,
+            ':customer_first_name' => $OrderRow->customer_first_name,
+            ':customer_last_name' => $OrderRow->customer_last_name,
+            ':customermi' => $OrderRow->customermi,
+            ':entry_mode' => $OrderRow->entry_mode,
+            ':invoice_number' => $OrderRow->invoice_number,
+            ':order_item_id' => $OrderRow->order_item_id,
+            ':payee_first_name' => $OrderRow->payee_first_name,
+            ':payee_last_name' => $OrderRow->payee_last_name,
+            ':payee_phone_number' => $OrderRow->payee_phone_number,
+            ':payee_reciept_email' => $OrderRow->payee_reciept_email,
+            ':payee_zipcode' => $OrderRow->payee_zipcode,
+            ':status' => $OrderRow->status,
+            ':total_returned_amount' => $OrderRow->total_returned_amount ?: 0,
+            ':total_returned_service_fee' => $OrderRow->total_returned_service_fee ?: 0,
+            ':username' => $OrderRow->username ?: '',
+        );
+        $SQL = "INSERT INTO order_item\nSET";
+        foreach($values as $key=>$value)
+            $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
+        $SQL .= "\n\t`date` = NOW()";
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute($values);
+        if(!$ret || !$DB->lastInsertId())
+            throw new \PDOException("Failed to insert new row");
+        $OrderRow->id = $DB->lastInsertId();
+    }
 
     /**
      * @param $id
@@ -162,15 +209,17 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
 
 //        $OrderRow->date = ;
         $OrderRow->entry_mode = $post['entry_mode'];
+        $OrderRow->amount = $post['amount'];
+        $OrderRow->order_item_id = 0;
 
-        if(in_array($post['entry_mode'], array('Keyed', 'Swipe'))) {
+        if(in_array(strtolower($post['entry_mode']), array('keyed', 'swipe'))) {
             $OrderRow->card_track = $post['card_track'];
             $OrderRow->card_exp_month = $post['card_exp_month'];
             $OrderRow->card_exp_year = $post['card_exp_year'];
             $OrderRow->card_type = self::getCCType($post['card_number']);
             $OrderRow->card_number = $post['card_number'];
 
-        } else if($post['entry_mode'] === 'Check') {
+        } else if($post['entry_mode'] === 'check') {
             $OrderRow->check_account_name = $post['check_account_name'];
             $OrderRow->check_account_number = $post['check_account_number'];
             $OrderRow->check_routing_number = $post['check_routing_number'];
@@ -191,10 +240,12 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $OrderRow->payee_first_name = $post['payee_first_name'];
         $OrderRow->payee_last_name = $post['payee_last_name'];
         $OrderRow->payee_phone_number = $post['payee_phone_number'];
-        $OrderRow->payee_reciept_email = $post['payee_reciept_email'];
         $OrderRow->payee_zipcode = $post['payee_zipcode'];
 
-        $OrderRow->username = $post['username'];
+        if(isset($post['payee_reciept_email']))
+            $OrderRow->payee_reciept_email = $post['payee_reciept_email'];
+        if(isset($post['username']))
+            $OrderRow->username = $post['username'];
 
         if ($OrderRow->payee_reciept_email && !filter_var($OrderRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
             throw new IntegrationException("Invalid Email");

@@ -49,7 +49,7 @@ class ElementAPIUtil {
 
         $TransactionAmount = $OrderRow->getAmount();
 
-        $BillingName = $OrderRow->getHolderFullFullName();
+        $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
         $BillingAddress2 = null;
         $BillingCity = null;

@@ -5,7 +5,7 @@
  * Date: 9/12/2016
  * Time: 6:00 PM
  */
-namespace Integration\Element;
+namespace Integration\Mock;
 
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
@@ -14,7 +14,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Transaction\Model\TransactionRow;
 
-class ElementMerchantIdentity extends AbstractMerchantIdentity
+class MockMerchantIdentity extends AbstractMerchantIdentity
 {
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
@@ -45,20 +45,26 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
 
     public function getAcceptorID()     { return $this->acceptor_id; }
 
-
+    private static $mock_merchant_id = null;
     function isProfileComplete(&$message=null) {
-        $message = "Incomplete";
-        return false;
+        $message = "Mock-Only";
+        if(self::$mock_merchant_id === null)
+            self::$mock_merchant_id = $this->getMerchantRow()->getID();
+        return self::$mock_merchant_id == $this->getMerchantRow()->getID();
     }
 
     function isProvisioned(&$message=null) {
-        $message = "No";
-        return false;
+        $message = "Mock-Only";
+        if(self::$mock_merchant_id === null)
+            self::$mock_merchant_id = $this->getMerchantRow()->getID();
+        return self::$mock_merchant_id == $this->getMerchantRow()->getID();
     }
 
     function canSettleFunds(&$message=null) {
-        $message = "No";
-        return false;
+        $message = "Mock-Only";
+        if(self::$mock_merchant_id === null)
+            self::$mock_merchant_id = $this->getMerchantRow()->getID();
+        return self::$mock_merchant_id == $this->getMerchantRow()->getID();
     }
 
     /**
@@ -80,36 +86,6 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();
         throw new IntegrationException("TODO");
-//
-//        $errorMessage = null;
-//        if(!empty($data['_embedded'])) {
-//            if(!empty($data['_embedded']['errors'])) {
-//                foreach($data['_embedded']['errors'] as $i => $errInfo) {
-//                    $errorMessage .= ($errorMessage ? "\n" : '') . '#' . ($i+1) . ' ' . $errInfo['code'] . ': ' . $errInfo['message'];
-//                }
-//            }
-//        }
-//
-//        if($errorMessage)
-//            throw new IntegrationException($errorMessage);
-//
-//        if(!empty($data['entity']))
-//            $this->entity = $data['entity'];
-//
-//        switch($APIRequest->getIntegrationType()) {
-//            case IntegrationRequestRow::ENUM_TYPE_MERCHANT:
-//                $this->id = $data['id'];
-//                $this->updated_at = $data['updated_at'];
-//                $this->created_at = $data['created_at'];
-//                break;
-//
-//            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
-//                break;
-//            case IntegrationRequestRow::ENUM_TYPE_PAYMENT_INSTRUMENT:
-//                break;
-//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-//                break;
-//        }
     }
 
 

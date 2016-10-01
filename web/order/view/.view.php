@@ -74,7 +74,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Card Holder</td>
-                        <td><?php echo $Order->getHolderFullFullName() ?></td>
+                        <td><?php echo $Order->getCardHolderFullName() ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Order Status</td>
@@ -116,7 +116,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                             <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
                             <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
                             <td><?php if($Transaction->getBatchID()) { ?><a href='batch?id=<?php echo $Transaction->getBatchID(); ?>'><?php echo $Transaction->getBatchID(); ?></a><?php } else echo 'N/A'; ?></td>
-                            <td><?php echo $Transaction->getHolderFullFullName(); ?></td>
+                            <td><?php echo $Transaction->getHolderFullName(); ?></td>
                             <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
                             <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
                             <td><?php echo $Transaction->getUsername(); ?></td>
