@@ -111,7 +111,7 @@ if(isset($_SESSION['transaction/charge.php']))
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Email</td>
-                        <td class="value"><input type="text" name="payee_receipt_email" value="<?php echo @$LASTPOST['payee_receipt_email']; ?>" placeholder="" /></td>
+                        <td class="value"><input type="text" name="payee_reciept_email" value="<?php echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Phone</td>

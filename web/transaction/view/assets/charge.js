@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function updateAllForms(force) {
         if(force || charHistory.length > 100) {
-            console.log("Card tracks parsed successfully", lastParseData);
+            console.log("Card tracks parsed successfully");
             var forms = document.getElementsByName('form-transaction-charge');
             if(forms.length === 0)
                 throw new Exception("No Charge form found");

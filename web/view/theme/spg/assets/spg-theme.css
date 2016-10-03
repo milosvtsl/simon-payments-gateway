@@ -180,11 +180,13 @@ body.spg-theme form.themed input.large {
     font-size: large;
 }
 
+body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
     background-color: #7bc5ea;
     padding: 1em 2em;
-    margin: 0.5em 0;
+    min-width: 9em;
+    font-weight: bold;
 }
 
 body.spg-theme a.button {

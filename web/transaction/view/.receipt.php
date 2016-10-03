@@ -72,7 +72,7 @@ $action_url = 'receipt?uid=' . $Transaction->getUID() . '&action=';
                         <?php if ($Order->getPayeeEmail()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Email</td>
-                                <td><?php echo $Order->getPayeeEmail() ?></td>
+                                <td><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
                             </tr>
                         <?php }  ?>
                         <?php if ($Order->getPayeeZipCode()) { ?>
