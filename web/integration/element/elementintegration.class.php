@@ -201,10 +201,11 @@ class ElementIntegration extends AbstractIntegration
             $Request = $this->prepareTransactionRequest($MerchantIdentity, $Order, $post);
             $this->execute($Request);
             $data = $this->parseResponseData($Request);
-            if(empty($data['CreditCardSaleResponse']) || empty($data['CreditCardSaleResponse']['response']))
+            if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
                 throw new IntegrationException("Invalid response array");
 
-            $response = $data['CreditCardSaleResponse']['response'];
+            $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
+            $response = $response['response'];
             $code = $response['ExpressResponseCode'];
             $message = $response['ExpressResponseMessage'];
             if(!$response) //  || !$code || !$message)
