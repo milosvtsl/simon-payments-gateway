@@ -191,11 +191,9 @@ body.spg-theme input.button-submit {
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 0.5em 0 0 0;
+    padding: 0.5em;
     margin: 0 0 0.3em 0;
     display: block;
-    min-height: 1.5em;
-    min-width: 10em;
     /* max-width: 14.5em; */
     text-align: center;
     border-width: 1px;
@@ -211,6 +209,10 @@ body.spg-theme a.button {
     font-size: larger;
 }
 
+body.spg-theme a.button.small {
+    min-width: 2em;
+    font-size: small;
+}
 body.spg-theme a.button.current {
     background-color: #dce6ea;
     font-weight: lighter;

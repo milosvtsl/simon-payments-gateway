@@ -29,10 +29,10 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
     
-        <form class="form-view-merchant themed" method="GET">
+        <form class="form-view-merchant themed " method="GET">
             <fieldset>
                 <legend>Merchant Information</legend>
-                <table class="table-merchant-info themed" style="float: left;">
+                <table class="table-merchant-info themed striped-rows" style="float: left;">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -118,7 +118,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><?php echo $Merchant->getMainContact(); ?></td>
                     </tr>
                 </table>
-                <table class="table-merchant-info themed">
+                <table class="table-merchant-info themed striped-rows">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -181,7 +181,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 
             <fieldset>
                 <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
-                <table class="table-merchant-info themed">
+                <table class="table-merchant-info themed striped-rows">
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -224,7 +224,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 
             <fieldset>
                 <legend>Transactions: <?php echo $Merchant->getShortName(); ?></legend>
-                <table class="table-results themed small">
+                <table class="table-results themed small striped-rows">
                     <tr>
                         <th>ID</th>
                         <th>Order</th>

@@ -32,9 +32,9 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 
         <form class="form-view-merchant themed" method="POST">
 
-            <fieldset class="themed">
+            <fieldset class="themed" style="display: inline-block;">
                 <legend>Merchant Information</legend>
-                <table class="table-merchant-info themed" style="float: left;">
+                <table class="table-merchant-info themed striped-rows" style="float: left;">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -54,12 +54,6 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>URL</td>
                         <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
-                    </tr>
-                </table>
-                <table class="table-merchant-info themed">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Name</td>
@@ -102,7 +96,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             <?php echo $IntegrationRow->getName(); ?>
                             (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)
                         </legend>
-                        <table class="table-merchant-info themed" style="float: left; min-width: 27em; min-height: 22em;">
+                        <table class="table-merchant-info themed striped-rows" style="float: left; min-width: 27em; min-height: 22em;">
                             <tr>
                                 <th>Field</th>
                                 <th>Value</th>
@@ -112,30 +106,30 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                                 <td>Profile</td>
                                 <?php if ($MerchantIdentity->isProfileComplete($reason)) { ?>
                                     <td><span style='color:green'><?php echo $reason; ?></span></td>
-                                    <td><a href="<?php echo $action_url; ?>edit" class="button">Edit</a></td>
+                                    <td><a href="<?php echo $action_url; ?>edit" class="button small">Edit</a></td>
                                 <?php } else { ?>
                                     <td><span style='color:red'><?php echo $reason; ?></span></td>
-                                    <td><a href="<?php echo $action_url; ?>edit" class="button">Finish</a></td>
+                                    <td><a href="<?php echo $action_url; ?>edit" class="button small">Finish</a></td>
                                 <?php } ?>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td>Provision</td>
                                 <?php if ($MerchantIdentity->isProvisioned($reason)) { ?>
                                     <td><span style='color:green'><?php echo $reason; ?></span></td>
-                                    <td><a href="<?php echo $action_url; ?>provision&integration_id=<?php echo $id; ?>" class="button">View</a></td>
+                                    <td><a href="<?php echo $action_url; ?>provision&integration_id=<?php echo $id; ?>" class="button small">View</a></td>
                                 <?php } else { ?>
                                     <td><span style='color:red'><?php echo $reason; ?></span></td>
-                                    <td><a href="<?php echo $action_url; ?>provision&integration_id=<?php echo $id; ?>" class="button">Provision</a></td>
+                                    <td><a href="<?php echo $action_url; ?>provision&integration_id=<?php echo $id; ?>" class="button small">Provision</a></td>
                                 <?php } ?>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td>Payout</td>
                                 <?php if ($MerchantIdentity->canSettleFunds($reason)) { ?>
                                     <td><span style='color:green'><?php echo $reason; ?></span></td>
-                                    <td><a href="<?php echo $action_url; ?>settle&integration_id=<?php echo $id; ?>" class="button">Settle Now</a></td>
+                                    <td><a href="<?php echo $action_url; ?>settle&integration_id=<?php echo $id; ?>" class="button small">Settle Now</a></td>
                                 <?php } else { ?>
                                     <td><span style='color:red'><?php echo $reason; ?></span></td>
-                                    <td><a href="<?php echo $action_url; ?>settle&integration_id=<?php echo $id; ?>" disabled="disabled" class="button">N/A</a></td>
+                                    <td><a href="<?php echo $action_url; ?>settle&integration_id=<?php echo $id; ?>" disabled="disabled" class="button small">N/A</a></td>
                                 <?php } ?>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
