@@ -87,7 +87,7 @@ if(isset($_SESSION['transaction/charge.php']))
 
             <fieldset style="display: inline-block" class="show-on-payment-method-swipe">
                 <legend class="alert reader-status">Card Swipe Ready</legend>
-                <input type="text" name="card_track" size="30" disabled="disabled6F1EF2D4EFCB50A934FAFDDA6D364DDF87651A6F68|B362DF8081616AA|4D8EE2FB36D357AD|9010190B362DF8000070|8705||1000" value="<?php echo @$LASTPOST['card_track']; ?>" />
+                <input type="text" name="card_track" size="30" value="<?php echo @$LASTPOST['card_track']; ?>" />
             </fieldset>
 
             <hr/>

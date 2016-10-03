@@ -36,7 +36,7 @@ body.spg-theme > nav > a {
     border: 1px outset #EEE;
     /* border-top-width: 0px; */
     border-radius: 1em;
-    margin: 0 0.6em 0 0;
+    margin: 1em 0.6em 0px 0;
     padding: 0.5em 0.5em;
     width: 9em;
     height: 5em;
@@ -65,14 +65,17 @@ body.spg-theme > nav > a.current {
 body.spg-theme .bread-crumbs {
     margin: 0.4em 0.5em 0 0;
     /* border-bottom: 1px solid #ccc; */
-    display: inline-block;
+    /* display: inline-block; */
     min-height: 2em;
-    /* clear: both; */
+    /* max-width: 38em; */
+    /* overflow: hidden; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
     /* padding: 0em; */
-    background-color: #fbfbfb;
+    /* background-color: #fbfbfb; */
     /* text-transform: capitalize; */
-    z-index: 1;
-    position: relative;
+    /* z-index: 1; */
+    /* position: relative; */
 }
 body.spg-theme .bread-crumbs a:hover {
     background-color: #DDD;

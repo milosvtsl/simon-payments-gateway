@@ -209,7 +209,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
             throw new IntegrationException("Invalid Amount");
 
         $TransactionRow = new TransactionRow();
-        $TransactionRow->uid = uniqid();
+        $TransactionRow->uid = strtolower(self::generateGUID());
         $TransactionRow->order_item_id = $OrderRow->getID();
 //        $TransactionRow->batch_item_id;
         $TransactionRow->amount = $post['amount'];
@@ -241,5 +241,8 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     }
 
 
+    public static function generateGUID() {
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    }
 }
 

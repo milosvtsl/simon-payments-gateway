@@ -201,7 +201,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
      */
     public static function createOrderFromPost(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $OrderRow = new OrderRow();
-        $OrderRow->uid = uniqid();
+        $OrderRow->uid = strtolower(self::generateGUID());
         $Merchant = $MerchantIdentity->getMerchantRow();
         $OrderRow->merchant_id = $Merchant->getID();
         $OrderRow->integration_id = $MerchantIdentity->getIntegrationRow()->getID();
@@ -283,6 +283,10 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
                     break;
             }
         }
+    }
+
+    public static function generateGUID() {
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
 }
 
