@@ -12,6 +12,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 
 class FinixMerchantIdentity extends AbstractMerchantIdentity
@@ -251,10 +252,10 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
     /**
      * Calculate Transaction Service Fee
-     * @param TransactionRow $OrderRow
+     * @param OrderRow $OrderRow
      * @return mixed
      */
-    public function calculateServiceFee(TransactionRow $OrderRow) {
+    public function calculateServiceFee(OrderRow $OrderRow) {
         $Merchant = $this->getMerchantRow();
         $amount = $OrderRow->getAmount();
         $fee = $Merchant->getFeeFlat();
