@@ -104,6 +104,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getBatchID()            { return $this->batch_item_id; }
     public function getUID()                { return $this->uid; }
     public function getAmount()             { return $this->amount; }
+    public function getAction()             { return $this->action; }
     public function getStatusCode()         { return $this->status_code; }
     public function getStatusMessage()      { return $this->status_message; }
     public function getDate()               { return $this->date; }
@@ -214,10 +215,10 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $TransactionRow->amount = $post['amount'];
         $TransactionRow->version = 10;
         $TransactionRow->date = date('Y-m-d G:i:s');
-        $TransactionRow->entry_method = $post['entry_method'];
+        $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
         $TransactionRow->is_reviewed = 0;
         $TransactionRow->return_type = 'Both';
-        $TransactionRow->service_fee = $MerchantIdentity->calculateServiceFee($TransactionRow);
+        $TransactionRow->service_fee = $MerchantIdentity->calculateServiceFee($OrderRow);
 
         if(!empty($post['username']))
             $TransactionRow->username = $post['username'];

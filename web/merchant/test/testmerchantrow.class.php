@@ -13,7 +13,7 @@ class TestMerchantRow extends MerchantRow
 {
     public function __construct(Array $params = array()) {
         parent::__construct(array(
-                'id' => 9999,
+                'id' => 27,
                 'uid' => '359ae330-e892-43ce-a3f2-3bae893df26381',
                 'version' => 1,
                 'address1' => 'Fake Address 123',

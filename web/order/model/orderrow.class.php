@@ -71,6 +71,7 @@ class OrderRow
     protected $total_returned_service_fee;
     protected $username;
     protected $merchant_id;
+    protected $integration_id;
 
     // Table merchant
     protected $merchant_short_name;
@@ -97,8 +98,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-    public function getCardHolderFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
-    public function getMerchantID()         { return $this->merchant_id; }
+    public function getCardHolderFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
 
@@ -114,6 +114,8 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getCheckNumber()        { return $this->check_number; }
     public function getCheckType()          { return $this->check_type; }
 
+    public function getMerchantID()         { return $this->merchant_id; }
+    public function getIntegrationID()      { return $this->integration_id; }
 
     // Static
 
@@ -122,6 +124,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $values = array(
             ':uid' => $OrderRow->uid,
             ':merchant_id' => $OrderRow->merchant_id,
+            ':integration_id' => $OrderRow->integration_id,
             ':version' => $OrderRow->version,
             ':amount' => $OrderRow->amount,
             ':card_exp_month' => $OrderRow->card_exp_month,
@@ -201,6 +204,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $OrderRow->uid = uniqid();
         $Merchant = $MerchantIdentity->getMerchantRow();
         $OrderRow->merchant_id = $Merchant->getID();
+        $OrderRow->integration_id = $MerchantIdentity->getIntegrationRow()->getID();
         if($post['merchant_id'] !== $Merchant->getID())
             throw new IntegrationException("Merchant id mismatch");
 

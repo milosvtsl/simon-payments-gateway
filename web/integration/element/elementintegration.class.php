@@ -22,7 +22,7 @@ class ElementIntegration extends AbstractIntegration
     const _CLASS = __CLASS__;
 
     const POST_URL_IDENTITIES = "/identities/";
-
+    const POST_URL_TRANSACTION = "/express.asmx"; // https://certtransaction.elementexpress.com/express.asmx
 
     /**
      * @param MerchantRow $Merchant
@@ -50,7 +50,8 @@ class ElementIntegration extends AbstractIntegration
         $url = $Request->getRequestURL();
         $userpass = $APIData->getAPIUsername() . ':' . $APIData->getAPIPassword();
         $headers = array(
-            "Content-Type: application/vnd.json+api",
+            "Content-Type: application/soap+xml; charset=utf-8",
+            "Content-Length: ". strlen($Request->getRequest())
         );
 
         // Init curl
@@ -59,7 +60,6 @@ class ElementIntegration extends AbstractIntegration
         // Disable SSL verification
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
 
         // Set CURL options
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -152,6 +152,8 @@ class ElementIntegration extends AbstractIntegration
     function getRequestURL(IntegrationRequestRow $Request) {
         $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
         switch($Request->getIntegrationType()) {
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+                return $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
         }
@@ -168,24 +170,15 @@ class ElementIntegration extends AbstractIntegration
         $response = $Request->getResponse();
         if(!$response)
             throw new IntegrationException("Empty Request response");
-        $data = json_decode($response, true);
+
+        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $response);
+        $xml = new \SimpleXMLElement($response);
+        $body = $xml->xpath('//soapBody')[0] ?: $xml->xpath('//SBody')[0];
+        $data = json_decode(json_encode((array)$body), TRUE);
         if(!$data)
-            throw new IntegrationException("Response failed to parse JSON");
-
-        $errorMessage = null;
-        if(!empty($data['_embedded'])) {
-            if(!empty($data['_embedded']['errors'])) {
-                foreach($data['_embedded']['errors'] as $i => $errInfo) {
-                    $errorMessage .= ($errorMessage ? "\n" : '') . '#' . ($i+1) . ' ' . $errInfo['code'] . ': ' . $errInfo['message'];
-                }
-            }
-        }
-
-        if($errorMessage)
-            throw new IntegrationException($errorMessage);
-
-        if(empty($data['entity']))
-            throw new IntegrationException("Missing response key: 'entity'");
+            throw new IntegrationException("Response failed to parse SOAP Response");
+        if(isset($data['soapFault']))
+            throw new IntegrationException($data['soapFault']['soapReason']['soapText']);
         return $data;
     }
 
@@ -204,20 +197,59 @@ class ElementIntegration extends AbstractIntegration
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
         try {
+            /** @var ElementMerchantIdentity $MerchantIdentity */
+            $Request = $this->prepareTransactionRequest($MerchantIdentity, $Order, $post);
+            $this->execute($Request);
+            $data = $this->parseResponseData($Request);
+            if(empty($data['CreditCardSaleResponse']) || empty($data['CreditCardSaleResponse']['response']))
+                throw new IntegrationException("Invalid response array");
+
+            $response = $data['CreditCardSaleResponse']['response'];
+            $code = $response['ExpressResponseCode'];
+            $message = $response['ExpressResponseMessage'];
+            if(!$response) //  || !$code || !$message)
+                throw new IntegrationException("Invalid response data");
+
+            if($code !== "0")
+                throw new IntegrationException($message);
+
+            $time = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
+            $transactionID = $response['Transaction']['TransactionID'];
             // Store Transaction Result
-            $Transaction->setAction("Authorized");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
-            $Transaction->setStatus("Success", "Mock Transaction Approved");
+            $Transaction->setAction("Approved");
+            $Transaction->setAuthCodeOrBatchID($transactionID);
+            $Transaction->setStatus($code, $message);
 
         } catch (IntegrationException $Ex) {
             // Catch Integration Exception
             $Transaction->setAction("Error");
             $Transaction->setAuthCodeOrBatchID("Authorized");
             $Transaction->setStatus("Error", $Ex->getMessage());
-
+            TransactionRow::insert($Transaction);
+            throw $Ex;
         }
         TransactionRow::insert($Transaction);
         return $Transaction;
+    }
+
+
+    public function prepareTransactionRequest(ElementMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, $post) {
+
+        $NewRequest = IntegrationRequestRow::prepareNew(
+            __CLASS__,
+            $MerchantIdentity->getIntegrationRow()->getID(),
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION,
+            $MerchantIdentity->getMerchantRow()->getID()
+        );
+        $url = $this->getRequestURL($NewRequest);
+//        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
+        $NewRequest->setRequestURL($url);
+
+        $APIUtil = new ElementAPIUtil();
+        $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $OrderRow, $post);
+        $NewRequest->setRequest($request);
+
+        return $NewRequest;
     }
 }
 

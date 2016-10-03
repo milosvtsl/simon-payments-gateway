@@ -4,6 +4,7 @@ use Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 
 /**
@@ -50,10 +51,10 @@ abstract class AbstractMerchantIdentity {
 
     /**
      * Calculate Transaction Service Fee
-     * @param TransactionRow $TransactionRow
+     * @param OrderRow $OrderRow
      * @return mixed
      */
-    abstract public function calculateServiceFee(TransactionRow $TransactionRow);
+    abstract public function calculateServiceFee(OrderRow $OrderRow);
 
     /**
      * Construct a new Merchant Identity

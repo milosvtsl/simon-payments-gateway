@@ -7,6 +7,7 @@
  */
 namespace Integration\Element;
 
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\IntegrationRow;
 use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
@@ -14,33 +15,26 @@ use Transaction\Model\TransactionRow;
 class ElementAPIUtil {
 
     /**
-     * @param IntegrationRow $IntegrationRow
-     * @param ElementMerchantIdentity $MerchantIdentity
-     * @param TransactionRow $TransactionRow
+     * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $OrderRow
-     * @param $MagneprintData
-     * @param $CardholderName
-     * @param $CVV
-     * @param $PINBlock
-     * @param $TransactionAmount
+     * @param array $post
      * @return string
      */
     public function prepareCreditCardSaleRequest(
-        IntegrationRow $IntegrationRow,
         ElementMerchantIdentity $MerchantIdentity,
-        TransactionRow $TransactionRow,
         OrderRow $OrderRow,
-        $MagneprintData,
-        $CardholderName,
-        $CVV,
-        $PINBlock,
-        $TransactionAmount
+        Array $post
     ) {
+        $CVV = @$post['cvv'];
+        $PINBlock = @$post['pin'];
+
+        $MagneprintData = $OrderRow->getCardTrack();
+        $CardholderName = $OrderRow->getCardHolderFullName();
 
         $AccountID = $MerchantIdentity->getAccountID();
         $AccountToken = $MerchantIdentity->getAccountToken();
         $AcceptorID = $MerchantIdentity->getAcceptorID();
-        $NewAccountToken = $AccountToken; // ?
+        $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
 
         $CardNumber = $OrderRow->getCardNumber();
         $TruncatedCardNumber = substr($CardNumber, -4, 4);
@@ -48,6 +42,7 @@ class ElementAPIUtil {
         $ExpirationYear = $OrderRow->getCardExpYear();
 
         $TransactionAmount = $OrderRow->getAmount();
+        $ConvenienceFeeAmount = $MerchantIdentity->calculateServiceFee($OrderRow);
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -94,9 +89,9 @@ class ElementAPIUtil {
         $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
 
 
-        $ApplicationID = $IntegrationRow->getAPIAppID();
+        $ApplicationID = $MerchantIdentity->getApplicationID();
         $ApplicationName = 'Express';
-        $ApplicationVersion = '';
+        $ApplicationVersion = '1';
 
         $CAVV = '';
         $XID = '';
@@ -126,8 +121,8 @@ class ElementAPIUtil {
         $TicketNumber = '';
         $AcquirerData = '';
         $CashBackAmount = '';
-        $DuplicateCheckDisableFlag = '';
-        $DuplicateOverrideFlag = '';
+        $DuplicateCheckDisableFlag = 'False';
+        $DuplicateOverrideFlag = 'False';
         $CommercialCardCustomerCode = '';
         $ProcessorName = '';
         $TransactionStatus = '';
@@ -135,22 +130,17 @@ class ElementAPIUtil {
         $HostTransactionID = '';
         $TransactionSetupID = '';
         $MerchantVerificationValue = '';
-        $PartialApprovedFlag = '';
+        $PartialApprovedFlag = 'False';
         $ApprovedAmount = '';
         $CommercialCardResponseCode = '';
         $BalanceAmount = '';
         $BalanceCurrencyCode = '';
-        $ConvenienceFeeAmount = '';
         $GiftCardStatusCode = '';
         $BillPayerAccountNumber = '';
         $GiftCardBalanceTransferCode = '';
-        $EMVEncryptionFormat = '';
-        $request = <<<PHP
-POST /express.asmx HTTP/1.1
-Host: certtransaction.elementexpress.com
-Content-Type: application/soap+xml; charset=utf-8
-Content-Length: length
+        $EMVEncryptionFormat = 'Default';
 
+        $request = <<<PHP
 <?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>

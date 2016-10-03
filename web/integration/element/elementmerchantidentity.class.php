@@ -12,6 +12,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 
 class ElementMerchantIdentity extends AbstractMerchantIdentity
@@ -117,12 +118,12 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
 
     /**
      * Calculate Transaction Service Fee
-     * @param TransactionRow $TransactionRow
+     * @param OrderRow $OrderRow
      * @return mixed
      */
-    public function calculateServiceFee(TransactionRow $TransactionRow) {
+    public function calculateServiceFee(OrderRow $OrderRow) {
         $Merchant = $this->getMerchantRow();
-        $amount = $TransactionRow->getAmount();
+        $amount = $OrderRow->getAmount();
         $fee = $Merchant->getFeeFlat();
         $fee += $amount * $Merchant->getFeeVariable();
         if($fee > $Merchant->getFeeLimit())

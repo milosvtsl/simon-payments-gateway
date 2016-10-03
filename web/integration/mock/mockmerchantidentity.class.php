@@ -91,12 +91,12 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
 
     /**
      * Calculate Transaction Service Fee
-     * @param TransactionRow $TransactionRow
+     * @param TransactionRow $OrderRow
      * @return mixed
      */
-    public function calculateServiceFee(TransactionRow $TransactionRow) {
+    public function calculateServiceFee(TransactionRow $OrderRow) {
         $Merchant = $this->getMerchantRow();
-        $amount = $TransactionRow->getAmount();
+        $amount = $OrderRow->getAmount();
         $fee = $Merchant->getFeeFlat();
         $fee += $amount * $Merchant->getFeeVariable();
         if($fee > $Merchant->getFeeLimit())
