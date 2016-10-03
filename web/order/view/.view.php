@@ -29,7 +29,7 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
         <form class="form-view-order themed" onsubmit="return false;">
             <fieldset>
                 <legend>Order Information</legend>
-                <table class="table-order-info themed" style="float: left;">
+                <table class="table-order-info themed striped-rows" style="float: left;">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -43,22 +43,8 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                         <td><?php echo $Order->getUID(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Status</td>
-                        <td><?php echo $Order->getStatus() ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Amount</td>
                         <td><?php echo $Order->getAmount(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Date</td>
-                        <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
-                    </tr>
-                </table>
-                <table class="table-order-info themed">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Invoice</td>
@@ -72,6 +58,16 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                         <td>Username</td>
                         <td><?php echo $Order->getUsername() ?: 'N/A' ?></td>
                     </tr>
+                </table>
+                <table class="table-order-info themed striped-rows">
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Date</td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                    </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Card Holder</td>
                         <td><?php echo $Order->getCardHolderFullName() ?></td>
@@ -84,7 +80,10 @@ $action_url = 'order?id=' . $Order->getID() . '&action=';
                         <td>Merchant</td>
                         <td><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
                     </tr>
-
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Integration</td>
+                        <td><a href='integration?id=<?php echo $Order->getIntegrationID(); ?>'><?php echo $Order->getIntegrationName(); ?></a></td>
+                    </tr>
                 </table>
             </fieldset>
 

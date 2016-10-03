@@ -82,7 +82,10 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                         <td>Merchant</td>
                         <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
                     </tr>
-
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>Integration</td>
+                        <td><a href='integration?id=<?php echo $Transaction->getIntegrationID(); ?>'><?php echo $Transaction->getIntegrationName(); ?></a></td>
+                    </tr>
                 </table>
             </fieldset>
         </form>

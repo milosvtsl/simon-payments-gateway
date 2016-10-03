@@ -92,15 +92,22 @@ class TransactionRow
     // Table merchant
     protected $merchant_short_name;
 
+    // Table Integration
+    protected $integration_name;
+    protected $integration_id;
+
     const SQL_SELECT = "
 SELECT oi.*, t.*,
 t.date as transaction_date,
 oi.date as order_date,
 oi.status as order_status,
-m.short_name as merchant_short_name
+m.short_name as merchant_short_name,
+i.id integration_id,
+i.name integration_name
 FROM transaction t
 LEFT JOIN order_item oi on t.order_item_id = oi.id
 LEFT JOIN merchant m on oi.merchant_id = m.id
+LEFT JOIN integration i on oi.integration_id = i.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY t.id";
     const SQL_ORDER_BY = "\nORDER BY t.id DESC";
@@ -124,6 +131,8 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getTransactionID()      { return $this->transaction_id; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
+    public function getIntegrationID()      { return $this->integration_id; }
+    public function getIntegrationName()    { return $this->integration_name; }
 
     public function getHolderFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
 

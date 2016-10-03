@@ -72,14 +72,18 @@ class OrderRow
     protected $username;
     protected $merchant_id;
     protected $integration_id;
+    protected $integration_name;
 
     // Table merchant
     protected $merchant_short_name;
 
     const SQL_SELECT = "
-SELECT oi.*, m.short_name as merchant_short_name
+SELECT oi.*,
+m.short_name as merchant_short_name,
+i.name integration_name
 FROM order_item oi
 LEFT JOIN merchant m on oi.merchant_id = m.id
+LEFT JOIN integration i on oi.integration_id = i.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY oi.id";
     const SQL_ORDER_BY = "\nORDER BY oi.id DESC";
@@ -116,6 +120,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
 
     public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
+    public function getIntegrationName()    { return $this->integration_name; }
 
     public function setStatus($status)      { $this->status = $status; }
 
