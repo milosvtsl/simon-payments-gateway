@@ -211,7 +211,7 @@ class FinixIntegration extends AbstractIntegration
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
 
         // Capture Order
-        OrderRow::insert($Order);
+        OrderRow::update($Order);
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);

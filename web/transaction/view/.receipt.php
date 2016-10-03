@@ -30,25 +30,22 @@ $action_url = 'receipt?uid=' . $Transaction->getUID() . '&action=';
 
         <form class="form-view-transaction themed" onsubmit="return false;">
             <fieldset style="display: inline-block;">
-                <legend>Receipt Information</legend>
+                <legend>Transaction Information</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
-    <!--                    <tr>-->
-    <!--                        <th>Field</th>-->
-    <!--                        <th>Value</th>-->
-    <!--                    </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Amount</td>
                             <td>$<?php echo $Transaction->getAmount(); ?></td>
+                        </tr>
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Service Fee</td>
+                            <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant</td>
                             <td><?php echo $Transaction->getMerchantShortName(); ?></td>
                         </tr>
-    <!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-    <!--                        <td>UID</td>-->
-    <!--                        <td>--><?php //echo strtoupper($Transaction->getUID()); ?><!--</td>-->
-    <!--                    </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Date</td>
                             <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getDate())); ?></td>
@@ -66,13 +63,39 @@ $action_url = 'receipt?uid=' . $Transaction->getUID() . '&action=';
                         </tr>
                         <?php } ?>
                         <?php if($Transaction->getUsername()) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Username</td>
-                            <td><?php echo $Transaction->getUsername() ?: 'N/A' ?></td>
-                        </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Username</td>
+                                <td><?php echo $Transaction->getUsername() ?: 'N/A' ?></td>
+                            </tr>
                         <?php } ?>
 
-                        <?php if($Order->getCardNumber()) { ?>
+                        <?php if ($Order->getPayeeEmail()) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Email</td>
+                                <td><?php echo $Order->getPayeeEmail() ?></td>
+                            </tr>
+                        <?php }  ?>
+                        <?php if ($Order->getPayeeZipCode()) { ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Zip Code</td>
+                            <td><?php echo $Order->getPayeeZipCode(); ?></td>
+                        </tr>
+                        <?php }  ?>
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Order Status</td>
+                            <td><?php echo $Order->getStatus() ?: 'N/A' ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
+            <?php if ($Order->getCardNumber()) { ?>
+
+                <fieldset style="display: inline-block;">
+                    <legend>Card Holder Information</legend>
+                    <table class="table-transaction-info themed striped-rows">
+                        <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Card Holder</td>
                                 <td><?php echo $Order->getCardHolderFullName() ?></td>
@@ -89,10 +112,16 @@ $action_url = 'receipt?uid=' . $Transaction->getUID() . '&action=';
                                 <td class="name">Card Type</td>
                                 <td><?php echo $Order->getCardType(); ?></td>
                             </tr>
-                        <?php } ?>
+                        </tbody>
+                    </table>
+                </fieldset>
 
+            <?php } else  { ?>
 
-                        <?php if($Order->getCheckAccountNumber()) { ?>
+                <fieldset style="display: inline-block;">
+                    <legend>e-Check Information</legend>
+                    <table class="table-transaction-info themed striped-rows">
+                        <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Name on Account</td>
                                 <td><?php echo $Order->getCheckAccountName(); ?></td>
@@ -119,15 +148,12 @@ $action_url = 'receipt?uid=' . $Transaction->getUID() . '&action=';
                                 <td><?php echo $Order->getCheckNumber(); ?></td>
                             </tr>
                             <?php } ?>
-                        <?php } ?>
+                        </tbody>
+                    </table>
+                </fieldset>
 
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Order Status</td>
-                            <td><?php echo $Order->getStatus() ?: 'N/A' ?></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </fieldset>
+            <?php } ?>
+
 
         </form>
     </section>

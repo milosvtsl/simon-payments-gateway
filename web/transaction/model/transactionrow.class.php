@@ -104,6 +104,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getBatchID()            { return $this->batch_item_id; }
     public function getUID()                { return $this->uid; }
     public function getAmount()             { return $this->amount; }
+    public function getServiceFee()         { return $this->service_fee; }
     public function getAction()             { return $this->action; }
     public function getStatusCode()         { return $this->status_code; }
     public function getStatusMessage()      { return $this->status_message; }

@@ -117,10 +117,12 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
 
+    public function setStatus($status)      { $this->status = $status; }
+
     // Static
 
 
-    public static function insert(OrderRow $OrderRow) {
+    public static function update(OrderRow $OrderRow) {
         $values = array(
             ':uid' => $OrderRow->uid,
             ':merchant_id' => $OrderRow->merchant_id,
@@ -129,11 +131,11 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
             ':amount' => $OrderRow->amount,
             ':card_exp_month' => $OrderRow->card_exp_month,
             ':card_exp_year' => $OrderRow->card_exp_year,
-            ':card_number' => $OrderRow->card_number,
+            ':card_number' => self::sanitizeNumber($OrderRow->card_number),
             ':card_type' => $OrderRow->card_type,
             ':check_account_name' => $OrderRow->check_account_name,
             ':check_account_type' => $OrderRow->check_account_type,
-            ':check_account_number' => $OrderRow->check_account_number,
+            ':check_account_number' => self::sanitizeNumber($OrderRow->check_account_number),
             ':check_routing_number' => $OrderRow->check_routing_number,
             ':check_type' => $OrderRow->check_type,
             ':check_number' => $OrderRow->check_number,
@@ -153,17 +155,24 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
             ':total_returned_service_fee' => $OrderRow->total_returned_service_fee ?: 0,
             ':username' => $OrderRow->username ?: '',
         );
-        $SQL = "INSERT INTO order_item\nSET";
+        $SQL = ''; // "INSERT INTO order_item\nSET";
         foreach($values as $key=>$value)
             $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
         $SQL .= "\n\t`date` = NOW()";
 
+        if($OrderRow->id) {
+            $SQL = "UPDATE order_item\nSET" . $SQL . "\nWHERE id = " . $OrderRow->id . "\nLIMIT 1";
+        } else {
+            $SQL = "INSERT INTO order_item\nSET" . $SQL;
+        }
+
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
         $ret = $stmt->execute($values);
-        if(!$ret || !$DB->lastInsertId())
+        if(!$ret)
             throw new \PDOException("Failed to insert new row");
-        $OrderRow->id = $DB->lastInsertId();
+        if($DB->lastInsertId())
+            $OrderRow->id = $DB->lastInsertId();
     }
 
     /**
@@ -264,7 +273,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
         $len = strlen($cardNumber);
         if ($len < 15 || $len > 16) {
             throw new IntegrationException("Invalid credit card number. Length does not match");
-        }else{
+        } else {
             switch($cardNumber) {
                 case(preg_match ('/^4/', $cardNumber) >= 1):
                     return 'Visa';
@@ -287,6 +296,13 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
 
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    }
+
+    public static function sanitizeNumber($number, $lastDigits=4, $char='X') {
+        if(!$number)
+            return $number;
+        $l = strlen($number);
+        return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
 }
 

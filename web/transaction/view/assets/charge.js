@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function onKeypress(e) {
         var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
         clearTimeout(keyTimeout);
-        keyTimeout = setTimeout(updateAllForms, 2000);
+        keyTimeout = setTimeout(updateAllForms, 500);
 
         if(lastParseData)
             setStatus("Card Track Parsed Successfully");

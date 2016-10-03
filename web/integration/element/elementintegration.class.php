@@ -201,7 +201,7 @@ class ElementIntegration extends AbstractIntegration
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
 
         // Capture Order
-        OrderRow::insert($Order);
+        OrderRow::update($Order);
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
@@ -229,6 +229,8 @@ class ElementIntegration extends AbstractIntegration
             $Transaction->setAction("Approved");
             $Transaction->setAuthCodeOrBatchID($transactionID);
             $Transaction->setStatus($code, $message);
+            $Order->setStatus("Settled");
+            OrderRow::update($Order);
 
         } catch (IntegrationException $Ex) {
             // Catch Integration Exception
