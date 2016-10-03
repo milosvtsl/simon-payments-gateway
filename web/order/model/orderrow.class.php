@@ -15,6 +15,28 @@ use Transaction\Model\TransactionRow;
 class OrderRow
 {
     const _CLASS = __CLASS__;
+
+    const ENUM_RUN_FREQUENCY_ONETIMEFUTURE = "OneTimeFuture";
+    const ENUM_RUN_FREQUENCY_DAILY = "Daily";
+    const ENUM_RUN_FREQUENCY_WEEKLY = "Weekly";
+    const ENUM_RUN_FREQUENCY_BIWEEKLY = "BiWeekly";
+    const ENUM_RUN_FREQUENCY_MONTHLY = "Monthly";
+    const ENUM_RUN_FREQUENCY_BIMONTHLY = "BiMonthly";
+    const ENUM_RUN_FREQUENCY_QUARTERLY = "Quarterly";
+    const ENUM_RUN_FREQUENCY_SEMIANNUALLY = "SemiAnnually";
+    const ENUM_RUN_FREQUENCY_YEARLY = "Yearly";
+    public static $ENUM_RUN_FREQUENCY = array(
+        self::ENUM_RUN_FREQUENCY_ONETIMEFUTURE  => "Once",
+        self::ENUM_RUN_FREQUENCY_DAILY          => "Daily",
+        self::ENUM_RUN_FREQUENCY_WEEKLY         => "Weekly",
+        self::ENUM_RUN_FREQUENCY_BIWEEKLY       => "Bi-Weekly",
+        self::ENUM_RUN_FREQUENCY_MONTHLY        => "Monthly",
+        self::ENUM_RUN_FREQUENCY_BIMONTHLY      => "Bi-monthly",
+        self::ENUM_RUN_FREQUENCY_QUARTERLY      => "Quarterly",
+        self::ENUM_RUN_FREQUENCY_SEMIANNUALLY   => "Semi-Annually",
+        self::ENUM_RUN_FREQUENCY_YEARLY         => "Yearly",
+    );
+
     const SORT_BY_ID                = 'oi.id';
     const SORT_BY_DATE              = 'oi.date';
     const SORT_BY_STATUS            = 'oi.status';

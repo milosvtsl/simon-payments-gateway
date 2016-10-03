@@ -170,7 +170,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 break;
         }
 
+        if(form.recur_enable.checked) {
+            form.recur_until_cancel.removeAttribute('disabled');
+            form.recur_start_date.removeAttribute('disabled');
+            form.recur_count.removeAttribute('disabled');
+            form.recur_frequency.removeAttribute('disabled');
 
+        } else {
+            form.recur_until_cancel.setAttribute('disabled', 'disabled');
+            form.recur_start_date.setAttribute('disabled', 'disabled');
+            form.recur_count.setAttribute('disabled', 'disabled');
+            form.recur_frequency.setAttribute('disabled', 'disabled');
+
+        }
     }
 
     // Utilities

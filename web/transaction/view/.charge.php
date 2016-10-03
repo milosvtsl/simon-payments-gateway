@@ -2,6 +2,7 @@
 use Integration\Model\IntegrationRow;
 use User\Session\SessionManager;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 /**
  * @var \Transaction\View\TransactionView $this
  **/
@@ -254,6 +255,52 @@ if(isset($_SESSION['transaction/charge.php']))
 
             <hr />
 
+            <fieldset style="display: inline-block;" class="form-payment-recurring show-on-merchant-selected">
+                <legend>Recurring Information</legend>
+                <table class="table-transaction-charge themed">
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Enable Recurring Payments</td>
+                        <td class="value"><input type="checkbox" name="recur_enable" value="1"
+                                <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
+                                /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Run until canceled</td>
+                        <td class="value"><input type="checkbox" name="recur_until_cancel" value="1" /></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Start Date</td>
+                        <td class="value"><input type="date" name="recur_start_date" value="<?php echo date('Y-m-d'); ?>"/></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Recur Count</td>
+                        <td class="value">
+                            <select name='recur_count'>
+                                <?php
+                                for($i=1; $i<=24; $i++)
+                                    echo "\n\t<option ",
+                                    @$LASTPOST['recur_count'] === $i ? 'selected="selected"' : '',
+                                    ">", $i, "</option>";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Recur Frequency</td>
+                        <td class="value">
+                            <select name='recur_frequency'>
+                                <?php
+                                foreach(OrderRow::$ENUM_RUN_FREQUENCY as $type => $name)
+                                    echo "\n\t<option ",
+                                        @$LASTPOST['recurring_frequency'] === $type ? 'selected="selected"' : '',
+                                        ">", $name, "</option>";
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+
             <fieldset style="display: inline-block;" class="show-on-merchant-selected">
                 <legend>Submit Payment</legend>
                 <table class="table-transaction-charge themed">
@@ -265,10 +312,10 @@ if(isset($_SESSION['transaction/charge.php']))
                         <td class="name">Total Charge Amount</td>
                         <td class="value"><input type="text" name="total_amount" value="$0.00" disabled="disabled" /></td>
                     </tr>
-<!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                        <td class="name">Method</td>-->
-<!--                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>-->
-<!--                    </tr>-->
+                    <!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+                    <!--                        <td class="name">Method</td>-->
+                    <!--                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>-->
+                    <!--                    </tr>-->
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Submit</td>
                         <td class="value">
