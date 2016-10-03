@@ -209,9 +209,11 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
      * @throws IntegrationException
      */
     public static function createOrderFromPost(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        $Merchant = $MerchantIdentity->getMerchantRow();
+
         $OrderRow = new OrderRow();
         $OrderRow->uid = strtolower(self::generateGUID());
-        $Merchant = $MerchantIdentity->getMerchantRow();
+        $OrderRow->version = 10;
         $OrderRow->merchant_id = $Merchant->getID();
         $OrderRow->integration_id = $MerchantIdentity->getIntegrationRow()->getID();
         if($post['merchant_id'] !== $Merchant->getID())
