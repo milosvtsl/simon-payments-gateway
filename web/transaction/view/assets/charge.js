@@ -34,8 +34,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 updateChargeForm(e, form);
                 form.card_track.value = charHistory;
             }
-            if(charHistory.length > 0)
+            if(charHistory.length > 0) {
                 setStatus("Card read successfully!");
+            }
             charHistory = '';
         } else {
             setStatus("Card Swipe Ready!");
@@ -69,9 +70,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 throw new Exception("No Charge form found");
             for(var i=0; i<forms.length; i++) {
                 var form = forms[i];
-                updateChargeForm(e, form);
-                form.card_track.value = charHistory;
+
                 form.card_track.focus();
+                form.card_track.value = charHistory;
+                updateChargeForm(e, form);
+                if(charHistory)
+                    form.card_track.removeAttribute('disabled');
+                else
+                    form.card_track.setAttribute('disabled', 'disabled');
+
             }
         }
 
@@ -100,9 +107,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             lastParseData = null;
         }
 
-        var amount = parseFloat(form.amount.value) || 0;
-        form.amount.value = (amount).toFixed(2);
+        var amount =  /^-?[0-9.]+$/.test(form.amount.value) ? parseFloat(form.amount.value) : 0;
         if(amount) {
+            form.amount.value = (amount).toFixed(2);
             var fee_amount = 0;
             if (form.convenience_fee_limit)
                 fee_amount += parseFloat(form.convenience_fee_limit.value);
@@ -113,6 +120,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
             if (form.convenience_fee_total)
                 form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
+        } else {
+            form.amount.value = '';
         }
 
         // Update card type

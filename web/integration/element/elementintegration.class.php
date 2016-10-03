@@ -99,6 +99,7 @@ class ElementIntegration extends AbstractIntegration
      * @param IntegrationRequestRow $Request
      * @param null $reason
      * @return bool
+     * @throws IntegrationException
      */
     function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
         $data = $Request->parseResponseData();
@@ -119,7 +120,15 @@ class ElementIntegration extends AbstractIntegration
                 $reason = "Missing 'identity' field";
                 return false;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                return false;
+                if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
+                    throw new IntegrationException("Invalid response array");
+
+                $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
+                $response = $response['response'];
+                $code = $response['ExpressResponseCode'];
+                $reason = $response['ExpressResponseMessage'];
+
+                return $code === '0';
         }
         return false;
     }
