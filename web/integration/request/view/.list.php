@@ -76,7 +76,7 @@ use Integration\Request\Model\IntegrationRequestRow;
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed small">
+                <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_ID); ?>">ID</a></th>
                         <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_INTEGRATION_ID); ?>">Integration</a></th>

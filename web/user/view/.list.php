@@ -36,7 +36,7 @@ use \User\Model\UserRow;
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed small">
+                <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_USERNAME); ?>">Username</a></th>

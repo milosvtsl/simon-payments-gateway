@@ -69,7 +69,7 @@ use Order\Model\OrderRow;
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed small">
+                <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
                         <th>Card Holder</th>

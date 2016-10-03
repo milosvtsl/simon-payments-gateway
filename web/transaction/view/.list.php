@@ -70,7 +70,7 @@ use Transaction\Model\TransactionRow;
             </fieldset>
             <fieldset>
                 <legend>Search Results</legend>
-                <table class="table-results themed small">
+                <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_ID); ?>">ID</a></th>
                         <th><a href="transaction?<?php echo $this->getSortURL(TransactionRow::SORT_BY_ORDER_ITEM); ?>">Order</a></th>
