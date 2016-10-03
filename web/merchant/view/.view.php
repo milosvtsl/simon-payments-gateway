@@ -257,7 +257,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
                             <td><?php echo $Transaction->getUsername(); ?></td>
                             <td><?php echo $Transaction->getAmount(); ?></td>
-                            <td><?php echo $Transaction->getStatus(); ?></td>
+                            <td><?php echo $Transaction->getOrderStatus(); ?></td>
                             <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
                         </tr>
                     <?php } ?>

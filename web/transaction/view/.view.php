@@ -76,7 +76,7 @@ $action_url = 'transaction?id=' . $Transaction->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Order Status</td>
-                        <td><?php echo $Transaction->getStatus() ?: 'N/A' ?></td>
+                        <td><?php echo $Transaction->getOrderStatus() ?: 'N/A' ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Merchant</td>

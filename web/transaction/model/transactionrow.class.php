@@ -87,11 +87,17 @@ class TransactionRow
     protected $username;
     protected $merchant_id;
 
+    protected $order_status;
+
     // Table merchant
     protected $merchant_short_name;
 
     const SQL_SELECT = "
-SELECT oi.*, t.*, t.date as transaction_date, oi.date as order_date, m.short_name as merchant_short_name
+SELECT oi.*, t.*,
+t.date as transaction_date,
+oi.date as order_date,
+oi.status as order_status,
+m.short_name as merchant_short_name
 FROM transaction t
 LEFT JOIN order_item oi on t.order_item_id = oi.id
 LEFT JOIN merchant m on oi.merchant_id = m.id
@@ -111,6 +117,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public function getDate()               { return $this->date; }
     public function getTransactionDate()    { return $this->transaction_date; }
     public function getOrderDate()          { return $this->order_date; }
+    public function getOrderStatus()        { return $this->order_status; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }
@@ -245,5 +252,6 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
+
 }
 
