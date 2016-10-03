@@ -51,6 +51,9 @@ if(isset($_SESSION['transaction/charge.php']))
                         foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
                             $reason = null;
                             $Integration = $MerchantIdentity->getIntegrationRow();
+                            if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
+                                continue;
+                            
                             if($MerchantIdentity->isProvisioned($reason)) {
                                 echo "\n\t\t\t\t\t\t\t<option",
                                 " data-integration-id='", $Integration->getID(), "'",

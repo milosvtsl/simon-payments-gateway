@@ -86,12 +86,14 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 $odd = false;
                 /** @var IntegrationRow $IntegrationRow **/
                 foreach($IntegrationQuery as $IntegrationRow) {
+                    if($IntegrationRow->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
+                        continue;
                     $id = $IntegrationRow->getID();
                     $MerchantIdentity = $IntegrationRow->getMerchantIdentity($Merchant);
                     $isProduction = $IntegrationRow->getAPIType() === IntegrationRow::ENUM_API_TYPE_PRODUCTION;
                     $reason = null;
                     ?>
-                    <fieldset style="display: inline-block; margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity:0.5;'; ?>">
+                    <fieldset style="display: inline-block; margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity1:0.5;'; ?>">
                         <legend>
                             <?php echo $IntegrationRow->getName(); ?>
                             (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)

@@ -19,6 +19,7 @@ class IntegrationRow
 
     const ENUM_API_TYPE_PRODUCTION  = 'production';
     const ENUM_API_TYPE_TESTING     = 'testing';
+    const ENUM_API_TYPE_DISABLED    = 'disabled';
 
     const SORT_BY_ID                = 'i.id';
     const SORT_BY_NAME              = 'i.name';

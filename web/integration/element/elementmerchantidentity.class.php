@@ -20,7 +20,6 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
 
-    protected $id;
     protected $entity;
     protected $tags;
     protected $created_at;
@@ -35,7 +34,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
         parent::__construct($Merchant, $APIData);
     }
 
-    public function getRemoteID()       { return $this->id; }
+    public function getRemoteID()       { return $this->AccountID; }
     public function getEntityData()     { return $this->entity; }
     public function getTags()           { return $this->tags; }
     public function getCreateDate()     { return $this->created_at; }
