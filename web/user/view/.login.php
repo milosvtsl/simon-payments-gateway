@@ -34,7 +34,7 @@
 
                         <div class="form-group form-actions">
                                     <span class="input-icon">
-                                        <input type="password" name="password" id="password" class="form-control password wdt03" placeholder="Password" clickev="true" value="" />
+                                        <input type="password" name="password" id="password" class="form-control password wdt03" placeholder="Password" autocomplete="off" />
                                         <i class="fa fa-lock"></i>
                                     </span>
                         </div>

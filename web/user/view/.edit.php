@@ -62,11 +62,11 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Change Password</td>
-                        <td><input type="password" name="password" value="" /></td>
+                        <td><input type="password" name="password" value="" autocomplete="off" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Confirm Password</td>
-                        <td><input type="password" name="password_confirm" value="" /></td>
+                        <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
                     </tr>
                     <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

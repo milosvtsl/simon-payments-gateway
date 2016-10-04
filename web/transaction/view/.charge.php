@@ -259,7 +259,7 @@ if(isset($_SESSION['transaction/charge.php']))
                 <legend>Recurring Information</legend>
                 <table class="table-transaction-charge themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Enable Recurring Payments</td>
+                        <td class="name">Enable Recurring</td>
                         <td class="value"><input type="checkbox" name="recur_enable" value="1"
                                 <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
                                 /></td>
@@ -269,17 +269,19 @@ if(isset($_SESSION['transaction/charge.php']))
                         <td class="value"><input type="checkbox" name="recur_until_cancel" value="1" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Start Date</td>
-                        <td class="value"><input type="date" name="recur_start_date" value="<?php echo date('Y-m-d'); ?>"/></td>
+                        <td class="name">First Recur Date</td>
+                        <td class="value"><input type="date" name="recur_start_date" value="<?php echo date('Y-m-d', time()+24*60*60*30); ?>"/></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Recur Count</td>
                         <td class="value">
                             <select name='recur_count'>
                                 <?php
+                                if(empty($LASTPOST['recur_count']))
+                                    $LASTPOST['recur_count'] = '3';
                                 for($i=1; $i<=24; $i++)
                                     echo "\n\t<option ",
-                                    @$LASTPOST['recur_count'] === $i ? 'selected="selected"' : '',
+                                    $LASTPOST['recur_count'] == $i ? 'selected="selected"' : '',
                                     ">", $i, "</option>";
                                 ?>
                             </select>
@@ -290,9 +292,11 @@ if(isset($_SESSION['transaction/charge.php']))
                         <td class="value">
                             <select name='recur_frequency'>
                                 <?php
+                                if(empty($LASTPOST['recur_frequency']))
+                                    $LASTPOST['recur_frequency'] = 'Monthly';
                                 foreach(OrderRow::$ENUM_RUN_FREQUENCY as $type => $name)
                                     echo "\n\t<option ",
-                                        @$LASTPOST['recurring_frequency'] === $type ? 'selected="selected"' : '',
+                                        @$LASTPOST['recur_frequency'] === $type ? 'selected="selected"' : '',
                                         ">", $name, "</option>";
                                 ?>
                             </select>

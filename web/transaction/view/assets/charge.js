@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
             form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
             form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
-            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
+            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-ra    te') || 0;
 
 //             console.log("Merchant: ", form.merchant_id.value, formClasses);
 
