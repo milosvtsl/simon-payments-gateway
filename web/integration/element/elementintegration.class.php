@@ -207,7 +207,7 @@ class ElementIntegration extends AbstractIntegration
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
         try {
             /** @var ElementMerchantIdentity $MerchantIdentity */
-            $Request = $this->prepareTransactionRequest($MerchantIdentity, $Order, $post);
+            $Request = $this->prepareTransactionRequest($MerchantIdentity, $Transaction, $Order, $post);
             $this->execute($Request);
             $data = $this->parseResponseData($Request);
             if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
@@ -220,23 +220,32 @@ class ElementIntegration extends AbstractIntegration
             if(!$response) //  || !$code || !$message)
                 throw new IntegrationException("Invalid response data");
 
-            if($code !== "0")
+            if($code === '101')
                 throw new IntegrationException($message);
 
-            $time = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
+            if($code !== "0")
+                $Transaction->setAction("Error");
+            else
+                $Transaction->setAction("Authorized");
+//                throw new IntegrationException($message);
+
+            $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
             $transactionID = $response['Transaction']['TransactionID'];
-            // Store Transaction Result
-            $Transaction->setAction("Approved");
-            $Transaction->setAuthCodeOrBatchID($transactionID);
+
+            $Transaction->setAuthCodeOrBatchID($code);
+            $Transaction->setTransactionID($transactionID);
             $Transaction->setStatus($code, $message);
+            // Store Transaction Result
+            $Transaction->setTransactionDate($date);
+
             $Order->setStatus("Settled");
             OrderRow::update($Order);
 
         } catch (IntegrationException $Ex) {
             // Catch Integration Exception
             $Transaction->setAction("Error");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
-            $Transaction->setStatus("Error", $Ex->getMessage());
+            $Transaction->setAuthCodeOrBatchID(-1);
+            $Transaction->setStatus(-1, $Ex->getMessage());
             TransactionRow::insert($Transaction);
             throw $Ex;
         }
@@ -245,7 +254,10 @@ class ElementIntegration extends AbstractIntegration
     }
 
 
-    public function prepareTransactionRequest(ElementMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, $post) {
+    public function prepareTransactionRequest(
+        ElementMerchantIdentity $MerchantIdentity,
+        TransactionRow $TransactionRow,
+        OrderRow $OrderRow, $post) {
 
         $NewRequest = IntegrationRequestRow::prepareNew(
             __CLASS__,
@@ -258,7 +270,7 @@ class ElementIntegration extends AbstractIntegration
         $NewRequest->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $OrderRow, $post);
+        $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $TransactionRow, $OrderRow, $post);
         $NewRequest->setRequest($request);
 
         return $NewRequest;

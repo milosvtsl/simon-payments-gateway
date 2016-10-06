@@ -16,12 +16,14 @@ class ElementAPIUtil {
 
     /**
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param TransactionRow $TransactionRow
      * @param OrderRow $OrderRow
      * @param array $post
      * @return string
      */
     public function prepareCreditCardSaleRequest(
         ElementMerchantIdentity $MerchantIdentity,
+        TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
     ) {
@@ -30,6 +32,7 @@ class ElementAPIUtil {
 
         $MagneprintData = $OrderRow->getCardTrack();
         $CardholderName = $OrderRow->getCardHolderFullName();
+        $TransactionID = $TransactionRow->getTransactionID();
 
         $AccountID = $MerchantIdentity->getAccountID();
         $AccountToken = $MerchantIdentity->getAccountToken();
@@ -109,7 +112,6 @@ class ElementAPIUtil {
         $AlternateCardNumber2 = '';
         $AlternateCardNumber3 = '';
         $SecondaryCardNumber = '';
-        $TransactionID = '';
         $ClerkNumber = '';
         $ShiftID = '';
         $OriginalAuthorizedAmount = '';
@@ -284,15 +286,16 @@ PHP;
     }
 
 
-
     /**
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param TransactionRow $TransactionRow
      * @param OrderRow $OrderRow
      * @param array $post
      * @return string
      */
     public function prepareCheckSaleRequest(
         ElementMerchantIdentity $MerchantIdentity,
+        TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
     ) {
@@ -310,6 +313,10 @@ PHP;
         $ApplicationID = $MerchantIdentity->getApplicationID();
         $ApplicationName = 'SimonPayments';
         $ApplicationVersion = '1';
+
+        $TransactionID = $TransactionRow->getTransactionID();
+        $ReferenceNumber = '';
+        $TicketNumber = '';
 
 
         $CardNumber = $OrderRow->getCardNumber();
@@ -382,7 +389,6 @@ PHP;
         $AlternateCardNumber2 = '';
         $AlternateCardNumber3 = '';
         $SecondaryCardNumber = '';
-        $TransactionID = '';
         $ClerkNumber = '';
         $ShiftID = '';
         $OriginalAuthorizedAmount = '';
@@ -390,8 +396,6 @@ PHP;
         $SalesTaxAmount = '';
         $TipAmount = '';
         $ApprovalNumber = '';
-        $ReferenceNumber = '';
-        $TicketNumber = '';
         $AcquirerData = '';
         $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';

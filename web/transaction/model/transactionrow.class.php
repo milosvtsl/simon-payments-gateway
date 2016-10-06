@@ -129,6 +129,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }
     public function getTransactionID()      { return $this->transaction_id; }
+    public function getAuthCodeOrBatchID()  { return $this->auth_code_or_batch_id; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getIntegrationID()      { return $this->integration_id; }
@@ -146,12 +147,22 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function setAuthCodeOrBatchID($id) {
         $this->auth_code_or_batch_id = $id;
     }
+    public function setTransactionID($id) {
+        $this->transaction_id = $id;
+    }
+    public function setTransactionDate($date) {
+        $this->transaction_date = $date;
+    }
 
     // Static
 
 
 
     public static function insert(TransactionRow $TransactionRow) {
+        if(!$TransactionRow->order_item_id)
+            throw new \InvalidArgumentException("Invalid Order Item ID");
+        if(!$TransactionRow->transaction_id)
+            throw new \InvalidArgumentException("Invalid Transaction ID");
         $values = array(
             ':uid' => $TransactionRow->uid,
             ':version' => $TransactionRow->version,
@@ -167,8 +178,9 @@ LEFT JOIN integration i on oi.integration_id = i.id
 //            ':reviewed_date_time' => $TransactionRow->reviewed_date_time,
             ':service_fee' => $TransactionRow->service_fee ?: 0,
             ':status_code' => $TransactionRow->status_code ?: 0,
-            ':status_message' => $TransactionRow->status_message ?: 0,
-            ':transaction_id' => $TransactionRow->transaction_id ?: 0,
+            ':status_message' => $TransactionRow->status_message ?: '',
+//            ':transaction_date' => $TransactionRow->transaction_date ?: '',
+            ':transaction_id' => $TransactionRow->transaction_id,
             ':batch_item_id' => $TransactionRow->batch_item_id,
             ':order_item_id' => $TransactionRow->order_item_id,
         );
@@ -226,6 +238,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
             throw new IntegrationException("Invalid Amount");
 
         $TransactionRow = new TransactionRow();
+//        $TransactionRow->transaction_id = !empty($post['transaction_id'])
+//            ? $post['transaction_id'] : strtoupper(self::generateTransactionID());
         $TransactionRow->uid = strtolower(self::generateGUID());
         $TransactionRow->order_item_id = $OrderRow->getID();
 //        $TransactionRow->batch_item_id;
@@ -260,6 +274,9 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    }
+    public static function generateTransactionID() {
+        return sprintf('%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535));
     }
 
 }

@@ -27,7 +27,7 @@
                     <fieldset>
                         <div class="form-group">
                                     <span class="input-icon">
-                                        <input type="text" name="username" id="username" class="form-control wdt03" placeholder="Username" clickev="true" value="" />
+                                        <input type="text" name="username" id="username" class="form-control wdt03" placeholder="Username" clickev="true" value="" autofocus />
                                         <i class="fa fa-user"></i>
                                     </span>
                         </div>
