@@ -32,7 +32,10 @@ class ElementAPIUtil {
 
         $MagneprintData = $OrderRow->getCardTrack();
         $CardholderName = $OrderRow->getCardHolderFullName();
-        $TransactionID = $TransactionRow->getTransactionID();
+        $TransactionID = ''; // $TransactionRow->getTransactionID();
+        $TerminalID = '0001';
+        $TicketNumber = substr(md5(time()), 6);
+        $ReferenceNumber = $TransactionRow->getTransactionID();
 
         $AccountID = $MerchantIdentity->getAccountID();
         $AccountToken = $MerchantIdentity->getAccountToken();
@@ -119,8 +122,6 @@ class ElementAPIUtil {
         $SalesTaxAmount = '';
         $TipAmount = '';
         $ApprovalNumber = '';
-        $ReferenceNumber = '';
-        $TicketNumber = '';
         $AcquirerData = '';
         $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
@@ -146,6 +147,22 @@ class ElementAPIUtil {
         if($PINBlock)
             $Action = 'DebitCardSale';
 
+        $MarketCode = $MerchantIdentity->getMarketCode(); // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+
+        if($MagneprintData) { // Card Present
+            $CardholderPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            $CardPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent;
+            $TerminalCapabilityCode = 'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+        } else {
+            
+        }
+
+//        if(keyed) {}
+
+
         $request = <<<PHP
 <?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
@@ -163,7 +180,7 @@ class ElementAPIUtil {
         <ApplicationVersion>{$ApplicationVersion}</ApplicationVersion>
       </application>
       <terminal>
-        <TerminalID>{$ApplicationID}</TerminalID>
+        <TerminalID>{$TerminalID}</TerminalID>
         <TerminalType>{$TerminalType}</TerminalType>
         <CardPresentCode>{$CardPresentCode}</CardPresentCode>
         <CardholderPresentCode>{$CardholderPresentCode}</CardholderPresentCode>
@@ -433,7 +450,8 @@ PHP;
         $AccountNumber = $OrderRow->getCheckAccountNumber();
         $DDAAccountType = $OrderRow->getCheckAccountType();
 
-        $request = <<<PHP
+
+            $request = <<<PHP
 <?xml version="1.0" encoding="utf-8"?>
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
   <soap12:Body>

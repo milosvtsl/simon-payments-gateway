@@ -205,7 +205,7 @@ class ElementIntegration extends AbstractIntegration
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-        try {
+//        try {
             /** @var ElementMerchantIdentity $MerchantIdentity */
             $Request = $this->prepareTransactionRequest($MerchantIdentity, $Transaction, $Order, $post);
             $this->execute($Request);
@@ -241,14 +241,14 @@ class ElementIntegration extends AbstractIntegration
             $Order->setStatus("Settled");
             OrderRow::update($Order);
 
-        } catch (IntegrationException $Ex) {
+//        } catch (IntegrationException $Ex) {
             // Catch Integration Exception
-            $Transaction->setAction("Error");
-            $Transaction->setAuthCodeOrBatchID(-1);
-            $Transaction->setStatus(-1, $Ex->getMessage());
-            TransactionRow::insert($Transaction);
-            throw $Ex;
-        }
+//            $Transaction->setAction("Error");
+//            $Transaction->setAuthCodeOrBatchID(-1);
+//            $Transaction->setStatus(-1, $Ex->getMessage());
+//            TransactionRow::insert($Transaction);
+//            throw $Ex;
+//        }
         TransactionRow::insert($Transaction);
         return $Transaction;
     }

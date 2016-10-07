@@ -31,7 +31,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <form class="form-view-merchant themed" method="POST">
             <fieldset>
                 <legend>Edit Merchant Fields</legend>
-                <table class="table-merchant-info themed" style="float: left;">
+                <table class="table-merchant-info themed striped-rows" style="float: left;">
                     <tr>
                         <th>Field</th>
                         <th>Value</th>
@@ -199,7 +199,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <td><input type="submit" value="Update" /></td>
                     </tr>
                 </table>
-                <table class="table-merchant-info themed">
+                <table class="table-merchant-info themed striped-rows">
                     <tr>
                         <th colspan="2">Contact Information</th>
                     </tr>

@@ -8,6 +8,7 @@
 
 namespace Integration\Mock\Test;
 
+use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
@@ -22,7 +23,7 @@ spl_autoload_register();
 
 
 // Test Data
-$Merchant = new TestMerchantRow();
+$Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
 $MockAPI = new TestMockIntegrationRow(); // IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'); // Mock.io Staging
 //$Integration = new TestMockIntegrationRow();
 

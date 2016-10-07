@@ -202,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // AMEX
         re = new RegExp("^3[47]");
         if (number.match(re) != null)
-            return "AMEX";
+            return "Amex";
 
         // Discover
         re = new RegExp("^(6011|622(12[6-9]|1[3-9][0-9]|[2-8][0-9]{2}|9[0-1][0-9]|92[0-5]|64[4-9])|65)");
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var arr = string.split('^');
             var nameArr = arr[1].split(' ');
             var len = nameArr.length;
-//console.log(arr);
+// console.log(arr);
             var data = {};
             data.card_number = arr[0];
             data.card_exp_year = arr[2].substring(0, 2);
@@ -254,11 +254,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             data.success = data.card_exp_month.length == 2
                 && data.card_exp_year.length == 2
-                && data.card_number.length == 16
+                && data.card_number.length >= 15
                 && data.payee_first_name.length > 0
                 && data.payee_first_name.length > 0;
+                console.log(data);
             return data;
         } catch (e) {
+            console.log(string, e);
             return false;
         }
     }

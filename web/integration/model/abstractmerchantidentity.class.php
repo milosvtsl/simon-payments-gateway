@@ -105,6 +105,10 @@ abstract class AbstractMerchantIdentity {
         return $this->integration;
     }
 
+    public function getMarketCode() {
+        return "Retail"; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+    }
+
 
 //    public function submitNewTransaction(Array $post) {
 //        $Order = OrderRow::createNewOrder($post);
