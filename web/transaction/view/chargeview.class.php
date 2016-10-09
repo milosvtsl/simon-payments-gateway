@@ -47,10 +47,11 @@ class ChargeView extends AbstractView
                     throw new IntegrationException("User does not have authority");
             }
 
-            $Transaction = $MerchantIdentity->submitNewTransaction($post);
+            $Order = $MerchantIdentity->createOrResumeOrder($post);
+            $Transaction = $MerchantIdentity->submitNewTransaction($Order, $post);
 
             $this->setSessionMessage($Transaction->getStatusMessage());
-            header('Location: /transaction/receipt.php?uid=' . $Transaction->getUID());
+            header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
             unset($_SESSION['transaction/charge.php']);
             die();
 

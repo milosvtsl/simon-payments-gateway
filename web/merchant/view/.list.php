@@ -5,7 +5,7 @@ use \Merchant\Model\MerchantRow;
  **/?>
 
     <!-- Page Navigation -->
-    <nav class="page-menu">
+    <nav class="page-menu hide-on-print">
         <a href="merchant?" class="button current">Merchants</a>
         <a href="integration?" class="button">Integrations</a>
         <a href="user?" class="button">Users</a>

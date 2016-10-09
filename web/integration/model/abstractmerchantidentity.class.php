@@ -90,12 +90,18 @@ abstract class AbstractMerchantIdentity {
 
     /**
      * Submit a new transaction
+     * @param OrderRow $Order
      * @param array $post
      * @return TransactionRow
      */
-    function submitNewTransaction(Array $post) {
+    function submitNewTransaction(OrderRow $Order, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->submitNewTransaction($this, $post);
+        return $Integration->submitNewTransaction($this, $Order, $post);
+    }
+
+    function createOrResumeOrder(Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->createOrResumeOrder($this, $post);
     }
 
     public function getMerchantRow() {

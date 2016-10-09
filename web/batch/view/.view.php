@@ -8,7 +8,7 @@ $odd = false;
 $action_url = 'batch?id=' . $Batch->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
-    <nav class="page-menu">
+    <nav class="page-menu hide-on-print">
         <a href="transaction?" class="button">Transactions</a>
         <a href="order?" class="button">Orders</a>
         <a href="batch?" class="button">Batches</a>
@@ -65,7 +65,6 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
                         <th>Card Holder</th>
                         <th>Date</th>
                         <th>Invoice ID</th>
-                        <th>User Name</th>
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Merchant</th>
@@ -75,11 +74,10 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
                     $odd = false;
                     foreach($OrderQuery as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='order?id=<?php echo $Order->getID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                            <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
                             <td><?php echo $Order->getCardHolderFullName(); ?></td>
                             <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
                             <td><?php echo $Order->getInvoiceNumber(); ?></td>
-                            <td><?php echo $Order->getUsername(); ?></td>
                             <td><?php echo $Order->getAmount(); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
                             <td><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>

@@ -38,7 +38,7 @@ class MerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
 
@@ -75,7 +75,7 @@ class MerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
 
@@ -121,7 +121,7 @@ class MerchantView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
     }

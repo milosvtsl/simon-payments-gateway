@@ -4,7 +4,7 @@ use \User\Model\UserRow;
  * @var \View\AbstractListView $this
  **/?>
     <!-- Page Navigation -->
-    <nav class="page-menu">
+    <nav class="page-menu hide-on-print">
         <a href="user?" class="button current">User List</a>
         <a href="user/logout.php" class="button">Log Out</a>
     </nav>
@@ -39,7 +39,6 @@ use \User\Model\UserRow;
                 <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
-                        <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_USERNAME); ?>">Username</a></th>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
                         <th>Merchant</th>
@@ -50,7 +49,6 @@ use \User\Model\UserRow;
                     foreach($this->getListQuery() as $User) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
-                        <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getUsername(); ?></a></td>
                         <td><?php echo $User->getFullName(); ?></td>
                         <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                         <td><?php echo $User->getMerchantCount(); ?></td>

@@ -5,7 +5,7 @@ use \Integration\Model\IntegrationRow;
  **/?>
 
     <!-- Page Navigation -->
-    <nav class="page-menu">
+    <nav class="page-menu hide-on-print">
         <a href="integration?" class="button current">Integrations</a>
         <a href="integration/request?" class="button">Requests</a>
         <a href="merchant?" class="button">Merchants</a>

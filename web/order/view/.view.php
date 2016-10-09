@@ -1,130 +1,196 @@
 <?php
-/**
- * @var \Order\View\OrderView $this
- * @var PDOStatement $OrderQuery
- **/
+use Order\Model\OrderRow;
+/** @var \Order\View\OrderView $this*/
 $Order = $this->getOrder();
-$odd = false;
-$action_url = 'order?id=' . $Order->getID() . '&action=';
+$odd = true;
+$action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
+$SessionManager = new \User\Session\SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
 ?>
-    <!-- Page Navigation -->
-    <nav class="page-menu">
-        <a href="transaction?" class="button">Transactions</a>
+
+<!-- Page Navigation -->
+<nav class="page-menu hide-on-print">
+    <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt</a>
+    <a href="javascript:window.print();" class="button">Print</a>
+    <a href="<?php echo $action_url; ?>download" class="button">Download PDF</a>
+    <a href="<?php echo $action_url; ?>email" class="button">Send as Email</a>
+    <a href="<?php echo $action_url; ?>bookmark" class="button">Bookmark URL</a>
+    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="order?" class="button">Orders</a>
         <a href="transaction/charge.php?" class="button">Charge</a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Order->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Order->getID(); ?></a>
-    </nav>
-    
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
-        <a href="order" class="nav_order">Orders</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_order_view">#<?php echo $Order->getID(); ?></a>
-    </aside>
-    
-    <section class="content">
-        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+    <?php } ?>
+</nav>
 
-        <form class="form-view-order themed" onsubmit="return false;">
-            <fieldset>
-                <legend>Order Information</legend>
-                <table class="table-order-info themed striped-rows" style="float: left;">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                    </tr>
+<!-- Bread Crumbs -->
+<aside class="bread-crumbs">
+    <a href="home" class="nav_home">Home</a>
+    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+    <a href="order" class="nav_order">Orders</a>
+    <?php } ?>
+    <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
+</aside>
+
+<section class="content">
+    <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+
+    <form class="form-view-transaction themed" onsubmit="return false;">
+        <fieldset style="display: inline-block;">
+            <legend>Order Information</legend>
+            <table class="table-transaction-info themed striped-rows">
+                <tbody>
+                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                    <td class="name">Amount</td>
+                    <td>$<?php echo $Order->getAmount(); ?></td>
+                </tr>
+
+                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                    <td class="name">Merchant</td>
+                    <td><?php echo $Order->getMerchantShortName(); ?></td>
+                </tr>
+                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                    <td class="name">Date</td>
+                    <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                </tr>
+                <?php if($Order->getInvoiceNumber()) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>ID</td>
-                        <td><?php echo $Order->getID(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>UID</td>
-                        <td><?php echo $Order->getUID(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Amount</td>
-                        <td><?php echo $Order->getAmount(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Invoice</td>
+                        <td class="name">Invoice</td>
                         <td><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
                     </tr>
+                <?php } ?>
+                <?php if($Order->getCustomerID()) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Customer</td>
+                        <td class="name">Customer</td>
                         <td><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                     </tr>
+                <?php } ?>
+                <?php if($Order->getUsername()) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Username</td>
+                        <td class="name">Username</td>
                         <td><?php echo $Order->getUsername() ?: 'N/A' ?></td>
                     </tr>
-                </table>
-                <table class="table-order-info themed striped-rows">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                    </tr>
+                <?php } ?>
+
+                <?php if ($Order->getPayeeEmail()) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Date</td>
-                        <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                        <td class="name">Email</td>
+                        <td><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
                     </tr>
+                <?php }  ?>
+                <?php if ($Order->getPayeeZipCode()) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Card Holder</td>
+                        <td class="name">Zip Code</td>
+                        <td><?php echo $Order->getPayeeZipCode(); ?></td>
+                    </tr>
+                <?php }  ?>
+
+                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                    <td class="name">Order Status</td>
+                    <td><?php echo $Order->getStatus() ?: 'N/A' ?></td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <?php if ($Order->getCardNumber()) { ?>
+
+            <fieldset style="display: inline-block;">
+                <legend>Card Holder Information</legend>
+                <table class="table-transaction-info themed striped-rows">
+                    <tbody>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Card Holder</td>
                         <td><?php echo $Order->getCardHolderFullName() ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Order Status</td>
-                        <td><?php echo $Order->getStatus() ?: 'N/A' ?></td>
+                        <td class="name">Card Number</td>
+                        <td><?php echo $Order->getCardNumber(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Merchant</td>
-                        <td><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+                        <td class="name">Exp</td>
+                        <td><?php echo $Order->getCardExpMonth(), '/', $Order->getCardExpYear(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Integration</td>
-                        <td><a href='integration?id=<?php echo $Order->getIntegrationID(); ?>'><?php echo $Order->getIntegrationName(); ?></a></td>
+                        <td class="name">Card Type</td>
+                        <td><?php echo $Order->getCardType(); ?></td>
                     </tr>
+                    </tbody>
                 </table>
             </fieldset>
 
-            <fieldset>
-                <legend>Transactions: Order #<?php echo $Order->getID(); ?></legend>
-                <table class="table-results themed small">
-                    <tr>
-                        <th>ID</th>
-                        <th>Order</th>
-                        <th>Batch</th>
-                        <th>Card Holder</th>
-                        <th>Date</th>
-                        <th>Invoice ID</th>
-                        <th>User Name</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Merchant</th>
+        <?php } else  { ?>
+
+            <fieldset style="display: inline-block;">
+                <legend>e-Check Information</legend>
+                <table class="table-transaction-info themed striped-rows">
+                    <tbody>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Name on Account</td>
+                        <td><?php echo $Order->getCheckAccountName(); ?></td>
                     </tr>
-                    <?php
-                    /** @var \Transaction\Model\TransactionRow $Transaction */
-                    $DB = \Config\DBConfig::getInstance();
-                    $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ? LIMIT 100");
-                    /** @noinspection PhpMethodParametersCountMismatchInspection */
-                    $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
-                    $TransactionQuery->execute(array($this->getOrder()->getID()));
-                    $odd = false;
-                    foreach($TransactionQuery as $Transaction) { ?>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Check Account Number</td>
+                        <td><?php echo $Order->getCheckAccountNumber() ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Check Routing Number</td>
+                        <td><?php echo $Order->getCheckRoutingNumber(); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Check Account Type</td>
+                        <td><?php echo $Order->getCheckAccountType(); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Check Type</td>
+                        <td><?php echo $Order->getCheckType(); ?></td>
+                    </tr>
+                    <?php if($Order->getCheckNumber()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
-                            <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
-                            <td><?php if($Transaction->getBatchID()) { ?><a href='batch?id=<?php echo $Transaction->getBatchID(); ?>'><?php echo $Transaction->getBatchID(); ?></a><?php } else echo 'N/A'; ?></td>
-                            <td><?php echo $Transaction->getHolderFullName(); ?></td>
-                            <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
-                            <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
-                            <td><?php echo $Transaction->getUsername(); ?></td>
-                            <td><?php echo $Transaction->getAmount(); ?></td>
-                            <td><?php echo $Transaction->getOrderStatus(); ?></td>
-                            <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
+                            <td class="name">Check Number</td>
+                            <td><?php echo $Order->getCheckNumber(); ?></td>
                         </tr>
                     <?php } ?>
+                    </tbody>
                 </table>
             </fieldset>
-        </form>
-    </section>
+
+        <?php } ?>
+
+        <fieldset>
+            <legend>Transactions History</legend>
+            <table class="table-results themed small">
+                <tr>
+                    <th>ID</th>
+                    <th>Order</th>
+                    <th>Card&nbsp;Holder</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Fee</th>
+                    <th>Action</th>
+                    <th>Merchant</th>
+                </tr>
+                <?php
+                /** @var \Transaction\Model\TransactionRow $Transaction */
+                $DB = \Config\DBConfig::getInstance();
+                $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ? LIMIT 100");
+                /** @noinspection PhpMethodParametersCountMismatchInspection */
+                $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
+                $TransactionQuery->execute(array($this->getOrder()->getID()));
+                $odd = false;
+                foreach($TransactionQuery as $Transaction) { ?>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
+                        <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
+                        <td><?php echo $Transaction->getHolderFullName(); ?></td>
+                        <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
+                        <td>$<?php echo $Transaction->getAmount(); ?></td>
+                        <td>$<?php echo $Transaction->getServiceFee(); ?></td>
+                        <td><?php echo $Transaction->getAction(); ?></td>
+                        <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
+                    </tr>
+                <?php } ?>
+            </table>
+        </fieldset>
+
+
+    </form>
+</section>

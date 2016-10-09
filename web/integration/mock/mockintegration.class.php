@@ -104,33 +104,40 @@ class MockIntegration extends AbstractIntegration
     /**
      * Submit a new transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
      * @param array $post
      * @return TransactionRow
+     * @throws IntegrationException
      */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-
-        // Capture Order
-        OrderRow::update($Order);
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        if(!$Order->getID())
+            throw new \InvalidArgumentException("Order must exist in the database");
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-        try {
-            // Store Transaction Result
-            $Transaction->setAction("Authorized");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
-            $Transaction->setStatus("Success", "Mock Transaction Approved");
 
-        } catch (IntegrationException $Ex) {
-            // Catch Integration Exception
-            $Transaction->setAction("Error");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
-            $Transaction->setStatus("Error", $Ex->getMessage());
+        // Store Transaction Result
+        $Transaction->setAction("Authorized");
+        $Transaction->setAuthCodeOrBatchID("Authorized");
+        $Transaction->setStatus("Success", "Mock Transaction Approved");
 
-        }
+        $Order->setStatus("Settled");
+        OrderRow::update($Order);
         TransactionRow::insert($Transaction);
         return $Transaction;
 
+    }
+
+    /**
+     * Create or resume an order item
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return OrderRow
+     */
+    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+        OrderRow::update($Order);
+        return $Order;
     }
 }
 

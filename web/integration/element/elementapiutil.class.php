@@ -157,7 +157,7 @@ class ElementAPIUtil {
             $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
             $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
         } else {
-            
+
         }
 
 //        if(keyed) {}

@@ -21,6 +21,7 @@ session_start();
 
 if(!isset($_GET['uid']))
     die("Invalid UID");
-$View = new \Transaction\View\ReceiptView($_GET['uid']);
+$OrderRow = \Order\Model\OrderRow::fetchByID($_GET['uid']);
+$View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
 $View->handleRequest();
 

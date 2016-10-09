@@ -192,63 +192,65 @@ class ElementIntegration extends AbstractIntegration
     }
 
     /**
-     * Submit a new transaction
+     * Create or resume an order item
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
-     * @return TransactionRow
+     * @return OrderRow
      */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-
-        // Capture Order
         OrderRow::update($Order);
+        return $Order;
+    }
+
+    /**
+     * Submit a new transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return TransactionRow
+     * @throws IntegrationException
+     */
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        if(!$Order->getID())
+            throw new \InvalidArgumentException("Order must exist in the database");
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-//        try {
-            /** @var ElementMerchantIdentity $MerchantIdentity */
-            $Request = $this->prepareTransactionRequest($MerchantIdentity, $Transaction, $Order, $post);
-            $this->execute($Request);
-            $data = $this->parseResponseData($Request);
-            if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
-                throw new IntegrationException("Invalid response array");
+        /** @var ElementMerchantIdentity $MerchantIdentity */
+        $Request = $this->prepareTransactionRequest($MerchantIdentity, $Transaction, $Order, $post);
+        $this->execute($Request);
+        $data = $this->parseResponseData($Request);
+        if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
+            throw new IntegrationException("Invalid response array");
 
-            $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
-            $response = $response['response'];
-            $code = $response['ExpressResponseCode'];
-            $message = $response['ExpressResponseMessage'];
-            if(!$response) //  || !$code || !$message)
-                throw new IntegrationException("Invalid response data");
+        $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
+        $response = $response['response'];
+        $code = $response['ExpressResponseCode'];
+        $message = $response['ExpressResponseMessage'];
+        if(!$response) //  || !$code || !$message)
+            throw new IntegrationException("Invalid response data");
 
-            if($code === '101')
-                throw new IntegrationException($message);
+        if($code === '101')
+            throw new IntegrationException($message);
 
-            if($code !== "0")
-                $Transaction->setAction("Error");
-            else
-                $Transaction->setAction("Authorized");
+        if($code !== "0")
+            $Transaction->setAction("Error");
+        else
+            $Transaction->setAction("Authorized");
 //                throw new IntegrationException($message);
 
-            $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
-            $transactionID = $response['Transaction']['TransactionID'];
+        $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
+        $transactionID = $response['Transaction']['TransactionID'];
 
-            $Transaction->setAuthCodeOrBatchID($code);
-            $Transaction->setTransactionID($transactionID);
-            $Transaction->setStatus($code, $message);
-            // Store Transaction Result
-            $Transaction->setTransactionDate($date);
+        $Transaction->setAuthCodeOrBatchID($code);
+        $Transaction->setTransactionID($transactionID);
+        $Transaction->setStatus($code, $message);
+        // Store Transaction Result
+        $Transaction->setTransactionDate($date);
 
-            $Order->setStatus("Settled");
-            OrderRow::update($Order);
-
-//        } catch (IntegrationException $Ex) {
-            // Catch Integration Exception
-//            $Transaction->setAction("Error");
-//            $Transaction->setAuthCodeOrBatchID(-1);
-//            $Transaction->setStatus(-1, $Ex->getMessage());
-//            TransactionRow::insert($Transaction);
-//            throw $Ex;
-//        }
+        $Order->setStatus("Settled");
+        OrderRow::update($Order);
         TransactionRow::insert($Transaction);
         return $Transaction;
     }
@@ -275,5 +277,6 @@ class ElementIntegration extends AbstractIntegration
 
         return $NewRequest;
     }
+
 }
 

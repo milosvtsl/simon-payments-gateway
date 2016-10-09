@@ -11,6 +11,8 @@ namespace Integration\Element\Test;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
+use Order\Model\OrderRow;
+use Transaction\Model\TransactionRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
@@ -75,8 +77,13 @@ $tests = array(
 );
 
 foreach($tests as $testData) {
-    $Transaction = $MerchantIdentity->submitNewTransaction($testData+$data);
+    $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
+    $Transaction = $MerchantIdentity->submitNewTransaction($Order, $testData+$data);
     echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' #' . $Transaction->getTransactionID();
+
+    // Delete tests
+    TransactionRow::delete($Transaction);
+    OrderRow::delete($Order);
 }
 
 echo "\nElement Integration Test finished";

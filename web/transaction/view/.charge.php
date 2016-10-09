@@ -15,7 +15,7 @@ if(isset($_SESSION['transaction/charge.php']))
     $LASTPOST = $_SESSION['transaction/charge.php'];
 ?>
     <!-- Page Navigation -->
-<!--    <nav class="page-menu">-->
+<!--    <nav class="page-menu hide-on-print">-->
 <!--        <a href="transaction?" class="button">Transactions</a>-->
 <!--        <a href="order?" class="button">Orders</a>-->
 <!--        <a href="transaction/charge.php?" class="button current">Charge</a>-->
@@ -24,7 +24,7 @@ if(isset($_SESSION['transaction/charge.php']))
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="home" class="nav_home">Home</a>
-        <a href="transaction" class="nav_transaction">Transactions</a>
+        <a href="order" class="nav_transaction">Orders</a>
         <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
     </aside>
 

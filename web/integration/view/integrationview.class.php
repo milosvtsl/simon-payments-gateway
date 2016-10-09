@@ -36,7 +36,7 @@ class IntegrationView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view integrations
             $this->setSessionMessage("Unable to view integration. Permission required: ROLE_ADMIN");
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
 
@@ -64,7 +64,7 @@ class IntegrationView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view integrations
             $this->setSessionMessage("Unable to view/edit integration. Permission required: ROLE_ADMIN");
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
 
@@ -90,7 +90,7 @@ class IntegrationView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
     }

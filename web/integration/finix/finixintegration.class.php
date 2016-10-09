@@ -204,15 +204,12 @@ class FinixIntegration extends AbstractIntegration
     /**
      * Submit a new transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
      * @param array $post
      * @return TransactionRow
+     * @throws IntegrationException
      */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-
-        // Capture Order
-        OrderRow::update($Order);
-
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
         try {
@@ -230,6 +227,19 @@ class FinixIntegration extends AbstractIntegration
         }
         TransactionRow::insert($Transaction);
         return $Transaction;
+    }
+
+    /**
+     * Create or resume an order item
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return OrderRow
+     */
+    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+        // Capture Order
+        OrderRow::update($Order);
+        return $Order;
     }
 }
 

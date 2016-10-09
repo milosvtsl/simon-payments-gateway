@@ -10,6 +10,7 @@ namespace Integration\Model;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 
 abstract class AbstractIntegration
@@ -50,7 +51,6 @@ abstract class AbstractIntegration
     /**
      * Return the API Request URL for this request
      * @param IntegrationRequestRow $Request
-     * @param IntegrationRow $APIData
      * @return string
      */
     abstract function getRequestURL(IntegrationRequestRow $Request);
@@ -65,11 +65,22 @@ abstract class AbstractIntegration
 
 
     /**
-     * Submit a new transaction
+     * Create or resume an order item
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
-     * @return TransactionRow
+     * @return OrderRow
      */
-    abstract function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+    abstract function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+
+
+    /**
+     * Submit a new transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return TransactionRow
+     * @throws IntegrationException
+     */
+    abstract function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
 
 }

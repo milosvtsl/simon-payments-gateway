@@ -19,5 +19,5 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
-$View = new Order\View\OrderListView();
+$View = new \Order\View\OrderListView();
 $View->handleRequest();

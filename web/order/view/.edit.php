@@ -5,14 +5,14 @@
  **/
 $Order = $this->getOrder();
 $odd = false;
-$action_url = 'order?id=' . $Order->getID() . '&action=';
+$action_url = 'order?uid=' . $Order->getUID() . '&action=';
 ?>
     <!-- Page Navigation -->
-    <nav class="page-menu">
-        <a href="transaction?" class="button">Transactions</a>
+    <nav class="page-menu hide-on-print">
         <a href="order?" class="button">Orders</a>
         <a href="transaction/charge.php?" class="button">Charge</a>
         <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Order->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>receipt" class="button">View Receipt </a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Order->getID(); ?></a>
     </nav>
     

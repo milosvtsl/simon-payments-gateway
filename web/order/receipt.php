@@ -19,11 +19,9 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
-if(isset($_GET['id'])) {
-    $View = new \Transaction\View\TransactionView($_GET['id'], @$_GET['action']);
-    $View->handleRequest();
+if(!isset($_GET['uid']))
+    die("Invalid UID");
+$OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
+$View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
+$View->handleRequest();
 
-} else {
-    header('Location transaction/list.php');
-    die();
-}

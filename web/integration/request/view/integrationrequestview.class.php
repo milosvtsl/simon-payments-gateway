@@ -68,7 +68,7 @@ class IntegrationRequestView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
     }

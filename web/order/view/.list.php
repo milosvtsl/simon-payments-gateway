@@ -6,8 +6,7 @@ use Order\Model\OrderRow;
  **/?>
 
     <!-- Page Navigation -->
-    <nav class="page-menu">
-        <a href="transaction?" class="button">Transactions</a>
+    <nav class="page-menu hide-on-print">
         <a href="order?" class="button current">Orders</a>
         <a href="transaction/charge.php?" class="button">Charge</a>
     </nav>
@@ -72,11 +71,11 @@ use Order\Model\OrderRow;
                 <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
-                        <th>Card Holder</th>
+                        <th>Amount</th>
+                        <th>Customer</th>
+                        <th>Mode</th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice ID</a></th>
-                        <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_USERNAME); ?>">Username</a></th>
-                        <th>Amount</th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                     </tr>
@@ -85,12 +84,12 @@ use Order\Model\OrderRow;
                     $odd = false;
                     foreach($Query as $Order) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td><a href='order?id=<?php echo $Order->getID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                        <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                        <td><?php echo $Order->getAmount(); ?></td>
                         <td><?php echo $Order->getCardHolderFullName(); ?></td>
+                        <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
                         <td><?php echo $Order->getInvoiceNumber(); ?></td>
-                        <td><?php echo $Order->getUsername(); ?></td>
-                        <td><?php echo $Order->getAmount(); ?></td>
                         <td><?php echo $Order->getStatus(); ?></td>
                         <td><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
 

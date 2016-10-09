@@ -144,10 +144,20 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
 
+    public function getEntryMode()          { return $this->entry_mode; }
+
     public function setStatus($status)      { $this->status = $status; }
 
     // Static
 
+    public static function delete(OrderRow $OrderRow) {
+        $SQL = "DELETE FROM order_item WHERE id = ?";
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array($OrderRow->getID()));
+        if(!$ret)
+            throw new \PDOException("Failed to delete row");
+    }
 
     public static function update(OrderRow $OrderRow) {
         $values = array(
@@ -212,7 +222,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
         $stmt->execute(array($id));
-        return $stmt->fetch();
+        $OrderRow = $stmt->fetch();
+        if(!$OrderRow)
+            throw new \InvalidArgumentException("Order ID Not Found: " . $id);
+        return $OrderRow;
     }
 
     /**
@@ -225,7 +238,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
         $stmt->execute(array($uid));
-        return $stmt->fetch();
+        $OrderRow = $stmt->fetch();
+        if(!$OrderRow)
+            throw new \InvalidArgumentException("Order UID Not Found: " . $uid);
+        return $OrderRow;
     }
 
 

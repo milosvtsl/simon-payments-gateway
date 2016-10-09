@@ -84,21 +84,21 @@ class SPGViewTheme extends AbstractViewTheme
         $SessionUser = $SessionManager->getSessionUser();
         ?>
     <body class="spg-theme">
-        <header>
+        <header class="small-on-print">
             <a href="/home">
-                <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway">
+                <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="width:22em;">
             </a>
         </header>
-        <nav class="site-menu">
-            <a href="transaction" class="nav_transactions nav_transaction">Transactions</a>
+        <nav class="site-menu hide-on-print">
+            <a href="order" class="nav_order">Orders <br/> <div class="nav_icon nav_order_icon"></div> </a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="merchant" class="nav_transaction">Merchants</a>
+            <a href="merchant" class="nav_merchant">Merchants <br/> <div class="nav_icon nav_merchant_icon"></div></a>
         <?php } else { ?>
-            <a href="user" class="nav_user">My Account</a>
+            <a href="user" class="nav_user">My Account <br/> <div class="nav_icon nav_user_icon"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-            <a href="transaction/charge.php" class="nav_charge">Charge</a>
+            <a href="transaction/charge.php" class="nav_charge">Charge <br/> <div class="nav_icon nav_charge_icon"></div></a>
         <?php } ?>
 
         </nav>

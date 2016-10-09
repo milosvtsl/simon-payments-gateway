@@ -29,7 +29,7 @@ class UserView extends AbstractView
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID()) {
                 $this->setSessionMessage("Unable to view user. Permission required: ROLE_ADMIN");
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
                 die();
             }
         }
@@ -62,7 +62,7 @@ class UserView extends AbstractView
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID()) {
                 $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
                 die();
             }
         }
@@ -87,7 +87,7 @@ class UserView extends AbstractView
 
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
-                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
                     die();
                 }
                 break;
@@ -95,7 +95,7 @@ class UserView extends AbstractView
             case 'delete':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
                     $this->setSessionMessage("Could not delete user. Permission required: ROLE_ADMIN");
-                    header('Location: ' . $_SERVER['HTTP_REFERER']);
+                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
                     die();
                 }
                 print_r($post);

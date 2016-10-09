@@ -20,10 +20,16 @@ spl_autoload_register();
 session_start();
 
 if(isset($_GET['id'])) {
+    // TODO handle admin access
     $View = new \Order\View\OrderView($_GET['id'], @$_GET['action']);
     $View->handleRequest();
 
+} else if(isset($_GET['uid'])) {
+    $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
+    $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action']);
+    $View->handleRequest();
+
 } else {
-    $View = new Order\View\OrderListView();
+    $View = new \Order\View\OrderListView();
     $View->handleRequest();
 }

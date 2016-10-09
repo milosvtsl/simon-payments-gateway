@@ -37,9 +37,11 @@ class OrderView extends AbstractView
 
         // Render Page
         switch($this->_action) {
+            case 'receipt':
+            case 'email':
+            case 'print':
+            case 'download':
             case 'view':
-
-
                 include('.view.php');
                 break;
             case 'edit':
@@ -86,7 +88,7 @@ class OrderView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
     }

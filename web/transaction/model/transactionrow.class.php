@@ -109,7 +109,7 @@ LEFT JOIN order_item oi on t.order_item_id = oi.id
 LEFT JOIN merchant m on oi.merchant_id = m.id
 LEFT JOIN integration i on oi.integration_id = i.id
 ";
-    const SQL_GROUP_BY = "\nGROUP BY t.id";
+    const SQL_GROUP_BY = ""; // "\nGROUP BY t.id";
     const SQL_ORDER_BY = "\nORDER BY t.id DESC";
 
     public function getID()                 { return $this->id; }
@@ -156,7 +156,14 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     // Static
 
-
+    public static function delete(TransactionRow $TransactionRow) {
+        $SQL = "DELETE FROM transaction WHERE id = ?";
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array($TransactionRow->getID()));
+        if(!$ret)
+            throw new \PDOException("Failed to delete row");
+    }
 
     public static function insert(TransactionRow $TransactionRow) {
         if(!$TransactionRow->order_item_id)

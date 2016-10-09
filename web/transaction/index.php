@@ -1,4 +1,7 @@
 <?php
+use Order\View\OrderView;
+use Transaction\Model\TransactionRow;
+
 /**
  * Created by PhpStorm.
  * User: ari
@@ -20,10 +23,11 @@ spl_autoload_register();
 session_start();
 
 if(isset($_GET['id'])) {
-    $View = new \Transaction\View\TransactionView($_GET['id'], @$_GET['action']);
+    $TransactionRow = TransactionRow::fetchByID($_GET['id']);
+    $View = new OrderView($TransactionRow->getOrderID(), @$_GET['action']);
     $View->handleRequest();
 
 } else {
-    $View = new Transaction\View\TransactionListView();
+    $View = new \Order\View\OrderListView();
     $View->handleRequest();
 }

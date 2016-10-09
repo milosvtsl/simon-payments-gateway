@@ -36,23 +36,28 @@ body.spg-theme > nav > a {
     border: 1px outset #EEE;
     /* border-top-width: 0px; */
     border-radius: 1em;
-    margin: 1em 0.6em 0px 0;
-    padding: 0.5em 0.5em;
+    margin: 1em 0.6em 0 0;
+    padding: 0.5em 0.5em 0 0.5em;
     width: 9em;
-    height: 5em;
-    background: url(img/nav/nav_transaction.png) no-repeat bottom;
+    /* background: url(img/nav/nav_transaction.png) no-repeat bottom; */
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
 }
-body.spg-theme > nav > a.nav_transaction {
-    background: #00a8ff url(img/nav/nav_transaction.png) no-repeat bottom;
+body.spg-theme > nav > a > div.nav_icon {
+    background: url(img/nav_icons.png) 0 0 no-repeat;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
 }
+body.spg-theme > nav > a > div.nav_logo_icon { background-position: 0 0; }
+body.spg-theme > nav > a > div.nav_order_icon {background-position: -64px 0;}
+body.spg-theme > nav > a > div.nav_user_icon { background-position: -128px 0; }
+body.spg-theme > nav > a > div.nav_merchant_icon {background-position: -192px 0;}
+body.spg-theme > nav > a > div.nav_charge_icon {background-position: 0 -64px;}
 
-body.spg-theme > nav > a.nav_merchant {
-    background: #EEE url(img/nav/nav_transaction.png) no-repeat bottom;
+body.spg-theme > nav > a.current {
+    background-color: #EEE;
 }
-
-
 body.spg-theme > nav > a:hover {
     background-color: #00a8ff;
 }
@@ -234,12 +239,15 @@ body.spg-theme table.themed {
 body.spg-theme table.themed > tbody > tr > th {
     background-color: #DDD;
     color: #000;
+    font-size: smaller;
+    padding: 0.2em 0.7em;
 }
 
 body.spg-theme table.themed > tbody > tr > td {
-    padding: 0.1em 0 0.3em 0.6em;
+    padding: 0.2em 0.3em;
     vertical-align: top;
     white-space: nowrap;
+    /* text-align: center; */
 }
 
 body.spg-theme table.themed.small > tbody > tr > td {
@@ -298,4 +306,18 @@ body.spg-theme h6 {
     padding: 0em 1em;
     font-weight: normal;
     font-size: small;
+}
+
+/** Printing **/
+
+@media print
+{
+    .hide-on-print, .hide-on-print *
+    {
+        display: none !important;
+    }
+
+    .small-on-print {
+        font-size: 8px;
+    }
 }

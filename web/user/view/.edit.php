@@ -9,7 +9,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
 
     <!-- Page Navigation -->
-    <nav class="page-menu">
+    <nav class="page-menu hide-on-print">
         <a href="user?" class="button">User List</a>
         <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $User->getID(); ?></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $User->getID(); ?></a>
