@@ -64,7 +64,7 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
                         <th>ID</th>
                         <th>Card Holder</th>
                         <th>Date</th>
-                        <th>Invoice ID</th>
+                        <th>Invoice&nbsp;ID</th>
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Merchant</th>

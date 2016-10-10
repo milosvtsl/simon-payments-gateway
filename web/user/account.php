@@ -24,6 +24,7 @@ $SessionManager = new \User\Session\SessionManager();
 $SessionUser = \User\Session\SessionManager::get()->getSessionUser();
 $SessionUser = \User\Session\SessionManager::get()->getSessionUser();
 
+$SessionManager = new \User\Session\SessionManager();
 if(!$SessionManager->isLoggedIn()) { // !$SessionUser->hasAuthority('ROLE_ADMIN')) {
     header('Location: /login.php?message=session has ended');
     die();

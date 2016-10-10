@@ -7,8 +7,8 @@ use Order\Model\OrderRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="order?" class="button current">Orders</a>
-        <a href="transaction/charge.php?" class="button">Charge</a>
+        <a href="order?" class="button current">Orders <div class="submenu-icon submenu-icon-orders"></div></a>
+        <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->
@@ -75,7 +75,7 @@ use Order\Model\OrderRow;
                         <th>Customer</th>
                         <th>Mode</th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
-                        <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice ID</a></th>
+                        <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice&nbsp;ID</a></th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
                         <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                     </tr>
@@ -85,7 +85,7 @@ use Order\Model\OrderRow;
                     foreach($Query as $Order) { ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
-                        <td><?php echo $Order->getAmount(); ?></td>
+                        <td>$<?php echo $Order->getAmount(); ?></td>
                         <td><?php echo $Order->getCardHolderFullName(); ?></td>
                         <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>

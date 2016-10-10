@@ -6,10 +6,10 @@ use \Integration\Model\IntegrationRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button current">Integrations</a>
-        <a href="integration/request?" class="button">Requests</a>
-        <a href="merchant?" class="button">Merchants</a>
-        <a href="user?" class="button">Users</a>
+        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
     </nav>
 
     <!-- Bread Crumbs -->

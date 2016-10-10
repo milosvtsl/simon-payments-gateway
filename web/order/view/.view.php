@@ -10,14 +10,14 @@ $SessionUser = $SessionManager->getSessionUser();
 
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
-    <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt</a>
-    <a href="javascript:window.print();" class="button">Print</a>
-    <a href="<?php echo $action_url; ?>download" class="button">Download PDF</a>
-    <a href="<?php echo $action_url; ?>email" class="button">Send as Email</a>
-    <a href="<?php echo $action_url; ?>bookmark" class="button">Bookmark URL</a>
+    <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
+    <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
+    <a href="<?php echo $action_url; ?>download" class="button">Download PDF <div class="submenu-icon submenu-icon-download"></div></a>
+    <a href="<?php echo $action_url; ?>email" class="button">Send as Email <div class="submenu-icon submenu-icon-email"></div></a>
+    <a href="<?php echo $action_url; ?>bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="order?" class="button">Orders</a>
-        <a href="transaction/charge.php?" class="button">Charge</a>
+        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-orders"></div></a>
+        <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
 </nav>
 

@@ -9,11 +9,11 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="order?" class="button">Orders</a>
-        <a href="transaction/charge.php?" class="button">Charge</a>
-        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Order->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>receipt" class="button">View Receipt </a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Order->getID(); ?></a>
+        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Order->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>receipt" class="button">View Receipt  <div class="submenu-icon submenu-icon-receipt"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Order->getID(); ?>  <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->

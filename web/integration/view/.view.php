@@ -10,10 +10,10 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integrations</a>
-        <a href="integration/request?" class="button">Requests</a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Integration->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Integration->getID(); ?></a>
+        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Integration->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Integration->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->

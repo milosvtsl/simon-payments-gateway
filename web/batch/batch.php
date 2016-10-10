@@ -19,6 +19,12 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
+$SessionManager = new \User\Session\SessionManager();
+if(!$SessionManager->isLoggedIn()) { // !$SessionUser->hasAuthority('ROLE_ADMIN')) {
+    header('Location: /login.php?message=session has ended');
+    die();
+}
+
 if(isset($_GET['id'])) {
     $View = new \Batch\View\BatchView($_GET['id'], @$_GET['action']);
     $View->handleRequest();

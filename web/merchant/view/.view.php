@@ -231,7 +231,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <th>Batch</th>
                         <th>Card Holder</th>
                         <th>Date</th>
-                        <th>Invoice ID</th>
+                        <th>Invoice&nbsp;ID</th>
                         <th>User Name</th>
                         <th>Amount</th>
                         <th>Status</th>

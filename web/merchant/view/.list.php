@@ -6,9 +6,9 @@ use \Merchant\Model\MerchantRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="merchant?" class="button current">Merchants</a>
-        <a href="integration?" class="button">Integrations</a>
-        <a href="user?" class="button">Users</a>
+        <a href="merchant?" class="button current">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
     </nav>
 
     <!-- Bread Crumbs -->

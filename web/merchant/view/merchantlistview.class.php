@@ -46,12 +46,19 @@ class MerchantListView extends AbstractListView {
 		}
 
 
+
+
 		// Handle authority
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
 		if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES')) {
 			// TODO: merchant login?
 			$whereSQL .= "\nAND 0\n";
+
+			// TODO: search for just a user's merchants, or limit merchants to user account
+			//		if(!empty($params['user_id'])) {
+			//			$whereSQL .= "\nAND "
+			//		}
 		}
 
 		// Query Statistics

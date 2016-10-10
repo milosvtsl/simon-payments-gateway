@@ -13,10 +13,10 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="merchant?" class="button">Merchants</a>
-        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Merchant->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Merchant->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>provision" class="button">Provision</a>
-        <a href="<?php echo $action_url; ?>settle" class="button current">Settle Funds</a>
+        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Merchant->getID(); ?>  <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Merchant->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
+        <a href="<?php echo $action_url; ?>settle" class="button current">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
     </nav>
 
     <!-- Bread Crumbs -->

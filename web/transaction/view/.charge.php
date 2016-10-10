@@ -123,11 +123,11 @@ if(isset($_SESSION['transaction/charge.php']))
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Customer ID#</td>
+                        <td class="name">Customer&nbsp;ID#</td>
                         <td class="value"><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Invoice ID#</td>
+                        <td class="name">Invoice&nbsp;ID#</td>
                         <td class="value"><input type="text" name="invoice_number" value="<?php echo @$LASTPOST['invoice_number']; ?>" placeholder="" /></td>
                     </tr>
                 </table>

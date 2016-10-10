@@ -5,8 +5,8 @@ use \User\Model\UserRow;
  **/?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="user?" class="button current">User List</a>
-        <a href="user/logout.php" class="button">Log Out</a>
+        <a href="user?" class="button current">User List <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user/logout.php" class="button">Log Out <div class="submenu-icon submenu-icon-logout"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->
@@ -34,14 +34,14 @@ use \User\Model\UserRow;
                 <input type="submit" value="Search" />
 
             </fieldset>
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Search Results</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>
                         <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
-                        <th>Merchant</th>
+                        <th>Merchants</th>
                     </tr>
                     <?php
                     /** @var \User\Model\UserRow $User */
@@ -51,7 +51,7 @@ use \User\Model\UserRow;
                         <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
                         <td><?php echo $User->getFullName(); ?></td>
                         <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
-                        <td><?php echo $User->getMerchantCount(); ?></td>
+                        <td><a href='merchant/list.php?user_id=<?php echo $User->getID(); ?>'><?php echo $User->getMerchantCount(); ?></a></td>
                     </tr>
                     <?php } ?>
                 </table>
