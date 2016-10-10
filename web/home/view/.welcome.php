@@ -3,9 +3,9 @@
 
         <!-- Page Navigation -->
         <nav class="page-menu hide-on-print">
-            <a href="home?" class="button current">Dashboard</a>
-            <a href="user/account.php" class="button">My Account</a>
-            <a href="user/logout.php" class="button">Log Out</a>
+            <a href="home?" class="button current">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+            <a href="user/logout.php" class="button">Log Out <div class="submenu-icon submenu-icon-logout"></div></a>
         </nav>
 
         <!-- Bread Crumbs -->
