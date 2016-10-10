@@ -29,16 +29,8 @@ if(!$SessionManager->isLoggedIn()) { // !$SessionUser->hasAuthority('ROLE_ADMIN'
     die();
 }
 
-if(isset($_GET['id'])) {
-    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-        $View = new \User\View\UserView($_GET['id']);
-        $View->handleRequest();
-    } else {
-        $View = new \User\View\UserView($SessionUser->getID());
-        $View->handleRequest();
-    }
+$SessionManager = new \User\Session\SessionManager();
 
-} else {
-    $View = new User\View\UserListView();
-    $View->handleRequest();
-}
+// Render View
+$View = new User\View\UserView($SessionManager->getSessionUser()->getID());
+$View->handleRequest();

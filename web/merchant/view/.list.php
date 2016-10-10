@@ -9,7 +9,6 @@ use \Merchant\Model\MerchantRow;
         <a href="merchant?" class="button current">Merchants</a>
         <a href="integration?" class="button">Integrations</a>
         <a href="user?" class="button">Users</a>
-        <a href="user/logout.php" class="button">Log Out</a>
     </nav>
 
     <!-- Bread Crumbs -->
@@ -65,14 +64,7 @@ use \Merchant\Model\MerchantRow;
                 <legend>Pagination</legend>
                 <?php $this->printPagination('merchant?'); ?>
 
-
-                <?php if($this->hasException()) { ?>
-                    <h5><?php echo $this->hasException(); ?></h5>
-
-                <?php } else if($this->hasMessage()) { ?>
-                    <h6><?php echo $this->getMessage() ?></h6>
-
-                <?php } ?>
+                <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
             </fieldset>
         </form>

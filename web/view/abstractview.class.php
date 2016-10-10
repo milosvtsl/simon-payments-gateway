@@ -38,7 +38,9 @@ abstract class AbstractView
 
     protected function getTitle()       { return $this->_title ?: static::DEFAULT_TITLE ?: SiteConfig::$SITE_NAME; }
 
-    public function setException($ex)       { $this->_exception = $ex; }
+    public function setException(\Exception $ex)       {
+        $this->_exception = $ex;
+    }
     /** @return \Exception */
     public function getException() {
         if ($this->_exception)

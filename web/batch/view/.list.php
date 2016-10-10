@@ -10,7 +10,6 @@ use \Merchant\Model\MerchantRow;
         <a href="transaction?" class="button">Transactions</a>
         <a href="order?" class="button">Orders</a>
         <a href="batch?" class="button current">Batches</a>
-        <a href="user/logout.php" class="button">Log Out</a>
     </nav>
 
     <!-- Bread Crumbs -->

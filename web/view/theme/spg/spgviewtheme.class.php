@@ -90,15 +90,21 @@ class SPGViewTheme extends AbstractViewTheme
             </a>
         </header>
         <nav class="site-menu hide-on-print">
-            <a href="order" class="nav_order">Orders <br/> <div class="nav_icon nav_order_icon"></div> </a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="merchant" class="nav_merchant">Merchants <br/> <div class="nav_icon nav_merchant_icon"></div></a>
-        <?php } else { ?>
-            <a href="user" class="nav_user">My Account <br/> <div class="nav_icon nav_user_icon"></div></a>
-        <?php } ?>
 
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-            <a href="transaction/charge.php" class="nav_charge">Charge <br/> <div class="nav_icon nav_charge_icon"></div></a>
+        <?php if(!$SessionManager->isLoggedIn()) { ?>
+            <a href="/" class="nav-login">Home <br/> <div class="nav-icon nav_home_icon"></div> </a>
+            <a href="login.php" class="nav-login">Login <br/> <div class="nav-icon nav_login_icon"></div> </a>
+        <?php } else { ?>
+                <a href="order" class="nav-order">Orders <br/> <div class="nav-icon nav-order-icon"></div> </a>
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                <a href="merchant" class="nav-merchant">Merchants <br/> <div class="nav-icon nav-merchant-icon"></div></a>
+            <?php } else { ?>
+                <a href="user" class="nav-user">My Account <br/> <div class="nav-icon nav-user-icon"></div></a>
+            <?php } ?>
+
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+                <a href="transaction/charge.php" class="nav-charge">Charge <br/> <div class="nav-icon nav-charge-icon"></div></a>
+            <?php } ?>
         <?php } ?>
 
         </nav>
@@ -112,6 +118,9 @@ class SPGViewTheme extends AbstractViewTheme
     {
         ?>
         </article>
+        <footer>
+            &copy; 2016 Simon Payments, LLC. All rights reserved.
+        </footer>
     </body>
 <?php
     }

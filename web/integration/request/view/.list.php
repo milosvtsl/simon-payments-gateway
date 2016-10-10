@@ -9,7 +9,6 @@ use Integration\Request\Model\IntegrationRequestRow;
     <nav class="page-menu hide-on-print">
         <a href="integration?" class="button">Integrations</a>
         <a href="integration/request?" class="button current">Requests</a>
-        <a href="user/logout.php" class="button">Log Out</a>
     </nav>
 
     <!-- Bread Crumbs -->

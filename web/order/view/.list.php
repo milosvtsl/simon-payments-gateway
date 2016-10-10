@@ -101,15 +101,7 @@ use Order\Model\OrderRow;
                 <legend>Pagination</legend>
                 <?php $this->printPagination('order?'); ?>
 
-
-                <?php if($this->hasException()) { ?>
-                    <h5><?php echo $this->hasException(); ?></h5>
-
-                <?php } else if($this->hasMessage()) { ?>
-                    <h6><?php echo $this->getMessage() ?></h6>
-
-                <?php } ?>
-
+                <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
             </fieldset>
         </form>
     </section>

@@ -10,7 +10,6 @@ use \Integration\Model\IntegrationRow;
         <a href="integration/request?" class="button">Requests</a>
         <a href="merchant?" class="button">Merchants</a>
         <a href="user?" class="button">Users</a>
-        <a href="user/logout.php" class="button">Log Out</a>
     </nav>
 
     <!-- Bread Crumbs -->

@@ -1,15 +1,21 @@
 <?php /** @var \User\View\LoginView $this  **/ ?>
     <section id="intro" class="first">
-        <h1>Home Page</h1>
 
-        <?php if($this->hasException()) { ?>
-            <h5><?php echo $this->hasException(); ?></h5>
+        <!-- Page Navigation -->
+        <nav class="page-menu hide-on-print">
+            <a href="home?" class="button current">Dashboard</a>
+            <a href="user/account.php" class="button">My Account</a>
+            <a href="user/logout.php" class="button">Log Out</a>
+        </nav>
 
-        <?php } else if ($this->hasSessionMessage()) { ?>
-            <h5><?php echo $this->popSessionMessage(); ?></h5>
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="/" class="nav_dashboard">Home</a>
+            <a href="home" class="nav_dashboard">Welcome</a>
+        </aside>
 
-        <?php } else { ?>
-            <h5>Under Construction...</h5>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <?php } ?>
+        <h5>Dashboard Under Construction...</h5>
+
     </section>

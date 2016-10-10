@@ -14,12 +14,21 @@ use View\AbstractView;
 
 class UserView extends AbstractView
 {
+    private $user;
+    public function __construct($user_id) {
+        $this->user = UserRow::fetchByID($user_id);
+        if(!$this->user)
+            throw new \InvalidArgumentException("Invalid User ID: " . $user_id);
+        parent::__construct();
+    }
+
+    /** @return UserRow */
+    public function getUser() { return $this->user; }
 
     public function renderHTMLBody(Array $params) {
-        $User = UserRow::fetchByID($params['id']);
-        if(!$User)
-            throw new \InvalidArgumentException("Invalid User ID: " . $params['id']);
         $action = @$params['action'] ?: 'view';
+
+        $User = $this->getUser();
 
         // Render Header
         $this->getTheme()->renderHTMLBodyHeader();

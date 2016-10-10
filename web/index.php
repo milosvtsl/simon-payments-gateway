@@ -22,6 +22,14 @@ spl_autoload_register(function ($class) {
 // Start or resume the session
 session_start();
 
+$SessionManager = new \User\Session\SessionManager();
+
 // Render View
-$View = new User\View\LoginView();
-$View->handleRequest();
+if($SessionManager->isLoggedIn()) {
+//    $View = new User\View\UserView($SessionManager->getSessionUser()->getID());
+    $View = new \Home\View\HomeView();
+    $View->handleRequest();
+} else {
+    $View = new User\View\LoginView();
+    $View->handleRequest();
+}

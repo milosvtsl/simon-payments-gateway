@@ -13,6 +13,13 @@ body.spg-theme > header {
     /* margin-top: -2em; */
 }
 
+body.spg-theme > footer {
+    font-size: small;
+    text-align: center;
+    padding-top: 2em;
+}
+
+
 body.spg-theme > hr.themed {
 
 border-width: 9px;
@@ -36,24 +43,14 @@ body.spg-theme > nav > a {
     border: 1px outset #EEE;
     /* border-top-width: 0px; */
     border-radius: 1em;
-    margin: 1em 0.6em 0 0;
-    padding: 0.5em 0.5em 0 0.5em;
+    margin: 1em 0.6em 1em 0;
+    padding: 0.5em 0.5em 0.5em 0.5em;
     width: 9em;
     /* background: url(img/nav/nav_transaction.png) no-repeat bottom; */
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
 }
-body.spg-theme > nav > a > div.nav_icon {
-    background: url(img/nav_icons.png) 0 0 no-repeat;
-    width: 64px;
-    height: 64px;
-    display: inline-block;
-}
-body.spg-theme > nav > a > div.nav_logo_icon { background-position: 0 0; }
-body.spg-theme > nav > a > div.nav_order_icon {background-position: -64px 0;}
-body.spg-theme > nav > a > div.nav_user_icon { background-position: -128px 0; }
-body.spg-theme > nav > a > div.nav_merchant_icon {background-position: -192px 0;}
-body.spg-theme > nav > a > div.nav_charge_icon {background-position: 0 -64px;}
+
 
 body.spg-theme > nav > a.current {
     background-color: #EEE;
@@ -66,6 +63,41 @@ body.spg-theme > nav > a:hover {
 body.spg-theme > nav > a.current {
     /* background-color: #DDD; */
 }
+
+
+body.spg-theme > nav > a > div.nav-icon {
+    background: url(img/nav_icons.png) 0 0 no-repeat;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    padding: 0 0;
+    margin: 0 0;
+}
+/* body.spg-theme > nav > a > div.nav-logo-icon { background-position: 0 0; } */
+/* body.spg-theme > nav > a > div.nav-order-icon {background-position: -64px 0;} */
+/* body.spg-theme > nav > a > div.nav_-ser-icon { background-position: -128px 0; } */
+body.spg-theme > nav > a > div.nav-merchant-icon {background-position: -192px 0;}
+/* body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;} */
+
+
+
+body.spg-theme .submenu-icon {
+    background: url(img/submenu_icons.png) 0 0 no-repeat;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    padding: 0 0;
+    margin: 0 0;
+    float: left;
+    margin-right: 0.5em;
+}
+/* body.spg-theme .submenu-icon.submenu-list { background-position: 0 0; } */
+
+
+
+
+
+/** Bread Crumbs **/
 
 body.spg-theme .bread-crumbs {
     margin: 0.4em 0.5em 0 0;
@@ -200,7 +232,7 @@ body.spg-theme a.button {
     margin: 0 0 0.3em 0;
     display: block;
     /* max-width: 14.5em; */
-    text-align: center;
+    text-align: left;
     border-width: 1px;
     border-radius: 0.5em;
     text-transform: uppercase;

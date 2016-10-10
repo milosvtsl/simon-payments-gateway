@@ -10,9 +10,16 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="user?" class="button">User List</a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $User->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $User->getID(); ?></a>
+        <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-userlist"></div></a>
+            <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $User->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $User->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+        <?php } else { ?>
+            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+        <?php } ?>
+
+        <a href="user/logout.php" class="button">Log Out <div class="submenu-icon submenu-icon-logout"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->
