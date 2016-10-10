@@ -3,15 +3,14 @@
 
             <div class="box-login">
 
-                <form class="form-login" action='?action=logout' method='POST' id='logoutForm'>
+                <form name="form-login" action='user/logout.php?action=logout' method='POST' class="themed">
 
                     <fieldset>
+                        <legend>Log out of your session</legend>
                         <input type="hidden" name="action" value="logout" />
                         <div class="form-actions">
                             <div class="clearfix">
-                                <button type="submit" class="btn btn-org pull-right">
-                                    Logout <i class="fa fa-arrow-circle-right"></i>
-                                </button>
+                                <input type="submit" class="themed" value="Logout" />
                             </div>
                         </div>
                     </fieldset>

@@ -122,7 +122,7 @@ class BatchListView extends AbstractListView {
 	public function processFormRequest(Array $post) {
 		try {
 			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			header("Location: /");
 
 		} catch (\Exception $ex) {
 			$this->setSessionMessage($ex->getMessage());

@@ -10,8 +10,10 @@ class LoginView extends AbstractView {
     const VIEW_PATH = '?';
     const VIEW_NAME = 'Login';
 
-    public function __construct() {
+    private $action;
+    public function __construct($action='login') {
         parent::__construct();
+        $this->action = $action;
     }
 
 //    protected function renderHTMLHeadLinks() {
@@ -28,7 +30,7 @@ class LoginView extends AbstractView {
         if(!empty($params['message']))
             $this->setException(new \Exception($params['message']));
 
-        $action = isset($params['action']) ? $params['action'] : 'login';
+        $action = isset($params['action']) ? $params['action'] : $this->action;
         switch($action) {
             case 'login':
                 include ('.login.php');
@@ -56,7 +58,7 @@ class LoginView extends AbstractView {
 
 
     public function processFormRequest(Array $post) {
-        $action = isset($post['action']) ? $post['action'] : 'login';
+        $action = isset($post['action']) ? $post['action'] : $this->action;
         try {
             switch ($action) {
                 case 'login':
@@ -73,7 +75,7 @@ class LoginView extends AbstractView {
                     $NewUser = $SessionManager->login($username, $password);
 
                     $this->setSessionMessage("Welcome, " . $NewUser->getUsername());
-                    header("Location: home?action=start");
+                    header("Location: /?action=start");
                     break;
 
                 case 'logout':
@@ -81,7 +83,7 @@ class LoginView extends AbstractView {
                     $SessionManager->logout();
 
                     $this->setSessionMessage("Logged out successfully");
-                    header("Location: login.php");
+                    header("Location: /");
                     break;
 
                 case 'reset':
