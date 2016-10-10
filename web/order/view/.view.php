@@ -16,7 +16,7 @@ $SessionUser = $SessionManager->getSessionUser();
     <a href="<?php echo $action_url; ?>email" class="button">Send as Email <div class="submenu-icon submenu-icon-email"></div></a>
     <a href="<?php echo $action_url; ?>bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-orders"></div></a>
+        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
 </nav>

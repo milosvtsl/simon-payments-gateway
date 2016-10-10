@@ -7,7 +7,7 @@ use Order\Model\OrderRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="order?" class="button current">Orders <div class="submenu-icon submenu-icon-orders"></div></a>
+        <a href="order?" class="button current">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
     </nav>
     

@@ -91,7 +91,9 @@ body.spg-theme .submenu-icon {
     float: left;
     margin-right: 0.5em;
 }
-/* body.spg-theme .submenu-icon.submenu-list { background-position: 0 0; } */
+body.spg-theme .submenu-icon.submenu-icon-list { background-position: -16px 0; } 
+body.spg-theme .submenu-icon.submenu-icon-edit { background-position: -32px 0; } 
+body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; } 
 
 
 
