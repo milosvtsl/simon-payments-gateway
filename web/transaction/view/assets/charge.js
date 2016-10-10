@@ -111,12 +111,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(amount) {
             form.amount.value = (amount).toFixed(2);
             var fee_amount = 0;
-            if (form.convenience_fee_limit)
-                fee_amount += parseFloat(form.convenience_fee_limit.value);
-            if (form.convenience_fee_flat)
-                fee_amount += parseFloat(form.convenience_fee_flat.value);
-            if (form.convenience_fee_variable_rate)
-                fee_amount += parseFloat(form.convenience_fee_variable_rate.value);
+            var fee_flat = parseFloat(form.convenience_fee_flat.value);
+            var fee_variable = parseFloat(form.convenience_fee_variable_rate.value);
+            var fee_limit = parseFloat(form.convenience_fee_limit.value);
+            fee_amount += fee_flat;
+            fee_amount += fee_variable / 100 * amount;
+            if(fee_limit && fee_limit > fee_amount)
+                fee_amount = fee_limit;
+
             form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
             if (form.convenience_fee_total)
                 form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
@@ -147,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
             form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
             form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
-            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-ra    te') || 0;
+            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
 
 //             console.log("Merchant: ", form.merchant_id.value, formClasses);
 
