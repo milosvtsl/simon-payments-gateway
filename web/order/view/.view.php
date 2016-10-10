@@ -14,7 +14,7 @@ $SessionUser = $SessionManager->getSessionUser();
     <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
     <a href="<?php echo $action_url; ?>download" class="button">Download PDF <div class="submenu-icon submenu-icon-download"></div></a>
     <a href="<?php echo $action_url; ?>email" class="button">Send as Email <div class="submenu-icon submenu-icon-email"></div></a>
-    <a href="<?php echo $action_url; ?>bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>
+<!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
@@ -167,6 +167,7 @@ $SessionUser = $SessionManager->getSessionUser();
                     <th>Fee</th>
                     <th>Action</th>
                     <th>Merchant</th>
+                    <th>Action</th>
                 </tr>
                 <?php
                 /** @var \Transaction\Model\TransactionRow $Transaction */
@@ -186,6 +187,7 @@ $SessionUser = $SessionManager->getSessionUser();
                         <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                         <td><?php echo $Transaction->getAction(); ?></td>
                         <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
+                        <td>&nbsp;</td>
                     </tr>
                 <?php } ?>
             </table>

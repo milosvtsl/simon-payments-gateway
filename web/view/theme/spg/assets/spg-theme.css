@@ -74,7 +74,7 @@ body.spg-theme > nav > a > div.nav-icon {
     margin: 0 0;
 }
 /* body.spg-theme > nav > a > div.nav-logo-icon { background-position: 0 0; } */
-/* body.spg-theme > nav > a > div.nav-order-icon {background-position: -64px 0;} */
+body.spg-theme > nav > a > div.nav-order-icon {background-position: -64px 0;}
 /* body.spg-theme > nav > a > div.nav_-ser-icon { background-position: -128px 0; } */
 body.spg-theme > nav > a > div.nav-merchant-icon {background-position: -192px 0;}
 body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;}
