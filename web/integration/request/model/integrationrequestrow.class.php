@@ -148,6 +148,8 @@ LEFT JOIN integration i ON i.id = ir.integration_id
      * @return IntegrationRequestRow
      */
     public static function fetchByID($id) {
+        if(!is_numeric($id))
+            throw new \InvalidArgumentException("ID is not numeric: " . $id);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE ir.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */

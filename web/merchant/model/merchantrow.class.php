@@ -307,6 +307,8 @@ LEFT JOIN state s on m.state_id = s.id
      * @return MerchantRow
      */
     public static function fetchByID($id) {
+        if(!is_numeric($id))
+            throw new \InvalidArgumentException("ID is not numeric: " . $id);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE m.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */

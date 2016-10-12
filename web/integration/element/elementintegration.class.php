@@ -327,24 +327,25 @@ class ElementIntegration extends AbstractIntegration
 
         $VoidTransaction = $AuthorizedTransaction->createVoidTransaction($AuthorizedTransaction);
 
+        $action = "Void";
         if($code !== "0")
-            $VoidTransaction->setAction("Error");
-        else
-            $VoidTransaction->setAction("Authorized");
-//                throw new IntegrationException($message);
+            $action = "Error";
+
 
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
         // Store Transaction Result
+        $VoidTransaction->setAction($action);
+        $VoidTransaction->setStatus($code, $message);
         $VoidTransaction->setAuthCodeOrBatchID($code);
         $VoidTransaction->setTransactionID($transactionID);
-        $VoidTransaction->setStatus($code, $message);
         $VoidTransaction->setTransactionDate($date);
+
+        TransactionRow::insert($VoidTransaction);
 
         $OrderRow->setStatus("Void");
         OrderRow::update($OrderRow);
-        TransactionRow::insert($VoidTransaction);
         return $VoidTransaction;
     }
 

@@ -38,6 +38,8 @@ FROM merchant_status ms
      * @return MerchantRow
      */
     public static function fetchByID($id) {
+        if(!$id)
+            throw new \InvalidArgumentException("Invalid Integration ID");
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE ms.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */

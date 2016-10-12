@@ -154,6 +154,20 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $this->transaction_date = $date;
     }
 
+    /**
+     * Create a Void Transaction
+     * @param $AuthorizedTransaction
+     * @return TransactionRow
+     */
+    public function createVoidTransaction(TransactionRow $AuthorizedTransaction) {
+        $VoidTransaction = clone $AuthorizedTransaction;
+        $VoidTransaction->id = null;
+        $VoidTransaction->uid = strtolower(self::generateGUID());
+        $VoidTransaction->date = date('Y-m-d G:i:s');
+        $VoidTransaction->is_reviewed = 0;
+        return $VoidTransaction;
+    }
+
     // Static
 
     public static function delete(TransactionRow $TransactionRow) {
@@ -166,10 +180,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
     }
 
     public static function insert(TransactionRow $TransactionRow) {
+        if(!$TransactionRow->uid)
+            throw new \InvalidArgumentException("Invalid UID");
         if(!$TransactionRow->order_item_id)
             throw new \InvalidArgumentException("Invalid Order Item ID");
-        if(!$TransactionRow->transaction_id)
-            throw new \InvalidArgumentException("Invalid Transaction ID");
         $values = array(
             ':uid' => $TransactionRow->uid,
             ':version' => $TransactionRow->version,
@@ -210,6 +224,9 @@ LEFT JOIN integration i on oi.integration_id = i.id
      * @return TransactionRow
      */
     public static function fetchByID($id) {
+        if(!$id)
+            throw new \InvalidArgumentException("Invalid Integration ID");
+
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -248,11 +265,12 @@ LEFT JOIN integration i on oi.integration_id = i.id
 //        $TransactionRow->transaction_id = !empty($post['transaction_id'])
 //            ? $post['transaction_id'] : strtoupper(self::generateTransactionID());
         $TransactionRow->uid = strtolower(self::generateGUID());
+        $TransactionRow->date = date('Y-m-d G:i:s');
+
         $TransactionRow->order_item_id = $OrderRow->getID();
 //        $TransactionRow->batch_item_id;
         $TransactionRow->amount = $post['amount'];
         $TransactionRow->version = 10;
-        $TransactionRow->date = date('Y-m-d G:i:s');
         $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
         $TransactionRow->is_reviewed = 0;
         $TransactionRow->return_type = 'Both';
@@ -286,16 +304,6 @@ LEFT JOIN integration i on oi.integration_id = i.id
         return sprintf('%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535));
     }
 
-    /**
-     * Create a Void Transaction
-     * @param $AuthorizedTransaction
-     * @return TransactionRow
-     */
-    public function createVoidTransaction(TransactionRow $AuthorizedTransaction) {
-        $VoidTransaction = clone $AuthorizedTransaction;
-        $VoidTransaction->id = null;
-        return $VoidTransaction;
-    }
 
 }
 

@@ -234,6 +234,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
      * @return OrderRow
      */
     public static function fetchByID($id) {
+        if(!is_numeric($id))
+            throw new \InvalidArgumentException("ID is not numeric: " . $id);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE oi.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */

@@ -88,6 +88,11 @@ $SessionUser = $SessionManager->getSessionUser();
                     <td class="name">Order Status</td>
                     <td><?php echo $Order->getStatus() ?: 'N/A' ?></td>
                 </tr>
+
+                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                    <td class="name">Entry Method</td>
+                    <td><?php echo ucfirst($Order->getEntryMode()) ?: 'N/A' ?></td>
+                </tr>
                 </tbody>
             </table>
         </fieldset>
@@ -162,6 +167,7 @@ $SessionUser = $SessionManager->getSessionUser();
                 <tr>
                     <th>ID</th>
                     <th>Order</th>
+                    <th>TID</th>
                     <th>Card&nbsp;Holder</th>
                     <th>Date</th>
                     <th>Amount</th>
@@ -182,6 +188,7 @@ $SessionUser = $SessionManager->getSessionUser();
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
                         <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
+                        <td><?php echo $Transaction->getTransactionID(); ?></td>
                         <td><?php echo $Transaction->getHolderFullName(); ?></td>
                         <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
                         <td>$<?php echo $Transaction->getAmount(); ?></td>

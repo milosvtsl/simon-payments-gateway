@@ -75,6 +75,8 @@ LEFT JOIN merchant m on b.merchant_id = m.id
      * @return BatchRow
      */
     public static function fetchByID($id) {
+        if(!$id)
+            throw new \InvalidArgumentException("Invalid Integration ID");
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE b.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */

@@ -61,22 +61,22 @@ $tests = array(
         'amount' => '2.04',
         'entry_mode' => 'keyed',
     ),
-    array(
-        'amount' => '2.05',
-        'entry_mode' => 'keyed',
-    ),
-    array(
-        'amount' => '2.06',
-        'entry_mode' => 'keyed',
-    ),
-    array(
-        'amount' => '23.05',
-        'entry_mode' => 'keyed',
-    ),
-    array(
-        'amount' => '23.06',
-        'entry_mode' => 'keyed',
-    ),
+//    array(
+//        'amount' => '2.05',
+//        'entry_mode' => 'keyed',
+//    ),
+//    array(
+//        'amount' => '2.06',
+//        'entry_mode' => 'keyed',
+//    ),
+//    array(
+//        'amount' => '23.05',
+//        'entry_mode' => 'keyed',
+//    ),
+//    array(
+//        'amount' => '23.06',
+//        'entry_mode' => 'keyed',
+//    ),
 );
 
 foreach($tests as $testData) {
@@ -96,9 +96,9 @@ foreach($tests as $testData) {
 
     // Delete tests
 //    TransactionRow::delete($ReturnTransaction);
-    TransactionRow::delete($VoidTransaction);
-    TransactionRow::delete($Transaction);
-    OrderRow::delete($Order);
+//    TransactionRow::delete($VoidTransaction);
+//    TransactionRow::delete($Transaction);
+//    OrderRow::delete($Order);
 }
 
 echo "\nElement Integration Test finished";
