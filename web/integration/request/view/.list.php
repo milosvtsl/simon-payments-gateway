@@ -13,7 +13,6 @@ use Integration\Request\Model\IntegrationRequestRow;
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
         <a href="integration" class="nav_integration">Integrations</a>
         <a href="integration/request?" class="nav_integration_request">Requests</a>
         <a href="integration/request/list.php" class="nav_integration_list">Search</a>
@@ -73,7 +72,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Search Results</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>

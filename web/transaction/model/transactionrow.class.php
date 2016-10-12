@@ -256,7 +256,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
         $TransactionRow->is_reviewed = 0;
         $TransactionRow->return_type = 'Both';
-        $TransactionRow->service_fee = $MerchantIdentity->calculateServiceFee($OrderRow);
+        $TransactionRow->service_fee = $MerchantIdentity->calculateConvenienceFee($OrderRow);
 
         if(!empty($post['username']))
             $TransactionRow->username = $post['username'];
@@ -284,6 +284,17 @@ LEFT JOIN integration i on oi.integration_id = i.id
     }
     public static function generateTransactionID() {
         return sprintf('%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535));
+    }
+
+    /**
+     * Create a Void Transaction
+     * @param $AuthorizedTransaction
+     * @return TransactionRow
+     */
+    public function createVoidTransaction(TransactionRow $AuthorizedTransaction) {
+        $VoidTransaction = clone $AuthorizedTransaction;
+        $VoidTransaction->id = null;
+        return $VoidTransaction;
     }
 
 }

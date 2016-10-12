@@ -10,15 +10,16 @@ $SessionUser = $SessionManager->getSessionUser();
 
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
+    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+        <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
+    <?php } ?>
     <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
     <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
     <a href="<?php echo $action_url; ?>download" class="button">Download PDF <div class="submenu-icon submenu-icon-download"></div></a>
     <a href="<?php echo $action_url; ?>email" class="button">Send as Email <div class="submenu-icon submenu-icon-email"></div></a>
 <!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
-    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
-    <?php } ?>
 </nav>
 
 <!-- Bread Crumbs -->
@@ -33,7 +34,7 @@ $SessionUser = $SessionManager->getSessionUser();
 <section class="content">
     <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-    <form class="form-view-transaction themed" onsubmit="return false;">
+    <form name="form-order-view" class="themed" method="POST">
         <fieldset style="display: inline-block;">
             <legend>Order Information</legend>
             <table class="table-transaction-info themed striped-rows">
@@ -155,7 +156,7 @@ $SessionUser = $SessionManager->getSessionUser();
 
         <?php } ?>
 
-        <fieldset>
+        <fieldset style="display: inline-block;">
             <legend>Transactions History</legend>
             <table class="table-results themed small">
                 <tr>
@@ -187,7 +188,21 @@ $SessionUser = $SessionManager->getSessionUser();
                         <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                         <td><?php echo $Transaction->getAction(); ?></td>
                         <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
-                        <td>&nbsp;</td>
+                        <td>
+                            <?php
+                                switch($Transaction->getAction()) {
+                                    case 'Authorized':
+                                        $disabled = $Order->getStatus() !== 'Authorized' ? " disabled='disabled'" : '';
+                                        echo "<input name='action' type='submit' value='Void'{$disabled}/>";
+                                        break;
+
+                                    case 'Settled':
+                                        $disabled = $Order->getStatus() !== 'Settled' ? " disabled='disabled'" : '';
+                                        echo "<input name='action' type='submit' value='Return'{$disabled}/>";
+                                        break;
+                                }
+                            ?>
+                        </td>
                     </tr>
                 <?php } ?>
             </table>

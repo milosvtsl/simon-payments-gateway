@@ -87,7 +87,7 @@ class MerchantView extends AbstractView
                     $EditMerchant->updateFields($post)
                         ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getName())
                         : $this->setSessionMessage("No changes detected: " . $EditMerchant->getName());
-                    header('Location: merchant?id=' . $EditMerchant->getID());
+                    header('Location: /merchant?id=' . $EditMerchant->getID());
                     die();
 
                     break;
@@ -97,7 +97,7 @@ class MerchantView extends AbstractView
                     $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
                     if($MerchantIdentity->isProvisioned()) {
                         $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
-                        header('Location: merchant?id=' . $this->getMerchant()->getID());
+                        header('Location: /merchant?id=' . $this->getMerchant()->getID());
                         die();
                     }
 
@@ -107,7 +107,7 @@ class MerchantView extends AbstractView
                     } catch (IntegrationException $ex) {
                         $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
                     }
-                    header('Location: merchant?id=' . $this->getMerchant()->getID());
+                    header('Location: /merchant?id=' . $this->getMerchant()->getID());
                     die();
 
                     break;
@@ -124,5 +124,12 @@ class MerchantView extends AbstractView
             header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
             die();
         }
+    }
+
+    protected function renderHTMLHeadScripts() {
+        echo <<<HEAD
+        <script src="merchant/view/assets/merchant.js"></script>
+HEAD;
+        parent::renderHTMLHeadScripts();
     }
 }

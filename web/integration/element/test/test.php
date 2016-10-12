@@ -38,50 +38,65 @@ if(!$MerchantIdentity->isProvisioned())
 $data = array(
     'integration_id' => $MerchantIdentity->getIntegrationRow()->getID(),
     'merchant_id' => $MerchantIdentity->getMerchantRow()->getID(),
-    'entry_mode' => 'swipe',
-    'card_track' => '%B4335000020003933^ASULIN/ARI^1611000000000000000000000000000?;4335000020003933=16110000000000000000?|0600|DAFC9D7BFBF25A1E3AF8B34ED6231BE47E8D8EAB9AA3119838C10797FD266DE5A3B8514FE7C4C47D06890059906A0CDA699A8123BEA49BBE64B5FA2CD8D28F95|938BC3728A5901AF88B6F18F9D6956A939F684A371A3C690321C76E5C04D724FC5D7FCF3B828E5EF||61403000|8A026F3EF96A65200FD27FA6C1C4B8AABF56EEC51B4F3540387F51A0E61CF9D8B1045D0BA749B107214E7501886E6ABC2F9C07673F9E7665|B362DF8081616AA|DAAA5B3E861E6B05|9010190B362DF8000061|38A7||1000',
+    'entry_mode' => 'keyed',
+    'card_track' => '%B2223000010007612^TEST CARD/EMV BIN-2^19120000000000000000?;2223000010007612=19120000000000000000?|0600|3EC48BFC31CFE1D3224E2548FFDEA1524C4452032995077D2E37A8D78650BFBD16A775808680B158A460160CB8D97F3A8E903599C36334BDA9803575C91F915E|87FB879BFBAD0DDFBCF9DC6618F85B861EDFF43DF847DC2E03E8738BEC144884AA02FE5573D4DE38||61403000|EAA7FAE200CC593CF3145BD536B142741E13092346E874D6E5A909FBB22050E3CBAAFA92E819849CB39C9A1F36F1D7E833F18A1C161A4B70|B362DF8081616AA|23411017960749A4|9010190B362DF80000B0|4F1B||1000',
     'amount' => '23.05',
-    'customer_first_name' => 'TED',
-    'customermi' => 'R',
-    'customer_last_name' => 'CRUZ',
     'payee_reciept_email' => 'ari@asu.edu',
     'payee_phone_number' => '6025617789',
     'customer_id' => '1234',
     'invoice_number' => '4321',
-    'payee_first_name' => 'TED',
-    'payee_last_name' => 'CRUZ',
+    'payee_first_name' => 'EMV BIN-2',
+    'payee_last_name' => 'TEST CARD',
     'payee_zipcode' => '',
-    'card_number' => '4335000020003393',
-    'card_type' => 'Visa',
-    'card_cvv2' => '',
-    'card_exp_month' => '11',
-    'card_exp_year' => '16',
+    'card_number' => '2223000010007612',
+//    'pin' => '7612', // TODO
+    'card_type' => 'MasterCard',
+    'card_cvv2' => '532',
+    'card_exp_month' => '12',
+    'card_exp_year' => '19',
 );
 
 $tests = array(
     array(
         'amount' => '2.04',
+        'entry_mode' => 'keyed',
     ),
     array(
         'amount' => '2.05',
+        'entry_mode' => 'keyed',
     ),
     array(
         'amount' => '2.06',
+        'entry_mode' => 'keyed',
     ),
     array(
         'amount' => '23.05',
+        'entry_mode' => 'keyed',
     ),
     array(
         'amount' => '23.06',
+        'entry_mode' => 'keyed',
     ),
 );
 
 foreach($tests as $testData) {
     $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
+
+    // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $testData+$data);
     echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' #' . $Transaction->getTransactionID();
 
+    // Void transaction
+    $VoidTransaction = $MerchantIdentity->voidTransaction($Order, array());
+    echo "\nVoid: " . $VoidTransaction->getStatusCode(), ' #' . $VoidTransaction->getTransactionID();
+
+    // Return transaction
+//    $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, array());
+//    echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' #' . $ReturnTransaction->getTransactionID();
+
     // Delete tests
+//    TransactionRow::delete($ReturnTransaction);
+    TransactionRow::delete($VoidTransaction);
     TransactionRow::delete($Transaction);
     OrderRow::delete($Order);
 }

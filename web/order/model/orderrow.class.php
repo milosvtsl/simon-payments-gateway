@@ -148,6 +148,23 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public function setStatus($status)      { $this->status = $status; }
 
+    /**
+     * Return the first authorized transaction for this order
+     * @return TransactionRow
+     * @throws \Exception
+     */
+    public function getAuthorizedTransaction() {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(TransactionRow::SQL_SELECT . "WHERE oi.id = ? AND action = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, TransactionRow::_CLASS);
+        $stmt->execute(array($this->getID(), 'Authorized'));
+        $AuthorizedTransaction = $stmt->fetch();
+        if(!$AuthorizedTransaction)
+            throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $this->getID());
+        return $AuthorizedTransaction;
+    }
+
     // Static
 
     public static function delete(OrderRow $OrderRow) {
@@ -288,9 +305,9 @@ LEFT JOIN integration i on oi.integration_id = i.id
             throw new IntegrationException("Invalid entry_mode");
         }
 
-        $OrderRow->customer_first_name = $post['customer_first_name'];
-        $OrderRow->customer_last_name = $post['customer_last_name'];
-        $OrderRow->customermi = $post['customermi'];
+        $OrderRow->customer_first_name = @$post['customer_first_name'];
+        $OrderRow->customer_last_name = @$post['customer_last_name'];
+        $OrderRow->customermi = @$post['customermi'];
         $OrderRow->customer_id = $post['customer_id'];
 
         $OrderRow->invoice_number = $post['invoice_number'];
@@ -322,8 +339,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
             switch($cardNumber) {
                 case(preg_match ('/^4/', $cardNumber) >= 1):
                     return 'Visa';
-                case(preg_match ('/^5[1-5]/', $cardNumber) >= 1):
-                    return 'Mastercard';
+                case(preg_match ('/^[2|5][1-5]/', $cardNumber) >= 1):
+                    return 'MasterCard';
                 case(preg_match ('/^3[47]/', $cardNumber) >= 1):
                     return 'Amex';
                 case(preg_match ('/^3(?:0[0-5]|[68])/', $cardNumber) >= 1):
@@ -349,5 +366,6 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $l = strlen($number);
         return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
+
 }
 

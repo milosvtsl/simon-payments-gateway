@@ -12,7 +12,7 @@
                     <div class="errorHandler alert alert-danger no-display">
                         <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
                     </div>
-                    <fieldset>
+                    <fieldset style="display: inline-block;">
                         <div class="form-group">
                         <span class="input-icon">
                           <input type="text" class="form-control" name="email" placeholder="Email" value="" id="email"/>

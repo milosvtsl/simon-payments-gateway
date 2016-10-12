@@ -13,8 +13,8 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Merchant->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Merchant->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
         <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
         <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
     </nav>
@@ -26,11 +26,11 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
     </aside>
     
-    <section class="content">
+    <section class="content" >
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
     
         <form class="form-view-merchant themed " method="GET">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Merchant Information</legend>
                 <table class="table-merchant-info themed striped-rows" style="float: left;">
                     <tr>
@@ -179,7 +179,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 </table>
             </fieldset>
 
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-merchant-info themed striped-rows">
                     <tr>
@@ -222,7 +222,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     </table>
             </fieldset>
 
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Transactions: <?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
@@ -241,7 +241,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     /** @var \Transaction\Model\TransactionRow $Transaction */
 
                     $DB = \Config\DBConfig::getInstance();
-                    $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE oi.merchant_id = ? LIMIT 100");
+                    $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE oi.merchant_id = ? order by oi.id desc LIMIT 100");
                     /** @noinspection PhpMethodParametersCountMismatchInspection */
                     $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
                     $TransactionQuery->execute(array($this->getMerchant()->getID()));

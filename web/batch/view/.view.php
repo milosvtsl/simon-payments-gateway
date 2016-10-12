@@ -12,8 +12,8 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
         <a href="transaction?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="batch?" class="button">Batches <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $Batch->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $Batch->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
 
     <!-- Bread Crumbs -->
@@ -27,7 +27,7 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-batch themed" onsubmit="return false;">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Batch Information</legend>
                 <table class="table-batch-info themed">
                     <tr>
@@ -57,7 +57,7 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
 
                 </table>
             </fieldset>
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Orders</legend>
                 <table class="table-results themed small">
                     <tr>

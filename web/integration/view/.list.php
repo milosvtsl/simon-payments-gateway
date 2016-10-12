@@ -14,7 +14,6 @@ use \Integration\Model\IntegrationRow;
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
         <a href="integration" class="nav_integration">Integrations</a>
         <a href="integration/list.php" class="nav_integration_list">Search</a>
     </aside>
@@ -23,7 +22,7 @@ use \Integration\Model\IntegrationRow;
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-search themed">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Integrations</legend>
                 <table class="table-results themed small">
                     <tr>

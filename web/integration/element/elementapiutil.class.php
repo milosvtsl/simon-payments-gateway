@@ -33,7 +33,6 @@ class ElementAPIUtil {
         $MagneprintData = $OrderRow->getCardTrack();
         $CardholderName = $OrderRow->getCardHolderFullName();
         $TransactionID = ''; // $TransactionRow->getTransactionID();
-        $TerminalID = '0001';
         $TicketNumber = substr(md5(time()), 6);
         $ReferenceNumber = $TransactionRow->getTransactionID();
 
@@ -48,7 +47,7 @@ class ElementAPIUtil {
         $ExpirationYear = $OrderRow->getCardExpYear();
 
         $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateServiceFee($OrderRow);
+        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -69,6 +68,7 @@ class ElementAPIUtil {
         $ShippingPhone = $BillingPhone;
 
 
+        $TerminalID = '0001';
         $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
         $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
         $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
@@ -303,6 +303,183 @@ PHP;
     }
 
 
+    public function voidCreditCardRequest(
+        ElementMerchantIdentity $MerchantIdentity,
+        OrderRow $OrderRow,
+        TransactionRow $AuthorizedTransaction,
+        Array $post) {
+
+        $Action = 'CreditCardVoid';
+        $TransactionID = $AuthorizedTransaction->getTransactionID();
+        $ReferenceNumber = '';
+        $TicketNumber = '';
+        $TransactionAmount = $OrderRow->getAmount();
+        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+
+
+        $AccountID = $MerchantIdentity->getAccountID();
+        $AccountToken = $MerchantIdentity->getAccountToken();
+        $AcceptorID = $MerchantIdentity->getAcceptorID();
+        $NewAccountToken = $MerchantIdentity->getAccountToken();
+
+        $ApplicationID = $MerchantIdentity->getApplicationID();
+        $ApplicationName = 'Express';
+        $ApplicationVersion = '1';
+
+        $CVVResponseType = 'Regular'; // Regular or Extended
+        $ConsentCode = 'NotUsed'; // NotUsed or FaceToFace or Phone or Internet
+        $TerminalSerialNumber = '';
+        $TerminalEncryptionFormat = 'Default'; // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7
+        $LaneNumber = '';
+        $Model = '';
+        $EMVKernelVersion = '';
+        $ReversalType = 'System'; // System or Full or Partial;
+        $MarketCode = 'Default'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+        $BillPaymentFlag = 'False'; // False or True
+        $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
+
+
+        $TerminalID = '0001';
+        $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+        $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
+        $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+        $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+        $CVVPresenceCode = 'UseDefault'; // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
+        $TerminalCapabilityCode = 'UseDefault'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+        $TerminalEnvironmentCode = 'UseDefault'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+        $MotoECICode = 'UseDefault'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
+
+        if(strtolower($OrderRow->getEntryMode()) == 'swipe') { // Card Swiped
+            $CardholderPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            $CardPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent;
+            $TerminalCapabilityCode = 'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+        } else {
+
+        }
+
+        $ClerkNumber = '';
+        $ShiftID = '';
+        $OriginalAuthorizedAmount = '';
+        $TotalAuthorizedAmount = '';
+        $SalesTaxAmount = '';
+        $TipAmount = '';
+        $ApprovalNumber = '';
+        $AcquirerData = '';
+        $CashBackAmount = '';
+        $DuplicateCheckDisableFlag = 'False';
+        $DuplicateOverrideFlag = 'False';
+        $CommercialCardCustomerCode = '';
+        $ProcessorName = '';
+        $TransactionStatus = '';
+        $TransactionStatusCode = '';
+        $HostTransactionID = '';
+        $TransactionSetupID = '';
+        $MerchantVerificationValue = '';
+        $PartialApprovedFlag = 'False';
+        $ApprovedAmount = '';
+        $CommercialCardResponseCode = '';
+        $BalanceAmount = '';
+        $BalanceCurrencyCode = '';
+        $GiftCardStatusCode = '';
+        $BillPayerAccountNumber = '';
+        $GiftCardBalanceTransferCode = '';
+        $EMVEncryptionFormat = 'Default';
+
+
+        $request = <<<PHP
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Body>
+    <{$Action} xmlns="https://transaction.elementexpress.com">
+      <credentials>
+        <AccountID>{$AccountID}</AccountID>
+        <AccountToken>{$AccountToken}</AccountToken>
+        <AcceptorID>{$AcceptorID}</AcceptorID>
+        <NewAccountToken>{$NewAccountToken}</NewAccountToken>
+      </credentials>
+      <application>
+        <ApplicationID>{$ApplicationID}</ApplicationID>
+        <ApplicationName>{$ApplicationName}</ApplicationName>
+        <ApplicationVersion>{$ApplicationVersion}</ApplicationVersion>
+      </application>
+      <terminal>
+        <TerminalID>{$TerminalID}</TerminalID>
+        <TerminalType>{$TerminalType}</TerminalType>
+        <CardPresentCode>{$CardPresentCode}</CardPresentCode>
+        <CardholderPresentCode>{$CardholderPresentCode}</CardholderPresentCode>
+        <CardInputCode>{$CardInputCode}</CardInputCode>
+        <CVVPresenceCode>{$CVVPresenceCode}</CVVPresenceCode>
+        <TerminalCapabilityCode>{$TerminalCapabilityCode}</TerminalCapabilityCode>
+        <TerminalEnvironmentCode>{$TerminalEnvironmentCode}</TerminalEnvironmentCode>
+        <MotoECICode>{$MotoECICode}</MotoECICode>
+        <CVVResponseType>{$CVVResponseType}</CVVResponseType>
+        <ConsentCode>{$ConsentCode}</ConsentCode>
+        <TerminalSerialNumber>{$TerminalSerialNumber}</TerminalSerialNumber>
+        <TerminalEncryptionFormat>{$TerminalEncryptionFormat}</TerminalEncryptionFormat>
+        <LaneNumber>{$LaneNumber}</LaneNumber>
+        <Model>{$Model}</Model>
+        <EMVKernelVersion>{$EMVKernelVersion}</EMVKernelVersion>
+      </terminal>
+      <transaction>
+        <TransactionID>{$TransactionID}</TransactionID>
+        <ClerkNumber>{$ClerkNumber}</ClerkNumber>
+        <ShiftID>{$ShiftID}</ShiftID>
+        <TransactionAmount>{$TransactionAmount}</TransactionAmount>
+        <OriginalAuthorizedAmount>{$OriginalAuthorizedAmount}</OriginalAuthorizedAmount>
+        <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
+        <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
+        <TipAmount>{$TipAmount}</TipAmount>
+        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
+        <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
+        <TicketNumber>{$TicketNumber}</TicketNumber>
+        <ReversalType>{$ReversalType}</ReversalType>
+        <MarketCode>{$MarketCode}</MarketCode>
+        <AcquirerData>{$AcquirerData}</AcquirerData>
+        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
+        <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
+        <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
+        <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
+        <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
+        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
+        <ProcessorName>{$ProcessorName}</ProcessorName>
+        <TransactionStatus>{$TransactionStatus}</TransactionStatus>
+        <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
+        <HostTransactionID>{$HostTransactionID}</HostTransactionID>
+        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
+        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
+        <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
+        <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
+        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
+        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
+        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
+        <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
+        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
+        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
+        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
+        <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
+        <ReversalReason>{$ReversalReason}</ReversalReason>
+      </transaction>
+      <extendedParameters>
+        <ExtendedParameters>
+          <Key>string</Key>
+          <Value />
+        </ExtendedParameters>
+        <ExtendedParameters>
+          <Key>string</Key>
+          <Value />
+        </ExtendedParameters>
+      </extendedParameters>
+    </{$Action}>
+  </soap12:Body>
+</soap12:Envelope>
+PHP;
+
+        return $request;
+    }
+
     /**
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param TransactionRow $TransactionRow
@@ -334,6 +511,8 @@ PHP;
         $TransactionID = $TransactionRow->getTransactionID();
         $ReferenceNumber = '';
         $TicketNumber = '';
+        $TransactionAmount = $OrderRow->getAmount();
+        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
 
 
         $CardNumber = $OrderRow->getCardNumber();
@@ -341,8 +520,6 @@ PHP;
         $ExpirationMonth = $OrderRow->getCardExpMonth();
         $ExpirationYear = $OrderRow->getCardExpYear();
 
-        $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateServiceFee($OrderRow);
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -574,5 +751,6 @@ PHP;
 
         return $request;
     }
+
 
 }

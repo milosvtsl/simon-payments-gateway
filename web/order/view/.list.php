@@ -6,10 +6,12 @@ use Order\Model\OrderRow;
  **/?>
 
     <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="order?" class="button current">Orders <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
-    </nav>
+
+<nav class="page-menu hide-on-print">
+    <a href="order?" class="button current">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+    <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+    <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
+</nav>
     
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
@@ -66,7 +68,7 @@ use Order\Model\OrderRow;
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Search Results</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>

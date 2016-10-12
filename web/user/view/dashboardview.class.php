@@ -1,10 +1,10 @@
 <?php
-namespace Home\View;
+namespace User\View;
 
 use View\AbstractView;
 
 
-class HomeView extends AbstractView {
+class DashboardView extends AbstractView {
 
 //    protected function renderHTMLHeadLinks() {
 //        echo "\t\t<link href='assets/css/main.css' type='text/css' rel='stylesheet' />\n";
@@ -21,7 +21,7 @@ class HomeView extends AbstractView {
         $Theme->renderHTMLBodyHeader();
 
 		// Render Page
-		include ('.welcome.php');
+		include ('.dashboard.php');
 
 		// Render footer
         $Theme->renderHTMLBodyFooter();

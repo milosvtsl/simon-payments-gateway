@@ -95,7 +95,7 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
      * @param OrderRow $OrderRow
      * @return mixed
      */
-    public function calculateServiceFee(OrderRow $OrderRow) {
+    public function calculateConvenienceFee(OrderRow $OrderRow) {
         $Merchant = $this->getMerchantRow();
         $amount = $OrderRow->getAmount();
         $fee = $Merchant->getFeeFlat();

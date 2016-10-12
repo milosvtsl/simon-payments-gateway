@@ -13,13 +13,12 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
     <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $User->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $User->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     <?php } else { ?>
         <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
     <?php } ?>
 
-    <a href="user/logout.php" class="button">Log Out <div class="submenu-icon submenu-icon-logout"></div></a>
 </nav>
 
     <!-- Bread Crumbs -->
@@ -36,7 +35,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
         <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
             <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
             <input type="hidden" name="action" value="edit" />
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Edit User Fields</legend>
                 <table class="table-user-info themed">
                     <tr>

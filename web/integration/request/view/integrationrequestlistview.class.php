@@ -131,7 +131,7 @@ class IntegrationRequestListView extends AbstractListView {
 	public function processFormRequest(Array $post) {
 		try {
 			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			header("Location: /integration/request");
 
 		} catch (\Exception $ex) {
 			$this->setSessionMessage($ex->getMessage());

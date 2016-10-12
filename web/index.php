@@ -27,7 +27,7 @@ $SessionManager = new \User\Session\SessionManager();
 // Render View
 if($SessionManager->isLoggedIn()) {
 //    $View = new User\View\UserView($SessionManager->getSessionUser()->getID());
-    $View = new \Home\View\HomeView();
+    $View = new \User\View\DashboardView();
     $View->handleRequest();
 } else {
     $View = new User\View\LoginView();

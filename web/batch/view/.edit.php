@@ -12,8 +12,8 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
         <a href="transaction?" class="button">Transactions</a>
         <a href="order?" class="button">Orders</a>
         <a href="batch?" class="button">Batches</a>
-        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Batch->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Batch->getID(); ?></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
 
     <!-- Bread Crumbs -->
@@ -28,7 +28,7 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-Batch themed" method="POST">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Edit Batch Fields</legend>
                 <table class="table-batch-info themed">
                     <tr>

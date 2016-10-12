@@ -161,6 +161,8 @@ class ElementIntegration extends AbstractIntegration
     function getRequestURL(IntegrationRequestRow $Request) {
         $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
         switch($Request->getIntegrationType()) {
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 return $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
@@ -249,7 +251,7 @@ class ElementIntegration extends AbstractIntegration
         // Store Transaction Result
         $Transaction->setTransactionDate($date);
 
-        $Order->setStatus("Settled");
+        $Order->setStatus("Authorized");
         OrderRow::update($Order);
         TransactionRow::insert($Transaction);
         return $Transaction;
@@ -278,5 +280,94 @@ class ElementIntegration extends AbstractIntegration
         return $NewRequest;
     }
 
+
+    /**
+     * Void an existing Transaction
+     * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $OrderRow
+     * @param array $post
+     * @return mixed
+     * @throws IntegrationException
+     */
+    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
+        if(!$OrderRow->getID())
+            throw new \InvalidArgumentException("Order must exist in the database");
+
+        $AuthorizedTransaction = $OrderRow->getAuthorizedTransaction();
+
+        $Request = IntegrationRequestRow::prepareNew(
+            __CLASS__,
+            $MerchantIdentity->getIntegrationRow()->getID(),
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID,
+            $MerchantIdentity->getMerchantRow()->getID()
+        );
+        $url = $this->getRequestURL($Request);
+//        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
+        $Request->setRequestURL($url);
+
+        $APIUtil = new ElementAPIUtil();
+        $request = $APIUtil->voidCreditCardRequest($MerchantIdentity, $OrderRow, $AuthorizedTransaction, $post);
+        $Request->setRequest($request);
+
+        $this->execute($Request);
+        $data = $this->parseResponseData($Request);
+
+        if(empty($data['CreditCardVoidResponse']))
+            throw new IntegrationException("Invalid CreditCardVoidResponse");
+
+        $response = $data['CreditCardVoidResponse'];
+        $response = $response['response'];
+        $code = $response['ExpressResponseCode'];
+        $message = $response['ExpressResponseMessage'];
+        if(!$response) //  || !$code || !$message)
+            throw new IntegrationException("Invalid response data");
+
+        if($code === '101')
+            throw new IntegrationException($message);
+
+        $VoidTransaction = $AuthorizedTransaction->createVoidTransaction($AuthorizedTransaction);
+
+        if($code !== "0")
+            $VoidTransaction->setAction("Error");
+        else
+            $VoidTransaction->setAction("Authorized");
+//                throw new IntegrationException($message);
+
+        $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
+        $transactionID = $response['Transaction']['TransactionID'];
+
+        // Store Transaction Result
+        $VoidTransaction->setAuthCodeOrBatchID($code);
+        $VoidTransaction->setTransactionID($transactionID);
+        $VoidTransaction->setStatus($code, $message);
+        $VoidTransaction->setTransactionDate($date);
+
+        $OrderRow->setStatus("Void");
+        OrderRow::update($OrderRow);
+        TransactionRow::insert($VoidTransaction);
+        return $VoidTransaction;
+    }
+
+    /**
+     * Return an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
+
+    /**
+     * Reverse an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
 }
 

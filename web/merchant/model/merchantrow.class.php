@@ -349,6 +349,10 @@ LEFT JOIN state s on m.state_id = s.id
         return $MerchantQuery;
     }
 
+    public function isConvenienceFeeEnabled() {
+        return
+            $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
+    }
 
 
 }

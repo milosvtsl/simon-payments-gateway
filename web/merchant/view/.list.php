@@ -22,7 +22,7 @@ use \Merchant\Model\MerchantRow;
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-search themed">
-            <fieldset class="search-fields">
+            <fieldset class="search-fields" style="display: inline-block;">
                 <legend>Search</legend>
                 MERCHANT NAME:
                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" />
@@ -36,7 +36,8 @@ use \Merchant\Model\MerchantRow;
                 <input type="submit" value="Search" />
 
             </fieldset>
-            <fieldset>
+            <br/>
+            <fieldset style="display: inline-block;">
                 <legend>Search Results</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>

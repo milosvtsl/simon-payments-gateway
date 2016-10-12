@@ -8,6 +8,8 @@
 namespace Order\View;
 
 use Config\DBConfig;
+use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
 use View\AbstractView;
@@ -21,7 +23,7 @@ class OrderView extends AbstractView
     private $_action;
 
     public function __construct($id, $action=null) {
-        $this->_action = $action ?: 'view';
+        $this->_action = strtolower($action) ?: 'view';
         $this->_order = OrderRow::fetchByID($id);
         if(!$this->_order)
             throw new \InvalidArgumentException("Invalid Order ID: " . $id);
@@ -62,9 +64,18 @@ class OrderView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $action = $this->_action;
+        if(!empty($post['action']))
+            $action = strtolower($post['action']);
+
+        $Order = $this->getOrder();
+        $Integration = IntegrationRow::fetchByID($Order->getIntegrationID());
+        $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
+        $MerchantIdentity = $Integration->getMerchantIdentity($Merchant);
+
         try {
             // Render Page
-            switch($this->_action) {
+            switch($action) {
                 case 'edit':
                     $EditOrder = $this->getOrder();
                     $EditOrder->updateFields($post)
@@ -82,6 +93,28 @@ class OrderView extends AbstractView
                     print_r($post);
                     die();
                     break;
+
+                case 'void':
+                    $Transaction = $MerchantIdentity->voidTransaction($Order, $post);
+
+                    $this->setSessionMessage($Transaction->getStatusMessage());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
+                    die();
+
+                case 'return':
+                    $Transaction = $MerchantIdentity->returnTransaction($Order, $post);
+
+                    $this->setSessionMessage($Transaction->getStatusMessage());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
+                    die();
+
+                case 'reverse':
+                    $Transaction = $MerchantIdentity->reverseTransaction($Order, $post);
+
+                    $this->setSessionMessage($Transaction->getStatusMessage());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
+                    die();
+
                 default:
                     throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
             }

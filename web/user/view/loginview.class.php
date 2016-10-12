@@ -40,6 +40,10 @@ class LoginView extends AbstractView {
                 include ('.logout.php');
                 break;
 
+            case 'signup':
+                include ('.signup.php');
+                break;
+
             case 'reset':
                 include ('.reset.php');
                 break;

@@ -6,7 +6,6 @@ use \User\Model\UserRow;
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="user?" class="button current">User List <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="user/logout.php" class="button">Log Out <div class="submenu-icon submenu-icon-logout"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->

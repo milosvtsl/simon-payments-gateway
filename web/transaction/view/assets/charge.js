@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             return "Visa";
 
         // Mastercard
-        re = new RegExp("^5[1-5]");
+        re = new RegExp("^[2|5][1-5]");
         if (number.match(re) != null)
             return "MasterCard";
 

@@ -139,12 +139,17 @@ FROM integration i
      * @return IntegrationRow
      */
     public static function fetchByID($id) {
+        if(!$id)
+            throw new \InvalidArgumentException("Invalid Integration ID");
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE i.id = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($id));
-        return $stmt->fetch();
+        $Integration = $stmt->fetch();
+        if(!$Integration)
+            throw new \InvalidArgumentException("Integration not found: " . $id);
+        return $Integration;
     }
 
     /**

@@ -12,13 +12,12 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
     <nav class="page-menu hide-on-print">
         <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Integration->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Configure #<?php echo $Integration->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Configure <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
         <a href="integration" class="nav_integration">Integrations</a>
         <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
         <a href="<?php echo $action_url; ?>edit" class="nav_integration_edit">Configure</a>
@@ -28,7 +27,7 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-integration themed" method="POST">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Edit Integration Fields</legend>
                 <table class="table-integration-info themed">
                     <tr>

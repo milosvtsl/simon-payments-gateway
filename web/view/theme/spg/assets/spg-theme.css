@@ -75,9 +75,9 @@ body.spg-theme > nav > a > div.nav-icon {
     margin-top: 0.4em;
 }
 /* body.spg-theme > nav > a > div.nav-logo-icon { background-position: 0 0; } */
-body.spg-theme > nav > a > div.nav-order-icon {background-position: -64px 0;}
+body.spg-theme > nav > a > div.nav-logout-icon {background-position: -64px 0;}
 /* body.spg-theme > nav > a > div.nav_-ser-icon { background-position: -128px 0; } */
-body.spg-theme > nav > a > div.nav-merchant-icon {background-position: -192px 0;}
+body.spg-theme > nav > a > div.nav-dashboard-icon {background-position: -192px 0;}
 body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;}
 
 
@@ -268,14 +268,13 @@ body.spg-theme a.button[disabled] {
 }
 
 
-body.spg-theme table.themed {
-}
+body.spg-theme table.themed {border-spacing: 0 0;margin: 0 0.5em;}
 
 body.spg-theme table.themed > tbody > tr > th {
-    background-color: #DDD;
+    background-color: #CCC;
     color: #000;
     font-size: smaller;
-    padding: 0.2em 0.7em;
+    padding: 0.4em 0.7em;
 }
 
 body.spg-theme table.themed > tbody > tr > td {
@@ -291,7 +290,7 @@ body.spg-theme table.themed.small > tbody > tr > td {
 
 
 body.spg-theme table.striped-rows > tbody > tr.row-even {
-    background-color: #DDD;
+    background-color: #DEDEDE;
 }
 
 body.spg-theme table.themed > tbody > tr:hover {

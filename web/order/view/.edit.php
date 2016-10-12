@@ -9,11 +9,13 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
+        <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
         <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View #<?php echo $Order->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>receipt" class="button">View Receipt  <div class="submenu-icon submenu-icon-receipt"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit #<?php echo $Order->getID(); ?>  <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
     
     <!-- Bread Crumbs -->
@@ -28,7 +30,7 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-Order themed" method="POST">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Edit Order Fields</legend>
                 <table class="table-order-info themed">
                     <tr>

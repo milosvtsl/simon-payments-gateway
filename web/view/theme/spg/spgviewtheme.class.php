@@ -85,26 +85,25 @@ class SPGViewTheme extends AbstractViewTheme
         ?>
     <body class="spg-theme">
         <header class="small-on-print">
-            <a href="/home">
+            <a href="/">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="width:22em;">
             </a>
         </header>
         <nav class="site-menu hide-on-print">
 
-        <?php if(!$SessionManager->isLoggedIn()) { ?>
-            <a href="/" class="nav-login">Home <br/> <div class="nav-icon nav_home_icon"></div> </a>
-            <a href="login.php" class="nav-login">Login <br/> <div class="nav-icon nav_login_icon"></div> </a>
-        <?php } else { ?>
-                <a href="order" class="nav-order">Orders <br/> <div class="nav-icon nav-order-icon"></div> </a>
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <a href="merchant" class="nav-merchant">Merchants <br/> <div class="nav-icon nav-merchant-icon"></div></a>
-            <?php } else { ?>
-                <a href="user" class="nav-user">My Account <br/> <div class="nav-icon nav-user-icon"></div></a>
-            <?php } ?>
+        <?php if($SessionManager->isLoggedIn()) { ?>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
                 <a href="transaction/charge.php" class="nav-charge">Charge <br/> <div class="nav-icon nav-charge-icon"></div></a>
+            <?php } else { ?>
+                <a href="/" class="nav-login">Home <br/> <div class="nav-icon home"></div> </a>
             <?php } ?>
+            <a href="user/dashboard.php" class="nav-login">Dashboard <br/> <div class="nav-icon nav-dashboard-icon"></div> </a>
+            <a href="user/logout.php" class="nav-login">Log out<br/> <div class="nav-icon nav-logout-icon"></div> </a>
+        <?php } else { ?>
+            <a href="/" class="nav-login">Home <br/> <div class="nav-icon nav-home-icon"></div> </a>
+            <a href="signup.php" class="nav-login">Signup <br/> <div class="nav-icon nav-signup-icon"></div> </a>
+            <a href="login.php" class="nav-login">Login <br/> <div class="nav-icon nav-login-icon"></div> </a>
         <?php } ?>
 
         </nav>
@@ -137,10 +136,11 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks() {
-?>
+        echo <<<HEAD
+        <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
         <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
-<?php
+HEAD;
     }
 
     public function renderHTMLMetaTags() {

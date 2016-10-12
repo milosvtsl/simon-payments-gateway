@@ -50,11 +50,11 @@ abstract class AbstractMerchantIdentity {
     abstract protected function parseRequest(IntegrationRequestRow $APIRequest);
 
     /**
-     * Calculate Transaction Service Fee
+     * Calculate Transaction Convenience Fee
      * @param OrderRow $OrderRow
      * @return mixed
      */
-    abstract public function calculateServiceFee(OrderRow $OrderRow);
+    abstract public function calculateConvenienceFee(OrderRow $OrderRow);
 
     /**
      * Construct a new Merchant Identity
@@ -103,6 +103,42 @@ abstract class AbstractMerchantIdentity {
         $Integration = $this->integration->getIntegration();
         return $Integration->createOrResumeOrder($this, $post);
     }
+
+
+    /**
+     * Void an existing Transaction
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function voidTransaction(OrderRow $Order, Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->voidTransaction($this, $Order, $post);
+    }
+
+
+    /**
+     * Return an existing Transaction
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function returnTransaction(OrderRow $Order, Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->returnTransaction($this, $Order, $post);
+    }
+
+
+//    /**
+//     * Reverse an existing Transaction
+//     * @param OrderRow $Order
+//     * @param array $post
+//     * @return mixed
+//     */
+//    function reverseTransaction(OrderRow $Order, Array $post) {
+//        $Integration = $this->integration->getIntegration();
+//        return $Integration->reverseTransaction($this, $Order, $post);
+//    }
 
     public function getMerchantRow() {
         return $this->merchant;

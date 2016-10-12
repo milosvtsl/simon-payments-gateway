@@ -67,7 +67,7 @@ use \Merchant\Model\MerchantRow;
                     </tbody>
                 </table>
             </fieldset>
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>Search Results</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>

@@ -5,7 +5,7 @@
 
                 <form name="form-login" action='user/logout.php?action=logout' method='POST' class="themed">
 
-                    <fieldset>
+                    <fieldset style="display: inline-block;">
                         <legend>Log out of your session</legend>
                         <input type="hidden" name="action" value="logout" />
                         <div class="form-actions">

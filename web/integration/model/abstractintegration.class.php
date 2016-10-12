@@ -83,4 +83,30 @@ abstract class AbstractIntegration
      */
     abstract function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
 
+    /**
+     * Void an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $OrderRow
+     * @param array $post
+     * @return mixed
+     */
+    abstract function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post);
+
+    /**
+     * Reverse an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+//    abstract function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
+
+    /**
+     * Return an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    abstract function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
 }

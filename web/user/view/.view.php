@@ -13,8 +13,8 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
         <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="<?php echo $action_url; ?>view" class="button current">View #<?php echo $User->getID(); ?> <div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit #<?php echo $User->getID(); ?> <div class="submenu-icon submenu-icon-edit"></div></a>
+            <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php } else { ?>
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
         <?php } ?>
@@ -33,7 +33,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-view-user themed" onsubmit="return false;">
-            <fieldset>
+            <fieldset style="display: inline-block;">
                 <legend>User Information</legend>
                 <table class="table-user-info themed">
                     <tr>

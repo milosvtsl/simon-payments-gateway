@@ -20,6 +20,8 @@ class IntegrationRequestRow
     const ENUM_TYPE_MERCHANT_PROVISION  = 'merchant-provision';
     const ENUM_TYPE_MERCHANT_PAYMENT    = 'merchant-payment';
     const ENUM_TYPE_TRANSACTION         = 'transaction';
+    const ENUM_TYPE_TRANSACTION_VOID    = 'transaction-void';
+    const ENUM_TYPE_TRANSACTION_RETURN  = 'transaction-return';
 
     const ENUM_RESULT_SUCCESS           = 'success';
     const ENUM_RESULT_FAIL              = 'fail';

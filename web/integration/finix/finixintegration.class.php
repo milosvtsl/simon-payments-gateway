@@ -241,5 +241,40 @@ class FinixIntegration extends AbstractIntegration
         OrderRow::update($Order);
         return $Order;
     }
+
+
+
+    /**
+     * Void an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $OrderRow
+     * @param array $post
+     * @return mixed
+     */
+    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
+        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
+
+    /**
+     * Reverse an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
+
+    /**
+     * Return an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
 }
 
