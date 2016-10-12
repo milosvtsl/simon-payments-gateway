@@ -143,6 +143,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
+    public function getOrderItemID()        { return $this->order_item_id; }
 
     public function getEntryMode()          { return $this->entry_mode; }
 
@@ -368,6 +369,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $l = strlen($number);
         return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
+
 
 }
 

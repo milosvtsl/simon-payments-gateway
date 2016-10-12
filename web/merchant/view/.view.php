@@ -2,6 +2,7 @@
 use Merchant\Model\MerchantRow;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Order\Model\OrderRow;
 /**
  * @var \Merchant\View\MerchantView $this
  * @var PDOStatement $MerchantQuery
@@ -208,8 +209,8 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             continue;
                     ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><?php echo $IntegrationRow->getID(); ?></td>
-                            <td><?php echo $IntegrationRow->getName(); ?></td>
+                            <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getID(); ?></a></td>
+                            <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getName(); ?></a></td>
                             <td><?php echo $IntegrationRow->getAPIType(); ?></td>
                             <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                             <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
@@ -223,42 +224,45 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
             </fieldset>
 
             <fieldset style="display: inline-block;">
-                <legend>Transactions: <?php echo $Merchant->getShortName(); ?></legend>
+                <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
                         <th>ID</th>
-                        <th>Order</th>
-                        <th>Batch</th>
-                        <th>Card Holder</th>
-                        <th>Date</th>
-                        <th>Invoice&nbsp;ID</th>
-                        <th>User Name</th>
                         <th>Amount</th>
+                        <th>Customer</th>
+                        <th>Mode</th>
+                        <th>Date</th>
                         <th>Status</th>
-                        <th>Merchant</th>
+                        <th>Item&nbsp;ID</th>
+                        <th>Invoice&nbsp;ID</th>
+                        <th>Customer&nbsp;ID</th>
                     </tr>
                     <?php
-                    /** @var \Transaction\Model\TransactionRow $Transaction */
+                    /** @var \Order\Model\OrderRow $Order */
 
                     $DB = \Config\DBConfig::getInstance();
-                    $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE oi.merchant_id = ? order by oi.id desc LIMIT 100");
+
+                    $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
+                        . "\nWHERE oi.merchant_id = ?"
+                        . OrderRow::SQL_ORDER_BY
+                        . "\nLIMIT 50");
                     /** @noinspection PhpMethodParametersCountMismatchInspection */
-                    $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
-                    $TransactionQuery->execute(array($this->getMerchant()->getID()));
+                    $OrderQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
+                    $OrderQuery->execute(array($this->getMerchant()->getID()));
 
                     $odd = false;
-                    foreach($TransactionQuery as $Transaction) { ?>
+                    foreach($OrderQuery as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
-                            <td><?php if($Transaction->getOrderID()) { ?><a href='order?id=<?php echo $Transaction->getOrderID(); ?>'><?php echo $Transaction->getOrderID(); ?></a><?php } else echo 'N/A'; ?></td>
-                            <td><?php if($Transaction->getBatchID()) { ?><a href='batch?id=<?php echo $Transaction->getBatchID(); ?>'><?php echo $Transaction->getBatchID(); ?></a><?php } else echo 'N/A'; ?></td>
-                            <td><?php echo $Transaction->getHolderFullName(); ?></td>
-                            <td><?php echo date("M jS Y G:i:s", strtotime($Transaction->getTransactionDate())); ?></td>
-                            <td><?php echo $Transaction->getInvoiceNumber(); ?></td>
-                            <td><?php echo $Transaction->getUsername(); ?></td>
-                            <td><?php echo $Transaction->getAmount(); ?></td>
-                            <td><?php echo $Transaction->getOrderStatus(); ?></td>
-                            <td><a href='merchant?id=<?php echo $Transaction->getMerchantID(); ?>'><?php echo $Transaction->getMerchantShortName(); ?></a></td>
+                            <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                            <td>$<?php echo $Order->getAmount(); ?></td>
+                            <td><?php echo $Order->getCardHolderFullName(); ?></td>
+                            <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                            <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                            <td><?php echo $Order->getStatus(); ?></td>
+                            <td><?php echo $Order->getOrderItemID(); ?></td>
+                            <td><?php echo $Order->getInvoiceNumber(); ?></td>
+                            <td><?php echo $Order->getCustomerID(); ?></td>
+
                         </tr>
                     <?php } ?>
                 </table>
