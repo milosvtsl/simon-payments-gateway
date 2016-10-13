@@ -88,6 +88,8 @@ class OrderRow
     protected $payee_phone_number;
     protected $payee_reciept_email;
     protected $payee_zipcode;
+    protected $payee_address;
+    protected $payee_address2;
     protected $status;
     protected $total_returned_amount;
     protected $total_returned_service_fee;
@@ -122,6 +124,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
+    public function getPayeeAddress()       { return $this->payee_address; }
+    public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
@@ -211,6 +215,9 @@ LEFT JOIN integration i on oi.integration_id = i.id
             ':payee_phone_number' => $OrderRow->payee_phone_number,
             ':payee_reciept_email' => $OrderRow->payee_reciept_email,
             ':payee_zipcode' => $OrderRow->payee_zipcode,
+            ':payee_address' => $OrderRow->payee_address,
+            ':payee_address2' => $OrderRow->payee_address2,
+
             ':status' => $OrderRow->status,
             ':convenience_fee' => $OrderRow->convenience_fee ?: 0,
             ':total_returned_amount' => $OrderRow->total_returned_amount ?: 0,
@@ -327,6 +334,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $OrderRow->payee_last_name = $post['payee_last_name'];
         $OrderRow->payee_phone_number = $post['payee_phone_number'];
         $OrderRow->payee_zipcode = $post['payee_zipcode'];
+        $OrderRow->payee_address = $post['payee_address'];
+        $OrderRow->payee_address2 = $post['payee_address2'];
 
         if(isset($post['payee_reciept_email']))
             $OrderRow->payee_reciept_email = $post['payee_reciept_email'];

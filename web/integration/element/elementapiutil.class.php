@@ -27,7 +27,7 @@ class ElementAPIUtil {
         OrderRow $OrderRow,
         Array $post
     ) {
-        $CVV = @$post['cvv'];
+        $CVV = @$post['card_cvv2'];
         $PINBlock = @$post['pin'];
 
         $MagneprintData = $OrderRow->getCardTrack();
@@ -97,7 +97,7 @@ class ElementAPIUtil {
 
 
         $ApplicationID = $MerchantIdentity->getApplicationID();
-        $ApplicationName = 'Express';
+        $ApplicationName = 'Simon Payments Gateway';
         $ApplicationVersion = '1';
 
         $CAVV = '';
@@ -156,11 +156,20 @@ class ElementAPIUtil {
             $TerminalCapabilityCode = 'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
             $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
             $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-
+            $MarketCode = 'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
             $CardNumber = '';
         } else {
-
+            $CardholderPresentCode = 'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            $CardInputCode = 'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            $CardPresentCode = 'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
+            $TerminalCapabilityCode = 'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            $TerminalEnvironmentCode = 'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            $TerminalType = 'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+            $MagneprintData = '';
+            $MotoECICode = 'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
         }
+
 
 //        if(keyed) {}
 
@@ -318,7 +327,7 @@ PHP;
         OrderRow $OrderRow,
         Array $post
     ) {
-        $CVV = @$post['cvv'];
+        $CVV = @$post['card_cvv2'];
         $PINBlock = @$post['pin'];
 
         $MagneprintData = $OrderRow->getCardTrack();
@@ -388,7 +397,7 @@ PHP;
 
 
         $ApplicationID = $MerchantIdentity->getApplicationID();
-        $ApplicationName = 'Express';
+        $ApplicationName = 'Simon Payments Gateway';
         $ApplicationVersion = '1';
 
         $CAVV = '';
@@ -443,9 +452,18 @@ PHP;
             $TerminalCapabilityCode = 'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
             $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
             $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
             $CardNumber = '';
         } else {
-
+            $CardholderPresentCode = 'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            $CardInputCode = 'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            $CardPresentCode = 'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
+            $TerminalCapabilityCode = 'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            $TerminalEnvironmentCode = 'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            $TerminalType = 'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+            $MagneprintData = '';
+            $MotoECICode = 'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
         }
 
 //        if(keyed) {}
@@ -614,7 +632,7 @@ PHP;
         $NewAccountToken = $MerchantIdentity->getAccountToken();
 
         $ApplicationID = $MerchantIdentity->getApplicationID();
-        $ApplicationName = 'Express';
+        $ApplicationName = 'Simon Payments Gateway';
         $ApplicationVersion = '1';
 
         $CVVResponseType = 'Regular'; // Regular or Extended
@@ -625,31 +643,33 @@ PHP;
         $Model = '';
         $EMVKernelVersion = '';
         $ReversalType = 'System'; // System or Full or Partial;
-        $MarketCode = $MerchantIdentity->getMarketCode(); // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
         $BillPaymentFlag = 'False'; // False or True
         $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
 
 
         $TerminalID = '0001';
-        $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-        $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
-        $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-        $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
         $CVVPresenceCode = 'UseDefault'; // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
-        $TerminalCapabilityCode = 'UseDefault'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-        $TerminalEnvironmentCode = 'UseDefault'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
         $MotoECICode = 'NotUsed'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
 
-        if(strtolower($OrderRow->getEntryMode()) == 'swipe') { // Card Swiped
+        if(strtolower($OrderRow->getEntryMode()) === 'swipe') { // Card Present
             $CardholderPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
             $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
             $CardPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent;
             $TerminalCapabilityCode = 'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
             $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
             $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
         } else {
-
+            $CardholderPresentCode = 'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            $CardInputCode = 'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            $CardPresentCode = 'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
+            $TerminalCapabilityCode = 'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            $TerminalEnvironmentCode = 'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            $TerminalType = 'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+            $MotoECICode = 'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
         }
+
 
         $ClerkNumber = '';
         $ShiftID = '';
@@ -793,7 +813,7 @@ PHP;
         $NewAccountToken = $MerchantIdentity->getAccountToken();
 
         $ApplicationID = $MerchantIdentity->getApplicationID();
-        $ApplicationName = 'Express';
+        $ApplicationName = 'Simon Payments Gateway';
         $ApplicationVersion = '1';
 
         $CVVResponseType = 'Regular'; // Regular or Extended
@@ -804,30 +824,32 @@ PHP;
         $Model = '';
         $EMVKernelVersion = '';
         $ReversalType = 'System'; // System or Full or Partial;
-        $MarketCode = $MerchantIdentity->getMarketCode(); // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
         $BillPaymentFlag = 'False'; // False or True
         $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
 
 
         $TerminalID = '0001';
-        $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-        $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
-        $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-        $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
         $CVVPresenceCode = 'UseDefault'; // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
-        $TerminalCapabilityCode = 'UseDefault'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-        $TerminalEnvironmentCode = 'UseDefault'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
         $MotoECICode = 'NotUsed'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
 
-        if(strtolower($OrderRow->getEntryMode()) == 'swipe') { // Card Swiped
+
+        if(strtolower($OrderRow->getEntryMode()) === 'swipe') { // Card Present
             $CardholderPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
             $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
             $CardPresentCode = 'Present'; // UseDefault or Unknown or Present or NotPresent;
             $TerminalCapabilityCode = 'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
             $TerminalEnvironmentCode = 'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
             $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
         } else {
-
+            $CardholderPresentCode = 'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            $CardInputCode = 'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            $CardPresentCode = 'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
+            $TerminalCapabilityCode = 'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            $TerminalEnvironmentCode = 'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            $TerminalType = 'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            $MarketCode = 'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+            $MotoECICode = 'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
         }
 
         $ClerkNumber = '';
@@ -964,7 +986,7 @@ PHP;
         Array $post
     ) {
 
-        $CVV = @$post['cvv'];
+        $CVV = @$post['card_cvv2'];
         $PINBlock = @$post['pin'];
 
         $MagneprintData = $OrderRow->getCardTrack();
@@ -988,14 +1010,14 @@ PHP;
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
 
 
-        $CardNumber = $OrderRow->getCardNumber();
+        $CardNumber = '';$OrderRow->getCardNumber();
         $TruncatedCardNumber = substr($CardNumber, -4, 4);
         $ExpirationMonth = $OrderRow->getCardExpMonth();
         $ExpirationYear = $OrderRow->getCardExpYear();
 
 
         $BillingName = $OrderRow->getCardHolderFullName();
-        $BillingAddress1 = null;
+        $BillingAddress1 = $OrderRow->getPayeeZipCode();
         $BillingAddress2 = null;
         $BillingCity = null;
         $BillingState = null;
@@ -1029,7 +1051,7 @@ PHP;
         $LaneNumber = '';
         $Model = '';
         $EMVKernelVersion = '';
-        $ReversalType = 'System'; // System or Full or Partial;
+        $ReversalType = 'Full'; // System or Full or Partial;
         $MarketCode = $MerchantIdentity->getMarketCode(); // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
         $BillPaymentFlag = 'False'; // False or True
         $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError

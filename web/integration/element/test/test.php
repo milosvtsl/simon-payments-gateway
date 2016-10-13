@@ -51,6 +51,8 @@ $data = array(
     'payee_first_name' => 'EMV BIN-2',
     'payee_last_name' => 'TEST CARD',
     'payee_zipcode' => '',
+    'payee_address' => '123 s. Street st',
+    'payee_address2' => '#1234',
     'card_number' => '2223000010007612',
 //    'pin' => '7612', // TODO
     'card_type' => 'MasterCard',
@@ -61,33 +63,41 @@ $data = array(
 
 $tests = array(
     // Keyed Tests
-    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
-    array('amount' => '2.05', 'entry_mode' => 'keyed', 'reverse' => true),
-    array('amount' => '2.06', 'entry_mode' => 'keyed', 'return' => true),
-    array('amount' => '23.05', 'entry_mode' => 'keyed'),
-    array('amount' => '23.06', 'entry_mode' => 'keyed', 'card_number' => '4003000123456781', 'card_exp_month' => 12, 'card_exp_year' => 19),
-    array('amount' => '3.20', 'entry_mode' => 'keyed'),
+//    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
+//    array('amount' => '2.05', 'entry_mode' => 'keyed', 'reversal' => true),
+//    array('amount' => '2.06', 'entry_mode' => 'keyed'),
+//    array('amount' => '23.05', 'entry_mode' => 'keyed'),
+//    array('amount' => '23.06', 'entry_mode' => 'keyed', 'card_number' => '4003000123456781', 'card_exp_month' => 12, 'card_exp_year' => 19),
+//    array('amount' => '3.20', 'entry_mode' => 'keyed'),
+
+//    array('amount' => '3.20', 'entry_mode' => 'keyed', 'return' => true),
+//    array('amount' => '3.25', 'entry_mode' => 'keyed', 'return' => true),
+
+//    array('amount' => '5.09', 'entry_mode' => 'keyed', 'void' => true),
+//    array('amount' => '6.12', 'entry_mode' => 'keyed', 'reversal' => true),
+//    array('amount' => '6.13', 'entry_mode' => 'keyed', 'reversal' => true),
+
 
     // Swiped Tests
-    array('amount' => '2.04', 'entry_mode' => 'swipe'),
-    array('amount' => '2.05', 'entry_mode' => 'swipe'),
-    array('amount' => '2.06', 'entry_mode' => 'swipe'),
-    array('amount' => '2.07', 'entry_mode' => 'swipe'),
-    array('amount' => '2.08', 'entry_mode' => 'swipe'),
-    array('amount' => '2.09', 'entry_mode' => 'swipe'),
-    array('amount' => '2.10', 'entry_mode' => 'swipe'),
-    array('amount' => '2.11', 'entry_mode' => 'swipe'),
-    array('amount' => '2.12', 'entry_mode' => 'swipe'),
-    array('amount' => '23.05', 'entry_mode' => 'swipe'),
-    array('amount' => '23.06', 'entry_mode' => 'swipe'),
-
-    array('amount' => '3.20', 'entry_mode' => 'swipe'),
-    array('amount' => '3.25', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.04', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.05', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.06', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.07', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.08', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.09', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.10', 'entry_mode' => 'swipe', 'reversal' => true),
+//    array('amount' => '2.11', 'entry_mode' => 'swipe'),
+//    array('amount' => '2.12', 'entry_mode' => 'swipe'),
+//    array('amount' => '23.05', 'entry_mode' => 'swipe'),
+//    array('amount' => '23.06', 'entry_mode' => 'swipe'),
+//
+//    array('amount' => '3.20', 'entry_mode' => 'swipe', 'return' => true),
+//    array('amount' => '3.25', 'entry_mode' => 'swipe', 'return' => true),
 
 );
 
 // Don't run long tests on anything but dev
-//if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
+if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
     $tests = array();
 
 foreach($tests as $testData) {
@@ -110,7 +120,7 @@ foreach($tests as $testData) {
     }
 
     // Reverse transaction
-    if(!empty($testData['reverse'])) {
+    if(!empty($testData['reversal'])) {
         $ReverseTransaction = $MerchantIdentity->reverseTransaction($Order, array());
         echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getTransactionID();
     }
