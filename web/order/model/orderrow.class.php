@@ -91,6 +91,7 @@ class OrderRow
     protected $status;
     protected $total_returned_amount;
     protected $total_returned_service_fee;
+    protected $convenience_fee;
     protected $username;
     protected $merchant_id;
     protected $integration_id;
@@ -145,6 +146,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getIntegrationName()    { return $this->integration_name; }
     public function getOrderItemID()        { return $this->order_item_id; }
 
+    public function getConvenienceFee()     { return $this->convenience_fee; }
     public function getEntryMode()          { return $this->entry_mode; }
 
     public function setStatus($status)      { $this->status = $status; }
@@ -210,6 +212,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
             ':payee_reciept_email' => $OrderRow->payee_reciept_email,
             ':payee_zipcode' => $OrderRow->payee_zipcode,
             ':status' => $OrderRow->status,
+            ':convenience_fee' => $OrderRow->convenience_fee ?: 0,
             ':total_returned_amount' => $OrderRow->total_returned_amount ?: 0,
             ':total_returned_service_fee' => $OrderRow->total_returned_service_fee ?: 0,
             ':username' => $OrderRow->username ?: '',
@@ -292,6 +295,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
 //        $OrderRow->date = ;
         $OrderRow->entry_mode = $post['entry_mode'];
         $OrderRow->amount = $post['amount'];
+        $OrderRow->convenience_fee = $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $OrderRow->order_item_id = 0;
 
         if(in_array(strtolower($post['entry_mode']), array('keyed', 'swipe'))) {

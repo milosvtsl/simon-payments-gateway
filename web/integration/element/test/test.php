@@ -86,7 +86,8 @@ $tests = array(
 
 );
 
-//if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
+// Don't run long tests on anything but dev
+if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
     $tests = array();
 
 foreach($tests as $testData) {
