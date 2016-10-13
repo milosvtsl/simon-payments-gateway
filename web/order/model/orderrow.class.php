@@ -149,6 +149,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public function setStatus($status)      { $this->status = $status; }
 
+    public function getReferenceNumber() {
+        return strtoupper($this->uid);
+    }
+
     /**
      * Return the first authorized transaction for this order
      * @return TransactionRow
@@ -369,6 +373,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $l = strlen($number);
         return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
+
 
 
 }

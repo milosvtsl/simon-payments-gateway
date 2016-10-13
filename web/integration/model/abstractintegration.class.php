@@ -99,7 +99,7 @@ abstract class AbstractIntegration
      * @param array $post
      * @return mixed
      */
-//    abstract function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
+    abstract function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
 
     /**
      * Return an existing Transaction
@@ -109,4 +109,13 @@ abstract class AbstractIntegration
      * @return mixed
      */
     abstract function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
+
+    /**
+     * Perform health check on remote api
+     *
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return mixed
+     */
+    abstract function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post);
 }

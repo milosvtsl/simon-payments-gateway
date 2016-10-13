@@ -276,5 +276,17 @@ class FinixIntegration extends AbstractIntegration
     function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
     }
+
+    /**
+     * Perform health check on remote api
+     * @param FinixMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return IntegrationRequestRow
+     * @throws IntegrationException
+     */
+    function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
+
 }
 

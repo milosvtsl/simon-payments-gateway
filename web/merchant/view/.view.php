@@ -181,49 +181,6 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
             </fieldset>
 
             <fieldset style="display: inline-block;">
-                <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
-                <table class="table-merchant-info themed striped-rows">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Complete</th>
-                        <th>Provisioned</th>
-                        <th>Settle</th>
-                        <th>Notes</th>
-                    </tr>
-                    <?php
-
-                    $DB = \Config\DBConfig::getInstance();
-                    $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
-                    /** @noinspection PhpMethodParametersCountMismatchInspection */
-                    $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
-                    $IntegrationQuery->execute(array($this->getMerchant()->getID()));
-
-                    $odd = false;
-                    /** @var IntegrationRow $IntegrationRow **/
-                    foreach($IntegrationQuery as $IntegrationRow) {
-                        $id = $IntegrationRow->getID();
-                        $MerchantIdentity = $IntegrationRow->getMerchantIdentity($Merchant);
-                        if(!$MerchantIdentity->isProvisioned())
-                            continue;
-                    ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getID(); ?></a></td>
-                            <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getName(); ?></a></td>
-                            <td><?php echo $IntegrationRow->getAPIType(); ?></td>
-                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
-                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
-                            <td><?php echo "<span style='color:", ($MerchantIdentity->canSettleFunds() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
-                            <td style="max-width: 24em; overflow-x: hidden;"><?php echo $IntegrationRow->getNotes(); ?></td>
-                        </tr>
-
-                    <?php } ?>
-
-                    </table>
-            </fieldset>
-
-            <fieldset style="display: inline-block;">
                 <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
@@ -266,6 +223,49 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         </tr>
                     <?php } ?>
                 </table>
+            </fieldset>
+
+            <fieldset style="display: inline-block;">
+                <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
+                <table class="table-merchant-info themed striped-rows">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Complete</th>
+                        <th>Provisioned</th>
+                        <th>Settle</th>
+                        <th>Notes</th>
+                    </tr>
+                    <?php
+
+                    $DB = \Config\DBConfig::getInstance();
+                    $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+                    /** @noinspection PhpMethodParametersCountMismatchInspection */
+                    $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
+                    $IntegrationQuery->execute(array($this->getMerchant()->getID()));
+
+                    $odd = false;
+                    /** @var IntegrationRow $IntegrationRow **/
+                    foreach($IntegrationQuery as $IntegrationRow) {
+                        $id = $IntegrationRow->getID();
+                        $MerchantIdentity = $IntegrationRow->getMerchantIdentity($Merchant);
+                        if(!$MerchantIdentity->isProvisioned())
+                            continue;
+                    ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getID(); ?></a></td>
+                            <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getName(); ?></a></td>
+                            <td><?php echo $IntegrationRow->getAPIType(); ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td><?php echo "<span style='color:", ($MerchantIdentity->canSettleFunds() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
+                            <td style="max-width: 24em; overflow-x: hidden;"><?php echo $IntegrationRow->getNotes(); ?></td>
+                        </tr>
+
+                    <?php } ?>
+
+                    </table>
             </fieldset>
         </form>
     </section>

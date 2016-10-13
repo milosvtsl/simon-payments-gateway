@@ -116,7 +116,6 @@ abstract class AbstractMerchantIdentity {
         return $Integration->voidTransaction($this, $Order, $post);
     }
 
-
     /**
      * Return an existing Transaction
      * @param OrderRow $Order
@@ -128,6 +127,26 @@ abstract class AbstractMerchantIdentity {
         return $Integration->returnTransaction($this, $Order, $post);
     }
 
+    /**
+     * Return an existing Transaction
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     */
+    function reverseTransaction(OrderRow $Order, Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->reverseTransaction($this, $Order, $post);
+    }
+
+    /**
+     * Perform health check on integration
+     * @param array $post
+     * @return IntegrationRequestRow
+     */
+    function performHealthCheck(Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->performHealthCheck($this, $post);
+    }
 
 //    /**
 //     * Reverse an existing Transaction

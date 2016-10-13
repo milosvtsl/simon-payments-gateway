@@ -124,10 +124,10 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
         $Merchant = $this->getMerchantRow();
         $amount = $OrderRow->getAmount();
         $fee = $Merchant->getFeeFlat();
-        $fee += $amount * $Merchant->getFeeVariable();
-        if($fee > $Merchant->getFeeLimit())
+        $fee += $amount * floatval($Merchant->getFeeVariable())/100;
+        if($Merchant->getFeeLimit() > 0 && $fee > $Merchant->getFeeLimit())
             $fee = $Merchant->getFeeLimit();
-        return $fee;
+        return round($fee, 2);
     }
 
 

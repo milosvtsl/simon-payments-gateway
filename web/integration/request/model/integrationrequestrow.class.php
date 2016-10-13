@@ -15,24 +15,26 @@ class IntegrationRequestRow
 {
     const _CLASS = __CLASS__;
 
-    const ENUM_TYPE_MERCHANT            = 'merchant';
-    const ENUM_TYPE_MERCHANT_IDENTITY   = 'merchant-identity';
-    const ENUM_TYPE_MERCHANT_PROVISION  = 'merchant-provision';
-    const ENUM_TYPE_MERCHANT_PAYMENT    = 'merchant-payment';
-    const ENUM_TYPE_TRANSACTION         = 'transaction';
-    const ENUM_TYPE_TRANSACTION_VOID    = 'transaction-void';
-    const ENUM_TYPE_TRANSACTION_RETURN  = 'transaction-return';
+    const ENUM_TYPE_MERCHANT                = 'merchant';
+    const ENUM_TYPE_MERCHANT_IDENTITY       = 'merchant-identity';
+    const ENUM_TYPE_MERCHANT_PROVISION      = 'merchant-provision';
+    const ENUM_TYPE_MERCHANT_PAYMENT        = 'merchant-payment';
+    const ENUM_TYPE_TRANSACTION             = 'transaction';
+    const ENUM_TYPE_TRANSACTION_VOID        = 'transaction-void';
+    const ENUM_TYPE_TRANSACTION_RETURN      = 'transaction-return';
+    const ENUM_TYPE_TRANSACTION_REVERSAL    = 'transaction-reversal';
+    const ENUM_TYPE_HEALTH_CHECK            = 'health-check';
 
-    const ENUM_RESULT_SUCCESS           = 'success';
-    const ENUM_RESULT_FAIL              = 'fail';
-    const ENUM_RESULT_ERROR             = 'error';
+    const ENUM_RESULT_SUCCESS               = 'success';
+    const ENUM_RESULT_FAIL                  = 'fail';
+    const ENUM_RESULT_ERROR                 = 'error';
 
-    const SORT_BY_ID                = 'ir.id';
-    const SORT_BY_INTEGRATION_ID    = 'ir.integration_id';
-    const SORT_BY_TYPE              = 'ir.type';
-    const SORT_BY_TYPE_ID           = 'ir.type_id';
-    const SORT_BY_DATE              = 'ir.date';
-    const SORT_BY_RESULT            = 'ir.result';
+    const SORT_BY_ID                        = 'ir.id';
+    const SORT_BY_INTEGRATION_ID            = 'ir.integration_id';
+    const SORT_BY_TYPE                      = 'ir.type';
+    const SORT_BY_TYPE_ID                   = 'ir.type_id';
+    const SORT_BY_DATE                      = 'ir.date';
+    const SORT_BY_RESULT                    = 'ir.result';
 
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,

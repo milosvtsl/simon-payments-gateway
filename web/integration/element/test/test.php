@@ -34,6 +34,9 @@ $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 if(!$MerchantIdentity->isProvisioned())
     $MerchantIdentity->provisionRemote();
 
+$HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
+echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
+
 // Test Data
 $data = array(
     'integration_id' => $MerchantIdentity->getIntegrationRow()->getID(),
@@ -57,42 +60,60 @@ $data = array(
 );
 
 $tests = array(
-    array(
-        'amount' => '2.04',
-        'entry_mode' => 'keyed',
-    ),
-//    array(
-//        'amount' => '2.05',
-//        'entry_mode' => 'keyed',
-//    ),
-//    array(
-//        'amount' => '2.06',
-//        'entry_mode' => 'keyed',
-//    ),
-//    array(
-//        'amount' => '23.05',
-//        'entry_mode' => 'keyed',
-//    ),
-//    array(
-//        'amount' => '23.06',
-//        'entry_mode' => 'keyed',
-//    ),
+    // Keyed Tests
+    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
+    array('amount' => '2.05', 'entry_mode' => 'keyed', 'reverse' => true),
+    array('amount' => '2.06', 'entry_mode' => 'keyed', 'return' => true),
+    array('amount' => '23.05', 'entry_mode' => 'keyed'),
+    array('amount' => '23.06', 'entry_mode' => 'keyed', 'card_number' => '4003000123456781', 'card_exp_month' => 12, 'card_exp_year' => 19),
+    array('amount' => '3.20', 'entry_mode' => 'keyed'),
+
+    // Swiped Tests
+    array('amount' => '2.04', 'entry_mode' => 'swipe'),
+    array('amount' => '2.05', 'entry_mode' => 'swipe'),
+    array('amount' => '2.06', 'entry_mode' => 'swipe'),
+    array('amount' => '2.07', 'entry_mode' => 'swipe'),
+    array('amount' => '2.08', 'entry_mode' => 'swipe'),
+    array('amount' => '2.09', 'entry_mode' => 'swipe'),
+    array('amount' => '2.10', 'entry_mode' => 'swipe'),
+    array('amount' => '2.11', 'entry_mode' => 'swipe'),
+    array('amount' => '2.12', 'entry_mode' => 'swipe'),
+    array('amount' => '23.05', 'entry_mode' => 'swipe'),
+    array('amount' => '23.06', 'entry_mode' => 'swipe'),
+
+    array('amount' => '3.20', 'entry_mode' => 'swipe'),
+    array('amount' => '3.25', 'entry_mode' => 'swipe'),
+
 );
+
+//if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
+    $tests = array();
 
 foreach($tests as $testData) {
     $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $testData+$data);
-    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' #' . $Transaction->getTransactionID();
+    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getTransactionID();
 
     // Void transaction
-    $VoidTransaction = $MerchantIdentity->voidTransaction($Order, array());
-    echo "\nVoid: " . $VoidTransaction->getStatusCode(), ' #' . $VoidTransaction->getTransactionID();
+    if(!empty($testData['void'])) {
+        $VoidTransaction = $MerchantIdentity->voidTransaction($Order, array());
+        echo "\nVoid: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getTransactionID();
+    }
 
     // Return transaction
-//    $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, array());
-//    echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' #' . $ReturnTransaction->getTransactionID();
+    if(!empty($testData['return'])) {
+        $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, array());
+        echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' ' . $ReturnTransaction->getAction(), ' #' . $ReturnTransaction->getTransactionID();
+    }
+
+    // Reverse transaction
+    if(!empty($testData['reverse'])) {
+        $ReverseTransaction = $MerchantIdentity->reverseTransaction($Order, array());
+        echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getTransactionID();
+    }
+
 
     // Delete tests
 //    TransactionRow::delete($ReturnTransaction);

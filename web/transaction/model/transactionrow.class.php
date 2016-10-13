@@ -154,6 +154,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $this->transaction_date = $date;
     }
 
+    public function getReferenceNumber() {
+        return strtoupper($this->uid);
+    }
+
     /**
      * Create a Void Transaction
      * @param $AuthorizedTransaction
@@ -166,6 +170,20 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $VoidTransaction->date = date('Y-m-d G:i:s');
         $VoidTransaction->is_reviewed = 0;
         return $VoidTransaction;
+    }
+
+    /**
+     * Create a Void Transaction
+     * @param $AuthorizedTransaction
+     * @return TransactionRow
+     */
+    public function createReturnTransaction($AuthorizedTransaction) {
+        $ReturnTransaction = clone $AuthorizedTransaction;
+        $ReturnTransaction->id = null;
+        $ReturnTransaction->uid = strtolower(self::generateGUID());
+        $ReturnTransaction->date = date('Y-m-d G:i:s');
+        $ReturnTransaction->is_reviewed = 0;
+        return $ReturnTransaction;
     }
 
     // Static
@@ -300,9 +318,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
-    public static function generateTransactionID() {
+    public static function generateReferenceNumber() {
         return sprintf('%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535));
     }
+
 
 
 }

@@ -21,7 +21,6 @@ class ElementIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
 
-    const POST_URL_IDENTITIES = "/identities/";
     const POST_URL_TRANSACTION = "/express.asmx"; // https://certtransaction.elementexpress.com/express.asmx
 
     /**
@@ -104,33 +103,38 @@ class ElementIntegration extends AbstractIntegration
     function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
         $data = $Request->parseResponseData();
         switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                if(!empty($data['id']))
-                    return true;
-                $reason = "Missing 'id' field";
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
-                if(!empty($data['fingerprint']))
-                    return true;
-                $reason = "Missing 'fingerprint' field";
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
-                if(!empty($data['identity']))
-                    return true;
-                $reason = "Missing 'identity' field";
-                return false;
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
                 if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
                     throw new IntegrationException("Invalid response array");
-
                 $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
-                $response = $response['response'];
-                $code = $response['ExpressResponseCode'];
-                $reason = $response['ExpressResponseMessage'];
+                break;
 
-                return $code === '0';
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
+                if(empty($data['CreditCardReturnResponse']))
+                    throw new IntegrationException("Invalid CreditCardReturnResponse");
+                $response = $data['CreditCardReturnResponse'];
+                break;
+
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
+                if(empty($data['CreditCardVoidResponse']))
+                    throw new IntegrationException("Invalid CreditCardVoidResponse");
+                $response = $data['CreditCardVoidResponse'];
+                break;
+
+            case IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK:
+                if(empty($data['HealthCheckResponse']))
+                    throw new IntegrationException("Invalid HealthCheckResponse");
+                $response = $data['HealthCheckResponse'];
+                break;
+
+            default:
+                return false;
         }
-        return false;
+        $response = $response['response'];
+        $code = $response['ExpressResponseCode'];
+        $reason = $response['ExpressResponseMessage'];
+
+        return $code === '0';
     }
 
     /**
@@ -160,15 +164,15 @@ class ElementIntegration extends AbstractIntegration
      */
     function getRequestURL(IntegrationRequestRow $Request) {
         $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                return $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
-        }
-        throw new IntegrationException("No API url for this request type");
+        return $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
+//        switch($Request->getIntegrationType()) {
+//            default:
+//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
+//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
+//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+//                return $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
+//        }
+//        throw new IntegrationException("No API url for this request type");
     }
 
     /**
@@ -220,7 +224,22 @@ class ElementIntegration extends AbstractIntegration
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
         /** @var ElementMerchantIdentity $MerchantIdentity */
-        $Request = $this->prepareTransactionRequest($MerchantIdentity, $Transaction, $Order, $post);
+
+
+        $Request = IntegrationRequestRow::prepareNew(
+            __CLASS__,
+            $MerchantIdentity->getIntegrationRow()->getID(),
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION,
+            $MerchantIdentity->getMerchantRow()->getID()
+        );
+        $url = $this->getRequestURL($Request);
+//        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
+        $Request->setRequestURL($url);
+
+        $APIUtil = new ElementAPIUtil();
+        $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
+        $Request->setRequest($request);
+
         $this->execute($Request);
         $data = $this->parseResponseData($Request);
         if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
@@ -237,7 +256,7 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException($message);
 
         if($code !== "0")
-            $Transaction->setAction("Error");
+            $Transaction->setAction($message);
         else
             $Transaction->setAction("Authorized");
 //                throw new IntegrationException($message);
@@ -258,28 +277,73 @@ class ElementIntegration extends AbstractIntegration
     }
 
 
-    public function prepareTransactionRequest(
-        ElementMerchantIdentity $MerchantIdentity,
-        TransactionRow $TransactionRow,
-        OrderRow $OrderRow, $post) {
+    /**
+     * Reverse an existing Transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param array $post
+     * @return mixed
+     * @throws IntegrationException
+     */
+    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        if(!$Order->getID())
+            throw new \InvalidArgumentException("Order must exist in the database");
 
-        $NewRequest = IntegrationRequestRow::prepareNew(
+        if(empty($post['amount']))
+            $post['amount'] = $Order->getAmount();
+
+        // Create Transaction
+        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+        /** @var ElementMerchantIdentity $MerchantIdentity */
+
+        $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
             $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL,
             $MerchantIdentity->getMerchantRow()->getID()
         );
-        $url = $this->getRequestURL($NewRequest);
-//        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
-        $NewRequest->setRequestURL($url);
+        $url = $this->getRequestURL($Request);
+        $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $TransactionRow, $OrderRow, $post);
-        $NewRequest->setRequest($request);
+        $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $Transaction, $Order, $post);
+        $Request->setRequest($request);
 
-        return $NewRequest;
+        $this->execute($Request);
+        $data = $this->parseResponseData($Request);
+        if(empty($data['CreditCardReversalResponse']))
+            throw new IntegrationException("Invalid CreditCardReversalResponse");
+
+        $response = $data['CreditCardReversalResponse'];
+        $response = $response['response'];
+        $code = $response['ExpressResponseCode'];
+        $message = $response['ExpressResponseMessage'];
+        if(!$response) //  || !$code || !$message)
+            throw new IntegrationException("Invalid response data");
+
+        if($code === '101')
+            throw new IntegrationException($message);
+
+        if($code !== "0")
+            $Transaction->setAction($message);
+        else
+            $Transaction->setAction("Reversal");
+//                throw new IntegrationException($message);
+
+        $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
+        $transactionID = $response['Transaction']['TransactionID'];
+
+        $Transaction->setAuthCodeOrBatchID($code);
+        $Transaction->setTransactionID($transactionID);
+        $Transaction->setStatus($code, $message);
+        // Store Transaction Result
+        $Transaction->setTransactionDate($date);
+
+        $Order->setStatus("Reversal");
+        OrderRow::update($Order);
+        TransactionRow::insert($Transaction);
+        return $Transaction;
     }
-
 
     /**
      * Void an existing Transaction
@@ -351,24 +415,110 @@ class ElementIntegration extends AbstractIntegration
 
     /**
      * Return an existing Transaction
-     * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param OrderRow $Order
+     * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $OrderRow
      * @param array $post
      * @return mixed
+     * @throws IntegrationException
      */
-    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
-        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
+        if(!$OrderRow->getID())
+            throw new \InvalidArgumentException("Order must exist in the database");
+
+        $AuthorizedTransaction = $OrderRow->getAuthorizedTransaction();
+
+        $Request = IntegrationRequestRow::prepareNew(
+            __CLASS__,
+            $MerchantIdentity->getIntegrationRow()->getID(),
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN,
+            $MerchantIdentity->getMerchantRow()->getID()
+        );
+        $url = $this->getRequestURL($Request);
+        $Request->setRequestURL($url);
+
+        $APIUtil = new ElementAPIUtil();
+        $request = $APIUtil->returnCreditCardRequest($MerchantIdentity, $OrderRow, $AuthorizedTransaction, $post);
+        $Request->setRequest($request);
+
+        $this->execute($Request);
+        $data = $this->parseResponseData($Request);
+
+        if(empty($data['CreditCardReturnResponse']))
+            throw new IntegrationException("Invalid CreditCardReturnResponse");
+
+        $response = $data['CreditCardReturnResponse'];
+        $response = $response['response'];
+        $code = $response['ExpressResponseCode'];
+        $message = $response['ExpressResponseMessage'];
+        if(!$response) //  || !$code || !$message)
+            throw new IntegrationException("Invalid response data");
+
+        if($code === '101')
+            throw new IntegrationException($message);
+
+        $ReturnTransaction = $AuthorizedTransaction->createReturnTransaction($AuthorizedTransaction);
+
+        $action = "Return";
+        if($code !== "0")
+            $action = "Error";
+
+
+        $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
+        $transactionID = $response['Transaction']['TransactionID'];
+
+        // Store Transaction Result
+        $ReturnTransaction->setAction($action);
+        $ReturnTransaction->setStatus($code, $message);
+        $ReturnTransaction->setAuthCodeOrBatchID($code);
+        $ReturnTransaction->setTransactionID($transactionID);
+        $ReturnTransaction->setTransactionDate($date);
+
+        TransactionRow::insert($ReturnTransaction);
+
+        $OrderRow->setStatus("Return");
+        OrderRow::update($OrderRow);
+        return $ReturnTransaction;
     }
 
+
     /**
-     * Reverse an existing Transaction
-     * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param OrderRow $Order
+     * Perform health check on remote api
+     * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
-     * @return mixed
+     * @return IntegrationRequestRow
+     * @throws IntegrationException
      */
-    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
-        throw new \InvalidArgumentException("TODO: Not yet implemented");
+    function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+        $Request = IntegrationRequestRow::prepareNew(
+            __CLASS__,
+            $MerchantIdentity->getIntegrationRow()->getID(),
+            IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK,
+            $MerchantIdentity->getMerchantRow()->getID()
+        );
+        $url = $this->getRequestURL($Request);
+        $Request->setRequestURL($url);
+
+        $APIUtil = new ElementAPIUtil();
+        $request = $APIUtil->prepareHealthCheckRequest($MerchantIdentity, $post);
+        $Request->setRequest($request);
+
+        $this->execute($Request);
+        $data = $this->parseResponseData($Request);
+
+        if(empty($data['HealthCheckResponse']))
+            throw new IntegrationException("Invalid HealthCheckResponse");
+
+        $response = $data['HealthCheckResponse'];
+        $response = $response['response'];
+        $code = $response['ExpressResponseCode'];
+        $message = $response['ExpressResponseMessage'];
+        if(!$response) //  || !$code || !$message)
+            throw new IntegrationException("Invalid response data");
+
+        if($code === '101')
+            throw new IntegrationException($message);
+
+        return $Request;
     }
 }
 
