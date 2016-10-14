@@ -102,7 +102,7 @@ if(isset($_SESSION['transaction/charge.php']))
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Payment Amount</td>
                         <td class="value">
-                            <input type="text" name="amount" value="<?php echo @$LASTPOST['amount']; ?>"  size="10" placeholder="" required autofocus />
+                            <input type="text" name="amount" value="<?php echo @$LASTPOST['amount']; ?>"  size="10" placeholder="x.xx" required autofocus />
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -115,20 +115,20 @@ if(isset($_SESSION['transaction/charge.php']))
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Email</td>
-                        <td class="value"><input type="text" name="payee_reciept_email" value="<?php echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="" /></td>
+                        <td class="value"><input type="text" name="payee_reciept_email" value="<?php echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="xxx@xxx.xxx" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Phone</td>
-                        <td class="value"><input type="text" name="payee_phone_number" value="<?php echo @$LASTPOST['payee_phone_number']; ?>" placeholder="" /></td>
+                        <td class="value"><input type="text" name="payee_phone_number" value="<?php echo @$LASTPOST['payee_phone_number']; ?>" placeholder="xxx-xxx-xxxx" /></td>
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Customer&nbsp;ID#</td>
-                        <td class="value"><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="" /></td>
+                        <td class="value"><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="Optional Customer ID" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Invoice&nbsp;ID#</td>
-                        <td class="value"><input type="text" name="invoice_number" value="<?php echo @$LASTPOST['invoice_number']; ?>" placeholder="" /></td>
+                        <td class="value"><input type="text" name="invoice_number" value="<?php echo @$LASTPOST['invoice_number']; ?>" placeholder="Optional Invoice Number" /></td>
                     </tr>
                 </table>
             </fieldset>
@@ -138,11 +138,11 @@ if(isset($_SESSION['transaction/charge.php']))
                 <table class="table-transaction-charge themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">First Name</td>
-                        <td class="value"><input type="text" name="payee_first_name" value="<?php echo @$LASTPOST['payee_first_name']; ?>" placeholder="" required /></td>
+                        <td class="value"><input type="text" name="payee_first_name" value="<?php echo @$LASTPOST['payee_first_name']; ?>" placeholder="First Name" required /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Last Name</td>
-                        <td class="value"><input type="text" name="payee_last_name" value="<?php echo @$LASTPOST['payee_last_name']; ?>" placeholder="" required /></td>
+                        <td class="value"><input type="text" name="payee_last_name" value="<?php echo @$LASTPOST['payee_last_name']; ?>" placeholder="Last Name" required /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Address</td>
@@ -154,11 +154,11 @@ if(isset($_SESSION['transaction/charge.php']))
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Billing Zipcode</td>
-                        <td class="value"><input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="" size="5" /></td>
+                        <td class="value"><input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="7" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Card Number</td>
-                        <td class="value"><input type="text" name="card_number" value="<?php echo @$LASTPOST['card_number']; ?>" placeholder="" required /></td>
+                        <td class="value"><input type="text" name="card_number" value="<?php echo @$LASTPOST['card_number']; ?>" placeholder="xxxxxxxxxxxxxxxx" required /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Card Type</td>
@@ -174,7 +174,7 @@ if(isset($_SESSION['transaction/charge.php']))
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">CVV</td>
-                        <td class="value"><input type="text" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="" size="4" /></td>
+                        <td class="value"><input type="text" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" size="4" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                         <td class="name">Expiration</td>

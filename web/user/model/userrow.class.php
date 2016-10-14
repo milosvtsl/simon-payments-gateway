@@ -55,6 +55,7 @@ FROM user u
     const SQL_GROUP_BY = "\nGROUP BY u.id";
     const SQL_ORDER_BY = "\nORDER BY u.id DESC";
 
+
     public function getID()         { return $this->id; }
     public function getUID()        { return $this->uid; }
     public function getUsername()   { return $this->username; }
@@ -180,6 +181,74 @@ WHERE id = :id";
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
         $stmt->execute(array($username));
         return $stmt->fetch();
+    }
+
+
+    /**
+     * @param $post
+     * @return UserRow
+     */
+    public static function createNewUser($post) {
+        if(strlen($post['username']) < 5)
+            throw new \InvalidArgumentException("Username must be at least 5 characters");
+
+        if($post['password'] !== $post['password_confirm'])
+            throw new \InvalidArgumentException("Password Mismatch");
+
+        if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
+            throw new \InvalidArgumentException("Invalid Email");
+
+
+        $User = new UserRow();
+        $User->uid = strtolower(self::generateGUID());
+        $User->version = 1;
+        $User->email = $post['email'];
+        $User->enabled = 1;
+        $User->fname = $post['fname'];
+        $User->lname = $post['lname'];
+        $User->password = $post['password'];
+        $User->username = $post['username'];
+
+        UserRow::insert($User);
+        return $User;
+    }
+
+    /**
+     * @param UserRow $User
+     * @return UserRow
+     * @throws \Exception
+     */
+    public static function insert(UserRow $User) {
+        $values = array(
+            ':uid' => $User->uid,
+            ':version' => $User->version,
+            ':email' => $User->email,
+            ':enabled' => $User->enabled,
+            ':fname' => $User->fname,
+            ':lname' => $User->lname,
+            ':password' => $User->password,
+            ':username' => $User->username,
+        );
+        $SQL = ''; // "INSERT INTO order_item\nSET";
+        foreach($values as $key=>$value)
+            $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
+        $SQL .= "\n\t`date` = NOW()";
+
+        $SQL = "INSERT INTO user\nSET" . $SQL;
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute($values);
+        if(!$ret)
+            throw new \PDOException("Failed to insert new row");
+
+        $User->id = $DB->lastInsertId();
+
+        return $User;
+    }
+
+    public static function generateGUID() {
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
 }
 
