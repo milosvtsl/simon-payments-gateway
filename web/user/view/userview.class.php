@@ -96,7 +96,10 @@ class UserView extends AbstractView
 
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
-                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                    $this->renderHTML(array(
+                        'action' => 'edit'
+                    ));
+//                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
                     die();
                 }
                 break;

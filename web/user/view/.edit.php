@@ -9,17 +9,16 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
 
     <!-- Page Navigation -->
-<nav class="page-menu hide-on-print">
-    <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
-    <?php } else { ?>
-        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-    <?php } ?>
-
-</nav>
+    <nav class="page-menu hide-on-print">
+        <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
+            <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
+        <?php } else { ?>
+            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+        <?php } ?>
+    </nav>
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
@@ -52,19 +51,19 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Username</td>
-                        <td><input type="text" name="username" value="<?php echo $User->getUsername(); ?>" /></td>
+                        <td><input type="text" name="username" value="<?php echo @$_POST['username'] ?: $User->getUsername(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Email</td>
-                        <td><input type="text" name="email" value="<?php echo $User->getEmail(); ?>" /></td>
+                        <td><input type="text" name="email" value="<?php echo @$_POST['email'] ?: $User->getEmail(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>First Name</td>
-                        <td><input type="text" name="fname" value="<?php echo $User->getFirstName(); ?>" /></td>
+                        <td><input type="text" name="fname" value="<?php echo @$_POST['fname'] ?: $User->getFirstName(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Last Name</td>
-                        <td><input type="text" name="lname" value="<?php echo $User->getLastName(); ?>" /></td>
+                        <td><input type="text" name="lname" value="<?php echo @$_POST['lname'] ?: $User->getLastName(); ?>" /></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Change Password</td>

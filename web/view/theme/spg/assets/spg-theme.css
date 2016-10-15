@@ -19,6 +19,10 @@ body.spg-theme > footer {
     padding-top: 2em;
 }
 
+.spg-theme section.content {
+    position: relative;
+    margin: auto;
+}
 
 body.spg-theme > hr.themed {
 border-width: 9px;
@@ -155,11 +159,20 @@ body.spg-theme > article.themed {
 /** Tables **/
 
 body.spg-theme form.themed {
+<<<<<<< HEAD
     font-family: helvetica;
+=======
+    font-family: verdana;
+>>>>>>> cdc82a909201ea89905baf5c00396dba808ae501
     /* background-color: #FAFAFA; */
     display: block;
     min-width: 30em;
     /* clear: both; */
+<<<<<<< HEAD
+=======
+    margin: 0 auto;
+    width: 880px;
+>>>>>>> cdc82a909201ea89905baf5c00396dba808ae501
 }
 
 body.spg-theme form.themed a {
@@ -257,8 +270,8 @@ body.spg-theme a.button.current {
     color: #ffffff;
 }
 body.spg-theme a.button:hover {
-    background-color: #3095bb;
-    color: #ffffff;
+    background-color: #3cbaea;
+    color: #000000;
 }
 body.spg-theme a.button[disabled] {
     color: gray;

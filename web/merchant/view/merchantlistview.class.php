@@ -45,7 +45,12 @@ class MerchantListView extends AbstractListView {
 			);
 		}
 
-
+		if(!empty($params['user_id'])) {
+			$whereSQL .= "\nAND EXISTS (
+				SELECT * FROM user_merchants um WHERE um.id_user = :user_id AND um.id_merchant = m.id
+			)";
+			$sqlParams[':user_id'] = $params['user_id'];
+		}
 
 
 		// Handle authority
