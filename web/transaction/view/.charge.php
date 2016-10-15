@@ -20,7 +20,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
 <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
+        <a href="/" class="nav_home">Home</a>
         <a href="order" class="nav_transaction">Orders</a>
         <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
     </aside>

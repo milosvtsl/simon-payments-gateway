@@ -24,7 +24,7 @@ $SessionUser = $SessionManager->getSessionUser();
 
 <!-- Bread Crumbs -->
 <aside class="bread-crumbs">
-    <a href="home" class="nav_home">Home</a>
+    <a href="/" class="nav_home">Home</a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
     <a href="order" class="nav_order">Orders</a>
     <?php } ?>

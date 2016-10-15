@@ -22,7 +22,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
+        <a href="/" class="nav_home">Home</a>
         <a href="user" class="nav_user">Users</a>
         <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
         <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>

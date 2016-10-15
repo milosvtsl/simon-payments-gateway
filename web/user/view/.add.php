@@ -21,7 +21,7 @@ $odd = false;
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
+        <a href="/" class="nav_home">Home</a>
         <a href="user" class="nav_user">Users</a>
         <a href="user/add.php" class="nav_user_add">Add New User</a>
     </aside>

@@ -6,7 +6,7 @@ include '.dashboard.nav.php';
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="/" class="nav_dashboard">Home</a>
-        <a href="home" class="nav_dashboard">Welcome</a>
+        <a href="/" class="nav_dashboard">Welcome</a>
     </aside>
 
     <section class="content">
