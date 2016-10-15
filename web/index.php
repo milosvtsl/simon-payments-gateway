@@ -5,11 +5,11 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
-switch(strtolower($_SERVER["SERVER_NAME"])) {
+switch(strtolower($_SERVER["HTTP_HOST"])) {
     case "admin.paylogicnetwork.com":
-    case "admin.paylogicnetwork.com:81":
-    case "admin.simonpayments.com":
-    case "admin.simonpayments.com:81":
+//    case "admin.paylogicnetwork.com:81":
+//    case "admin.simonpayments.com":
+//    case "admin.simonpayments.com:81":
         Header( "HTTP/1.1 301 Moved Permanently" );
         header("location: https://admin.simonpayments.com:8443/");
         die;
