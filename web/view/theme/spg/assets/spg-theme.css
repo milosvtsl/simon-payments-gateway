@@ -1,5 +1,5 @@
 body.spg-theme {
-    color: #000;
+    color: #000000;
     /* background-color: #EEE; */
     font-family: helvetica;
 }
@@ -21,10 +21,8 @@ body.spg-theme > footer {
 
 
 body.spg-theme > hr.themed {
-
-border-width: 9px;
-
-border-color: #3286c1;
+border-width: 9px;
+border-color: #3d7694;
 }
 
 body.spg-theme nav.site-menu {
@@ -135,7 +133,7 @@ body.spg-theme .bread-crumbs a {
 
 body.spg-theme .bread-crumbs a::after {
     content: ' |';
-    color: #8daab9;
+    color: #3095bb;
 }
 body.spg-theme .bread-crumbs a:last-child:after {
     content: '';
@@ -157,7 +155,7 @@ body.spg-theme > article.themed {
 /** Tables **/
 
 body.spg-theme form.themed {
-    font-family: verdana;
+    font-family: helvetica;
     /* background-color: #FAFAFA; */
     display: block;
     min-width: 30em;
@@ -170,13 +168,13 @@ body.spg-theme form.themed a {
 
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
-    border-radius: 0.3em;
-    border-width: 1px;
-    border: 1px outset #EEE;
+    /* border-radius: 0.3em; */
+    /* border-width: 1px; */
+    border: 0px inset #EEE;
     /* margin-bottom: 0.5em; */
-    background-color: #ebf2f5;
-    margin: 1em;
-    box-shadow: 2px 2px 4px #CCC;
+    background-color: #f6f9fa;
+    /* margin: 1em; */
+    /* box-shadow: 2px 2px 4px #CCC; */
 }
 
 body.spg-theme nav.page-menu {
@@ -191,14 +189,14 @@ body.spg-theme legend.themed {
     font-weight: bold;
     /* font-size: 1.4em; */
     background: #dce6ea;
-    border-radius: .5em;
+    /* border-radius: .5em; */
     padding: 0.2em 0.9em;
     font-family: monospace;
-    /* border-bottom: 1px inset #DADADA; */
+    border-bottom: 1px inset #DADADA;
     margin-left: -1em;
     margin-bottom: .5em;
-    box-shadow: 0px 1px 4px #CCC;
-    border: 1px outset #FFF;
+    /* box-shadow: 0px 1px 4px #CCC; */
+    /* border: 1px outset #FFF; */
 }
 
 body.spg-theme form.themed select,
@@ -239,7 +237,7 @@ body.spg-theme a.button {
     border-width: 1px;
     border-radius: 0.5em;
     text-transform: uppercase;
-    background-color: #1c4b6d;
+    background-color: #3d7694;
     color: #fff;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
@@ -254,13 +252,13 @@ body.spg-theme a.button.small {
     font-size: small;
 }
 body.spg-theme a.button.current {
-    background-color: #dce6ea;
+    background-color: #3cbaea;
     font-weight: lighter;
-    color: #1f5473;
+    color: #ffffff;
 }
 body.spg-theme a.button:hover {
-    background-color: #ebf2f5;
-    color: #355473;
+    background-color: #3095bb;
+    color: #ffffff;
 }
 body.spg-theme a.button[disabled] {
     color: gray;
