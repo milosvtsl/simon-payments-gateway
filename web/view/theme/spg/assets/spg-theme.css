@@ -57,7 +57,7 @@ body.spg-theme > nav > a {
     /* background: url(img/nav/nav_transaction.png) no-repeat bottom; */
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
-    margin-top: 2.5em;
+    margin-top: 2em;
 }
 
 
@@ -87,9 +87,9 @@ body.spg-theme > nav > a > div.nav-icon {
     margin-top: 0.4em;
 }
 /* body.spg-theme > nav > a > div.nav-logo-icon { background-position: 0 0; } */
-body.spg-theme > nav > a > div.nav-logout-icon {background-position: -64px 0;}
+body.spg-theme > nav > a > div.nav-logout-icon {background-position: -192px -64px;}
 /* body.spg-theme > nav > a > div.nav_-ser-icon { background-position: -128px 0; } */
-body.spg-theme > nav > a > div.nav-dashboard-icon {background-position: -192px 0;}
+body.spg-theme > nav > a > div.nav-dashboard-icon {background-position: -64px 0;}
 body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;}
 
 
@@ -173,7 +173,6 @@ body.spg-theme form.themed {
     display: block;
     min-width: 30em;
     /* clear: both; */
-    margin: 0 auto;
     width: 800px;
     border: 1px solid #d4e7ec;
 }
@@ -227,6 +226,7 @@ body.spg-theme form.themed input {
     padding: 0.5em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
+    margin: 0 0 0 1em;
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {
