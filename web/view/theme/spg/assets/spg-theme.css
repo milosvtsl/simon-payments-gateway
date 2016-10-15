@@ -43,6 +43,7 @@ body.spg-theme nav.site-menu {
 
 body.spg-theme > nav > a {
     display: inline-block;
+    vertical-align: top;
     text-decoration: none;
     color: #3cbaea;
     font-weight: bold;
@@ -71,6 +72,9 @@ body.spg-theme > nav > a.current {
     /* background-color: #DDD; */
 }
 
+body.spg-theme > nav > a > div.nav-icon:hover {
+    background-image: url(img/nav_icons_hover.png);
+}
 
 body.spg-theme > nav > a > div.nav-icon {
     background: url(img/nav_icons.png) 0 0 no-repeat;
