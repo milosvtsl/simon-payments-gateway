@@ -20,16 +20,13 @@ body.spg-theme > footer {
 }
 
 .spg-theme section.content {
-    /* position: absolute; */
-    /* margin: auto; */
-    display: inline-block;
-    margin-top: 3em;
-    /* width: 80%; */
+    position: relative;
+    margin: auto;
 }
 
 body.spg-theme > hr.themed {
-    border-width: 9px;
-    border-color: #3d7694;
+border-width: 9px;
+border-color: #3d7694;
 }
 
 body.spg-theme nav.site-menu {
@@ -117,7 +114,7 @@ body.spg-theme .bread-crumbs {
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: .5em;
-    background-color: #d4e7ec;
+    background-color: #bcc5d1;
     /* text-transform: capitalize; */
     /* z-index: 1; */
     /* position: relative; */
@@ -162,13 +159,20 @@ body.spg-theme > article.themed {
 /** Tables **/
 
 body.spg-theme form.themed {
-    /*font-family: helvetica;*/
+<<<<<<< HEAD
+    font-family: helvetica;
+=======
     font-family: verdana;
+>>>>>>> cdc82a909201ea89905baf5c00396dba808ae501
     /* background-color: #FAFAFA; */
     display: block;
     min-width: 30em;
+    /* clear: both; */
+<<<<<<< HEAD
+=======
     margin: 0 auto;
-    width: 800px;
+    width: 880px;
+>>>>>>> cdc82a909201ea89905baf5c00396dba808ae501
 }
 
 body.spg-theme form.themed a {
@@ -181,27 +185,24 @@ body.spg-theme fieldset.themed {
     /* border-width: 1px; */
     border: 0px inset #EEE;
     /* margin-bottom: 0.5em; */
-    background-color: #f6f9fa;
+    margin-top: 1em;
+    background-color: #f0f4f6;
     /* margin: 1em; */
     /* box-shadow: 2px 2px 4px #CCC; */
 }
 
 body.spg-theme nav.page-menu {
     display: inline-block;
-    /* position: absolute; */
-    z-index: -1;
-    /* float: left; */
+    float: left;
     margin: 0 2em 2em 0;
-    vertical-align: top;
 }
 
 body.spg-theme form.themed > fieldset > legend,
 body.spg-theme fieldset.themed > legend,
-
 body.spg-theme legend.themed {
     font-weight: bold;
     /* font-size: 1.4em; */
-    background: #dce6ea;
+    background: #bcc5d1;
     /* border-radius: .5em; */
     padding: 0.2em 0.9em;
     font-family: monospace;
@@ -270,12 +271,10 @@ body.spg-theme a.button.current {
     font-weight: lighter;
     color: #ffffff;
 }
-
 body.spg-theme a.button:hover {
     background-color: #3cbaea;
     color: #a0ebff;
 }
-
 body.spg-theme a.button[disabled] {
     color: gray;
     cursor: default;
