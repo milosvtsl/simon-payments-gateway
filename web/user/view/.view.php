@@ -10,7 +10,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
@@ -24,7 +24,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
     
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
+        <a href="/" class="nav_home">Home</a>
         <a href="user" class="nav_user">Users</a>
         <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
     </aside>

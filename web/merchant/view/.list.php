@@ -5,12 +5,12 @@ use \Merchant\Model\MerchantRow;
  **/
 
 $button_current = 'merchant';
-include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
 ?>
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
+        <a href="/" class="nav_home">Home</a>
         <a href="merchant" class="nav_merchant">Merchants</a>
         <a href="merchant/list.php" class="nav_merchant_list">Search</a>
     </aside>

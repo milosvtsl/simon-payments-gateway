@@ -5,13 +5,13 @@ use \User\Model\UserRow;
  **/
 
 $button_current = 'user';
-include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
 ?>
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="home" class="nav_home">Home</a>
+        <a href="/" class="nav_home">Home</a>
         <a href="user" class="nav_user">Users</a>
         <a href="user/list.php" class="nav_user_list">Search</a>
     </aside>

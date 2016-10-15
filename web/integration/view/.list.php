@@ -5,7 +5,7 @@ use \Integration\Model\IntegrationRow;
  **/
 
 $button_current = 'integration';
-include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
 ?>
 
