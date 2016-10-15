@@ -46,17 +46,18 @@ body.spg-theme > nav > a {
     vertical-align: top;
     text-decoration: none;
     color: #3cbaea;
-    font-weight: bold;
+    /* font-weight: bold; */
     text-align: center;
     /* border: 1px outset #EEE; */
     /* border-top-width: 0px; */
     /* border-radius: 1em; */
     /* margin: 1em 0.6em 1em 0; */
     /* padding: 0.5em 0.5em 0.2em 0.5em; */
-    width: 9em;
+    width: 7em;
     /* background: url(img/nav/nav_transaction.png) no-repeat bottom; */
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
+    margin-top: 2.5em;
 }
 
 
@@ -64,7 +65,7 @@ body.spg-theme > nav > a.current {
     background-color: #EEE;
 }
 body.spg-theme > nav > a:hover {
-    background-color: #00a8ff;
+    background-color: #f0f4f6;
 }
 
 
@@ -122,12 +123,13 @@ body.spg-theme .bread-crumbs {
     /* white-space: nowrap; */
     text-overflow: ellipsis;
     padding: .5em;
-    background-color: #3cbaea;
+    background-color: #3095bb;
     position: absolute;
     box-shadow: 0px 0px 4px #1b1b1b;
 }
 body.spg-theme .bread-crumbs a:hover {
-    background-color: #c1cddc;
+    background-color: #4f97c7;
+    font-weight: bold;
 }
 
 body.spg-theme .bread-crumbs a {
@@ -241,7 +243,7 @@ body.spg-theme form.themed input.large {
 body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
-    background-color: #7bc5ea;
+    background-color: #d4e7ec;
     padding: 1em 2em;
     min-width: 9em;
     font-weight: bold;
