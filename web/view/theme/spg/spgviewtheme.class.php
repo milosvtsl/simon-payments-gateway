@@ -94,16 +94,16 @@ class SPGViewTheme extends AbstractViewTheme
         <?php if($SessionManager->isLoggedIn()) { ?>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-                <a href="transaction/charge.php" class="nav-charge">Charge <br/> <div class="nav-icon nav-charge-icon"></div></a>
+                <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
             <?php } else { ?>
-                <a href="/" class="nav-login">Home <br/> <div class="nav-icon home"></div> </a>
+                <a href="/" class="nav-login">  <div class="nav-icon home"></div><br/>Home </a>
             <?php } ?>
-            <a href="user/dashboard.php" class="nav-login">Dashboard <br/> <div class="nav-icon nav-dashboard-icon"></div> </a>
-            <a href="user/logout.php" class="nav-login">Log out<br/> <div class="nav-icon nav-logout-icon"></div> </a>
+            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>
+            <a href="user/logout.php" class="nav-login"><div class="nav-icon nav-logout-icon"></div><br/> Log out </a>
         <?php } else { ?>
-            <a href="/" class="nav-login">Home <br/> <div class="nav-icon nav-home-icon"></div> </a>
-            <a href="signup.php" class="nav-login">Signup <br/> <div class="nav-icon nav-signup-icon"></div> </a>
-            <a href="login.php" class="nav-login">Login <br/> <div class="nav-icon nav-login-icon"></div> </a>
+            <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>
+            <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>
+            <a href="login.php" class="nav-login"> <div class="nav-icon nav-login-icon"></div><br/>Login </a>
         <?php } ?>
 
         </nav>
