@@ -39,14 +39,14 @@ body.spg-theme nav.site-menu {
 body.spg-theme > nav > a {
     display: inline-block;
     text-decoration: none;
-    color: black;
+    color: #3cbaea;
     font-weight: bold;
     text-align: center;
-    border: 1px outset #EEE;
+    /* border: 1px outset #EEE; */
     /* border-top-width: 0px; */
-    border-radius: 1em;
-    margin: 1em 0.6em 1em 0;
-    padding: 0.5em 0.5em 0.2em 0.5em;
+    /* border-radius: 1em; */
+    /* margin: 1em 0.6em 1em 0; */
+    /* padding: 0.5em 0.5em 0.2em 0.5em; */
     width: 9em;
     /* background: url(img/nav/nav_transaction.png) no-repeat bottom; */
     text-transform: uppercase;
@@ -105,16 +105,16 @@ body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; }
 /** Bread Crumbs **/
 
 body.spg-theme .bread-crumbs {
-    margin: 0.4em 0.5em 0 0;
+    /* margin: 0.4em 0.5em 0 0; */
     /* border-bottom: 1px solid #ccc; */
     /* display: inline-block; */
-    min-height: 2em;
+    /* min-height: 3em; */
     /* max-width: 38em; */
     /* overflow: hidden; */
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* padding: 0em; */
-    /* background-color: #fbfbfb; */
+    padding: .5em;
+    background-color: #d4e7ec;
     /* text-transform: capitalize; */
     /* z-index: 1; */
     /* position: relative; */
@@ -208,6 +208,7 @@ body.spg-theme legend.themed {
     border-bottom: 1px inset #DADADA;
     margin-left: -1em;
     margin-bottom: .5em;
+    margin-top: .5em;
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
 }
@@ -271,7 +272,7 @@ body.spg-theme a.button.current {
 }
 body.spg-theme a.button:hover {
     background-color: #3cbaea;
-    color: #000000;
+    color: #a0ebff;
 }
 body.spg-theme a.button[disabled] {
     color: gray;
