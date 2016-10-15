@@ -45,7 +45,7 @@ body.spg-theme > nav > a {
     display: inline-block;
     vertical-align: top;
     text-decoration: none;
-    color: #3cbaea;
+    color: #1a3340;
     /* font-weight: bold; */
     text-align: center;
     /* border: 1px outset #EEE; */
@@ -65,7 +65,7 @@ body.spg-theme > nav > a.current {
     background-color: #EEE;
 }
 body.spg-theme > nav > a:hover {
-    background-color: #f0f4f6;
+    /* background-color: #f0f4f6; */
 }
 
 
