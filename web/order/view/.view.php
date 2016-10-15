@@ -11,7 +11,7 @@ $SessionUser = $SessionManager->getSessionUser();
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>

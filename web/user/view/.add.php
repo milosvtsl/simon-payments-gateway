@@ -9,7 +9,7 @@ $odd = false;
 
     <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
-    <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+    <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="user/add.php" class="button">Add User<div class="submenu-icon submenu-icon-add"></div></a>
