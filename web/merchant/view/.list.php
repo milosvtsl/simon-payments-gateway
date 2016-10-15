@@ -2,15 +2,12 @@
 use \Merchant\Model\MerchantRow;
 /**
  * @var \View\AbstractListView $this
- **/?>
+ **/
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="merchant?" class="button current">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-    </nav>
+$button_current = 'merchant';
+include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
 
+?>
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="home" class="nav_home">Home</a>

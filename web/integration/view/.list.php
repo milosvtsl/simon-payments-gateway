@@ -2,15 +2,12 @@
 use \Integration\Model\IntegrationRow;
 /**
  * @var \View\AbstractListView $this
- **/?>
+ **/
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-    </nav>
+$button_current = 'integration';
+include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+
+?>
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">

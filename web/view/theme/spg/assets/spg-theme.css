@@ -190,6 +190,7 @@ body.spg-theme nav.page-menu {
     display: inline-block;
     float: left;
     margin: 0 2em 2em 0;
+    vertical-align: top;
 }
 
 body.spg-theme form.themed > fieldset > legend,
