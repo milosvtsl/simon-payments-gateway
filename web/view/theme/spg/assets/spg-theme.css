@@ -123,7 +123,7 @@ body.spg-theme .bread-crumbs {
     /* white-space: nowrap; */
     text-overflow: ellipsis;
     padding: .5em;
-    background-color: #3095bb;
+    background-color: #bcc5d1;
     position: absolute;
     box-shadow: 0px 0px 4px #1b1b1b;
 }
@@ -291,7 +291,7 @@ body.spg-theme a.button[disabled] {
 body.spg-theme table.themed {border-spacing: 0 0;margin: 0 0.5em;}
 
 body.spg-theme table.themed > tbody > tr > th {
-    background-color: #CCC;
+    background-color: #bcc5d1;
     color: #000;
     font-size: smaller;
     padding: 0.4em 0.7em;
