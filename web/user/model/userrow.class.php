@@ -48,7 +48,7 @@ class UserRow
 
     const SQL_SELECT = "
 SELECT u.*,
- (SELECT GROUP_CONCAT(m.id SEPARATOR ';') FROM user_merchants um, merchant m WHERE m.id = um.id_merchant AND um.id_user = u.id ) as merchant_list,
+ (SELECT GROUP_CONCAT(m.id SEPARATOR ';') FROM user_merchants um LEFT JOIN merchant m ON m.id = um.id_merchant WHERE um.id_user = u.id ) as merchant_list,
  (SELECT GROUP_CONCAT(CONCAT_WS(';', a.authority, a.authority_name) SEPARATOR '\n') FROM user_authorities ua, authority a WHERE a.id = ua.id_authority AND ua.id_user = u.id ) as authority_list
 FROM user u
 ";
@@ -64,10 +64,14 @@ FROM user u
     public function getFirstName()  { return $this->fname; }
     public function getLastName()   { return $this->lname; }
 
-    public function getMerchantCount() { return sizeof($this->getMerchantList()); }
+    public function getMerchantCount() {
+        return sizeof($this->getMerchantList());
+    }
     public function getMerchantList() {
         if(is_array($this->merchant_list))
             return $this->merchant_list;
+        if(!$this->merchant_list)
+            return $this->merchant_list = array();
         $this->merchant_list = explode(';', $this->merchant_list);
         return $this->merchant_list;
     }
@@ -136,20 +140,20 @@ FROM user u
     }
 
     public function updateFields($fname, $lname, $username, $email) {
-        $sql = "
-UPDATE " . self::TABLE_NAME . "
-SET fname=:fname, lname=:lname, username=:username, email=:email
-WHERE id = :id";
-        $DB = DBConfig::getInstance();
-        $EditQuery = $DB->prepare($sql);
-        $EditQuery->execute(array(
-            ':fname' => $fname ?: $this->fname,
-            ':lname' => $lname ?: $this->lname,
-            ':username' => $username ?: $this->username,
-            ':email' => $email ?: $this->email,
-            ':id' => $this->id
-        ));
-        return $EditQuery->rowCount();
+        if(!preg_match('/^[a-zA-Z0-9_-]$/', $username))
+            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
+
+        if(strlen($username) < 5)
+            throw new \InvalidArgumentException("Username must be at least 5 characters");
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+            throw new \InvalidArgumentException("Invalid Email");
+
+        $this->fname = $fname;
+        $this->lname = $lname;
+        $this->username = $username;
+        $this->email = $email;
+        return static::update($this);
     }
 
     // Static
@@ -189,6 +193,9 @@ WHERE id = :id";
      * @return UserRow
      */
     public static function createNewUser($post) {
+        if(!preg_match('/^[a-zA-Z0-9_-]/g', $post['username']))
+            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
+
         if(strlen($post['username']) < 5)
             throw new \InvalidArgumentException("Username must be at least 5 characters");
 
@@ -229,10 +236,10 @@ WHERE id = :id";
             ':password' => $User->password,
             ':username' => $User->username,
         );
-        $SQL = ''; // "INSERT INTO order_item\nSET";
+        $SQL = '';
         foreach($values as $key=>$value)
-            $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
-        $SQL .= "\n\t`date` = NOW()";
+            $SQL .= ($SQL?",\n":"") . "\n\t`" . substr($key, 1) . "` = " . $key;
+        $SQL .= ",\n\t`date` = NOW()";
 
         $SQL = "INSERT INTO user\nSET" . $SQL;
 
@@ -246,6 +253,39 @@ WHERE id = :id";
 
         return $User;
     }
+
+    /**
+     * @param UserRow $User
+     * @return UserRow
+     * @throws \Exception
+     */
+    public static function update(UserRow $User) {
+        if(!$User->id)
+            throw new \InvalidArgumentException("Invalid User ID");
+
+        $values = array(
+            ':email' => $User->email,
+            ':enabled' => $User->enabled,
+            ':fname' => $User->fname,
+            ':lname' => $User->lname,
+            ':password' => $User->password,
+            ':username' => $User->username,
+        );
+        $SQL = '';
+        foreach($values as $key=>$value)
+            $SQL .= ($SQL?",\n":"") . "\n\t`" . substr($key, 1) . "` = " . $key;
+
+        $SQL = "UPDATE user\nSET" . $SQL . "\nWHERE id = " . intval($User->id);
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute($values);
+        if(!$ret)
+            throw new \PDOException("Failed to insert new row");
+
+        return $stmt->rowCount();
+    }
+
 
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));

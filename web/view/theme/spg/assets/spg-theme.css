@@ -19,6 +19,10 @@ body.spg-theme > footer {
     padding-top: 2em;
 }
 
+.spg-theme section.content {
+    position: relative;
+    margin: auto;
+}
 
 body.spg-theme > hr.themed {
 
@@ -162,6 +166,8 @@ body.spg-theme form.themed {
     display: block;
     min-width: 30em;
     /* clear: both; */
+    margin: 0 auto;
+    width: 880px;
 }
 
 body.spg-theme form.themed a {
