@@ -22,6 +22,7 @@ body.spg-theme > footer {
 
 .spg-theme section.content {
     /* position: absolute; */
+    background-color: #f0f4f6;
     /* margin: auto; */
     display: inline-block;
     margin-top: 4.5em;
@@ -110,15 +111,15 @@ body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; }
 
 body.spg-theme .bread-crumbs {
     /* margin: 0.4em 0.5em 0 0; */
-    /* border-bottom: 1px solid #ccc; */
+    border-bottom: 2px solid #bcc5d1;
     display: inline-block;
     /* min-height: 3em; */
-    /* max-width: 38em; */
+    max-width: 38em;
     /* overflow: hidden; */
-    white-space: nowrap;
+    /* white-space: nowrap; */
     text-overflow: ellipsis;
     padding: .5em;
-    background-color: #d4e7ec;
+    background-color: #bcc5d1;
     position: absolute;
 }
 body.spg-theme .bread-crumbs a:hover {
@@ -181,7 +182,7 @@ body.spg-theme fieldset.themed {
     border: 0px inset #EEE;
     /* margin-bottom: 0.5em; */
     margin-top: 1em;
-    background-color: #f0f4f6;
+    background-color: #eef6f6;
     /* margin: 1em; */
     /* box-shadow: 2px 2px 4px #CCC; */
 }
@@ -200,7 +201,7 @@ body.spg-theme legend.themed {
     background: #bcc5d1;
     /* border-radius: .5em; */
     padding: 0.2em 0.9em;
-    font-family: monospace;
+    font-family: helvetica;
     border-bottom: 1px inset #DADADA;
     margin-left: -1em;
     margin-bottom: .5em;
@@ -262,13 +263,13 @@ body.spg-theme a.button.small {
     font-size: small;
 }
 body.spg-theme a.button.current {
-    background-color: #3cbaea;
-    font-weight: lighter;
-    color: #ffffff;
+    background-color: #d4e7ec;
+    font-weight: bold;
+    color: #000000;
 }
 body.spg-theme a.button:hover {
-    background-color: #3cbaea;
-    color: #a0ebff;
+    background-color: #bcc5d1;
+    color: #ffffff;
 }
 body.spg-theme a.button[disabled] {
     color: gray;
