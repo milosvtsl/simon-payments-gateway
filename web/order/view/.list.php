@@ -3,16 +3,13 @@ use Order\Model\OrderRow;
 /**
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
- **/?>
+ **/
 
-    <!-- Page Navigation -->
+$button_current = 'order';
+include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
 
-<nav class="page-menu hide-on-print">
-    <a href="order?" class="button current">Orders <div class="submenu-icon submenu-icon-list"></div></a>
-    <a href="home?" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-    <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
-</nav>
-    
+?>
+
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="home" class="nav_home">Home</a>
