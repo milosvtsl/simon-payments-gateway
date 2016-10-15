@@ -120,7 +120,7 @@ body.spg-theme .bread-crumbs {
     padding: .5em;
     background-color: #bcc5d1;
     position: absolute;
-    box-shadow: 0px 0px 4px #CCC;
+    box-shadow: 0px 0px 4px #1b1b1b;
 }
 body.spg-theme .bread-crumbs a:hover {
     background-color: #c1cddc;
@@ -128,7 +128,7 @@ body.spg-theme .bread-crumbs a:hover {
 
 body.spg-theme .bread-crumbs a {
     text-decoration: none;
-    color: #1c526d;
+    color: #ffffff;
     font-size: x-large;
     text-transform: uppercase;
     display: inline-block;
@@ -140,7 +140,7 @@ body.spg-theme .bread-crumbs a {
 
 body.spg-theme .bread-crumbs a::after {
     content: ' |';
-    color: #3095bb;
+    color: #ffffff;
 }
 body.spg-theme .bread-crumbs a:last-child:after {
     content: '';
