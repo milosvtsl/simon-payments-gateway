@@ -113,17 +113,17 @@ body.spg-theme .bread-crumbs {
     /* margin: 0.4em 0.5em 0 0; */
     border-bottom: 2px solid #bcc5d1;
     display: inline-block;
-    /* min-height: 3em; */
-    max-width: 38em;
+    min-width: 49em;
     /* overflow: hidden; */
     /* white-space: nowrap; */
     text-overflow: ellipsis;
     padding: .5em;
     background-color: #bcc5d1;
     position: absolute;
+    box-shadow: 0px 0px 4px #CCC;
 }
 body.spg-theme .bread-crumbs a:hover {
-    background-color: #dbecf1;
+    background-color: #c1cddc;
 }
 
 body.spg-theme .bread-crumbs a {
@@ -191,7 +191,6 @@ body.spg-theme nav.page-menu {
     display: inline-block;
     float: left;
     margin: 0 2em 2em 0;
-    vertical-align: top;
 }
 
 body.spg-theme form.themed > fieldset > legend,
@@ -201,7 +200,7 @@ body.spg-theme legend.themed {
     /* font-size: 1.4em; */
     background: #bcc5d1;
     /* border-radius: .5em; */
-    padding: 0.2em 0.9em;
+    padding-top: .5em;
     font-family: helvetica;
     border-bottom: 1px inset #DADADA;
     margin-left: -1em;
@@ -209,6 +208,7 @@ body.spg-theme legend.themed {
     margin-top: .5em;
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
+    min-width: 48em;
 }
 
 body.spg-theme form.themed select,
