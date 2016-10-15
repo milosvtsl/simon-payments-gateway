@@ -15,7 +15,7 @@ if(isset($_SESSION['transaction/charge.php']))
     $LASTPOST = $_SESSION['transaction/charge.php'];
 
 $button_current = 'charge';
-include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 ?>
 
 <!-- Bread Crumbs -->

@@ -5,7 +5,7 @@ use \User\Model\UserRow;
  **/
 
 $button_current = 'user';
-include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
 ?>
 

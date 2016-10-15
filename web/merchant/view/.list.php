@@ -5,7 +5,7 @@ use \Merchant\Model\MerchantRow;
  **/
 
 $button_current = 'merchant';
-include dirname(dirname(__DIR__)) . '\user\view\.dashboard.nav.php';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
 ?>
     <!-- Bread Crumbs -->
