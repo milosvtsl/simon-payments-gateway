@@ -8,14 +8,6 @@ $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
-        <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
-        <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
-    </nav>
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
@@ -24,6 +16,15 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
         <a href="<?php echo $action_url; ?>edit" class="nav_merchant_view">Edit</a>
     </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
+        <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
+        <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
+    </nav>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

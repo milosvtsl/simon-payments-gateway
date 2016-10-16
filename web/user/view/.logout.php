@@ -1,5 +1,15 @@
+<!-- Bread Crumbs -->
+<aside class="bread-crumbs">
+    <a href="/" class="nav_home">Home</a>
+    <a href="user/logout.php" class="nav-log-out">Log Out</a>
+</aside>
 
-<h3>Log out of your session</h3>
+<?php
+$button_current = 'integration';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+?>
+
+        <h3>Log out of your session</h3>
 
             <div class="box-login">
 

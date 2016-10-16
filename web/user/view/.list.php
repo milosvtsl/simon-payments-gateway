@@ -3,10 +3,6 @@ use \User\Model\UserRow;
 /**
  * @var \View\AbstractListView $this
  **/
-
-$button_current = 'user';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-
 ?>
 
     <!-- Bread Crumbs -->
@@ -15,6 +11,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <a href="user" class="nav_user">Users</a>
         <a href="user/list.php" class="nav_user_list">Search</a>
     </aside>
+
+<?php
+$button_current = 'user';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+?>
     
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

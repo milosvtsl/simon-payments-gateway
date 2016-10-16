@@ -8,6 +8,15 @@ $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 ?>
 
+<!-- Bread Crumbs -->
+<aside class="bread-crumbs">
+    <a href="/" class="nav_home">Home</a>
+    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+    <a href="order" class="nav_order">Orders</a>
+    <?php } ?>
+    <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
+</aside>
+
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
@@ -19,17 +28,8 @@ $SessionUser = $SessionManager->getSessionUser();
     <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
     <a href="<?php echo $action_url; ?>download" class="button">Download PDF <div class="submenu-icon submenu-icon-download"></div></a>
     <a href="<?php echo $action_url; ?>email" class="button">Send as Email <div class="submenu-icon submenu-icon-email"></div></a>
-<!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
+    <!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
 </nav>
-
-<!-- Bread Crumbs -->
-<aside class="bread-crumbs">
-    <a href="/" class="nav_home">Home</a>
-    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-    <a href="order" class="nav_order">Orders</a>
-    <?php } ?>
-    <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
-</aside>
 
 <section class="content">
     <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
@@ -99,6 +99,7 @@ $SessionUser = $SessionManager->getSessionUser();
 
         <?php if ($Order->getCardNumber()) { ?>
 
+            <?php $odd = true; ?>
             <fieldset style="display: inline-block;">
                 <legend>Card Holder Information</legend>
                 <table class="table-transaction-info themed striped-rows">
@@ -161,9 +162,9 @@ $SessionUser = $SessionManager->getSessionUser();
 
         <?php } ?>
 
-        <fieldset style="display: inline-block;">
+        <fieldset >
             <legend>Transactions History</legend>
-            <table class="table-results themed small">
+            <table class="table-results themed small striped-rows">
                 <tr>
                     <th>ID</th>
                     <th>Order</th>

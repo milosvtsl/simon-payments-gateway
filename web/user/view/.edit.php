@@ -8,6 +8,14 @@ $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
 
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="/" class="nav_home">Home</a>
+        <a href="user" class="nav_user">Users</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
+    </aside>
+
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
@@ -19,14 +27,6 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
         <?php } ?>
     </nav>
-
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="/" class="nav_home">Home</a>
-        <a href="user" class="nav_user">Users</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
-    </aside>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

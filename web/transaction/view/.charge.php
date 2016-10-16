@@ -13,9 +13,6 @@ $SessionUser = $SessionManager->getSessionUser();
 $LASTPOST = array();
 if(isset($_SESSION['transaction/charge.php']))
     $LASTPOST = $_SESSION['transaction/charge.php'];
-
-$button_current = 'charge';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 ?>
 
 <!-- Bread Crumbs -->
@@ -24,6 +21,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <a href="order" class="nav_transaction">Orders</a>
         <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
     </aside>
+
+<?php
+$button_current = 'charge';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+?>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

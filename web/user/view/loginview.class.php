@@ -11,9 +11,9 @@ class LoginView extends AbstractView {
     const VIEW_NAME = 'Login';
 
     private $action;
-    public function __construct($action='login') {
+    public function __construct($action) {
         parent::__construct();
-        $this->action = $action;
+        $this->action = $action ?: 'login';
     }
 
 //    protected function renderHTMLHeadLinks() {
