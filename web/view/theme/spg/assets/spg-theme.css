@@ -3,6 +3,8 @@ body.spg-theme {
     color: #000000;
     /* background-color: #EEE; */
     font-family: helvetica;
+    max-width: 64em;
+    margin: 0 auto;
 }
 
 body.spg-theme > header {

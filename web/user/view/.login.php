@@ -21,7 +21,7 @@
 
                 <br />
                 <br />Login:<br />
-                <input type="submit" value="Submit" class="themed" />
+                <input type="submit" value="SUBMIT" class="themed" />
             </fieldset>
         </form>
     </section>
