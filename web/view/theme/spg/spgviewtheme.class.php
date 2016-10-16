@@ -108,14 +108,13 @@ class SPGViewTheme extends AbstractViewTheme
         </nav>
 
         <hr class="themed" style="clear: both;"/>
-        <article class="themed">
         <?php
     }
 
     public function renderHTMLBodyFooter()
     {
+//        </article>
         ?>
-        </article>
         <footer>
             &copy; 2016 Simon Payments, LLC. All rights reserved.
         </footer>

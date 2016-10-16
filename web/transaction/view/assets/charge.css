@@ -4,9 +4,11 @@ form[name=form-transaction-charge]:not(.merchant-selected) .show-on-merchant-sel
 }
 form[name=form-transaction-charge].payment-method-selected .inline-on-payment-method-selected,
 form[name=form-transaction-charge].merchant-selected .inline-on-merchant-selected {
-    display: inline-block !important;
+    /* display: inline-block !important; */
+    float: left;
 }
 
+form[name=form-transaction-charge]:not(.payment-method-selected) .show-on-payment-method-selected,
 form[name=form-transaction-charge]:not(.payment-method-swipe) .show-on-payment-method-swipe,
 form[name=form-transaction-charge]:not(.payment-method-keyed) .show-on-payment-method-keyed,
 form[name=form-transaction-charge]:not(.payment-method-check) .show-on-payment-method-check {
