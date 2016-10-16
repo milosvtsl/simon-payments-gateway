@@ -17,39 +17,41 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
         <a href="<?php echo $action_url; ?>receipt" class="button">View Receipt  <div class="submenu-icon submenu-icon-receipt"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
-    
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="/" class="nav_home">Home</a>
-        <a href="order" class="nav_order">Orders</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_order_view">#<?php echo $Order->getID(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="nav_order_edit">Edit</a>
-    </aside>
-    
-    <section class="content">
-        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <form class="form-view-Order themed" method="POST">
-            <fieldset style="display: inline-block;">
-                <legend>Edit Order Fields</legend>
-                <table class="table-order-info themed">
-                    <tr>
-                        <th>Field</th>
-                        <th>Value</th>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>ID</td>
-                        <td><?php echo $Order->getID(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>UID</td>
-                        <td><?php echo $Order->getUID(); ?></td>
-                    </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td>Update</td>
-                        <td><input type="submit" value="Update" /></td>
-                    </tr>
-                </table>
-            </fieldset>
-        </form>
-    </section>
+    <article class="themed">
+
+        <section class="content">
+            <!-- Bread Crumbs -->
+            <aside class="bread-crumbs">
+                <a href="/" class="nav_home">Home</a>
+                <a href="order" class="nav_order">Orders</a>
+                <a href="<?php echo $action_url; ?>view" class="nav_order_view">#<?php echo $Order->getID(); ?></a>
+                <a href="<?php echo $action_url; ?>edit" class="nav_order_edit">Edit</a>
+            </aside>
+            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+
+            <form class="form-view-Order themed" method="POST">
+                <fieldset style="display: inline-block;">
+                    <legend>Edit Order Fields</legend>
+                    <table class="table-order-info themed">
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>ID</td>
+                            <td><?php echo $Order->getID(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>UID</td>
+                            <td><?php echo $Order->getUID(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Update</td>
+                            <td><input type="submit" value="Update" /></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </form>
+        </section>
+    </article>

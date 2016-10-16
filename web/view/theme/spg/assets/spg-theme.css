@@ -2,18 +2,14 @@
 body.spg-theme {
     color: #000000;
     /* background-color: #EEE; */
-    font-family: helvetica;
+    font-family: helvetica, serif;
     max-width: 64em;
     margin: 0 auto;
 }
 
 body.spg-theme > header {
     display: inline-block;
-    /* float: left; */
-    /* padding: 1em 0px 0em 0em; */
     margin-right: -6em;
-    /* text-align: right; */
-    /* margin-top: -2em; */
 }
 
 body.spg-theme > footer {
@@ -23,11 +19,8 @@ body.spg-theme > footer {
 }
 
 .spg-theme section.content {
-    /* position: absolute; */
     /* background-color: #f0f4f6; */
-    /* margin: auto; */
-    /* display: inline-block; */
-    /* margin-top: 1em; */
+    display: inline-block;
 }
 
 body.spg-theme > hr.themed {
@@ -37,9 +30,6 @@ body.spg-theme > hr.themed {
 
 body.spg-theme nav.site-menu {
     float: right;
-    /* min-width: 35em; */
-    /* height: 24em; */
-    /* display: inline-block; */
 }
 
 body.spg-theme > nav > a {
@@ -47,15 +37,8 @@ body.spg-theme > nav > a {
     vertical-align: top;
     text-decoration: none;
     color: #1a3340;
-    /* font-weight: bold; */
     text-align: center;
-    /* border: 1px outset #EEE; */
-    /* border-top-width: 0px; */
-    /* border-radius: 1em; */
-    /* margin: 1em 0.6em 1em 0; */
-    /* padding: 0.5em 0.5em 0.2em 0.5em; */
     width: 7em;
-    /* background: url(img/nav/nav_transaction.png) no-repeat bottom; */
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
     margin-top: 2em;
@@ -118,21 +101,11 @@ body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; }
 /** Bread Crumbs **/
 
 body.spg-theme .bread-crumbs {
-    /* margin: 0.4em 0.5em 0 0; */
     border-bottom: 2px solid #bcc5d1;
-    /* min-width: 49em; */
-    /* overflow: hidden; */
-    /* white-space: nowrap; */
-    /* text-overflow: ellipsis; */
     padding: 0.2em 0.5em;
-    margin: 0.2em 0 1.3em 0;
-    margin-left: 203px;
+    margin: 0.2em 0px 1.3em 1px;
     background-color: #bcc5d1;
-    /* position: absolute; */
     box-shadow: 0px 0px 4px #1b1b1b;
-    /* display: inline-block; */
-    min-width: 36em;
-    vertical-align: top;
 }
 body.spg-theme .bread-crumbs a:hover {
     background-color: #b6ccda;
@@ -144,10 +117,6 @@ body.spg-theme .bread-crumbs a {
     color: #ffffff;
     font-size: x-large;
     text-transform: uppercase;
-    display: inline-block;
-    /* padding: 0em 0.6em; */
-    /* border-radius: 0.5em; */
-    /* font-style: italic; */
 }
 
 
@@ -161,13 +130,7 @@ body.spg-theme .bread-crumbs a:last-child:after {
 
 
 body.spg-theme > article.themed {
-    /* white-space: nowrap; */
-    /* background-color: white; */
-    /* border-radius: 1em; */
-    /* margin: 1em 0.5em; */
-    padding: 0 0.5em;
-    display: block;
-    /* width: 96%; */
+    /* background-color: red; */
 }
 
 
@@ -175,13 +138,13 @@ body.spg-theme > article.themed {
 /** Tables **/
 
 body.spg-theme form.themed {
-    font-family: helvetica;
     background-color: #f0f4f6;
-    display: inline-block;
-    /* max-width: 43em; */
-    /* clear: both; */
-    border: 1px solid #d4e7ec;
-    border-radius: 3px;
+    background-color: #FAFAFA;
+    /* border: 1px solid #d4e7ec; */
+    border-radius: 0.6em;
+    max-width: 800px;
+    background-image: url(img/bk/form.png);
+    background-repeat: repeat-x;
 }
 
 body.spg-theme form.themed a {
@@ -190,21 +153,17 @@ body.spg-theme form.themed a {
 
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
-    /* border-radius: 0.3em; */
-    /* border-width: 1px; */
     border: 0px inset #EEE;
-    /* margin-bottom: 0.5em; */
-    /* margin-top: 1em; */
-    /* background-color: #eef6f6; */
-    /* margin: 1em; */
-    /* box-shadow: 2px 2px 4px #CCC; */
-    /* padding: 0 0; */
-    padding: 0.3em 0;
-    margin: 0 0;
+    padding: 0.3em 0 0.3em 0;
+    margin: 0 0 1em 0;
+    min-width: 23em;
+    min-height: 7em;
+    /* vertical-align: top; */
+    background-image: url(img/bk/fieldset.png);
+    background-repeat: repeat-x;
 }
 
 body.spg-theme nav.page-menu {
-    display: inline-block;
     float: left;
     margin: 0em 1.3em 2em 0;
 }
@@ -213,25 +172,19 @@ body.spg-theme form.themed > fieldset > legend,
 body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
     font-weight: bold;
-    /* font-size: 1.4em; */
     background: #d4e7ec;
-    border-radius: 1px;
+    border-radius: 10px;
     padding: 0.3em 1em;
-    /* padding-bottom: .5em; */
-    font-family: helvetica;
-    border-bottom: 1px inset #DADADA;
-    /* margin-left: -1em; */
+    /* border-bottom: 1px inset #DADADA; */
     margin-bottom: .5em;
-    /* margin-top: .5em; */
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
-    /* width: 208%; */
 }
 
 body.spg-theme form.themed select,
 body.spg-theme form.themed textarea,
 body.spg-theme form.themed input {
-    padding: 0.3em 0.6em;
+    padding: 0.5em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
     /* margin: 0 0 0 1em; */
@@ -262,12 +215,12 @@ body.spg-theme a.button {
     padding: 0.5em;
     margin: 0 0 0.3em 0;
     display: block;
-    min-width: 160px;
+    min-width: 170px;
     text-align: left;
     border-width: 1px;
     border-radius: 1em;
     text-transform: uppercase;
-    background-color: #3d7694;
+    /* background-color: #3d7694; */
     color: #fff;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
@@ -275,6 +228,7 @@ body.spg-theme a.button {
     border-left: 1px solid #CCCCCC;
     box-shadow: 2px 2px 4px #CCC;
     font-size: larger;
+    background-image: url(img/bk/a.button.png);
 }
 
 body.spg-theme a.button.small {

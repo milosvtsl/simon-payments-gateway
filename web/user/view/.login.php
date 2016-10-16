@@ -1,21 +1,23 @@
 <?php /** @var \User\View\LoginView $this  **/ ?>
 
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/login.php" class="button current">Login <div class="submenu-icon submenu-icon-login"></div></a>
-        <a href="/reset.php" class="button">Reset <div class="submenu-icon submenu-icon-reset"></div></a>
-    </nav>
+<!-- Page Navigation -->
+<nav class="page-menu hide-on-print">
+    <a href="/login.php" class="button current">Login <div class="submenu-icon submenu-icon-login"></div></a>
+    <a href="/reset.php" class="button">Reset <div class="submenu-icon submenu-icon-reset"></div></a>
+</nav>
 
+<article class="themed">
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="/" class="nav_home">Home</a>
-        <a href="/login.php" class="nav-log-out">Log In</a>
-    </aside>
 
 
     <section class="content login-section">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="/" class="nav_home">Home</a>
+            <a href="/login.php" class="nav-log-out">Log In</a>
+        </aside>
+
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
@@ -34,3 +36,5 @@
             </fieldset>
         </form>
     </section>
+
+</article>
