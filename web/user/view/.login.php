@@ -1,15 +1,11 @@
 <?php /** @var \User\View\LoginView $this  **/ ?>
 
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="/" class="nav_user">Login to your account</a>
-    </aside>
 
-    <section class="content" >
+    <section class="content" style="margin:6em auto; width: 280px;">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='loginForm' >
+        <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='loginForm' style="display: inline-block;">
             <fieldset style="display: inline-block; padding: 1em 1.5em;">
                 <legend>Sign In to your account</legend>
                 User Name:<br />
@@ -21,7 +17,7 @@
 
                 <br />
                 <br />Login:<br />
-                <input type="submit" value="Submit" class="themed" />
+                <input type="submit" value="SUBMIT" class="themed" />
             </fieldset>
         </form>
     </section>
