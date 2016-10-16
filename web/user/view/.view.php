@@ -7,13 +7,6 @@
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
-    
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="/" class="nav_home">Home</a>
-        <a href="user" class="nav_user">Users</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-    </aside>
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
@@ -28,7 +21,14 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
         <a href="user/logout.php" class="button">Log Out <div class="submenu-icon submenu-icon-logout"></div></a>
     </nav>
-
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="/" class="nav_home">Home</a>
+        <a href="user" class="nav_user">Users</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+    </aside>
+    
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 

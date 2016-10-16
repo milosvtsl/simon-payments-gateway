@@ -7,12 +7,6 @@ $Integration = $this->getIntegration();
 $odd = false;
 $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 ?>
-    
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="integration" class="nav_integration">Integrations</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
-    </aside>
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
@@ -21,7 +15,13 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
         <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
-
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="integration" class="nav_integration">Integrations</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
+    </aside>
+    
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 

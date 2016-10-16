@@ -1,13 +1,13 @@
+<?php
+$button_current = 'dashboard';
+include '.dashboard.nav.php';
+?>
+
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="/" class="nav_dashboard">Home</a>
         <a href="/" class="nav_dashboard">Welcome</a>
     </aside>
-
-<?php
-$button_current = 'dashboard';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-?>
 
     <section class="content">
 

@@ -4,6 +4,10 @@ use Order\Model\OrderRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/
+
+$button_current = 'order';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+
 ?>
 
     <!-- Bread Crumbs -->
@@ -12,14 +16,8 @@ use Order\Model\OrderRow;
         <a href="order" class="nav_order">Orders</a>
         <a href="order/list.php" class="nav_order_list">Search</a>
     </aside>
-
-<?php
-$button_current = 'order';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-?>
-
+    
     <section class="content">
-
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
         <form class="form-search themed">

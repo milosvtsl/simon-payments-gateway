@@ -3,6 +3,10 @@ use \Merchant\Model\MerchantRow;
 /**
  * @var \View\AbstractListView $this
  **/
+
+$button_current = 'merchant';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+
 ?>
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
@@ -10,11 +14,6 @@ use \Merchant\Model\MerchantRow;
         <a href="merchant" class="nav_merchant">Merchants</a>
         <a href="merchant/list.php" class="nav_merchant_list">Search</a>
     </aside>
-
-<?php
-$button_current = 'merchant';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-?>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

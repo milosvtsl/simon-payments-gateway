@@ -11,13 +11,6 @@ $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="/" class="nav_home">Home</a>
-        <a href="merchant" class="nav_merchant">Merchants</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
-    </aside>
-
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
@@ -26,8 +19,14 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
         <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
     </nav>
-
-
+    
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="/" class="nav_home">Home</a>
+        <a href="merchant" class="nav_merchant">Merchants</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
+    </aside>
+    
     <section class="content" >
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
     
@@ -181,7 +180,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 </table>
             </fieldset>
 
-            <fieldset >
+            <fieldset style="display: inline-block;">
                 <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
@@ -226,7 +225,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 </table>
             </fieldset>
 
-            <fieldset >
+            <fieldset style="display: inline-block;">
                 <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-merchant-info themed striped-rows">
                     <tr>
