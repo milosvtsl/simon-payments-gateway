@@ -87,10 +87,12 @@ body.spg-theme > nav > a > div.nav-icon {
     margin: 0 0;
     margin-top: 0.4em;
 }
-/* body.spg-theme > nav > a > div.nav-logo-icon { background-position: 0 0; } */
+body.spg-theme > nav > a > div.nav-login-icon {background-position: -128px -64px;}
 body.spg-theme > nav > a > div.nav-logout-icon {background-position: -192px -64px;}
 /* body.spg-theme > nav > a > div.nav_-ser-icon { background-position: -128px 0; } */
+body.spg-theme > nav > a > div.nav-home-icon {background-position: 0 0;}
 body.spg-theme > nav > a > div.nav-dashboard-icon {background-position: -64px 0;}
+body.spg-theme > nav > a > div.nav-signup-icon {background-position: -64px -64px;}
 body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;}
 
 
