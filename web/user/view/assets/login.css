@@ -6,6 +6,7 @@
 
 .login-section form[name=form-login].themed {
     display: inline-block;
+    background: linear-gradient(141deg, #c2c7c7 0%, rgba(61, 118, 148, 0.4) 50%, rgba(26, 51, 64, 0.48) 74%);
 }
 
 .login-section form[name=form-login].themed > fieldset > legend {
