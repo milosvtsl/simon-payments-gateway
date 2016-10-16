@@ -135,7 +135,7 @@ body.spg-theme .bread-crumbs {
     vertical-align: top;
 }
 body.spg-theme .bread-crumbs a:hover {
-    background-color: #4f97c7;
+    background-color: #b6ccda;
     font-weight: bold;
 }
 
@@ -251,7 +251,7 @@ body.spg-theme form.themed input.large {
 body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
-    background-color: #3cbaea;
+    background-color: #9cd8ef;
     padding: 1em 2em;
     min-width: 9em;
     font-weight: bold;
@@ -265,7 +265,7 @@ body.spg-theme a.button {
     min-width: 160px;
     text-align: left;
     border-width: 1px;
-    border-radius: 0.5em;
+    border-radius: 1em;
     text-transform: uppercase;
     background-color: #3d7694;
     color: #fff;
