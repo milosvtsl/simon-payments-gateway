@@ -1,6 +1,7 @@
 .login-section {
-    margin:6em auto;
+    margin: 7em auto;
     width: 280px;
+    display: block !important;
 }
 
 .login-section form[name=form-login].themed {

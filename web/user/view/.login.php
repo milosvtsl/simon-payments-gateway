@@ -12,11 +12,6 @@
 
 
     <section class="content login-section">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="/" class="nav_home">Home</a>
-            <a href="/login.php" class="nav-log-out">Log In</a>
-        </aside>
 
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
