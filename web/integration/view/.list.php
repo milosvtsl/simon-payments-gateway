@@ -3,10 +3,6 @@ use \Integration\Model\IntegrationRow;
 /**
  * @var \View\AbstractListView $this
  **/
-
-$button_current = 'integration';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-
 ?>
 
     <!-- Bread Crumbs -->
@@ -14,6 +10,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <a href="integration" class="nav_integration">Integrations</a>
         <a href="integration/list.php" class="nav_integration_list">Search</a>
     </aside>
+
+<?php
+$button_current = 'integration';
+include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+?>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

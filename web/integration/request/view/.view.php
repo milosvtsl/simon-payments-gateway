@@ -7,20 +7,20 @@ $Request = $this->getRequest();
 $odd = false;
 $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
 ?>
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integrations</a>
-        <a href="integration/request?" class="button">Requests</a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View</a>
-<!--        <a href="--><?php //echo $action_url; ?><!--edit" class="button">Edit<!--</a>-->
-    </nav>
-
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="integration" class="nav_integration">Integrations</a>
         <a href="request" class="nav_integration_request">Requests</a>
         <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
     </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <a href="integration?" class="button">Integrations</a>
+        <a href="integration/request?" class="button">Requests</a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View</a>
+        <!--        <a href="--><?php //echo $action_url; ?><!--edit" class="button">Edit<!--</a>-->
+    </nav>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

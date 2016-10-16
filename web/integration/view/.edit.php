@@ -8,20 +8,20 @@ $odd = false;
 $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Configure <div class="submenu-icon submenu-icon-edit"></div></a>
-    </nav>
-
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
         <a href="integration" class="nav_integration">Integrations</a>
         <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
         <a href="<?php echo $action_url; ?>edit" class="nav_integration_edit">Configure</a>
     </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <a href="integration?" class="button">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
+    </nav>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>

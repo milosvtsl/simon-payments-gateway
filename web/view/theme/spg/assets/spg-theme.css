@@ -22,10 +22,10 @@ body.spg-theme > footer {
 
 .spg-theme section.content {
     /* position: absolute; */
-    background-color: #f0f4f6;
+    /* background-color: #f0f4f6; */
     /* margin: auto; */
-    display: inline-block;
-    margin-top: 4.5em;
+    /* display: inline-block; */
+    margin-top: 1em;
     /* width: 80%; */
 }
 
@@ -78,7 +78,7 @@ body.spg-theme > nav > a > div.nav-icon:hover {
 }
 
 body.spg-theme > nav > a > div.nav-icon {
-    background: url(img/nav_icons.png) 0 0 no-repeat;
+    background: url(img/nav_icons.png) -128px 0 no-repeat;
     width: 64px;
     height: 64px;
     display: inline-block;
@@ -117,14 +117,13 @@ body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; }
 body.spg-theme .bread-crumbs {
     /* margin: 0.4em 0.5em 0 0; */
     border-bottom: 2px solid #bcc5d1;
-    display: inline-block;
-    min-width: 49em;
+    /* min-width: 49em; */
     /* overflow: hidden; */
     /* white-space: nowrap; */
-    text-overflow: ellipsis;
-    padding: .5em;
+    /* text-overflow: ellipsis; */
+    padding: .2em 0.5em;
     background-color: #bcc5d1;
-    position: absolute;
+    /* position: absolute; */
     box-shadow: 0px 0px 4px #1b1b1b;
 }
 body.spg-theme .bread-crumbs a:hover {
@@ -169,12 +168,12 @@ body.spg-theme > article.themed {
 
 body.spg-theme form.themed {
     font-family: helvetica;
-    /* background-color: #FAFAFA; */
-    display: block;
-    min-width: 30em;
+    background-color: #f0f4f6;
+    display: inline-block;
+    /* max-width: 43em; */
     /* clear: both; */
-    width: 800px;
     border: 1px solid #d4e7ec;
+    border-radius: 3px;
 }
 
 body.spg-theme form.themed a {
@@ -188,17 +187,18 @@ body.spg-theme fieldset.themed {
     border: 0px inset #EEE;
     /* margin-bottom: 0.5em; */
     /* margin-top: 1em; */
-    background-color: #eef6f6;
+    /* background-color: #eef6f6; */
     /* margin: 1em; */
     /* box-shadow: 2px 2px 4px #CCC; */
-    padding: 0 0;
+    /* padding: 0 0; */
+    padding: 0.3em 0;
     margin: 0 0;
 }
 
 body.spg-theme nav.page-menu {
     display: inline-block;
     float: left;
-    margin: 0 2em 2em 0;
+    margin: 1em 1.3em 2em 0;
 }
 
 body.spg-theme form.themed > fieldset > legend,
@@ -207,26 +207,26 @@ body.spg-theme legend.themed {
     font-weight: bold;
     /* font-size: 1.4em; */
     background: #d4e7ec;
-    /* border-radius: .5em; */
-    padding-top: .5em;
-    padding-bottom: .5em;
+    border-radius: 1px;
+    padding: 0.3em 1em;
+    /* padding-bottom: .5em; */
     font-family: helvetica;
     border-bottom: 1px inset #DADADA;
     /* margin-left: -1em; */
     margin-bottom: .5em;
-    margin-top: .5em;
+    /* margin-top: .5em; */
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
-    width: 100%;
+    /* width: 208%; */
 }
 
 body.spg-theme form.themed select,
 body.spg-theme form.themed textarea,
 body.spg-theme form.themed input {
-    padding: 0.5em 0.6em;
+    padding: 0.3em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
-    margin: 0 0 0 1em;
+    /* margin: 0 0 0 1em; */
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {

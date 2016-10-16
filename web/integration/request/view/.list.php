@@ -5,11 +5,6 @@ use Integration\Request\Model\IntegrationRequestRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/?>
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integrations</a>
-        <a href="integration/request?" class="button current">Requests</a>
-    </nav>
 
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
@@ -17,6 +12,12 @@ use Integration\Request\Model\IntegrationRequestRow;
         <a href="integration/request?" class="nav_integration_request">Requests</a>
         <a href="integration/request/list.php" class="nav_integration_list">Search</a>
     </aside>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <a href="integration?" class="button">Integrations</a>
+        <a href="integration/request?" class="button current">Requests</a>
+    </nav>
 
     <section class="content">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
