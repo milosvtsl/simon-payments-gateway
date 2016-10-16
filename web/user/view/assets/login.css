@@ -1,0 +1,21 @@
+.login-section {
+    margin:6em auto;
+    width: 280px;
+}
+
+.login-section form[name=form-login].themed {
+    display: inline-block;
+}
+
+.login-section form[name=form-login].themed > fieldset > legend {
+    
+}
+
+.login-section form[name=form-login].themed > fieldset {
+}
+
+
+.login-section form[name=form-login].themed input {
+    padding: 1em;
+}
+

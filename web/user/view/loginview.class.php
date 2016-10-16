@@ -16,10 +16,10 @@ class LoginView extends AbstractView {
         $this->action = $action;
     }
 
-//    protected function renderHTMLHeadLinks() {
-//        echo "\t\t<link href='assets/css/login.css' type='text/css' rel='stylesheet' />\n";
-//        parent::renderHTMLHeadLinks();
-//    }
+    protected function renderHTMLHeadLinks() {
+        parent::renderHTMLHeadLinks();
+        echo "\t\t<link href='user/view/assets/login.css' type='text/css' rel='stylesheet' />\n";
+    }
 
     protected function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();

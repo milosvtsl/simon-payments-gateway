@@ -1,11 +1,24 @@
 <?php /** @var \User\View\LoginView $this  **/ ?>
 
 
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <a href="/login.php" class="button current">Login <div class="submenu-icon submenu-icon-login"></div></a>
+        <a href="/reset.php" class="button">Reset <div class="submenu-icon submenu-icon-reset"></div></a>
+    </nav>
 
-    <section class="content" style="margin:6em auto; width: 280px;">
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="/" class="nav_home">Home</a>
+        <a href="/login.php" class="nav-log-out">Log In</a>
+    </aside>
+
+
+    <section class="content login-section">
         <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-        <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='loginForm' style="display: inline-block;">
+        <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
             <fieldset style="display: inline-block; padding: 1em 1.5em;">
                 <legend>Sign In to your account</legend>
                 User Name:<br />
