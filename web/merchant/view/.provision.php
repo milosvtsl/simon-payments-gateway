@@ -36,10 +36,6 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 <fieldset class="themed" style="display: inline-block;">
                     <legend>Merchant Information</legend>
                     <table class="table-merchant-info themed striped-rows" style="float: left;">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>

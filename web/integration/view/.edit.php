@@ -32,10 +32,6 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
                 <fieldset style="display: inline-block;">
                     <legend>Edit Integration Fields</legend>
                     <table class="table-integration-info themed">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Integration->getID(); ?></td>

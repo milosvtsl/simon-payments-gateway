@@ -34,10 +34,6 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
                 <fieldset style="display: inline-block;">
                     <legend>Edit Order Fields</legend>
                     <table class="table-order-info themed">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Order->getID(); ?></td>

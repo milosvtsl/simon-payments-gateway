@@ -38,10 +38,6 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                 <fieldset style="display: inline-block;">
                     <legend>Edit User Fields</legend>
                     <table class="table-user-info themed">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $User->getID(); ?></td>

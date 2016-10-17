@@ -35,10 +35,6 @@ $odd = false;
                 <fieldset style="display: inline-block;">
                     <legend>New User Fields</legend>
                     <table class="table-user-info themed">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Username</td>
                             <td><input type="text" name="username" value="" required /></td>

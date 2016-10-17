@@ -30,10 +30,6 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
                 <fieldset style="display: inline-block;">
                     <legend>Request Information</legend>
                     <table class="table-integration-request-info themed">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Request->getID(); ?></td>

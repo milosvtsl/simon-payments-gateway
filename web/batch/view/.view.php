@@ -32,10 +32,6 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
                 <fieldset style="display: inline-block;">
                     <legend>Batch Information</legend>
                     <table class="table-batch-info themed">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Batch->getID(); ?></td>
