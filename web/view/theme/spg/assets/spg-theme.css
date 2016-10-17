@@ -2,7 +2,7 @@
 body.spg-theme {
     color: #000000;
     /* background-color: #EEE; */
-    font-family: helvetica, serif;
+    font-family: helvetica;
     max-width: 64em;
     margin: 0 auto;
 }
@@ -115,7 +115,7 @@ body.spg-theme .bread-crumbs a:hover {
 body.spg-theme .bread-crumbs a {
     text-decoration: none;
     color: #ffffff;
-    font-size: x-large;
+    font-size: medium;
     text-transform: uppercase;
 }
 
@@ -131,6 +131,7 @@ body.spg-theme .bread-crumbs a:last-child:after {
 
 body.spg-theme > article.themed {
     /* background-color: red; */
+    background: linear-gradient(141deg, #f6f9fc 0%, #ffffff 50%, #f6f9fc 74%);
 }
 
 
@@ -156,7 +157,7 @@ body.spg-theme fieldset.themed {
     border: 0px inset #EEE;
     padding: 0.3em 0 0.3em 0;
     margin: 0 0 1em 0;
-    min-width: 23em;
+    /* min-width: 23em; */
     min-height: 7em;
     /* vertical-align: top; */
     background-image: url(img/bk/fieldset.png);
@@ -171,11 +172,11 @@ body.spg-theme nav.page-menu {
 body.spg-theme form.themed > fieldset > legend,
 body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
-    font-weight: bold;
+    font-weight: bolder;
     background: #d4e7ec;
-    border-radius: 10px;
-    padding: 0.3em 1em;
-    /* border-bottom: 1px inset #DADADA; */
+    /* border-radius: 10px; */
+    padding: .7em 1em;
+    border-bottom: 5px inset #b1ced6;
     margin-bottom: .5em;
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
@@ -187,7 +188,7 @@ body.spg-theme form.themed input {
     padding: 0.5em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
-    /* margin: 0 0 0 1em; */
+    margin: 0 0 0 1em;
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {
@@ -220,7 +221,7 @@ body.spg-theme a.button {
     border-width: 1px;
     border-radius: 1em;
     text-transform: uppercase;
-    /* background-color: #3d7694; */
+    background-color: #3d7694;
     color: #fff;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
@@ -228,7 +229,7 @@ body.spg-theme a.button {
     border-left: 1px solid #CCCCCC;
     box-shadow: 2px 2px 4px #CCC;
     font-size: larger;
-    background-image: url(img/bk/a.button.png);
+    /* background-image: url(img/bk/a.button.png); */
 }
 
 body.spg-theme a.button.small {
@@ -260,14 +261,14 @@ body.spg-theme table.themed > tbody > tr > th {
 }
 
 body.spg-theme table.themed > tbody > tr > td {
-    padding: 0.2em 0.3em;
+    padding: 0.5em 0.3em;
     vertical-align: top;
     white-space: nowrap;
     /* text-align: center; */
 }
 
 body.spg-theme table.themed.small > tbody > tr > td {
-    font-size: smaller;
+    font-size: medium;
 }
 
 
@@ -285,7 +286,7 @@ body.spg-theme table.themed > tbody > tr {}
 body.spg-theme table.themed > tbody > tr > td.name {
     text-align: right;
     text-transform: uppercase;
-    font-size: small;
+    font-size: medium;
     /* padding-top: 0.6em; */
 }
 
