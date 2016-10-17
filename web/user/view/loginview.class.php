@@ -13,7 +13,7 @@ class LoginView extends AbstractView {
     private $action;
     public function __construct($action='login') {
         parent::__construct();
-        $this->action = $action;
+        $this->action = $action ?: 'login';
     }
 
     protected function renderHTMLHeadLinks() {

@@ -33,7 +33,10 @@ class ChargeView extends AbstractView
 
     public function processFormRequest(Array $post) {
         try {
-            $_SESSION['transaction/charge.php'] = $post + @$_SESSION['transaction/charge.php'];
+            if(isset($_SESSION['transaction/charge.php']['order_id']))
+                $post['order_id'] = $_SESSION['transaction/charge.php']['order_id'];
+
+            $_SESSION['transaction/charge.php'] = $post;
             $Integration = IntegrationRow::fetchByID($post['integration_id']);
             $Merchant = MerchantRow::fetchByID($post['merchant_id']);
             $MerchantIdentity = $Integration->getMerchantIdentity($Merchant);
@@ -46,8 +49,6 @@ class ChargeView extends AbstractView
                 if(!$SessionUser->hasMerchant($Merchant->getID()))
                     throw new IntegrationException("User does not have authority");
             }
-            if(isset($_SESSION['transaction/charge.php']['order_id']))
-                $post['order_id'] = $_SESSION['transaction/charge.php']['order_id'];
             $Order = $MerchantIdentity->createOrResumeOrder($post);
             $_SESSION['transaction/charge.php']['order_id'] = $Order->getID();
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $post);
