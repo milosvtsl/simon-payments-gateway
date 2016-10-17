@@ -205,10 +205,18 @@ body.spg-theme form.themed input.large {
 body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
-    background-color: #9cd8ef;
+    background: url('img/bk/input.button.png') no-repeat;
+    width: 130px;
+    height: 43px;
+    cursor: pointer;
+    border: 0px;
+    /* background-color: #9cd8ef; */
     padding: 1em 2em;
-    min-width: 9em;
-    font-weight: bold;
+    /* min-width: 9em; */
+    /* font-weight: bold; */
+    color: white;
+    font-size: medium;
+    text-transform: uppercase;
 }
 
 body.spg-theme a.button {
@@ -268,7 +276,7 @@ body.spg-theme table.themed > tbody > tr > td {
 }
 
 body.spg-theme table.themed.small > tbody > tr > td {
-    font-size: medium;
+    font-size: smaller;
 }
 
 

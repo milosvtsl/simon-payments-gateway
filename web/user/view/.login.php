@@ -33,12 +33,17 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td colspan="2" style="text-align: center;">
-                            <input type="submit" value="SUBMIT" />
-                            <br>
-                            PASSWORD RESET
+                        <td class="name">Login</td>
+                        <td>
+                            <input type="submit" value="SUBMIT" class="themed"/>
                         </td>
                     </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td colspan="2" style="text-align: center; padding-top: 2em;">
+                            <a href="/reset.php">Password Reset</a>
+                        </td>
+                    </tr>
+
                 </table>
             </fieldset>
         </form>
