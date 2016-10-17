@@ -31,9 +31,9 @@ $FinixAPI = IntegrationRow::fetchByUID('t4e82235-9756-4c61-abf2-be7f317f57fb'); 
 
 // Test Data!
 
-$MerchantIdentity = $FinixAPI->getMerchantIdentity($Merchant);
-if(!$MerchantIdentity->isProvisioned())
-    $MerchantIdentity->provisionRemote();
+$MerchantIdentit1y = $FinixAPI->getMerchantIdentity($Merchant);
+//if(!$MerchantIdentity->isProvisioned())
+//    $MerchantIdentity->provisionRemote();
 //$ResponseData = $MerchantIdentity->getParsedResponseData();
 //assert($MerchantIdentity->getRemoteID());
 //assert($MerchantIdentity->getCreateDate());
