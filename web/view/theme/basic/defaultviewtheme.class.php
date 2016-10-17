@@ -47,7 +47,7 @@ class DefaultViewTheme extends AbstractViewTheme
 
     }
 
-    public function renderHTMLBodyHeader()
+    public function renderHTMLBodyHeader($flags=0)
     {
 
         ?>
@@ -75,7 +75,7 @@ class DefaultViewTheme extends AbstractViewTheme
         <?php
     }
 
-    public function renderHTMLBodyFooter()
+    public function renderHTMLBodyFooter($flags=0)
     {
         ?>
         </article>
@@ -91,16 +91,16 @@ class DefaultViewTheme extends AbstractViewTheme
         return $inst ?: $inst = new static();
     }
 
-    public function renderHTMLHeadScripts() {
+    public function renderHTMLHeadScripts($flags=0) {
     }
 
-    public function renderHTMLHeadLinks() {
+    public function renderHTMLHeadLinks($flags=0) {
         ?>
         <link href='view/theme/basic/assets/basic-theme.css' type='text/css' rel='stylesheet'>
         <link rel="icon" href="view/theme/basic/assets/img/favicon.ico">
         <?php
     }
 
-    public function renderHTMLMetaTags() {
+    public function renderHTMLMetaTags($flags=0) {
     }
 }

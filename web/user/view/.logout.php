@@ -1,7 +1,11 @@
 <?php
+/** @var \View\AbstractView $this */
+$this->getTheme()->renderHTMLBodyHeader();
+
 $button_current = 'integration';
 include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-    ?>
+// Render Header
+?>
 
     <article class="themed">
 
@@ -31,3 +35,8 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </div>
         </section>
     </article>
+
+<?php
+/** @var \View\AbstractView $this */
+$this->getTheme()->renderHTMLBodyFooter();
+?>

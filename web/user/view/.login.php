@@ -1,5 +1,8 @@
 <?php /** @var \User\View\LoginView $this  **/
 $odd = true;
+// Render Header
+/** @var \View\AbstractView $this */
+$this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
 ?>
 
 
@@ -42,3 +45,8 @@ $odd = true;
     </section>
 
 </article>
+
+<?php
+/** @var \View\AbstractView $this */
+$this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_FOOTER_MINIMAL);
+?>

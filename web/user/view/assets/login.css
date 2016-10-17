@@ -1,5 +1,6 @@
 .login-section {
-    margin: 7em auto;
+    margin: 0 auto;
+    padding: 14em 0;
     width: 280px;
     display: block !important;
 }

@@ -77,13 +77,14 @@ class SPGViewTheme extends AbstractViewTheme
 
     }
 
-    public function renderHTMLBodyHeader()
+    public function renderHTMLBodyHeader($flags=0)
     {
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
         ?>
     <body class="spg-theme">
+        <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
         <header class="small-on-print">
             <a href="/">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="width:22em;">
@@ -108,16 +109,19 @@ class SPGViewTheme extends AbstractViewTheme
         </nav>
 
         <hr class="themed" style="clear: both;"/>
+        <?php } ?>
         <?php
     }
 
-    public function renderHTMLBodyFooter()
+    public function renderHTMLBodyFooter($flags=0)
     {
 //        </article>
         ?>
+        <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
         <footer>
             &copy; 2016 Simon Payments, LLC. All rights reserved.
         </footer>
+        <?php } ?>
     </body>
 <?php
     }
@@ -130,10 +134,10 @@ class SPGViewTheme extends AbstractViewTheme
         return $inst ?: $inst = new static();
     }
 
-    public function renderHTMLHeadScripts() {
+    public function renderHTMLHeadScripts($flags=0) {
     }
 
-    public function renderHTMLHeadLinks() {
+    public function renderHTMLHeadLinks($flags=0) {
         echo <<<HEAD
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
@@ -141,6 +145,6 @@ class SPGViewTheme extends AbstractViewTheme
 HEAD;
     }
 
-    public function renderHTMLMetaTags() {
+    public function renderHTMLMetaTags($flags=0) {
     }
 }

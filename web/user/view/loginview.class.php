@@ -24,9 +24,6 @@ class LoginView extends AbstractView {
     protected function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();
 
-        // Render Header
-        $Theme->renderHTMLBodyHeader();
-
         if(!empty($params['message']))
             $this->setException(new \Exception($params['message']));
 
@@ -37,7 +34,8 @@ class LoginView extends AbstractView {
                 break;
 
             case 'logout':
-                include ('.logout.php');
+                $this->processFormRequest(array());
+//                include ('.logout.php');
                 break;
 
             case 'signup':
@@ -53,9 +51,6 @@ class LoginView extends AbstractView {
                 include ('.login.php');
                 break;
         }
-
-        // Render Header
-        $Theme->renderHTMLBodyFooter();
 
     }
 
