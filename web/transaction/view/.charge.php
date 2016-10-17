@@ -286,7 +286,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                     <?php
                                     if(empty($LASTPOST['recur_count']))
                                         $LASTPOST['recur_count'] = '3';
-                                    for($i=1; $i<=24; $i++)
+                                    for($i=1; $i<=64; $i++)
                                         echo "\n\t<option ",
                                         $LASTPOST['recur_count'] == $i ? 'selected="selected"' : '',
                                         ">", $i, "</option>";

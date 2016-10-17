@@ -174,9 +174,9 @@ body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
     font-weight: bolder;
     background: #d4e7ec;
-    /* border-radius: 10px; */
+    border-radius: 10px;
     padding: .7em 1em;
-    border-bottom: 5px inset #b1ced6;
+    /* border-bottom: 5px inset #b1ced6; */
     margin-bottom: .5em;
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */

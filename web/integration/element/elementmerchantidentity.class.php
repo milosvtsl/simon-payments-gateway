@@ -34,7 +34,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
         parent::__construct($Merchant, $APIData);
     }
 
-    public function getRemoteID()       { return $this->AccountID; }
+    public function getRemoteID()       { return $this->AcceptorID; }
     public function getEntityData()     { return $this->entity; }
     public function getTags()           { return $this->tags; }
     public function getCreateDate()     { return $this->created_at; }

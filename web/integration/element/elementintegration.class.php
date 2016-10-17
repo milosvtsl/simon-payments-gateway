@@ -252,7 +252,7 @@ class ElementIntegration extends AbstractIntegration
         if(!$response) //  || !$code || !$message)
             throw new IntegrationException("Invalid response data");
 
-        if($code === '101')
+        if(in_array($code, array('101', '102')))
             throw new IntegrationException($message);
 
         if($code !== "0")
