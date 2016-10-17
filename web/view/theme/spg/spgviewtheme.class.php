@@ -94,11 +94,7 @@ class SPGViewTheme extends AbstractViewTheme
 
         <?php if($SessionManager->isLoggedIn()) { ?>
             <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-                <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
-            <?php } else { ?>
-                <a href="/" class="nav-login">  <div class="nav-icon home"></div><br/>Home </a>
-            <?php } ?>
+            <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
             <a href="user/logout.php" class="nav-login"><div class="nav-icon nav-logout-icon"></div><br/> Log out </a>
         <?php } else { ?>
             <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>
