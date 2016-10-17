@@ -110,7 +110,7 @@ foreach($tests as $testData) {
     // Void transaction
     if(!empty($testData['void'])) {
         $VoidTransaction = $MerchantIdentity->voidTransaction($Order, array());
-        echo "\nVoid: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getTransactionID();
+        echo "\nVoided: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getTransactionID();
     }
 
     // Return transaction

@@ -388,7 +388,7 @@ class ElementIntegration extends AbstractIntegration
 
         $VoidTransaction = $AuthorizedTransaction->createVoidTransaction($AuthorizedTransaction);
 
-        $action = "Void";
+        $action = "Voided";
         if($code !== "0")
             $action = "Error";
 
@@ -405,7 +405,7 @@ class ElementIntegration extends AbstractIntegration
 
         TransactionRow::insert($VoidTransaction);
 
-        $OrderRow->setStatus("Void");
+        $OrderRow->setStatus("Voided");
         OrderRow::update($OrderRow);
         return $VoidTransaction;
     }
