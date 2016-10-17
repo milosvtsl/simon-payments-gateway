@@ -13,14 +13,13 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
             </aside>
 
 
-            <h3>Log out of your session</h3>
 
                 <div class="box-login">
 
                     <form name="form-login" action='user/logout.php?action=logout' method='POST' class="themed">
 
                         <fieldset style="display: inline-block;">
-                            <legend>Log out of your session</legend>
+                            <legend>LOGOUT</legend>
                             <input type="hidden" name="action" value="logout" />
                             <div class="form-actions">
                                 <div class="clearfix">

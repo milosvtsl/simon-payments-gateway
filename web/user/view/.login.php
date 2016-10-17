@@ -3,11 +3,6 @@ $odd = true;
 ?>
 
 
-<!-- Page Navigation -->
-<nav class="page-menu hide-on-print">
-    <a href="/login.php" class="button current">Login <div class="submenu-icon submenu-icon-login"></div></a>
-    <a href="/reset.php" class="button">Reset <div class="submenu-icon submenu-icon-reset"></div></a>
-</nav>
 
 <article class="themed">
 
@@ -19,7 +14,7 @@ $odd = true;
 
         <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
             <fieldset style="display: inline-block; padding: 1em 1.5em;">
-                <legend>Sign In to your account</legend>
+                <legend>LOGIN</legend>
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -37,6 +32,8 @@ $odd = true;
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td colspan="2" style="text-align: center;">
                             <input type="submit" value="SUBMIT" />
+                            <br>
+                            PASSWORD RESET
                         </td>
                     </tr>
                 </table>

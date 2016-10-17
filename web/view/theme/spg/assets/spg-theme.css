@@ -154,10 +154,10 @@ body.spg-theme form.themed a {
 
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
-    border: 0px inset #EEE;
+    border: 0px inset #d4e7ec;
     padding: 0.3em 0 0.3em 0;
     margin: 0 0 1em 0;
-    /* min-width: 23em; */
+    min-width: 23em;
     min-height: 7em;
     /* vertical-align: top; */
     background-image: url(img/bk/fieldset.png);
@@ -261,7 +261,7 @@ body.spg-theme table.themed > tbody > tr > th {
 }
 
 body.spg-theme table.themed > tbody > tr > td {
-    padding: 0.5em 0.3em;
+    padding: 0.8em 0.3em;
     vertical-align: top;
     white-space: nowrap;
     /* text-align: center; */
@@ -284,10 +284,11 @@ body.spg-theme table.themed > tbody > tr {}
 
 
 body.spg-theme table.themed > tbody > tr > td.name {
-    text-align: right;
+    text-align: left;
     text-transform: uppercase;
     font-size: medium;
     /* padding-top: 0.6em; */
+    vertical-align: middle;
 }
 
 body.spg-theme table.themed > tbody > tr > td.name::after {
