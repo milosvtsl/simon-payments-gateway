@@ -131,7 +131,7 @@ body.spg-theme .bread-crumbs a:last-child:after {
 
 body.spg-theme > article.themed {
     /* background-color: red; */
-    background: linear-gradient(141deg, #f6f9fc 0%, #ffffff 50%, #f6f9fc 74%);
+    /* background: linear-gradient(141deg, #f6f9fc 0%, #ffffff 50%, #f6f9fc 74%); */
 }
 
 
@@ -327,7 +327,7 @@ body.spg-theme h3,
 body.spg-theme h4,
 body.spg-theme h5,
 body.spg-theme h6 {
-    margin-bottom: 1em;
+    margin: 0.1em 0 1em 0;
     font-style: italic;
     padding: 0em 1em;
     font-weight: normal;

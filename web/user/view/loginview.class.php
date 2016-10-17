@@ -86,7 +86,7 @@ class LoginView extends AbstractView {
                     break;
 
                 case 'reset':
-                    $this->setSessionMessage("TODO");
+                    $this->setSessionMessage("Reset Feature Unavailable. Please try again soon.");
                     header("Location: login.php?action=reset");
                     break;
 

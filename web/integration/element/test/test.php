@@ -34,8 +34,8 @@ $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 if(!$MerchantIdentity->isProvisioned())
     $MerchantIdentity->provisionRemote();
 
-//$HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
-//echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
+$HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
+echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
 // Test Data
 $data = array(

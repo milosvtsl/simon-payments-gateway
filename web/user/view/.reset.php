@@ -1,31 +1,45 @@
-<h3>Forget Password?</h3>
-        <div class="main-login col-sm-4 col-sm-offset-4">
-            <div
-                class="box-login                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ">
+<?php /** @var \User\View\LoginView $this  **/
+$odd = true;
+// Render Header
+/** @var \View\AbstractView $this */
+$this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
+?>
 
+<article class="themed">
 
-                <p>
-                    Enter your registered E-mail Id to get PIN to reset password
-                </p>
+    <section class="content login-section">
 
-                <form action="login.php?action=reset" method="post" class="form-forgot">
-                    <div class="errorHandler alert alert-danger no-display">
-                        <i class="fa fa-remove-sign"></i> You have some form errors. Please check below.
-                    </div>
-                    <fieldset style="display: inline-block;">
-                        <div class="form-group">
-                        <span class="input-icon">
-                          <input type="text" class="form-control" name="email" placeholder="Email" value="" id="email"/>
-                          <i class="fa fa-envelope"></i></span>
-                        </div>
+        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-                        <div class="form-actions">
-                            <a href="login.php" class="btn btn-light-grey go-back"><i
-                                    class="fa fa-circle-arrow-left"></i> Back</a>
+        <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
+            <input type="hidden" name="action" value="reset" />
+            <fieldset style="display: inline-block; padding: 1em 1.5em;">
+                <legend>RESET Password</legend>
 
-                            <input type="submit" name="_action_forgotPassword" value="Submit" class="btn btn-primary"/>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+                <h3>Please enter your email address to receive a password reset link</h3>
+
+                <table class="table-user-info themed">
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Email</td>
+                        <td>
+                            <input type="email" name="email" id="email"  placeholder="Recovery Email Address"  value="" autofocus class="themed"/>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Reset</td>
+                        <td>
+                            <input type="submit" value="SUBMIT" class="themed"/>
+                        </td>
+                    </tr>
+
+                </table>
+            </fieldset>
+        </form>
+    </section>
+
+</article>
+
+<?php
+/** @var \View\AbstractView $this */
+$this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_FOOTER_MINIMAL);
+?>

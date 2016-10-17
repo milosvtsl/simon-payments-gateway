@@ -5,20 +5,20 @@
     display: block !important;
 }
 
-.login-section form[name=form-login].themed {
+.login-section form.themed {
     display: inline-block;
     background: linear-gradient(141deg, #d4e7ec 0%, #f6f9fc 30%, #d4e7ec 90%);
 }
 
-.login-section form[name=form-login].themed > fieldset > legend {
+.login-section form.themed > fieldset > legend {
 
 }
 
-.login-section form[name=form-login].themed > fieldset {
+.login-section form.themed > fieldset {
 }
 
 
-.login-section form[name=form-login].themed input {
+.login-section form.themed input {
     padding: 1em;
 }
 
