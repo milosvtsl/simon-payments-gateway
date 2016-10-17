@@ -331,7 +331,8 @@ body.spg-theme h6 {
     font-style: italic;
     padding: 0em 1em;
     font-weight: normal;
-    font-size: small;
+    font-size: large;
+    color: #092282;
 }
 
 /** Printing **/

@@ -252,13 +252,10 @@ class ElementIntegration extends AbstractIntegration
         if(!$response) //  || !$code || !$message)
             throw new IntegrationException("Invalid response data");
 
-        if(in_array($code, array('101', '102')))
+        if($code !== "0")
             throw new IntegrationException($message);
 
-        if($code !== "0")
-            $Transaction->setAction($message);
-        else
-            $Transaction->setAction("Authorized");
+        $Transaction->setAction("Authorized");
 //                throw new IntegrationException($message);
 
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];

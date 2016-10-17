@@ -289,8 +289,13 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $Merchant = $MerchantIdentity->getMerchantRow();
 
         $OrderRow = new OrderRow();
-        $OrderRow->uid = strtolower(self::generateGUID());
-        $OrderRow->version = 10;
+        if(!empty($post['order_id'])) {
+            $OrderRow = $OrderRow::fetchByID($post['order_id']);
+        } else {
+            $OrderRow->uid = strtolower(self::generateGUID());
+            $OrderRow->version = 10;
+            $OrderRow->status = "Pending";
+        }
         $OrderRow->merchant_id = $Merchant->getID();
         $OrderRow->integration_id = $MerchantIdentity->getIntegrationRow()->getID();
         if($post['merchant_id'] !== $Merchant->getID())
