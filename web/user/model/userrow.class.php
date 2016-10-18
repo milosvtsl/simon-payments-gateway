@@ -126,10 +126,13 @@ FROM user u
 
 
     public function isValidResetKey($key) {
-        return $key === crypt($this->password, $key);
+        $valid = $key === crypt($this->password, $key);
+        return $valid;
     }
 
     public function changePassword($password, $password_confirm) {
+        if (strlen($password) < 5)
+            throw new \InvalidArgumentException("Password must be at least 5 characters");
         if ($password != $password_confirm)
             throw new \InvalidArgumentException("Password confirm mismatch");
         $password = crypt($password);

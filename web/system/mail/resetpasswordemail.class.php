@@ -49,7 +49,7 @@ Username: {$username}<br/>
 If you want to perform a password reset on this account, please click the following link:<br/>
 <a href="{$url}">{$url}</a><br/>
 
---
+____
 {$sig}
 HTML;
 
