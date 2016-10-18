@@ -63,6 +63,7 @@ FROM user u
     public function getFullName()   { return $this->fname . ' ' . $this->lname; }
     public function getFirstName()  { return $this->fname; }
     public function getLastName()   { return $this->lname; }
+    public function getPasswordHash() { return $this->password; }
 
     public function getMerchantCount() {
         return sizeof($this->getMerchantList());
@@ -121,6 +122,11 @@ FROM user u
 
     public function queryRoles() {
         return UserAuthorityRow::queryByUserID($this->getID());
+    }
+
+
+    public function isValidResetKey($key) {
+        return $key === crypt($this->password, $key);
     }
 
     public function changePassword($password, $password_confirm) {
@@ -305,5 +311,7 @@ FROM user u
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
+
+
 }
 

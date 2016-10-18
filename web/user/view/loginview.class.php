@@ -45,7 +45,7 @@ class LoginView extends AbstractView {
                 break;
 
             case 'reset':
-                include ('.reset.php');
+                include('.reset.php');
                 break;
 
             default:
@@ -88,19 +88,37 @@ class LoginView extends AbstractView {
                     break;
 
                 case 'reset':
-                    $email = $_POST['email'];
+
+                    $email = $post['email'];
                     $User = UserRow::fetchByEmail($email);
+                    $Email = new ResetPasswordEmail($User);
+
+                    // If Key was given, reset password
+                    if(!empty($post['key'])) {
+                        if(!$User->isValidResetKey($post['key']))
+                            throw new \InvalidArgumentException("Invalid Reset Key");
+
+                        $User->changePassword($post['password'], $post['password_confirm']);
+                        $this->setSessionMessage("Password was reset successfully");
+                        header("Location: login.php");
+                        die();
+                    }
+
+                    // If no key, send a reset link
                     if(!$User) {
                         $this->setSessionMessage("User was not found");
                         header("Location: reset.php");
                         die();
-                    } else {
-                        $Email = new ResetPasswordEmail($User);
-                        if(!$Email->send())
-                            $this->setSessionMessage($Email->ErrorInfo);
-                        else
-                            $this->setSessionMessage("Email was sent successfully");
                     }
+
+                    if(!$Email->send()){
+                        $this->setSessionMessage($Email->ErrorInfo);
+                        header("Location: reset.php");
+                        die();
+                    } else {
+                        $this->setSessionMessage("Email was sent successfully");
+                    }
+
                     header("Location: login.php");
                     die();
 

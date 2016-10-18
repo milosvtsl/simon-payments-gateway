@@ -35,10 +35,11 @@ class ResetPasswordEmail extends \PHPMailer
 
         $this->isHTML(false);
 
-        $key = md5(time() . $User->getUID() . uniqid());
+        $key = crypt($User->getPasswordHash(), md5(time()));
+//        $key2 = crypt($User->getPasswordHash(), $key);
 
         $pu = parse_url($_SERVER['REQUEST_URI']);
-        $url = $pu["scheme"] . "://" . $pu["host"] . '/reset.php?key='.$key;
+        $url = (@$pu["scheme"]?:'https') . "://" . (@$pu["host"]?:SiteConfig::$BASE_URL?:'localhost') . '/reset.php?key='.$key.'&email='.$User->getEmail();
         $username = $User->getUsername();
         $this->Body = <<<HTML
 A password reset has been requested for the following account:
