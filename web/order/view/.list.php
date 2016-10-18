@@ -1,5 +1,6 @@
 <?php
 use Order\Model\OrderRow;
+use Merchant\Model\MerchantRow;
 /**
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
@@ -46,7 +47,10 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                 <select name="merchant_id" style="min-width: 20.5em;" >
                                     <option value="">By Merchant</option>
                                     <?php
-                                    $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+                                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                                        $MerchantQuery = MerchantRow::queryAll();
+                                    else
+                                        $MerchantQuery = $SessionUser->queryUserMerchants();
                                     foreach($MerchantQuery as $Merchant)
                                         /** @var \Merchant\Model\MerchantRow $Merchant */
                                         echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",

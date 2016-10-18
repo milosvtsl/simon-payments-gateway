@@ -1,4 +1,5 @@
 <?php
+use Merchant\Model\MerchantRow;
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
@@ -59,7 +60,10 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Merchants</td>
                             <td><?php
-                                $MerchantQuery = \Merchant\Model\MerchantRow::queryAll();
+                                if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                                    $MerchantQuery = MerchantRow::queryAll();
+                                else
+                                    $MerchantQuery = $SessionUser->queryUserMerchants();
                                 foreach($User->queryUserMerchants() as $Merchant) {
                                     /** @var \Merchant\Model\MerchantRow $Merchant */
                                     echo "<a href='merchant?id=" . $Merchant->getID() . "'>"

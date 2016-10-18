@@ -49,7 +49,11 @@ use \Merchant\Model\MerchantRow;
                                 <select name="merchant_id" style="min-width: 20.5em;" >
                                     <option value="">By Merchant</option>
                                     <?php
-                                    $MerchantQuery = MerchantRow::queryAll();
+                                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                                        $MerchantQuery = MerchantRow::queryAll();
+                                    else
+                                        $MerchantQuery = $SessionUser->queryUserMerchants();
+
                                     foreach($MerchantQuery as $Merchant)
                                         /** @var MerchantRow $Merchant */
                                         echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
