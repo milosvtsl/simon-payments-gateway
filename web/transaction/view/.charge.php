@@ -35,9 +35,9 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <input type="hidden" name="convenience_fee_limit" value="" />
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-                <fieldset class="inline-on-merchant-selected123" style="float: left;">
+                <fieldset class="inline-on-merchant-selected123" style="float: left;" >
                     <legend>Choose a Merchant</legend>
-                    <select name="merchant_id" class="" autofocus>
+                    <select name="merchant_id" class="" required autofocus>
                         <?php
                         if($SessionUser->hasAuthority('ROLE_ADMIN')) {
                             echo '<option value="">Choose a Merchant (as Admin ', $SessionUser->getUsername(), ')</option>';
@@ -79,7 +79,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <fieldset class="show-on-merchant-selected">
                     <legend>Choose a Payment Method</legend>
-                    <select name="entry_mode" class="" autofocus>
+                    <select name="entry_mode" class="" required autofocus>
 <!--                        <option value="">Choose a method</option>-->
                         <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
                         <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
@@ -210,7 +210,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <fieldset class="show-on-payment-method-swipe">
                     <legend class="alert reader-status">Card Swipe Ready</legend>
-                    <input type="text" name="card_track" size="30" value="<?php echo @$LASTPOST['card_track']; ?>" />
+                    <input type="text" name="card_track" size="100" value="<?php echo @$LASTPOST['card_track']; ?>" />
                 </fieldset>
 
                 <fieldset class="form-payment-method-check show-on-payment-method-check">

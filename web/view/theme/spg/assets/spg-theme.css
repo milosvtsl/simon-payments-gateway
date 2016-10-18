@@ -156,7 +156,7 @@ body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
     padding: 0.3em 0 0.3em 0;
-    margin: 0 0 1em 0;
+    margin: 0 0 0.5em 0;
     min-width: 23em;
     min-height: 7em;
     /* vertical-align: top; */
@@ -188,7 +188,7 @@ body.spg-theme form.themed input {
     padding: 0.5em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
-    margin: 0 0 0 1em;
+    /* margin: 0 0 0 1em; */
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {
@@ -205,18 +205,21 @@ body.spg-theme form.themed input.large {
 body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
-    background: url('img/bk/input.button.png') no-repeat;
-    width: 130px;
-    height: 43px;
-    cursor: pointer;
-    border: 0px;
-    /* background-color: #9cd8ef; */
-    padding: 1em 2em;
-    /* min-width: 9em; */
-    /* font-weight: bold; */
-    color: white;
-    font-size: medium;
+    /* background: url('img/bk/input.button.png') repeat-x; */
+    margin: 0 0 0.3em 0;
+    min-width: 84px;
+    text-align: left;
+    border-width: 1px;
+    border-radius: 1em;
     text-transform: uppercase;
+    background-color: #3d7694;
+    color: #fff;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #adabab;
+    border-bottom: 1px solid #adabab;
+    border-left: 1px solid #CCCCCC;
+    box-shadow: 2px 2px 4px #CCC;
+    font-size: larger;
 }
 
 body.spg-theme a.button {
