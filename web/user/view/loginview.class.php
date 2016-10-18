@@ -106,7 +106,7 @@ class LoginView extends AbstractView {
                     $Email = new ResetPasswordEmail($User);
 
                     // If Key was given, reset password
-                    if(!$key) {
+                    if($key) {
                         if(!$User->isValidResetKey($key))
                             throw new \InvalidArgumentException("Invalid Reset Key");
 
