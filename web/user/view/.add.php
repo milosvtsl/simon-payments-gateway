@@ -16,8 +16,8 @@ $odd = false;
     <?php } else { ?>
         <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
     <?php } ?>
-
 </nav>
+
     <article class="themed">
 
         <section class="content">
