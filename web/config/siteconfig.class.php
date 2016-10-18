@@ -16,9 +16,15 @@ use View\Theme\Basic\DefaultViewTheme;
  */
 class SiteConfig
 {
-    static $SITE_NAME = 'PHP Website';
+    static $SITE_NAME = 'Simon Payments Gateway';
     static $DEFAULT_THEME = null;
     static $BASE_URL = '/';
+    static $EMAIL_SERVER_HOST = null;
+    static $EMAIL_SMTP_USERNAME;
+    static $EMAIL_SMTP_PASSWORD;
+    static $EMAIL_SERVER_PORT = 587;
+    static $EMAIL_FROM_ADDRESS = "admin@simonpayments.com";
+    static $EMAIL_FROM_TITLE = "Simon Payments Gateway";
 
     public static function getDefaultViewTheme() {
         static $default = null;

@@ -1,6 +1,8 @@
 <?php
 namespace User\View;
 
+use System\Mail\ResetPasswordEmail;
+use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -86,9 +88,21 @@ class LoginView extends AbstractView {
                     break;
 
                 case 'reset':
-                    $this->setSessionMessage("Reset Feature Unavailable. Please try again soon.");
-                    header("Location: login.php?action=reset");
-                    break;
+                    $email = $_POST['email'];
+                    $User = UserRow::fetchByEmail($email);
+                    if(!$User) {
+                        $this->setSessionMessage("User was not found");
+                        header("Location: reset.php");
+                        die();
+                    } else {
+                        $Email = new ResetPasswordEmail($User);
+                        if(!$Email->send())
+                            $this->setSessionMessage($Email->ErrorInfo);
+                        else
+                            $this->setSessionMessage("Email was sent successfully");
+                    }
+                    header("Location: login.php");
+                    die();
 
                 default:
                     $this->setSessionMessage("Unknown action");

@@ -175,17 +175,32 @@ FROM user u
     }
 
     /**
+     * @param $field
+     * @param $value
+     * @return UserRow
+     * @throws \Exception
+     */
+    public static function fetchByField($field, $value) {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.{$field} = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
+        $stmt->execute(array($value));
+        return $stmt->fetch();
+    }
+
+    /**
      * @param $username
      * @return UserRow
      */
     public static function fetchByUsername($username) {
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.username = ?");
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
-        $stmt->execute(array($username));
-        return $stmt->fetch();
+        return static::fetchByField('username', $username);
     }
+
+    public static function fetchByEmail($email) {
+        return static::fetchByField('email', $email);
+    }
+
 
 
     /**

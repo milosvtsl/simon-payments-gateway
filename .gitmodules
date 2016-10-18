@@ -1,0 +1,3 @@
+[submodule "web/system/support/PHPMailer"]
+	path = web/system/support/PHPMailer
+	url = https://github.com/Synchro/PHPMailer.git
