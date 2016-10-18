@@ -127,12 +127,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
 
         // Update card type
-        if(form.card_number && form.card_number.value) {
+        if(form.card_number && form.card_number.value && !form.card_type.value) {
             var newType = getCreditCardType(form.card_number.value);
-            if(newType)
-                form.card_type.value = newType;
+            if(newType) {
+                for(var i=0; i<form.card_type.options.length; i++) {
+                    var option = form.card_type.options[i];
+                    if(option.innerHTML === newType) {
+                        //form.card_type.value = newType;
+                        form.card_type.selectedIndex = i;
+                        console.log("Updating card type to: " + newType, form.card_type.value);
+                    }
+                }
+            }
         }
-
     }
 
     function updateStyleSheetTheme(form) {
@@ -236,6 +243,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function parseMagTekTrack(string) {
         try {
+            if(!string)
+                return false;
             string = string.replace('%B', '');
             string = string.replace('%b', '');
 
@@ -262,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 console.log(data);
             return data;
         } catch (e) {
-            console.log(string, e);
+            console.error(string, e);
             return false;
         }
     }

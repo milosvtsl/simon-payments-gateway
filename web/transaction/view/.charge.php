@@ -156,12 +156,12 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Card Type</td>
                             <td class="value">
-                                <select name="card_type" >
+                                <select name="card_type" required>
                                     <option value="">Choose an option</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'Visa' ? 'selected="selected"' : ''?>>Visa</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'MasterCard' ? 'selected="selected"' : ''?>>MasterCard</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'Amex' ? 'selected="selected"' : ''?>>Amex</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'Discover' ? 'selected="selected"' : ''?>>Discover</option>
+                                    <option <?php echo @$LASTPOST['card_type'] == 'Visa' ? 'selected="selected"' : ''?> title="Visa">Visa</option>
+                                    <option <?php echo @$LASTPOST['card_type'] == 'MasterCard' ? 'selected="selected"' : ''?> title="MasterCard">MasterCard</option>
+                                    <option <?php echo @$LASTPOST['card_type'] == 'Amex' ? 'selected="selected"' : ''?> title="Amex">Amex</option>
+                                    <option <?php echo @$LASTPOST['card_type'] == 'Discover' ? 'selected="selected"' : ''?> title="Discover">Discover</option>
                                 </select>
                             </td>
                         </tr>
