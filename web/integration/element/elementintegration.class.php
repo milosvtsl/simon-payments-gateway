@@ -15,6 +15,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
+use Transaction\Mail\ReceiptEmail;
 use Transaction\Model\TransactionRow;
 
 class ElementIntegration extends AbstractIntegration
@@ -270,6 +271,12 @@ class ElementIntegration extends AbstractIntegration
         $Order->setStatus("Authorized");
         OrderRow::update($Order);
         TransactionRow::insert($Transaction);
+
+        if($Order->getPayeeEmail()) {
+            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+            $EmailReceipt->send();
+        }
+
         return $Transaction;
     }
 
@@ -290,7 +297,7 @@ class ElementIntegration extends AbstractIntegration
             $post['amount'] = $Order->getAmount();
 
         // Create Transaction
-        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+        $ReverseTransaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
         $Request = IntegrationRequestRow::prepareNew(
@@ -303,7 +310,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $Transaction, $Order, $post);
+        $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $ReverseTransaction, $Order, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
@@ -322,39 +329,45 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException($message);
 
         if($code !== "0")
-            $Transaction->setAction($message);
+            $ReverseTransaction->setAction($message);
         else
-            $Transaction->setAction("Reversal");
+            $ReverseTransaction->setAction("Reversal");
 //                throw new IntegrationException($message);
 
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $Transaction->setAuthCodeOrBatchID($code);
-        $Transaction->setTransactionID($transactionID);
-        $Transaction->setStatus($code, $message);
+        $ReverseTransaction->setAuthCodeOrBatchID($code);
+        $ReverseTransaction->setTransactionID($transactionID);
+        $ReverseTransaction->setStatus($code, $message);
         // Store Transaction Result
-        $Transaction->setTransactionDate($date);
+        $ReverseTransaction->setTransactionDate($date);
 
         $Order->setStatus("Reversal");
         OrderRow::update($Order);
-        TransactionRow::insert($Transaction);
-        return $Transaction;
+        TransactionRow::insert($ReverseTransaction);
+
+        if($Order->getPayeeEmail()) {
+            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+            $EmailReceipt->send();
+        }
+
+        return $ReverseTransaction;
     }
 
     /**
      * Void an existing Transaction
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
-     * @param OrderRow $OrderRow
+     * @param OrderRow $Order
      * @param array $post
      * @return mixed
      * @throws IntegrationException
      */
-    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
-        if(!$OrderRow->getID())
+    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 
-        $AuthorizedTransaction = $OrderRow->getAuthorizedTransaction();
+        $AuthorizedTransaction = $Order->getAuthorizedTransaction();
 
         $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
@@ -367,7 +380,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->voidCreditCardRequest($MerchantIdentity, $OrderRow, $AuthorizedTransaction, $post);
+        $request = $APIUtil->voidCreditCardRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
@@ -405,24 +418,30 @@ class ElementIntegration extends AbstractIntegration
 
         TransactionRow::insert($VoidTransaction);
 
-        $OrderRow->setStatus("Voided");
-        OrderRow::update($OrderRow);
+        $Order->setStatus("Voided");
+        OrderRow::update($Order);
+
+        if($Order->getPayeeEmail()) {
+            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+            $EmailReceipt->send();
+        }
+
         return $VoidTransaction;
     }
 
     /**
      * Return an existing Transaction
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
-     * @param OrderRow $OrderRow
+     * @param OrderRow $Order
      * @param array $post
      * @return mixed
      * @throws IntegrationException
      */
-    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
-        if(!$OrderRow->getID())
+    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 
-        $AuthorizedTransaction = $OrderRow->getAuthorizedTransaction();
+        $AuthorizedTransaction = $Order->getAuthorizedTransaction();
 
         $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
@@ -434,7 +453,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->returnCreditCardRequest($MerchantIdentity, $OrderRow, $AuthorizedTransaction, $post);
+        $request = $APIUtil->returnCreditCardRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
@@ -472,8 +491,14 @@ class ElementIntegration extends AbstractIntegration
 
         TransactionRow::insert($ReturnTransaction);
 
-        $OrderRow->setStatus("Return");
-        OrderRow::update($OrderRow);
+        $Order->setStatus("Return");
+        OrderRow::update($Order);
+
+        if($Order->getPayeeEmail()) {
+            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+            $EmailReceipt->send();
+        }
+
         return $ReturnTransaction;
     }
 

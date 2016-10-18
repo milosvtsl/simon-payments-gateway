@@ -80,7 +80,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <fieldset class="show-on-merchant-selected">
                     <legend>Choose a Payment Method</legend>
                     <select name="entry_mode" class="" autofocus>
-                        <option value="">Choose a method</option>
+<!--                        <option value="">Choose a method</option>-->
                         <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
                         <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
                         <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>

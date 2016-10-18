@@ -19,7 +19,7 @@ require_once dirname(dirname(__DIR__)) . '/system/support/PHPMailer/PHPMailerAut
 
 class ReceiptEmail extends \PHPMailer
 {
-    public function __construct(OrderRow $Order, TransactionRow $Transaction, MerchantRow $Merchant) {
+    public function __construct(OrderRow $Order, MerchantRow $Merchant) {
         parent::__construct();
 
         $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
