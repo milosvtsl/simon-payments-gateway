@@ -8,6 +8,7 @@
 namespace User\Model;
 
 use Config\DBConfig;
+use Integration\Model\Ex\IntegrationException;
 use Merchant\Model\MerchantRow;
 use User\Model\UserAuthorityRow;
 
@@ -180,7 +181,10 @@ FROM user u
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
         $stmt->execute(array($id));
-        return $stmt->fetch();
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("User ID not found: " . $id);
+        return $Row;
     }
 
     /**
@@ -195,7 +199,10 @@ FROM user u
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
         $stmt->execute(array($value));
-        return $stmt->fetch();
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("User field '{$field}' not found: " . $value);
+        return $Row;
     }
 
     /**
