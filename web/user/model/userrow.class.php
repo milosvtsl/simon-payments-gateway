@@ -79,7 +79,7 @@ FROM user u
     }
 
     public function hasMerchant($merchant_id) {
-        return in_array($merchant_id, $this->merchant_list);
+        return in_array($merchant_id, $this->getMerchantList());
     }
 
     public function getAuthorityList() {
