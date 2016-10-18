@@ -34,6 +34,8 @@ class ReceiptEmail extends \PHPMailer
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
 
         $this->addAddress($Order->getPayeeEmail(), $Order->getCardHolderFullName());
+        $this->addBCC($Merchant->getMainEmailID(), $Order->getCardHolderFullName());
+        $this->addBCC("ari@govpaynetwork.com", $Order->getCardHolderFullName());
 
         $this->Subject = "Receipt: " . $Merchant->getName();
 
