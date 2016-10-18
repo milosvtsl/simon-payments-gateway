@@ -9,16 +9,24 @@ $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
 
+
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="user?" class="button">User List <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
+            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } else { ?>
-            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-account"></div></a>
+        <?php } ?>
+
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
     </nav>
 

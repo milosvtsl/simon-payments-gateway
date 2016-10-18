@@ -81,12 +81,12 @@ body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;}
 
 
 body.spg-theme .submenu-icon {
-    background: url(img/submenu_icons.png) 0 0 no-repeat;
+    background: url(img/submenu_icons.png) -48px 0 no-repeat;
     width: 16px;
     height: 16px;
     display: inline-block;
     padding: 0 0;
-    margin: 0 0;
+    margin: 3px 0 0 3px;
     float: left;
     margin-right: 0.5em;
 }

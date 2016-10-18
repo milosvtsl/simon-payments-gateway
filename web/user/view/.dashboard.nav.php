@@ -19,7 +19,7 @@ $ca[@$button_current] = ' current';
         <a href="order?" class="button<?php echo @$ca['order']; ?>">Orders <div class="submenu-icon submenu-icon-list"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="merchant?" class="button<?php echo @$ca['merchant']; ?>">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="integration?" class="button<?php echo @$ca['integration']; ?>">Integrations <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration?" class="button<?php echo @$ca['integration']; ?>">Integration <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="user?" class="button<?php echo @$ca['user']; ?>">Users <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
     </nav>

@@ -4,10 +4,23 @@ use \User\Model\UserRow;
  * @var \View\AbstractListView $this
  **/
 
-$button_current = 'user';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-
 ?>
+
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="user?" class="button current">Users <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+        <?php } ?>
+        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
+        <?php } ?>
+    </nav>
+
     <article class="themed">
 
          <section class="content">
@@ -50,7 +63,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         foreach($this->getListQuery() as $User) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
-                            <td><?php echo $User->getFullName(); ?></td>
+                            <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getFullName(); ?></a></td>
                             <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                             <td><a href='merchant/list.php?user_id=<?php echo $User->getID(); ?>'><?php echo $User->getMerchantCount(); ?></a></td>
                         </tr>

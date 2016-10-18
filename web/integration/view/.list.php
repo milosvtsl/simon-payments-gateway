@@ -14,14 +14,14 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="integration" class="nav_integration">Integrations</a>
+                <a href="integration" class="nav_integration">Integration</a>
                 <a href="integration/list.php" class="nav_integration_list">Search</a>
             </aside>
             <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset style="display: inline-block;">
-                    <legend>Integrations</legend>
+                    <legend>Integration</legend>
                     <table class="table-results themed small">
                         <tr>
                             <th><a href="integration?<?php echo $this->getSortURL(IntegrationRow::SORT_BY_ID); ?>">ID</a></th>

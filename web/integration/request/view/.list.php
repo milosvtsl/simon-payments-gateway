@@ -7,7 +7,7 @@ use Integration\Request\Model\IntegrationRequestRow;
  **/?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integrations</a>
+        <a href="integration?" class="button">Integration</a>
         <a href="integration/request?" class="button current">Requests</a>
     </nav>
     <article class="themed">
@@ -16,7 +16,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="integration" class="nav_integration">Integrations</a>
+                <a href="integration" class="nav_integration">Integration</a>
                 <a href="integration/request?" class="nav_integration_request">Requests</a>
                 <a href="integration/request/list.php" class="nav_integration_list">Search</a>
             </aside>

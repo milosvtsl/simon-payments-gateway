@@ -87,6 +87,12 @@ class UserView extends AbstractView
                     if(!empty($post['password']))
                         $updates += $User->changePassword($post['password'], $post['password_confirm']);
 
+                    foreach($post['merchants'] as $merchant_id => $added)
+                        if($added)
+                            $updates += $User->addMerchantID($merchant_id);
+                        else
+                            $updates += $User->removeMerchantID($merchant_id);
+
                     // Set message and redirect
                     $updates > 0
                         ? $this->setSessionMessage($updates . " user fields updated successfully: " . $User->getUID())

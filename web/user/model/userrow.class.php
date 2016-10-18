@@ -150,7 +150,7 @@ FROM user u
     }
 
     public function updateFields($fname, $lname, $username, $email) {
-        if(!preg_match('/^[a-zA-Z0-9_-]$/', $username))
+        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
             throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
 
         if(strlen($username) < 5)
@@ -164,6 +164,43 @@ FROM user u
         $this->username = $username;
         $this->email = $email;
         return static::update($this);
+    }
+
+    public function addMerchantID($merchant_id, $ignore_duplicate=true) {
+        $sql_ignore = $ignore_duplicate ? "IGNORE " : "";
+        $SQL = <<<SQL
+INSERT {$sql_ignore}INTO user_merchants
+SET
+  id_user = :id_user,
+  id_merchant = :id_merchant
+SQL;
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array(
+            ':id_user' => $this->getID(),
+            ':id_merchant' => $merchant_id,
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to insert new row");
+        return $stmt->rowCount() >= 1;
+    }
+
+    public function removeMerchantID($merchant_id) {
+        $SQL = <<<SQL
+DELETE FROM user_merchants
+WHERE
+  id_user = :id_user
+  AND id_merchant = :id_merchant
+SQL;
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array(
+            ':id_user' => $this->getID(),
+            ':id_merchant' => $merchant_id,
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to remove row");
+        return $stmt->rowCount() >= 1;
     }
 
     // Static
@@ -321,6 +358,7 @@ FROM user u
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
+
 
 
 }

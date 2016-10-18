@@ -15,7 +15,7 @@ use View\AbstractView;
 class IntegrationView extends AbstractView
 {
     const VIEW_PATH = 'integration';
-    const VIEW_NAME = 'Integrations';
+    const VIEW_NAME = 'Integration';
 
     private $_integration;
     private $_action;
