@@ -309,6 +309,7 @@ SQL;
         foreach($values as $key=>$value)
             $SQL .= ($SQL?",\n":"") . "\n\t`" . substr($key, 1) . "` = " . $key;
         $SQL .= ",\n\t`date` = NOW()";
+        $User->date = date('Y-m-d G:i:s');
 
         $SQL = "INSERT INTO user\nSET" . $SQL;
 

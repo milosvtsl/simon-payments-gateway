@@ -227,6 +227,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         foreach($values as $key=>$value)
             $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
         $SQL .= "\n\t`date` = NOW()";
+        $TransactionRow->date = date('Y-m-d G:i:s');
 
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
