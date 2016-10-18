@@ -11,7 +11,7 @@ switch(strtolower($_SERVER["HTTP_HOST"])) {
 //    case "admin.simonpayments.com":
 //    case "admin.simonpayments.com:81":
         Header( "HTTP/1.1 301 Moved Permanently" );
-        header("location: https://admin.simonpayments.com:8443/");
+        header("location: https://admin.paylogicnetwork.com:8443/");
         die;
 }
 
