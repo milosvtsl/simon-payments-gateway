@@ -67,19 +67,20 @@ class OrderListView extends AbstractListView {
 			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
 		}
 
+
+		// Handle authority
+		$SessionManager = new SessionManager();
+		$SessionUser = $SessionManager->getSessionUser();
+		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+			$list = $SessionUser->getMerchantList() ?: array(0);
+			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . "\n";
+		}
+
 		if(!empty($params['merchant_id'])) {
 			$Merchant = MerchantRow::fetchByID($params['merchant_id']);
 			$whereSQL .= "\nAND oi.merchant_id = :merchant_id";
 			$sqlParams['merchant_id'] = $Merchant->getID();
 			$statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
-		}
-
-		// Handle authority
-		$SessionManager = new SessionManager();
-		$SessionUser = $SessionManager->getSessionUser();
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES')) {
-			// TODO: merchant login?
-			$whereSQL .= "\nAND 0\n";
 		}
 
 		// Query Statistics
