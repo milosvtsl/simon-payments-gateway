@@ -64,7 +64,7 @@ class OrderListView extends AbstractListView {
 		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
 			$sqlParams['to'] = $params['date_to'];
-			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']));
+			$statsMessage .= " to " . date("M jS Y G:i:s", strtotime($params['date_to']) + 24*60*60);
 		}
 
 
