@@ -17,8 +17,8 @@ $SessionUser = $SessionManager->getSessionUser();
     <?php } ?>
     <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
     <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
-    <a href="<?php echo $action_url; ?>download" class="button">Download PDF <div class="submenu-icon submenu-icon-download"></div></a>
-    <a href="<?php echo $action_url; ?>email" class="button">Send as Email <div class="submenu-icon submenu-icon-email"></div></a>
+    <a href="<?php echo $action_url; ?>download" class="button">Download <div class="submenu-icon submenu-icon-download"></div></a>
+    <a href="<?php echo $action_url; ?>email" class="button">Email <div class="submenu-icon submenu-icon-email"></div></a>
 <!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
 </nav>
 

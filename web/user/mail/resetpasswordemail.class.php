@@ -5,13 +5,14 @@
  * Date: 8/28/2016
  * Time: 1:32 PM
  */
-namespace System\Mail;
+namespace User\Mail;
 
 
 use Config\SiteConfig;
+use PHPMailer;
 use User\Model\UserRow;
 
-require_once dirname(__DIR__) . '/support/PHPMailer/PHPMailerAutoload.php';
+require_once dirname(dirname(__DIR__)) . '/system/support/PHPMailer/PHPMailerAutoload.php';
 
 class ResetPasswordEmail extends \PHPMailer
 {

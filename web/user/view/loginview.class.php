@@ -1,7 +1,7 @@
 <?php
 namespace User\View;
 
-use System\Mail\ResetPasswordEmail;
+use User\Mail\ResetPasswordEmail;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
