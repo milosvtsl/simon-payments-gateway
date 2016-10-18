@@ -37,7 +37,7 @@ class ResetPasswordEmail extends \PHPMailer
 //        $key2 = crypt($User->getPasswordHash(), $key);
 
         $pu = parse_url($_SERVER['REQUEST_URI']);
-        $url = (@$pu["scheme"]?:'https') . "://" . (@$pu["host"]?:SiteConfig::$BASE_URL?:'localhost') . '/reset.php?key='.$key.'&email='.$User->getEmail();
+        $url = (@$pu["host"]?:SiteConfig::$BASE_URL?:'localhost') . '/reset.php?key='.$key.'&email='.$User->getEmail();
         $username = $User->getUsername();
         $sig = SiteConfig::$SITE_NAME;
 
