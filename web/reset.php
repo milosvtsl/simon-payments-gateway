@@ -9,6 +9,9 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
