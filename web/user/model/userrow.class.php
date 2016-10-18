@@ -261,7 +261,7 @@ SQL;
      * @return UserRow
      */
     public static function createNewUser($post) {
-        if(!preg_match('/^[a-zA-Z0-9_-]/g', $post['username']))
+        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $post['username']))
             throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
 
         if(strlen($post['username']) < 5)
