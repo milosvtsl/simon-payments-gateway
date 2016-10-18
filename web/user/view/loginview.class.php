@@ -107,8 +107,11 @@ class LoginView extends AbstractView {
 
                     // If Key was given, reset password
                     if($key) {
-                        if(!$User->isValidResetKey($key))
-                            throw new \InvalidArgumentException("Invalid Reset Key");
+                        if(!$User->isValidResetKey($key)) {
+                            $this->setSessionMessage("Invalid Reset Key");
+                            header("Location: reset.php?email=".$email);
+                            die();
+                        }
 
                         $User->changePassword($post['password'], $post['password_confirm']);
                         $this->setSessionMessage("Password was reset successfully");
@@ -136,12 +139,14 @@ class LoginView extends AbstractView {
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
                     header("Location: reset.php?key={$key}&email={$email}");
+                    die();
                 }
+            break;
 
             default:
                 $this->setSessionMessage("Unknown action");
                 header("Location: login.php");
-                break;
+                die();
         }
     }
 

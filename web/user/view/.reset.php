@@ -30,11 +30,11 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Change Password</td>
-                        <td><input type="password" name="password" value="" autocomplete="off" /></td>
+                        <td><input type="password" name="password" value="" autocomplete="off" required/></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>Confirm Password</td>
-                        <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
+                        <td><input type="password" name="password_confirm" value="" autocomplete="off" required/></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Reset</td>
@@ -63,7 +63,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Email</td>
                         <td>
-                            <input type="email" name="email" id="email"  placeholder="Recovery Email Address"  value="" autofocus class="themed"/>
+                            <input type="email" name="email" id="email" class="themed" placeholder="Recovery Email Address" value="" autofocus required/>
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
