@@ -99,7 +99,7 @@ abstract class AbstractView
     {
         echo "\t<head>\n";
         echo "\t\t<title>", $this->getTitle(), "</title>\n";
-        echo "\t\t<base href='", SiteConfig::$BASE_URL, "'>\n";
+        echo "\t\t<base href='", SiteConfig::$BASE_HREF, "'>\n";
         $this->renderHTMLMetaTags();
         $this->renderHTMLHeadLinks();
         $this->renderHTMLHeadScripts();

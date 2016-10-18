@@ -42,6 +42,11 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                             <input type="submit" value="SUBMIT" class="themed"/>
                         </td>
                     </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td colspan="2" style="text-align: center;">
+                            <a href="/">Back to Login</a>
+                        </td>
+                    </tr>
 
                 </table>
             </fieldset>
@@ -65,6 +70,11 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         <td class="name">Reset</td>
                         <td>
                             <input type="submit" value="SUBMIT" class="themed"/>
+                        </td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td colspan="2" style="text-align: center;">
+                            <a href="/">Back to Login</a>
                         </td>
                     </tr>
 
