@@ -33,20 +33,20 @@ class ResetPasswordEmail extends \PHPMailer
 
         $this->Subject = "Reset your password";
 
-        $this->isHTML(false);
-
         $key = crypt($User->getPasswordHash(), md5(time()));
 //        $key2 = crypt($User->getPasswordHash(), $key);
 
         $pu = parse_url($_SERVER['REQUEST_URI']);
         $url = (@$pu["scheme"]?:'https') . "://" . (@$pu["host"]?:SiteConfig::$BASE_URL?:'localhost') . '/reset.php?key='.$key.'&email='.$User->getEmail();
         $username = $User->getUsername();
-        $this->Body = <<<HTML
-A password reset has been requested for the following account:
-Username: {$username}
 
-If you want to perform a password reset on this account, please click the following link:
-<a href="{$url}">{$url}</a>
+        $this->isHTML(true);
+        $this->Body = <<<HTML
+A password reset has been requested for the following account:<br/>
+Username: {$username}<br/>
+<br/>
+If you want to perform a password reset on this account, please click the following link:<br/>
+<a href="{$url}">{$url}</a><br/>
 HTML;
 
 
