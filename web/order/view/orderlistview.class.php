@@ -73,7 +73,7 @@ class OrderListView extends AbstractListView {
 		$SessionUser = $SessionManager->getSessionUser();
 		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
 			$list = $SessionUser->getMerchantList() ?: array(0);
-			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . "\n";
+			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 		}
 
 		if(!empty($params['merchant_id'])) {
