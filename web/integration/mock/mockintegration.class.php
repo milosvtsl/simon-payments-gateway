@@ -117,11 +117,11 @@ class MockIntegration extends AbstractIntegration
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
 
         // Store Transaction Result
-        $Transaction->setAction("Authorized");
+        $Transaction->setAction("Mock Authorized");
         $Transaction->setAuthCodeOrBatchID("Authorized");
         $Transaction->setStatus("Success", "Mock Transaction Approved");
 
-        $Order->setStatus("Authorized");
+        $Order->setStatus("Mock Authorized");
         OrderRow::update($Order);
         TransactionRow::insert($Transaction);
         return $Transaction;

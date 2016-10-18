@@ -136,7 +136,8 @@ FROM user u
             throw new \InvalidArgumentException("Password must be at least 5 characters");
         if ($password != $password_confirm)
             throw new \InvalidArgumentException("Password confirm mismatch");
-        $password = crypt($password);
+//        $password = crypt($password);
+        $password = md5($password);
         $sql = "UPDATE " . self::TABLE_NAME
             . "\nSET password=:password"
             . "\nWHERE id = :id";
