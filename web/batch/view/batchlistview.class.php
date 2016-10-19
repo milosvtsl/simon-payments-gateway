@@ -44,15 +44,16 @@ class BatchListView extends AbstractListView {
 
 		// Set up Date conditions
 		if(!empty($params['date_from'])) {
-			$whereSQL .= "\nAND b.date >= :from";
-			$sqlParams['from'] = $params['date_from'];
-			$statsMessage .= " from " . date("M jS Y", strtotime($params['date_from'])) . ' 00:00:00';
+			$whereSQL .= "\nAND oi.date >= :from";
+			$sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']));
+			$statsMessage .= " from " . date("M jS Y", strtotime($params['date_from']));
 		}
 		if(!empty($params['date_to'])) {
-			$whereSQL .= "\nAND b.date <= :to";
-			$sqlParams['to'] = $params['date_to'];
-			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to'])) . ' 23:59:59';
+			$whereSQL .= "\nAND oi.date <= :to";
+			$sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']));
+			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to']));
 		}
+
 		if(!empty($params['merchant_id'])) {
 			$Merchant = MerchantRow::fetchByID($params['merchant_id']);
 			$whereSQL .= "\nAND b.merchant_id = :merchant_id";
