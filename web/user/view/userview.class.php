@@ -80,7 +80,7 @@ class UserView extends AbstractView
             case 'edit':
                 try {
                     // Update User fields
-                    $updates = $User->updateFields($post['fname'], $post['lname'], $post['username'], $post['email']);
+                    $updates = $User->updateFields($post['fname'], $post['lname'], $post['email']);
 
                     // Change Password
                     if(!empty($post['password']))

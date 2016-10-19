@@ -6,7 +6,7 @@
  * Time: 10:47 PM
  */
 switch(strtolower($_SERVER["HTTP_HOST"])) {
-    case "admin.paylogicnetwork.com":
+    case "1admin.paylogicnetwork.com":
         Header( "HTTP/1.1 301 Moved Permanently" );
         header("location: https://admin.paylogicnetwork.com:8443/");
         die;

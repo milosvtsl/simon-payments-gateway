@@ -150,19 +150,19 @@ FROM user u
         return $PasswordQuery->rowCount();
     }
 
-    public function updateFields($fname, $lname, $username, $email) {
-        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
-            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
+    public function updateFields($fname, $lname, $email) {
+//        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
+//            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
 
-        if(strlen($username) < 5)
-            throw new \InvalidArgumentException("Username must be at least 5 characters");
+//        if(strlen($username) < 5)
+//            throw new \InvalidArgumentException("Username must be at least 5 characters");
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
 
         $this->fname = $fname;
         $this->lname = $lname;
-        $this->username = $username;
+//        $this->username = $username;
         $this->email = $email;
         return static::update($this);
     }
