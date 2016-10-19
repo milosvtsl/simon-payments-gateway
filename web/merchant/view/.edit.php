@@ -30,7 +30,9 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
 
             <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-            <form name="form-merchant-edit" class="themed" method="POST">
+            <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
+                <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
+                <input type="hidden" name="action" value="edit" />
                 <fieldset style="display: inline-block;">
                     <legend>Edit Merchant Fields</legend>
                     <table class="table-merchant-info themed striped-rows" style="float: left;">
