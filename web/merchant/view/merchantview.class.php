@@ -79,50 +79,47 @@ class MerchantView extends AbstractView
             die();
         }
 
-        try {
-            // Render Page
-            switch($this->_action) {
-                case 'edit':
-                    $EditMerchant = $this->getMerchant();
+        // Render Page
+        switch($this->_action) {
+            case 'edit':
+                $EditMerchant = $this->getMerchant();
+                try {
                     $EditMerchant->updateFields($post)
                         ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getName())
                         : $this->setSessionMessage("No changes detected: " . $EditMerchant->getName());
-                    header('Location: /merchant?id=' . $EditMerchant->getID());
-                    die();
 
-                    break;
+                } catch (\Exception $ex) {
+                    $this->setSessionMessage($ex->getMessage());
+                }
+                header('Location: /merchant?id=' . $EditMerchant->getID());
+                die();
+                break;
 
-                case 'provision':
-                    $IntegrationRow = IntegrationRow::fetchByID($_GET['integration_id']);
-                    $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
-                    if($MerchantIdentity->isProvisioned()) {
-                        $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
-                        header('Location: /merchant?id=' . $this->getMerchant()->getID());
-                        die();
-                    }
-
-                    try {
-                        $MerchantIdentity->provisionRemote();
-                        $this->setSessionMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
-                    } catch (IntegrationException $ex) {
-                        $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
-                    }
+            case 'provision':
+                $IntegrationRow = IntegrationRow::fetchByID($_GET['integration_id']);
+                $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
+                if($MerchantIdentity->isProvisioned()) {
+                    $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
                     header('Location: /merchant?id=' . $this->getMerchant()->getID());
                     die();
+                }
 
-                    break;
-                case 'delete':
-                    print_r($post);
-                    die();
-                    break;
-                default:
-                    throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
-            }
+                try {
+                    $MerchantIdentity->provisionRemote();
+                    $this->setSessionMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
+                } catch (IntegrationException $ex) {
+                    $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
+                }
+                header('Location: /merchant?id=' . $this->getMerchant()->getID());
+                die();
 
-        } catch (\Exception $ex) {
-            $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
-            die();
+                break;
+            case 'delete':
+                print_r($post);
+                die();
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
     }
 
