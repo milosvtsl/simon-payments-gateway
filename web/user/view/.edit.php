@@ -115,10 +115,10 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 ?>
                             </td>
                         </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><?php echo $SessionUser->getUsername(); ?> Password</td>
-                                <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
-                            </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td><?php echo $SessionUser->getUsername(); ?> Password</td>
+                            <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
+                        </tr>
                         <?php } ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Update</td>

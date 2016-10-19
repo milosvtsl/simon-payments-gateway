@@ -124,17 +124,24 @@ class UserView extends AbstractView
                 break;
 
             case 'delete':
-                if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-                    $this->setSessionMessage("Could not delete user. Permission required: ROLE_ADMIN");
-                    header('Location: /user?id=' . $User->getID());
+                try {
+                    if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+                        throw new \Exception("Only super admins may delete users");
+
+                    $SessionUser->validatePassword($post['admin_password']);
+
+                    if($User->getID() === $SessionUser->getID())
+                        throw new \Exception("Cannot delete self");
+
+                    UserRow::delete($User);
+                    $this->setSessionMessage("Successfully deleted user: " . $User->getUsername());
+                    header('Location: /user');
+                    die();
+                } catch (\Exception $ex) {
+                    $this->setSessionMessage($ex->getMessage());
+                    header('Location: /user?id=' . $User->getID() . '&action=delete&message=' . $ex->getMessage());
                     die();
                 }
-
-                UserRow::delete($User);
-                $this->setSessionMessage("Successfully deleted user: " . $User->getUsername());
-                header('Location: /user');
-                die();
-                break;
 
             case 'login':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {

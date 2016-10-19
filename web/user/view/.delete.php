@@ -87,7 +87,6 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 ?>
                             </td>
                         </tr>
-                        <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Roles</td>
                             <td><?php
@@ -96,9 +95,12 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 ?>
                             </td>
                         </tr>
-                        <?php } ?>
                         <tr>
                             <td colspan="2"><hr/>Are you sure you want to permanently delete this user?<hr/></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td><?php echo $SessionUser->getUsername(); ?> Password</td>
+                            <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Delete</td>
