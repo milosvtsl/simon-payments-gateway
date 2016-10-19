@@ -295,12 +295,21 @@ SQL;
      * @throws \Exception
      */
     public static function delete(UserRow $User) {
-        $SQL = "DELETE FROM user\nWHERE id=?";
-
         $DB = DBConfig::getInstance();
+
+        $SQL = "DELETE FROM user_authorities \nWHERE id_user=?";
         $stmt = $DB->prepare($SQL);
-        $ret = $stmt->execute(array($User->getID()));
-        if(!$ret)
+        if(!$stmt->execute(array($User->getID())))
+            throw new \PDOException("Failed to insert new row");
+
+        $SQL = "DELETE FROM user_merchants \nWHERE id_user=?";
+        $stmt = $DB->prepare($SQL);
+        if(!$stmt->execute(array($User->getID())))
+            throw new \PDOException("Failed to insert new row");
+
+        $SQL = "DELETE FROM user\nWHERE id=?";
+        $stmt = $DB->prepare($SQL);
+        if(!$stmt->execute(array($User->getID())))
             throw new \PDOException("Failed to insert new row");
     }
 
