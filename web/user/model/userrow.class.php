@@ -292,6 +292,20 @@ SQL;
 
     /**
      * @param UserRow $User
+     * @throws \Exception
+     */
+    public static function delete(UserRow $User) {
+        $SQL = "DELETE FROM user\nWHERE id=?";
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array($User->getID()));
+        if(!$ret)
+            throw new \PDOException("Failed to insert new row");
+    }
+
+    /**
+     * @param UserRow $User
      * @return UserRow
      * @throws \Exception
      */

@@ -16,6 +16,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="<?php echo $action_url; ?>edit" class="button">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
+            <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
             <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } else { ?>
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>

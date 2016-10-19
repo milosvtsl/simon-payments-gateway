@@ -14,8 +14,8 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="<?php echo $action_url; ?>edit" class="button current">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
-            <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
+            <a href="<?php echo $action_url; ?>edit" class="button">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
+            <a href="<?php echo $action_url; ?>delete" class="button current">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
             <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } else { ?>
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
@@ -38,15 +38,15 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                 <a href="/" class="nav_home">Home</a>
                 <a href="user" class="nav_user">Users</a>
                 <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-                <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
+                <a href="<?php echo $action_url; ?>delete" class="nav_user_delete">Delete</a>
             </aside>
             <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-            <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
+            <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>delete">
                 <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
-                <input type="hidden" name="action" value="edit" />
+                <input type="hidden" name="action" value="delete" />
                 <fieldset style="display: inline-block;">
-                    <legend>Edit User Fields</legend>
+                    <legend>Delete User: <?php echo $User->getFullName(); ?></legend>
                     <table class="table-user-info themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
@@ -58,52 +58,54 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Username</td>
-                            <td><input type="text" disabled="disabled" name="username" value="<?php echo @$_POST['username'] ?: $User->getUsername(); ?>" autofocus  /></td>
+                            <td><?php echo $User->getUsername(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Name</td>
+                            <td><?php echo $User->getFullName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Email</td>
-                            <td><input type="text" name="email" value="<?php echo @$_POST['email'] ?: $User->getEmail(); ?>" /></td>
+                            <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>First Name</td>
-                            <td><input type="text" name="fname" value="<?php echo @$_POST['fname'] ?: $User->getFirstName(); ?>" /></td>
+                            <td>UID</td>
+                            <td><?php echo $User->getUID(); ?></td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Last Name</td>
-                            <td><input type="text" name="lname" value="<?php echo @$_POST['lname'] ?: $User->getLastName(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Change Password</td>
-                            <td><input type="password" name="password" value="" autocomplete="off" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Confirm Password</td>
-                            <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
-                        </tr>
-                        <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Merchants</td>
-                            <td>
-                                <?php
-                                $list = $User->getMerchantList();
+                            <td><?php
                                 if($SessionUser->hasAuthority('ROLE_ADMIN'))
                                     $MerchantQuery = MerchantRow::queryAll();
                                 else
                                     $MerchantQuery = $SessionUser->queryUserMerchants();
-                                foreach($MerchantQuery as $Merchant)
+                                foreach($User->queryUserMerchants() as $i=>$Merchant)
                                     /** @var \Merchant\Model\MerchantRow $Merchant */
-                                    echo "<label>",
-                                    "\n\t<input type='hidden' name='merchants[", $Merchant->getID(), "]' value='0' />",
-                                    "\n\t<input type='checkbox' name='merchants[", $Merchant->getID(), "]' value='1'",
-                                    (in_array($Merchant->getID(), $list) ? ' checked="checked"' : ''),
-                                    "/>", $Merchant->getName(), "</label><br/>\n";
+                                    echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
+                                        . $Merchant->getShortName()
+                                        . "</a><br/>";
+                                ?>
+                            </td>
+                        </tr>
+                        <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Roles</td>
+                            <td><?php
+                                /** @var \User\Model\UserAuthorityRow $Role */
+                                foreach($User->queryRoles() as $i=>$Role)
+                                    echo "<a href='role.php?id=" . $Role->getID() . "'>"
+                                        . $Role->getAuthority()
+                                        . "</a><br/>";
                                 ?>
                             </td>
                         </tr>
                         <?php } ?>
+                        <tr>
+                            <td colspan="2"><hr/>Are you sure you want to permanently delete this user?<hr/></td>
+                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Update</td>
-                            <td><input type="submit" value="Update" class="themed"/></td>
+                            <td>Delete</td>
+                            <td><input type="submit" value="Delete" class="themed" /></td>
                         </tr>
                     </table>
                 </fieldset>

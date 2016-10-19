@@ -116,7 +116,10 @@ class UserView extends AbstractView
                     header('Location: /user?id=' . $User->getID());
                     die();
                 }
-                print_r($post);
+
+                UserRow::delete($User);
+                $this->setSessionMessage("Successfully deleted user: " . $User->getUsername());
+                header('Location: /user');
                 die();
                 break;
 
