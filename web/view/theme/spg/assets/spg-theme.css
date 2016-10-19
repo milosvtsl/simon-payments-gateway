@@ -210,14 +210,16 @@ body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
     /* background: url('img/bk/input.button.png') repeat-x; */
-    margin: 0 0 0.3em 0;
+    margin: 0.5em;
     min-width: 84px;
     text-align: left;
     border-width: 1px;
     border-radius: 1em;
     text-transform: uppercase;
     background-color: #3d7694;
-    color: #fff;
+    background: linear-gradient(0deg, #d4e7ec 0%, #fff 50%, #d4e7ec 100%);
+    color: black;
+    cursor: pointer;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
     border-bottom: 1px solid #adabab;
