@@ -82,6 +82,21 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                         </tr>
                         <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Authorities</td>
+                            <td>
+                                <?php
+                                $AuthQuery = \User\Model\AuthorityRow::queryAll();
+                                foreach($AuthQuery as $Authority)
+                                    /** @var \User\Model\UserAuthorityRow $Authority*/
+                                    echo "<label>",
+                                    "\n\t<input type='hidden' name='authority[", $Authority->getAuthority(), "]' value='0' />",
+                                    "\n\t<input type='checkbox' name='authority[", $Authority->getAuthority(), "]' value='1'",
+                                    ($User->hasAuthority($Authority->getAuthority()) ? ' checked="checked"' : ''),
+                                    "/>", $Authority->getName(), "</label><br/>\n";
+                                ?>
+                            </td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Merchants</td>
                             <td>
                                 <?php
@@ -93,8 +108,8 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 foreach($MerchantQuery as $Merchant)
                                     /** @var \Merchant\Model\MerchantRow $Merchant */
                                     echo "<label>",
-                                    "\n\t<input type='hidden' name='merchants[", $Merchant->getID(), "]' value='0' />",
-                                    "\n\t<input type='checkbox' name='merchants[", $Merchant->getID(), "]' value='1'",
+                                    "\n\t<input type='hidden' name='merchant[", $Merchant->getID(), "]' value='0' />",
+                                    "\n\t<input type='checkbox' name='merchant[", $Merchant->getID(), "]' value='1'",
                                     (in_array($Merchant->getID(), $list) ? ' checked="checked"' : ''),
                                     "/>", $Merchant->getName(), "</label><br/>\n";
                                 ?>

@@ -84,16 +84,13 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Roles</td>
                             <td><?php
-                                /** @var \User\Model\UserAuthorityRow $Role */
-                                foreach($User->queryRoles() as $Role) {
-                                    echo "<a href='role.php?id=" . $Role->getID() . "'>"
-                                        . $Role->getAuthority()
-                                        . "</a><br/>";
-                                } ?>
+                                foreach($User->getAuthorityList() as $auth=>$name)
+                                    echo $name, " &nbsp;(", $auth, ")<br/>";
+                                ?>
                             </td>
                         </tr>
 
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Admin Access</td>
                             <td><input type="submit" value="Login" name="action" /></td>

@@ -91,11 +91,8 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Roles</td>
                             <td><?php
-                                /** @var \User\Model\UserAuthorityRow $Role */
-                                foreach($User->queryRoles() as $i=>$Role)
-                                    echo "<a href='role.php?id=" . $Role->getID() . "'>"
-                                        . $Role->getAuthority()
-                                        . "</a><br/>";
+                                foreach($User->getAuthorityList() as $auth=>$name)
+                                    echo $name, " &nbsp;(", $auth, ")<br/>";
                                 ?>
                             </td>
                         </tr>

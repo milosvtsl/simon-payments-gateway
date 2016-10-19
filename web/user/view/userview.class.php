@@ -87,11 +87,20 @@ class UserView extends AbstractView
                     if(!empty($post['password']))
                         $updates += $User->changePassword($post['password'], $post['password_confirm']);
 
-                    foreach($post['merchants'] as $merchant_id => $added)
+                    foreach($post['merchant'] as $merchant_id => $added)
                         if($added)
                             $updates += $User->addMerchantID($merchant_id);
                         else
                             $updates += $User->removeMerchantID($merchant_id);
+
+
+                    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                        foreach($post['authority'] as $authority => $added)
+                            if($added)
+                                $updates += $User->addAuthority($authority);
+                            else
+                                $updates += $User->removeAuthority($authority);
+                    }
 
                     // Set message and redirect
                     $updates > 0

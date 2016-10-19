@@ -121,11 +121,6 @@ FROM user u
         return MerchantRow::queryByUserID($this->getID());
     }
 
-    public function queryRoles() {
-        return UserAuthorityRow::queryByUserID($this->getID());
-    }
-
-
     public function isValidResetKey($key) {
         $valid = $key === crypt($this->password, $key);
         return $valid;
@@ -165,6 +160,48 @@ FROM user u
 //        $this->username = $username;
         $this->email = $email;
         return static::update($this);
+    }
+
+
+    public function addAuthority($authority, $ignore_duplicate=true) {
+        $Authority = AuthorityRow::fetchByName($authority);
+
+        $sql_ignore = $ignore_duplicate ? "IGNORE " : "";
+        $SQL = <<<SQL
+INSERT {$sql_ignore}INTO user_authorities
+SET
+  id_user = :id_user,
+  id_authority = :id_authority
+SQL;
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array(
+            ':id_user' => $this->getID(),
+            ':id_authority' => $Authority->getID(),
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to insert new row");
+        return $stmt->rowCount() >= 1;
+    }
+
+    public function removeAuthority($authority) {
+        $Authority = AuthorityRow::fetchByName($authority);
+
+        $SQL = <<<SQL
+DELETE FROM user_authorities
+WHERE
+  id_user = :id_user
+  AND id_authority = :id_authority
+SQL;
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array(
+            ':id_user' => $this->getID(),
+            ':id_authority' => $Authority->getID(),
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to remove row");
+        return $stmt->rowCount() >= 1;
     }
 
     public function addMerchantID($merchant_id, $ignore_duplicate=true) {
