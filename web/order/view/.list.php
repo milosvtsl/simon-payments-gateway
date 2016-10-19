@@ -63,7 +63,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr>
                             <th>Value</th>
                             <td>
-                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="UID, MID, Amount, Card, Name, Invoice ID" size="33" />
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="33" />
                                 <input type="submit" value="Search" />
                             </td>
                         </tr>

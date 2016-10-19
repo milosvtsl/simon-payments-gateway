@@ -39,10 +39,9 @@ use \User\Model\UserRow;
                     <table>
                         <tr>
                             <td class="name">Search</td>
-                            <td class="value"><input type="text" name="search" value="<?php echo @$_GET['search']; ?>" /></td>
-                        </tr>
-                        <tr>
-                            <td class="name">Search</td>
+                            <td class="value">
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="By ID, Name, Email" />
+                            </td>
                             <td class="value">
                                 <select name="limit">
                                     <?php
@@ -51,15 +50,9 @@ use \User\Model\UserRow;
                                         echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                     ?>
                                 </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="name">Submit</td>
                             <td class="value"><input type="submit" value="Search" /></td>
                         </tr>
                     </table>
-
-
                 </fieldset>
                 <fieldset style="display: inline-block;">
                     <legend>Search Results</legend>
