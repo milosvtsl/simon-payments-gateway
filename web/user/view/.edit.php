@@ -6,7 +6,7 @@ use Merchant\Model\MerchantRow;
  * @var \User\Model\UserRow $User
  **/
 $odd = false;
-$action_url = 'user?id=' . $User->getID() . '&action=';
+$action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 ?>
 
     <!-- Page Navigation -->

@@ -70,7 +70,8 @@ class UserView extends AbstractView
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID()) {
                 $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
-                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+
+                header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');                
                 die();
             }
         }
@@ -96,7 +97,7 @@ class UserView extends AbstractView
                     $updates > 0
                         ? $this->setSessionMessage($updates . " user fields updated successfully: " . $User->getUID())
                         : $this->setSessionMessage("No changes detected: " . $User->getUID());
-                    header('Location: user?id=' . $User->getID());
+                    header('Location: /user?id=' . $User->getID());
                     die();
 
                 } catch (\Exception $ex) {
@@ -104,7 +105,7 @@ class UserView extends AbstractView
 //                    $this->renderHTML(array(
 //                        'action' => 'edit'
 //                    ));
-                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                    header('Location: /user?id=' . $User->getID() . '&message=' . $ex->getMessage());
                     die();
                 }
                 break;
@@ -112,7 +113,7 @@ class UserView extends AbstractView
             case 'delete':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
                     $this->setSessionMessage("Could not delete user. Permission required: ROLE_ADMIN");
-                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                    header('Location: /user?id=' . $User->getID());
                     die();
                 }
                 print_r($post);
@@ -122,12 +123,12 @@ class UserView extends AbstractView
             case 'login':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
                     $this->setSessionMessage("Could not log in as user. Permission required: ROLE_ADMIN");
-                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                    header('Location: /user?id=' . $User->getID());
                     die();
                 }
                 $SessionManager->switchLoginToUser($User);
                 $this->setSessionMessage("Admin Login as: " . $User->getUsername());
-                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                header('Location: /user?id=' . $User->getID());
                 die();
 
             default:
