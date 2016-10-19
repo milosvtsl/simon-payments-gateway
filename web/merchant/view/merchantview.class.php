@@ -71,27 +71,28 @@ class MerchantView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $Merchant = $this->getMerchant();
+
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /merchant?id=' . $Merchant->getID());
             die();
         }
 
         // Render Page
         switch($this->_action) {
             case 'edit':
-                $EditMerchant = $this->getMerchant();
                 try {
-                    $EditMerchant->updateFields($post)
-                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getName())
-                        : $this->setSessionMessage("No changes detected: " . $EditMerchant->getName());
+                    $Merchant->updateFields($post)
+                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $Merchant->getName())
+                        : $this->setSessionMessage("No changes detected: " . $Merchant->getName());
 
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
                 }
-                header('Location: /merchant?id=' . $EditMerchant->getID());
+                header('Location: /merchant?id=' . $Merchant->getID());
                 die();
                 break;
 
