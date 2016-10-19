@@ -78,6 +78,7 @@ LEFT JOIN state s on m.state_id = s.id
         'open_date',
         'status_id',
         'store_id',
+        'url',
         'discover_external',
         'amex_external',
         'agent_chain',
