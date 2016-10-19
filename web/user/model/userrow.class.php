@@ -239,7 +239,7 @@ SQL;
         $stmt->execute(array($value));
         $Row = $stmt->fetch();
         if(!$Row)
-            throw new \InvalidArgumentException("User field '{$field}' not found: " . $value);
+            throw new \InvalidArgumentException("{$field} not found: " . $value);
         return $Row;
     }
 
@@ -274,6 +274,7 @@ SQL;
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
 
+        $password = md5($post['password']);
 
         $User = new UserRow();
         $User->uid = strtolower(self::generateGUID());
@@ -282,7 +283,7 @@ SQL;
         $User->enabled = 1;
         $User->fname = $post['fname'];
         $User->lname = $post['lname'];
-        $User->password = $post['password'];
+        $User->password = $password;
         $User->username = $post['username'];
 
         UserRow::insert($User);
