@@ -8,6 +8,7 @@
 namespace Integration\Element;
 
 use Integration\Model\AbstractMerchantIdentity;
+use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;
@@ -342,6 +343,11 @@ PHP;
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
 
+        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
+        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
+        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
+
         $CardNumber = $OrderRow->getCardNumber();
         $TruncatedCardNumber = substr($CardNumber, -4, 4);
         $ExpirationMonth = $OrderRow->getCardExpMonth();
@@ -631,6 +637,11 @@ PHP;
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken();
 
+        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
+        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
+        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
+
         $ApplicationID = $MerchantIdentity->getApplicationID();
         $ApplicationName = 'Simon Payments Gateway';
         $ApplicationVersion = '1';
@@ -811,6 +822,11 @@ PHP;
         $AccountToken = $MerchantIdentity->getAccountToken();
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken();
+
+        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
+        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
+        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
 
         $ApplicationID = $MerchantIdentity->getApplicationID();
         $ApplicationName = 'Simon Payments Gateway';
@@ -996,6 +1012,11 @@ PHP;
         $AccountToken = $MerchantIdentity->getAccountToken();
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
+
+        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
+        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
+        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
 
         $ApplicationID = $MerchantIdentity->getApplicationID();
         $ApplicationName = 'SimonPayments';
@@ -1238,6 +1259,11 @@ PHP;
         $AccountToken = $MerchantIdentity->getAccountToken();
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
+
+        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
+        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
+        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
 
         $Action = 'HealthCheck';
 
