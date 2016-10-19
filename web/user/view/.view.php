@@ -41,7 +41,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
             <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-            <form class="form-view-user themed" onsubmit="return false;">
+            <form class="form-view-user themed" method="POST">
                 <fieldset style="display: inline-block;">
                     <legend>User Information</legend>
                     <table class="table-user-info themed">
@@ -91,6 +91,13 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                 } ?>
                             </td>
                         </tr>
+
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Admin Access</td>
+                            <td><input type="submit" value="Login" name="action" /></td>
+                        </tr>
+                        <?php } ?>
                     </table>
                 </fieldset>
             </form>

@@ -62,11 +62,10 @@ class UserView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
-        $User = UserRow::fetchByID($post['id']);
-        if(!$User)
-            throw new \InvalidArgumentException("Invalid User ID: " . $post['id']);
+        $User = $this->getUser();
 
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID()) {
@@ -77,7 +76,7 @@ class UserView extends AbstractView
         }
 
         // Process POST
-        switch(@$post['action']) {
+        switch(strtolower(@$post['action'])) {
             case 'edit':
                 try {
                     // Update User fields
@@ -119,6 +118,17 @@ class UserView extends AbstractView
                 print_r($post);
                 die();
                 break;
+
+            case 'login':
+                if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+                    $this->setSessionMessage("Could not log in as user. Permission required: ROLE_ADMIN");
+                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                    die();
+                }
+                $SessionManager->switchLoginToUser($User);
+                $this->setSessionMessage("Admin Login as: " . $User->getUsername());
+                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                die();
 
             default:
                 throw new \InvalidArgumentException("Invalid Action");
