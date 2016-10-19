@@ -23,13 +23,13 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Username</td>
                         <td>
-                            <input type="text" name="username" id="username"  placeholder="Username"  value="" autofocus class="themed"/>
+                            <input type="text" name="username" id="username"  placeholder="Username"  value="" autofocus required class="themed"/>
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Password</td>
                         <td>
-                            <input type="password" name="password" id="password"  placeholder="Password" autocomplete="off" class="themed" />
+                            <input type="password" name="password" id="password"  placeholder="Password" autocomplete="off" required class="themed" />
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

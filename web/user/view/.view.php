@@ -19,7 +19,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } else { ?>
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php?action=edit" class="button">Edit <div class="submenu-icon submenu-icon-account"></div></a>
         <?php } ?>
 
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
