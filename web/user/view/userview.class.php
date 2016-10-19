@@ -80,6 +80,9 @@ class UserView extends AbstractView
         switch(strtolower(@$post['action'])) {
             case 'edit':
                 try {
+                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                        $SessionUser->validatePassword($post['admin_password']);
+
                     // Update User fields
                     $updates = $User->updateFields($post['fname'], $post['lname'], $post['email']);
 
@@ -87,14 +90,15 @@ class UserView extends AbstractView
                     if(!empty($post['password']))
                         $updates += $User->changePassword($post['password'], $post['password_confirm']);
 
-                    foreach($post['merchant'] as $merchant_id => $added)
-                        if($added)
-                            $updates += $User->addMerchantID($merchant_id);
-                        else
-                            $updates += $User->removeMerchantID($merchant_id);
-
 
                     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                        foreach($post['merchant'] as $merchant_id => $added)
+                            if($added)
+                                $updates += $User->addMerchantID($merchant_id);
+                            else
+                                $updates += $User->removeMerchantID($merchant_id);
+
+
                         foreach($post['authority'] as $authority => $added)
                             if($added)
                                 $updates += $User->addAuthority($authority);
@@ -114,7 +118,7 @@ class UserView extends AbstractView
 //                    $this->renderHTML(array(
 //                        'action' => 'edit'
 //                    ));
-                    header('Location: /user?id=' . $User->getID() . '&message=' . $ex->getMessage());
+                    header('Location: /user?id=' . $User->getID() . '&action=edit&message=' . $ex->getMessage());
                     die();
                 }
                 break;

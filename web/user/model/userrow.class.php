@@ -114,7 +114,7 @@ FROM user u
         if (password_verify($password, $this->password))
             return;
 
-        throw new \InvalidArgumentException("Invalid Password");
+        throw new \InvalidArgumentException("Invalid Password. Please try again");
     }
 
     public function queryUserMerchants() {
