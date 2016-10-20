@@ -27,7 +27,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
                 <a href="<?php echo $action_url; ?>edit" class="nav_merchant_view">Edit</a>
             </aside>
 
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />

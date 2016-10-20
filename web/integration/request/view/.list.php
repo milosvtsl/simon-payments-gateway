@@ -21,7 +21,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                 <a href="integration/request/list.php" class="nav_integration_list">Search</a>
             </aside>
 
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset class="search-fields">

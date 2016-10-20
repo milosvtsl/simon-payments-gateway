@@ -1,0 +1,44 @@
+.dashboard-section {
+    /* margin: 0 auto; */
+    /* padding: 14em 0; */
+    /* width: 280px; */
+    /* display: block !important; */
+    width: 78%;
+}
+
+.dashboard-section .stat-box-container {
+}
+
+.dashboard-section .stat-box {
+    width: 44%;
+    padding: 2em 0;
+    margin: 0.5em 1em;
+    border: 1px outset #FFF;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.dashboard-section .stat-box-first {
+    background: linear-gradient(to bottom, #5bd5ff 0%, #4095b3 100%);
+}
+.dashboard-section .stat-box-second {
+    background: linear-gradient(to bottom, #ff5bd5 0%, #ae3e91 100%);
+}
+.dashboard-section .stat-box-third {
+    background: linear-gradient(to bottom, #d5ff5b 0%, #94b13f 100%);
+}
+.dashboard-section .stat-box-fourth {
+    background: linear-gradient(to bottom, #ffd55b 0%, #a08639 100%);
+}
+
+.dashboard-section .stat-box .stat-large {
+    font-size: 2.3em;
+    font-weight: bold;
+    margin: 0.3em;
+}
+
+.dashboard-section .stat-box .stat-small {
+    font-size: small;
+}

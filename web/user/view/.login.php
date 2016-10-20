@@ -13,7 +13,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
     <section class="content login-section">
 
-        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
         <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
             <fieldset style="display: inline-block; padding: 1em 1.5em;">

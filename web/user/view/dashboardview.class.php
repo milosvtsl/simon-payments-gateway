@@ -6,10 +6,10 @@ use View\AbstractView;
 
 class DashboardView extends AbstractView {
 
-//    protected function renderHTMLHeadLinks() {
-//        echo "\t\t<link href='assets/css/main.css' type='text/css' rel='stylesheet' />\n";
-//        parent::renderHTMLHeadLinks();
-//    }
+    protected function renderHTMLHeadLinks() {
+        echo "\t\t<link href='user/view/assets/dashboard.css' type='text/css' rel='stylesheet' />\n";
+        parent::renderHTMLHeadLinks();
+    }
 
 	public function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();

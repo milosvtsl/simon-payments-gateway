@@ -31,7 +31,7 @@ $odd = false;
                 <a href="user/add.php" class="nav_user_add">Add New User</a>
             </aside>
 
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-add-user themed" method="POST" action="user/add.php">
                 <input type="hidden" name="action" value="edit" />
@@ -52,7 +52,7 @@ $odd = false;
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
-                            <td><input type="text" name="email" value="" required /></td>
+                            <td><input type="email" name="email" value="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">First Name</td>

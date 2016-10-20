@@ -30,7 +30,7 @@ use \User\Model\UserRow;
                  <a href="user/list.php" class="nav_user_list">Search</a>
              </aside>
 
-             <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-user-search themed">
                 <fieldset class="search-fields">
@@ -78,6 +78,7 @@ use \User\Model\UserRow;
                 <fieldset class="paginate">
                     <legend>Pagination</legend>
                     <?php $this->printPagination('user?'); ?>
+                    <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
                 </fieldset>
             </form>
         </section>

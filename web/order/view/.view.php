@@ -32,7 +32,7 @@ $SessionUser = $SessionManager->getSessionUser();
             <?php } ?>
             <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
         </aside>
-        <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
         <form name="form-order-view" class="themed" method="POST">
             <fieldset style="display: inline-block;">

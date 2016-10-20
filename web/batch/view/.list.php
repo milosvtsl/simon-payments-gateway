@@ -21,7 +21,7 @@ use \Merchant\Model\MerchantRow;
                 <a href="batch/list.php" class="nav_batch_list">Search</a>
             </aside>
 
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset class="search-fields">

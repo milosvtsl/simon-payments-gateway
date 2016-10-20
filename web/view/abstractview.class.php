@@ -41,17 +41,20 @@ abstract class AbstractView
     public function setException(\Exception $ex)       {
         $this->_exception = $ex;
     }
-    /** @return \Exception */
-    public function getException() {
+    /** @return String */
+    public function getMessage() {
         if ($this->_exception)
-            return $this->_exception;
+            return $this->_exception->getMessage();
+        if ($this->_message !== null)
+            return $this->_message;
         if (!$this->hasSessionMessage())
             return NULL;
-        $this->_exception = new \Exception($this->popSessionMessage());
-        return $this->_exception;
+        return $this->popSessionMessage();
     }
-    public function hasException() {
+    public function hasMessage() {
         if ($this->_exception !== null)
+            return true;
+        if ($this->_message !== null)
             return true;
         if ($this->hasSessionMessage())
             return true;
@@ -59,8 +62,6 @@ abstract class AbstractView
     }
 
     public function setMessage($message)    { $this->_message = $message; }
-    public function getMessage()            { return $this->_message; }
-    public function hasMessage()            { return $this->_message !== null; }
 
     public function setSessionMessage($message) {
         $_SESSION[static::SESSION_MESSAGE_KEY] = $message;

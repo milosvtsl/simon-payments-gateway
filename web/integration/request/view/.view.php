@@ -24,7 +24,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
                 <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
             </aside>
 
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-integration-request themed" onsubmit="return false;">
                 <fieldset style="display: inline-block;">

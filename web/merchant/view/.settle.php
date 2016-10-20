@@ -28,7 +28,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                 <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
                 <a href="<?php echo $action_url; ?>settle" class="nav_merchant_view">Settle</a>
             </aside>
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
         <form class="form-view-merchant themed" method="POST">
 

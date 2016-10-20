@@ -16,22 +16,34 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <a href="merchant" class="nav_merchant">Merchants</a>
                 <a href="merchant/list.php" class="nav_merchant_list">Search</a>
             </aside>
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset class="search-fields" style="display: inline-block;">
-                    <legend>Search</legend>
-                    MERCHANT NAME:
-                    <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" />
-                    <select name="limit">
-                        <?php
-                        $limit = @$_GET['limit'] ?: 50;
-                        foreach(array(10,25,50,100,250) as $opt)
-                            echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
-                        ?>
-                    </select>
-                    <input type="submit" value="Search" />
-
+                    <legend>Search all Merchants</legend>
+                    <table class="themed">
+                        <tbody>
+                            <tr>
+                                <th class="name">Merchant</th>
+                                <td>
+                                    <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, Name" />
+                                    <select name="limit">
+                                        <?php
+                                        $limit = @$_GET['limit'] ?: 50;
+                                        foreach(array(10,25,50,100,250) as $opt)
+                                            echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="name">Submit</th>
+                                <td>
+                                    <input type="submit" value="Search" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </fieldset>
                 <br/>
                 <fieldset style="display: inline-block;">
@@ -62,7 +74,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <legend>Pagination</legend>
                     <?php $this->printPagination('merchant?'); ?>
 
-                    <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+                    <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
                 </fieldset>
             </form>

@@ -4,7 +4,7 @@ use User\Session\SessionManager;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 /**
- * @var \Transaction\View\TransactionView $this
+ * @var \Transaction\View\ChargeView $this
  **/
 $odd = false;
 $SessionManager = new SessionManager();
@@ -26,7 +26,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <a href="order" class="nav_transaction">Orders</a>
                 <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
             </aside>
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form name="form-transaction-charge" class=" themed" method="POST">
                 <input type="hidden" name="integration_id" value="" />

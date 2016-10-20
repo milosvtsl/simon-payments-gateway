@@ -19,12 +19,12 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <a href="order" class="nav_order">Orders</a>
                 <a href="order/list.php" class="nav_order_list">Search</a>
             </aside>
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset class="search-fields">
                     <legend>Search</legend>
-                    <table>
+                    <table class="themed">
                         <tbody>
                         <tr>
                             <th>From</th>
@@ -104,7 +104,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <legend>Pagination</legend>
                     <?php $this->printPagination('order?'); ?>
 
-                    <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+                    <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
                 </fieldset>
             </form>
         </section>

@@ -39,7 +39,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                 <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
             </aside>
 
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-user themed" method="POST">
                 <fieldset style="display: inline-block;">

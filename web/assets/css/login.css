@@ -178,7 +178,8 @@ body.login .new-account {
 
 a.return-fee-link{color:#000;}
 .box-login{border:solid 1px #fff;}
-.box-login h3{background: linear-gradient(to bottom, #22598A 0%, #07355D 100%) repeat scroll 0% 0% transparent;
+.box-login h3{
+    background: linear-gradient(to bottom, #22598A 0%, #07355D 100%) repeat scroll 0% 0% transparent;
     color:#fff;
     padding:10px;
     margin:-15px -16px 20px -15px;

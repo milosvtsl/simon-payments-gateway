@@ -17,7 +17,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <a href="integration" class="nav_integration">Integration</a>
                 <a href="integration/list.php" class="nav_integration_list">Search</a>
             </aside>
-            <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
+            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset style="display: inline-block;">
