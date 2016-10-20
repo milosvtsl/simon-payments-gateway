@@ -76,11 +76,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
                             <th>Amount</th>
                             <th>Customer</th>
-                            <th>Mode</th>
+                            <th class="hide-on-layout-vertical">Mode</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice&nbsp;ID</a></th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
-                            <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+                            <th class="hide-on-layout-vertical"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                         </tr>
                         <?php
                         /** @var \Order\Model\OrderRow $Order */
@@ -90,11 +90,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
                             <td>$<?php echo $Order->getAmount(); ?></td>
                             <td><?php echo $Order->getCardHolderFullName(); ?></td>
-                            <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                            <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                            <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                            <td><?php echo date("M jS H:i", strtotime($Order->getDate())); ?></td>
                             <td><?php echo $Order->getInvoiceNumber(); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
-                            <td><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+                            <td class="hide-on-layout-vertical"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
 
                         </tr>
                         <?php } ?>

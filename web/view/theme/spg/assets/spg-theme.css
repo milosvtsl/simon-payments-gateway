@@ -7,8 +7,7 @@ body.spg-theme {
     margin: 0 auto;
 }
 
-body.layout-vertical.spg-theme {
-}
+body.layout-vertical.spg-theme {font-size: 3vw;}
 body.layout-horizontal.spg-theme {
 }
 
