@@ -30,6 +30,7 @@ body.spg-theme > footer {
 .spg-theme section.content {
     /* background-color: #f0f4f6; */
     display: inline-block;
+    max-width: 51em;
 }
 
 body.spg-theme > hr.themed {
@@ -49,6 +50,7 @@ body.layout-vertical.spg-theme nav.site-menu {
     float: inherit;
     margin: 0.8em 0;
     text-align: center;
+    font-size: 4vw;
 }
 
 body.spg-theme > nav.site-menu > a {

@@ -1,16 +1,14 @@
 .dashboard-section {
-    /* margin: 0 auto; */
+    margin: 0 auto;
     /* padding: 14em 0; */
     /* width: 280px; */
     /* display: block !important; */
-    width: 78%;
 }
 
-.dashboard-section .stat-box-container {
-}
+.dashboard-section .stat-box-container {text-align: center;}
 
 .dashboard-section .stat-box {
-    width: 44%;
+    width: 40%;
     padding: 2em 0;
     margin: 0.5em 1em;
     border: 1px outset #FFF;
@@ -39,6 +37,11 @@
     font-size: 2.3em;
     font-weight: bold;
     margin: 0.3em;
+}
+
+
+.layout-vertical .dashboard-section .stat-box .stat-large {
+    font-size: 1.5em;
 }
 
 .dashboard-section .stat-box .stat-small {
