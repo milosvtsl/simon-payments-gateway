@@ -115,7 +115,7 @@ body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; }
 body.spg-theme .bread-crumbs {
     border-bottom: 2px solid #bcc5d1;
     padding: 0.2em 0.5em;
-    margin: 0.2em 0px 1.3em 1px;
+    margin: 0.2em 0px 1.3em 0.5em;
     background-color: #bcc5d1;
     box-shadow: 0px 0px 4px #1b1b1b;
 }
