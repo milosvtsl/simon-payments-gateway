@@ -331,8 +331,8 @@ body.spg-theme table.themed > tbody > tr > td.name {
     text-align: right;
     /* text-transform: uppercase; */
     font-size: small;
-    /* padding-top: 0.6em; */
-    vertical-align: middle;
+    padding-top: 0.8em;
+    /* vertical-align: middle; */
 }
 
 body.spg-theme table.themed > tbody > tr > td.name::after {
