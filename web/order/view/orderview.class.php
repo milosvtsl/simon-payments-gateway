@@ -17,7 +17,7 @@ use View\AbstractView;
 class OrderView extends AbstractView
 {
     const VIEW_PATH = 'order';
-    const VIEW_NAME = 'Orders';
+    const VIEW_NAME = 'Transactions';
 
     private $_order;
     private $_action;

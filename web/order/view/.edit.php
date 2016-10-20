@@ -11,7 +11,7 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
     <nav class="page-menu hide-on-print">
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
-        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>receipt" class="button">View Receipt  <div class="submenu-icon submenu-icon-receipt"></div></a>
@@ -23,7 +23,7 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="order" class="nav_order">Orders</a>
+                <a href="order" class="nav_order">Transactions</a>
                 <a href="<?php echo $action_url; ?>view" class="nav_order_view">#<?php echo $Order->getID(); ?></a>
                 <a href="<?php echo $action_url; ?>edit" class="nav_order_edit">Edit</a>
             </aside>

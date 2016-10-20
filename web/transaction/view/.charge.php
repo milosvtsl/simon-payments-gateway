@@ -23,7 +23,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="order" class="nav_transaction">Orders</a>
+                <a href="order" class="nav_transaction">Transactions</a>
                 <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
             </aside>
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

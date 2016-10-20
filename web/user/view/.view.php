@@ -24,7 +24,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
         <?php } ?>
 
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>

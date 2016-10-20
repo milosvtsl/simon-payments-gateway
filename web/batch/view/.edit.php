@@ -9,8 +9,7 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="transaction?" class="button">Transactions</a>
-        <a href="order?" class="button">Orders</a>
+        <a href="order?" class="button">Transactions</a>
         <a href="batch?" class="button">Batches</a>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>

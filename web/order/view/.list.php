@@ -16,7 +16,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="order" class="nav_order">Orders</a>
+                <a href="order" class="nav_order">Transactions</a>
                 <a href="order/list.php" class="nav_order_list">Search</a>
             </aside>
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>

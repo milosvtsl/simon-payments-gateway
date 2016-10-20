@@ -12,7 +12,7 @@ $SessionUser = $SessionManager->getSessionUser();
 <nav class="page-menu hide-on-print">
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="order?" class="button">Orders <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
     <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
@@ -28,7 +28,7 @@ $SessionUser = $SessionManager->getSessionUser();
         <!-- Bread Crumbs -->
         <aside class="bread-crumbs">
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <a href="order" class="nav_order">Orders</a>
+                <a href="order" class="nav_order">Transactions</a>
             <?php } ?>
             <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
         </aside>

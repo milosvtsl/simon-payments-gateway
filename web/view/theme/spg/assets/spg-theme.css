@@ -175,7 +175,7 @@ body.spg-theme fieldset.themed {
     margin: 0 0.5em 0.5em 0.5em;
     min-width: 22em;
     min-height: 7em;
-    /* vertical-align: top; */
+    vertical-align: top;
     /* background-color: #FAFAFA; */
     border-radius: 4px;
     background: linear-gradient(0deg, #ffffff 0%, #ffffff 60%, #d4e7ec 100%);
