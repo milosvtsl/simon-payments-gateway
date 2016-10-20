@@ -6,7 +6,7 @@ use Merchant\Model\MerchantRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
@@ -14,7 +14,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
         <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
-        <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
+        <a href="<?php echo $action_url; ?>settle" class="button">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
     </nav>
 
     <article class="themed">
@@ -30,7 +30,9 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 
             <?php if($this->hasException()) echo "<h5>", $this->getException()->getMessage(), "</h5>"; ?>
 
-            <form name="form-merchant-edit" class="themed" method="POST">
+            <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
+                <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
+                <input type="hidden" name="action" value="edit" />
                 <fieldset style="display: inline-block;">
                     <legend>Edit Merchant Fields</legend>
                     <table class="table-merchant-info themed striped-rows" style="float: left;">
@@ -38,11 +40,11 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             <th colspan="2">Information</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>ID</td>
+                            <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Status</td>
+                            <td class="name">Status</td>
                             <td>
                                 <select name="status_id">
                                     <?php
@@ -59,27 +61,27 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
     <!--                        <td>--><?php //echo $Merchant->getUID(); ?><!--</td>-->
     <!--                    </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Name</td>
+                            <td class="name">Name</td>
                             <td><input type="text" name="name" size="32" value="<?php echo $Merchant->getName(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Short Name</td>
+                            <td class="name">Short Name</td>
                             <td><input type="text" name="short_name" size="32" value="<?php echo $Merchant->getShortName(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Email</td>
+                            <td class="name">Email</td>
                             <td><input type="text" name="email" size="32" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>URL</td>
+                            <td class="name">URL</td>
                             <td><input type="text" name="url" size="32" value="<?php echo $Merchant->getURL(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Merchant ID</td>
+                            <td class="name">Merchant ID</td>
                             <td><input type="text" name="merchant_id" size="12" value="<?php echo $Merchant->getID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Merchant SIC</td>
+                            <td class="name">Merchant SIC</td>
                             <td><input type="text" name="sic" size="12" value="<?php echo $Merchant->getMerchantSIC(); ?>" /></td>
                         </tr>
                         <tr>
@@ -87,19 +89,19 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Enable</td>
+                            <td class="name">Enable</td>
                             <td><input type="checkbox" name="convenience_fee_enabled" <?php echo $Merchant->isConvenienceFeeEnabled() ? "checked='checked'" : ''; ?> /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Variable</td>
+                            <td class="name">Variable</td>
                             <td><input type="text" name="convenience_fee_variable" size="12" value="<?php echo $Merchant->getFeeVariable(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Flat</td>
+                            <td class="name">Flat</td>
                             <td><input type="text" name="convenience_fee_flat" size="12" value="<?php echo $Merchant->getFeeFlat(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Limit</td>
+                            <td class="name">Limit</td>
                             <td><input type="text" name="convenience_fee_limit" size="12" value="<?php echo $Merchant->getFeeLimit(); ?>" /></td>
                         </tr>
                         <tr>
@@ -107,45 +109,45 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Batch Close</td>
+                            <td class="name">Batch Close</td>
                             <td><?php echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Open Date</td>
+                            <td class="name">Open Date</td>
                             <td><input type="datetime-local" name="open_date" value="<?php echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?>" /></td>
                         </tr>
                         <tr>
                             <th colspan="2">Accounts & IDs</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Store ID</td>
+                            <td class="name">Store ID</td>
                             <td><input type="text" name="store_id" size="12" value="<?php echo $Merchant->getStoreID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Discover Ext</td>
+                            <td class="name">Discover Ext</td>
                             <td><input type="text" name="discover_external" size="32" value="<?php echo $Merchant->getDiscoverExt(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Amex Ext</td>
+                            <td class="name">Amex Ext</td>
                             <td><input type="text" name="amex_external" size="32" value="<?php echo $Merchant->getAmexExt(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Agent Chain</td>
+                            <td class="name">Agent Chain</td>
                             <td><input type="text" name="agent_chain" size="32" value="<?php echo $Merchant->getAgentChain(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Tax ID</td>
+                            <td class="name">Tax ID</td>
                             <td><input type="text" name="tax_id" size="32" value="<?php echo $Merchant->getTaxID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Business Tax ID</td>
+                            <td class="name">Business Tax ID</td>
                             <td><input type="text" name="business_tax_id" size="32" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
                         </tr>
                         <tr>
                             <th colspan="2">Business</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Business Type</td>
+                            <td class="name">Business Type</td>
                             <td>
                                 <select name="business_type">
                                     <?php
@@ -159,23 +161,23 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Telephone Number</td>
+                            <td class="name">Telephone Number</td>
                             <td><input type="text" name="telephone" size="32" value="<?php echo $Merchant->getTelephone(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Address</td>
+                            <td class="name">Address</td>
                             <td><input type="text" name="address" size="32" value="<?php echo $Merchant->getAddress(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Address 2</td>
+                            <td class="name">Address 2</td>
                             <td><input type="text" name="address2" size="32" value="<?php echo $Merchant->getAddress2(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>City</td>
+                            <td class="name">City</td>
                             <td><input type="text" name="city" size="32" value="<?php echo $Merchant->getCity(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>State</td>
+                            <td class="name">State</td>
                             <td>
                                 <select name="state_id">
                                     <?php
@@ -190,12 +192,12 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Zip</td>
+                            <td class="name">Zip</td>
                             <td><input type="text" name="zipcode" size="12" value="<?php echo $Merchant->getZipCode(); ?>" /></td>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Country</td>
+                            <td class="name">Country</td>
                             <td>
                                 <select name="country">
                                     <?php
@@ -209,7 +211,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Zip</td>
+                            <td class="name">Zip</td>
                             <td><input type="text" name="zipcode" size="12" value="<?php echo $Merchant->getZipCode(); ?>" /></td>
                         </tr>
                     </table>
@@ -220,20 +222,20 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Main Contact</td>
+                            <td class="name">Main Contact</td>
                             <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getMainContact(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Sale Rep</td>
+                            <td class="name">Sale Rep</td>
                             <td><input type="text" name="sale_rep" size="32" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Title</td>
+                            <td class="name">Title</td>
                             <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTitle(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>DOB</td>
+                            <td class="name">DOB</td>
                             <td><input type="date" name="main_contact" value="<?php echo $Merchant->getDOB(); ?>" /></td>
                         </tr>
 
@@ -244,7 +246,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <?php $odd = false; ?>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Payment Type</td>
+                            <td class="name">Payment Type</td>
                             <td>
                                 <select name="payout_type">
                                     <option value="">Choose a payout type</option>
@@ -258,11 +260,11 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Account Name</td>
+                            <td class="name">Account Name</td>
                             <td><input type="text" name="payout_account_name" value="<?php echo $Merchant->getPayoutAccountName();  ?>" placeholder="Name on Account" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Account Type</td>
+                            <td class="name">Account Type</td>
                             <td>
                                 <select name="payout_account_type">
                                     <option value="">Choose an Account Type</option>
@@ -276,11 +278,11 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Account Number</td>
+                            <td class="name">Account Number</td>
                             <td><input type="text" name="payout_account_number" value="<?php echo $Merchant->getPayoutAccountNumber(); ?>" placeholder="Account Number" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Routing Number</td>
+                            <td class="name">Routing Number</td>
                             <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutBankCode(); ?>" placeholder="Routing Number" /></td>
                         </tr>
 

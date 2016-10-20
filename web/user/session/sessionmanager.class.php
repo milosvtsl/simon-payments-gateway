@@ -73,12 +73,24 @@ class SessionManager
         return $User;
     }
 
+    public function switchLoginToUser(UserRow $User) {
+        self::$_session_user = $User;
+
+        // Reset login session data
+        $_SESSION[static::SESSION_KEY] = array (
+            static::SESSION_ID => $User->getID()
+        );
+
+        return $User;
+    }
+
     // Static
 
     public static function get() {
         static $inst = null;
         return $inst ?: $inst = new SessionManager();
     }
+
 }
 
 

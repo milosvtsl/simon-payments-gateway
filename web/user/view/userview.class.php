@@ -62,63 +62,97 @@ class UserView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
-        $User = UserRow::fetchByID($post['id']);
-        if(!$User)
-            throw new \InvalidArgumentException("Invalid User ID: " . $post['id']);
+        $User = $this->getUser();
 
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID()) {
                 $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
-                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+
+                header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');                
                 die();
             }
         }
 
         // Process POST
-        switch(@$post['action']) {
+        switch(strtolower(@$post['action'])) {
             case 'edit':
                 try {
+                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                        $SessionUser->validatePassword($post['admin_password']);
+
                     // Update User fields
-                    $updates = $User->updateFields($post['fname'], $post['lname'], $post['username'], $post['email']);
+                    $updates = $User->updateFields($post['fname'], $post['lname'], $post['email']);
 
                     // Change Password
                     if(!empty($post['password']))
                         $updates += $User->changePassword($post['password'], $post['password_confirm']);
 
-                    foreach($post['merchants'] as $merchant_id => $added)
-                        if($added)
-                            $updates += $User->addMerchantID($merchant_id);
-                        else
-                            $updates += $User->removeMerchantID($merchant_id);
+
+                    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                        foreach($post['merchant'] as $merchant_id => $added)
+                            if($added)
+                                $updates += $User->addMerchantID($merchant_id);
+                            else
+                                $updates += $User->removeMerchantID($merchant_id);
+
+
+                        foreach($post['authority'] as $authority => $added)
+                            if($added)
+                                $updates += $User->addAuthority($authority);
+                            else
+                                $updates += $User->removeAuthority($authority);
+                    }
 
                     // Set message and redirect
                     $updates > 0
                         ? $this->setSessionMessage($updates . " user fields updated successfully: " . $User->getUID())
                         : $this->setSessionMessage("No changes detected: " . $User->getUID());
-                    header('Location: user?id=' . $User->getID());
+                    header('Location: /user?id=' . $User->getID());
                     die();
 
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
-                    $this->renderHTML(array(
-                        'action' => 'edit'
-                    ));
-//                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+//                    $this->renderHTML(array(
+//                        'action' => 'edit'
+//                    ));
+                    header('Location: /user?id=' . $User->getID() . '&action=edit&message=' . $ex->getMessage());
                     die();
                 }
                 break;
 
             case 'delete':
-                if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-                    $this->setSessionMessage("Could not delete user. Permission required: ROLE_ADMIN");
-                    header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                try {
+                    if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+                        throw new \Exception("Only super admins may delete users");
+
+                    $SessionUser->validatePassword($post['admin_password']);
+
+                    if($User->getID() === $SessionUser->getID())
+                        throw new \Exception("Cannot delete self");
+
+                    UserRow::delete($User);
+                    $this->setSessionMessage("Successfully deleted user: " . $User->getUsername());
+                    header('Location: /user');
+                    die();
+                } catch (\Exception $ex) {
+                    $this->setSessionMessage($ex->getMessage());
+                    header('Location: /user?id=' . $User->getID() . '&action=delete&message=' . $ex->getMessage());
                     die();
                 }
-                print_r($post);
+
+            case 'login':
+                if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+                    $this->setSessionMessage("Could not log in as user. Permission required: ROLE_ADMIN");
+                    header('Location: /user?id=' . $User->getID());
+                    die();
+                }
+                $SessionManager->switchLoginToUser($User);
+                $this->setSessionMessage("Admin Login as: " . $User->getUsername());
+                header('Location: /user?id=' . $User->getID());
                 die();
-                break;
 
             default:
                 throw new \InvalidArgumentException("Invalid Action");

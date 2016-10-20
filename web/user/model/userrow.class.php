@@ -114,17 +114,12 @@ FROM user u
         if (password_verify($password, $this->password))
             return;
 
-        throw new \InvalidArgumentException("Invalid Password");
+        throw new \InvalidArgumentException("Invalid Password. Please try again");
     }
 
     public function queryUserMerchants() {
         return MerchantRow::queryByUserID($this->getID());
     }
-
-    public function queryRoles() {
-        return UserAuthorityRow::queryByUserID($this->getID());
-    }
-
 
     public function isValidResetKey($key) {
         $valid = $key === crypt($this->password, $key);
@@ -150,21 +145,63 @@ FROM user u
         return $PasswordQuery->rowCount();
     }
 
-    public function updateFields($fname, $lname, $username, $email) {
-        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
-            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
+    public function updateFields($fname, $lname, $email) {
+//        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
+//            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
 
-        if(strlen($username) < 5)
-            throw new \InvalidArgumentException("Username must be at least 5 characters");
+//        if(strlen($username) < 5)
+//            throw new \InvalidArgumentException("Username must be at least 5 characters");
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
 
         $this->fname = $fname;
         $this->lname = $lname;
-        $this->username = $username;
+//        $this->username = $username;
         $this->email = $email;
         return static::update($this);
+    }
+
+
+    public function addAuthority($authority, $ignore_duplicate=true) {
+        $Authority = AuthorityRow::fetchByName($authority);
+
+        $sql_ignore = $ignore_duplicate ? "IGNORE " : "";
+        $SQL = <<<SQL
+INSERT {$sql_ignore}INTO user_authorities
+SET
+  id_user = :id_user,
+  id_authority = :id_authority
+SQL;
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array(
+            ':id_user' => $this->getID(),
+            ':id_authority' => $Authority->getID(),
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to insert new row");
+        return $stmt->rowCount() >= 1;
+    }
+
+    public function removeAuthority($authority) {
+        $Authority = AuthorityRow::fetchByName($authority);
+
+        $SQL = <<<SQL
+DELETE FROM user_authorities
+WHERE
+  id_user = :id_user
+  AND id_authority = :id_authority
+SQL;
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array(
+            ':id_user' => $this->getID(),
+            ':id_authority' => $Authority->getID(),
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to remove row");
+        return $stmt->rowCount() >= 1;
     }
 
     public function addMerchantID($merchant_id, $ignore_duplicate=true) {
@@ -239,7 +276,7 @@ SQL;
         $stmt->execute(array($value));
         $Row = $stmt->fetch();
         if(!$Row)
-            throw new \InvalidArgumentException("User field '{$field}' not found: " . $value);
+            throw new \InvalidArgumentException("{$field} not found: " . $value);
         return $Row;
     }
 
@@ -274,6 +311,7 @@ SQL;
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
 
+        $password = md5($post['password']);
 
         $User = new UserRow();
         $User->uid = strtolower(self::generateGUID());
@@ -282,11 +320,34 @@ SQL;
         $User->enabled = 1;
         $User->fname = $post['fname'];
         $User->lname = $post['lname'];
-        $User->password = $post['password'];
+        $User->password = $password;
         $User->username = $post['username'];
 
         UserRow::insert($User);
         return $User;
+    }
+
+    /**
+     * @param UserRow $User
+     * @throws \Exception
+     */
+    public static function delete(UserRow $User) {
+        $DB = DBConfig::getInstance();
+
+        $SQL = "DELETE FROM user_authorities \nWHERE id_user=?";
+        $stmt = $DB->prepare($SQL);
+        if(!$stmt->execute(array($User->getID())))
+            throw new \PDOException("Failed to insert new row");
+
+        $SQL = "DELETE FROM user_merchants \nWHERE id_user=?";
+        $stmt = $DB->prepare($SQL);
+        if(!$stmt->execute(array($User->getID())))
+            throw new \PDOException("Failed to insert new row");
+
+        $SQL = "DELETE FROM user\nWHERE id=?";
+        $stmt = $DB->prepare($SQL);
+        if(!$stmt->execute(array($User->getID())))
+            throw new \PDOException("Failed to insert new row");
     }
 
     /**

@@ -17,7 +17,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
         <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
         <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
-        <a href="<?php echo $action_url; ?>settle" class="button">Settle Funds <div class="submenu-icon submenu-icon-settle"></div></a>
+        <a href="<?php echo $action_url; ?>settle" class="button">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
     </nav>
 
     <article class="themed">
@@ -36,83 +36,83 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <legend>Merchant Information</legend>
                     <table class="table-merchant-info themed striped-rows" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>ID</td>
+                            <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Name</td>
+                            <td class="name">Name</td>
                             <td><?php echo $Merchant->getName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Short Name</td>
+                            <td class="name">Short Name</td>
                             <td><?php echo $Merchant->getShortName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>UID</td>
+                            <td class="name">UID</td>
                             <td><?php echo $Merchant->getUID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Email</td>
+                            <td class="name">Email</td>
                             <td><a href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo $Merchant->getMainEmailID(); ?></a></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>URL</td>
+                            <td class="name">URL</td>
                             <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Merchant ID</td>
+                            <td class="name">Merchant ID</td>
                             <td><?php echo $Merchant->getMerchantID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Merchant SIC</td>
+                            <td class="name">Merchant SIC</td>
                             <td><?php echo $Merchant->getMerchantSIC(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Fee: Limit</td>
-                            <td>$<?php echo $Merchant->getFeeLimit(); ?></td>
+                            <td class="name">Fee: Limit</td>
+                            <td>$<?php echo number_format($Merchant->getFeeLimit(), 2); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Fee: Flat</td>
-                            <td>$<?php echo $Merchant->getFeeFlat(); ?></td>
+                            <td class="name">Fee: Flat</td>
+                            <td>$<?php echo number_format($Merchant->getFeeFlat(), 2); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Fee: Variable</td>
-                            <td>$<?php echo $Merchant->getFeeVariable(); ?></td>
+                            <td class="name">Fee: Variable</td>
+                            <td>$<?php echo number_format($Merchant->getFeeVariable(), 2); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Batch Close</td>
+                            <td class="name">Batch Close</td>
                             <td><?php echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Open Date</td>
+                            <td class="name">Open Date</td>
                             <td><?php echo $Merchant->getOpenDate(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Status</td>
+                            <td class="name">Status</td>
                             <td><?php echo $Merchant->getStatusName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Store ID</td>
+                            <td class="name">Store ID</td>
                             <td><?php echo $Merchant->getStoreID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Sale Rep</td>
+                            <td class="name">Sale Rep</td>
                             <td><?php echo $Merchant->getSaleRep(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Discover Ext</td>
+                            <td class="name">Discover Ext</td>
                             <td><?php echo $Merchant->getDiscoverExt(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Amex Ext</td>
+                            <td class="name">Amex Ext</td>
                             <td><?php echo $Merchant->getAmexExt(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Agent Chain</td>
+                            <td class="name">Agent Chain</td>
                             <td><?php echo $Merchant->getAgentChain(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Main Contact</td>
+                            <td class="name">Main Contact</td>
                             <td><?php echo $Merchant->getMainContact(); ?></td>
                         </tr>
                     </table>
@@ -122,51 +122,51 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                             <th>Value</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Title</td>
+                            <td class="name">Title</td>
                             <td><?php echo $Merchant->getTitle(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>DOB</td>
+                            <td class="name">DOB</td>
                             <td><?php echo $Merchant->getDOB(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Tax ID</td>
+                            <td class="name">Tax ID</td>
                             <td><?php echo $Merchant->getTaxID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Business Tax ID</td>
+                            <td class="name">Business Tax ID</td>
                             <td><?php echo $Merchant->getBusinessTaxID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Business Type</td>
+                            <td class="name">Business Type</td>
                             <td><?php echo MerchantRow::$ENUM_BUSINESS_TYPE[$Merchant->getBusinessType()]; ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Telephone Number</td>
+                            <td class="name">Telephone Number</td>
                             <td><?php echo $Merchant->getTelephone(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Address</td>
+                            <td class="name">Address</td>
                             <td><?php echo $Merchant->getAddress(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Address 2</td>
+                            <td class="name">Address 2</td>
                             <td><?php echo $Merchant->getAddress2(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>City</td>
+                            <td class="name">City</td>
                             <td><?php echo $Merchant->getCity(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>State</td>
+                            <td class="name">State</td>
                             <td><?php echo \System\Arrays\Locations::$STATES[$Merchant->getRegionCode()]; ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Zip</td>
+                            <td class="name">Zip</td>
                             <td><?php echo $Merchant->getZipCode(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Country</td>
+                            <td class="name">Country</td>
                             <td><?php echo \System\Arrays\Locations::$COUNTRIES[$Merchant->getCountryCode()]; ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

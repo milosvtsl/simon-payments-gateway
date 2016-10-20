@@ -6,7 +6,7 @@ use Merchant\Model\MerchantRow;
  * @var \User\Model\UserRow $User
  **/
 $odd = false;
-$action_url = 'user?id=' . $User->getID() . '&action=';
+$action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 ?>
 
     <!-- Page Navigation -->
@@ -15,10 +15,11 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="<?php echo $action_url; ?>edit" class="button current">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
+            <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
             <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } else { ?>
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php?action=edit" class="button">Edit <div class="submenu-icon submenu-icon-account"></div></a>
         <?php } ?>
 
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
@@ -57,7 +58,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Username</td>
-                            <td><input type="text" name="username" value="<?php echo @$_POST['username'] ?: $User->getUsername(); ?>" autofocus  /></td>
+                            <td><input type="text" disabled="disabled" name="username" value="<?php echo @$_POST['username'] ?: $User->getUsername(); ?>" autofocus  /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Email</td>
@@ -79,7 +80,22 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             <td>Confirm Password</td>
                             <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
                         </tr>
-                        <?php if(\User\Session\SessionManager::get()->getSessionUser()->hasAuthority("ROLE_ADMIN")) { ?>
+                        <?php if($SessionUser->hasAuthority("ROLE_ADMIN")) { ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Authorities</td>
+                            <td>
+                                <?php
+                                $AuthQuery = \User\Model\AuthorityRow::queryAll();
+                                foreach($AuthQuery as $Authority)
+                                    /** @var \User\Model\UserAuthorityRow $Authority*/
+                                    echo "<label>",
+                                    "\n\t<input type='hidden' name='authority[", $Authority->getAuthority(), "]' value='0' />",
+                                    "\n\t<input type='checkbox' name='authority[", $Authority->getAuthority(), "]' value='1'",
+                                    ($User->hasAuthority($Authority->getAuthority()) ? ' checked="checked"' : ''),
+                                    "/>", $Authority->getName(), "</label><br/>\n";
+                                ?>
+                            </td>
+                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Merchants</td>
                             <td>
@@ -92,17 +108,21 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                 foreach($MerchantQuery as $Merchant)
                                     /** @var \Merchant\Model\MerchantRow $Merchant */
                                     echo "<label>",
-                                    "\n\t<input type='hidden' name='merchants[", $Merchant->getID(), "]' value='0' />",
-                                    "\n\t<input type='checkbox' name='merchants[", $Merchant->getID(), "]' value='1'",
+                                    "\n\t<input type='hidden' name='merchant[", $Merchant->getID(), "]' value='0' />",
+                                    "\n\t<input type='checkbox' name='merchant[", $Merchant->getID(), "]' value='1'",
                                     (in_array($Merchant->getID(), $list) ? ' checked="checked"' : ''),
                                     "/>", $Merchant->getName(), "</label><br/>\n";
                                 ?>
                             </td>
                         </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td><?php echo $SessionUser->getUsername(); ?> Password</td>
+                            <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
+                        </tr>
                         <?php } ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Update</td>
-                            <td><input type="submit" value="Update" /></td>
+                            <td><input type="submit" value="Update" class="themed"/></td>
                         </tr>
                     </table>
                 </fieldset>

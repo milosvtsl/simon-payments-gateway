@@ -162,7 +162,7 @@ body.spg-theme fieldset.themed {
     /* vertical-align: top; */
     /* background-color: #FAFAFA; */
     border-radius: 4px;
-    background: linear-gradient(0deg, #ffffff 0%, #d4e7ec 100%);
+    background: linear-gradient(0deg, #ffffff 0%, #ffffff 60%, #d4e7ec 100%);
     /* background-image: url(img/bk/fieldset.png); */
     background-repeat: repeat-x;
 }
@@ -196,7 +196,7 @@ body.spg-theme form.themed input {
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {
-    /* max-width: 16em; */
+    max-width: 16em;
 }
 
 body.spg-theme form.themed select.large,
@@ -290,7 +290,7 @@ body.spg-theme table.themed.small > tbody > tr > td {
 
 
 body.spg-theme table.striped-rows > tbody > tr.row-even {
-    background-color: #DEDEDE;
+    background-color: rgba(61, 118, 148, 0.08);
 }
 
 body.spg-theme table.themed > tbody > tr:hover {
@@ -302,7 +302,7 @@ body.spg-theme table.themed > tbody > tr {}
 
 body.spg-theme table.themed > tbody > tr > td.name {
     text-align: right;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     font-size: small;
     /* padding-top: 0.6em; */
     vertical-align: middle;

@@ -189,13 +189,9 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                 </select>
                                 <select name='card_exp_year' id='expireYY' required>
                                     <option value=''>Year</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '16' ? 'selected="selected"' : ''?> value='16'>2016</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '17' ? 'selected="selected"' : ''?> value='17'>2017</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '18' ? 'selected="selected"' : ''?> value='18'>2018</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '19' ? 'selected="selected"' : ''?> value='19'>2019</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '20' ? 'selected="selected"' : ''?> value='20'>2020</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '21' ? 'selected="selected"' : ''?> value='21'>2021</option>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == '22' ? 'selected="selected"' : ''?> value='22'>2022</option>
+                                    <?php for($i=16; $i<64; $i++) { ?>
+                                    <option <?php echo @$LASTPOST['card_exp_year'] == $i ? 'selected="selected"' : ''?> value='<?php echo $i; ?>'>20<?php echo $i; ?></option>
+                                    <?php } ?>
                                 </select>
                             </td>
                         </tr>

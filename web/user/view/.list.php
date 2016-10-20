@@ -36,17 +36,23 @@ use \User\Model\UserRow;
             <form class="form-user-search themed">
                 <fieldset class="search-fields">
                     <legend>Search</legend>
-                    User Name:
-                    <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" />
-                    <select name="limit">
-                        <?php
-                        $limit = @$_GET['limit'] ?: 50;
-                        foreach(array(10,25,50,100,250) as $opt)
-                            echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
-                        ?>
-                    </select>
-                    <input type="submit" value="Search" />
-
+                    <table>
+                        <tr>
+                            <td class="name">Search</td>
+                            <td class="value">
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="By ID, Name, Email" />
+                            </td>
+                            <td class="value">
+                                <select name="limit">
+                                    <?php
+                                    $limit = @$_GET['limit'] ?: 50;
+                                    foreach(array(10,25,50,100,250) as $opt)
+                                        echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
+                                    ?>
+                                </select>
+                            <td class="value"><input type="submit" value="Search" /></td>
+                        </tr>
+                    </table>
                 </fieldset>
                 <fieldset style="display: inline-block;">
                     <legend>Search Results</legend>

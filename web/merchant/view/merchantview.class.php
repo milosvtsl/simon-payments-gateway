@@ -71,58 +71,56 @@ class MerchantView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $Merchant = $this->getMerchant();
+
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /merchant?id=' . $Merchant->getID());
             die();
         }
 
-        try {
-            // Render Page
-            switch($this->_action) {
-                case 'edit':
-                    $EditMerchant = $this->getMerchant();
-                    $EditMerchant->updateFields($post)
-                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $EditMerchant->getName())
-                        : $this->setSessionMessage("No changes detected: " . $EditMerchant->getName());
-                    header('Location: /merchant?id=' . $EditMerchant->getID());
-                    die();
+        // Render Page
+        switch($this->_action) {
+            case 'edit':
+                try {
+                    $Merchant->updateFields($post)
+                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $Merchant->getName())
+                        : $this->setSessionMessage("No changes detected: " . $Merchant->getName());
 
-                    break;
+                } catch (\Exception $ex) {
+                    $this->setSessionMessage($ex->getMessage());
+                }
+                header('Location: /merchant?id=' . $Merchant->getID());
+                die();
+                break;
 
-                case 'provision':
-                    $IntegrationRow = IntegrationRow::fetchByID($_GET['integration_id']);
-                    $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
-                    if($MerchantIdentity->isProvisioned()) {
-                        $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
-                        header('Location: /merchant?id=' . $this->getMerchant()->getID());
-                        die();
-                    }
-
-                    try {
-                        $MerchantIdentity->provisionRemote();
-                        $this->setSessionMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
-                    } catch (IntegrationException $ex) {
-                        $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
-                    }
+            case 'provision':
+                $IntegrationRow = IntegrationRow::fetchByID($_GET['integration_id']);
+                $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
+                if($MerchantIdentity->isProvisioned()) {
+                    $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
                     header('Location: /merchant?id=' . $this->getMerchant()->getID());
                     die();
+                }
 
-                    break;
-                case 'delete':
-                    print_r($post);
-                    die();
-                    break;
-                default:
-                    throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
-            }
+                try {
+                    $MerchantIdentity->provisionRemote();
+                    $this->setSessionMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
+                } catch (IntegrationException $ex) {
+                    $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
+                }
+                header('Location: /merchant?id=' . $this->getMerchant()->getID());
+                die();
 
-        } catch (\Exception $ex) {
-            $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
-            die();
+                break;
+            case 'delete':
+                print_r($post);
+                die();
+                break;
+            default:
+                throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
     }
 

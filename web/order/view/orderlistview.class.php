@@ -33,7 +33,8 @@ class OrderListView extends AbstractListView {
 		if(!empty($params['search'])) {
 			$whereSQL .= "\nAND
 			(
-				oi.uid = :exact
+				oi.id = :exact
+				OR oi.uid = :exact
 
 				OR oi.amount = :exact
 				OR oi.invoice_number = :exact
