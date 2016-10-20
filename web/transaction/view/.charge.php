@@ -178,7 +178,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">CVV</td>
-                            <td class="value"><input type="text" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" size="4" /></td>
+                            <td class="value"><input type="number" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Expiration</td>
