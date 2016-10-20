@@ -186,7 +186,7 @@ body.spg-theme fieldset.themed {
 
 body.spg-theme nav.page-menu {
     float: left;
-    margin: 0em 1.3em 2em 0;
+    margin: 0em 0.5em 1em 0.1em;
 }
 
 body.layout-vertical.spg-theme nav.page-menu {
@@ -198,14 +198,14 @@ body.spg-theme form.themed > fieldset > legend,
 body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
     font-weight: bolder;
-    background: #d4e7ec;
-    border-radius: 10px;
-    padding: 0.5em 1em 0 1em;
+    /* background: #d4e7ec; */
+    /* border-radius: 10px; */
+    /* padding: 0.5em 1em 0 1em; */
     /* border-bottom: 1px inset #b1ced6; */
-    margin-left: -0.5em;
-    margin-bottom: .3em;
+    /* margin-left: -0.5em; */
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
+    display: table-row;
 }
 
 body.spg-theme form.themed select,
@@ -292,7 +292,7 @@ body.spg-theme a.button[disabled] {
 body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
 
-body.spg-theme table.themed {border-spacing: 0 0;margin: 0 0.5em;}
+body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em;}
 
 body.spg-theme table.themed > tbody > tr > th {
     background-color: #bcc5d1;

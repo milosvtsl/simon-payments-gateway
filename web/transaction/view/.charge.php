@@ -36,59 +36,71 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <fieldset class="inline-on-merchant-selected123" style="float: left;" >
                     <legend>Choose a Merchant</legend>
-                    <select name="merchant_id" class="" required autofocus>
-                        <?php
-                        if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-                            echo '<option value="">Choose a Merchant (as Admin ', $SessionUser->getUsername(), ')</option>';
-                            $MerchantQuery = MerchantRow::queryAll();
-                        } else {
-                            $MerchantQuery = $SessionUser->queryUserMerchants();
-                        }
-                        foreach ($MerchantQuery as $Merchant) {
-                            /** @var MerchantRow $Merchant */
-                            foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
-                                $reason = null;
-                                $Integration = $MerchantIdentity->getIntegrationRow();
-                                if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
-                                    continue;
+                    <table class="table-choose-merchant themed" style="float: left;">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                            <td class="value">
+                                <select name="merchant_id" class="" required autofocus>
+                                    <?php
+                                    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                                        echo '<option value="">Choose a Merchant (as Admin ', $SessionUser->getUsername(), ')</option>';
+                                        $MerchantQuery = MerchantRow::queryAll();
+                                    } else {
+                                        $MerchantQuery = $SessionUser->queryUserMerchants();
+                                    }
+                                    foreach ($MerchantQuery as $Merchant) {
+                                        /** @var MerchantRow $Merchant */
+                                        foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
+                                            $reason = null;
+                                            $Integration = $MerchantIdentity->getIntegrationRow();
+                                            if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
+                                                continue;
 
-                                if($MerchantIdentity->isProvisioned($reason)) {
-                                    echo "\n\t\t\t\t\t\t\t<option",
-                                    " data-integration-id='", $Integration->getID(), "'",
-                                    " data-form-class='", $Merchant->getChargeFormClasses(), "'",
-                                    " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
-                                    " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
-                                    " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
-                                    (@$LASTPOST['merchant_id'] == $Merchant->getID() ? 'selected="selected" ' : ''),
-                                    " value='", $Merchant->getID(), "'>",
-                                        $Merchant->getShortName(),
-                                        " (", $Integration->getName(), ")",
-                                    "</option>";
-                                } else {
-                                    echo "\n\t\t\t\t\t\t\t<!--option disabled='disabled'>",
-                                        $Merchant->getShortName(),
-                                        " (", $Integration->getName(), ")",
-                                    '</option-->';
-                                }
-                            }
-                        }
-                        ?>
-                    </select>
+                                            if($MerchantIdentity->isProvisioned($reason)) {
+                                                echo "\n\t\t\t\t\t\t\t<option",
+                                                " data-integration-id='", $Integration->getID(), "'",
+                                                " data-form-class='", $Merchant->getChargeFormClasses(), "'",
+                                                " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
+                                                " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
+                                                " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
+                                                (@$LASTPOST['merchant_id'] == $Merchant->getID() ? 'selected="selected" ' : ''),
+                                                " value='", $Merchant->getID(), "'>",
+                                                    $Merchant->getShortName(),
+                                                    " (", $Integration->getName(), ")",
+                                                "</option>";
+                                            } else {
+                                                echo "\n\t\t\t\t\t\t\t<!--option disabled='disabled'>",
+                                                    $Merchant->getShortName(),
+                                                    " (", $Integration->getName(), ")",
+                                                '</option-->';
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
                 </fieldset>
 
                 <fieldset class="show-on-merchant-selected">
                     <legend>Choose a Payment Method</legend>
-                    <select name="entry_mode" class="" required autofocus>
-<!--                        <option value="">Choose a method</option>-->
-                        <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
-                        <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
-                        <option disabled="disabled" value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
-                    </select>
+                    <table class="table-payment-method themed" style="float: left;">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                            <td class="value">
+                                <select name="entry_mode" class="" required autofocus>
+            <!--                        <option value="">Choose a method</option>-->
+                                    <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
+                                    <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
+                                    <option disabled="disabled" value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
                 </fieldset>
 
                 <br />
 
-                <fieldset style="float: left;" class="">
+                <fieldset style="float: left;" class="show-on-merchant-selected">
                     <legend>Customer Fields</legend>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -205,7 +217,13 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <fieldset class="show-on-payment-method-swipe">
                     <legend class="alert reader-status">Card Swipe Ready</legend>
-                    <input type="password" name="card_track" size="103" value="<?php echo @$LASTPOST['card_track']; ?>" />
+                    <table class="table-payment-method-swipe themed" style="float: left;">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                            <td class="value">
+                                <input type="password" name="card_track" size="103" value="<?php echo @$LASTPOST['card_track']; ?>" />
+                            </td>
+                        </tr>
+                    </table>
                 </fieldset>
 
                 <fieldset class="form-payment-method-check show-on-payment-method-check">
