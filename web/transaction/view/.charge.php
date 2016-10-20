@@ -83,13 +83,13 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 <!--                        <option value="">Choose a method</option>-->
                         <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
                         <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
-                        <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
+                        <option disabled="disabled" value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
                     </select>
                 </fieldset>
 
                 <br />
 
-                <fieldset style="float: left;" class="show-on-merchant-selected">
+                <fieldset style="float: left;" class="">
                     <legend>Customer Fields</legend>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -126,7 +126,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;" class="form-payment-method-credit show-on-payment-method-keyed show-on-payment-method-swipe">
+                <fieldset style="display: inline-block;" class="show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe">
                     <legend>Cardholder Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
