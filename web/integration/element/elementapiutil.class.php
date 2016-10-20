@@ -50,6 +50,8 @@ class ElementAPIUtil {
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        if($ConvenienceFeeAmount)
+            $TransactionAmount = number_format($TransactionAmount+$ConvenienceFeeAmount, 2);
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;

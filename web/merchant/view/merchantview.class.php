@@ -38,7 +38,7 @@ class MerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /merchant?id=' . $this->getMerchant()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
 

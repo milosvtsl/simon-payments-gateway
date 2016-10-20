@@ -24,7 +24,7 @@ class AddUserView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may add other users
             $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN");
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /user?action=add&message=Unable to manage integration: Admin required');
             die();
         }
 
@@ -40,7 +40,7 @@ class AddUserView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may add users
             $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN");
-                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                header('Location: /user?action=add&message=Unable to manage integration: Admin required');
                 die();
         }
 

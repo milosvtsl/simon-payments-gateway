@@ -38,7 +38,7 @@ class UserView extends AbstractView
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID()) {
                 $this->setSessionMessage("Unable to view user. Permission required: ROLE_ADMIN");
-                header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+                header('Location: /user?id=' . $User->getID() . '&action=edit&message=Unable to view user. Permission required: ROLE_ADMIN');
                 die();
             }
         }

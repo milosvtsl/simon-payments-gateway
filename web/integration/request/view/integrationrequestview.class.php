@@ -68,7 +68,8 @@ class IntegrationRequestView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /integration/request?id=' . $this->getRequest()->getID() . '&action=edit&message=Unable to manage batch: ' . $ex->getMessage());
+
             die();
         }
     }

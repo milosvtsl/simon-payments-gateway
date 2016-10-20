@@ -69,11 +69,11 @@ class BatchView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $EditBatch = $this->getBatch();
         try {
             // Render Page
             switch($this->_action) {
                 case 'edit':
-                    $EditBatch = $this->getBatch();
                     $EditBatch->updateFields($post)
                         ? $this->setSessionMessage("Batch Updated Successfully: " . $EditBatch->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditBatch->getUID());
@@ -95,7 +95,7 @@ class BatchView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /batch?id=' . $EditBatch->getID() . '&action=edit&message=Unable to edit batch: ' . $ex->getMessage());
             die();
         }
     }

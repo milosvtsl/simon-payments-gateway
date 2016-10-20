@@ -121,7 +121,7 @@ class OrderView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /order?id=' . $this->getOrder()->getID() . '&action='.$this->_action.'&message=' . $ex->getMessage());
             die();
         }
     }

@@ -36,7 +36,7 @@ class IntegrationView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view integrations
             $this->setSessionMessage("Unable to view integration. Permission required: ROLE_ADMIN");
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /integration?id=' . $this->getIntegration()->getID() . '&action=edit&message=Unable to manage integration: Admin required');
             die();
         }
 
@@ -64,7 +64,7 @@ class IntegrationView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view integrations
             $this->setSessionMessage("Unable to view/edit integration. Permission required: ROLE_ADMIN");
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /integration?id=' . $this->getIntegration()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
 
@@ -90,7 +90,7 @@ class IntegrationView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
-            header('Location: ' . @$_SERVER['HTTP_REFERER']?:'/');
+            header('Location: /integration?id=' . $this->getIntegration()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
     }

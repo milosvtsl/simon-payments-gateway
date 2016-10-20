@@ -126,7 +126,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;" class="show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe">
+                <fieldset style="display: inline-block;" class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe">
                     <legend>Cardholder Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
