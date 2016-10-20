@@ -149,7 +149,7 @@ class UserView extends AbstractView
                     header('Location: /user?id=' . $User->getID());
                     die();
                 }
-                $SessionManager->switchLoginToUser($User);
+                $SessionManager->adminLoginAsUser($User);
                 $this->setSessionMessage("Admin Login as: " . $User->getUsername());
                 header('Location: /user?id=' . $User->getID());
                 die();

@@ -16,6 +16,7 @@ class SessionManager
 {
     const SESSION_ID = 'id';
     const SESSION_KEY = '_spg';
+    const SESSION_OLD = '_old';
 
     private static $_session_user = null;
 
@@ -50,8 +51,16 @@ class SessionManager
     }
 
     public function logout() {
-        $_SESSION[static::SESSION_KEY] = null;
+        if(!$this->isLoggedIn())
+            return false;
+
         self::$_session_user = null;
+        if(isset($_SESSION[self::SESSION_KEY][self::SESSION_OLD])) {
+            $_SESSION[self::SESSION_KEY] = $_SESSION[self::SESSION_KEY][self::SESSION_OLD];
+            return true;
+        }
+        $_SESSION[static::SESSION_KEY] = null;
+        return true;
     }
 
     /**
@@ -73,12 +82,18 @@ class SessionManager
         return $User;
     }
 
-    public function switchLoginToUser(UserRow $User) {
+    public function adminLoginAsUser(UserRow $User) {
+        $SessionUser = $this->getSessionUser();
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            throw new \Exception("Only admins may log in as other users");
+
         self::$_session_user = $User;
 
         // Reset login session data
+        $old = $_SESSION[static::SESSION_KEY];
         $_SESSION[static::SESSION_KEY] = array (
-            static::SESSION_ID => $User->getID()
+            static::SESSION_ID => $User->getID(),
+            static::SESSION_OLD => $old
         );
 
         return $User;

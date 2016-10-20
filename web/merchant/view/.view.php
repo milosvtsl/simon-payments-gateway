@@ -236,32 +236,65 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                         <?php
 
                         $DB = \Config\DBConfig::getInstance();
-                        $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+                        $UserQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
-                        $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
-                        $IntegrationQuery->execute(array($this->getMerchant()->getID()));
+                        $UserQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
+                        $UserQuery->execute(array($this->getMerchant()->getID()));
 
                         $odd = false;
-                        /** @var IntegrationRow $IntegrationRow **/
-                        foreach($IntegrationQuery as $IntegrationRow) {
-                            $id = $IntegrationRow->getID();
-                            $MerchantIdentity = $IntegrationRow->getMerchantIdentity($Merchant);
+                        /** @var IntegrationRow $UserRow **/
+                        foreach($UserQuery as $UserRow) {
+                            $id = $UserRow->getID();
+                            $MerchantIdentity = $UserRow->getMerchantIdentity($Merchant);
                             if(!$MerchantIdentity->isProvisioned())
                                 continue;
-                        ?>
+                            ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getID(); ?></a></td>
-                                <td><a href="integration?id=<?php echo $IntegrationRow->getID(); ?>"><?php echo $IntegrationRow->getName(); ?></a></td>
-                                <td><?php echo $IntegrationRow->getAPIType(); ?></td>
+                                <td><a href="integration?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
+                                <td><a href="integration?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getName(); ?></a></td>
+                                <td><?php echo $UserRow->getAPIType(); ?></td>
                                 <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                                 <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                                 <td><?php echo "<span style='color:", ($MerchantIdentity->canSettleFunds() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
-                                <td style="max-width: 24em; overflow-x: hidden;"><?php echo $IntegrationRow->getNotes(); ?></td>
+                                <td style="max-width: 24em; overflow-x: hidden;"><?php echo $UserRow->getNotes(); ?></td>
                             </tr>
 
                         <?php } ?>
 
-                        </table>
+                    </table>
+                </fieldset>
+
+
+                <fieldset style="display: inline-block;">
+                    <legend>Users: <?php echo $Merchant->getShortName(); ?></legend>
+                    <table class="table-merchant-users themed striped-rows">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                        </tr>
+                        <?php
+
+                        $DB = \Config\DBConfig::getInstance();
+                        $UserQuery = $DB->prepare(
+                            "SELECT * FROM user u "
+                            . "\nLEFT JOIN user_merchants um ON u.id = um.id_user"
+                            . "\nWHERE um.id_merchant=?");
+                        /** @noinspection PhpMethodParametersCountMismatchInspection */
+                        $UserQuery->setFetchMode(\PDO::FETCH_CLASS, \User\Model\UserRow::_CLASS);
+                        $UserQuery->execute(array($this->getMerchant()->getID()));
+
+                        $odd = false;
+                        /** @var \User\Model\UserRow $UserRow **/
+                        foreach($UserQuery as $UserRow) {
+                            ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td><a href="user?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
+                                <td><a href="user?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
+                            </tr>
+
+                        <?php } ?>
+
+                    </table>
                 </fieldset>
             </form>
         </section>
