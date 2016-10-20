@@ -130,7 +130,7 @@ body.spg-theme .bread-crumbs a:last-child:after {
 
 
 body.spg-theme > article.themed {
-    /* background-color: red; */
+    background-color: white;
     /* background: linear-gradient(141deg, #f6f9fc 0%, #ffffff 50%, #f6f9fc 74%); */
 }
 
