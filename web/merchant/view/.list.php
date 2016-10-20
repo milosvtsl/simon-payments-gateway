@@ -13,7 +13,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="merchant" class="nav_merchant">Merchants</a>
                 <a href="merchant/list.php" class="nav_merchant_list">Search</a>
             </aside>

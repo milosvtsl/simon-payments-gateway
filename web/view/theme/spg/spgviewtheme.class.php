@@ -85,7 +85,7 @@ class SPGViewTheme extends AbstractViewTheme
         ?>
     <body class="spg-theme">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
-        <header class="small-on-print">
+        <header class="small-on-print hide-on-layout-vertical">
             <a href="/">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="width:22em;">
             </a>
@@ -137,6 +137,7 @@ class SPGViewTheme extends AbstractViewTheme
         echo <<<HEAD
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
+        <script src="view/theme/spg/assets/spg-theme.js"></script>
         <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
 HEAD;
     }

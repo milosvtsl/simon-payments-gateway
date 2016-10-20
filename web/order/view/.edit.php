@@ -23,7 +23,6 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="order" class="nav_order">Orders</a>
                 <a href="<?php echo $action_url; ?>view" class="nav_order_view">#<?php echo $Order->getID(); ?></a>
                 <a href="<?php echo $action_url; ?>edit" class="nav_order_edit">Edit</a>

@@ -22,7 +22,6 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="merchant" class="nav_merchant">Merchants</a>
                 <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
                 <a href="<?php echo $action_url; ?>edit" class="nav_merchant_view">Edit</a>

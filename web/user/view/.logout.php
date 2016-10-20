@@ -12,7 +12,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <section class="content logout-section">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="user/logout.php" class="nav-log-out">Log Out</a>
             </aside>
 

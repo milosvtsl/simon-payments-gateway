@@ -7,6 +7,15 @@ body.spg-theme {
     margin: 0 auto;
 }
 
+body.layout-vertical.spg-theme {
+}
+body.layout-horizontal.spg-theme {
+}
+
+body.layout-vertical.spg-theme .hide-on-layout-vertical {
+    display: none;
+}
+
 body.spg-theme > header {
     display: inline-block;
     margin-right: -6em;
@@ -28,11 +37,21 @@ body.spg-theme > hr.themed {
 	border-color: #3d7694;
 }
 
+
+/** Site Menu **/
+
 body.spg-theme nav.site-menu {
     float: right;
+    margin-top: 2em;
 }
 
-body.spg-theme > nav > a {
+body.layout-vertical.spg-theme nav.site-menu {
+    float: inherit;
+    margin: 0.8em 0;
+    text-align: center;
+}
+
+body.spg-theme > nav.site-menu > a {
     display: inline-block;
     vertical-align: top;
     text-decoration: none;
@@ -41,27 +60,19 @@ body.spg-theme > nav > a {
     width: 7em;
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
-    margin-top: 2em;
+    /* margin-top: 2em; */
 }
 
 
-body.spg-theme > nav > a.current {
+body.spg-theme > nav.site-menu > a.current {
     background-color: #EEE;
 }
-body.spg-theme > nav > a:hover {
-    /* background-color: #f0f4f6; */
-}
 
-
-body.spg-theme > nav > a.current {
-    /* background-color: #DDD; */
-}
-
-body.spg-theme > nav > a > div.nav-icon:hover {
+body.spg-theme > nav.site-menu > a > div.nav-icon:hover {
     background-image: url(img/nav_icons_hover.png);
 }
 
-body.spg-theme > nav > a > div.nav-icon {
+body.spg-theme > nav.site-menu > a > div.nav-icon {
     background: url(img/nav_icons.png) -128px 0 no-repeat;
     width: 64px;
     height: 64px;
@@ -70,15 +81,16 @@ body.spg-theme > nav > a > div.nav-icon {
     margin: 0 0;
     margin-top: 0.4em;
 }
-body.spg-theme > nav > a > div.nav-login-icon {background-position: -128px -64px;}
-body.spg-theme > nav > a > div.nav-logout-icon {background-position: -192px -64px;}
-/* body.spg-theme > nav > a > div.nav_-ser-icon { background-position: -128px 0; } */
-body.spg-theme > nav > a > div.nav-home-icon {background-position: 0 0;}
-body.spg-theme > nav > a > div.nav-dashboard-icon {background-position: -64px 0;}
-body.spg-theme > nav > a > div.nav-signup-icon {background-position: -64px -64px;}
-body.spg-theme > nav > a > div.nav-charge-icon {background-position: 0 -64px;}
+body.spg-theme > nav.site-menu > a > div.nav-login-icon {background-position: -128px -64px;}
+body.spg-theme > nav.site-menu > a > div.nav-logout-icon {background-position: -192px -64px;}
+/* body.spg-theme > nav.site-menu > a > div.nav_-ser-icon { background-position: -128px 0; } */
+body.spg-theme > nav.site-menu > a > div.nav-home-icon {background-position: 0 0;}
+body.spg-theme > nav.site-menu > a > div.nav-dashboard-icon {background-position: -64px 0;}
+body.spg-theme > nav.site-menu > a > div.nav-signup-icon {background-position: -64px -64px;}
+body.spg-theme > nav.site-menu > a > div.nav-charge-icon {background-position: 0 -64px;}
 
 
+/** Sub Menu **/
 
 body.spg-theme .submenu-icon {
     background: url(img/submenu_icons.png) -48px 0 no-repeat;
@@ -134,6 +146,9 @@ body.spg-theme > article.themed {
     /* background: linear-gradient(141deg, #f6f9fc 0%, #ffffff 50%, #f6f9fc 74%); */
 }
 
+body.layout-vertical.spg-theme .bread-crumbs {
+    margin: 0.3em 1em 1em 1em;
+}
 
 
 /** Tables **/
@@ -157,7 +172,7 @@ body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
     padding: 0.3em 0.5em 0.3em 0.5em;
     margin: 0 0.5em 0.5em 0.5em;
-    min-width: 23em;
+    min-width: 22em;
     min-height: 7em;
     /* vertical-align: top; */
     /* background-color: #FAFAFA; */
@@ -167,9 +182,16 @@ body.spg-theme fieldset.themed {
     background-repeat: repeat-x;
 }
 
+
+
 body.spg-theme nav.page-menu {
     float: left;
     margin: 0em 1.3em 2em 0;
+}
+
+body.layout-vertical.spg-theme nav.page-menu {
+    float: inherit;
+    margin: 0.6em;
 }
 
 body.spg-theme form.themed > fieldset > legend,
@@ -266,6 +288,8 @@ body.spg-theme a.button[disabled] {
     color: gray;
     cursor: default;
 }
+
+body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
 
 body.spg-theme table.themed {border-spacing: 0 0;margin: 0 0.5em;}

@@ -20,7 +20,6 @@ $action_url = 'batch?id=' . $Batch->getID() . '&action=';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="order" class="nav_batch">Batches</a>
                 <a href="<?php echo $action_url; ?>view" class="nav_batch_view">#<?php echo $Batch->getID(); ?></a>
                 <a href="<?php echo $action_url; ?>edit" class="nav_batch_edit">Edit</a>

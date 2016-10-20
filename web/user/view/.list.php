@@ -26,7 +26,6 @@ use \User\Model\UserRow;
          <section class="content">
              <!-- Bread Crumbs -->
              <aside class="bread-crumbs">
-                 <a href="/" class="nav_home">Home</a>
                  <a href="user" class="nav_user">Users</a>
                  <a href="user/list.php" class="nav_user_list">Search</a>
              </aside>

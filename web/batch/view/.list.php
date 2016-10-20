@@ -17,7 +17,6 @@ use \Merchant\Model\MerchantRow;
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="batch?" class="nav_batch">Batches</a>
                 <a href="batch/list.php" class="nav_batch_list">Search</a>
             </aside>

@@ -23,7 +23,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
         <section class="content">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home">Home</a>
                 <a href="order" class="nav_transaction">Orders</a>
                 <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
             </aside>
@@ -206,7 +205,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <fieldset class="show-on-payment-method-swipe">
                     <legend class="alert reader-status">Card Swipe Ready</legend>
-                    <input type="text" name="card_track" size="103" value="<?php echo @$LASTPOST['card_track']; ?>" />
+                    <input type="password" name="card_track" size="103" value="<?php echo @$LASTPOST['card_track']; ?>" />
                 </fieldset>
 
                 <fieldset class="form-payment-method-check show-on-payment-method-check">
