@@ -309,7 +309,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $OrderRow->entry_mode = $post['entry_mode'];
         $OrderRow->amount = $post['amount'];
         $OrderRow->convenience_fee = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $OrderRow->order_item_id = 0;
+        $OrderRow->order_item_id = rand(1999,9999); // TODO: fix?
 
         if(in_array(strtolower($post['entry_mode']), array('keyed', 'swipe'))) {
             $OrderRow->card_track = $post['card_track'];
