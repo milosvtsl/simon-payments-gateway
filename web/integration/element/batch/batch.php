@@ -40,7 +40,7 @@ foreach($MerchantQuery as $Merchant) {
 
     $stats = $MerchantIdentity->performTransactionQuery(array('status' => 'Settled'),
         function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $TransactionRow->getAction();
+            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $TransactionRow->getAction(), ' => ', $item['TransactionStatus'];
             return true;
         }
     );
