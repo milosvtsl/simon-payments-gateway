@@ -29,4 +29,16 @@ document.addEventListener("DOMContentLoaded", function(e) {
         });
     }, 100);
 
+    switch(location.host.toLowerCase()) {
+        case 'localhost':
+            break;
+
+        case 'simonpayments.com':
+            // Force SSL
+            if (location.protocol != 'https:')
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            break;
+    }
+
+
 });

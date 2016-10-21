@@ -11,13 +11,6 @@ switch(strtolower($_SERVER["HTTP_HOST"])) {
         header("location: https://admin.paylogicnetwork.com:8443/");
         die;
 
-    case 'access.simonpayments.com':
-        if($_SERVER["HTTPS"] != "on")
-        {
-            header("Location: https://access.simonpayments.com");
-            exit();
-        }
-        break;
 }
 
 
