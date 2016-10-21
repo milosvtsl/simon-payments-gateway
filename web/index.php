@@ -10,7 +10,16 @@ switch(strtolower($_SERVER["HTTP_HOST"])) {
         Header( "HTTP/1.1 301 Moved Permanently" );
         header("location: https://admin.paylogicnetwork.com:8443/");
         die;
+
+    case 'access.simonpayments.com':
+        if($_SERVER["HTTPS"] != "on")
+        {
+            header("Location: https://access.simonpayments.com");
+            exit();
+        }
+        break;
 }
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
