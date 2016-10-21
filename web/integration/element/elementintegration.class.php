@@ -639,7 +639,7 @@ class ElementIntegration extends AbstractIntegration
             case 'CreditCardSale':
                 switch($Item['TransactionStatus']) {
                     case 'Settled':
-                        if($OrderRow->getStatus() !== 'Authorized') {
+                        if($OrderRow->getStatus() !== 'Settled') {
                             $SettledTransaction = $TransactionRow->createSettledTransaction();
 
                             // Store Transaction Result
@@ -651,7 +651,6 @@ class ElementIntegration extends AbstractIntegration
                             $OrderRow->setStatus("Settled");
                             OrderRow::update($OrderRow);
                             $updated = true;
-                            // TODO: alert that an update was made?
                         }
                         break;
                 }
