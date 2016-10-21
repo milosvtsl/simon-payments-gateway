@@ -318,17 +318,35 @@ LEFT JOIN state s on m.state_id = s.id
         return $stmt->fetch();
     }
 
+
+    /**
+     * @param $field
+     * @param $value
+     * @return MerchantRow
+     * @throws \Exception
+     */
+    public static function fetchByField($field, $value) {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE m.{$field} = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
+        $stmt->execute(array($value));
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("{$field} not found: " . $value);
+        return $Row;
+    }
+
+    public static function fetchByEmail($email) {
+        return static::fetchByField('main_email_id', $email);
+    }
+
     /**
      * @param $uid
      * @return MerchantRow
      */
     public static function fetchByUID($uid) {
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE m.uid = ?");
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $stmt->execute(array($uid));
-        return $stmt->fetch();
+        return static::fetchByField('uid', $uid);
     }
 
     public static function queryAll($order = 'm.id DESC') {

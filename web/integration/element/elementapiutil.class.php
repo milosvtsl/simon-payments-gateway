@@ -1326,7 +1326,7 @@ SOAP;
         $ShiftID = '';
         $TrackingID = '';
         $TransactionAmount = '';
-        $TransactionStatus = '';
+        $TransactionStatus = @$post['status'];
         $TransactionStatusCode = '';
         $TransactionType = '';
         $XID = '';

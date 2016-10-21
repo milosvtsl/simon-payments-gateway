@@ -151,11 +151,12 @@ abstract class AbstractMerchantIdentity {
     /**
      * Perform health check on integration
      * @param array $post
-     * @return IntegrationRequestRow
+     * @param Callable $callback
+     * @return array
      */
-    function performTransactionQuery(Array $post) {
+    function performTransactionQuery(Array $post, $callback) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->performTransactionQuery($this, $post);
+        return $Integration->performTransactionQuery($this, $post, $callback);
     }
 
 //    /**

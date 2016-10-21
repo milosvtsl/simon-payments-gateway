@@ -37,7 +37,11 @@ if(!$MerchantIdentity->isProvisioned())
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$SearchRequest = $MerchantIdentity->performTransactionQuery(array());
+$SearchRequest = $MerchantIdentity->performTransactionQuery(array('status' => 'Settled'),
+    function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
+        return NULL;
+    }
+);
 echo "\nSearch Results: ", $SearchRequest->isRequestSuccessful() ? "Success" : "Fail";
 
 

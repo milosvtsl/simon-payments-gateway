@@ -550,7 +550,7 @@ class ElementIntegration extends AbstractIntegration
      * @return mixed
      * @throws IntegrationException
      */
-    function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback=null) {
+    function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback) {
         $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
             $MerchantIdentity->getIntegrationRow()->getID(),
@@ -583,26 +583,46 @@ class ElementIntegration extends AbstractIntegration
         if(empty($response['ReportingData']))
             throw new IntegrationException("Invalid ReportingData");
 
-        $data = $response['ReportingData'];
+        $stats = array();
+        $stats['total'] = 0;
+        $stats['found'] = 0;
+        $stats['not_found'] = 0;
+        $stats['updated'] = 0;
 
+        if($code === '90')
+            return $stats;
+
+        $data = $response['ReportingData'];
         $data = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $data);
         $xml = new \SimpleXMLElement($data);
         $data = json_decode(json_encode((array)$xml), TRUE);
         $data = $data['Item'];
-        foreach($data as $i => $item) {
+        if(is_array($data) && key($data) !== 0)
+            $data = array($data);
+
+        $stats['total'] = count($data);
+
+        foreach ($data as $i => $item) {
+            if(!is_array($item))
+                continue;
             try {
                 $TransactionRow = TransactionRow::fetchByTransactionID($item['TransactionID']);
                 $OrderRow = OrderRow::fetchByID($TransactionRow->getOrderID());
-                $this->updateTransactionStatus($OrderRow, $TransactionRow, $item);
-                if ($callback !== null)
-                    if (false === $callback($OrderRow, $TransactionRow, $item))
-                        break;
+                $ret = $callback($OrderRow, $TransactionRow, $item);
+                if ($ret === true)
+                    $stats['updated'] += $this->updateTransactionStatus($OrderRow, $TransactionRow, $item) ? 1 : 0;
+
+                $stats['found']++;
+                if ($ret === false)
+                    break;
             } catch (\InvalidArgumentException $ex) {
+                if(strpos($ex->getMessage(), 'not found') === false)
+                    throw $ex;
                 // Ignore transactions from other gateways
+                $stats['not_found']++;
             }
         }
-
-        return $Request;
+        return $stats;
     }
 
 
@@ -614,6 +634,7 @@ class ElementIntegration extends AbstractIntegration
         $ref = $Item['ReferenceNumber'];
         $ticket = $Item['TicketNumber'];
 
+        $updated = false;
         switch($Item['TransactionType']) {
             case 'CreditCardSale':
                 switch($Item['TransactionStatus']) {
@@ -629,13 +650,14 @@ class ElementIntegration extends AbstractIntegration
 
                             $OrderRow->setStatus("Settled");
                             OrderRow::update($OrderRow);
-
+                            $updated = true;
                             // TODO: alert that an update was made?
                         }
                         break;
                 }
                 break;
         }
+        return $updated;
     }
 }
 

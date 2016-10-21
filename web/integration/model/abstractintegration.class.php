@@ -122,7 +122,8 @@ abstract class AbstractIntegration
      * Perform transaction query on remote api
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
-     * @return mixed
+     * @param null $callback
+     * @return array
      */
-    abstract function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+    abstract function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback);
 }
