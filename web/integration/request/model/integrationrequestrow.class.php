@@ -23,6 +23,7 @@ class IntegrationRequestRow
     const ENUM_TYPE_TRANSACTION_VOID        = 'transaction-void';
     const ENUM_TYPE_TRANSACTION_RETURN      = 'transaction-return';
     const ENUM_TYPE_TRANSACTION_REVERSAL    = 'transaction-reversal';
+    const ENUM_TYPE_TRANSACTION_SEARCH      = 'transaction-search';
     const ENUM_TYPE_HEALTH_CHECK            = 'health-check';
 
     const ENUM_RESULT_SUCCESS               = 'success';

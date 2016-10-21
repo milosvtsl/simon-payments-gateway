@@ -1294,5 +1294,120 @@ SOAP;
 
     }
 
+    function prepareTransactionQueryRequest(
+        ElementMerchantIdentity $MerchantIdentity,
+        Array $post
+    ) {
+
+        $ApplicationID = $MerchantIdentity->getApplicationID();
+        $ApplicationName = 'SimonPayments';
+        $ApplicationVersion = '1';
+
+        $AccountID = $MerchantIdentity->getAccountID();
+        $AccountToken = $MerchantIdentity->getAccountToken();
+        $AcceptorID = $MerchantIdentity->getAcceptorID();
+        $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
+
+        $TerminalType = 'Unknown'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+        $LogTraceLevel = 'All'; // None or Fatal or Error or Warning or Information or Trace or Debug or All
+        $ReverseOrder = 'False';
+
+        $TransactionID = @$post['transaction_id'];
+        $TerminalID = '';
+        $ApprovalNumber = '';
+        $ApprovedAmount = '';
+        $ExpressTransactionDate = '';
+        $ExpressTransactionTime = '';
+        $HostBatchID = '';
+        $HostItemID = '';
+        $HostReversalQueueID = '';
+        $OriginalAuthorizedAmount = '';
+        $ReferenceNumber = '';
+        $ShiftID = '';
+        $TrackingID = '';
+        $TransactionAmount = '';
+        $TransactionStatus = '';
+        $TransactionStatusCode = '';
+        $TransactionType = '';
+        $XID = '';
+        $SourceIPAddress = '';
+        $ExternalInterface = '';
+        $LogTraceLevelName = '';
+        $MachineName = '';
+        $SourceObject = '';
+        $ProcessID = '';
+        $ThreadID = '';
+        $TransactionDateTimeBegin = @$post['date_start'];
+        $TransactionDateTimeEnd = @$post['date_end'];;
+        $TransactionSetupID = '';
+
+        $request = <<<SOAP
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Body>
+    <TransactionQuery xmlns="https://reporting.elementexpress.com">
+      <credentials>
+        <AccountID>{$AccountID}</AccountID>
+        <AccountToken>{$AccountToken}</AccountToken>
+        <AcceptorID>{$AcceptorID}</AcceptorID>
+        <NewAccountToken>{$NewAccountToken}</NewAccountToken>
+      </credentials>
+      <application>
+        <ApplicationID>{$ApplicationID}</ApplicationID>
+        <ApplicationName>{$ApplicationName}</ApplicationName>
+        <ApplicationVersion>{$ApplicationVersion}</ApplicationVersion>
+      </application>
+      <parameters>
+        <TransactionID>{$TransactionID}</TransactionID>
+        <TerminalID>{$TerminalID}</TerminalID>
+        <ApplicationID>{$ApplicationID}</ApplicationID>
+        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
+        <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
+        <ExpressTransactionDate>{$ExpressTransactionDate}</ExpressTransactionDate>
+        <ExpressTransactionTime>{$ExpressTransactionTime}</ExpressTransactionTime>
+        <HostBatchID>{$HostBatchID}</HostBatchID>
+        <HostItemID>{$HostItemID}</HostItemID>
+        <HostReversalQueueID>{$HostReversalQueueID}</HostReversalQueueID>
+        <OriginalAuthorizedAmount>{$OriginalAuthorizedAmount}</OriginalAuthorizedAmount>
+        <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
+        <ShiftID>{$ShiftID}</ShiftID>
+        <SourceTransactionID>{$TransactionID}</SourceTransactionID>
+        <TerminalType>{$TerminalType}</TerminalType>
+        <TrackingID>{$TrackingID}</TrackingID>
+        <TransactionAmount>{$TransactionAmount}</TransactionAmount>
+        <TransactionStatus>{$TransactionStatus}</TransactionStatus>
+        <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
+        <TransactionType>{$TransactionType}</TransactionType>
+        <XID>{$XID}</XID>
+        <SourceIPAddress>{$SourceIPAddress}</SourceIPAddress>
+        <ExternalInterface>{$ExternalInterface}</ExternalInterface>
+        <LogTraceLevel>{$LogTraceLevel}</LogTraceLevel>
+        <LogTraceLevelName>{$LogTraceLevelName}</LogTraceLevelName>
+        <MachineName>{$MachineName}</MachineName>
+        <SourceObject>{$SourceObject}</SourceObject>
+        <ProcessID>{$ProcessID}</ProcessID>
+        <ThreadID>{$ThreadID}</ThreadID>
+        <ReverseOrder>{$ReverseOrder}</ReverseOrder>
+        <TransactionDateTimeBegin>{$TransactionDateTimeBegin}</TransactionDateTimeBegin>
+        <TransactionDateTimeEnd>{$TransactionDateTimeEnd}</TransactionDateTimeEnd>
+        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
+      </parameters>
+      <extendedParameters>
+        <ExtendedParameters>
+          <Key>string</Key>
+          <Value />
+        </ExtendedParameters>
+        <ExtendedParameters>
+          <Key>string</Key>
+          <Value />
+        </ExtendedParameters>
+      </extendedParameters>
+    </TransactionQuery>
+  </soap12:Body>
+</soap12:Envelope>
+SOAP;
+
+        return $request;
+    }
 
 }

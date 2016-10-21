@@ -160,11 +160,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     /**
      * Create a Void Transaction
-     * @param $AuthorizedTransaction
      * @return TransactionRow
      */
-    public function createVoidTransaction(TransactionRow $AuthorizedTransaction) {
-        $VoidTransaction = clone $AuthorizedTransaction;
+    public function createVoidTransaction() {
+        $VoidTransaction = clone $this;
         $VoidTransaction->id = null;
         $VoidTransaction->uid = strtolower(self::generateGUID());
         $VoidTransaction->date = date('Y-m-d G:i:s');
@@ -174,16 +173,29 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     /**
      * Create a Void Transaction
-     * @param $AuthorizedTransaction
      * @return TransactionRow
      */
-    public function createReturnTransaction($AuthorizedTransaction) {
-        $ReturnTransaction = clone $AuthorizedTransaction;
+    public function createReturnTransaction() {
+        $ReturnTransaction = clone $this;
         $ReturnTransaction->id = null;
         $ReturnTransaction->uid = strtolower(self::generateGUID());
         $ReturnTransaction->date = date('Y-m-d G:i:s');
         $ReturnTransaction->is_reviewed = 0;
         return $ReturnTransaction;
+    }
+
+
+    /**
+     * Create a Settled Transaction
+     * @return TransactionRow
+     */
+    public function createSettledTransaction() {
+        $SettledTransaction = clone $this;
+        $SettledTransaction->id = null;
+        $SettledTransaction->uid = strtolower(self::generateGUID());
+        $SettledTransaction->date = date('Y-m-d G:i:s');
+        $SettledTransaction->is_reviewed = 0;
+        return $SettledTransaction;
     }
 
     // Static
@@ -239,34 +251,47 @@ LEFT JOIN integration i on oi.integration_id = i.id
     }
 
     /**
-     * @param $id
+     * @param $field
+     * @param $value
      * @return TransactionRow
+     * @throws \Exception
      */
-    public static function fetchByID($id) {
-        if(!$id)
-            throw new \InvalidArgumentException("Invalid Integration ID");
-
+    public static function fetchByField($field, $value) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.id = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.{$field} = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $stmt->execute(array($id));
-        return $stmt->fetch();
+        $stmt->execute(array($value));
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("{$field} not found: " . $value);
+        return $Row;
     }
-
 
     /**
      * @param $uid
      * @return TransactionRow
      */
     public static function fetchByUID($uid) {
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE t.uid = ?");
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $stmt->execute(array($uid));
-        return $stmt->fetch();
+        return static::fetchByField('uid', $uid);
     }
+
+    /**
+     * @param $id
+     * @return TransactionRow
+     */
+    public static function fetchByID($id) {
+        return static::fetchByField('id', $id);
+    }
+
+    /**
+     * @param $id
+     * @return TransactionRow
+     */
+    public static function fetchByTransactionID($id) {
+        return static::fetchByField('transaction_id', $id);
+    }
+
 
 
     /**

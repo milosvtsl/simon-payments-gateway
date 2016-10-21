@@ -112,10 +112,17 @@ abstract class AbstractIntegration
 
     /**
      * Perform health check on remote api
-     *
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
      * @return mixed
      */
     abstract function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+
+    /**
+     * Perform transaction query on remote api
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return mixed
+     */
+    abstract function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post);
 }

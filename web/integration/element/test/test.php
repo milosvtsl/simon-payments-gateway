@@ -37,6 +37,10 @@ if(!$MerchantIdentity->isProvisioned())
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
+$SearchRequest = $MerchantIdentity->performTransactionQuery(array());
+echo "\nSearch Results: ", $SearchRequest->isRequestSuccessful() ? "Success" : "Fail";
+
+
 // Test Data
 $data = array(
     'integration_id' => $MerchantIdentity->getIntegrationRow()->getID(),

@@ -246,21 +246,21 @@ LEFT JOIN integration i on oi.integration_id = i.id
     }
 
     /**
-     * @param $id
+     * @param $field
+     * @param $value
      * @return OrderRow
+     * @throws \Exception
      */
-    public static function fetchByID($id) {
-        if(!is_numeric($id))
-            throw new \InvalidArgumentException("ID is not numeric: " . $id);
+    public static function fetchByField($field, $value) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE oi.id = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE oi.{$field} = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
-        $stmt->execute(array($id));
-        $OrderRow = $stmt->fetch();
-        if(!$OrderRow)
-            throw new \InvalidArgumentException("Order ID Not Found: " . $id);
-        return $OrderRow;
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
+        $stmt->execute(array($value));
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("{$field} not found: " . $value);
+        return $Row;
     }
 
     /**
@@ -268,15 +268,14 @@ LEFT JOIN integration i on oi.integration_id = i.id
      * @return OrderRow
      */
     public static function fetchByUID($uid) {
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE oi.uid = ?");
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'Order\Model\OrderRow');
-        $stmt->execute(array($uid));
-        $OrderRow = $stmt->fetch();
-        if(!$OrderRow)
-            throw new \InvalidArgumentException("Order UID Not Found: " . $uid);
-        return $OrderRow;
+        return static::fetchByField('uid', $uid);
+    }
+    /**
+     * @param $id
+     * @return OrderRow
+     */
+    public static function fetchByID($id) {
+        return static::fetchByField('id', $id);
     }
 
 

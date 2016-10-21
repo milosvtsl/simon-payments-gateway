@@ -148,6 +148,16 @@ abstract class AbstractMerchantIdentity {
         return $Integration->performHealthCheck($this, $post);
     }
 
+    /**
+     * Perform health check on integration
+     * @param array $post
+     * @return IntegrationRequestRow
+     */
+    function performTransactionQuery(Array $post) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->performTransactionQuery($this, $post);
+    }
+
 //    /**
 //     * Reverse an existing Transaction
 //     * @param OrderRow $Order
