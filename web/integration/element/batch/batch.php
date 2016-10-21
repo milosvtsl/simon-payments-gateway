@@ -17,6 +17,7 @@ use Transaction\Model\TransactionRow;
 
 echo "\nBatch ... ", __FILE__, PHP_EOL;
 
+
 // Go to root directory
 $cwd1 = getcwd();
 chdir('../../..');

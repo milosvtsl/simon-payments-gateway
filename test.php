@@ -6,7 +6,8 @@
  * Time: 10:47 PM
  */
 
-chdir('web');
+chdir(__DIR__ . '/web');
+
 $cwd0 = getcwd().'';
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
