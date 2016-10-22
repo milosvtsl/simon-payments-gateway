@@ -47,7 +47,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                 <form class="form-view-user themed" method="POST">
                     <fieldset style="display: inline-block;">
                         <legend>User Information</legend>
-                        <table class="table-user-info themed">
+                        <table class="table-user-info themed striped-rows">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>
                                 <td class="value"><?php echo $User->getID(); ?></td>
