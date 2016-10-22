@@ -29,14 +29,14 @@ use Integration\Request\Model\IntegrationRequestRow;
                     <table>
                         <tbody>
                             <tr>
-                                <th>From</th>
+                                <td class="name">From</td>
                                 <td>
                                     <input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
                                     <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
                                 </td>
                             </tr>
                             <tr>
-                                <th>Limit</th>
+                                <td class="name">Limit</td>
                                 <td>
                                     <select name="limit">
                                         <?php
@@ -64,7 +64,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                                 </td>
                             </tr>
                             <tr>
-                                <th>Value</th>
+                                <td class="name">Value</td>
                                 <td>
                                     <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="All Fields" size="33" />
 
@@ -113,7 +113,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                         <?php } ?>
                     </table>
                 </fieldset>
-                <fieldset class="paginate">
+                <fieldset class="pagination">
                     <legend>Pagination</legend>
                     <?php $this->printPagination('integration/request?'); ?>
                 </fieldset>

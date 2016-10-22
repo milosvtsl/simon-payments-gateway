@@ -55,7 +55,7 @@ use \User\Model\UserRow;
                 </fieldset>
                 <fieldset style="display: inline-block;">
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows">
+                    <table class="table-results themed striped-rows">
                         <tr>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>
@@ -75,10 +75,20 @@ use \User\Model\UserRow;
                         <?php } ?>
                     </table>
                 </fieldset>
-                <fieldset class="paginate">
+                <fieldset class="pagination">
                     <legend>Pagination</legend>
-                    <?php $this->printPagination('user?'); ?>
-                    <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                    <table class="table-pagination themed small striped-rows">
+                        <tr>
+                            <td colspan="2">
+                                <?php $this->printPagination('user?'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                            </td>
+                        </tr>
+                    </table>
                 </fieldset>
             </form>
         </section>

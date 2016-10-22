@@ -70,7 +70,7 @@ abstract class AbstractListView extends AbstractView
         $pageTotal = $this->getTotalPages();
 
         $args = $args ?: $_GET;
-        $pages = array(1, $pageTotal);
+        $pages = array(1, $page, $pageTotal);
         $pi = 1;
         while(sqrt($pageTotal) > sizeof($pages)) {
             if($page - $pi > 0)
@@ -85,12 +85,11 @@ abstract class AbstractListView extends AbstractView
 
         if($page > 1)
             echo "<a href='", $baseURL, http_build_query(array('page' => $page - 1) + $args), "'>Previous</a> ";
-        foreach($pages as $p) {
-            if($p != $page)
-                echo "<a href='", $baseURL, http_build_query(array('page' => $p) + $args), "'>", $p, "</a> ";
-            else
-                echo '[', $p, '] ';
-        }
+        foreach($pages as $p)
+            echo "<a href='", $baseURL, http_build_query(array('page' => $p) + $args), "'"
+                . ($page === $p ? ' class="current"' : '')
+                . ">", $p, "</a> ";
+            // echo '[', $p, '] ';
         echo "<a href='", $baseURL, http_build_query(array('page' => $page + 1) + $args), "'>Next</a> ";
     }
 

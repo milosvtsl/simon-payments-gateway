@@ -27,14 +27,14 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="themed">
                         <tbody>
                         <tr>
-                            <th>From</th>
+                            <td class="name">From</td>
                             <td>
                                 <input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
                                 <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
                             </td>
                         </tr>
                         <tr>
-                            <th>Limit</th>
+                            <td class="name">Limit</td>
                             <td>
                                 <select name="limit">
                                     <?php
@@ -60,7 +60,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             </td>
                         </tr>
                         <tr>
-                            <th>Value</th>
+                            <td class="name">Value</td>
                             <td>
                                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="33" />
                                 <input type="submit" value="Search" />
@@ -87,7 +87,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         $odd = false;
                         foreach($Query as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                            <td><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getID(); ?></a></td>
                             <td>$<?php echo $Order->getAmount(); ?></td>
                             <td><?php echo $Order->getCardHolderFullName(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
@@ -100,11 +100,21 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <?php } ?>
                     </table>
                 </fieldset>
-                <fieldset class="paginate">
-                    <legend>Pagination</legend>
-                    <?php $this->printPagination('order?'); ?>
 
-                    <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <fieldset class="pagination">
+                    <legend>Pagination</legend>
+                    <table class="table-pagination themed striped-rows">
+                        <tr>
+                            <td colspan="2">
+                                <?php $this->printPagination('order?'); ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+                            </td>
+                        </tr>
+                    </table>
                 </fieldset>
             </form>
         </section>

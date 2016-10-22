@@ -28,7 +28,7 @@ use \Merchant\Model\MerchantRow;
                     <table>
                         <tbody>
                         <tr>
-                            <th>From</th>
+                            <td class="name">From</td>
                             <td>
                                 <input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
                                 <input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
@@ -99,7 +99,7 @@ use \Merchant\Model\MerchantRow;
                         <?php } ?>
                     </table>
                 </fieldset>
-                <fieldset class="paginate">
+                <fieldset class="pagination">
                     <legend>Pagination</legend>
                     <?php $this->printPagination('batch?'); ?>
                 </fieldset>

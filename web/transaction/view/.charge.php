@@ -34,11 +34,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <input type="hidden" name="convenience_fee_limit" value="" />
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-                <fieldset class="inline-on-merchant-selected123" style="float: left;" >
+                <fieldset class="inline-on-merchant-selected123" style="float: left; min-width: 22em;" >
                     <legend>Choose a Merchant</legend>
                     <table class="table-choose-merchant themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <td class="value">
+                            <td>
                                 <select name="merchant_id" class="" required autofocus>
                                     <?php
                                     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
@@ -86,7 +86,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <legend>Choose a Payment Method</legend>
                     <table class="table-payment-method themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <td class="value">
+                            <td>
                                 <select name="entry_mode" class="" required autofocus>
             <!--                        <option value="">Choose a method</option>-->
                                     <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
@@ -105,13 +105,13 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Payment Amount</td>
-                            <td class="value">
+                            <td>
                                 <input type="text" name="amount" value="<?php echo @$LASTPOST['amount']; ?>"  size="10" placeholder="x.xx" required autofocus />
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer Name</td>
-                            <td class="value">
+                            <td>
                                 <input type="text" name="customer_first_name" value="<?php echo @$LASTPOST['customer_first_name']; ?>" placeholder="First Name" size="12" />
                                 <input type="text" name="customermi" value="<?php echo @$LASTPOST['customermi']; ?>" placeholder="MI" size="1" /> <br/>
                                 <input type="text" name="customer_last_name" value="<?php echo @$LASTPOST['customer_last_name']; ?>" placeholder="Last Name" size="12" />
@@ -119,20 +119,20 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
-                            <td class="value"><input type="text" name="payee_reciept_email" value="<?php echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="xxx@xxx.xxx" /></td>
+                            <td><input type="text" name="payee_reciept_email" value="<?php echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="xxx@xxx.xxx" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Phone</td>
-                            <td class="value"><input type="text" name="payee_phone_number" value="<?php echo @$LASTPOST['payee_phone_number']; ?>" placeholder="xxx-xxx-xxxx" /></td>
+                            <td><input type="text" name="payee_phone_number" value="<?php echo @$LASTPOST['payee_phone_number']; ?>" placeholder="xxx-xxx-xxxx" /></td>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer&nbsp;ID#</td>
-                            <td class="value"><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="Optional Customer ID" /></td>
+                            <td><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="Optional Customer ID" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Invoice&nbsp;ID#</td>
-                            <td class="value"><input type="text" name="invoice_number" value="<?php echo @$LASTPOST['invoice_number']; ?>" placeholder="Optional Invoice Number" /></td>
+                            <td><input type="text" name="invoice_number" value="<?php echo @$LASTPOST['invoice_number']; ?>" placeholder="Optional Invoice Number" /></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -142,15 +142,15 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">First Name</td>
-                            <td class="value"><input type="text" name="payee_first_name" value="<?php echo @$LASTPOST['payee_first_name']; ?>" placeholder="First Name" required /></td>
+                            <td><input type="text" name="payee_first_name" value="<?php echo @$LASTPOST['payee_first_name']; ?>" placeholder="First Name" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Last Name</td>
-                            <td class="value"><input type="text" name="payee_last_name" value="<?php echo @$LASTPOST['payee_last_name']; ?>" placeholder="Last Name" required /></td>
+                            <td><input type="text" name="payee_last_name" value="<?php echo @$LASTPOST['payee_last_name']; ?>" placeholder="Last Name" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address</td>
-                            <td class="value">
+                            <td>
                                 <input type="text" name="payee_address" value="<?php echo @$LASTPOST['payee_address']; ?>" placeholder="Address" />
                                 <br/>
                                 <input type="text" name="payee_address2" value="<?php echo @$LASTPOST['payee_address2']; ?>" placeholder="Address #2" />
@@ -158,15 +158,15 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Billing Zipcode</td>
-                            <td class="value"><input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="7" /></td>
+                            <td><input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="7" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Card Number</td>
-                            <td class="value"><input type="text" name="card_number" value="<?php echo @$LASTPOST['card_number']; ?>" placeholder="xxxxxxxxxxxxxxxx" required /></td>
+                            <td><input type="text" name="card_number" value="<?php echo @$LASTPOST['card_number']; ?>" placeholder="xxxxxxxxxxxxxxxx" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Card Type</td>
-                            <td class="value">
+                            <td>
                                 <select name="card_type" required>
                                     <option value="">Choose an option</option>
                                     <option <?php echo @$LASTPOST['card_type'] == 'Visa' ? 'selected="selected"' : ''?> title="Visa">Visa</option>
@@ -178,11 +178,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">CVV</td>
-                            <td class="value"><input type="number" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
+                            <td><input type="number" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Expiration</td>
-                            <td class="value">
+                            <td>
                                 <select name='card_exp_month' id='expireMM' required>
                                     <option value=''>Month</option>
                                     <option <?php echo @$LASTPOST['card_exp_month'] == '01' ? 'selected="selected"' : ''?> value='01'>January</option>
@@ -215,11 +215,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
 
-                <fieldset class="show-on-payment-method-swipe">
+                <fieldset class="show-on-payment-method-swipe" style="min-width: 23em;">
                     <legend class="alert reader-status">Card Swipe Ready</legend>
                     <table class="table-payment-method-swipe themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <td class="value">
+                            <td>
                                 <input type="password" name="card_track" size="103" value="<?php echo @$LASTPOST['card_track']; ?>" />
                             </td>
                         </tr>
@@ -231,11 +231,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Account Name</td>
-                            <td class="value"><input type="text" name="check_account_name" value="<?php echo @$LASTPOST['check_account_name']; ?>" placeholder="" required /></td>
+                            <td><input type="text" name="check_account_name" value="<?php echo @$LASTPOST['check_account_name']; ?>" placeholder="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Account Type</td>
-                            <td class="value">
+                            <td>
                                 <select name="check_account_type" required>
                                     <option value="">Choose an option</option>
                                     <option <?php echo @$LASTPOST['check_account_type'] == 'Checking' ? 'selected="selected"' : ''?>>Checking</option>
@@ -245,15 +245,15 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Account Number</td>
-                            <td class="value"><input type="text" name="check_account_number" value="<?php echo @$LASTPOST['check_account_number']; ?>" placeholder="" required /></td>
+                            <td><input type="text" name="check_account_number" value="<?php echo @$LASTPOST['check_account_number']; ?>" placeholder="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Routing Number</td>
-                            <td class="value"><input type="text" name="check_routing_number" value="<?php echo @$LASTPOST['check_routing_number']; ?>" placeholder="" required /></td>
+                            <td><input type="text" name="check_routing_number" value="<?php echo @$LASTPOST['check_routing_number']; ?>" placeholder="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Type</td>
-                            <td class="value">
+                            <td>
                                 <select name="check_type" required>
                                     <option value="">Choose an option</option>
                                     <option <?php echo @$LASTPOST['check_type'] == 'Personal' ? 'selected="selected"' : ''?>>Personal</option>
@@ -263,7 +263,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Check Number</td>
-                            <td class="value"><input type="text" name="check_number" value="<?php echo @$LASTPOST['check_number']; ?>" placeholder="" /></td>
+                            <td><input type="text" name="check_number" value="<?php echo @$LASTPOST['check_number']; ?>" placeholder="" /></td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -290,11 +290,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">First Recur Date</td>
-                            <td class="value"><input type="date" name="recur_start_date" value="<?php echo date('Y-m-d', time()+24*60*60*30); ?>"/></td>
+                            <td><input type="date" name="recur_start_date" value="<?php echo date('Y-m-d', time()+24*60*60*30); ?>"/></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Count</td>
-                            <td class="value">
+                            <td>
                                 <select name='recur_count'>
                                     <?php
                                     if(empty($LASTPOST['recur_count']))
@@ -309,7 +309,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Frequency</td>
-                            <td class="value">
+                            <td>
                                 <select name='recur_frequency'>
                                     <?php
                                     if(empty($LASTPOST['recur_frequency']))
@@ -330,25 +330,25 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Convenience Fee</td>
-                            <td class="value"><input type="text" size="9" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
+                            <td><input type="text" size="9" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Total Charge Amount</td>
-                            <td class="value"><input type="text" size="9" name="total_amount" value="$0.00" disabled="disabled" /></td>
+                            <td><input type="text" size="9" name="total_amount" value="$0.00" disabled="disabled" /></td>
                         </tr>
                         <!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
                         <!--                        <td class="name">Method</td>-->
-                        <!--                        <td class="value"><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>-->
+                        <!--                        <td><input type="text" name="entry_method" value="Keyed" disabled="disabled" /></td>-->
                         <!--                    </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Submit</td>
-                            <td class="value">
+                            <td>
                                 <input type="submit" value="Pay Now" class="themed" />
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Reset</td>
-                            <td class="value">
+                            <td>
                                 <input type="reset" value="Reset" class="themed" />
                             </td>
                         </tr>

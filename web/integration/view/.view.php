@@ -32,31 +32,31 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
                     <legend>Integration Information</legend>
                     <table class="table-integration-info themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>ID</td>
+                            <td class="name">ID</td>
                             <td><?php echo $Integration->getID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>UID</td>
+                            <td class="name">UID</td>
                             <td><?php echo $Integration->getUID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Name</td>
+                            <td class="name">Name</td>
                             <td><?php echo $Integration->getName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Class Path</td>
+                            <td class="name">Class Path</td>
                             <td><?php echo $Integration->getClassPath(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>API Username</td>
+                            <td class="name">API Username</td>
                             <td><?php echo $Integration->getAPIUsername(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>API Password</td>
+                            <td class="name">API Password</td>
                             <td><?php echo $Integration->getAPIPassword(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>API URL Base</td>
+                            <td class="name">API URL Base</td>
                             <td><?php echo $Integration->getAPIURLBase(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

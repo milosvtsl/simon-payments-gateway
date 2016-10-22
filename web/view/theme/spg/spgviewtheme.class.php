@@ -79,12 +79,12 @@ class SPGViewTheme extends AbstractViewTheme
 
     public function renderHTMLBodyHeader($flags=0)
     {
-
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
         ?>
     <body class="spg-theme">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
+
         <header class="small-on-print hide-on-layout-vertical">
             <a href="/">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="width:22em;">

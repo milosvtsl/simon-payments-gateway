@@ -46,34 +46,34 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                 <input type="hidden" name="action" value="delete" />
                 <fieldset style="display: inline-block;">
                     <legend>Delete User: <?php echo $User->getFullName(); ?></legend>
-                    <table class="table-user-info themed">
+                    <table class="table-user-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>ID</td>
-                            <td><?php echo $User->getID(); ?></td>
+                            <td class="name">ID</td>
+                            <td class="value"><?php echo $User->getID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>UID</td>
-                            <td><?php echo $User->getUID(); ?></td>
+                            <td class="name">UID</td>
+                            <td class="value"><?php echo $User->getUID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Username</td>
-                            <td><?php echo $User->getUsername(); ?></td>
+                            <td class="name">Username</td>
+                            <td class="value"><?php echo $User->getUsername(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Name</td>
-                            <td><?php echo $User->getFullName(); ?></td>
+                            <td class="name">Name</td>
+                            <td class="value"><?php echo $User->getFullName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Email</td>
-                            <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
+                            <td class="name">Email</td>
+                            <td class="value"><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>UID</td>
-                            <td><?php echo $User->getUID(); ?></td>
+                            <td class="name">UID</td>
+                            <td class="value"><?php echo $User->getUID(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Merchants</td>
-                            <td><?php
+                            <td class="name">Merchants</td>
+                            <td class="value"><?php
                                 if($SessionUser->hasAuthority('ROLE_ADMIN'))
                                     $MerchantQuery = MerchantRow::queryAll();
                                 else
@@ -87,8 +87,8 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Roles</td>
-                            <td><?php
+                            <td class="name">Roles</td>
+                            <td class="value"><?php
                                 foreach($User->getAuthorityList() as $auth=>$name)
                                     echo $name, " &nbsp;(", $auth, ")<br/>";
                                 ?>
@@ -98,11 +98,11 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                             <td colspan="2"><hr/>Are you sure you want to permanently delete this user?<hr/></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><?php echo $SessionUser->getUsername(); ?> Password</td>
+                            <td class="name"><?php echo $SessionUser->getUsername(); ?> Password</td>
                             <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Delete</td>
+                            <td class="name">Delete</td>
                             <td><input type="submit" value="Delete" class="themed" /></td>
                         </tr>
                     </table>

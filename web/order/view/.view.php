@@ -34,67 +34,67 @@ $SessionUser = $SessionManager->getSessionUser();
         </aside>
         <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-        <form name="form-order-view" class="themed" method="POST">
+        <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset style="display: inline-block;">
                 <legend>Order Information</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Amount</td>
-                        <td>$<?php echo $Order->getAmount(); ?></td>
+                        <td class="value">$<?php echo $Order->getAmount(); ?></td>
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Merchant</td>
-                        <td><?php echo $Order->getMerchantShortName(); ?></td>
+                        <td class="value"><?php echo $Order->getMerchantShortName(); ?></td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Date</td>
-                        <td><?php echo date("M jS Y G:i", strtotime($Order->getDate())); ?></td>
+                        <td class="value"><?php echo date("M jS Y G:i", strtotime($Order->getDate())); ?></td>
                     </tr>
                     <?php if($Order->getInvoiceNumber()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Invoice</td>
-                            <td><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
+                            <td class="value"><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
                         </tr>
                     <?php } ?>
                     <?php if($Order->getCustomerID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer</td>
-                            <td><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
+                            <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                         </tr>
                     <?php } ?>
                     <?php if($Order->getUsername()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Username</td>
-                            <td><?php echo $Order->getUsername() ?: 'N/A' ?></td>
+                            <td class="value"><?php echo $Order->getUsername() ?: 'N/A' ?></td>
                         </tr>
                     <?php } ?>
 
                     <?php if ($Order->getPayeeEmail()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
-                            <td><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
+                            <td class="value"><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
                         </tr>
                     <?php }  ?>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Order Status</td>
-                        <td><?php echo $Order->getStatus() ?: 'N/A' ?></td>
+                        <td class="value"><?php echo $Order->getStatus() ?: 'N/A' ?></td>
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Entry Method</td>
-                        <td><?php echo ucfirst($Order->getEntryMode()) ?: 'N/A' ?></td>
+                        <td class="value"><?php echo ucfirst($Order->getEntryMode()) ?: 'N/A' ?></td>
                     </tr>
                     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant</td>
-                            <td><?php echo ucfirst($Order->getMerchantShortName()) ?: 'N/A' ?></td>
+                            <td class="value"><?php echo ucfirst($Order->getMerchantShortName()) ?: 'N/A' ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Integration</td>
-                            <td><?php echo ucfirst($Order->getIntegrationName()) ?: 'N/A' ?></td>
+                            <td class="value"><?php echo ucfirst($Order->getIntegrationName()) ?: 'N/A' ?></td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -109,30 +109,30 @@ $SessionUser = $SessionManager->getSessionUser();
                         <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Card Holder</td>
-                                <td><?php echo $Order->getCardHolderFullName() ?></td>
+                                <td class="value"><?php echo $Order->getCardHolderFullName() ?></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Card Number</td>
-                                <td><?php echo $Order->getCardNumber(); ?></td>
+                                <td class="value"><?php echo $Order->getCardNumber(); ?></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Exp</td>
-                                <td><?php echo $Order->getCardExpMonth(), '/', $Order->getCardExpYear(); ?></td>
+                                <td class="value"><?php echo $Order->getCardExpMonth(), '/', $Order->getCardExpYear(); ?></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Card Type</td>
-                                <td><?php echo $Order->getCardType(); ?></td>
+                                <td class="value"><?php echo $Order->getCardType(); ?></td>
                             </tr>
                         <?php if ($Order->getPayeeAddress()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Address</td>
-                                <td><?php echo $Order->getPayeeAddress(); ?><br/><?php echo $Order->getPayeeAddress2(); ?></td>
+                                <td class="value"><?php echo $Order->getPayeeAddress(); ?><br/><?php echo $Order->getPayeeAddress2(); ?></td>
                             </tr>
                         <?php }  ?>
                         <?php if ($Order->getPayeeZipCode()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Zip Code</td>
-                                <td><?php echo $Order->getPayeeZipCode(); ?></td>
+                                <td class="value"><?php echo $Order->getPayeeZipCode(); ?></td>
                             </tr>
                         <?php }  ?>
                         </tbody>
@@ -147,28 +147,28 @@ $SessionUser = $SessionManager->getSessionUser();
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Name on Account</td>
-                            <td><?php echo $Order->getCheckAccountName(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckAccountName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Account Number</td>
-                            <td><?php echo $Order->getCheckAccountNumber() ?></td>
+                            <td class="value"><?php echo $Order->getCheckAccountNumber() ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Routing Number</td>
-                            <td><?php echo $Order->getCheckRoutingNumber(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckRoutingNumber(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Account Type</td>
-                            <td><?php echo $Order->getCheckAccountType(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Type</td>
-                            <td><?php echo $Order->getCheckType(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckType(); ?></td>
                         </tr>
                         <?php if($Order->getCheckNumber()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Check Number</td>
-                                <td><?php echo $Order->getCheckNumber(); ?></td>
+                                <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -199,7 +199,7 @@ $SessionUser = $SessionManager->getSessionUser();
                     $odd = false;
                     foreach($TransactionQuery as $Transaction) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>'><?php echo $Transaction->getID(); ?></a></td>
+                            <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>#form-order-view'><?php echo $Transaction->getID(); ?></a></td>
                             <td class="hide-on-layout-vertical"><?php echo $Transaction->getTransactionID(); ?></td>
                             <td><?php echo date("m/d H:i", strtotime($Transaction->getTransactionDate())); ?></td>
                             <td>$<?php echo $Transaction->getAmount(); ?></td>

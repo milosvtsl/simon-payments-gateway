@@ -22,7 +22,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
             <form class="form-search themed">
                 <fieldset style="display: inline-block;">
                     <legend>Integration</legend>
-                    <table class="table-results themed small">
+                    <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="integration?<?php echo $this->getSortURL(IntegrationRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="integration?<?php echo $this->getSortURL(IntegrationRow::SORT_BY_NAME); ?>">Name</a></th>

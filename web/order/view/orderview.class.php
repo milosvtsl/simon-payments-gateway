@@ -81,7 +81,7 @@ class OrderView extends AbstractView
                     $EditOrder->updateFields($post)
                         ? $this->setSessionMessage("Order Updated Successfully: " . $EditOrder->getUID())
                         : $this->setSessionMessage("No changes detected: " . $EditOrder->getUID());
-                    header('Location: order?id=' . $EditOrder->getID());
+                    header('Location: order?id=' . $EditOrder->getID() . '#form-order-view');
                     die();
 
                     break;
@@ -98,21 +98,21 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $post);
 
                     $this->setSessionMessage($Transaction->getStatusMessage());
-                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
                     die();
 
                 case 'return':
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $post);
 
                     $this->setSessionMessage($Transaction->getStatusMessage());
-                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
                     die();
 
                 case 'reverse':
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $post);
 
                     $this->setSessionMessage($Transaction->getStatusMessage());
-                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
                     die();
 
                 default:

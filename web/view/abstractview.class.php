@@ -104,7 +104,7 @@ abstract class AbstractView
         $this->renderHTMLMetaTags();
         $this->renderHTMLHeadLinks();
         $this->renderHTMLHeadScripts();
-        echo "\t</head>\n";
+        echo "\n\t</head>\n";
     }
 
 

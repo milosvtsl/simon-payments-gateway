@@ -70,7 +70,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <?php } ?>
                     </table>
                 </fieldset>
-                <fieldset class="paginate">
+                <fieldset class="pagination">
                     <legend>Pagination</legend>
                     <?php $this->printPagination('merchant?'); ?>
 
