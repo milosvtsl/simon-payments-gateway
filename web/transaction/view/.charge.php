@@ -275,7 +275,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <br />
 
-                <fieldset style="float: left;" class="form-payment-recurring show-on-merchant-selected show-on-payment-method-selected">
+                <fieldset style="float: left; min-width: 23em;" class="form-payment-recurring show-on-merchant-selected show-on-payment-method-selected">
                     <legend>Recurring Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

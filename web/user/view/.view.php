@@ -85,10 +85,20 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Roles</td>
-                                <td class="value"><?php
-                                    foreach($User->getAuthorityList() as $auth=>$name)
-                                        echo $name, " &nbsp;(", $auth, ")<br/>";
-                                    ?>
+                                <td class="value">
+                                    <table class="themed striped-rows ">
+                                        <tbody>
+                                        <tr>
+                                            <th>Auth</th>
+                                            <th>Name</th>
+                                            <th>Revoke</th>
+                                        </tr>
+                                        <?php
+                                        foreach($User->getAuthorityList() as $auth=>$name)
+                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button disabled='disabled'>X</button></td></th>";
+                                        ?>
+                                        </tbody>
+                                    </table>
                                 </td>
                             </tr>
 
