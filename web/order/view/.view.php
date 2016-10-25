@@ -94,7 +94,9 @@ $SessionUser = $SessionManager->getSessionUser();
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Integration</td>
-                            <td class="value"><?php echo ucfirst($Order->getIntegrationName()) ?: 'N/A' ?></td>
+                            <td class="value">
+                                <?php echo ucfirst($Order->getIntegrationName()) ?: 'N/A' ?>
+                            </td>
                         </tr>
                     <?php } ?>
                     </tbody>
@@ -204,7 +206,11 @@ $SessionUser = $SessionManager->getSessionUser();
                             <td><?php echo date("m/d H:i", strtotime($Transaction->getTransactionDate())); ?></td>
                             <td>$<?php echo $Transaction->getAmount(); ?></td>
                             <td>$<?php echo $Transaction->getServiceFee(); ?></td>
-                            <td><?php echo $Transaction->getAction(); ?></td>
+                            <td>
+                                <a href="integration/request?type=transaction&type_id=<?php echo $Transaction->getID(); ?>">
+                                    <?php echo $Transaction->getAction(); ?>
+                                </a>
+                            </td>
                             <td>
                                 <?php
                                     switch($Transaction->getAction()) {

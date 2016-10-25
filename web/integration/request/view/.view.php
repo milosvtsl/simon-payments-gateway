@@ -7,12 +7,12 @@ $Request = $this->getRequest();
 $odd = false;
 $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
 ?>
+
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="integration?" class="button">Integration</a>
-        <a href="integration/request?" class="button">Requests</a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View</a>
-<!--        <a href="--><?php //echo $action_url; ?><!--edit" class="button">Edit<!--</a>-->
+        <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
     </nav>
 
     <article class="themed">
@@ -29,7 +29,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
             <form class="form-view-integration-request themed" onsubmit="return false;">
                 <fieldset style="display: inline-block;">
                     <legend>Request Information</legend>
-                    <table class="table-integration-request-info themed">
+                    <table class="table-integration-request-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Request->getID(); ?></td>
@@ -56,20 +56,25 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>URL</td>
-                            <td><a href="<?php echo $Request->getRequestURL(); ?>" target="_blank">Request URL</a></td>
+                            <td><a href="<?php echo $Request->getRequestURL(); ?>" target="_blank"><?php echo $Request->getRequestURL(); ?></a></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Result</td>
                             <td><?php echo $Request->getResult(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Request</td>
+                            <td>
+                                <textarea rows="30" cols="58" onclick="this.rows++; this.cols+=3;"><?php
+                                    echo $Request->getRequest();
+                                    ?></textarea>
+                            </td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Response</td>
                             <td>
-                                <textarea rows="30" cols="48" onclick="this.rows++; this.cols+=3;"><?php
-                                    //                                echo "Response:\n";
+                                <textarea rows="30" cols="58" onclick="this.rows++; this.cols+=3;"><?php
                                     echo $Request->getResponse();
-                                    echo "\n\nRequest:\n";
-                                    echo $Request->getRequest();
                                     ?></textarea>
                             </td>
                         </tr>
