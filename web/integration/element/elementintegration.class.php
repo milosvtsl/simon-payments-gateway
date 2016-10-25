@@ -89,9 +89,6 @@ class ElementIntegration extends AbstractIntegration
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
 
-        // Insert Request
-        IntegrationRequestRow::insert($Request);
-
     }
 
     /**
@@ -242,6 +239,10 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequest($request);
 
         $this->execute($Request);
+
+        // Insert Request
+        IntegrationRequestRow::insert($Request);
+
         $data = $this->parseResponseData($Request);
         if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
             throw new IntegrationException("Invalid response array");
@@ -314,6 +315,10 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequest($request);
 
         $this->execute($Request);
+
+        // Insert Request
+        IntegrationRequestRow::insert($Request);
+
         $data = $this->parseResponseData($Request);
         if(empty($data['CreditCardReversalResponse']))
             throw new IntegrationException("Invalid CreditCardReversalResponse");
@@ -385,6 +390,9 @@ class ElementIntegration extends AbstractIntegration
 
         $this->execute($Request);
         $data = $this->parseResponseData($Request);
+
+        // Insert Request
+        IntegrationRequestRow::insert($Request);
 
         if(empty($data['CreditCardVoidResponse']))
             throw new IntegrationException("Invalid CreditCardVoidResponse");
@@ -458,6 +466,9 @@ class ElementIntegration extends AbstractIntegration
 
         $this->execute($Request);
         $data = $this->parseResponseData($Request);
+
+        // Insert Request
+        IntegrationRequestRow::insert($Request);
 
         if(empty($data['CreditCardReturnResponse']))
             throw new IntegrationException("Invalid CreditCardReturnResponse");

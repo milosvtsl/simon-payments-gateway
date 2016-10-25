@@ -50,8 +50,11 @@ class ElementAPIUtil {
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        if($ConvenienceFeeAmount)
-            $TransactionAmount = number_format($TransactionAmount+$ConvenienceFeeAmount, 2);
+        if($ConvenienceFeeAmount) {
+            $TransactionAmount = $TransactionAmount + $ConvenienceFeeAmount;
+            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
+        }
+        $TransactionAmount = number_format($TransactionAmount, 2);
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -357,6 +360,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
+        $TransactionAmount = number_format($TransactionAmount, 2);
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -632,6 +637,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
+        $TransactionAmount = number_format($TransactionAmount, 2);
 
 
         $AccountID = $MerchantIdentity->getAccountID();
@@ -818,6 +825,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
+        $TransactionAmount = number_format($TransactionAmount, 2);
 
 
         $AccountID = $MerchantIdentity->getAccountID();
@@ -1031,12 +1040,10 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
+        $TransactionAmount = number_format($TransactionAmount, 2);
 
 
-        $CardNumber = '';$OrderRow->getCardNumber();
-        $TruncatedCardNumber = substr($CardNumber, -4, 4);
-        $ExpirationMonth = $OrderRow->getCardExpMonth();
-        $ExpirationYear = $OrderRow->getCardExpYear();
 
 
         $BillingName = $OrderRow->getCardHolderFullName();

@@ -281,8 +281,8 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Enable Recurring</td>
                             <td class="value"><input type="checkbox" name="recur_enable" value="1" disabled
-                                    <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
-                                    /></td>
+                                <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
+                                /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Run until canceled</td>

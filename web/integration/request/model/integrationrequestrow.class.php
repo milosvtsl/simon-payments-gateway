@@ -105,10 +105,10 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         return $Integration;
     }
 
-    function execute() {
-        $Integration = $this->getIntegration();
-        $Integration->execute($this);
-    }
+//    function execute() {
+//        $Integration = $this->getIntegration();
+//        $Integration->execute($this);
+//    }
 
     function isRequestSuccessful(&$reason=null) {
         $Integration = $this->getIntegration();
