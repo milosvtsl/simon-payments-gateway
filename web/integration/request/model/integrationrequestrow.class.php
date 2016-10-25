@@ -95,6 +95,9 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     public function setResult($result)      { $this->result = $result; }
     public function setRequestURL($url)     { $this->url = $url; }
 
+    public function setType($type)          { $this->type = $type; }
+    public function setTypeID($id)          { $this->type_id = $id; }
+
     /**
      * @return AbstractIntegration
      */
@@ -208,6 +211,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         if(!$ret || !$DB->lastInsertId())
             throw new \PDOException("Failed to insert new row");
     }
+
 
 
 }

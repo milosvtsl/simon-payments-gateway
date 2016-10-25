@@ -240,9 +240,6 @@ class ElementIntegration extends AbstractIntegration
 
         $this->execute($Request);
 
-        // Insert Request
-        IntegrationRequestRow::insert($Request);
-
         $data = $this->parseResponseData($Request);
         if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
             throw new IntegrationException("Invalid response array");
@@ -272,6 +269,11 @@ class ElementIntegration extends AbstractIntegration
         $Order->setStatus("Authorized");
         OrderRow::update($Order);
         TransactionRow::insert($Transaction);
+
+        // Insert Request
+        $Request->setType('transaction');
+        $Request->setTypeID($Transaction->getID());
+        IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
             $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
@@ -316,9 +318,6 @@ class ElementIntegration extends AbstractIntegration
 
         $this->execute($Request);
 
-        // Insert Request
-        IntegrationRequestRow::insert($Request);
-
         $data = $this->parseResponseData($Request);
         if(empty($data['CreditCardReversalResponse']))
             throw new IntegrationException("Invalid CreditCardReversalResponse");
@@ -351,6 +350,11 @@ class ElementIntegration extends AbstractIntegration
         $Order->setStatus("Reversal");
         OrderRow::update($Order);
         TransactionRow::insert($ReverseTransaction);
+
+        // Insert Request
+        $Request->setType('transaction');
+        $Request->setTypeID($ReverseTransaction->getID());
+        IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
             $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
@@ -391,9 +395,6 @@ class ElementIntegration extends AbstractIntegration
         $this->execute($Request);
         $data = $this->parseResponseData($Request);
 
-        // Insert Request
-        IntegrationRequestRow::insert($Request);
-
         if(empty($data['CreditCardVoidResponse']))
             throw new IntegrationException("Invalid CreditCardVoidResponse");
 
@@ -428,6 +429,11 @@ class ElementIntegration extends AbstractIntegration
 
         $Order->setStatus("Voided");
         OrderRow::update($Order);
+
+        // Insert Request
+        $Request->setType('transaction');
+        $Request->setTypeID($VoidTransaction->getID());
+        IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
             $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
@@ -467,9 +473,6 @@ class ElementIntegration extends AbstractIntegration
         $this->execute($Request);
         $data = $this->parseResponseData($Request);
 
-        // Insert Request
-        IntegrationRequestRow::insert($Request);
-
         if(empty($data['CreditCardReturnResponse']))
             throw new IntegrationException("Invalid CreditCardReturnResponse");
 
@@ -503,6 +506,11 @@ class ElementIntegration extends AbstractIntegration
 
         $Order->setStatus("Return");
         OrderRow::update($Order);
+
+        // Insert Request
+        $Request->setType('transaction');
+        $Request->setTypeID($ReturnTransaction->getID());
+        IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
             $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
