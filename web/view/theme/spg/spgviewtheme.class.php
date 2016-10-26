@@ -85,7 +85,7 @@ class SPGViewTheme extends AbstractViewTheme
     <body class="spg-theme">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
-        <header class="small-on-print hide-on-layout-vertical">
+        <header class="hide-on-print hide-on-layout-vertical">
             <a href="/">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="width:22em;">
             </a>
@@ -104,7 +104,7 @@ class SPGViewTheme extends AbstractViewTheme
 
         </nav>
 
-        <hr class="themed" style="clear: both;"/>
+        <hr class="themed hide-on-print" style="clear: both;"/>
         <?php } ?>
         <?php
     }
@@ -114,7 +114,7 @@ class SPGViewTheme extends AbstractViewTheme
 //        </article>
         ?>
         <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
-        <footer>
+        <footer class="hide-on-print">
             &copy; 2016 Simon Payments, LLC. All rights reserved.
         </footer>
         <?php } ?>

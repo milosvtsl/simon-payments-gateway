@@ -179,8 +179,8 @@ $SessionUser = $SessionManager->getSessionUser();
 
             <?php } ?>
 
-            <fieldset style="display: inline-block;">
-                <legend>Transactions History</legend>
+            <fieldset style="display: inline-block;" class="hide-on-print">
+                <legend>Transaction History</legend>
                 <table class="table-results themed small">
                     <tr>
                         <th>ID</th>
