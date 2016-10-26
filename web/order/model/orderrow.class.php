@@ -226,7 +226,7 @@ SELECT
  FROM order_item oi
  LEFT JOIN user_merchants um on oi.merchant_id = um.id_merchant
 
- WHERE status = 'Settled'
+ WHERE status in ('Settled', 'Authorized')
 SQL;
 
         if($userID) {
