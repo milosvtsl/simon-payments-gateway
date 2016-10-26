@@ -88,11 +88,11 @@ $SessionUser = $SessionManager->getSessionUser();
                         <td class="value"><?php echo ucfirst($Order->getEntryMode()) ?: 'N/A' ?></td>
                     </tr>
                     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> hide-on-print">
                             <td class="name">Merchant</td>
                             <td class="value"><?php echo ucfirst($Order->getMerchantShortName()) ?: 'N/A' ?></td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> hide-on-print">
                             <td class="name">Integration</td>
                             <td class="value">
                                 <?php echo ucfirst($Order->getIntegrationName()) ?: 'N/A' ?>
