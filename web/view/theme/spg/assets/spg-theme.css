@@ -29,7 +29,7 @@ body.spg-theme > footer {
 .spg-theme section.content {
     /* background-color: #f0f4f6; */
     display: inline-block;
-    max-width: 50em;
+    max-width: 49em;
 }
 
 body.spg-theme > hr.themed {

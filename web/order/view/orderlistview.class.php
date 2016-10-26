@@ -103,6 +103,8 @@ class OrderListView extends AbstractListView {
 		if(!empty($params[self::FIELD_ORDER_BY])) {
 			$sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
 			$sortField = $params[self::FIELD_ORDER_BY];
+			if(substr($sortField, 0, 3) !== 'oi.')
+				$sortField = 'oi.' . $sortField;
 			if(!in_array($sortField, OrderRow::$SORT_FIELDS))
 				throw new \InvalidArgumentException("Invalid order-by field");
 			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
