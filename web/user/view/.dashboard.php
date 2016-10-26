@@ -20,7 +20,7 @@ if(!$stats) {
     }
     $stats['_time'] = time();
     $_SESSION[__FILE__] = $stats;
-    $this->setMessage("Calculated stats in " . $stats['duration'] . " s");
+    $this->setMessage("Calculated stats in " . number_format($stats['duration'], 2) . " s");
 }
 
 $year_to_date = date('Y-01-01 00:00:00');
