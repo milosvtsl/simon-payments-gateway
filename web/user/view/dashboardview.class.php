@@ -14,9 +14,6 @@ class DashboardView extends AbstractView {
 	public function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();
 
-        // Add Breadcrumb links
-//		$Theme->addCrumbLink('home', "Home");
-
 		// Render Header
         $Theme->renderHTMLBodyHeader();
 

@@ -113,6 +113,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     const SQL_GROUP_BY = "\nGROUP BY oi.id";
     const SQL_ORDER_BY = "\nORDER BY oi.id DESC";
 
+
     public function getID()                 { return $this->id; }
 
     public function getUID()                { return $this->uid; }
@@ -177,6 +178,19 @@ LEFT JOIN integration i on oi.integration_id = i.id
     }
 
     // Static
+
+
+    const STAT_AMOUNT_TOTAL = 'amount_total';
+    const STAT_DAILY = 'daily';
+    const STAT_WEEK_TO_DATE = 'wtd';
+    const STAT_WEEKLY = 'weekly';
+    const STAT_MONTH_TO_DATE = 'mtd';
+    const STAT_MONTHLY = 'monthly';
+
+    public static function queryStatsToDate(array $statlist, $userID=null)
+    {
+
+    }
 
     public static function delete(OrderRow $OrderRow) {
         $SQL = "DELETE FROM order_item WHERE id = ?";

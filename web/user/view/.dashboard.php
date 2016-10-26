@@ -1,11 +1,17 @@
 <?php
+use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
-/**
- * @var \View\AbstractListView $this
- **/
+use Order\Model\OrderRow;
 
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
+
+
+if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+    $stats = OrderRow::queryStatsToDate();
+} else {
+    $stats = OrderRow::queryStatsToDate($SessionUser->getID());
+}
 
 $button_current = 'dashboard';
 include '.dashboard.nav.php';
