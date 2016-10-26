@@ -108,7 +108,7 @@ class OrderListView extends AbstractListView {
 			if(!in_array($sortField, OrderRow::$SORT_FIELDS))
 				throw new \InvalidArgumentException("Invalid order-by field");
 			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
-			$statsMessage .= "sorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
+			$statsMessage .= "\nsorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
 		}
 
 		// Calculate LIMIT
