@@ -233,10 +233,14 @@ SQL;
             $SQL .= "\nAND um.id_user = " . intval($userID);
         }
 
+        $duration = -microtime(true);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
         $stmt->execute();
         $stats = $stmt->fetch();
+        $duration += microtime(true);
+        $stats['duration'] = $duration;
+
         return $stats;
     }
 

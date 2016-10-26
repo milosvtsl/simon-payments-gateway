@@ -2,15 +2,25 @@
 use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
 use Order\Model\OrderRow;
-
+/** @var $this \View\AbstractView*/
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
-
-if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-    $stats = OrderRow::queryMerchantStats();
-} else {
-    $stats = OrderRow::queryMerchantStats($SessionUser->getID());
+$stats = null;
+if(!empty($_SESSION[__FILE__])) {
+    $stats = $_SESSION[__FILE__];
+    if($stats['_time']<time() - 60*10)
+        $stats = null;
+}
+if(!$stats) {
+    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+        $stats = OrderRow::queryMerchantStats();
+    } else {
+        $stats = OrderRow::queryMerchantStats($SessionUser->getID());
+    }
+    $stats['_time'] = time();
+    $_SESSION[__FILE__] = $stats;
+    $this->setMessage("Calculated stats in " . $stats['duration'] . " s");
 }
 
 $year_to_date = date('Y-01-01 00:00:00');
@@ -38,10 +48,6 @@ include '.dashboard.nav.php';
         </aside>
 
 
-        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
-
-        <h5>Dashboard Under Construction...</h5>
-
         <div class="stat-box-container">
             <a href="order?date_from=<?php echo $today; ?>&order=asc&order-by=id" class="stat-box stat-box-first">
                 <div class="stat-large">$<?php echo number_format(@$stats['today'], 2); ?></div>
@@ -61,6 +67,7 @@ include '.dashboard.nav.php';
             </a>
         </div>
 
+        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; else echo "<h5>Dashboard Under Construction</h5>"; ?>
 
     </section>
 
