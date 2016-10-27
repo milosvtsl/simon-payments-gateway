@@ -42,7 +42,8 @@ body.spg-theme > hr.themed {
 
 body.spg-theme nav.site-menu {
     float: right;
-    margin-top: 2em;
+    margin-top: 1.2em;
+    margin-right: 1em;
 }
 
 body.layout-vertical.spg-theme nav.site-menu {
@@ -89,6 +90,16 @@ body.spg-theme > nav.site-menu > a > div.nav-home-icon {background-position: 0 0
 body.spg-theme > nav.site-menu > a > div.nav-dashboard-icon {background-position: -64px 0;}
 body.spg-theme > nav.site-menu > a > div.nav-signup-icon {background-position: -64px -64px;}
 body.spg-theme > nav.site-menu > a > div.nav-charge-icon {background-position: 0 -64px;}
+
+
+body.spg-theme .site-welcome-text {
+    float:right;
+    clear:both;
+    margin-right: 0.5em;
+    margin-top:0.6em;
+    font-weight:bold;
+    font-style:italic;
+}
 
 
 /** Sub Menu **/

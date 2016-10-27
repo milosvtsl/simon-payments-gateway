@@ -8,7 +8,6 @@ use \Integration\Model\IntegrationRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
             <a href="transaction/charge.php" class="button">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
@@ -16,9 +15,9 @@ use \Integration\Model\IntegrationRow;
         <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="integration?" class="button current">Integration <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
     </nav>
 

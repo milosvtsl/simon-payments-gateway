@@ -44,26 +44,26 @@ include '.dashboard.nav.php';
         <!-- Bread Crumbs -->
         <aside class="bread-crumbs">
             <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
-            <a href="/" class="nav_dashboard">Welcome</a>
+            <a href="/" class="nav_dashboard">Dashboard</a>
         </aside>
 
 
         <div class="stat-box-container">
             <a href="order?date_from=<?php echo $today; ?>&order=asc&order-by=id" class="stat-box stat-box-first">
                 <div class="stat-large">$<?php echo number_format(@$stats['today'], 2); ?></div>
-                <div>Today's Orders (<?php echo number_format(@$stats['today_count']); ?>)</div>
+                <div>Today (<?php echo number_format(@$stats['today_count']); ?>)</div>
             </a>
             <a href="order?date_from=<?php echo $week_to_date; ?>&order=asc&order-by=id" class="stat-box stat-box-second">
                 <div class="stat-large">$<?php echo number_format(@$stats['weekly'], 2); ?></div>
-                <div>This Week's Orders (<?php echo number_format(@$stats['weekly_count']); ?>)</div>
+                <div>This Week (<?php echo number_format(@$stats['weekly_count']); ?>)</div>
             </a>
             <a href="order?date_from=<?php echo $month_to_date; ?>&order=asc&order-by=id" class="stat-box stat-box-third">
                 <div class="stat-large">$<?php echo number_format(@$stats['monthly'], 2); ?></div>
-                <div>This Months's Orders (<?php echo number_format(@$stats['monthly_count']); ?>)</div>
+                <div>This Month (<?php echo number_format(@$stats['monthly_count']); ?>)</div>
             </a>
             <a href="order?date_from=<?php echo $year_to_date; ?>&order=asc&order-by=id" class="stat-box stat-box-fourth">
                 <div class="stat-large">$<?php echo number_format(@$stats['yearly'], 2); ?></div>
-                <div>YTD Orders (<?php echo number_format(@$stats['yearly_count']); ?>)</div>
+                <div>YTD (<?php echo number_format(@$stats['yearly_count']); ?>)</div>
             </a>
         </div>
 

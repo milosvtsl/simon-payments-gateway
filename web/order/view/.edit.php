@@ -9,7 +9,6 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>
         <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="transaction/charge.php?" class="button">Charge <div class="submenu-icon submenu-icon-charge"></div></a>

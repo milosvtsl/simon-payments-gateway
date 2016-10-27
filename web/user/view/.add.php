@@ -10,11 +10,10 @@ $odd = false;
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user?" class="button">Users<div class="submenu-icon submenu-icon-list"></div></a>
         <a href="user/add.php" class="button current">Add User <div class="submenu-icon submenu-icon-add"></div></a>
     <?php } ?>
     <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
-    <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
     <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>

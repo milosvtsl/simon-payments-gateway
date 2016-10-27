@@ -17,14 +17,12 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
             <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="<?php echo $action_url; ?>edit" class="button current">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
             <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
-            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } else { ?>
 
             <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="user/account.php?action=edit" class="button">Edit <div class="submenu-icon submenu-icon-account"></div></a>
         <?php } ?>
 
-            <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
             <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>

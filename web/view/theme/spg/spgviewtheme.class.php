@@ -95,7 +95,7 @@ class SPGViewTheme extends AbstractViewTheme
         <?php if($SessionManager->isLoggedIn()) { ?>
             <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>
             <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
-            <a href="user/logout.php" class="nav-login"><div class="nav-icon nav-logout-icon"></div><br/> Log out </a>
+            <a href="user/account.php" class="nav-account"><div class="nav-icon nav-account-icon"></div><br/> My Account </a>
         <?php } else { ?>
             <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>
             <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>
@@ -103,6 +103,11 @@ class SPGViewTheme extends AbstractViewTheme
         <?php } ?>
 
         </nav>
+
+        <span class="site-welcome-text">
+            Welcome, <?php echo $SessionUser->getFirstName()?:$SessionUser->getUsername(); ?>
+            <a href="user/logout.php" style="font-size:small; text-decoration: none;">(Log out)</a>
+        </span>
 
         <hr class="themed hide-on-print" style="clear: both;"/>
         <?php } ?>
