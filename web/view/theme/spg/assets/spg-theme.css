@@ -348,7 +348,7 @@ body.spg-theme table.themed > tbody > tr {}
 
 body.spg-theme table.themed > tbody > tr > th.name,
 body.spg-theme table.themed > tbody > tr > td.name {
-    text-align: right;
+    /* text-align: right; */
     /* text-transform: uppercase; */
     font-size: small;
     padding: 0.5em 0 0.5em 0.5em;
