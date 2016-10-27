@@ -1,4 +1,5 @@
 <?php
+use System\Arrays\TimeZones;
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
@@ -60,6 +61,26 @@ $odd = false;
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Last Name</td>
                             <td><input type="text" name="lname" value="" required/></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">User Timezone</td>
+                            <td>
+                                <select name="timezone" value="" required>
+                                    <?php
+                                    $curtimezone = date_default_timezone_get();
+                                    foreach(TimeZones::$TimeZones as $timezone => $name) {
+                                        try {
+                                            $time = new \DateTime(NULL, new \DateTimeZone($timezone));
+                                            $name .= " (" . $time->format('g:i A') . ")";
+                                            $selected = $timezone === $curtimezone ? ' selected="selected"' : '';
+                                            echo "\n\t\t\t<option value='{$timezone}'{$selected}>{$name}</option>";
+                                        } catch (Exception $ex) {
+                                            // Only show available timezones. Where did greenland go anyway
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Create User</td>

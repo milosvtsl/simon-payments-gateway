@@ -43,7 +43,7 @@ body.spg-theme > hr.themed {
 body.spg-theme nav.site-menu {
     float: right;
     margin-top: 1.2em;
-    margin-right: 1em;
+    margin-right: 2em;
 }
 
 body.layout-vertical.spg-theme nav.site-menu {
@@ -195,7 +195,7 @@ body.spg-theme form.themed a {
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
-    padding: 0.3em 0.5em 0.3em 0.5em;
+    padding: 0.3em 0.8em 0.3em 0.5em;
     margin: 0 0.5em 0.5em 0.5em;
     /* min-width: 22em; */
     min-height: 7em;

@@ -42,6 +42,7 @@ class UserRow
     protected $lname;
     protected $password;
     protected $username;
+    protected $timezone;
 
     // Table authority
     protected $merchant_list;
@@ -57,14 +58,15 @@ FROM user u
     const SQL_ORDER_BY = "\nORDER BY u.id DESC";
 
 
-    public function getID()         { return $this->id; }
-    public function getUID()        { return $this->uid; }
-    public function getUsername()   { return $this->username; }
-    public function getEmail()      { return $this->email; }
-    public function getFullName()   { return $this->fname . ' ' . $this->lname; }
-    public function getFirstName()  { return $this->fname; }
-    public function getLastName()   { return $this->lname; }
-    public function getPasswordHash() { return $this->password; }
+    public function getID()             { return $this->id; }
+    public function getUID()            { return $this->uid; }
+    public function getUsername()       { return $this->username; }
+    public function getEmail()          { return $this->email; }
+    public function getFullName()       { return $this->fname . ' ' . $this->lname; }
+    public function getFirstName()      { return $this->fname; }
+    public function getLastName()       { return $this->lname; }
+    public function getPasswordHash()   { return $this->password; }
+    public function getTimeZone()       { return $this->timezone; }
 
     public function getMerchantCount() {
         return sizeof($this->getMerchantList());
@@ -322,6 +324,7 @@ SQL;
         $User->lname = $post['lname'];
         $User->password = $password;
         $User->username = $post['username'];
+        $User->timezone = $post['timezone'];
 
         UserRow::insert($User);
         return $User;
@@ -365,6 +368,7 @@ SQL;
             ':lname' => $User->lname,
             ':password' => $User->password,
             ':username' => $User->username,
+            ':timezone' => $User->timezone,
         );
         $SQL = '';
         foreach($values as $key=>$value)
@@ -401,6 +405,7 @@ SQL;
             ':lname' => $User->lname,
             ':password' => $User->password,
             ':username' => $User->username,
+            ':timezone' => $User->timezone,
         );
         $SQL = '';
         foreach($values as $key=>$value)
