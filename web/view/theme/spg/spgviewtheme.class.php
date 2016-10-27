@@ -104,7 +104,7 @@ class SPGViewTheme extends AbstractViewTheme
 
         </nav>
 
-        <span class="site-welcome-text">
+        <span class="site-welcome-text hide-on-print">
             Welcome, <?php echo $SessionUser->getFirstName()?:$SessionUser->getUsername(); ?>
             <a href="user/logout.php" style="font-size:small; text-decoration: none;">(Log out)</a>
         </span>
