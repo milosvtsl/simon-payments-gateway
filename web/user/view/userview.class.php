@@ -80,11 +80,11 @@ class UserView extends AbstractView
         switch(strtolower(@$post['action'])) {
             case 'edit':
                 try {
-                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                    if($SessionUser->getID() !== $User->getID())
                         $SessionUser->validatePassword($post['admin_password']);
 
                     // Update User fields
-                    $updates = $User->updateFields($post['fname'], $post['lname'], $post['email']);
+                    $updates = $User->updateFields($post);
 
                     // Change Password
                     if(!empty($post['password']))

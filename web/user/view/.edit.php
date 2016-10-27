@@ -72,6 +72,31 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 <td class="name">Last Name</td>
                                 <td><input type="text" name="lname" value="<?php echo @$_POST['lname'] ?: $User->getLastName(); ?>" /></td>
                             </tr>
+
+
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">User Timezone</td>
+                                <td>
+                                    <select name="timezone" required>
+                                        <?php
+                                        $curtimezone = date_default_timezone_get();
+                                        foreach(\System\Arrays\TimeZones::$TimeZones as $timezone => $name) {
+                                            try {
+                                                $time = new \DateTime(NULL, new \DateTimeZone($timezone));
+                                                $name .= " (" . $time->format('g:i A') . ")";
+                                                $selected = $timezone === $User->getTimeZone() ? ' selected="selected"' : '';
+                                                echo "\n\t\t\t<option value='{$timezone}'{$selected}>{$name}</option>";
+                                            } catch (Exception $ex) {
+                                                // Only show available timezones. Where did greenland go anyway
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+
+
+
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Change Password</td>
                                 <td><input type="password" name="password" value="" autocomplete="off" /></td>
@@ -115,10 +140,12 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                     ?>
                                 </td>
                             </tr>
+                                <?php if($SessionUser->getID() != $User->getID()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name"><?php echo $SessionUser->getUsername(); ?> Password</td>
                                 <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
                             </tr>
+                                <?php } ?>
                             <?php } ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Update</td>

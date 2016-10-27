@@ -18,9 +18,11 @@ class OrderListView extends AbstractListView {
 	 * @param array $params
      */
 	public function renderHTMLBody(Array $params) {
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
 		// Render Header
 		$this->getTheme()->renderHTMLBodyHeader();
-
 
 		// Set up page parameters
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 50);
@@ -56,22 +58,23 @@ class OrderListView extends AbstractListView {
 			);
 		}
 
-		// Set up Date conditions
+        // Get Timezone diff
+        $offset = $SessionUser->getTimeZoneOffset('now');
+
+        // Set up Date conditions
 		if(!empty($params['date_from'])) {
 			$whereSQL .= "\nAND oi.date >= :from";
-			$sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']));
-			$statsMessage .= " from " . date("M jS Y", strtotime($params['date_from']));
+			$sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']) + $offset);
+			$statsMessage .= " from " . date("M jS Y", strtotime($params['date_from']) + $offset);
 		}
 		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
-			$sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']));
-			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to']));
+			$sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']) + $offset);
+			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to']) + $offset);
 		}
 
 
 		// Handle authority
-		$SessionManager = new SessionManager();
-		$SessionUser = $SessionManager->getSessionUser();
 		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
 			$list = $SessionUser->getMerchantList() ?: array(0);
 			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
@@ -86,6 +89,11 @@ class OrderListView extends AbstractListView {
 
 		// Query Statistics
 		$DB = DBConfig::getInstance();
+
+
+//        date_default_timezone_set($timezone);
+//        $DB->exec("SET time_zone = '{$timezone}'");
+
 		$countSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
 		$Query = $DB->prepare($countSQL);
 		$Query->execute($sqlParams);

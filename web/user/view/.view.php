@@ -78,6 +78,10 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                 <td class="value"><?php echo $User->getUID(); ?></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">TimeZone</td>
+                                <td class="value"><?php echo $User->getTimeZone(); ?></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Merchants</td>
                                 <td class="value"><?php
                                     if($SessionUser->hasAuthority('ROLE_ADMIN'))

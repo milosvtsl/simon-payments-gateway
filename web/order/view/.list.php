@@ -85,13 +85,17 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <?php
                         /** @var \Order\Model\OrderRow $Order */
                         $odd = false;
+
+                        // Get Timezone diff
+                        $offset = $SessionUser->getTimeZoneOffset('now');
+
                         foreach($Query as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getID(); ?></a></td>
                             <td>$<?php echo $Order->getAmount(); ?></td>
                             <td><?php echo $Order->getCardHolderFullName(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                            <td><?php echo date("M jS H:i", strtotime($Order->getDate())); ?></td>
+                            <td><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td><?php echo $Order->getInvoiceNumber(); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
                             <td class="hide-on-layout-vertical"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>

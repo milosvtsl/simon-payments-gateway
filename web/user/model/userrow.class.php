@@ -68,6 +68,13 @@ FROM user u
     public function getPasswordHash()   { return $this->password; }
     public function getTimeZone()       { return $this->timezone; }
 
+    public function getTimeZoneOffset($date) {
+        $tz = new \DateTimeZone($this->timezone);
+        if(!$date instanceof \DateTime)
+            $date = new \DateTime($date);
+        return $tz->getOffset($date);
+    }
+
     public function getMerchantCount() {
         return sizeof($this->getMerchantList());
     }
@@ -147,20 +154,16 @@ FROM user u
         return $PasswordQuery->rowCount();
     }
 
-    public function updateFields($fname, $lname, $email) {
-//        if(!preg_match('/^[a-zA-Z0-9_-]+$/', $username))
-//            throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
-
-//        if(strlen($username) < 5)
-//            throw new \InvalidArgumentException("Username must be at least 5 characters");
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+    public function updateFields($post) {
+        if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
 
-        $this->fname = $fname;
-        $this->lname = $lname;
-//        $this->username = $username;
-        $this->email = $email;
+        $this->fname = $post['fname'];
+        $this->lname = $post['lname'];
+        $this->email = $post['email'];
+
+        $time = new \DateTimeZone($post['timezone']);
+        $this->timezone = $time->getName();
         return static::update($this);
     }
 

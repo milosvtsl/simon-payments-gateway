@@ -9,6 +9,10 @@ $odd = true;
 $action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
+
+// Get Timezone diff
+$offset = $SessionUser->getTimeZoneOffset('now');
+
 ?>
 
 <!-- Page Navigation -->
@@ -79,11 +83,15 @@ $SessionUser = $SessionManager->getSessionUser();
                     <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Date</td>
-                            <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate())); ?></td>
+                            <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate()) + $offset); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Time</td>
-                            <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate())); ?></td>
+                            <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate()) + $offset); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Time Zone</td>
+                            <td class="value"><?php echo $SessionUser->getTimeZone(); ?></td>
                         </tr>
                         <?php if($Order->getInvoiceNumber()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -222,7 +230,7 @@ $SessionUser = $SessionManager->getSessionUser();
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>#form-order-view'><?php echo $Transaction->getID(); ?></a></td>
                             <td class="hide-on-layout-vertical"><?php echo $Transaction->getTransactionID(); ?></td>
-                            <td><?php echo date("m/d H:i", strtotime($Transaction->getTransactionDate())); ?></td>
+                            <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                             <td>$<?php echo $Transaction->getAmount(); ?></td>
                             <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                             <td>

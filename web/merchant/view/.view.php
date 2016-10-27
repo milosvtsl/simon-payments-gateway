@@ -10,6 +10,11 @@ use Order\Model\OrderRow;
 $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$SessionManager = new \User\Session\SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
+
+// Get Timezone diff
+$offset = $SessionUser->getTimeZoneOffset('now');
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
@@ -210,7 +215,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                                 <td>$<?php echo $Order->getAmount(); ?></td>
                                 <td><?php echo $Order->getCardHolderFullName(); ?></td>
                                 <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                                <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate())); ?></td>
+                                <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate()) + $offset); ?></td>
                                 <td><?php echo $Order->getStatus(); ?></td>
                                 <td><?php echo $Order->getOrderItemID(); ?></td>
                                 <td><?php echo $Order->getInvoiceNumber(); ?></td>
