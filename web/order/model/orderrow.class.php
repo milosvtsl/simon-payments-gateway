@@ -124,6 +124,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCustomerID()         { return $this->customer_id; }
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
+    public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
@@ -165,7 +166,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
      * @return TransactionRow
      * @throws \Exception
      */
-    public function getAuthorizedTransaction() {
+    public function fetchAuthorizedTransaction() {
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(TransactionRow::SQL_SELECT . "WHERE oi.id = ? AND action = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */

@@ -1,7 +1,10 @@
 <?php
+use \Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 /** @var \Order\View\OrderView $this*/
 $Order = $this->getOrder();
+$Transaction = $Order->fetchAuthorizedTransaction();
+$Merchant = MerchantRow::fetchByID($Order->getMerchantID());
 $odd = true;
 $action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
 $SessionManager = new \User\Session\SessionManager();
@@ -35,37 +38,30 @@ $SessionUser = $SessionManager->getSessionUser();
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset style="display: inline-block;">
-                <legend>Order Information</legend>
+                <legend><?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
+                    <?php $odd = true; ?>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Location</td>
+                        <td class="value"><?php echo $Merchant->getCity(), ',', $Merchant->getState(), ' ', $Merchant->getZipCode() ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Phone</td>
+                        <td class="value"><?php echo $Merchant->getTelephone(); ?></td>
+                    </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Merchant</td>
-                        <td class="value"><?php echo $Order->getMerchantShortName(); ?></td>
+                        <td class="name">Customer</td>
+                        <td class="value"><?php echo $Order->getCustomerFullName() ?></td>
                     </tr>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Date</td>
-                        <td class="value"><?php echo date("M jS Y G:i", strtotime($Order->getDate())); ?></td>
-                    </tr>
-                    <?php if($Order->getInvoiceNumber()) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Invoice</td>
-                            <td class="value"><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
-                        </tr>
-                    <?php } ?>
+
                     <?php if($Order->getCustomerID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer</td>
                             <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                         </tr>
                     <?php } ?>
-                    <?php if($Order->getUsername()) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Username</td>
-                            <td class="value"><?php echo $Order->getUsername() ?: 'N/A' ?></td>
-                        </tr>
-                    <?php } ?>
-
                     <?php if ($Order->getPayeeEmail()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
@@ -73,77 +69,59 @@ $SessionUser = $SessionManager->getSessionUser();
                         </tr>
                     <?php }  ?>
 
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Order Status</td>
-                        <td class="value"><?php echo $Order->getStatus() ?: 'N/A' ?></td>
-                    </tr>
+                    </tbody>
+                </table>
+            </fieldset>
 
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Entry Method</td>
-                        <td class="value"><?php echo ucfirst($Order->getEntryMode()) ?: 'N/A' ?></td>
-                    </tr>
-                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> hide-on-print">
-                            <td class="name">Integration</td>
-                            <td class="value">
-                                <?php echo ucfirst($Order->getIntegrationName()) ?: 'N/A' ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-
-                    <?php if ($Order->getConvenienceFee()) { ?>
+            <fieldset style="display: inline-block;">
+                <legend>Receipt</legend>
+                <table class="table-transaction-info themed striped-rows">
+                    <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Subtotal</td>
-                            <td class="value">$<?php echo $Order->getAmount(); ?></td>
+                            <td class="name">Date</td>
+                            <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate())); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Fee</td>
-                            <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
+                            <td class="name">Time</td>
+                            <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate())); ?></td>
                         </tr>
-                    <?php } ?>
+                        <?php if($Order->getInvoiceNumber()) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Invoice</td>
+                                <td class="value"><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
+                            </tr>
+                        <?php } ?>
 
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Total</td>
-                        <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
-                    </tr>
                     </tbody>
                 </table>
             </fieldset>
 
             <?php if ($Order->getCardNumber()) { ?>
 
-                <fieldset style="display: inline-block;">
-                    <legend>Card Holder Information</legend>
-                    <table class="table-transaction-info themed striped-rows">
+                <fieldset>
+                    <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
+                    <table class="table-transaction-info themed cell-borders" style="width: 100%">
                         <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Card Holder</td>
-                                <td class="value"><?php echo $Order->getCardHolderFullName() ?></td>
+                                <?php if($Order->getUsername()) { ?>
+                                <th>User ID</th>
+                                <?php }  ?>
+                                <th>Credit Card</th>
+                                <th>Card Type</th>
+                                <th>Status</th>
+                                <th>Code</th>
+                                <th>Order ID</th>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Card Number</td>
+                                <?php if($Order->getUsername()) { ?>
+                                    <td class="value"><?php echo $Order->getUsername(); ?></td>
+                                <?php }  ?>
                                 <td class="value"><?php echo $Order->getCardNumber(); ?></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Exp</td>
-                                <td class="value"><?php echo $Order->getCardExpMonth(), '/', $Order->getCardExpYear(); ?></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Card Type</td>
                                 <td class="value"><?php echo $Order->getCardType(); ?></td>
+                                <td class="value"><?php echo $Order->getStatus(); ?></td>
+                                <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
+                                <td class="value"><?php echo $Order->getID(); ?></td>
                             </tr>
-                        <?php if ($Order->getPayeeAddress()) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Address</td>
-                                <td class="value"><?php echo $Order->getPayeeAddress(); ?><br/><?php echo $Order->getPayeeAddress2(); ?></td>
-                            </tr>
-                        <?php }  ?>
-                        <?php if ($Order->getPayeeZipCode()) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Zip Code</td>
-                                <td class="value"><?php echo $Order->getPayeeZipCode(); ?></td>
-                            </tr>
-                        <?php }  ?>
                         </tbody>
                     </table>
                 </fieldset>
@@ -186,11 +164,37 @@ $SessionUser = $SessionManager->getSessionUser();
 
             <?php } ?>
 
-            <fieldset class="show-on-print">
+
+
+            <fieldset style="display: inline-block; float: right;">
+                <legend>Totals</legend>
+                <table class="table-transaction-info-totals themed striped-rows">
+                    <tbody>
+                    <?php if ($Order->getConvenienceFee()) { ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Subtotal</td>
+                            <td class="value">$<?php echo $Order->getAmount(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Fee</td>
+                            <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
+                        </tr>
+                    <?php } ?>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Total</td>
+                        <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
+
+            <fieldset class="show-on-print" style="clear: both;">
                 <br/>
                 <br/>
                 <br/>
-                <hr>
+                <hr style="height: 2px;">
                 Customer Signature
             </fieldset>
 

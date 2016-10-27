@@ -327,6 +327,13 @@ body.spg-theme table.themed.small > tbody > tr > td {
     font-size: smaller;
 }
 
+body.spg-theme table.cell-borders {
+}
+
+body.spg-theme table.cell-borders > tbody > tr > td {
+    border: 1px solid #AAA;
+    padding: 1em;
+}
 
 body.spg-theme table.striped-rows > tbody > tr.row-even {
     background-color: rgba(61, 118, 148, 0.08);
