@@ -91,7 +91,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Time Zone</td>
-                            <td class="value"><?php echo $SessionUser->getTimeZone(); ?></td>
+                            <td class="value"><?php echo str_replace('_', ' ', $SessionUser->getTimeZone()); ?></td>
                         </tr>
                         <?php if($Order->getInvoiceNumber()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
