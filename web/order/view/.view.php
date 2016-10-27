@@ -97,10 +97,14 @@ $SessionUser = $SessionManager->getSessionUser();
                     <?php } ?>
 
                     <?php if ($Order->getConvenienceFee()) { ?>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Fee</td>
-                        <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
-                    </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Subtotal</td>
+                            <td class="value">$<?php echo $Order->getAmount(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Fee</td>
+                            <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
+                        </tr>
                     <?php } ?>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -186,6 +190,14 @@ $SessionUser = $SessionManager->getSessionUser();
                 </fieldset>
 
             <?php } ?>
+
+            <fieldset class="show-on-print">
+                <br/>
+                <br/>
+                <br/>
+                <hr>
+                Customer Signature
+            </fieldset>
 
             <fieldset style="display: inline-block;" class="hide-on-print">
                 <legend>Transaction History</legend>
