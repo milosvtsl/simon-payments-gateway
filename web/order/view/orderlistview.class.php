@@ -131,7 +131,9 @@ class OrderListView extends AbstractListView {
 		$Query->execute($sqlParams);
 		$time += microtime(true);
 
+
 		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
+        $statsMessage .= " (GMT " . $offset/(60*60) . ")";
 		$this->setMessage($statsMessage);
 
 		// Render Page

@@ -6,6 +6,9 @@ use Order\Model\OrderRow;
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
+// Get Timezone diff
+$offset = $SessionUser->getTimeZoneOffset('now');
+
 $stats = null;
 if(!empty($_SESSION[__FILE__])) {
     $stats = $_SESSION[__FILE__];
@@ -24,15 +27,15 @@ if(!$stats) {
 }
 
 $year_to_date = date('Y-01-01 00:00:00');
-$yearly  = date('Y-m-d 00:00:00', time() - 24*60*60*365);
+$yearly  = date('Y-m-d 00:00:00', time() - 24*60*60*365 + $offset);
 
 $month_to_date = date('Y-m-01 00:00:00');
-$monthly  = date('Y-m-d 00:00:00', time() - 24*60*60*30);
+$monthly  = date('Y-m-d 00:00:00', time() - 24*60*60*30 + $offset);
 
-$week_to_date = date('Y-m-d 00:00:00', time() - 24*60*60*date('w'));
-$weekly  = date('Y-m-d 00:00:00', time() - 24*60*60*7);
+$week_to_date = date('Y-m-d 00:00:00', time() - 24*60*60*date('w') + $offset);
+$weekly  = date('Y-m-d 00:00:00', time() - 24*60*60*7 + $offset);
 
-$today = date('Y-m-d 00:00:00', time() - 24*60*60);
+$today = date('Y-m-d 00:00:00', time() - 24*60*60 + $offset);
 
 $button_current = 'dashboard';
 include '.dashboard.nav.php';
