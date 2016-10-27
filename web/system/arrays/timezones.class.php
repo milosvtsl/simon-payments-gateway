@@ -26,6 +26,8 @@ class TimeZones
         'America/Monterrey'    => "(GMT-06:00) Monterrey",
         'Canada/Saskatchewan'  => "(GMT-06:00) Saskatchewan",
         'US/Central'           => "(GMT-06:00) Central Time (US &amp; Canada)",
+
+        'America/New_York'     => "(GMT-05:00) Miami/New York",
         'US/Eastern'           => "(GMT-05:00) Eastern Time (US &amp; Canada)",
         'US/East-Indiana'      => "(GMT-05:00) Indiana (East)",
         'America/Bogota'       => "(GMT-05:00) Bogota",
