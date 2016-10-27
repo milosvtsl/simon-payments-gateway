@@ -39,10 +39,6 @@ $SessionUser = $SessionManager->getSessionUser();
                 <legend>Order Information</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
-                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Amount</td>
-                        <td class="value">$<?php echo $Order->getAmount(); ?></td>
-                    </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Merchant</td>
@@ -99,6 +95,18 @@ $SessionUser = $SessionManager->getSessionUser();
                             </td>
                         </tr>
                     <?php } ?>
+
+                    <?php if ($Order->getConvenienceFee()) { ?>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Fee</td>
+                        <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
+                    </tr>
+                    <?php } ?>
+
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Total</td>
+                        <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
+                    </tr>
                     </tbody>
                 </table>
             </fieldset>
