@@ -66,10 +66,10 @@ FROM user u
     public function getFirstName()      { return $this->fname; }
     public function getLastName()       { return $this->lname; }
     public function getPasswordHash()   { return $this->password; }
-    public function getTimeZone()       { return $this->timezone; }
+    public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
 
     public function getTimeZoneOffset($date) {
-        $tz = new \DateTimeZone($this->timezone);
+        $tz = new \DateTimeZone($this->getTimeZone());
         if(!$date instanceof \DateTime)
             $date = new \DateTime($date);
         return $tz->getOffset($date);
