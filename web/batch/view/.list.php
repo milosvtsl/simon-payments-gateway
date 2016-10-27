@@ -100,7 +100,7 @@ use \Merchant\Model\MerchantRow;
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Pagination</legend>
+                    <legend>Page</legend>
                     <?php $this->printPagination('batch?'); ?>
                 </fieldset>
             </form>

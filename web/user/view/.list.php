@@ -78,7 +78,7 @@ use \User\Model\UserRow;
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Pagination</legend>
+                    <legend>Page</legend>
                     <table class="table-pagination themed small striped-rows">
                         <tr>
                             <td colspan="2">

@@ -293,14 +293,14 @@ SQL;
         );
         $SQL = ''; // "INSERT INTO order_item\nSET";
         foreach($values as $key=>$value)
-            $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
-        $SQL .= "\n\t`date` = NOW()";
-        $OrderRow->date = date('Y-m-d G:i:s');
+            $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
+//        $SQL .= "\n\t`date` = NOW()";
+//        $OrderRow->date = date('Y-m-d G:i:s');
 
         if($OrderRow->id) {
             $SQL = "UPDATE order_item\nSET" . $SQL . "\nWHERE id = " . $OrderRow->id . "\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO order_item\nSET" . $SQL;
+            $SQL = "INSERT INTO order_item\nSET `date` = NOW(), " . $SQL;
         }
 
         $DB = DBConfig::getInstance();

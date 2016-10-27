@@ -102,7 +102,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
                 <fieldset class="pagination">
-                    <legend>Pagination</legend>
+                    <legend>Page</legend>
                     <table class="table-pagination themed striped-rows">
                         <tr>
                             <td colspan="2">

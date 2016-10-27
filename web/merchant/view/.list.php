@@ -71,7 +71,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Pagination</legend>
+                    <legend>Page</legend>
                     <?php $this->printPagination('merchant?'); ?>
 
                     <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

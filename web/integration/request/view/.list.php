@@ -126,7 +126,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Pagination</legend>
+                    <legend>Page</legend>
                     <?php $this->printPagination('integration/request?'); ?>
                 </fieldset>
             </form>
