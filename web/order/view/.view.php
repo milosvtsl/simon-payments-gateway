@@ -28,7 +28,7 @@ $SessionUser = $SessionManager->getSessionUser();
         <!-- Bread Crumbs -->
         <aside class="bread-crumbs">
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <a href="order" class="nav_order">Transactions</a>
+                <a href="order" class="nav_order hide-on-print">Transactions</a>
             <?php } ?>
             <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
         </aside>
