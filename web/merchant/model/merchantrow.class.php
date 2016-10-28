@@ -25,6 +25,7 @@ class MerchantRow
     const SQL_SELECT = "
 SELECT m.*,
   (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
+  (SELECT GROUP_CONCAT(um.id_user SEPARATOR ';') FROM user_merchants um WHERE um.id_merchant = m.id) as user_list,
   s.name as state_name, s.short_code as state_short_code
 FROM merchant m
 LEFT JOIN state s on m.state_id = s.id
@@ -166,6 +167,9 @@ LEFT JOIN state s on m.state_id = s.id
     protected $state_short_code;
     protected $state_name;
 
+    // Table users
+    protected $user_list;
+
     public function __construct(Array $params=array()) {
         foreach($params as $key=>$param)
             $this->$key = $param;
@@ -226,6 +230,17 @@ LEFT JOIN state s on m.state_id = s.id
     public function getNotes()              { return $this->notes; }
 
     public function getURL()                { return $this->url; }
+
+    public function getUserList()           {
+        if(is_array($this->user_list))
+            return $this->user_list;
+        if(!$this->user_list)
+            return $this->user_list = array();
+        $this->user_list = explode(';', $this->user_list);
+        return $this->user_list;
+    }
+
+    public function getUserCount()          { return count($this->getUserList()); }
 
     public function getChargeFormClasses()  { return $this->charge_form_classes ?: 'default'; }
 

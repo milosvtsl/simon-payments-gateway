@@ -55,6 +55,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <th>URL</th>
                             <th>State</th>
                             <th>Zipcode</th>
+                            <th>Users</th>
                         </tr>
                         <?php
                         /** @var \Merchant\Model\MerchantRow $Merchant */
@@ -66,6 +67,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo preg_replace('/^https?:\/\//i', '', $Merchant->getURL()); ?></a></td>
                             <td><?php echo $Merchant->getRegionCode(); ?></td>
                             <td><?php echo $Merchant->getZipCode(); ?></td>
+                            <td><a href='user?merchant_id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getUserCount(); ?></a></td>
                         </tr>
                         <?php } ?>
                     </table>

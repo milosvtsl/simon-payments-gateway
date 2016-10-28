@@ -54,6 +54,11 @@ class UserListView extends AbstractListView {
 			$sqlParams[':id'] = $SessionUser->getID();
 		}
 
+		if(isset($params['merchant_id'])) {
+			$whereSQL .= "\nAND u.id = (SELECT um.id_user FROM user_merchants um WHERE um.id_merchant = :id_merchant AND um.id_user = u.id)";
+			$sqlParams[':id_merchant'] = $params['merchant_id'];
+		}
+
 		// Get Database Instance
 		$DB = DBConfig::getInstance();
 
