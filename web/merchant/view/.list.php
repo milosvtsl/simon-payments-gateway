@@ -24,7 +24,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="themed">
                         <tbody>
                             <tr>
-                                <th class="name">Merchant</th>
+                                <td class="name">Merchant</td>
                                 <td>
                                     <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, Name" />
                                     <select name="limit">
@@ -37,7 +37,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                 </td>
                             </tr>
                             <tr>
-                                <th class="name">Submit</th>
+                                <td class="name">Submit</td>
                                 <td>
                                     <input type="submit" value="Search" />
                                 </td>

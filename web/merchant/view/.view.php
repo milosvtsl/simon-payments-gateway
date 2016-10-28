@@ -38,7 +38,8 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <form class="form-view-merchant themed " method="GET">
                 <fieldset style="display: inline-block;">
                     <legend>Merchant Information</legend>
-                    <table class="table-merchant-info themed striped-rows" style="float: left;">
+                    <?php $odd = true; ?>
+                    <table class="table-merchant-info themed small striped-rows" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
@@ -120,11 +121,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                             <td><?php echo $Merchant->getMainContact(); ?></td>
                         </tr>
                     </table>
-                    <table class="table-merchant-info themed striped-rows">
-                        <tr>
-                            <th>Field</th>
-                            <th>Value</th>
-                        </tr>
+
+                    <table class="table-merchant-info themed small striped-rows">
+                        <?php $odd = true; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Title</td>
                             <td><?php echo $Merchant->getTitle(); ?></td>
@@ -181,7 +180,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;">
+                <fieldset >
                     <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-results themed small striped-rows">
                         <tr>
@@ -226,7 +225,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-merchant-info themed striped-rows">
                         <tr>
@@ -270,7 +269,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </fieldset>
 
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Users: <?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-merchant-users themed striped-rows">
                         <tr>

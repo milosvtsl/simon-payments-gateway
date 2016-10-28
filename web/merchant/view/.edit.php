@@ -34,7 +34,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
                 <input type="hidden" name="action" value="edit" />
                 <fieldset style="display: inline-block;">
                     <legend>Edit Merchant Fields</legend>
-                    <table class="table-merchant-info themed striped-rows" style="float: left;">
+                    <table class="table-merchant-info themed small striped-rows" style="float: left;">
                         <tr>
                             <th colspan="2">Information</th>
                         </tr>
@@ -160,7 +160,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Telephone Number</td>
+                            <td class="name">Phone Number</td>
                             <td><input type="text" name="telephone" size="32" value="<?php echo $Merchant->getTelephone(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -215,7 +215,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
                         </tr>
                     </table>
                     <?php $odd = false; ?>
-                    <table class="table-merchant-info themed striped-rows">
+                    <table class="table-merchant-info themed small striped-rows">
                         <tr>
                             <th colspan="2">Contact Information</th>
                         </tr>
