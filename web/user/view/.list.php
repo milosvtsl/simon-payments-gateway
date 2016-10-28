@@ -73,7 +73,7 @@ use \User\Model\UserRow;
                             <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getID(); ?></a></td>
                             <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getFullName(); ?></a></td>
                             <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
-                            <td><?php echo str_replace('_', ' ', $SessionUser->getTimeZone()); ?></td>
+                            <td><?php echo str_replace('_', ' ', $User->getTimeZone()); ?></td>
                             <td><a href='merchant/list.php?user_id=<?php echo $User->getID(); ?>'><?php echo $User->getMerchantCount(); ?></a></td>
                         </tr>
                         <?php } ?>
