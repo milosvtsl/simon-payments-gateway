@@ -42,6 +42,7 @@ class UserRow
     protected $lname;
     protected $password;
     protected $username;
+    protected $date;
     protected $timezone;
 
     // Table authority
@@ -66,6 +67,7 @@ FROM user u
     public function getFirstName()      { return $this->fname; }
     public function getLastName()       { return $this->lname; }
     public function getPasswordHash()   { return $this->password; }
+    public function getCreateDate()     { return $this->date; }
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
 
     public function getTimeZoneOffset($date) {

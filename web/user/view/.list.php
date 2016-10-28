@@ -63,6 +63,7 @@ use \User\Model\UserRow;
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
                             <th>Timezone</th>
+                            <th>Created</th>
                             <th>Merchants</th>
                         </tr>
                         <?php
@@ -74,6 +75,7 @@ use \User\Model\UserRow;
                             <td><a href='user?id=<?php echo $User->getID(); ?>'><?php echo $User->getFullName(); ?></a></td>
                             <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                             <td><?php echo str_replace('_', '', $User->getTimeZone()); ?></td>
+                            <td><?php echo $User->getCreateDate() ? date('Y-m-d', strtotime($User->getCreateDate())) : 'N/A'; ?></td>
                             <td><a href='merchant/list.php?user_id=<?php echo $User->getID(); ?>'><?php echo $User->getMerchantCount(); ?></a></td>
                         </tr>
                         <?php } ?>
