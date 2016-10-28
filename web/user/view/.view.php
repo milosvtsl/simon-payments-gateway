@@ -79,7 +79,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">TimeZone</td>
-                                <td class="value"><?php echo str_replace('_', ' ', $SessionUser->getTimeZone()); ?></td>
+                                <td class="value"><?php echo str_replace('_', '', $SessionUser->getTimeZone()); ?></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Merchants</td>
