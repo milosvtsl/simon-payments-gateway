@@ -203,7 +203,6 @@ class ElementIntegration extends AbstractIntegration
      */
     function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-        OrderRow::update($Order);
         return $Order;
     }
 
@@ -216,6 +215,7 @@ class ElementIntegration extends AbstractIntegration
      * @throws IntegrationException
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 

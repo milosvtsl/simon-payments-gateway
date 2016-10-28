@@ -32,6 +32,7 @@ class ChargeView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $Order = null;
         try {
             if(isset($_SESSION['transaction/charge.php']['order_id']))
                 $post['order_id'] = $_SESSION['transaction/charge.php']['order_id'];
@@ -51,6 +52,7 @@ class ChargeView extends AbstractView
             }
             $Order = $MerchantIdentity->createOrResumeOrder($post);
             $_SESSION['transaction/charge.php']['order_id'] = $Order->getID();
+
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $post);
 
             $this->setSessionMessage($Transaction->getStatusMessage());
@@ -61,6 +63,9 @@ class ChargeView extends AbstractView
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());
             header('Location: /transaction/charge.php');
+            if($Order)
+                OrderRow::delete($Order);
+            // Delete pending orders that didn't complete
             die();
         }
     }

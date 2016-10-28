@@ -110,6 +110,7 @@ class MockIntegration extends AbstractIntegration
      * @throws IntegrationException
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+        OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 
@@ -122,8 +123,8 @@ class MockIntegration extends AbstractIntegration
         $Transaction->setStatus("Success", "Mock Transaction Approved");
 
         $Order->setStatus("Mock Authorized");
-        OrderRow::update($Order);
         TransactionRow::insert($Transaction);
+        OrderRow::update($Order);
         return $Transaction;
 
     }
@@ -136,7 +137,6 @@ class MockIntegration extends AbstractIntegration
      */
     function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
-        OrderRow::update($Order);
         return $Order;
     }
 

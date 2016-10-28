@@ -254,7 +254,19 @@ SQL;
             throw new \PDOException("Failed to delete row");
     }
 
+    public static function insert(OrderRow $OrderRow) {
+        if($OrderRow->id)
+            throw new \InvalidArgumentException("Order Row has already been inserted");
+        self::insertOrUpdate($OrderRow);
+    }
+
     public static function update(OrderRow $OrderRow) {
+        if(!$OrderRow->id)
+            throw new \InvalidArgumentException("Order Row is missing an id");
+        self::insertOrUpdate($OrderRow);
+    }
+
+    public static function insertOrUpdate(OrderRow $OrderRow) {
         $values = array(
             ':uid' => $OrderRow->uid,
             ':merchant_id' => $OrderRow->merchant_id,

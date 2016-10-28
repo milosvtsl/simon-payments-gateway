@@ -27,7 +27,7 @@ spl_autoload_register();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
-$ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io Staging
+$ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
 //$Integration = new TestElementIntegrationRow();
 
 $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
