@@ -60,7 +60,7 @@ class OrderListView extends AbstractListView {
 
         // Get Timezone diff
         $offset = $SessionUser->getTimeZoneOffset('now');
-        $offset = 0;
+//        $offset = 0;
 
         // Set up Date conditions
 		if(!empty($params['date_from'])) {
