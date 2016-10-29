@@ -20,7 +20,7 @@ if(!$stats) {
     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
         $stats = OrderRow::queryMerchantStats(null, $offset);
     } else {
-        $stats = OrderRow::queryMerchantStats($SessionUser->getID(), $offset);
+        $stats = OrderRow::queryMerchantStats($SessionUser, $offset);
     }
     $stats['_time'] = time();
     $_SESSION[__FILE__] = $stats;

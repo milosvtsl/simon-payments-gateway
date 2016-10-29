@@ -11,6 +11,7 @@ use Config\DBConfig;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Transaction\Model\TransactionRow;
+use User\Model\UserRow;
 
 class OrderRow
 {
@@ -188,7 +189,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     const STAT_MONTH_TO_DATE = 'mtd';
     const STAT_MONTHLY = 'monthly';
 
-    public static function queryMerchantStats($userID=null, $offset=null) {
+    public static function queryMerchantStats(UserRow $SessionUser=null, $offset=null) {
 
         $year_to_date = date('Y-01-01 00:00:00');
         $yearly  = date('Y-m-d G:00:00', time() - 24*60*60*365 + $offset);
@@ -230,8 +231,9 @@ SELECT
  WHERE status in ('Settled', 'Authorized')
 SQL;
 
-        if($userID) {
-            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
+        if($SessionUser) {
+            $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $SessionUser->getMerchantList()) . ")";
+//            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
         }
 
         $duration = -microtime(true);
