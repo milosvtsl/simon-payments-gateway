@@ -2,6 +2,7 @@
 use Order\Model\OrderRow;
 use Merchant\Model\MerchantRow;
 /**
+ * @var \Order\Model\OrderQueryStats $Stats
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/
@@ -22,6 +23,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
+
                 <fieldset class="search-fields">
                     <legend>Search</legend>
                     <table class="themed">
@@ -69,6 +71,33 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tbody>
                     </table>
                 </fieldset>
+
+                <fieldset>
+                    <legend>Search Statistics</legend>
+                    <table class="table-stats themed small striped-rows" style="width: 100%;">
+                        <tr>
+                            <th>Approved</th>
+                            <th>Settled</th>
+                            <th>Void</th>
+                            <th>Returned</th>
+                            <th>Conv. Fee</th>
+                        </tr>
+                        <tr class="row-even">
+                            <td>$<?php echo number_format($Stats->getAuthorizedTotal(),2), ' (', $Stats->getAuthorizedCount(), ')'; ?></td>
+                            <td>$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></td>
+                            <td>$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></td>
+                            <td>$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></td>
+                            <td>$<?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: right;">
+                                <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+                            </td>
+                        </tr>
+                    </table>
+
+                </fieldset>
+
                 <fieldset style="display: inline-block;">
                     <legend>Search Results</legend>
                     <table class="table-results themed small striped-rows">
@@ -111,11 +140,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr>
                             <td colspan="2">
                                 <?php $this->printPagination('order?'); ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <?php if($this->hasMessage()) echo $this->getMessage(); ?>
                             </td>
                         </tr>
                     </table>
