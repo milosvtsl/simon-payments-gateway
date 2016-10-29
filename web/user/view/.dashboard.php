@@ -15,7 +15,7 @@ if(!empty($_SESSION[__FILE__])) {
     if($stats['_time']<time() - 60*10)
         $stats = null;
 }
-//$stats=null;
+// $stats=null;
 if(!$stats) {
     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
         $stats = OrderRow::queryMerchantStats(null, $offset);
@@ -58,16 +58,16 @@ include '.dashboard.nav.php';
                 <div>Today (<?php echo number_format(@$stats['today_count']); ?>)</div>
             </a>
             <a href="order?date_from=<?php echo $week_to_date; ?>&order=asc&order-by=id" class="stat-box stat-box-second">
-                <div class="stat-large">$<?php echo number_format(@$stats['weekly'], 2); ?></div>
-                <div>This Week (<?php echo number_format(@$stats['weekly_count']); ?>)</div>
+                <div class="stat-large">$<?php echo number_format(@$stats['week_to_date'], 2); ?></div>
+                <div>This Week (<?php echo number_format(@$stats['week_to_date_count']); ?>)</div>
             </a>
             <a href="order?date_from=<?php echo $month_to_date; ?>&order=asc&order-by=id" class="stat-box stat-box-third">
-                <div class="stat-large">$<?php echo number_format(@$stats['monthly'], 2); ?></div>
-                <div>This Month (<?php echo number_format(@$stats['monthly_count']); ?>)</div>
+                <div class="stat-large">$<?php echo number_format(@$stats['month_to_date'], 2); ?></div>
+                <div>This Month (<?php echo number_format(@$stats['month_to_date_count']); ?>)</div>
             </a>
             <a href="order?date_from=<?php echo $year_to_date; ?>&order=asc&order-by=id" class="stat-box stat-box-fourth">
-                <div class="stat-large">$<?php echo number_format(@$stats['yearly'], 2); ?></div>
-                <div>YTD (<?php echo number_format(@$stats['yearly_count']); ?>)</div>
+                <div class="stat-large">$<?php echo number_format(@$stats['year_to_date'], 2); ?></div>
+                <div>YTD (<?php echo number_format(@$stats['year_to_date_count']); ?>)</div>
             </a>
         </div>
 
