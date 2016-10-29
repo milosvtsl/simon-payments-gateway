@@ -190,16 +190,16 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public static function queryMerchantStats($userID=null, $offset=null) {
 
-        $year_to_date = date('Y-01-01 00:00:00');
-        $yearly  = date('Y-m-d 00:00:00', time() - 24*60*60*365 + $offset);
+        $year_to_date = date('Y-01-01 G:00:00');
+        $yearly  = date('Y-m-d G:00:00', time() - 24*60*60*365 + $offset);
 
-        $month_to_date = date('Y-m-01 00:00:00');
-        $monthly  = date('Y-m-d 00:00:00', time() - 24*60*60*30 + $offset);
+        $month_to_date = date('Y-m-01 G:00:00');
+        $monthly  = date('Y-m-d G:00:00', time() - 24*60*60*30 + $offset);
 
-        $week_to_date = date('Y-m-d 00:00:00', time() - 24*60*60*date('w') + $offset);
-        $weekly  = date('Y-m-d 00:00:00', time() - 24*60*60*7 + $offset);
+        $week_to_date = date('Y-m-d G:00:00', time() - 24*60*60*date('w') + $offset);
+        $weekly  = date('Y-m-d G:00:00', time() - 24*60*60*7 + $offset);
 
-        $today = date('Y-m-d 00:00:00', time() - 24*60*60 + $offset);
+        $today = date('Y-m-d G:00:00', time() - 24*60*60 + $offset);
 
         $SQL = <<<SQL
 SELECT
