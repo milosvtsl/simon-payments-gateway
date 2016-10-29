@@ -85,7 +85,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <?php } ?>
                         </tr>
                         <tr class="row-even">
-                            <td>$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getCount(), ')'; ?></td>
+                            <td>$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></td>

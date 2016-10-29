@@ -349,7 +349,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Reset</td>
                             <td>
-                                <input type="reset" value="Reset" class="themed" />
+                                <input type="reset" value="Reset" class="themed" todo="clear all" />
                             </td>
                         </tr>
                     </table>
