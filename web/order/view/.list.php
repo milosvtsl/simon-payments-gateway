@@ -76,7 +76,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <legend>Search Statistics</legend>
                     <table class="table-stats themed small striped-rows" style="width: 100%;">
                         <tr>
-                            <th>Approved</th>
+                            <th>Authorized</th>
                             <th>Settled</th>
                             <th>Void</th>
                             <th>Returned</th>
