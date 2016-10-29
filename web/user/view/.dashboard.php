@@ -8,6 +8,7 @@ $SessionUser = $SessionManager->getSessionUser();
 
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
+$offset = 0;
 
 $stats = null;
 if(!empty($_SESSION[__FILE__])) {
