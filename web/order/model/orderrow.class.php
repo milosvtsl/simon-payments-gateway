@@ -226,7 +226,6 @@ SELECT
     SUM(convenience_fee) as fee_total
 
  FROM order_item oi
- LEFT JOIN user_merchants um on oi.merchant_id = um.id_merchant
 
  WHERE status in ('Settled', 'Authorized')
 SQL;
