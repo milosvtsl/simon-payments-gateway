@@ -15,7 +15,7 @@ if(!empty($_SESSION[__FILE__])) {
     if($stats['_time']<time() - 60*10)
         $stats = null;
 }
-$stats=null;
+//$stats=null;
 if(!$stats) {
     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
         $stats = OrderRow::queryMerchantStats(null, $offset);
