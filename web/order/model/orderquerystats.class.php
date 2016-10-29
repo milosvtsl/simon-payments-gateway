@@ -32,9 +32,6 @@ SELECT
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.amount ELSE 0 END) as total,
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN 1 ELSE 0 END) as count,
 
-  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.convenience_fee ELSE 0 END) as convenience_fee_total,
-  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN 1 ELSE 0 END) as convenience_fee_count,
-
   sum(CASE WHEN oi.status = 'Settled' THEN oi.amount ELSE 0 END) as settled_total,
   sum(CASE WHEN oi.status = 'Settled' THEN 1 ELSE 0 END) as settled_count,
 
@@ -42,7 +39,10 @@ SELECT
   sum(CASE WHEN oi.status = 'Void' THEN 1 ELSE 0 END) as void_count,
 
   sum(CASE WHEN oi.status = 'Return' THEN oi.amount ELSE 0 END) as return_total,
-  sum(CASE WHEN oi.status = 'Return' THEN 1 ELSE 0 END) as return_count
+  sum(CASE WHEN oi.status = 'Return' THEN 1 ELSE 0 END) as return_count,
+
+  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.convenience_fee ELSE 0 END) as convenience_fee_total,
+  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.convenience_fee>0 ELSE 0 END) as convenience_fee_count
 
 FROM order_item oi
 LEFT JOIN merchant m on oi.merchant_id = m.id

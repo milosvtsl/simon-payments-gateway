@@ -90,7 +90,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <td>$<?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right;">
+                            <td colspan="5" style="text-align: right; font-size: 0.7em; color: grey;">
                                 <?php if($this->hasMessage()) echo $this->getMessage(); ?>
                             </td>
                         </tr>
