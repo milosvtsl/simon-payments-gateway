@@ -80,14 +80,18 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <th>Settled</th>
                             <th>Void</th>
                             <th>Returned</th>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
                             <th>Conv. Fee</th>
+                            <?php } ?>
                         </tr>
                         <tr class="row-even">
                             <td>$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></td>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
                             <td>$<?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
+                            <?php } ?>
                         </tr>
                         <tr>
                             <td colspan="5" style="text-align: right; font-size: 0.7em; color: grey;">
