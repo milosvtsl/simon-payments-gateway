@@ -64,13 +64,13 @@ class OrderListView extends AbstractListView {
         // Set up Date conditions
 		if(!empty($params['date_from'])) {
 			$whereSQL .= "\nAND oi.date >= :from";
-			$sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']) + $offset);
-			$statsMessage .= " from " . date("M jS Y", strtotime($params['date_from']) + $offset);
+			$sqlParams['from'] = date("Y-m-d G:00:00", strtotime($params['date_from']) + $offset);
+			$statsMessage .= " from " . date("M jS Y G:00", strtotime($params['date_from']) + $offset);
 		}
 		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
-			$sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']) + $offset);
-			$statsMessage .= " to " . date("M jS Y", strtotime($params['date_to']) + $offset);
+			$sqlParams['to'] = date("Y-m-d G:00:00", strtotime($params['date_to']) + $offset);
+			$statsMessage .= " to " . date("M jS Y G:00", strtotime($params['date_to']) + $offset);
 		}
 
 
