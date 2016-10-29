@@ -8,14 +8,14 @@ $SessionUser = $SessionManager->getSessionUser();
 
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
-$offset = 0;
 
 $stats = null;
-if(true && !empty($_SESSION[__FILE__])) {
+if(!empty($_SESSION[__FILE__])) {
     $stats = $_SESSION[__FILE__];
     if($stats['_time']<time() - 60*10)
         $stats = null;
 }
+$stats=null;
 if(!$stats) {
     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
         $stats = OrderRow::queryMerchantStats(null, $offset);

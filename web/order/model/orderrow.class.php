@@ -232,7 +232,7 @@ SELECT
 SQL;
 
         if($userID) {
-            $SQL .= "\nAND um.id_user = " . intval($userID);
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
         }
 
         $duration = -microtime(true);
