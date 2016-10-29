@@ -205,23 +205,23 @@ LEFT JOIN integration i on oi.integration_id = i.id
 SELECT
 	SUM(amount) as amount_total,
 
-	SUM(CASE WHEN date>'{$year_to_date}' THEN amount ELSE 0 END) as year_to_date,
-	SUM(CASE WHEN date>'{$year_to_date}' THEN 1 ELSE 0 END) as year_to_date_count,
-	SUM(CASE WHEN date>'{$yearly}' THEN amount ELSE 0 END) as yearly,
-    SUM(CASE WHEN date>'{$yearly}' THEN 1 ELSE 0 END) as yearly_count,
+	SUM(CASE WHEN date>='{$year_to_date}' THEN amount ELSE 0 END) as year_to_date,
+	SUM(CASE WHEN date>='{$year_to_date}' THEN 1 ELSE 0 END) as year_to_date_count,
+	SUM(CASE WHEN date>='{$yearly}' THEN amount ELSE 0 END) as yearly,
+    SUM(CASE WHEN date>='{$yearly}' THEN 1 ELSE 0 END) as yearly_count,
 
-	SUM(CASE WHEN date>'{$month_to_date}' THEN amount ELSE 0 END) as month_to_date,
-	SUM(CASE WHEN date>'{$month_to_date}' THEN 1 ELSE 0 END) as month_to_date_count,
-	SUM(CASE WHEN date>'{$monthly}' THEN amount ELSE 0 END) as monthly,
-	SUM(CASE WHEN date>'{$monthly}' THEN 1 ELSE 0 END) as monthly_count,
+	SUM(CASE WHEN date>='{$month_to_date}' THEN amount ELSE 0 END) as month_to_date,
+	SUM(CASE WHEN date>='{$month_to_date}' THEN 1 ELSE 0 END) as month_to_date_count,
+	SUM(CASE WHEN date>='{$monthly}' THEN amount ELSE 0 END) as monthly,
+	SUM(CASE WHEN date>='{$monthly}' THEN 1 ELSE 0 END) as monthly_count,
 
-	SUM(CASE WHEN date>'{$week_to_date}' THEN amount ELSE 0 END) as week_to_date,
-	SUM(CASE WHEN date>'{$week_to_date}' THEN 1 ELSE 0 END) as week_to_date_count,
-	SUM(CASE WHEN date>'{$weekly}' THEN amount ELSE 0 END) as weekly,
-	SUM(CASE WHEN date>'{$weekly}' THEN 1 ELSE 0 END) as weekly_count,
+	SUM(CASE WHEN date>='{$week_to_date}' THEN amount ELSE 0 END) as week_to_date,
+	SUM(CASE WHEN date>='{$week_to_date}' THEN 1 ELSE 0 END) as week_to_date_count,
+	SUM(CASE WHEN date>='{$weekly}' THEN amount ELSE 0 END) as weekly,
+	SUM(CASE WHEN date>='{$weekly}' THEN 1 ELSE 0 END) as weekly_count,
 
-	SUM(CASE WHEN date>'{$today}' THEN amount ELSE 0 END) as today,
-	SUM(CASE WHEN date>'{$today}' THEN 1 ELSE 0 END) as today_count,
+	SUM(CASE WHEN date>='{$today}' THEN amount ELSE 0 END) as today,
+	SUM(CASE WHEN date>='{$today}' THEN 1 ELSE 0 END) as today_count,
 
     SUM(convenience_fee) as fee_total
 
