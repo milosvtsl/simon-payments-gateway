@@ -14,8 +14,8 @@ class OrderQueryStats
     const _CLASS = __CLASS__;
 
     protected $count;
-    protected $authorized_total;
-    protected $authorized_count;
+    protected $total;
+
     protected $settled_total;
     protected $settled_count;
     protected $void_total;
@@ -28,13 +28,12 @@ class OrderQueryStats
 
     const SQL_SELECT = "
 SELECT
-  count(*) count,
+
+  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.amount ELSE 0 END) as total,
+  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN 1 ELSE 0 END) as count,
 
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.convenience_fee ELSE 0 END) as convenience_fee_total,
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN 1 ELSE 0 END) as convenience_fee_count,
-
-  sum(CASE WHEN oi.status = 'Authorized' THEN oi.amount ELSE 0 END) as authorized_total,
-  sum(CASE WHEN oi.status = 'Authorized' THEN 1 ELSE 0 END) as authorized_count,
 
   sum(CASE WHEN oi.status = 'Settled' THEN oi.amount ELSE 0 END) as settled_total,
   sum(CASE WHEN oi.status = 'Settled' THEN 1 ELSE 0 END) as settled_count,
@@ -50,9 +49,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
 ";
 
     public function getCount() { return $this->count; }
-
-    public function getAuthorizedTotal() { return $this->authorized_total; }
-    public function getAuthorizedCount() { return $this->authorized_count; }
+    public function getTotal() { return $this->total; }
 
     public function getSettledTotal() { return $this->settled_total; }
     public function getSettledCount() { return $this->settled_count; }

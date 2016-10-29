@@ -76,14 +76,14 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <legend>Search Statistics</legend>
                     <table class="table-stats themed small striped-rows" style="width: 100%;">
                         <tr>
-                            <th>Authorized</th>
+                            <th>Auth Total</th>
                             <th>Settled</th>
                             <th>Void</th>
                             <th>Returned</th>
                             <th>Conv. Fee</th>
                         </tr>
                         <tr class="row-even">
-                            <td>$<?php echo number_format($Stats->getAuthorizedTotal(),2), ' (', $Stats->getAuthorizedCount(), ')'; ?></td>
+                            <td>$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></td>
                             <td>$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></td>
