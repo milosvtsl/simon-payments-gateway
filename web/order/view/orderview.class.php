@@ -11,6 +11,7 @@ use Config\DBConfig;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+use Order\PDF\ReceiptPDF;
 use Transaction\Model\TransactionRow;
 use View\AbstractView;
 
@@ -34,15 +35,14 @@ class OrderView extends AbstractView
     public function getOrder() { return $this->_order; }
 
     public function renderHTMLBody(Array $params) {
-        // Render Header
-        $this->getTheme()->renderHTMLBodyHeader();
-
         // Render Page
         switch($this->_action) {
+            case 'download':
+                include('.download.php');
+                break;
             case 'receipt':
             case 'email':
             case 'print':
-            case 'download':
             case 'view':
                 include('.view.php');
                 break;
@@ -58,9 +58,6 @@ class OrderView extends AbstractView
             default:
                 throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
-
-        // Render footer
-        $this->getTheme()->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

@@ -3,6 +3,10 @@
  * @var \Order\View\OrderView $this
  * @var PDOStatement $OrderQuery
  **/
+
+// Render Header
+$this->getTheme()->renderHTMLBodyHeader();
+
 $Order = $this->getOrder();
 $odd = false;
 $action_url = 'order?uid=' . $Order->getUID() . '&action=';
@@ -49,3 +53,9 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
             </form>
         </section>
     </article>
+
+
+<?php
+// Render Footer
+$this->getTheme()->renderHTMLBodyFooter();
+?>

@@ -1,8 +1,6 @@
 <?php
 use \Merchant\Model\MerchantRow;
 /** @var \Order\View\OrderView $this*/
-// Render Header
-$this->getTheme()->renderHTMLBodyHeader();
 
 $Order = $this->getOrder();
 $Transaction = $Order->fetchAuthorizedTransaction();
@@ -20,33 +18,12 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 ?>
 
-<!-- Page Navigation -->
-<nav class="page-menu hide-on-print">
-    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
-    <?php } ?>
-    <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
-    <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
-    <a href="<?php echo $action_url_pdf; ?>" class="button">Download <div class="submenu-icon submenu-icon-download"></div></a>
-<!--    <a href="--><?php //echo $action_url; ?><!--email" class="button">Email <div class="submenu-icon submenu-icon-email"></div></a>-->
-<!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
-</nav>
-
 <article class="themed">
 
     <section class="content">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs hide-on-print">
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <a href="order" class="nav_order">Transactions</a>
-            <?php } ?>
-            <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
-        </aside>
-        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-            <fieldset style="display: inline-block;">
+            <fieldset>
                 <legend><?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
@@ -82,7 +59,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </table>
             </fieldset>
 
-            <fieldset style="display: inline-block;">
+            <fieldset>
                 <legend>Receipt</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
@@ -141,7 +118,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <?php } else  { ?>
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>e-Check Information</legend>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
@@ -211,64 +188,8 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 Customer Signature
             </fieldset>
 
-            <fieldset style="display: inline-block;" class="hide-on-print">
-                <legend>Transaction History</legend>
-                <table class="table-results themed small">
-                    <tr>
-                        <th>ID</th>
-                        <th class="hide-on-layout-vertical">TID</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Fee</th>
-                        <th>Action</th>
-                        <th>Perform</th>
-                    </tr>
-                    <?php
-                    /** @var \Transaction\Model\TransactionRow $Transaction */
-                    $DB = \Config\DBConfig::getInstance();
-                    $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ? LIMIT 100");
-                    /** @noinspection PhpMethodParametersCountMismatchInspection */
-                    $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
-                    $TransactionQuery->execute(array($this->getOrder()->getID()));
-                    $odd = false;
-                    foreach($TransactionQuery as $Transaction) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>#form-order-view'><?php echo $Transaction->getID(); ?></a></td>
-                            <td class="hide-on-layout-vertical"><?php echo $Transaction->getTransactionID(); ?></td>
-                            <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
-                            <td>$<?php echo $Transaction->getAmount(); ?></td>
-                            <td>$<?php echo $Transaction->getServiceFee(); ?></td>
-                            <td>
-                                <a href="integration/request?type=transaction&type_id=<?php echo $Transaction->getID(); ?>">
-                                    <?php echo $Transaction->getAction(); ?>
-                                </a>
-                            </td>
-                            <td>
-                                <?php
-                                    switch($Transaction->getAction()) {
-                                        case 'Authorized':
-                                            $disabled = $Order->getStatus() !== 'Authorized' ? " disabled='disabled'" : '';
-                                            echo "<input name='action' type='submit' value='Void'{$disabled}/>";
-                                            break;
-
-                                        case 'Settled':
-                                            $disabled = $Order->getStatus() !== 'Settled' ? " disabled='disabled'" : '';
-                                            echo "<input name='action' type='submit' value='Return'{$disabled}/>";
-                                            break;
-                                    }
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </table>
-            </fieldset>
 
 
         </form>
     </section>
 </article>
-
-<?php
-// Render Footer
-$this->getTheme()->renderHTMLBodyFooter();
-?>

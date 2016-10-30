@@ -1,3 +1,6 @@
 [submodule "web/system/support/PHPMailer"]
 	path = web/system/support/PHPMailer
 	url = https://github.com/Synchro/PHPMailer.git
+[submodule "web/system/support/DOMPDF"]
+	path = web/system/support/DOMPDF
+	url = https://github.com/dompdf/dompdf.git

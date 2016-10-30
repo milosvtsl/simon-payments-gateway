@@ -77,7 +77,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                     <legend>Search Statistics</legend>
                     <table class="table-stats themed small striped-rows" style="width: 100%;">
                         <tr>
-                            <th>Auth Total</th>
+                            <th>Authorized Total</th>
                             <th>Settled</th>
                             <th>Void</th>
                             <th>Returned</th>
@@ -85,7 +85,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <th>Conv. Fee</th>
                             <?php } ?>
                         </tr>
-                        <tr class="row-even">
+                        <tr class="row-even" style="font-weight: bold;">
                             <td><a href="<?php echo $action_url; ?>&status=">$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Settled">$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Void">$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
