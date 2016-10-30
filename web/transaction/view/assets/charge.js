@@ -9,15 +9,28 @@
 // Initialize
 document.addEventListener("DOMContentLoaded", function(event) {
 
-    document.addEventListener("change", onForm);
-    document.addEventListener("submit", onForm);
+    document.addEventListener("change", onFormChange);
+    document.addEventListener("submit", onFormSubmit, false);
     document.addEventListener("keypress", onKeypress);
 
-    function onForm(e) {
+    function onFormChange(e) {
         if(e.target && e.target.form) {
             var form = e.target.form;
             if(form.getAttribute('name') === 'form-transaction-charge') {
                 updateChargeForm(e, form);
+            }
+        }
+    }
+
+    function onFormSubmit(e) {
+        if(e.target && e.target.nodeName.toUpperCase() === 'FORM') {
+            var form = e.target;
+            if(form.getAttribute('name') === 'form-transaction-charge') {
+                updateChargeForm(e, form);
+
+                if(!/^-?[0-9.]+$/.test(form.amount.value)) {
+                    e.preventDefault();
+                }
             }
         }
     }
@@ -90,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             elms[i].innerHTML = message;
     }
 
+    var amount_timeout = null;
     function updateChargeForm(e, form) {
         updateStyleSheetTheme(form);
         // Enter in swiped data
@@ -107,8 +121,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             lastParseData = null;
         }
 
-        var amount =  /^-?[0-9.]+$/.test(form.amount.value) ? parseFloat(form.amount.value) : 0;
-        if(amount) {
+        clearTimeout(amount_timeout);
+        amount_timeout = setTimeout(function() {
+            if(!/^-?[0-9.]+$/.test(form.amount.value)) {
+                form.amount.value = '';
+                return;
+            }
+            var amount = parseFloat(form.amount.value);
             form.amount.value = (amount).toFixed(2);
             var fee_amount = 0;
             var fee_flat = parseFloat(form.convenience_fee_flat.value);
@@ -122,9 +141,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
             if (form.convenience_fee_total)
                 form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
-        } else {
-            form.amount.value = '';
-        }
+        }, 2000);
 
         // Update card type
         if(form.card_number && form.card_number.value && !form.card_type.value) {
@@ -140,6 +157,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             }
         }
+
     }
 
     function updateStyleSheetTheme(form) {

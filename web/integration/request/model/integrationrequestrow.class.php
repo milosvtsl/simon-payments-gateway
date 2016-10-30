@@ -201,6 +201,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
             . "\n\t`request` = :request,"
             . "\n\t`response` = :response,"
             . "\n\t`result` = :result,"
+            . "\n\t`duration` = :duration,"
             . "\n\t`date` = NOW()");
         $NewRow->date = date('Y-m-d G:i:s');
         $ret = $stmt->execute(array(

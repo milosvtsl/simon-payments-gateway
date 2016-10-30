@@ -96,6 +96,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE_ID); ?>">Type&nbsp;ID</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESULT); ?>">Result</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_DATE); ?>">Date</a></th>
+                            <th>Duration</th>
                             <th>Response</th>
                         </tr>
                         <?php
@@ -113,6 +114,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                             </td>
                             <td><?php echo $Request->getResult(); ?></td>
                             <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
+                            <td><?php echo round($Request->getDuration(), 3); ?>s</td>
                             <td>
                                 <textarea rows="2" cols="24" onclick="this.rows++; this.cols+=3;"><?php
                                     echo $Request->getResponse();

@@ -8,6 +8,7 @@
 namespace Order\Model;
 
 use Config\DBConfig;
+use Config\SiteConfig;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Transaction\Model\TransactionRow;
@@ -26,6 +27,7 @@ class OrderRow
     const ENUM_RUN_FREQUENCY_QUARTERLY = "Quarterly";
     const ENUM_RUN_FREQUENCY_SEMIANNUALLY = "SemiAnnually";
     const ENUM_RUN_FREQUENCY_YEARLY = "Yearly";
+
     public static $ENUM_RUN_FREQUENCY = array(
         self::ENUM_RUN_FREQUENCY_ONETIMEFUTURE  => "Once",
         self::ENUM_RUN_FREQUENCY_DAILY          => "Daily",
@@ -382,7 +384,7 @@ SQL;
         if($post['merchant_id'] !== $Merchant->getID())
             throw new IntegrationException("Merchant id mismatch");
 
-        if(empty($post['amount']))
+        if(empty($post['amount']) || !is_numeric($post['amount']) || $post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT)
             throw new IntegrationException("Invalid Amount");
 
 //        $OrderRow->date = ;

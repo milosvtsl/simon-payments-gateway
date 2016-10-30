@@ -26,6 +26,7 @@ class SiteConfig
     static $EMAIL_SERVER_PORT = 587;
     static $EMAIL_FROM_ADDRESS = "admin@simonpayments.com";
     static $EMAIL_FROM_TITLE = "Simon Payments Gateway";
+    static $MAX_TRANSACTION_AMOUNT = 5000;
 
     public static function getDefaultViewTheme() {
         static $default = null;
