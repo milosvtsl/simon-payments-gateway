@@ -81,12 +81,18 @@ class OrderListView extends AbstractListView {
 			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 		}
 
-		if(!empty($params['merchant_id'])) {
-			$Merchant = MerchantRow::fetchByID($params['merchant_id']);
-			$whereSQL .= "\nAND oi.merchant_id = :merchant_id";
-			$sqlParams['merchant_id'] = $Merchant->getID();
-			$statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
-		}
+        if(!empty($params['merchant_id'])) {
+            $Merchant = MerchantRow::fetchByID($params['merchant_id']);
+            $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
+            $sqlParams['merchant_id'] = $Merchant->getID();
+            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
+        }
+
+        if(!empty($params['status'])) {
+            $whereSQL .= "\nAND oi.status = :status";
+            $sqlParams['status'] = $params['status'];
+            $statsMessage .= " by status '" . $params['status'] . "' ";
+        }
 
 		// Query Statistics
 		$DB = DBConfig::getInstance();

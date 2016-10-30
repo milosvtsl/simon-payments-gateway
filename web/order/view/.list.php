@@ -10,6 +10,7 @@ use Merchant\Model\MerchantRow;
 $button_current = 'order';
 include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
+$action_url = 'order/list.php?' . http_build_query($_GET);
 ?>
 
     <article class="themed">
@@ -85,10 +86,10 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <?php } ?>
                         </tr>
                         <tr class="row-even">
-                            <td>$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></td>
-                            <td>$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></td>
-                            <td>$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></td>
-                            <td>$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></td>
+                            <td><a href="<?php echo $action_url; ?>&status=">$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $action_url; ?>&status=Settled">$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $action_url; ?>&status=Void">$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $action_url; ?>&status=Return">$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
                             <td>$<?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
                             <?php } ?>
