@@ -13,7 +13,27 @@ use Order\Model\OrderRow;
 use Order\View\OrderView;
 use View\Theme\Blank\BlankViewTheme;
 
-require_once dirname(dirname(__DIR__)) . '/system/support/DOMPDF/autoload.inc.php';
+define('DOMPDF_DIR', dirname(dirname(__DIR__)) . '/system/support/DOMPDF/');
+
+
+require_once DOMPDF_DIR . '/lib/html5lib/Parser.php';
+require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
+require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
+
+
+spl_autoload_register('Order\PDF\dompdf_autoload');
+
+function dompdf_autoload($class)
+{
+    if (0 === strncmp('Cpdf', $class, 4)) {
+        $file = DOMPDF_DIR . 'lib/Cpdf.php';
+        require_once $file;
+    }
+    if (0 === strncmp('Dompdf', $class, 6)) {
+        $file = DOMPDF_DIR . 'src/' . str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 6)) . '.php';
+        require_once $file;
+    }
+}
 
 class ReceiptPDF extends Dompdf
 {
