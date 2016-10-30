@@ -16,7 +16,7 @@ ini_set('display_errors', 1);
 chdir('..');
 
 // Enable class autoloader for this page instance
-spl_autoload_extensions('.class.php');
+spl_autoload_extensions('.php,.class.php');
 spl_autoload_register();
 
 // Start or resume the session

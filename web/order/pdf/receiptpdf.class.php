@@ -5,55 +5,58 @@
  * Date: 8/28/2016
  * Time: 1:32 PM
  */
-namespace Order\PDF;
-
-use Dompdf\Dompdf;
-use Merchant\Model\MerchantRow;
-use Order\Model\OrderRow;
-use Order\View\OrderView;
-use View\Theme\Blank\BlankViewTheme;
-
-define('DOMPDF_DIR', dirname(dirname(__DIR__)) . '/system/support/DOMPDF/');
+namespace Dompdf {
+    define('DOMPDF_DIR', dirname(dirname(__DIR__)) . '/system/support/DOMPDF/');
 
 
-require_once DOMPDF_DIR . '/lib/html5lib/Parser.php';
-require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
-require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
+    require_once DOMPDF_DIR . '/lib/html5lib/Parser.php';
+    require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
+    require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
 
 
-spl_autoload_register('Order\PDF\dompdf_autoload', true, true);
+    spl_autoload_register('\Dompdf\dompdf_autoload', true, true);
 
-function dompdf_autoload($class)
-{
-    if (0 === strncmp('Cpdf', $class, 4)) {
-        $file = DOMPDF_DIR . 'lib/Cpdf.php';
-        require_once $file;
-    }
-    if (0 === strncmp('Dompdf', $class, 6)) {
-        $file = DOMPDF_DIR . 'src/' . str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 6)) . '.php';
-        require_once $file;
+
+    function dompdf_autoload($class) {
+        if (0 === strncmp('Cpdf', $class, 4)) {
+            $file = DOMPDF_DIR . 'lib/Cpdf.php';
+            require_once $file;
+        }
+        if (0 === strncmp('Dompdf', $class, 6)) {
+            $file = DOMPDF_DIR . 'src/' . str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 6)) . '.php';
+            require_once $file;
+        }
     }
 }
 
-class ReceiptPDF extends Dompdf
-{
-    public function __construct(OrderRow $Order, MerchantRow $Merchant) {
-        parent::__construct();
+namespace Order\PDF {
+    use Dompdf\Dompdf;
+    use Merchant\Model\MerchantRow;
+    use Order\Model\OrderRow;
+    use Order\View\OrderView;
+    use View\Theme\Blank\BlankViewTheme;
 
-        $OrderView = new OrderView($Order->getID(), 'download');
-        $OrderView->setTheme(new BlankViewTheme());
+    class ReceiptPDF extends Dompdf
+    {
+        public function __construct(OrderRow $Order, MerchantRow $Merchant) {
+            parent::__construct();
 
-        ob_start();
+            $OrderView = new OrderView($Order->getID(), 'download');
+            $OrderView->setTheme(new BlankViewTheme());
 
-        $OrderView->renderHTML();
+            ob_start();
 
-        $output = ob_get_contents();
+            $OrderView->renderHTML();
 
-        ob_end_clean();
+            $output = ob_get_contents();
 
-        $this->loadHtml($output);
+            ob_end_clean();
 
-//        $this->setPaper('A4', 'landscape');
+            $this->loadHtml($output);
+
+            //        $this->setPaper('A4', 'landscape');
+        }
     }
-}
 
+
+}
