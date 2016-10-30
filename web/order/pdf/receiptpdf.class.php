@@ -21,7 +21,7 @@ require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
 require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
 
 
-spl_autoload_register('Order\PDF\dompdf_autoload');
+spl_autoload_register('Order\PDF\dompdf_autoload', true, true);
 
 function dompdf_autoload($class)
 {

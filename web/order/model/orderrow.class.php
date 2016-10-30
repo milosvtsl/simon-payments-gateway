@@ -202,7 +202,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $week_to_date = date('Y-m-d 00:00:00', time() - 24*60*60*date('w') + $offset);
         $weekly  = date('Y-m-d G:00:00', time() - 24*60*60*7 + $offset);
 
-        $today = date('Y-m-d G:00:00', time() - 24*60*60 + $offset);
+        $today = date('Y-m-d G:00:00', time() + $offset);
 
         $SQL = <<<SQL
 SELECT

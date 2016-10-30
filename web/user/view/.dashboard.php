@@ -36,7 +36,7 @@ $monthly  = date('Y-m-d', time() - 24*60*60*30);
 $week_to_date = date('Y-m-d', time() - 24*60*60*date('w'));
 $weekly  = date('Y-m-d', time() - 24*60*60*7);
 
-$today = date('Y-m-d', time() - 24*60*60);
+$today = date('Y-m-d', time());
 
 $button_current = 'dashboard';
 include '.dashboard.nav.php';
