@@ -9,13 +9,14 @@ namespace Dompdf {
     define('DOMPDF_DIR', dirname(dirname(__DIR__)) . '/system/support/DOMPDF/');
 
 
-    require_once DOMPDF_DIR . '/lib/html5lib/Parser.php';
-    require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
-    require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
+//    require_once DOMPDF_DIR . '/lib/html5lib/Parser.php';
+//    require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
+//    require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
+//
+//    require_once DOMPDF_DIR . '/src/Autoloader.php';
 
-    require_once DOMPDF_DIR . '/src/Autoloader.php';
 
-    \Dompdf\Autoloader::register();
+    require_once DOMPDF_DIR . '/autoload.inc.php';
 
 //    spl_autoload_register('\Dompdf\dompdf_autoload', true, true);
 //
