@@ -60,6 +60,7 @@ class SessionManager
             return true;
         }
         $_SESSION[static::SESSION_KEY] = null;
+        session_destroy();
         return true;
     }
 
