@@ -13,20 +13,23 @@ namespace Dompdf {
     require_once DOMPDF_DIR . '/lib/php-font-lib/src/FontLib/Autoloader.php';
     require_once DOMPDF_DIR . '/lib/php-svg-lib/src/autoload.php';
 
+    require_once DOMPDF_DIR . '/src/Autoloader.php';
 
-    spl_autoload_register('\Dompdf\dompdf_autoload', true, true);
+    \Dompdf\Autoloader::register();
 
-
-    function dompdf_autoload($class) {
-        if (0 === strncmp('Cpdf', $class, 4)) {
-            $file = DOMPDF_DIR . 'lib/Cpdf.php';
-            require_once $file;
-        }
-        if (0 === strncmp('Dompdf', $class, 6)) {
-            $file = DOMPDF_DIR . 'src/' . str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 6)) . '.php';
-            require_once $file;
-        }
-    }
+//    spl_autoload_register('\Dompdf\dompdf_autoload', true, true);
+//
+//
+//    function dompdf_autoload($class) {
+//        if (0 === strncmp('Cpdf', $class, 4)) {
+//            $file = DOMPDF_DIR . 'lib/Cpdf.php';
+//            require_once $file;
+//        }
+//        if (0 === strncmp('Dompdf', $class, 6)) {
+//            $file = DOMPDF_DIR . 'src/' . str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 6)) . '.php';
+//            require_once $file;
+//        }
+//    }
 }
 
 namespace Order\PDF {
