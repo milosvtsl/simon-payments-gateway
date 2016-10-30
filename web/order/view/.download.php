@@ -172,8 +172,8 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     <?php } ?>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Total</td>
-                        <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
+                        <td class="name" style="font-weight: bold;">Total</td>
+                        <td class="value" style="font-weight: bold;">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
                     </tr>
                     </tbody>
                 </table>
