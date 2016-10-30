@@ -68,12 +68,17 @@ class ElementIntegration extends AbstractIntegration
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
 
+        $duration = -microtime(true);
         if(!$response = curl_exec($ch)) {
             $response = curl_error($ch);
             trigger_error($response);
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
         curl_close($ch);
+
+        // Set duration
+        $duration += microtime(true);
+        $Request->setDuration($duration);
 
         // Save the response
         $Request->setResponse($response);

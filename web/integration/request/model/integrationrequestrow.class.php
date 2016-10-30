@@ -71,6 +71,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     protected $response;
     protected $result;
     protected $date;
+    protected $duration;
 
     // Table: integration
 
@@ -89,6 +90,9 @@ LEFT JOIN integration i ON i.id = ir.integration_id
     public function getResponse()           { return $this->response; }
     public function getResult()             { return $this->result; }
     public function getDate()               { return $this->date; }
+    public function getDuration()           { return $this->duration; }
+
+    public function setDuration($ms)        { $this->duration = $ms; }
 
     public function setRequest($request)    { $this->request = $request; }
     public function setResponse($response)  { $this->response = $response; }
@@ -203,13 +207,15 @@ LEFT JOIN integration i ON i.id = ir.integration_id
             ':type' => $NewRow->getIntegrationType(),
             ':type_id' => $NewRow->getIntegrationTypeID(),
             ':integration_id' => $NewRow->getIntegrationID(),
-            ':url' => $NewRow->getRequestURL(),
-            ':request' => $NewRow->getRequest(),
-            ':response' => $NewRow->getResponse(),
-            ':result' => $NewRow->getResult(),
+            ':url' => $NewRow->url,
+            ':request' => $NewRow->request,
+            ':response' => $NewRow->response,
+            ':result' => $NewRow->result,
+            ':duration' => $NewRow->duration,
         ));
         if(!$ret || !$DB->lastInsertId())
             throw new \PDOException("Failed to insert new row");
+        $NewRow->id = $DB->lastInsertId();
     }
 
 
