@@ -24,7 +24,7 @@ class IntegrationRequestListView extends AbstractListView {
 		$whereSQL = "WHERE 1";
 
         // Set up page parameters
-        $this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+        $this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
 
         // Set up WHERE conditions
 		if(!empty($params['search'])) {

@@ -25,7 +25,7 @@ class OrderListView extends AbstractListView {
 		$this->getTheme()->renderHTMLBodyHeader();
 
 		// Set up page parameters
-		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 50);
+		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
 
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";

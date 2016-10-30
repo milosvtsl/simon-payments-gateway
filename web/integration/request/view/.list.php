@@ -52,7 +52,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                                 <td>
                                     <select name="limit">
                                         <?php
-                                        $limit = @$_GET['limit'] ?: 50;
+                                        $limit = @$_GET['limit'] ?: 10;
                                         foreach(array(10,25,50,100,250) as $opt)
                                             echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                         ?>
@@ -96,7 +96,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE_ID); ?>">Type&nbsp;ID</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESULT); ?>">Result</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_DATE); ?>">Date</a></th>
-                            <th>Duration</th>
+                            <th>Response</th>
                         </tr>
                         <?php
                         /** @var IntegrationRequestRow $Request */
@@ -113,7 +113,13 @@ use Integration\Request\Model\IntegrationRequestRow;
                             </td>
                             <td><?php echo $Request->getResult(); ?></td>
                             <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
-                            <td><?php echo round($Request->getDuration(), 3); ?>s</td>
+                            <td>
+                                <textarea rows="2" cols="24" onclick="this.rows++; this.cols+=3;"><?php
+                                    echo $Request->getResponse();
+                                    echo "\n\nRequest:\n";
+                                    echo $Request->getRequest();
+                                    ?></textarea>
+                            </td>
                         </tr>
                         <?php } ?>
                     </table>

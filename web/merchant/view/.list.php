@@ -29,7 +29,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                     <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, Name" />
                                     <select name="limit">
                                         <?php
-                                        $limit = @$_GET['limit'] ?: 50;
+                                        $limit = @$_GET['limit'] ?: 10;
                                         foreach(array(10,25,50,100,250) as $opt)
                                             echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                         ?>
