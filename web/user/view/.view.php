@@ -25,7 +25,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                 <a href="transaction/charge.php" class="button">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
             <?php } ?>
             <a href="user/account.php" class="button current">My Account <div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>

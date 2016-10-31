@@ -73,7 +73,7 @@ HTML;
 
 
 
-        
+
         $this->isHTML(true);
         $this->Body = <<<HTML
 <html>
@@ -97,8 +97,6 @@ If you would like to view your receipt online, please click the following link:<
 
 ____
 {$sig}
-    </body>
-</html>
 TEXT;
 
     }

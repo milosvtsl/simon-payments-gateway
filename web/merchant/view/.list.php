@@ -54,7 +54,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>
                             <th>URL</th>
                             <th>State</th>
-                            <th>Zipcode</th>
+                            <th>Zip</th>
                             <th>Users</th>
                         </tr>
                         <?php

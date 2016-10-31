@@ -157,7 +157,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Billing Zipcode</td>
+                            <td class="name">Billing Zip Code</td>
                             <td><input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="7" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">

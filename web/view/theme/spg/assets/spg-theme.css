@@ -104,19 +104,10 @@ body.spg-theme .site-welcome-text {
 
 /** Sub Menu **/
 
-body.spg-theme .submenu-icon {
-    background: url(img/submenu_icons.png) -48px 0 no-repeat;
-    width: 16px;
-    height: 16px;
-    display: inline-block;
-    padding: 0 0;
-    margin: 3px 0 0 3px;
-    float: left;
-    margin-right: 0.5em;
-}
-body.spg-theme .submenu-icon.submenu-icon-list { background-position: -16px 0; } 
-body.spg-theme .submenu-icon.submenu-icon-edit { background-position: -32px 0; } 
-body.spg-theme .submenu-icon.submenu-icon-view { background-position: -48px 0; } 
+body.spg-theme .submenu-icon {/*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */background: url(img/nav_icons.png) 0 0 no-repeat;background-position: top left;background-size: 128px 64px;width: 32px;height: 32px;margin: -4px 6px 0 0px;float: left;}
+body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; } 
+body.spg-theme .submenu-icon.submenu-icon-edit {background-position: -96px 0;} 
+body.spg-theme .submenu-icon.submenu-icon-view { background-position: -64px 0; } 
 
 
 
@@ -167,6 +158,7 @@ body.layout-vertical.spg-theme .bread-crumbs {
 body.spg-theme nav.page-menu {
     float: left;
     margin: 0em 0.5em 1em 0.1em;
+    /* max-width: 206px; */
 }
 
 body.layout-vertical.spg-theme nav.page-menu {
@@ -266,6 +258,17 @@ body.spg-theme input.button-submit {
 
 body.spg-theme a.button {
     text-decoration: none;
+    padding: 1em;
+    margin: 0 0 0.3em 0;
+    display: block;
+    color: #666;
+    font-size: larger;
+    border-radius: 0.6em;
+    /*     text-align: right; */
+}
+
+body.spg-theme a.button {
+/*     text-decoration: none;
     padding: 0.5em;
     margin: 0 0 0.3em 0;
     display: block;
@@ -281,7 +284,7 @@ body.spg-theme a.button {
     border-bottom: 1px solid #adabab;
     border-left: 1px solid #CCCCCC;
     box-shadow: 2px 2px 4px #CCC;
-    font-size: larger;
+    font-size: larger; */
     /* background-image: url(img/bk/a.button.png); */
 }
 
@@ -290,13 +293,13 @@ body.spg-theme a.button.small {
     font-size: small;
 }
 body.spg-theme a.button.current {
-    background-color: #d4e7ec;
+    background-color: #3b7593;
     font-weight: bold;
-    color: #000000;
+    color: #DDD;
 }
 body.spg-theme a.button:hover {
-    background-color: #bcc5d1;
-    color: #ffffff;
+    background-color: #d4e7ec;
+    /* color: #ffffff; */
 }
 body.spg-theme a.button[disabled] {
     color: gray;
