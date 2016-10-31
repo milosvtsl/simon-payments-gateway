@@ -63,24 +63,24 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 <legend>Receipt</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Date</td>
+                        <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate()) + $offset); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Time</td>
+                        <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate()) + $offset); ?></td>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td class="name">Time Zone</td>
+                        <td class="value"><?php echo str_replace('_', '', $SessionUser->getTimeZone()); ?></td>
+                    </tr>
+                    <?php if($Order->getInvoiceNumber()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Date</td>
-                            <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate()) + $offset); ?></td>
+                            <td class="name">Invoice</td>
+                            <td class="value"><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Time</td>
-                            <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate()) + $offset); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Time Zone</td>
-                            <td class="value"><?php echo str_replace('_', '', $SessionUser->getTimeZone()); ?></td>
-                        </tr>
-                        <?php if($Order->getInvoiceNumber()) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Invoice</td>
-                                <td class="value"><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
-                            </tr>
-                        <?php } ?>
+                    <?php } ?>
 
                     </tbody>
                 </table>
@@ -90,28 +90,28 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                 <fieldset>
                     <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
-                    <table class="table-transaction-info themed cell-borders" style="width: 100%">
+                    <table class="table-transaction-info themed cell-borders" style="width: 100%; text-align: left;">
                         <tbody>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <?php if($Order->getUsername()) { ?>
-                                <th>User ID</th>
-                                <?php }  ?>
-                                <th>Credit Card</th>
-                                <th>Card Type</th>
-                                <th>Status</th>
-                                <th>Code</th>
-                                <th>Order ID</th>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <?php if($Order->getUsername()) { ?>
-                                    <td class="value"><?php echo $Order->getUsername(); ?></td>
-                                <?php }  ?>
-                                <td class="value"><?php echo $Order->getCardNumber(); ?></td>
-                                <td class="value"><?php echo $Order->getCardType(); ?></td>
-                                <td class="value"><?php echo $Order->getStatus(); ?></td>
-                                <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
-                                <td class="value"><?php echo $Order->getID(); ?></td>
-                            </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
+                            <?php if($Order->getUsername()) { ?>
+                                <td>User ID</td>
+                            <?php }  ?>
+                            <td>Credit Card</td>
+                            <td>Card Type</td>
+                            <td>Status</td>
+                            <td>Code</td>
+                            <td>Order ID</td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <?php if($Order->getUsername()) { ?>
+                                <td class="value"><?php echo $Order->getUsername(); ?></td>
+                            <?php }  ?>
+                            <td class="value"><?php echo $Order->getCardNumber(); ?></td>
+                            <td class="value"><?php echo $Order->getCardType(); ?></td>
+                            <td class="value"><?php echo $Order->getStatus(); ?></td>
+                            <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
+                            <td class="value"><?php echo $Order->getID(); ?></td>
+                        </tr>
                         </tbody>
                     </table>
                 </fieldset>
@@ -180,13 +180,13 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             </fieldset>
 
 
-            <fieldset class="show-on-print" style="clear: both;">
+            <div class="show-on-print" style="clear: both;">
                 <br/>
                 <br/>
                 <br/>
                 <hr style="height: 2px;">
                 Customer Signature
-            </fieldset>
+            </div>
 
 
 
