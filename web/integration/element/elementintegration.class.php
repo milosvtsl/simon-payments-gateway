@@ -7,6 +7,7 @@
  */
 namespace Integration\Element;
 
+use Dompdf\Exception;
 use Integration\Model;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\IntegrationRow;
@@ -282,7 +283,8 @@ class ElementIntegration extends AbstractIntegration
 
         if($Order->getPayeeEmail()) {
             $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
+            if(!$EmailReceipt->send())
+                error_log($EmailReceipt->ErrorInfo);
         }
 
         return $Transaction;

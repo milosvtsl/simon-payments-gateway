@@ -20,3 +20,8 @@ DBConfig::$DB_PASSWORD = 'eVw{P7mphBn';
 // Site Config
 SiteConfig::$SITE_NAME = "Simon Payments Gateway";
 SiteConfig::$DEFAULT_THEME = 'View\Theme\SPG\SPGViewTheme';
+
+SiteConfig::$EMAIL_SERVER_HOST = 'smtpout.secureserver.net'; // relay-hosting.secureserver.net
+SiteConfig::$EMAIL_SERVER_PORT = 465; // 3535   80  25
+SiteConfig::$EMAIL_SMTP_USERNAME = 'support@simonpayments.com';
+SiteConfig::$EMAIL_SMTP_PASSWORD = 's1m0np4ss18';

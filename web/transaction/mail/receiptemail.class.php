@@ -28,7 +28,11 @@ class ReceiptEmail extends \PHPMailer
             $this->Password = SiteConfig::$EMAIL_SMTP_PASSWORD;
             $this->SMTPSecure = 'tls';
             $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
+            $this->isSMTP();
         }
+
+        $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
+        $this->SMTPSecure = SiteConfig::$EMAIL_SMTP_SECURE;
 
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
@@ -39,7 +43,7 @@ class ReceiptEmail extends \PHPMailer
 
         $this->Subject = "Receipt: " . $Merchant->getName();
 
-        $pu = parse_url($_SERVER['REQUEST_URI']);
+        $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/transaction/receipt.php?uid='.$Order->getUID();
 
         $amount = '$' . $Order->getAmount();
@@ -78,7 +82,7 @@ HTML;
     }
 
     public function send() {
-        if($_SERVER['HTTP_HOST'] === 'localhost') {
+        if(@$_SERVER['HTTP_HOST'] === 'localhost' || @$_SERVER['OS'] === 'Windows_NT') {
             $log = "<pre>Email was sent from localhost\n". print_r($this, true) . "</pre>";
             echo $log;
             error_log($log);
