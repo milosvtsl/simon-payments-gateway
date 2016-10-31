@@ -73,8 +73,8 @@ HTML;
 
         $this->isHTML(true);
         $this->Body = <<<HTML
-{$content}
-
+{$content}<br/>
+<br/>
 If you would like to view your receipt online, please click the following link:<br/>
 <a href="{$url}">{$url}</a><br/>
 

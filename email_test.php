@@ -24,5 +24,5 @@ $Merchant = \Merchant\Model\MerchantRow::fetchByID($Order->getMerchantID());
 $EmailReceipt = new \Transaction\Mail\ReceiptEmail($Order, $Merchant);
 $EmailReceipt->addAddress('ari@govpaynetwork.com');
 if(!$EmailReceipt->send())
-    error_log($EmailReceipt->ErrorInfo);
+    error_log("Test Email Failed: " . $EmailReceipt->ErrorInfo);
 echo "\nEmail Tests successful";
