@@ -15,7 +15,9 @@ use PHPMailer;
 use Transaction\Model\TransactionRow;
 use User\Model\UserRow;
 
-require_once dirname(dirname(__DIR__)) . '/system/support/PHPMailer/PHPMailerAutoload.php';
+define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/support/PHPMailer/');
+require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
+require_once PHPMAILER_DIR . 'class.smtp.php';
 
 class ReceiptEmail extends \PHPMailer
 {
