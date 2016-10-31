@@ -56,25 +56,29 @@ class ReceiptEmail extends \PHPMailer
         $card_type = $Order->getCardType();
 
         $content = <<<HTML
-Amount: {$amount}<br />
-Merchant: {$merchant}<br />
-Date: {$date}<br />
-Status: {$status}<br />
-<br />
-Card Holder Information:<br />
-Full Name: {$full_name}<br />
-Number: {$card_number}<br />
-Type: {$card_type}<br />
+Amount: {$amount}
+Merchant: {$merchant}
+Date: {$date}
+Status: {$status}
+
+Card Holder Information:
+Full Name: {$full_name}
+Number: {$card_number}
+Type: {$card_type}
 HTML;
 
+        $content_html = nl2br($content);
 
         $sig = SiteConfig::$SITE_NAME;
 
+
+
+        
         $this->isHTML(true);
         $this->Body = <<<HTML
 <html>
     <body>
-        {$content}<br/>
+        {$content_html}<br/>
         <br/>
         If you would like to view your receipt online, please click the following link:<br/>
         <a href="{$url}">{$url}</a><br/>
@@ -84,6 +88,19 @@ HTML;
     </body>
 </html>
 HTML;
+
+$this->AltBody = <<<TEXT
+{$content}
+
+If you would like to view your receipt online, please click the following link:<br/>
+{$url}
+
+____
+{$sig}
+    </body>
+</html>
+TEXT;
+
     }
 
     public function send() {
