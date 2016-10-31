@@ -72,13 +72,17 @@ HTML;
 
         $this->isHTML(true);
         $this->Body = <<<HTML
-{$content}<br/>
-<br/>
-If you would like to view your receipt online, please click the following link:<br/>
-<a href="{$url}">{$url}</a><br/>
+<html>
+    <body>
+        {$content}<br/>
+        <br/>
+        If you would like to view your receipt online, please click the following link:<br/>
+        <a href="{$url}">{$url}</a><br/>
 
-____<br/>
-{$sig}
+        ____<br/>
+        {$sig}
+    </body>
+</html>
 HTML;
     }
 
