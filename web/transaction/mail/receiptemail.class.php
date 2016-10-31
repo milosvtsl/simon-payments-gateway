@@ -60,8 +60,8 @@ Amount: {$amount}<br />
 Merchant: {$merchant}<br />
 Date: {$date}<br />
 Status: {$status}<br />
-
-Card Holder Information:
+<br />
+Card Holder Information:<br />
 Full Name: {$full_name}<br />
 Number: {$card_number}<br />
 Type: {$card_type}<br />
@@ -77,7 +77,7 @@ HTML;
 If you would like to view your receipt online, please click the following link:<br/>
 <a href="{$url}">{$url}</a><br/>
 
-____
+____<br/>
 {$sig}
 HTML;
     }
