@@ -160,6 +160,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public function setStatus($status)      { $this->status = $status; }
 
+    public function setPayeeEmail($email)   { $this->payee_reciept_email = $email; }
+
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }

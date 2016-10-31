@@ -20,9 +20,10 @@ $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 $Order = \Order\Model\OrderRow::fetchByID(8476);
+$Order->setPayeeEmail('ari@govpaynetwork.com');
 $Merchant = \Merchant\Model\MerchantRow::fetchByID($Order->getMerchantID());
 $EmailReceipt = new \Transaction\Mail\ReceiptEmail($Order, $Merchant);
-$EmailReceipt->addAddress('ari@govpaynetwork.com', 'Tester');
+$EmailReceipt->addBCC('ari@govpaynetwork.com', 'Tester');
 $EmailReceipt->addBCC('ari@asu.edu', 'Tester');
 if(!$EmailReceipt->send())
     error_log("Test Email Failed: " . $EmailReceipt->ErrorInfo);
