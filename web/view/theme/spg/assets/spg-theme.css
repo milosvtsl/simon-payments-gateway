@@ -105,8 +105,10 @@ body.spg-theme .site-welcome-text {
 /** Sub Menu **/
 
 body.spg-theme .submenu-icon {/*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */background: url(img/nav_icons.png) 0 0 no-repeat;background-position: top left;background-size: 128px 64px;width: 32px;height: 32px;margin: -4px 6px 0 0px;float: left;}
-body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; } 
-body.spg-theme .submenu-icon.submenu-icon-edit {background-position: -96px 0;} 
+body.spg-theme .submenu-icon.submenu-icon-dashboard { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
+body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-edit {background-position: -96px 0;}
 body.spg-theme .submenu-icon.submenu-icon-view { background-position: -64px 0; } 
 
 
