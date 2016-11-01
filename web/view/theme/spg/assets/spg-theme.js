@@ -4,7 +4,7 @@
 
 // Initialize
 document.addEventListener("DOMContentLoaded", function(e) {
-    window.onresize = onResize;
+//     window.onresize = onResize;
 
     function onResize(e) {
         var height = (e.srcElement || e.currentTarget).innerHeight;
@@ -23,11 +23,11 @@ document.addEventListener("DOMContentLoaded", function(e) {
             }
         }
     }
-    setTimeout(function(e) {
-        onResize({
-            srcElement: window
-        });
-    }, 100);
+//     setTimeout(function(e) {
+//         onResize({
+//             srcElement: window
+//         });
+//     }, 100);
 
     switch(location.host.toLowerCase()) {
         case 'localhost':

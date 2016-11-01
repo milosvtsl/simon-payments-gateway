@@ -386,8 +386,12 @@ SQL;
         if($post['merchant_id'] !== $Merchant->getID())
             throw new IntegrationException("Merchant id mismatch");
 
-        if(empty($post['amount']) || !is_numeric($post['amount']) || $post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT)
+        if(empty($post['amount']))
             throw new IntegrationException("Invalid Amount");
+        if(!is_numeric($post['amount']))
+            throw new IntegrationException("Invalid Numeric Amount");
+        if($post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT)
+            throw new IntegrationException("Invalid Max Transaction Amount");
 
 //        $OrderRow->date = ;
         $OrderRow->entry_mode = $post['entry_mode'];
