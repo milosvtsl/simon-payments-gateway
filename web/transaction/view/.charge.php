@@ -91,7 +91,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
             <!--                        <option value="">Choose a method</option>-->
                                     <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
                                     <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
-                                    <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
+                                    <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?> disabled="disabled">e-Check</option>
                                 </select>
                             </td>
                         </tr>
