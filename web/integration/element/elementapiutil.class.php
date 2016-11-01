@@ -1114,7 +1114,6 @@ PHP;
         $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
-        $Action = 'CheckSale';
 
         $BirthDate = '';
         $TaxIDNumber = '';
@@ -1130,6 +1129,7 @@ PHP;
         $AccountNumber = $OrderRow->getCheckAccountNumber();
         $DDAAccountType = $OrderRow->getCheckAccountType();
 
+        $Action = 'CheckSale';
 
             $request = <<<PHP
 <?xml version="1.0" encoding="utf-8"?>

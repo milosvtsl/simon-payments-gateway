@@ -14,7 +14,7 @@ form[name=form-transaction-charge]:not(.payment-method-check) .show-on-payment-m
 form[name=form-transaction-charge].payment-method-swipe .show-on-payment-method-swipe,
 form[name=form-transaction-charge].payment-method-keyed .show-on-payment-method-keyed,
 form[name=form-transaction-charge].payment-method-check .show-on-payment-method-check {
-    display: inline-block !important;
+    display: block !important;
 }
 
 form[name=form-transaction-charge]:not(.merchant-selected) .show-on-merchant-selected {

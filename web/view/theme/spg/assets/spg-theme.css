@@ -8,13 +8,15 @@ body.spg-theme {
     margin: 0 auto;
 }
 
-body.layout-vertical.spg-theme {font-size: 3.1vw;}
+body.layout-vertical.spg-theme {
+    font-size: 3.1vw;
+}
+body.layout-vertical.spg-theme .hide-on-layout-vertical { display: none; }
+
+
 body.layout-horizontal.spg-theme {
 }
-
-body.layout-vertical.spg-theme .hide-on-layout-vertical {
-    display: none;
-}
+body.layout-horizontal.spg-theme .float-left-on-layout-horizontal { float: left; }
 
 body.spg-theme > header {
     display: inline-block;
@@ -31,12 +33,11 @@ body.spg-theme > footer {
     font-size: small;
     text-align: center;
     padding: 3em;
+    clear: both;
 }
 
-.spg-theme section.content {
-    /* background-color: #f0f4f6; */
-    display: inline-block;
-    max-width: 49em;
+body.layout-horizontal.spg-theme section.content {
+    margin-left: 12em;
 }
 
 body.spg-theme > hr.themed {
@@ -100,7 +101,8 @@ body.spg-theme > nav.site-menu > a > div.nav-charge-icon {background-position: 0
 
 
 body.spg-theme .site-welcome-text {
-    float: left;
+    /* float: left; */
+    display: inline-block;
     /* clear:both; */
     margin-right: 0.5em;
     margin-top: 1.7em;
@@ -128,8 +130,8 @@ body.spg-theme .submenu-icon.submenu-icon-view { background-position: -64px 0; }
 
 body.spg-theme .bread-crumbs {
     border-bottom: 2px solid #bcc5d1;
-    padding: 0.2em 0.5em;
-    margin: 0.2em 0px 1.3em 0.5em;
+    padding: 0.2em 0.5em 0.0em 0.5em;
+    margin: 0.5em;
     background-color: #bcc5d1;
     box-shadow: 0px 0px 4px #1b1b1b;
 }
@@ -140,7 +142,7 @@ body.spg-theme .bread-crumbs a:hover {
 
 body.spg-theme .bread-crumbs a {
     text-decoration: none;
-    color: #ffffff;
+    color: #FFF;
     font-size: medium;
     text-transform: uppercase;
 }
@@ -148,7 +150,7 @@ body.spg-theme .bread-crumbs a {
 
 body.spg-theme .bread-crumbs a::after {
     content: ' |';
-    color: #ffffff;
+    color: #EEE;
 }
 body.spg-theme .bread-crumbs a:last-child:after {
     content: '';
@@ -186,7 +188,7 @@ body.spg-theme form.themed {
     /* background-color: #FAFAFA; */
     /* border: 1px solid #d4e7ec; */
     border-radius: 0.6em;
-    max-width: 800px;
+    /* max-width: 800px; */
     /* background-image: url(img/bk/form.png); */
     background-repeat: repeat-x;
 }
@@ -201,7 +203,7 @@ body.spg-theme fieldset.themed {
     padding: 0.3em 0.8em 0.3em 0.5em;
     margin: 0 0.5em 0.5em 0.5em;
     /* min-width: 22em; */
-    min-height: 7em;
+    /* min-height: 7em; */
     vertical-align: top;
     /* background-color: #FAFAFA; */
     border-radius: 4px;

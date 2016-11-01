@@ -34,7 +34,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <input type="hidden" name="convenience_fee_limit" value="" />
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-                <fieldset class="inline-on-merchant-selected123" style="float: left; min-width: 22em;" >
+                <fieldset class="float-left-on-layout-horizontal" style="min-width: 22em;" >
                     <legend>Choose a Merchant</legend>
                     <table class="table-choose-merchant themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -91,7 +91,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
             <!--                        <option value="">Choose a method</option>-->
                                     <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
                                     <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
-                                    <option disabled="disabled" value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
+                                    <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
                                 </select>
                             </td>
                         </tr>
@@ -100,7 +100,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <br />
 
-                <fieldset style="float: left;" class="show-on-merchant-selected">
+                <fieldset class="show-on-merchant-selected float-left-on-layout-horizontal">
                     <legend>Customer Fields</legend>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -137,7 +137,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;" class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe">
+                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe">
                     <legend>Cardholder Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -215,7 +215,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
 
-                <fieldset class="show-on-payment-method-swipe" style="min-width: 23em;">
+                <fieldset class="show-on-payment-method-swipe" >
                     <legend class="alert reader-status">Card Swipe Ready</legend>
                     <table class="table-payment-method-swipe themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -275,7 +275,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <br />
 
-                <fieldset style="float: left; min-width: 23em;" class="form-payment-recurring show-on-merchant-selected show-on-payment-method-selected">
+                <fieldset class="form-payment-recurring show-on-merchant-selected show-on-payment-method-selected float-left-on-layout-horizontal">
                     <legend>Recurring Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
