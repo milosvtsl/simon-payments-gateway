@@ -259,6 +259,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         return null;
     }
 
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     function parseMagTekTrack(string) {
         try {
             if(!string)
@@ -277,9 +281,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             data.payee_first_name = '';
             data.payee_last_name = '';
 
-            nameArr = arr[1].split('/');
-            data.payee_first_name = nameArr[1];
-            data.payee_last_name = nameArr[0];
+            nameArr = (arr[1]||'/').split('/');
+            data.payee_first_name = capitalizeFirstLetter(nameArr[1].toLowerCase());
+            data.payee_last_name = capitalizeFirstLetter(nameArr[0].toLowerCase());
 
             data.success = data.card_exp_month.length == 2
                 && data.card_exp_year.length == 2
