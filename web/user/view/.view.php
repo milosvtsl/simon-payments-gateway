@@ -30,12 +30,12 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
+<!--            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>-->
+<!--            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>-->
+<!--            <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>-->
         <?php } ?>
 
-            <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+<!--            <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>-->
 
         <?php if($SessionUser->getID() === $User->getID()) { ?>
             <a href="user/logout.php" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
