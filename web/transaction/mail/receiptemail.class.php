@@ -71,9 +71,6 @@ HTML;
 
         $sig = SiteConfig::$SITE_NAME;
 
-
-
-
         $this->isHTML(true);
         $this->Body = <<<HTML
 <html>

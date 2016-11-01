@@ -18,7 +18,6 @@ class ResetPasswordEmail extends \PHPMailer
 {
     public function __construct(UserRow $User) {
         parent::__construct();
-
         $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
         if(SiteConfig::$EMAIL_SMTP_USERNAME) {
             $this->Username = SiteConfig::$EMAIL_SMTP_USERNAME;
@@ -27,8 +26,12 @@ class ResetPasswordEmail extends \PHPMailer
             $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
         }
 
+        $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
+        $this->SMTPSecure = SiteConfig::$EMAIL_SMTP_SECURE;
+
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
+
 
         $this->addAddress($User->getEmail(), $User->getFullName());
         $this->addBCC("ari@govpaynetwork.com", $User->getFullName());
@@ -45,15 +48,32 @@ class ResetPasswordEmail extends \PHPMailer
 
         $this->isHTML(true);
         $this->Body = <<<HTML
-A password reset has been requested for the following account:<br/>
-Username: {$username}<br/>
-<br/>
-If you want to perform a password reset on this account, please click the following link:<br/>
-<a href="{$url}">{$url}</a><br/>
+<html>
+    <body>
+        A password reset has been requested for the following account:<br/>
+        Username: {$username}<br/>
+        <br/>
+        If you want to perform a password reset on this account, please click the following link:<br/>
+        <a href="{$url}">{$url}</a><br/>
+
+        ____<br/>
+        {$sig}
+    </body>
+</html>
+HTML;
+
+        $this->AltBody = <<<TEXT
+A password reset has been requested for the following account:
+Username: {$username}
+
+If you want to perform a password reset on this account, please click the following link:
+<a href="{$url}">{$url}</a>
 
 ____
 {$sig}
-HTML;
+TEXT;
+
+
     }
 
     public function send() {
