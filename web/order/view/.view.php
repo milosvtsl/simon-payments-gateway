@@ -22,6 +22,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
+    <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
     <?php } ?>
