@@ -103,9 +103,9 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
 
                 </fieldset>
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows">
+                    <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
                             <th>Amount</th>

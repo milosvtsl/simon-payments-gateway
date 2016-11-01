@@ -32,7 +32,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 
             <form class="form-view-merchant themed" method="POST">
 
-                <fieldset class="themed" style="display: inline-block;">
+                <fieldset class="themed">
                     <legend>Merchant Information</legend>
                     <table class="table-merchant-info themed striped-rows" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

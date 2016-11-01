@@ -34,7 +34,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <input type="hidden" name="convenience_fee_limit" value="" />
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-                <fieldset class="float-left-on-layout-horizontal" style="min-width: 22em;" >
+                <fieldset class="float-left-on-layout-horizontal">
                     <legend>Choose a Merchant</legend>
                     <table class="table-choose-merchant themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">

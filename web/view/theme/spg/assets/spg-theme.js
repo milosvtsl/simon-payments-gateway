@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     function onResize(e) {
         var height = (e.srcElement || e.currentTarget).innerHeight;
         var width = (e.srcElement || e.currentTarget).innerWidth;
-        if(width > 1000) { // > height / 1.2
+        if(width > 920) { // > height / 1.2
             if(!document.body.classList.contains('layout-horizontal')) {
                 document.body.classList.add('layout-horizontal');
                 document.body.classList.remove('layout-vertical');

@@ -16,7 +16,8 @@ body.layout-vertical.spg-theme .hide-on-layout-vertical { display: none; }
 
 body.layout-horizontal.spg-theme {
 }
-body.layout-horizontal.spg-theme .float-left-on-layout-horizontal { float: left; }
+body.layout-horizontal.spg-theme .float-left-on-layout-horizontal {float: left;}
+body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {float: right;}
 
 body.spg-theme > header {
     display: inline-block;
@@ -200,9 +201,9 @@ body.spg-theme form.themed a {
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
-    padding: 0.3em 0.8em 0.3em 0.5em;
+    padding: 0.3em 0.1em 0.3em 0.5em;
     margin: 0 0.5em 0.5em 0.5em;
-    /* min-width: 22em; */
+    min-width: 47%;
     /* min-height: 7em; */
     vertical-align: top;
     /* background-color: #FAFAFA; */
@@ -322,7 +323,7 @@ body.spg-theme a.button[disabled] {
 body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
 
-body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em;}
+body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0.5em;}
 
 body.spg-theme table.themed > tbody > tr > th {
     background-color: #bcc5d1;
@@ -333,7 +334,7 @@ body.spg-theme table.themed > tbody > tr > th {
 }
 
 body.spg-theme table.themed > tbody > tr > td {
-    padding: 0.3em 0.6em;
+    padding: 0.3em 0 0.3em 0.6em;
     vertical-align: top;
     white-space: nowrap;
     /* text-align: center; */
@@ -459,5 +460,9 @@ fieldset.pagination {
 
     .small-on-print {
         font-size: 8px;
+    }
+
+    body.layout-horizontal.spg-theme section.content {
+        margin-left: 0;
     }
 }

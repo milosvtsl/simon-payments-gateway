@@ -84,7 +84,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                         </tbody>
                     </table>
                 </fieldset>
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Search Results</legend>
                     <table class="table-results themed small striped-rows">
                         <tr>

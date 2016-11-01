@@ -36,10 +36,10 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-merchant themed " method="GET">
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Merchant Information</legend>
                     <?php $odd = true; ?>
-                    <table class="table-merchant-info themed small striped-rows" style="float: left;">
+                    <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>

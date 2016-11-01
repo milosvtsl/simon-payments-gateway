@@ -29,7 +29,7 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-integration themed" method="POST">
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Edit Integration Fields</legend>
                     <table class="table-integration-info themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

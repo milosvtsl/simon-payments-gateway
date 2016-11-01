@@ -31,7 +31,7 @@ use \Integration\Model\IntegrationRow;
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Integration</legend>
                     <table class="table-results themed small striped-rows">
                         <tr>

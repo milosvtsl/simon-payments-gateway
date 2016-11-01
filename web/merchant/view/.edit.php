@@ -32,7 +32,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Edit Merchant Fields</legend>
                     <table class="table-merchant-info themed small striped-rows" style="float: left;">
                         <tr>

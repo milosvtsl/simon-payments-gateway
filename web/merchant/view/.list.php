@@ -19,7 +19,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
-                <fieldset class="search-fields" style="display: inline-block;">
+                <fieldset class="search-fields">
                     <legend>Search all Merchants</legend>
                     <table class="themed">
                         <tbody>
@@ -46,9 +46,9 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
                 <br/>
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows">
+                    <table class="table-results themed small striped-rows" style="width: 100%">
                         <tr>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>

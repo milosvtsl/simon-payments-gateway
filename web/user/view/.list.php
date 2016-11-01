@@ -55,7 +55,7 @@ use \User\Model\UserRow;
                         </tr>
                     </table>
                 </fieldset>
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Search Results</legend>
                     <table class="table-results themed striped-rows small">
                         <tr>

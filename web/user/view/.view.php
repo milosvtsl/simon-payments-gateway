@@ -55,7 +55,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
                 <form class="form-view-user themed" onsubmit="return false;">
                     <input type="hidden" name="action" value="view" />
-                    <fieldset style="display: inline-block;">
+                    <fieldset>
                         <legend>User Information</legend>
                         <table class="table-user-info themed striped-rows">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

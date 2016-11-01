@@ -21,7 +21,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                     <form name="form-login" action='user/logout.php?action=logout' method='POST' class="themed">
 
-                        <fieldset style="display: inline-block;">
+                        <fieldset>
                             <legend>LOGOUT</legend>
                             <input type="hidden" name="action" value="logout" />
                             <div class="form-actions">

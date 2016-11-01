@@ -28,7 +28,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-integration-request themed" onsubmit="return false;">
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>Request Information</legend>
                     <table class="table-integration-request-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

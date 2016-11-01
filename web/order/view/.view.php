@@ -49,7 +49,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
         <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-            <fieldset style="display: inline-block;">
+            <fieldset class="float-left-on-layout-horizontal" style="min-width: 19em;">
                 <legend><?php echo $Merchant->getShortName(); ?></legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
@@ -85,10 +85,11 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </table>
             </fieldset>
 
-            <fieldset style="display: inline-block;">
+            <fieldset >
                 <legend>Receipt</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
+                        <?php $odd = true; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Date</td>
                             <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate()) + $offset); ?></td>
@@ -111,6 +112,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </tbody>
                 </table>
             </fieldset>
+
 
             <?php if ($Order->getCardNumber()) { ?>
 
@@ -144,9 +146,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <?php } else  { ?>
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <legend>e-Check Information</legend>
-                    <table class="table-transaction-info themed striped-rows">
+                    <table class="table-transaction-info themed striped-rows" style="width: 100%;">
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Name on Account</td>
@@ -181,11 +183,22 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <?php } ?>
 
 
+            <fieldset class="show-on-print" style="clear: both;">
+                <br/>
+                <br/>
+                <br/>
+                <hr style="height: 2px;">
+                Customer Signature
+            </fieldset>
 
-            <fieldset style="display: inline-block; float: right;">
+
+
+
+            <fieldset class="float-right-on-layout-horizontal">
                 <legend>Totals</legend>
                 <table class="table-transaction-info-totals themed striped-rows">
                     <tbody>
+                    <?php $odd = true; ?>
                     <?php if ($Order->getConvenienceFee()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Subtotal</td>
@@ -205,20 +218,10 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </table>
             </fieldset>
 
-
-            <fieldset class="show-on-print" style="clear: both;">
-                <br/>
-                <br/>
-                <br/>
-                <hr style="height: 2px;">
-                Customer Signature
-            </fieldset>
-
-            <fieldset style="display: inline-block;" class="hide-on-print">
+            <fieldset class="hide-on-print">
                 <legend>Transaction History</legend>
-                <table class="table-results themed small">
+                <table class="table-results themed small" style="width: 100%;">
                     <tr>
-                        <th>ID</th>
                         <th class="hide-on-layout-vertical">TID</th>
                         <th>Date</th>
                         <th>Amount</th>
@@ -236,8 +239,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     $odd = false;
                     foreach($TransactionQuery as $Transaction) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='transaction?id=<?php echo $Transaction->getID(); ?>#form-order-view'><?php echo $Transaction->getID(); ?></a></td>
-                            <td class="hide-on-layout-vertical"><?php echo $Transaction->getTransactionID(); ?></td>
+                            <td class="hide-on-layout-vertical"><a href='transaction?id=<?php echo $Transaction->getID(); ?>#form-order-view'><?php echo $Transaction->getTransactionID(); ?></a></td>
                             <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                             <td>$<?php echo $Transaction->getAmount(); ?></td>
                             <td>$<?php echo $Transaction->getServiceFee(); ?></td>
