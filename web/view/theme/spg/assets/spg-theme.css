@@ -21,6 +21,12 @@ body.spg-theme > header {
     margin-right: -6em;
 }
 
+body.spg-theme > header > a > img {
+    width:18em;
+    margin-bottom: -0.8em;
+}
+
+
 body.spg-theme > footer {
     font-size: small;
     text-align: center;
