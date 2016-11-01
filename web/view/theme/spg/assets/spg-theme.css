@@ -1,3 +1,4 @@
+/** Page Body **/
 
 body.spg-theme {
     color: #000000;
@@ -93,12 +94,15 @@ body.spg-theme > nav.site-menu > a > div.nav-charge-icon {background-position: 0
 
 
 body.spg-theme .site-welcome-text {
-    float:right;
-    clear:both;
+    float: left;
+    /* clear:both; */
     margin-right: 0.5em;
-    margin-top:0.6em;
-    font-weight:bold;
+    margin-top: 1.5em;
+    /* font-weight:bold; */
     font-style:italic;
+    font-size: larger;
+    line-height: 27px;
+    color: #777;
 }
 
 
@@ -110,8 +114,6 @@ body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
 body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
 body.spg-theme .submenu-icon.submenu-icon-edit {background-position: -96px 0;}
 body.spg-theme .submenu-icon.submenu-icon-view { background-position: -64px 0; } 
-
-
 
 
 
@@ -294,14 +296,14 @@ body.spg-theme a.button.small {
     min-width: 2em;
     font-size: small;
 }
+body.spg-theme a.button:hover {
+    background-color: #d4e7ec;
+    /* color: #ffffff; */
+}
 body.spg-theme a.button.current {
     background-color: #3b7593;
     font-weight: bold;
     color: #DDD;
-}
-body.spg-theme a.button:hover {
-    background-color: #d4e7ec;
-    /* color: #ffffff; */
 }
 body.spg-theme a.button[disabled] {
     color: gray;

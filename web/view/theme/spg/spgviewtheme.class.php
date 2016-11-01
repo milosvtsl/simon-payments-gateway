@@ -92,22 +92,23 @@ class SPGViewTheme extends AbstractViewTheme
         </header>
         <nav class="site-menu hide-on-print">
 
+            <div class="site-welcome-text hide-on-print">
+                <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
+                <br />
+                Welcome
+            </div>
         <?php if($SessionManager->isLoggedIn()) { ?>
-            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>
-            <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
-            <a href="user/account.php" class="nav-account"><div class="nav-icon nav-account-icon"></div><br/> My Account </a>
+<!--            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>-->
+<!--            <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>-->
+<!--            <a href="user/account.php" class="nav-account"><div class="nav-icon nav-account-icon"></div><br/> My Account </a>-->
+            <a href="user/logout.php" class="nav-logout"> <div class="nav-icon nav-logout-icon"></div><br/>Log Out</a>
         <?php } else { ?>
-            <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>
-            <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>
+<!--            <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>-->
+<!--            <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>-->
             <a href="login.php" class="nav-login"> <div class="nav-icon nav-login-icon"></div><br/>Login </a>
         <?php } ?>
 
         </nav>
-
-        <span class="site-welcome-text hide-on-print">
-            Welcome, <?php echo $SessionUser->getFirstName()?:$SessionUser->getUsername(); ?>
-            <a href="user/logout.php" style="font-size:small; text-decoration: none;">(Log out)</a>
-        </span>
 
         <hr class="themed hide-on-print" style="clear: both;"/>
         <?php } ?>
