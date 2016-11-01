@@ -25,8 +25,7 @@ class IntegrationListView extends AbstractListView {
 		// Handle authority
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE', 'ROLE_VOID_CHARGE', 'ROLE_RUN_REPORTS', 'ROLE_RETURN_CHARGES')) {
-			// TODO: integration login?
+		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
 			$whereSQL .= "\nAND 0\n";
 		}
 

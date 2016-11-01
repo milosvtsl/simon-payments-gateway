@@ -24,6 +24,8 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 <nav class="page-menu hide-on-print">
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+    <?php } ?>
+    <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN')) { ?>
         <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
     <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
@@ -247,13 +249,17 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                                 <?php
                                     switch($Transaction->getAction()) {
                                         case 'Authorized':
-                                            $disabled = $Order->getStatus() !== 'Authorized' ? " disabled='disabled'" : '';
-                                            echo "<input name='action' type='submit' value='Void'{$disabled}/>";
+                                            if($Order->getStatus() === 'Authorized') {
+                                                $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                echo "<input name='action' type='submit' value='Void'{$disabled}/>";
+                                            }
                                             break;
 
                                         case 'Settled':
-                                            $disabled = $Order->getStatus() !== 'Settled' ? " disabled='disabled'" : '';
-                                            echo "<input name='action' type='submit' value='Return'{$disabled}/>";
+                                            if($Order->getStatus() === 'Settled') {
+                                                $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                echo "<input name='action' type='submit' value='Return'{$disabled}/>";
+                                            }
                                             break;
                                     }
                                 ?>

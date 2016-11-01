@@ -263,8 +263,8 @@ body.spg-theme input.button-submit {
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 1em;
-    margin: 0 0 0.3em 0;
+    padding: 0.8em;
+    margin: 0 0 0.2em 0;
     display: block;
     color: #666;
     font-size: larger;

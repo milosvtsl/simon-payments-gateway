@@ -8,11 +8,13 @@
 namespace Order\View;
 
 use Config\DBConfig;
+use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\PDF\ReceiptPDF;
 use Transaction\Model\TransactionRow;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 class OrderView extends AbstractView
@@ -70,18 +72,20 @@ class OrderView extends AbstractView
         $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
         $MerchantIdentity = $Integration->getMerchantIdentity($Merchant);
 
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
         try {
             // Render Page
             switch($action) {
-                case 'edit':
-                    $EditOrder = $this->getOrder();
-                    $EditOrder->updateFields($post)
-                        ? $this->setSessionMessage("Order Updated Successfully: " . $EditOrder->getUID())
-                        : $this->setSessionMessage("No changes detected: " . $EditOrder->getUID());
-                    header('Location: order?id=' . $EditOrder->getID() . '#form-order-view');
-                    die();
+//                case 'edit':
+//                    $EditOrder = $this->getOrder();
+//                    $EditOrder->updateFields($post)
+//                        ? $this->setSessionMessage("Order Updated Successfully: " . $EditOrder->getUID())
+//                        : $this->setSessionMessage("No changes detected: " . $EditOrder->getUID());
+//                    header('Location: order?id=' . $EditOrder->getID() . '#form-order-view');
+//                    die();
 
-                    break;
                 case 'delete':
                     print_r($post);
                     die();
@@ -92,6 +96,9 @@ class OrderView extends AbstractView
                     break;
 
                 case 'void':
+                    if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
+                        throw new Exception("Invalid Authority to Void Charges");
+
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $post);
 
                     $this->setSessionMessage($Transaction->getStatusMessage());
@@ -99,6 +106,9 @@ class OrderView extends AbstractView
                     die();
 
                 case 'return':
+                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
+                        throw new Exception("Invalid Authority to Return Charges");
+
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $post);
 
                     $this->setSessionMessage($Transaction->getStatusMessage());
@@ -106,6 +116,9 @@ class OrderView extends AbstractView
                     die();
 
                 case 'reverse':
+                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
+                        throw new Exception("Invalid Authority to Return Charges");
+
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $post);
 
                     $this->setSessionMessage($Transaction->getStatusMessage());

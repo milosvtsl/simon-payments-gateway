@@ -110,7 +110,7 @@ FROM user u
     public function hasAuthority($authority) {
         $list = $this->getAuthorityList();
         foreach(func_get_args() as $i => $arg)
-            if (isset($list[strtoupper($authority)]))
+            if (isset($list[strtoupper($arg)]))
                 return true;
         return false;
     }

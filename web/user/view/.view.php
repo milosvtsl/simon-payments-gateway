@@ -53,7 +53,8 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-                <form class="form-view-user themed" method="POST">
+                <form class="form-view-user themed" onsubmit="return false;">
+                    <input type="hidden" name="action" value="view" />
                     <fieldset style="display: inline-block;">
                         <legend>User Information</legend>
                         <table class="table-user-info themed striped-rows">
@@ -108,7 +109,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                         </tr>
                                         <?php
                                         foreach($User->getAuthorityList() as $auth=>$name)
-                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button disabled='disabled'>X</button></td></th>";
+                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button><a href='/user/account.php?action=edit'>X</a></button></td></th>";
                                         ?>
                                         </tbody>
                                     </table>
