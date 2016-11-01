@@ -109,7 +109,7 @@ abstract class AbstractView
 
 
     protected function renderHTMLHeadLinks() {
-        echo "\t\t<link href='assets/css/general.css' type='text/css' rel='stylesheet' />\n";
+//        echo "\t\t<link href='assets/css/general.css' type='text/css' rel='stylesheet' />\n";
         $this->getTheme()->renderHTMLHeadLinks();
     }
 
