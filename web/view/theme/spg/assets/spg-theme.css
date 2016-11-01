@@ -43,8 +43,8 @@ body.spg-theme > hr.themed {
 
 body.spg-theme nav.site-menu {
     float: right;
-    margin-top: 1.2em;
-    margin-right: 2em;
+    margin-top: 0.3em;
+    margin-right: 0.5em;
 }
 
 body.layout-vertical.spg-theme nav.site-menu {
@@ -97,7 +97,7 @@ body.spg-theme .site-welcome-text {
     float: left;
     /* clear:both; */
     margin-right: 0.5em;
-    margin-top: 1.5em;
+    margin-top: 1.2em;
     /* font-weight:bold; */
     font-style:italic;
     font-size: larger;
