@@ -85,7 +85,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </table>
             </fieldset>
 
-            <fieldset >
+            <fieldset>
                 <legend>Receipt</legend>
                 <table class="table-transaction-info themed striped-rows">
                     <tbody>
@@ -118,7 +118,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                 <fieldset>
                     <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
-                    <table class="table-transaction-info themed cell-borders" style="width: 100%">
+                    <table class="table-transaction-info themed cell-borders small" style="width: 90%">
                         <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <?php if($Order->getUsername()) { ?>
@@ -148,7 +148,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                 <fieldset>
                     <legend>e-Check Information</legend>
-                    <table class="table-transaction-info themed striped-rows" style="width: 100%;">
+                    <table class="table-transaction-info themed striped-rows" style="width: 90%;">
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Name on Account</td>
@@ -194,9 +194,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 
 
-            <fieldset class="float-right-on-layout-horizontal">
+            <fieldset class="float-left-on-layout-horizontal" style="min-width: 5em;">
                 <legend>Totals</legend>
-                <table class="table-transaction-info-totals themed striped-rows">
+                <table class="table-transaction-info-totals themed striped-rows ">
                     <tbody>
                     <?php $odd = true; ?>
                     <?php if ($Order->getConvenienceFee()) { ?>
@@ -220,7 +220,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <fieldset class="hide-on-print">
                 <legend>Transaction History</legend>
-                <table class="table-results themed small" style="width: 100%;">
+                <table class="table-results themed small" style="width: 90%;">
                     <tr>
                         <th class="hide-on-layout-vertical">TID</th>
                         <th>Date</th>
