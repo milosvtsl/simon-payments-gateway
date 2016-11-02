@@ -1,7 +1,7 @@
 <?php
 namespace User\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use User\Model\UserQueryStats;
 use User\Model\UserRow;
 use User\Session\SessionManager;

@@ -7,7 +7,7 @@
  */
 namespace Merchant\Status\Model;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
 
 class MerchantStatusRow

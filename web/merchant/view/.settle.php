@@ -75,7 +75,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <legend>Choose Provisioned Integration</legend>
                     <?php
 
-                    $DB = \Config\DBConfig::getInstance();
+                    $DB = \System\Config\DBConfig::getInstance();
                     $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
                     /** @noinspection PhpMethodParametersCountMismatchInspection */
                     $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
@@ -164,7 +164,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
                     <legend>Settle Funds Now</legend>
                     <?php
                     $integration_id = $_GET['integration_id'];
-                    $DB = \Config\DBConfig::getInstance();
+                    $DB = \System\Config\DBConfig::getInstance();
                     $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . "\nWHERE i.id = ?");
                     /** @noinspection PhpMethodParametersCountMismatchInspection */
                     $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);

@@ -27,12 +27,12 @@ spl_autoload_register();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
+$ElementAPITest = IntegrationRow::fetchByUID('t3caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
 $ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
 //$Integration = new TestElementIntegrationRow();
 
+// Real API Health Check
 $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
-if(!$MerchantIdentity->isProvisioned())
-    $MerchantIdentity->provisionRemote();
 
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
@@ -45,6 +45,13 @@ $stats = $MerchantIdentity->performTransactionQuery(array('status' => 'Settled')
 echo "\nSearch Returned: ", $stats['total'];
 
 
+// Test API
+$MerchantIdentity = $ElementAPITest->getMerchantIdentity($Merchant);
+if(!$MerchantIdentity->isProvisioned())
+    $MerchantIdentity->provisionRemote();
+
+
+
 // Test Data
 $data = array(
     'integration_id' => $MerchantIdentity->getIntegrationRow()->getID(),
@@ -54,6 +61,8 @@ $data = array(
     'amount' => '23.05',
     'payee_reciept_email' => 'ari@asu.edu',
     'payee_phone_number' => '6025617789',
+    'customer_first_name' => 'Test',
+    'customer_last_name' => 'Guy',
     'customer_id' => '1234',
     'invoice_number' => '4321',
     'payee_first_name' => 'EMV BIN-2',
@@ -67,6 +76,14 @@ $data = array(
     'card_cvv2' => '532',
     'card_exp_month' => '12',
     'card_exp_year' => '19',
+
+    // Check
+    'check_account_name' => 'Test Checker',
+    'check_account_number' => 11111111,
+    'check_routing_number' => 122187238,
+    'check_account_type' => 'Checking',
+    'check_type' => 'Personal',
+    'check_number' => 123,
 );
 
 $tests = array(
@@ -102,6 +119,19 @@ $tests = array(
 //    array('amount' => '3.20', 'entry_mode' => 'swipe', 'return' => true),
 //    array('amount' => '3.25', 'entry_mode' => 'swipe', 'return' => true),
 
+    // ACH Tests
+    array('amount' => '2.01', 'entry_mode' => 'check'),
+    array('amount' => '2.02', 'entry_mode' => 'check'),
+    array('amount' => '2.03', 'entry_mode' => 'check'),
+    array('amount' => '2.04', 'entry_mode' => 'check'),
+    array('amount' => '2.05', 'entry_mode' => 'check'),
+    array('amount' => '2.06', 'entry_mode' => 'check'),
+    array('amount' => '2.07', 'entry_mode' => 'check'),
+    array('amount' => '2.09', 'entry_mode' => 'check'),
+    array('amount' => '2.10', 'entry_mode' => 'check'),
+    array('amount' => '2.11', 'entry_mode' => 'check'),
+    array('amount' => '2.12', 'entry_mode' => 'check'),
+    array('amount' => '2.13', 'entry_mode' => 'check'),
 );
 
 // Don't run long tests on anything but dev

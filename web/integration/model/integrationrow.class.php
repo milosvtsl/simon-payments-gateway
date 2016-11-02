@@ -7,7 +7,7 @@
  */
 namespace Integration\Model;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Transaction\Model\TransactionRow;

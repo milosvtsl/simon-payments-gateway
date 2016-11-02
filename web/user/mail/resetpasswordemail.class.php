@@ -8,7 +8,7 @@
 namespace User\Mail;
 
 
-use Config\SiteConfig;
+use System\Config\SiteConfig;
 use PHPMailer;
 use User\Model\UserRow;
 
@@ -76,7 +76,7 @@ TEXT;
 
     }
 
-    public function send() {
+    public function send2() {
         if($_SERVER['HTTP_HOST'] === 'localhost') {
             $log = "<pre>Email was sent from localhost\n". print_r($this, true) . "</pre>";
             echo $log;

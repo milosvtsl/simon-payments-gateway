@@ -1,6 +1,6 @@
 <?php
 namespace Integration\Model;
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;

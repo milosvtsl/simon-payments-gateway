@@ -5,8 +5,7 @@
  * Date: 8/28/2016
  * Time: 8:20 PM
  */
-namespace Config;
-use View\Theme\Basic\DefaultViewTheme;
+namespace System\Config;
 
 /**
  * Created by PhpStorm.
@@ -39,4 +38,4 @@ class SiteConfig
 //        }
     }
 }
-include_once __DIR__ .'/../../config.php';
+include_once __DIR__ .'/../../../config.php';

@@ -1,7 +1,7 @@
 <?php
 namespace Order\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\OrderQueryStats;

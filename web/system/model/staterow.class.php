@@ -7,7 +7,7 @@
  */
 namespace System\Model;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 
 class StateRow
 {

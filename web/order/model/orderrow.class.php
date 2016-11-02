@@ -7,8 +7,8 @@
  */
 namespace Order\Model;
 
-use Config\DBConfig;
-use Config\SiteConfig;
+use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Transaction\Model\TransactionRow;
@@ -409,6 +409,7 @@ SQL;
         } else if($post['entry_mode'] === 'check') {
             $OrderRow->check_account_name = $post['check_account_name'];
             $OrderRow->check_account_number = $post['check_account_number'];
+            $OrderRow->check_account_type = $post['check_account_type'];
             $OrderRow->check_routing_number = $post['check_routing_number'];
             $OrderRow->check_type = $post['check_type'];
             $OrderRow->check_number = $post['check_number'];

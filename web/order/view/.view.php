@@ -118,7 +118,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                 <fieldset>
                     <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
-                    <table class="table-transaction-info themed cell-borders small" style="width: 90%">
+                    <table class="table-transaction-info themed cell-borders small">
                         <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <?php if($Order->getUsername()) { ?>
@@ -147,38 +147,39 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <?php } else  { ?>
 
                 <fieldset>
-                    <legend>e-Check Information</legend>
-                    <table class="table-transaction-info themed striped-rows" style="width: 90%;">
+                    <legend>e-Check : <?php echo $Order->getCheckAccountName(); ?></legend>
+                    <table class="table-transaction-card-info themed cell-borders small" style="width: 90%;">
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Name on Account</td>
-                            <td class="value"><?php echo $Order->getCheckAccountName(); ?></td>
+                            <?php if($Order->getUsername()) { ?>
+                                <th>User ID</th>
+                            <?php }  ?>
+                            <th>Type</th>
+                            <th>Account</th>
+                            <th>Routing</th>
+                            <th>Usage</th>
+                            <th>Num</th>
+                            <th>Status</th>
+                            <th>Code</th>
+                            <th>Order ID</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Check Account Number</td>
-                            <td class="value"><?php echo $Order->getCheckAccountNumber() ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Check Routing Number</td>
-                            <td class="value"><?php echo $Order->getCheckRoutingNumber(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Check Account Type</td>
-                            <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Check Type</td>
+                            <?php if($Order->getUsername()) { ?>
+                                <td class="value"><?php echo $Order->getUsername(); ?></td>
+                            <?php }  ?>
                             <td class="value"><?php echo $Order->getCheckType(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckAccountNumber(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckRoutingNumber(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
+                            <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
+                            <td class="value"><?php echo $Order->getStatus(); ?></td>
+                            <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
+                            <td class="value"><?php echo $Order->getID(); ?></td>
                         </tr>
-                        <?php if($Order->getCheckNumber()) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Check Number</td>
-                                <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
-                            </tr>
-                        <?php } ?>
                         </tbody>
                     </table>
                 </fieldset>
+
 
             <?php } ?>
 
@@ -231,7 +232,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </tr>
                     <?php
                     /** @var \Transaction\Model\TransactionRow $Transaction */
-                    $DB = \Config\DBConfig::getInstance();
+                    $DB = \System\Config\DBConfig::getInstance();
                     $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.order_item_id = ? LIMIT 100");
                     /** @noinspection PhpMethodParametersCountMismatchInspection */
                     $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);

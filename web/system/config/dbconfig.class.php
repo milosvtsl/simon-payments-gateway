@@ -1,5 +1,5 @@
 <?php
-namespace Config;
+namespace System\Config;
 
 
 class DBConfig
@@ -37,4 +37,4 @@ class DBConfig
 
 }
 
-include_once __DIR__ .'/../../config.php';
+include_once __DIR__ .'/../../../config.php';

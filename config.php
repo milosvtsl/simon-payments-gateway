@@ -6,9 +6,8 @@
  * Time: 1:26 PM
  */
 
-use Config\SiteConfig;
-use Config\DBConfig;
-use View\Theme\SPG\SPGViewTheme;
+use System\Config\SiteConfig;
+use System\Config\DBConfig;
 
 // Database Config
 DBConfig::$DB_HOST = 'localhost';

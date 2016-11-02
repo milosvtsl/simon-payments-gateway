@@ -7,7 +7,7 @@
  */
 namespace Merchant\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;

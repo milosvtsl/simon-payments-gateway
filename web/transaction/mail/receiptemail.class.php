@@ -8,7 +8,7 @@
 namespace Transaction\Mail;
 
 
-use Config\SiteConfig;
+use System\Config\SiteConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use PHPMailer;
@@ -98,7 +98,7 @@ TEXT;
 
     }
 
-    public function send() {
+    public function send2() {
         if(@$_SERVER['HTTP_HOST'] === 'localhost' || @$_SERVER['OS'] === 'Windows_NT') {
             $log = "<pre>Email was sent from localhost\n". print_r($this, true) . "</pre>";
             echo $log;

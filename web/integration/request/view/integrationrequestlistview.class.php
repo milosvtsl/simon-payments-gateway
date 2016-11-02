@@ -1,7 +1,7 @@
 <?php
 namespace Integration\Request\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Integration\Request\Model\IntegrationRequestRow;

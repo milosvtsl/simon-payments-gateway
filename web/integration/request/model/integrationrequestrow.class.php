@@ -7,7 +7,7 @@
  */
 namespace Integration\Request\Model;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\IntegrationRow;
 
@@ -150,6 +150,7 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         $Request->integration_id = $integration_id;
         $Request->type = $type;
         $Request->type_id = $type_id;
+        $Request->result = self::ENUM_RESULT_FAIL;
         return $Request;
     }
 
@@ -217,6 +218,38 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         if(!$ret || !$DB->lastInsertId())
             throw new \PDOException("Failed to insert new row");
         $NewRow->id = $DB->lastInsertId();
+    }
+
+
+    /**
+     * @param IntegrationRequestRow $UpdateRow
+     * @return int number of rows updated
+     */
+    public static function update(IntegrationRequestRow $UpdateRow) {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare("UPDATE integration_request\n"
+            . "SET `type` = :type,"
+            . "\n\t`type_id` = :type_id,"
+            . "\n\t`integration_id` = :integration_id,"
+            . "\n\t`url` = :url,"
+            . "\n\t`request` = :request,"
+            . "\n\t`response` = :response,"
+            . "\n\t`result` = :result,"
+            . "\n\t`duration` = :duration"
+            . "\nWHERE id = " . $UpdateRow->id . "\nLIMIT 1");
+        $ret = $stmt->execute(array(
+            ':type' => $UpdateRow->getIntegrationType(),
+            ':type_id' => $UpdateRow->getIntegrationTypeID(),
+            ':integration_id' => $UpdateRow->getIntegrationID(),
+            ':url' => $UpdateRow->url,
+            ':request' => $UpdateRow->request,
+            ':response' => $UpdateRow->response,
+            ':result' => $UpdateRow->result,
+            ':duration' => $UpdateRow->duration,
+        ));
+        if(!$ret)
+            throw new \PDOException("Failed to update row");
+        return $stmt->rowCount();
     }
 
 

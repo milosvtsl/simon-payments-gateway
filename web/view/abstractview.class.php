@@ -9,8 +9,8 @@
 namespace View;
 
 
-use Config\DBConfig;
-use Config\SiteConfig;
+use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use View\Theme\AbstractViewTheme;
 
 abstract class AbstractView

@@ -7,7 +7,7 @@
  */
 namespace User\Model;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use User\Model\UserRow;
 
 class UserAuthorityRow

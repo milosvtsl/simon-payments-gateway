@@ -7,7 +7,7 @@
  */
 namespace User\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;

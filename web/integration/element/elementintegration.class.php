@@ -105,32 +105,7 @@ class ElementIntegration extends AbstractIntegration
      * @throws IntegrationException
      */
     function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
-        $data = $Request->parseResponseData();
-        switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
-                $response = $data['CreditCardReturnResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-                $response = $data['CreditCardVoidResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK:
-                $response = $data['HealthCheckResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH:
-                $response = $data['TransactionQueryResponse'];
-                break;
-
-            default:
-                return false;
-        }
-        $response = $response['response'];
+        $response = $Request->parseResponseData();
         $code = $response['ExpressResponseCode'];
         $reason = $response['ExpressResponseMessage'];
 
@@ -198,7 +173,38 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException("Response failed to parse SOAP Response");
         if(isset($data['soapFault']))
             throw new IntegrationException($data['soapFault']['soapReason']['soapText']);
-        return $data;
+
+        switch($Request->getIntegrationType()) {
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+                $response =
+                    @$data['CreditCardSaleResponse']
+                    ?: @$data['DebitCardSaleResponse']
+                    ?: @$data['CheckSaleResponse'];
+                break;
+
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
+                $response = $data['CreditCardReturnResponse'];
+                break;
+
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
+                $response = $data['CreditCardVoidResponse'];
+                break;
+
+            case IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK:
+                $response = $data['HealthCheckResponse'];
+                break;
+
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH:
+                $response = $data['TransactionQueryResponse'];
+                break;
+
+            default:
+                throw new IntegrationException("Invalid integration type");
+        }
+        $response = $response['response'];
+        if(!$response)
+            throw new IntegrationException("Invalid response key");
+        return $response;
     }
 
     /**
@@ -234,24 +240,23 @@ class ElementIntegration extends AbstractIntegration
             __CLASS__,
             $MerchantIdentity->getIntegrationRow()->getID(),
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION,
-            $MerchantIdentity->getMerchantRow()->getID()
+            -1 // $MerchantIdentity->getMerchantRow()->getID()
         );
         $url = $this->getRequestURL($Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
+        if($Order->getEntryMode() == 'check')
+            $request = $APIUtil->prepareCheckSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
+        else
+            $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
+        IntegrationRequestRow::insert($Request);
 
-        $data = $this->parseResponseData($Request);
-        if(empty($data['CreditCardSaleResponse']) && empty($data['DebitCardSaleResponse']))
-            throw new IntegrationException("Invalid response array");
-
-        $response = @$data['CreditCardSaleResponse'] ?: @$data['DebitCardSaleResponse'];
-        $response = $response['response'];
+        $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
@@ -279,7 +284,7 @@ class ElementIntegration extends AbstractIntegration
         // Insert Request
         $Request->setType('transaction');
         $Request->setTypeID($Transaction->getID());
-        IntegrationRequestRow::insert($Request);
+        IntegrationRequestRow::update($Request);
 
         if($Order->getPayeeEmail()) {
             $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
@@ -325,12 +330,7 @@ class ElementIntegration extends AbstractIntegration
 
         $this->execute($Request);
 
-        $data = $this->parseResponseData($Request);
-        if(empty($data['CreditCardReversalResponse']))
-            throw new IntegrationException("Invalid CreditCardReversalResponse");
-
-        $response = $data['CreditCardReversalResponse'];
-        $response = $response['response'];
+        $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
@@ -400,13 +400,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequest($request);
 
         $this->execute($Request);
-        $data = $this->parseResponseData($Request);
-
-        if(empty($data['CreditCardVoidResponse']))
-            throw new IntegrationException("Invalid CreditCardVoidResponse");
-
-        $response = $data['CreditCardVoidResponse'];
-        $response = $response['response'];
+        $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
@@ -478,13 +472,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequest($request);
 
         $this->execute($Request);
-        $data = $this->parseResponseData($Request);
-
-        if(empty($data['CreditCardReturnResponse']))
-            throw new IntegrationException("Invalid CreditCardReturnResponse");
-
-        $response = $data['CreditCardReturnResponse'];
-        $response = $response['response'];
+        $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
@@ -550,13 +538,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequest($request);
 
         $this->execute($Request);
-        $data = $this->parseResponseData($Request);
-
-        if(empty($data['HealthCheckResponse']))
-            throw new IntegrationException("Invalid HealthCheckResponse");
-
-        $response = $data['HealthCheckResponse'];
-        $response = $response['response'];
+        $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
@@ -592,12 +574,6 @@ class ElementIntegration extends AbstractIntegration
 
         $this->execute($Request);
         $response = $this->parseResponseData($Request);
-
-        if(empty($response['TransactionQueryResponse']))
-            throw new IntegrationException("Invalid TransactionQueryResponse");
-
-        $response = $response['TransactionQueryResponse'];
-        $response = $response['response'];
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)

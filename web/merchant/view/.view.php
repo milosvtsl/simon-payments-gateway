@@ -197,7 +197,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                         <?php
                         /** @var \Order\Model\OrderRow $Order */
 
-                        $DB = \Config\DBConfig::getInstance();
+                        $DB = \System\Config\DBConfig::getInstance();
 
                         $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
                             . "\nWHERE oi.merchant_id = ?"
@@ -239,7 +239,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                         </tr>
                         <?php
 
-                        $DB = \Config\DBConfig::getInstance();
+                        $DB = \System\Config\DBConfig::getInstance();
                         $UserQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
                         $UserQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
@@ -278,7 +278,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                         </tr>
                         <?php
 
-                        $DB = \Config\DBConfig::getInstance();
+                        $DB = \System\Config\DBConfig::getInstance();
                         $UserQuery = $DB->prepare(
                             "SELECT * FROM user u "
                             . "\nLEFT JOIN user_merchants um ON u.id = um.id_user"

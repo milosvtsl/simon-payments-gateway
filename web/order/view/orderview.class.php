@@ -7,7 +7,7 @@
  */
 namespace Order\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;

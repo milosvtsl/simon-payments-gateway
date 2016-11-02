@@ -1,7 +1,7 @@
 <?php
 namespace Merchant\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Merchant\Model\MerchantQueryStats;
 use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;

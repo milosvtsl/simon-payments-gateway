@@ -1,7 +1,7 @@
 <?php
 namespace Integration\View;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Integration\Model\IntegrationRow;
 use User\Session\SessionManager;
 use View\AbstractListView;

@@ -7,7 +7,7 @@
  */
 namespace Transaction\Model;
 
-use Config\DBConfig;
+use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
