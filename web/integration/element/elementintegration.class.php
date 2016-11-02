@@ -183,11 +183,15 @@ class ElementIntegration extends AbstractIntegration
                 break;
 
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
-                $response = $data['CreditCardReturnResponse'];
+                $response =
+                    @$data['CreditCardReturnResponse']
+                    ?: @$data['CheckReturnResponse'];
                 break;
 
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-                $response = $data['CreditCardVoidResponse'];
+                $response =
+                    @$data['CreditCardVoidResponse']
+                    ?: @$data['CheckVoidResponse'];
                 break;
 
             case IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK:
@@ -396,7 +400,10 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->voidCreditCardRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
+        if($Order->getEntryMode() == 'check')
+            $request = $APIUtil->prepareCheckVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
+        else
+            $request = $APIUtil->prepareCreditCardVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
@@ -468,7 +475,10 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        $request = $APIUtil->returnCreditCardRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
+        if($Order->getEntryMode() == 'check')
+            $request = $APIUtil->prepareCheckReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
+        else
+            $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);

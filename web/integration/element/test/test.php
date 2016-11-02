@@ -120,22 +120,25 @@ $tests = array(
 //    array('amount' => '3.25', 'entry_mode' => 'swipe', 'return' => true),
 
     // ACH Tests
-    array('amount' => '2.01', 'entry_mode' => 'check'),
-    array('amount' => '2.02', 'entry_mode' => 'check'),
-    array('amount' => '2.03', 'entry_mode' => 'check'),
-    array('amount' => '2.04', 'entry_mode' => 'check'),
-    array('amount' => '2.05', 'entry_mode' => 'check'),
-    array('amount' => '2.06', 'entry_mode' => 'check'),
-    array('amount' => '2.07', 'entry_mode' => 'check'),
-    array('amount' => '2.09', 'entry_mode' => 'check'),
-    array('amount' => '2.10', 'entry_mode' => 'check'),
-    array('amount' => '2.11', 'entry_mode' => 'check'),
-    array('amount' => '2.12', 'entry_mode' => 'check'),
-    array('amount' => '2.13', 'entry_mode' => 'check'),
+//    array('amount' => '2.01', 'entry_mode' => 'check'),
+//    array('amount' => '2.02', 'entry_mode' => 'check'),
+//    array('amount' => '2.03', 'entry_mode' => 'check'),
+//    array('amount' => '2.04', 'entry_mode' => 'check'),
+//    array('amount' => '2.05', 'entry_mode' => 'check'),
+//    array('amount' => '2.06', 'entry_mode' => 'check'),
+//    array('amount' => '2.07', 'entry_mode' => 'check'),
+//    array('amount' => '2.09', 'entry_mode' => 'check'),
+//    array('amount' => '2.10', 'entry_mode' => 'check'),
+//    array('amount' => '2.11', 'entry_mode' => 'check'),
+//    array('amount' => '2.12', 'entry_mode' => 'check'),
+//    array('amount' => '2.13', 'entry_mode' => 'check'),
+
+    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
+    array('amount' => '2.31', 'entry_mode' => 'check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev
-//if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
+if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
     $tests = array();
 
 foreach($tests as $testData) {

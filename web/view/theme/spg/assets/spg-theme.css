@@ -46,7 +46,21 @@ body.spg-theme > hr.themed {
 	border-color: #3d7694;
 }
 
+/** Messages **/
 
+body.spg-theme span.error,
+body.spg-theme span.info {
+    font-size: x-large;
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 0.2em;
+    border-radius: 0.8em;
+    font-weight: bold;
+    color: #003;
+}
+
+body.spg-theme .info { background: rgba(59, 117, 147, 0.53); }
+body.spg-theme .error { background: rgba(147, 59, 59, 0.51); }
 /** Site Menu **/
 
 body.spg-theme nav.site-menu {
