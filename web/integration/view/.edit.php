@@ -10,6 +10,7 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="integration/request?" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
@@ -31,7 +32,7 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
             <form class="form-view-integration themed" method="POST">
                 <fieldset>
                     <legend>Edit Integration Fields</legend>
-                    <table class="table-integration-info themed">
+                    <table class="table-integration-info themed striped-rows" style="width: 98%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Integration->getID(); ?></td>

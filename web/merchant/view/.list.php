@@ -48,7 +48,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 <br/>
                 <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows" style="width: 100%">
+                    <table class="table-results themed small striped-rows" style="width: 98%">
                         <tr>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>

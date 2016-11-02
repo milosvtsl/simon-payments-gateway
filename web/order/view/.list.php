@@ -75,7 +75,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
 
                 <fieldset>
                     <legend>Search Statistics</legend>
-                    <table class="table-stats themed small striped-rows" style="width: 100%;">
+                    <table class="table-stats themed small striped-rows" style="width: 98%;">
                         <tr>
                             <th>Authorized Total</th>
                             <th>Settled</th>
@@ -105,7 +105,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
 
                 <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows" style="width: 100%;">
+                    <table class="table-results themed small striped-rows" style="width: 98%;">
                         <tr>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
                             <th>Amount</th>

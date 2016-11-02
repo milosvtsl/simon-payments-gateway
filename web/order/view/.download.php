@@ -90,7 +90,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                 <fieldset>
                     <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
-                    <table class="table-transaction-info themed cell-borders" style="width: 100%; text-align: left;">
+                    <table class="table-transaction-info themed cell-borders" style="width: 98%; text-align: left;">
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
                             <?php if($Order->getUsername()) { ?>
