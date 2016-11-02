@@ -52,9 +52,9 @@ class ElementAPIUtil {
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
         if($ConvenienceFeeAmount) {
             $TransactionAmount = $TransactionAmount + $ConvenienceFeeAmount;
-            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
+            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
         }
-        $TransactionAmount = number_format($TransactionAmount, 2);
+        $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -360,8 +360,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
-        $TransactionAmount = number_format($TransactionAmount, 2);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
+        $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = null;
@@ -637,8 +637,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
-        $TransactionAmount = number_format($TransactionAmount, 2);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
+        $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
 
         $AccountID = $MerchantIdentity->getAccountID();
@@ -825,8 +825,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
-        $TransactionAmount = number_format($TransactionAmount, 2);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
+        $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
 
         $AccountID = $MerchantIdentity->getAccountID();
@@ -1040,8 +1040,8 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2);
-        $TransactionAmount = number_format($TransactionAmount, 2);
+        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
+        $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
 
 
