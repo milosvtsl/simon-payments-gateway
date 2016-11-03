@@ -67,7 +67,7 @@ $data = array(
     'invoice_number' => '4321',
     'payee_first_name' => 'EMV BIN-2',
     'payee_last_name' => 'TEST CARD',
-    'payee_zipcode' => '',
+    'payee_zipcode' => '90210',
     'payee_address' => '123 s. Street st',
     'payee_address2' => '#1234',
     'card_number' => '2223000010007612',
@@ -133,8 +133,8 @@ $tests = array(
 //    array('amount' => '2.12', 'entry_mode' => 'check'),
 //    array('amount' => '2.13', 'entry_mode' => 'check'),
 
-    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
-    array('amount' => '2.31', 'entry_mode' => 'check', 'void' => true),
+//    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
+//    array('amount' => '2.31', 'entry_mode' => 'check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev

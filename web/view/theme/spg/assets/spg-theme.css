@@ -338,7 +338,7 @@ body.spg-theme a.button[disabled] {
 body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
 
-body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0.5em;min-width: 70%;}
+body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0.5em;/* min-width: 48%; */}
 
 body.spg-theme table.themed > tbody > tr > th {
     background-color: #bcc5d1;

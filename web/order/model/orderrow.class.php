@@ -90,9 +90,12 @@ class OrderRow
     protected $payee_last_name;
     protected $payee_phone_number;
     protected $payee_reciept_email;
-    protected $payee_zipcode;
     protected $payee_address;
     protected $payee_address2;
+    protected $payee_zipcode;
+    protected $payee_city;
+    protected $payee_state;
+
     protected $status;
     protected $total_returned_amount;
     protected $total_returned_service_fee;
@@ -128,9 +131,11 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
     public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
-    public function getPayeeZipCode()       { return $this->payee_zipcode; }
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
+    public function getPayeeZipCode()       { return $this->payee_zipcode; }
+    public function getPayeeCity()          { return $this->payee_city; }
+    public function getPayeeState()         { return $this->payee_state; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
@@ -428,9 +433,12 @@ SQL;
         $OrderRow->payee_first_name = $post['payee_first_name'];
         $OrderRow->payee_last_name = $post['payee_last_name'];
         $OrderRow->payee_phone_number = $post['payee_phone_number'];
-        $OrderRow->payee_zipcode = $post['payee_zipcode'];
         $OrderRow->payee_address = $post['payee_address'];
         $OrderRow->payee_address2 = $post['payee_address2'];
+
+        $OrderRow->payee_zipcode = $post['payee_zipcode'];
+        $OrderRow->payee_city = @$post['payee_city'];
+        $OrderRow->payee_state = @$post['payee_state'];
 
         if(isset($post['payee_reciept_email']))
             $OrderRow->payee_reciept_email = $post['payee_reciept_email'];

@@ -127,6 +127,36 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Billing Address</td>
+                            <td>
+                                <input type="text" name="payee_address" value="<?php echo @$LASTPOST['payee_address']; ?>" placeholder="Address" />
+                                <br/>
+                                <input type="text" name="payee_address2" value="<?php echo @$LASTPOST['payee_address2']; ?>" placeholder="Address #2" />
+                            </td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Billing Zip/State</td>
+                            <td>
+                                <input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="6" class="zip-lookup-field-zipcode" />
+                                <select name="payee_state" style="width: 7em;" class='zip-lookup-field-state-short'>
+                                    <option value="">State</option>
+                                    <?php
+                                    foreach(\System\Arrays\Locations::$STATES as $code => $name)
+                                        echo "\n\t<option value='", $code, "' ",
+                                        ($code === @$LASTPOST['payee_state'] ? ' selected="selected"' : ''),
+                                        ">", $name, "</option>";
+                                    ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Billing City</td>
+                            <td>
+                                <input type="text" name="payee_city" size="10" value="<?php echo @$LASTPOST['payee_city']; ?>" placeholder="City" class='zip-lookup-field-city-title-case' />
+                            </td>
+                        </tr>
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer&nbsp;ID#</td>
                             <td><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="Optional Customer ID" /></td>
                         </tr>
@@ -147,18 +177,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Last Name</td>
                             <td><input type="text" name="payee_last_name" value="<?php echo @$LASTPOST['payee_last_name']; ?>" placeholder="Last Name" required /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Address</td>
-                            <td>
-                                <input type="text" name="payee_address" value="<?php echo @$LASTPOST['payee_address']; ?>" placeholder="Address" />
-                                <br/>
-                                <input type="text" name="payee_address2" value="<?php echo @$LASTPOST['payee_address2']; ?>" placeholder="Address #2" />
-                            </td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Billing Zip Code</td>
-                            <td><input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="7" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Card Number</td>
@@ -215,7 +233,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
 
-                <fieldset class="show-on-payment-method-swipe" >
+                <fieldset class="show-on-payment-method-swipe show-on-payment-method-keyed" >
                     <legend class="alert reader-status">Card Swipe Ready</legend>
                     <table class="table-payment-method-swipe themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -275,14 +293,17 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
                 <br />
 
-                <fieldset class="form-payment-recurring show-on-merchant-selected show-on-payment-method-selected float-left-on-layout-horizontal">
-                    <legend>Recurring Information</legend>
-                    <table class="table-transaction-charge themed">
+
+                <fieldset class="show-on-merchant-selected show-on-payment-method-selected">
+                    <legend>Submit Payment</legend>
+
+
+                    <table class="table-transaction-charge themed" style="float: left; color: grey; width: 48%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Enable Recurring</td>
                             <td class="value"><input type="checkbox" name="recur_enable" value="1" disabled
-                                <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
-                                /></td>
+                                    <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
+                                    /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Run until canceled</td>
@@ -316,18 +337,15 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                         $LASTPOST['recur_frequency'] = 'Monthly';
                                     foreach(OrderRow::$ENUM_RUN_FREQUENCY as $type => $name)
                                         echo "\n\t<option ",
-                                            @$LASTPOST['recur_frequency'] === $type ? 'selected="selected"' : '',
-                                            ">", $name, "</option>";
+                                        @$LASTPOST['recur_frequency'] === $type ? 'selected="selected"' : '',
+                                        ">", $name, "</option>";
                                     ?>
                                 </select>
                             </td>
                         </tr>
                     </table>
-                </fieldset>
 
-                <fieldset class="show-on-merchant-selected show-on-payment-method-selected">
-                    <legend>Submit Payment</legend>
-                    <table class="table-transaction-charge themed">
+                    <table class="table-transaction-charge themed" style="width: 48%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Convenience Fee</td>
                             <td><input type="text" size="9" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>

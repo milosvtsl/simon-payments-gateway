@@ -78,6 +78,7 @@ class ChargeView extends AbstractView
         parent::renderHTMLHeadLinks();
         echo <<<HEAD
         <script src="transaction/view/assets/charge.js"></script>
+        <script src="http://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
         <link href='transaction/view/assets/charge.css' type='text/css' rel='stylesheet' />
         <link href='transaction/view/assets/template/full.charge.css' type='text/css' rel='stylesheet' />
         <link href='transaction/view/assets/template/simple.charge.css' type='text/css' rel='stylesheet' />

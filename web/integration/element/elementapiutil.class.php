@@ -50,8 +50,8 @@ class ElementAPIUtil {
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = $OrderRow->getPayeeAddress();
         $BillingAddress2 = $OrderRow->getPayeeAddress2();
-        $BillingCity = null;
-        $BillingState = null;
+        $BillingCity = $OrderRow->getPayeeCity();
+        $BillingState = $OrderRow->getPayeeState();
         $BillingZipcode = $OrderRow->getPayeeZipCode();
         $BillingEmail = $OrderRow->getPayeeEmail();
         $BillingPhone = $OrderRow->getPayeePhone();
@@ -321,9 +321,9 @@ PHP;
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = $OrderRow->getPayeeAddress();
         $BillingAddress2 = $OrderRow->getPayeeAddress2();
-        $BillingCity = null;
-        $BillingState = null;
         $BillingZipcode = $OrderRow->getPayeeZipCode();
+        $BillingCity = $OrderRow->getPayeeCity();
+        $BillingState = $OrderRow->getPayeeState();
         $BillingEmail = $OrderRow->getPayeeEmail();
         $BillingPhone = $OrderRow->getPayeePhone();
 
@@ -910,9 +910,9 @@ PHP;
         $BillingName = $OrderRow->getCardHolderFullName();
         $BillingAddress1 = $OrderRow->getPayeeAddress();
         $BillingAddress2 = $OrderRow->getPayeeAddress2();
-        $BillingCity = null;
-        $BillingState = null;
         $BillingZipcode = $OrderRow->getPayeeZipCode();
+        $BillingCity = $OrderRow->getPayeeCity();
+        $BillingState = $OrderRow->getPayeeState();
         $BillingEmail = $OrderRow->getPayeeEmail();
         $BillingPhone = $OrderRow->getPayeePhone();
 
