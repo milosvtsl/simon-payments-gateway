@@ -137,7 +137,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                                 <td class="value"><?php echo $Order->getCardNumber(); ?></td>
                                 <td class="value"><?php echo $Order->getCardType(); ?></td>
                                 <td class="value"><?php echo $Order->getStatus(); ?></td>
-                                <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
+                                <td class="value"><?php echo $Transaction ? $Transaction->getTransactionID() : "N/A"; ?></td>
                                 <td class="value"><?php echo $Order->getID(); ?></td>
                             </tr>
                         </tbody>
@@ -173,7 +173,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                             <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
                             <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
                             <td class="value"><?php echo $Order->getStatus(); ?></td>
-                            <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
+                            <td class="value"><?php echo $Transaction ? $Transaction->getTransactionID() : 'N/A'; ?></td>
                             <td class="value"><?php echo $Order->getID(); ?></td>
                         </tr>
                         </tbody>

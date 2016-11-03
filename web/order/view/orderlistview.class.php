@@ -146,7 +146,9 @@ class OrderListView extends AbstractListView {
 
 		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
         $statsMessage .= " (GMT " . $offset/(60*60) . ")";
-		$this->setMessage($statsMessage);
+
+		if(!$this->getMessage())
+			$this->setMessage($statsMessage);
 
 		// Render Page
 		include ('.list.php');

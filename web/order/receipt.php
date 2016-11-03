@@ -27,6 +27,10 @@ try {
     $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
 } catch (InvalidArgumentException $ex) {
     $View = new \Order\View\OrderListView();
-    $View->setMessage($ex->getMessage());
+    $View->setSessionMessage(
+        "<span class='error'>" .
+        $ex->getMessage() .
+        "</span>"
+    );
 }
 $View->handleRequest();

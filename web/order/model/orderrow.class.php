@@ -183,8 +183,6 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $stmt->setFetchMode(\PDO::FETCH_CLASS, TransactionRow::_CLASS);
         $stmt->execute(array($this->getID(), 'Authorized'));
         $AuthorizedTransaction = $stmt->fetch();
-        if(!$AuthorizedTransaction)
-            throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $this->getID());
         return $AuthorizedTransaction;
     }
 

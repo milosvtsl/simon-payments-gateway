@@ -388,6 +388,8 @@ class ElementIntegration extends AbstractIntegration
             throw new \InvalidArgumentException("Order must exist in the database");
 
         $AuthorizedTransaction = $Order->fetchAuthorizedTransaction();
+        if(!$AuthorizedTransaction)
+            throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $Order->getID());
 
         $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
@@ -464,6 +466,8 @@ class ElementIntegration extends AbstractIntegration
             throw new \InvalidArgumentException("Order must exist in the database");
 
         $AuthorizedTransaction = $Order->fetchAuthorizedTransaction();
+        if(!$AuthorizedTransaction)
+            throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $Order->getID());
 
         $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
