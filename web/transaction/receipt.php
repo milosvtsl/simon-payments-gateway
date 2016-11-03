@@ -29,4 +29,5 @@ try {
     $View = new \Order\View\OrderListView();
     $View->setMessage($ex->getMessage());
 }
+$View->handleRequest();
 
