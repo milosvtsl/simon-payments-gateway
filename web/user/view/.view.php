@@ -45,8 +45,8 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-                <form class="form-view-user themed">
-                    <input type="hidden" name="action" value="view" />
+                <form class="form-view-user themed" method="POST">
+                    <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                     <fieldset>
                         <legend>User Information</legend>
                         <?php $odd = true; ?>
@@ -113,7 +113,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                 </td>
                             </tr>
 
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin Access</td>
                                 <td class="value"><input type="submit" value="Login" name="action" /></td>
