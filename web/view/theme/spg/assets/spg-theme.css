@@ -360,7 +360,7 @@ body.spg-theme table.themed > tbody > tr > td {
 body.spg-theme table.themed.small > tbody > tr > th,
 body.spg-theme table.themed.small > tbody > tr > td {
     font-size: smaller;
-    max-width: 5em;
+    /*max-width: 5em;*/
 }
 
 body.spg-theme table.cell-borders {

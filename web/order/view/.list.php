@@ -130,7 +130,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <td><?php echo $Order->getCardHolderFullName(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
-                            <td><?php echo $Order->getInvoiceNumber(); ?></td>
+                            <td style="max-width: 5em;"><?php echo $Order->getInvoiceNumber(); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
                             <td class="hide-on-layout-vertical"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
 
