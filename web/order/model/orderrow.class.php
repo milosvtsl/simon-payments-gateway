@@ -304,9 +304,12 @@ SQL;
             ':payee_last_name' => $OrderRow->payee_last_name,
             ':payee_phone_number' => $OrderRow->payee_phone_number,
             ':payee_reciept_email' => $OrderRow->payee_reciept_email,
-            ':payee_zipcode' => $OrderRow->payee_zipcode,
             ':payee_address' => $OrderRow->payee_address,
             ':payee_address2' => $OrderRow->payee_address2,
+
+            ':payee_zipcode' => $OrderRow->payee_zipcode,
+            ':payee_city' => $OrderRow->payee_city,
+            ':payee_state' => $OrderRow->payee_state,
 
             ':status' => $OrderRow->status,
             ':convenience_fee' => $OrderRow->convenience_fee ?: 0,
