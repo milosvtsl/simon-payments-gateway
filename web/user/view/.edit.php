@@ -1,9 +1,12 @@
 <?php
 use Merchant\Model\MerchantRow;
+use User\Model\UserRow;
+use User\Model\AuthorityRow;
+use User\Model\UserAuthorityRow;
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
- * @var \User\Model\UserRow $User
+ * @var UserRow $User
  **/
 $odd = false;
 $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
@@ -99,6 +102,34 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 </td>
                             </tr>
 
+                            <?php if($SessionUser->hasAuthority("ROLE_ADMIN")) { ?>
+
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Admin</td>
+                                <td>
+                                    <select name="admin_id" required>
+                                        <?php
+                                        $SQL = UserRow::SQL_SELECT
+                                            . "\n\tLEFT JOIN user_authorities ua on u.id = ua.id_user"
+                                            . "\n\tLEFT JOIN authority a on a.id = ua.id_authority"
+                                            . "\n\tWHERE a.authority IN ('ROLE_ADMIN', 'ROLE_SUB_ADMIN')"
+                                            . "\n\tORDER BY a.authority ASC";
+                                        $DB = \System\Config\DBConfig::getInstance();
+                                        $stmt = $DB->prepare($SQL);
+                                        /** @noinspection PhpMethodParametersCountMismatchInspection */
+                                        $stmt->setFetchMode(\PDO::FETCH_CLASS, UserRow::_CLASS);
+                                        $stmt->execute();
+                                        foreach($stmt as $AdminUser) {
+                                            /** @var UserRow $AdminUser */
+                                            $selected = $AdminUser->getID() === $User->getAdminID() ? ' selected="selected"' : '';
+                                            echo "\n\t\t\t<option value='{$AdminUser->getID()}'{$selected}>{$AdminUser->getFullName()}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <?php } ?>
 
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -109,14 +140,16 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 <td class="name">Confirm Password</td>
                                 <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
                             </tr>
+
                             <?php if($SessionUser->hasAuthority("ROLE_ADMIN")) { ?>
+
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Authorities</td>
                                 <td class="value">
                                     <?php
-                                    $AuthQuery = \User\Model\AuthorityRow::queryAll();
+                                    $AuthQuery = AuthorityRow::queryAll();
                                     foreach($AuthQuery as $Authority)
-                                        /** @var \User\Model\UserAuthorityRow $Authority*/
+                                        /** @var UserAuthorityRow $Authority*/
                                         echo "<label>",
                                         "\n\t<input type='hidden' name='authority[", $Authority->getAuthority(), "]' value='0' />",
                                         "\n\t<input type='checkbox' name='authority[", $Authority->getAuthority(), "]' value='1'",

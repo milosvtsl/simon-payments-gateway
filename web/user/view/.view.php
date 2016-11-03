@@ -7,6 +7,7 @@ use Merchant\Model\MerchantRow;
  **/
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
+
 ?>
 
     <!-- Page Navigation -->
@@ -114,6 +115,19 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             </tr>
 
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Admin</td>
+                                <td class="value">
+                                    <?php
+                                    try {
+                                        $AdminUser = \User\Model\UserRow::fetchByID($User->getAdminID());
+                                        echo "<a href='/user?id=", $AdminUser->getID(), "'>", $AdminUser->getFullName(), "</a>";
+                                    } catch (InvalidArgumentException $ex) {
+
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin Access</td>
                                 <td class="value"><input type="submit" value="Login" name="action" /></td>

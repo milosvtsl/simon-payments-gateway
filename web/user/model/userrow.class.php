@@ -158,6 +158,13 @@ FROM user u
         return $PasswordQuery->rowCount();
     }
 
+    public function updateAdminID($admin_id) {
+        if($admin_id == $this->admin_id)
+            return false;
+        $this->admin_id = $admin_id;
+        return static::update($this);
+    }
+
     public function updateFields($post) {
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
@@ -417,6 +424,7 @@ SQL;
             ':password' => $User->password,
             ':username' => $User->username,
             ':timezone' => $User->timezone,
+            ':admin_id' => $User->admin_id,
         );
         $SQL = '';
         foreach($values as $key=>$value)

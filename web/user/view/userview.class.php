@@ -93,6 +93,10 @@ class UserView extends AbstractView
 
 
                     if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                        if(!empty($post['admin_id']))
+                            $updates += $User->updateAdminID($post['admin_id']);
+
+
                         foreach($post['merchant'] as $merchant_id => $added)
                             if($added)
                                 $updates += $User->addMerchantID($merchant_id);
