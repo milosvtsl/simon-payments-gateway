@@ -25,13 +25,13 @@ $SessionUser = \User\Session\SessionManager::get()->getSessionUser();
 $SessionUser = \User\Session\SessionManager::get()->getSessionUser();
 
 $SessionManager = new \User\Session\SessionManager();
-if(!$SessionManager->isLoggedIn()) { // !$SessionUser->hasAuthority('ROLE_ADMIN')) {
+if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die();
 }
 
 if(isset($_GET['id'])) {
-    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+    if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
         $View = new \User\View\UserView($_GET['id']);
         $View->handleRequest();
     } else {

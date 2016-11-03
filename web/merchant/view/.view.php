@@ -18,11 +18,14 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
-        <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
-        <a href="<?php echo $action_url; ?>settle" class="button">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
+            <a href="<?php echo $action_url; ?>settle" class="button">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
+        <?php } ?>
     </nav>
 
     <article class="themed">
@@ -180,51 +183,6 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </table>
                 </fieldset>
 
-                <fieldset >
-                    <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
-                    <table class="table-results themed small striped-rows">
-                        <tr>
-                            <th>ID</th>
-                            <th>Amount</th>
-                            <th>Customer</th>
-                            <th>Mode</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Item&nbsp;ID</th>
-                            <th>Invoice&nbsp;ID</th>
-                            <th>Customer&nbsp;ID</th>
-                        </tr>
-                        <?php
-                        /** @var \Order\Model\OrderRow $Order */
-
-                        $DB = \System\Config\DBConfig::getInstance();
-
-                        $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
-                            . "\nWHERE oi.merchant_id = ?"
-                            . OrderRow::SQL_ORDER_BY
-                            . "\nLIMIT 50");
-                        /** @noinspection PhpMethodParametersCountMismatchInspection */
-                        $OrderQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
-                        $OrderQuery->execute(array($this->getMerchant()->getID()));
-
-                        $odd = false;
-                        foreach($OrderQuery as $Order) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
-                                <td>$<?php echo $Order->getAmount(); ?></td>
-                                <td><?php echo $Order->getCardHolderFullName(); ?></td>
-                                <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                                <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate()) + $offset); ?></td>
-                                <td><?php echo $Order->getStatus(); ?></td>
-                                <td><?php echo $Order->getOrderItemID(); ?></td>
-                                <td><?php echo $Order->getInvoiceNumber(); ?></td>
-                                <td><?php echo $Order->getCustomerID(); ?></td>
-
-                            </tr>
-                        <?php } ?>
-                    </table>
-                </fieldset>
-
                 <fieldset>
                     <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-merchant-info themed striped-rows">
@@ -300,6 +258,53 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                     </table>
                 </fieldset>
+
+
+                <fieldset >
+                    <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
+                    <table class="table-results themed small striped-rows">
+                        <tr>
+                            <th>ID</th>
+                            <th>Amount</th>
+                            <th>Customer</th>
+                            <th>Mode</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Item&nbsp;ID</th>
+                            <th>Invoice&nbsp;ID</th>
+                            <th>Customer&nbsp;ID</th>
+                        </tr>
+                        <?php
+                        /** @var \Order\Model\OrderRow $Order */
+
+                        $DB = \System\Config\DBConfig::getInstance();
+
+                        $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
+                            . "\nWHERE oi.merchant_id = ?"
+                            . OrderRow::SQL_ORDER_BY
+                            . "\nLIMIT 10");
+                        /** @noinspection PhpMethodParametersCountMismatchInspection */
+                        $OrderQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
+                        $OrderQuery->execute(array($this->getMerchant()->getID()));
+
+                        $odd = false;
+                        foreach($OrderQuery as $Order) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                                <td>$<?php echo $Order->getAmount(); ?></td>
+                                <td><?php echo $Order->getCardHolderFullName(); ?></td>
+                                <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                                <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate()) + $offset); ?></td>
+                                <td><?php echo $Order->getStatus(); ?></td>
+                                <td><?php echo $Order->getOrderItemID(); ?></td>
+                                <td><?php echo $Order->getInvoiceNumber(); ?></td>
+                                <td><?php echo $Order->getCustomerID(); ?></td>
+
+                            </tr>
+                        <?php } ?>
+                    </table>
+                </fieldset>
+
             </form>
         </section>
     </article>

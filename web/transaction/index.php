@@ -23,7 +23,7 @@ spl_autoload_register();
 session_start();
 
 $SessionManager = new \User\Session\SessionManager();
-if(!$SessionManager->isLoggedIn()) { // !$SessionUser->hasAuthority('ROLE_ADMIN')) {
+if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die();
 }

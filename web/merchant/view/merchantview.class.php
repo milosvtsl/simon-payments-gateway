@@ -35,7 +35,7 @@ class MerchantView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         $SessionUser = SessionManager::get()->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
             header('Location: /merchant?id=' . $this->getMerchant()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
@@ -74,14 +74,23 @@ class MerchantView extends AbstractView
         $Merchant = $this->getMerchant();
 
         $SessionUser = SessionManager::get()->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may edit/view merchants
             $this->setSessionMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
             header('Location: /merchant?id=' . $Merchant->getID());
             die();
         }
 
-        // Render Page
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+            if(!in_array($Merchant->getID(), $SessionUser->getMerchantList())) {
+                // Only admins may edit/view merchants
+                $this->setSessionMessage("Unable to view/edit merchant. This account does not have permission.");
+                header('Location: /merchant?id=' . $Merchant->getID());
+                die();
+            }
+        }
+
+            // Render Page
         switch($this->_action) {
             case 'edit':
                 try {

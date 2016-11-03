@@ -9,14 +9,9 @@ $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 ?>
 
-
-        <!-- Page Navigation -->
-        <nav class="page-menu hide-on-print">
-            <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-            <?php } ?>
+    <!-- Page Navigation -->
+    <nav class="page-menu hide-on-print">
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
 
         <?php if($SessionUser->getID() !== $User->getID()) { ?>
             <a href="<?php echo $action_url; ?>view" class="button current">View User<div class="submenu-icon submenu-icon-view"></div></a>
@@ -24,19 +19,21 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
         <?php } else { ?>
 
-            <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-                <a href="transaction/charge.php" class="button">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
-            <?php } ?>
             <a href="user/account.php" class="button current">My Account <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
+        <?php } ?>
+
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+            <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->getID() === $User->getID()) { ?>
             <a href="user/logout.php" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
         <?php } ?>
 
-        </nav>
+    </nav>
 
         <article class="themed">
             <section class="content">
@@ -52,6 +49,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <input type="hidden" name="action" value="view" />
                     <fieldset>
                         <legend>User Information</legend>
+                        <?php $odd = true; ?>
                         <table class="table-user-info themed striped-rows" style="width: 98%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>

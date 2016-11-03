@@ -36,7 +36,7 @@ class UserView extends AbstractView
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit other users
-            if($SessionUser->getID() !== $User->getID()) {
+            if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
                 $this->setSessionMessage("Unable to view user. Permission required: ROLE_ADMIN");
                 header('Location: /user?id=' . $User->getID() . '&action=edit&message=Unable to view user. Permission required: ROLE_ADMIN');
                 die();
@@ -68,7 +68,7 @@ class UserView extends AbstractView
         $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit other users
-            if($SessionUser->getID() !== $User->getID()) {
+            if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
                 $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
 
                 header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');                
@@ -80,7 +80,8 @@ class UserView extends AbstractView
         switch(strtolower(@$post['action'])) {
             case 'edit':
                 try {
-                    if($SessionUser->getID() !== $User->getID())
+                    if($SessionUser->getID() !== $User->getID()
+                    && $SessionUser->getID() !== $User->getAdminID())
                         $SessionUser->validatePassword($post['admin_password']);
 
                     // Update User fields
@@ -144,7 +145,7 @@ class UserView extends AbstractView
                 }
 
             case 'login':
-                if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+                if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
                     $this->setSessionMessage("Could not log in as user. Permission required: ROLE_ADMIN");
                     header('Location: /user?id=' . $User->getID());
                     die();

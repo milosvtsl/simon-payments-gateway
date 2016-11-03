@@ -44,6 +44,7 @@ class UserRow
     protected $username;
     protected $date;
     protected $timezone;
+    protected $admin_id;
 
     // Table authority
     protected $merchant_list;
@@ -69,6 +70,7 @@ FROM user u
     public function getPasswordHash()   { return $this->password; }
     public function getCreateDate()     { return $this->date; }
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
+    public function getAdminID()        { return $this->admin_id; }
 
     public function getTimeZoneOffset($date) {
         $tz = new \DateTimeZone($this->getTimeZone());
@@ -305,7 +307,7 @@ SQL;
      * @param $post
      * @return UserRow
      */
-    public static function createNewUser($post) {
+    public static function createNewUser($post, UserRow $AdminUserRow=null) {
         if(!preg_match('/^[a-zA-Z0-9_-]+$/', $post['username']))
             throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
 
@@ -330,6 +332,9 @@ SQL;
         $User->password = $password;
         $User->username = $post['username'];
         $User->timezone = $post['timezone'];
+
+        if($AdminUserRow)
+            $User->admin_id = $AdminUserRow->getID();
 
         UserRow::insert($User);
         return $User;
@@ -374,6 +379,7 @@ SQL;
             ':password' => $User->password,
             ':username' => $User->username,
             ':timezone' => $User->timezone,
+            ':admin_id' => $User->admin_id,
         );
         $SQL = '';
         foreach($values as $key=>$value)

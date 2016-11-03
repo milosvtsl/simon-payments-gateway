@@ -50,8 +50,8 @@ class UserListView extends AbstractListView {
 		// Handle authority
 		$SessionUser = SessionManager::get()->getSessionUser();
 		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-			$whereSQL .= "\nAND u.id = :id\n";
-			$sqlParams[':id'] = $SessionUser->getID();
+			$whereSQL .= "\nAND u.admin_id = :admin_id\n";
+			$sqlParams[':admin_id'] = $SessionUser->getID();
 		}
 
 		if(isset($params['merchant_id'])) {

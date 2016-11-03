@@ -21,9 +21,9 @@ class AddUserView extends AbstractView
         $this->getTheme()->renderHTMLBodyHeader();
 
         $SessionUser = SessionManager::get()->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add other users
-            $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN");
+            $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
             header('Location: /user?action=add&message=Unable to manage integration: Admin required');
             die();
         }
@@ -37,14 +37,14 @@ class AddUserView extends AbstractView
 
     public function processFormRequest(Array $post) {
         $SessionUser = SessionManager::get()->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add users
-            $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN");
+            $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
                 header('Location: /user?action=add&message=Unable to manage integration: Admin required');
                 die();
         }
 
-        $User = UserRow::createNewUser($post);
+        $User = UserRow::createNewUser($post, $SessionUser);
 
         $this->setSessionMessage("User created successfully: " . $User->getUID());
         header('Location: /user?id=' . $User->getID());

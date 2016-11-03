@@ -11,12 +11,9 @@ use Integration\Request\Model\IntegrationRequestRow;
     <nav class="page-menu hide-on-print">
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="integration/request?" class="button current">Requests <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
     </nav>
 

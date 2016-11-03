@@ -25,12 +25,12 @@ $SessionUser = \User\Session\SessionManager::get()->getSessionUser();
 $SessionUser = \User\Session\SessionManager::get()->getSessionUser();
 
 $SessionManager = new \User\Session\SessionManager();
-if(!$SessionManager->isLoggedIn()) { // !$SessionUser->hasAuthority('ROLE_ADMIN')) {
+if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die();
 }
 
-if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
     header('Location: /login.php?message=invalid access');
     die();
 }

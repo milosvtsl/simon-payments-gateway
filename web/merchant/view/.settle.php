@@ -12,11 +12,14 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="merchant?" class="button">Merchants</a>
+        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
         <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
         <a href="<?php echo $action_url; ?>settle" class="button current">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
+        <?php } ?>
     </nav>
 
 

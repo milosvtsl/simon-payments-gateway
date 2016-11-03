@@ -76,11 +76,11 @@ class OrderListView extends AbstractListView {
 
 
 		// Handle authority
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
 			$list = $SessionUser->getMerchantList() ?: array(0);
 			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 
-            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS'))
+            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN'))
                 $whereSQL .= "\nAND 0=1";
 		}
 
