@@ -25,7 +25,7 @@ if(!isset($_GET['uid']))
 try {
     $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
     $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
-} catch (Exception $ex) {
+} catch (InvalidArgumentException $ex) {
     $View = new \Order\View\OrderListView();
     $View->setMessage($ex->getMessage());
 }
