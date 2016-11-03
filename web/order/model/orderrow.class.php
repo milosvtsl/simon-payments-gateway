@@ -239,7 +239,8 @@ SELECT
 SQL;
 
         if($SessionUser) {
-            $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $SessionUser->getMerchantList()) . ")";
+            $ids = $SessionUser->getMerchantList() ?: array(-1);
+            $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
 //            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
         }
 
