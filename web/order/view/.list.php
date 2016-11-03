@@ -112,7 +112,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <th>Customer</th>
                             <th class="hide-on-layout-vertical">Mode</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
-                            <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice&nbsp;ID</a></th>
+                            <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
                             <th class="hide-on-layout-vertical"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                         </tr>

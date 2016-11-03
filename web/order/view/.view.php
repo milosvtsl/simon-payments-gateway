@@ -221,7 +221,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <fieldset class="hide-on-print">
                 <legend>Transaction History</legend>
-                <table class="table-results themed small" style="width: 90%;">
+                <table class="table-results themed small striped-rows" style="width: 90%;">
                     <tr>
                         <th class="hide-on-layout-vertical">TID</th>
                         <th>Date</th>

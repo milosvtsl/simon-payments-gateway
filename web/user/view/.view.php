@@ -95,6 +95,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Roles</td>
                                 <td class="value">
+                                    <?php if(count($User->getAuthorityList()) > 0) { ?>
                                     <table class="themed striped-rows " style="width: 98%;">
                                         <tbody>
                                         <tr>
@@ -108,6 +109,9 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                         ?>
                                         </tbody>
                                     </table>
+                                    <?php } else { ?>
+                                    <a href='/user/account.php?action=edit'>Add Roles...</a>
+                                    <?php } ?>
                                 </td>
                             </tr>
 
