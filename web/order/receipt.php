@@ -22,7 +22,11 @@ session_start();
 if(!isset($_GET['uid']))
     die("Invalid UID");
 
-$OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
-$View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
+try {
+    $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
+    $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
+} catch (Exception $ex) {
+    $View = new \Order\View\OrderListView();
+    $View->setMessage($ex->getMessage());
+}
 $View->handleRequest();
-

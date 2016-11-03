@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }, 2000);
 
         // Update card type
-        if(form.card_number && form.card_number.value && !form.card_type.value) {
+        if(form.card_number && form.card_number.value) {
             var newType = getCreditCardType(form.card_number.value);
             if(newType) {
                 for(var i=0; i<form.card_type.options.length; i++) {
