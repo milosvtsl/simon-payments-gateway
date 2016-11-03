@@ -48,22 +48,22 @@ class ElementAPIUtil {
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
         $BillingName = $OrderRow->getCardHolderFullName();
-        $BillingAddress1 = null;
-        $BillingAddress2 = null;
+        $BillingAddress1 = $OrderRow->getPayeeAddress();
+        $BillingAddress2 = $OrderRow->getPayeeAddress2();
         $BillingCity = null;
         $BillingState = null;
         $BillingZipcode = $OrderRow->getPayeeZipCode();
         $BillingEmail = $OrderRow->getPayeeEmail();
         $BillingPhone = $OrderRow->getPayeePhone();
 
-        $ShippingName = $BillingName;
-        $ShippingAddress1 = $BillingAddress1;
-        $ShippingAddress2 = $BillingAddress2;
-        $ShippingCity = $BillingCity;
-        $ShippingState = $BillingState;
-        $ShippingZipcode = $BillingZipcode;
-        $ShippingEmail = $BillingEmail;
-        $ShippingPhone = $BillingPhone;
+        $ShippingName = ''; // $BillingName;
+        $ShippingAddress1 = ''; // $BillingAddress1;
+        $ShippingAddress2 = ''; // $BillingAddress2;
+        $ShippingCity = ''; // $BillingCity;
+        $ShippingState = ''; // $BillingState;
+        $ShippingZipcode = ''; // $BillingZipcode;
+        $ShippingEmail = ''; // $BillingEmail;
+        $ShippingPhone = ''; // $BillingPhone;
 
 
         $TerminalID = '0001';
@@ -119,26 +119,13 @@ class ElementAPIUtil {
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
         $Action = 'CreditCardSale';
@@ -241,33 +228,20 @@ class ElementAPIUtil {
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -345,22 +319,22 @@ PHP;
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
         $BillingName = $OrderRow->getCardHolderFullName();
-        $BillingAddress1 = null;
-        $BillingAddress2 = null;
+        $BillingAddress1 = $OrderRow->getPayeeAddress();
+        $BillingAddress2 = $OrderRow->getPayeeAddress2();
         $BillingCity = null;
         $BillingState = null;
         $BillingZipcode = $OrderRow->getPayeeZipCode();
         $BillingEmail = $OrderRow->getPayeeEmail();
         $BillingPhone = $OrderRow->getPayeePhone();
 
-        $ShippingName = $BillingName;
-        $ShippingAddress1 = $BillingAddress1;
-        $ShippingAddress2 = $BillingAddress2;
-        $ShippingCity = $BillingCity;
-        $ShippingState = $BillingState;
-        $ShippingZipcode = $BillingZipcode;
-        $ShippingEmail = $BillingEmail;
-        $ShippingPhone = $BillingPhone;
+        $ShippingName = ''; // $BillingName;
+        $ShippingAddress1 = ''; // $BillingAddress1;
+        $ShippingAddress2 = ''; // $BillingAddress2;
+        $ShippingCity = ''; // $BillingCity;
+        $ShippingState = ''; // $BillingState;
+        $ShippingZipcode = ''; // $BillingZipcode;
+        $ShippingEmail = ''; // $BillingEmail;
+        $ShippingPhone = ''; // $BillingPhone;
 
 
         $TerminalID = '0001';
@@ -416,26 +390,13 @@ PHP;
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
 
@@ -537,33 +498,20 @@ PHP;
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -678,26 +626,13 @@ PHP;
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
 
@@ -744,33 +679,20 @@ PHP;
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -866,26 +788,13 @@ PHP;
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
 
@@ -932,33 +841,20 @@ PHP;
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -1012,22 +908,22 @@ PHP;
 
 
         $BillingName = $OrderRow->getCardHolderFullName();
-        $BillingAddress1 = $OrderRow->getPayeeZipCode();
-        $BillingAddress2 = null;
+        $BillingAddress1 = $OrderRow->getPayeeAddress();
+        $BillingAddress2 = $OrderRow->getPayeeAddress2();
         $BillingCity = null;
         $BillingState = null;
         $BillingZipcode = $OrderRow->getPayeeZipCode();
         $BillingEmail = $OrderRow->getPayeeEmail();
         $BillingPhone = $OrderRow->getPayeePhone();
 
-        $ShippingName = $BillingName;
-        $ShippingAddress1 = $BillingAddress1;
-        $ShippingAddress2 = $BillingAddress2;
-        $ShippingCity = $BillingCity;
-        $ShippingState = $BillingState;
-        $ShippingZipcode = $BillingZipcode;
-        $ShippingEmail = $BillingEmail;
-        $ShippingPhone = $BillingPhone;
+        $ShippingName = ''; // $BillingName;
+        $ShippingAddress1 = ''; // $BillingAddress1;
+        $ShippingAddress2 = ''; // $BillingAddress2;
+        $ShippingCity = ''; // $BillingCity;
+        $ShippingState = ''; // $BillingState;
+        $ShippingZipcode = ''; // $BillingZipcode;
+        $ShippingEmail = ''; // $BillingEmail;
+        $ShippingPhone = ''; // $BillingPhone;
 
 
         $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
@@ -1057,30 +953,16 @@ PHP;
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
 
-        $BirthDate = '';
         $TaxIDNumber = '';
         $DriversLicenseNumber = '';
         $DriversLicenseState = '';
@@ -1148,33 +1030,20 @@ PHP;
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -1182,7 +1051,6 @@ PHP;
         <TaxIDNumber>{$TaxIDNumber}</TaxIDNumber>
         <DriversLicenseNumber>{$DriversLicenseNumber}</DriversLicenseNumber>
         <DriversLicenseState>{$DriversLicenseState}</DriversLicenseState>
-        <BirthDate>{$BirthDate}</BirthDate>
       </identification>
       <address>
         <BillingName>{$BillingName}</BillingName>
@@ -1283,26 +1151,13 @@ PHP;
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
         $Action = 'CheckVoid';
@@ -1350,33 +1205,20 @@ PHP;
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -1461,26 +1303,13 @@ PHP;
         $TotalAuthorizedAmount = '';
         $SalesTaxAmount = '';
         $TipAmount = '';
-        $ApprovalNumber = '';
-        $AcquirerData = '';
-        $CashBackAmount = '';
         $DuplicateCheckDisableFlag = 'False';
         $DuplicateOverrideFlag = 'False';
-        $CommercialCardCustomerCode = '';
-        $ProcessorName = '';
         $TransactionStatus = '';
         $TransactionStatusCode = '';
         $HostTransactionID = '';
-        $TransactionSetupID = '';
-        $MerchantVerificationValue = '';
         $PartialApprovedFlag = 'True';
         $ApprovedAmount = '';
-        $CommercialCardResponseCode = '';
-        $BalanceAmount = '';
-        $BalanceCurrencyCode = '';
-        $GiftCardStatusCode = '';
-        $BillPayerAccountNumber = '';
-        $GiftCardBalanceTransferCode = '';
         $EMVEncryptionFormat = 'Default';
 
         $Action = 'CheckReturn';
@@ -1528,33 +1357,20 @@ PHP;
         <TotalAuthorizedAmount>{$TotalAuthorizedAmount}</TotalAuthorizedAmount>
         <SalesTaxAmount>{$SalesTaxAmount}</SalesTaxAmount>
         <TipAmount>{$TipAmount}</TipAmount>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ReferenceNumber>{$ReferenceNumber}</ReferenceNumber>
         <TicketNumber>{$TicketNumber}</TicketNumber>
         <ReversalType>{$ReversalType}</ReversalType>
         <MarketCode>{$MarketCode}</MarketCode>
-        <AcquirerData>{$AcquirerData}</AcquirerData>
-        <CashBackAmount>{$CashBackAmount}</CashBackAmount>
         <BillPaymentFlag>{$BillPaymentFlag}</BillPaymentFlag>
         <DuplicateCheckDisableFlag>{$DuplicateCheckDisableFlag}</DuplicateCheckDisableFlag>
         <DuplicateOverrideFlag>{$DuplicateOverrideFlag}</DuplicateOverrideFlag>
         <RecurringFlag>{$DuplicateOverrideFlag}</RecurringFlag>
-        <CommercialCardCustomerCode>{$CommercialCardCustomerCode}</CommercialCardCustomerCode>
-        <ProcessorName>{$ProcessorName}</ProcessorName>
         <TransactionStatus>{$TransactionStatus}</TransactionStatus>
         <TransactionStatusCode>{$TransactionStatusCode}</TransactionStatusCode>
         <HostTransactionID>{$HostTransactionID}</HostTransactionID>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
-        <MerchantVerificationValue>{$MerchantVerificationValue}</MerchantVerificationValue>
         <PartialApprovedFlag>{$PartialApprovedFlag}</PartialApprovedFlag>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
-        <CommercialCardResponseCode>{$CommercialCardResponseCode}</CommercialCardResponseCode>
-        <BalanceAmount>{$BalanceAmount}</BalanceAmount>
-        <BalanceCurrencyCode>{$BalanceCurrencyCode}</BalanceCurrencyCode>
         <ConvenienceFeeAmount>{$ConvenienceFeeAmount}</ConvenienceFeeAmount>
-        <GiftCardStatusCode>{$GiftCardStatusCode}</GiftCardStatusCode>
-        <BillPayerAccountNumber>{$BillPayerAccountNumber}</BillPayerAccountNumber>
-        <GiftCardBalanceTransferCode>{$GiftCardBalanceTransferCode}</GiftCardBalanceTransferCode>
         <EMVEncryptionFormat>{$EMVEncryptionFormat}</EMVEncryptionFormat>
         <ReversalReason>{$ReversalReason}</ReversalReason>
       </transaction>
@@ -1643,7 +1459,6 @@ SOAP;
 
         $TransactionID = @$post['transaction_id'];
         $TerminalID = '';
-        $ApprovalNumber = '';
         $ApprovedAmount = '';
         $ExpressTransactionDate = '';
         $ExpressTransactionTime = '';
@@ -1668,7 +1483,6 @@ SOAP;
         $ThreadID = '';
         $TransactionDateTimeBegin = @$post['date_start'];
         $TransactionDateTimeEnd = @$post['date_end'];;
-        $TransactionSetupID = '';
 
         $request = <<<SOAP
 <?xml version="1.0" encoding="utf-8"?>
@@ -1690,7 +1504,6 @@ SOAP;
         <TransactionID>{$TransactionID}</TransactionID>
         <TerminalID>{$TerminalID}</TerminalID>
         <ApplicationID>{$ApplicationID}</ApplicationID>
-        <ApprovalNumber>{$ApprovalNumber}</ApprovalNumber>
         <ApprovedAmount>{$ApprovedAmount}</ApprovedAmount>
         <ExpressTransactionDate>{$ExpressTransactionDate}</ExpressTransactionDate>
         <ExpressTransactionTime>{$ExpressTransactionTime}</ExpressTransactionTime>
@@ -1719,7 +1532,6 @@ SOAP;
         <ReverseOrder>{$ReverseOrder}</ReverseOrder>
         <TransactionDateTimeBegin>{$TransactionDateTimeBegin}</TransactionDateTimeBegin>
         <TransactionDateTimeEnd>{$TransactionDateTimeEnd}</TransactionDateTimeEnd>
-        <TransactionSetupID>{$TransactionSetupID}</TransactionSetupID>
       </parameters>
       <extendedParameters>
         <ExtendedParameters>

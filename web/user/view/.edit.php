@@ -15,7 +15,7 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
-        
+
         <?php if($SessionUser->getID() !== $User->getID()) { ?>
             <a href="<?php echo $action_url; ?>view" class="button">View User<div class="submenu-icon submenu-icon-view"></div></a>
             <a href="<?php echo $action_url; ?>edit" class="button current">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>

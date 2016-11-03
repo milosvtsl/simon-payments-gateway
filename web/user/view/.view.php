@@ -48,7 +48,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-                <form class="form-view-user themed" onsubmit="return false;">
+                <form class="form-view-user themed">
                     <input type="hidden" name="action" value="view" />
                     <fieldset>
                         <legend>User Information</legend>

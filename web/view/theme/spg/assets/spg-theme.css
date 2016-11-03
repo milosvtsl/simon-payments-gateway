@@ -215,14 +215,14 @@ body.spg-theme form.themed a {
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
-    padding: 0.3em 0em 0.3em 0.1em;
+    padding: 0.3em 0em 0.3em 0.2em;
     margin: 0 0.5em 0.5em 0.5em;
     min-width: 47%;
     /* min-height: 7em; */
     vertical-align: top;
     /* background-color: #FAFAFA; */
     border-radius: 4px;
-    background: linear-gradient(0deg, #ffffff 0%, #ffffff 60%, #d4e7ec 100%);
+    background: linear-gradient(-3deg, #ffffff 0%, #ffffff 60%, rgb(214, 223, 234) 100%);
     /* background-image: url(img/bk/fieldset.png); */
     background-repeat: repeat-x;
     overflow: hidden;
@@ -338,7 +338,7 @@ body.spg-theme a.button[disabled] {
 body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
 
-body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0.5em;/* width: 98%; */}
+body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0.5em;min-width: 70%;}
 
 body.spg-theme table.themed > tbody > tr > th {
     background-color: #bcc5d1;
