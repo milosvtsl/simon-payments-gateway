@@ -141,20 +141,24 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
                                 <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
                             </tr>
 
-                            <?php if($SessionUser->hasAuthority("ROLE_ADMIN")) { ?>
+                            <?php if($SessionUser->hasAuthority("ROLE_ADMIN", "ROLE_SUB_ADMIN")) { ?>
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Authorities</td>
                                 <td class="value">
                                     <?php
                                     $AuthQuery = AuthorityRow::queryAll();
-                                    foreach($AuthQuery as $Authority)
-                                        /** @var UserAuthorityRow $Authority*/
+                                    foreach($AuthQuery as $Authority) {
+                                        if(in_array($Authority->getAuthority(), array('ROLE_ADMIN', 'ROLE_SUB_ADMIN'))
+                                            && !$SessionUser->hasAuthority("ROLE_ADMIN"))
+                                            continue;
+                                        /** @var UserAuthorityRow $Authority */
                                         echo "<label>",
                                         "\n\t<input type='hidden' name='authority[", $Authority->getAuthority(), "]' value='0' />",
                                         "\n\t<input type='checkbox' name='authority[", $Authority->getAuthority(), "]' value='1'",
                                         ($User->hasAuthority($Authority->getAuthority()) ? ' checked="checked"' : ''),
                                         "/>", $Authority->getName(), "</label><br/>\n";
+                                    }
                                     ?>
                                 </td>
                             </tr>
