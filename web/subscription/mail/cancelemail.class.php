@@ -30,6 +30,7 @@ class CancelEmail extends \PHPMailer
             $this->Password = SiteConfig::$EMAIL_SMTP_PASSWORD;
             $this->SMTPSecure = 'tls';
             $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
+            $this->Timeout = 20;
         }
 
         $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
@@ -63,7 +64,10 @@ HTML;
 
 
 Subscription Information
-Status: {$Order->getSubscriptionStatus()}
+Status:      {$Order->getSubscriptionStatus()}
+Frequency:   {$Order->getSubscriptionFrequency()}
+Count:       {$Order->getSubscriptionCount()}
+Next Date:   {$Order->getSubscriptionNextDate()}
 Cancel Date: {$cancel_date}
 HTML;
 

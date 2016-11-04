@@ -31,6 +31,7 @@ class ReceiptEmail extends \PHPMailer
             $this->SMTPSecure = 'tls';
             $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
             $this->isSMTP();
+            $this->Timeout = 20;
         }
 
         $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
@@ -60,7 +61,10 @@ HTML;
 
 
 Subscription Information
-Status: {$Order->getSubscriptionStatus()}
+Status:    {$Order->getSubscriptionStatus()}
+Frequency: {$Order->getSubscriptionFrequency()}
+Count:     {$Order->getSubscriptionCount()}
+Next Date: {$Order->getSubscriptionNextDate()}
 HTML;
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
@@ -68,19 +72,19 @@ HTML;
 
 
 E-Check Information
-Account Name: {$Order->getCheckAccountName()}
-Account Type: {$Order->getCheckAccountType()}
+Account Name:   {$Order->getCheckAccountName()}
+Account Type:   {$Order->getCheckAccountType()}
 Account Number: {$Order->getCheckAccountNumber()}
 Routing Number: {$Order->getCheckRoutingNumber()}
-Type: {$Order->getCheckType()}
+Type:           {$Order->getCheckType()}
 HTML;
         else $content .= <<<HTML
 
 
 Card Holder Information
 Full Name: {$Order->getCardHolderFullName()}
-Number: {$Order->getCardNumber()}
-Type: {$Order->getCardType()}
+Number:    {$Order->getCardNumber()}
+Type:      {$Order->getCardType()}
 HTML;
 
         $content_html = nl2br($content);
