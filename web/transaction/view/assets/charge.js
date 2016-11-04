@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
             //form.entry_method.value = 'Swipe';
-            form.entry_mode.value = 'swipe';
+            form.entry_mode.value = 'Swipe';
             form.card_number.value = lastParseData.card_number;
             form.payee_first_name.value = lastParseData.payee_first_name;
             form.payee_last_name.value = lastParseData.payee_last_name;
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         if(form.merchant_id.value)
             formClasses += ' merchant-selected';
         if(form.entry_mode.value)
-            formClasses += ' payment-method-selected payment-method-' + form.entry_mode.value;
+            formClasses += ' payment-method-selected payment-method-' + form.entry_mode.value.toLowerCase();
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];

@@ -14,6 +14,14 @@ class OrderListView extends AbstractListView {
 //Need to be able to pull information by batch, day, card #, amount, MID, TID ect.
 // TODO batch id
 
+	public function renderHTML($params=null) {
+		if(strtolower(@$params['action']) === 'export') {
+			$this->renderHTMLBody($params);
+			return;
+		}
+		parent::renderHTML($params);
+	}
+
 	/**
 	 * @param array $params
      */
@@ -27,6 +35,8 @@ class OrderListView extends AbstractListView {
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
 		$statsMessage = '';
+
+		$export_filename = 'export.csv';
 
 		// Set up WHERE conditions
 		if(!empty($params['search'])) {
@@ -64,11 +74,13 @@ class OrderListView extends AbstractListView {
 			$whereSQL .= "\nAND oi.date >= :from";
 			$sqlParams['from'] = date("Y-m-d G:00:00", strtotime($params['date_from']) + $offset);
 			$statsMessage .= " from " . date("M jS Y G:00", strtotime($params['date_from']) + $offset);
+			$export_filename = date("Y-m-d", strtotime($params['date_from']) + $offset) . $export_filename;
 		}
 		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
 			$sqlParams['to'] = date("Y-m-d G:00:00", strtotime($params['date_to']) + $offset);
 			$statsMessage .= " to " . date("M jS Y G:00", strtotime($params['date_to']) + $offset);
+			$export_filename = date("Y-m-d", strtotime($params['date_to']) + $offset) . $export_filename;
 		}
 
 
@@ -86,6 +98,7 @@ class OrderListView extends AbstractListView {
             $Merchant = MerchantRow::fetchByID($params['merchant_id']);
             $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
             $sqlParams['merchant_id'] = $Merchant->getID();
+			$export_filename = $Merchant->getShortName() . $export_filename;
 //            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
         }
 
@@ -130,6 +143,8 @@ class OrderListView extends AbstractListView {
 
 		// Calculate LIMIT
 		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
+		if(strtolower(@$params['action']) === 'export')
+			$limitSQL = '';
 
 		// Query Rows
 		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
@@ -149,7 +164,7 @@ class OrderListView extends AbstractListView {
 
 		if(strtolower(@$params['action']) === 'export') {
 			// Render Page
-			include ('.export.php');
+			include ('.export.csv.php');
 
 		} else {
 			// Render Header

@@ -72,7 +72,7 @@ FROM user u
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
 
-    public function getTimeZoneOffset($date) {
+    public function getTimeZoneOffset($date='now') {
         $tz = new \DateTimeZone($this->getTimeZone());
         if(!$date instanceof \DateTime)
             $date = new \DateTime($date);
