@@ -16,7 +16,7 @@ namespace System\Config;
 class SiteConfig
 {
     static $SITE_NAME = 'Simon Payments Gateway';
-    static $SITE_URL = 'https://admin.simonpayments.com';
+    static $SITE_URL = 'https://access.simonpayments.com';
     static $DEFAULT_THEME = null;
     static $BASE_HREF = '/';
     static $EMAIL_SERVER_HOST = null;
