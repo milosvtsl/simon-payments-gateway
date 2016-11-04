@@ -26,7 +26,6 @@ $Merchant = \Merchant\Model\MerchantRow::fetchByID($Order->getMerchantID());
 
 $Email = new \Transaction\Mail\ReceiptEmail($Order, $Merchant);
 $Email->addCC('ari@govpaynetwork.com', 'Tester');
-$Email->addCC('ari@asu.edu', 'Tester');
 echo "\nSending Receipt Email...";
 if(!$Email->send())
     error_log("Test Receipt Email Failed: " . $Email->ErrorInfo);
@@ -35,7 +34,6 @@ if(!$Email->send())
 
 $Email = new \Subscription\Mail\CancelEmail($Order, $Merchant);
 $Email->addCC('ari@govpaynetwork.com', 'Tester');
-$Email->addCC('ari@asu.edu', 'Tester');
 echo "\nSending Cancel Email...";
 if(!$Email->send())
     error_log("Test Cancel Email Failed: " . $Email->ErrorInfo);
@@ -43,7 +41,6 @@ if(!$Email->send())
 
 $Email = new \User\Mail\ResetPasswordEmail($SessionUser);
 $Email->addCC('ari@govpaynetwork.com', 'Tester');
-$Email->addCC('ari@asu.edu', 'Tester');
 echo "\nSending Reset Email...";
 if(!$Email->send())
     error_log("Test Reset Email Failed: " . $Email->ErrorInfo);

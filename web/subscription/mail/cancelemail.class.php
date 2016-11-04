@@ -48,6 +48,7 @@ class CancelEmail extends \PHPMailer
 
         $cancel_date = date('M jS Y G:i', strtotime($Order->getSubscriptionCancelDate()) ?: time());
         $date = date('M jS Y G:i', strtotime($Order->getDate()) ?: time());
+        $next_date = $Order->getSubscriptionNextDate() ? date('M jS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
 
         $content = <<<HTML
 Order Information
@@ -64,7 +65,7 @@ Subscription Information
 Status:         {$Order->getSubscriptionStatus()}
 Frequency:      {$Order->getSubscriptionFrequency()}
 Count:          {$Order->getSubscriptionCount()}
-Next Date:      {$Order->getSubscriptionNextDate()}
+Next Date:      {$next_date}
 Cancel Date:    {$cancel_date}
 HTML;
 
