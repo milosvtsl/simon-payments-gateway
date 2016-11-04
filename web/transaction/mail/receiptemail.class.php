@@ -46,12 +46,13 @@ class ReceiptEmail extends \PHPMailer
 
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/transaction/receipt.php?uid='.$Order->getUID();
+        $date = date('M jS Y G:i', strtotime($Order->getDate()) ?: time());
 
         $content = <<<HTML
 Order Information
 Amount: \${$Order->getAmount()}
 Merchant: {$Merchant->getName()}
-Date: {$Order->getDate()}
+Date: {$date}
 Status: {$Order->getStatus()}
 HTML;
         if($Order->getSubscriptionID())

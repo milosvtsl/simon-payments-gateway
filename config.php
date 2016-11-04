@@ -26,3 +26,4 @@ SiteConfig::$EMAIL_SMTP_AUTH = true;
 SiteConfig::$EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
 SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
+
