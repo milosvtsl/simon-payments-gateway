@@ -19,6 +19,12 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
+$SessionManager = new \User\Session\SessionManager();
+if(!$SessionManager->isLoggedIn()) {
+    header('Location: /login.php?message=session has ended');
+    die();
+}
+
 if(!empty($_GET['id'])) {
     try {
         $View = new \Integration\Request\View\IntegrationRequestView($_GET['id'], @$_GET['action']);
