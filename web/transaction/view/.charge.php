@@ -235,7 +235,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
 
-                <fieldset class="show-on-payment-method-swipe show-on-payment-method-keyed" >
+                <fieldset class="show-on-payment-method-swipe show-on-payment-method-keyed show-on-merchant-selected" >
                     <legend class="alert reader-status">Card Swipe Ready</legend>
                     <table class="table-payment-method-swipe themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
