@@ -30,6 +30,7 @@ class ReceiptEmail extends \PHPMailer
             $this->Password = SiteConfig::$EMAIL_SMTP_PASSWORD;
             $this->SMTPSecure = 'tls';
             $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
+            $this->isSMTP();
         }
 
         $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
