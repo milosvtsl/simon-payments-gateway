@@ -22,7 +22,7 @@ SiteConfig::$DEFAULT_THEME = 'View\Theme\SPG\SPGViewTheme';
 // Email Config
 SiteConfig::$EMAIL_SERVER_HOST = 'relay-hosting.secureserver.net'; // smtpout.secureserver.net
 SiteConfig::$EMAIL_SERVER_PORT = 465; // 3535   80  25
-SiteConfig::$EMAIL_SMTP_AUTH = true;
+SiteConfig::$EMAIL_SMTP_AUTH = false; // true;
 SiteConfig::$EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
 SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
