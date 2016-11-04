@@ -70,7 +70,10 @@ abstract class AbstractListView extends AbstractView
         $pageTotal = $this->getTotalPages();
 
         $args = $args ?: $_GET;
-        $pages = array(1, $page-1, $page, $page+1, $pageTotal);
+        $pages = array(1);
+        if($page >= 2 && $page - 1 < $pageTotal) $pages[] = $page - 1;
+        if($page >= 2 && $page < $pageTotal) $pages[] = $page;
+        if($page >= 2 && $page + 1 < $pageTotal) $pages[] = $page + 1;
         $pi = 1;
         while(sqrt($pageTotal) > sizeof($pages)) {
             if($page - $pi > 0)
