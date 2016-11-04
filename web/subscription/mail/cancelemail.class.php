@@ -47,26 +47,30 @@ class CancelEmail extends \PHPMailer
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/transaction/receipt.php?uid='.$Order->getUID();
 
+        $cancel_date = date('M jS Y G:i', strtotime($Order->getSubscriptionCancelDate()));
+
         $content = <<<HTML
-Your subscription has been canceled.
+Your subscription was canceled on {$cancel_date}.
 
 Order Information
 Amount: \${$Order->getAmount()}
 Merchant: {$Merchant->getName()}
 Date: {$Order->getDate()}
 Status: {$Order->getStatus()}
-
 HTML;
         if($Order->getSubscriptionID())
             $content .= <<<HTML
+
+
 Subscription Information
 Status: {$Order->getSubscriptionStatus()}
-Date: {$Order->getSubscriptionCancelDate()}
-
+Cancel Date: {$cancel_date}
 HTML;
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $content .= <<<HTML
+
+
 E-Check Information
 Account Name: {$Order->getCheckAccountName()}
 Account Type: {$Order->getCheckAccountType()}
@@ -76,6 +80,8 @@ Type: {$Order->getCheckType()}
 
 HTML;
         else $content .= <<<HTML
+
+
 Card Holder Information
 Full Name: {$Order->getCardHolderFullName()}
 Number: {$Order->getCardNumber()}

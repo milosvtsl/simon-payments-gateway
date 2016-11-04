@@ -59,15 +59,12 @@ HTML;
             $content .= <<<HTML
 
 
-
 Subscription Information
 Status: {$Order->getSubscriptionStatus()}
-Date: {$Order->getSubscriptionCancelDate()}
 HTML;
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $content .= <<<HTML
-
 
 
 E-Check Information
@@ -78,7 +75,6 @@ Routing Number: {$Order->getCheckRoutingNumber()}
 Type: {$Order->getCheckType()}
 HTML;
         else $content .= <<<HTML
-
 
 
 Card Holder Information
