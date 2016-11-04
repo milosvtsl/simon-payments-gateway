@@ -26,9 +26,9 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
         <?php } ?>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
             <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->getID() === $User->getID()) { ?>

@@ -49,7 +49,7 @@ SELECT
 
 FROM order_item oi
 LEFT JOIN merchant m on oi.merchant_id = m.id
-LEFT JOIN subscription s on oi.id = s.order_item_id
+LEFT JOIN subscription s on oi.subscription_id = s.id
 ";
 
     public function getCount() { return $this->count; }
