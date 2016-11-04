@@ -54,6 +54,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                             $Integration = $MerchantIdentity->getIntegrationRow();
                                             if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
                                                 continue;
+                                            $testing = $Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_TESTING;
 
                                             if($MerchantIdentity->isProvisioned($reason)) {
                                                 echo "\n\t\t\t\t\t\t\t<option",
@@ -65,7 +66,8 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                                 (@$LASTPOST['merchant_id'] == $Merchant->getID() ? 'selected="selected" ' : ''),
                                                 " value='", $Merchant->getID(), "'>",
                                                     $Merchant->getShortName(),
-                                                    " (", $Integration->getName(), ")",
+                                                    ( $testing || $SessionUser->hasAuthority('ROLE_ADMIN')
+                                                    ? " (" . $Integration->getName() . ")" : ''),
                                                 "</option>";
                                             } else {
                                                 echo "\n\t\t\t\t\t\t\t<!--option disabled='disabled'>",

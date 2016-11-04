@@ -8,10 +8,16 @@ $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
 ?>
+
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+            <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
+        <?php } ?>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <?php } ?>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
@@ -211,10 +217,6 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
                                     ?>
                                 </select>
                             </td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Zip</td>
-                            <td><input type="text" name="zipcode" size="12" value="<?php echo $Merchant->getZipCode(); ?>" /></td>
                         </tr>
                     </table>
                     <?php $odd = false; ?>

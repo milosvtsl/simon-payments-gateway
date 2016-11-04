@@ -12,6 +12,7 @@ use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use User\Model\UserRow;
 
 class MerchantRow
 {
@@ -247,6 +248,11 @@ LEFT JOIN state s on m.state_id = s.id
     public function getCheckFormClasses()   { return 'default'; }
 
 
+    public function isConvenienceFeeEnabled() {
+        return
+            $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
+    }
+
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $first;
@@ -385,11 +391,45 @@ LEFT JOIN state s on m.state_id = s.id
         return $MerchantQuery;
     }
 
-    public function isConvenienceFeeEnabled() {
-        return
-            $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
+    /**
+     * @param $post
+     * @return MerchantRow
+     */
+    public static function createNewMerchant($post) {
+        if(strlen($post['name']) < 5)
+            throw new \InvalidArgumentException("Merchant Name must be at least 5 characters");
+
+        if (!filter_var($post['main_email_id'], FILTER_VALIDATE_EMAIL))
+            throw new \InvalidArgumentException("Invalid Email");
+
+        $params = array();
+        $Merchant = new MerchantRow();
+        $Merchant->uid = strtolower(self::generateGUID());
+        $params[':uid'] = $Merchant->uid;
+
+        $sqlSet = "";
+        foreach(self::$UPDATE_FIELDS as $field) {
+            if(!empty($post[$field])) {
+                $params[':'.$field] = $post[$field];
+                $sqlSet .= ($sqlSet ? ",\n" : "\nSET ") . $field . '=:' . $field;
+                $Merchant->$field = $post[$field];
+            }
+        }
+        if(!$sqlSet)
+            return 0;
+        $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet
+            . ", uid = :uid, version = 10";
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($sql);
+        $ret = $stmt->execute($params);
+        if(!$ret || !$DB->lastInsertId())
+            throw new \PDOException("Failed to insert new row");
+        $Merchant->id = $DB->lastInsertId();
+        return $Merchant;
     }
 
-
+    public static function generateGUID() {
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    }
 }
 

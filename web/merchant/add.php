@@ -20,17 +20,17 @@ spl_autoload_register();
 session_start();
 
 $SessionManager = new \User\Session\SessionManager();
-//$SessionUser = $SessionManager->getSessionUser();
+$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die();
 }
 
-if(!empty($_GET['id'])) {
-    $View = new \Merchant\View\MerchantView($_GET['id'], @$_GET['action']);
-    $View->handleRequest();
-
-} else {
-    $View = new Merchant\View\MerchantListView();
-    $View->handleRequest();
+if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+    header('Location: /login.php?message=invalid access');
+    die();
 }
+
+// Render View
+$View = new Merchant\View\AddMerchantView();
+$View->handleRequest();

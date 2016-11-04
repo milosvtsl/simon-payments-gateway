@@ -35,7 +35,7 @@ $odd = false;
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-add-user themed" method="POST" action="user/add.php">
-                <input type="hidden" name="action" value="edit" />
+                <input type="hidden" name="action" value="add" />
                 <fieldset>
                     <legend>New User Fields</legend>
                     <table class="table-user-info themed">
@@ -85,7 +85,7 @@ $odd = false;
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Create User</td>
-                            <td><input type="submit" value="Create" /></td>
+                            <td><input type="submit" value="Create" class="themed"/></td>
                         </tr>
                     </table>
                 </fieldset>
