@@ -267,7 +267,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     $odd = false;
                     foreach($TransactionQuery as $Transaction) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="hide-on-layout-vertical"><a href='transaction?id=<?php echo $Transaction->getID(); ?>#form-order-view'><?php echo $Transaction->getTransactionID(); ?></a></td>
+                            <td class="hide-on-layout-vertical"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Transaction->getTransactionID(); ?></a></td>
                             <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                             <td>$<?php echo $Transaction->getAmount(); ?></td>
                             <td>$<?php echo $Transaction->getServiceFee(); ?></td>
