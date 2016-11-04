@@ -26,7 +26,7 @@ class SiteConfig
     static $EMAIL_FROM_ADDRESS = "admin@simonpayments.com";
     static $EMAIL_FROM_TITLE = "Simon Payments Gateway";
     static $MAX_TRANSACTION_AMOUNT = 5000;
-    static $EMAIL_SMTP_AUTH = true;
+    static $EMAIL_SMTP_AUTH = false;
     static $EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
     static $EMAIL_TIMEOUT = 10;
 
