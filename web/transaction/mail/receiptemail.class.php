@@ -50,20 +50,20 @@ class ReceiptEmail extends \PHPMailer
 
         $content = <<<HTML
 Order Information
-Amount: \${$Order->getAmount()}
-Merchant: {$Merchant->getName()}
-Date: {$date}
-Status: {$Order->getStatus()}
+Amount: \$          {$Order->getAmount()}
+Merchant:           {$Merchant->getName()}
+Date:               {$date}
+Status:             {$Order->getStatus()}
 HTML;
         if($Order->getSubscriptionID())
             $content .= <<<HTML
 
 
 Subscription Information
-Status:    {$Order->getSubscriptionStatus()}
-Frequency: {$Order->getSubscriptionFrequency()}
-Count:     {$Order->getSubscriptionCount()}
-Next Date: {$Order->getSubscriptionNextDate()}
+Status:             {$Order->getSubscriptionStatus()}
+Frequency:          {$Order->getSubscriptionFrequency()}
+Count:              {$Order->getSubscriptionCount()}
+Next Date:          {$Order->getSubscriptionNextDate()}
 HTML;
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
@@ -71,19 +71,19 @@ HTML;
 
 
 E-Check Information
-Account Name:   {$Order->getCheckAccountName()}
-Account Type:   {$Order->getCheckAccountType()}
-Account Number: {$Order->getCheckAccountNumber()}
-Routing Number: {$Order->getCheckRoutingNumber()}
-Type:           {$Order->getCheckType()}
+Account Name:       {$Order->getCheckAccountName()}
+Account Type:       {$Order->getCheckAccountType()}
+Account Number:     {$Order->getCheckAccountNumber()}
+Routing Number:     {$Order->getCheckRoutingNumber()}
+Type:               {$Order->getCheckType()}
 HTML;
         else $content .= <<<HTML
 
 
 Card Holder Information
-Full Name: {$Order->getCardHolderFullName()}
-Number:    {$Order->getCardNumber()}
-Type:      {$Order->getCardType()}
+Full Name:          {$Order->getCardHolderFullName()}
+Number:             {$Order->getCardNumber()}
+Type:               {$Order->getCardType()}
 HTML;
 
         $content_html = nl2br($content);

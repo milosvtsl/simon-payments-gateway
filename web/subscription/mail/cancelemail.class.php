@@ -50,24 +50,22 @@ class CancelEmail extends \PHPMailer
         $date = date('M jS Y G:i', strtotime($Order->getDate()) ?: time());
 
         $content = <<<HTML
-Your subscription was canceled on {$cancel_date}.
-
 Order Information
-Amount: \${$Order->getAmount()}
-Merchant: {$Merchant->getName()}
-Date: {$date}
-Status: {$Order->getStatus()}
+Amount: \$      {$Order->getAmount()}
+Merchant:       {$Merchant->getName()}
+Date:           {$date}
+Status:         {$Order->getStatus()}
 HTML;
         if($Order->getSubscriptionID())
             $content .= <<<HTML
 
 
 Subscription Information
-Status:      {$Order->getSubscriptionStatus()}
-Frequency:   {$Order->getSubscriptionFrequency()}
-Count:       {$Order->getSubscriptionCount()}
-Next Date:   {$Order->getSubscriptionNextDate()}
-Cancel Date: {$cancel_date}
+Status:         {$Order->getSubscriptionStatus()}
+Frequency:      {$Order->getSubscriptionFrequency()}
+Count:          {$Order->getSubscriptionCount()}
+Next Date:      {$Order->getSubscriptionNextDate()}
+Cancel Date:    {$cancel_date}
 HTML;
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
@@ -75,25 +73,22 @@ HTML;
 
 
 E-Check Information
-Account Name: {$Order->getCheckAccountName()}
-Account Type: {$Order->getCheckAccountType()}
+Account Name:   {$Order->getCheckAccountName()}
+Account Type:   {$Order->getCheckAccountType()}
 Account Number: {$Order->getCheckAccountNumber()}
 Routing Number: {$Order->getCheckRoutingNumber()}
-Type: {$Order->getCheckType()}
+Type:           {$Order->getCheckType()}
 
 HTML;
         else $content .= <<<HTML
 
 
 Card Holder Information
-Full Name: {$Order->getCardHolderFullName()}
-Number: {$Order->getCardNumber()}
-Type: {$Order->getCardType()}
+Full Name:      {$Order->getCardHolderFullName()}
+Number:         {$Order->getCardNumber()}
+Type:           {$Order->getCardType()}
 
 HTML;
-
-
-        $content_html = nl2br($content);
 
         $sig = SiteConfig::$SITE_NAME;
 
@@ -101,7 +96,8 @@ HTML;
         $this->Body = <<<HTML
 <html>
     <body>
-        <pre>{$content}</pre><br/>
+        Your subscription was canceled on {$cancel_date}.<br/>
+        <pre>{$content}</pre>
         <br/>
         If you would like to view your cancellation online, please click the following link:<br/>
         <a href="{$url}">{$url}</a><br/>
@@ -113,6 +109,8 @@ HTML;
 HTML;
 
 $this->AltBody = <<<TEXT
+Your subscription was canceled on {$cancel_date}.
+
 {$content}
 
 If you would like to view your cancellation online, please click the following link:<br/>
