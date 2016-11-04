@@ -15,7 +15,7 @@ use PHPMailer;
 use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
-define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/support/PHPMailer/');
+@define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/support/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
 require_once PHPMAILER_DIR . 'class.smtp.php';
 

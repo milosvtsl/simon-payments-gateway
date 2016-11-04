@@ -15,7 +15,7 @@ use PHPMailer;
 use Transaction\Model\TransactionRow;
 use User\Model\UserRow;
 
-define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/support/PHPMailer/');
+@define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/support/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
 require_once PHPMAILER_DIR . 'class.smtp.php';
 
@@ -53,32 +53,37 @@ Amount: \${$Order->getAmount()}
 Merchant: {$Merchant->getName()}
 Date: {$Order->getDate()}
 Status: {$Order->getStatus()}
-
 HTML;
         if($Order->getSubscriptionID())
             $content .= <<<HTML
+
+
+
 Subscription Information
 Status: {$Order->getSubscriptionStatus()}
 Date: {$Order->getSubscriptionCancelDate()}
-
 HTML;
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $content .= <<<HTML
+
+
+
 E-Check Information
 Account Name: {$Order->getCheckAccountName()}
 Account Type: {$Order->getCheckAccountType()}
 Account Number: {$Order->getCheckAccountNumber()}
 Routing Number: {$Order->getCheckRoutingNumber()}
 Type: {$Order->getCheckType()}
-
 HTML;
         else $content .= <<<HTML
+
+
+
 Card Holder Information
 Full Name: {$Order->getCardHolderFullName()}
 Number: {$Order->getCardNumber()}
 Type: {$Order->getCardType()}
-
 HTML;
 
         $content_html = nl2br($content);
