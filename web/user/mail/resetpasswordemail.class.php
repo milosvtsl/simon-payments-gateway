@@ -47,10 +47,8 @@ class ResetPasswordEmail extends \PHPMailer
         $sig = SiteConfig::$SITE_NAME;
 
         $source = '';
-        $_SERVER['REMOTE_ADDR'] = '68.3.245.85';
         if(!empty($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
-            $source .= "\nIP Address: " . $ip;
             $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
             foreach($details as $k=>$v)
                 $source .= "\n{$k}: {$v}" ;
