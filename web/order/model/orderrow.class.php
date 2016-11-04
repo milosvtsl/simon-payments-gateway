@@ -108,6 +108,9 @@ class OrderRow
     protected $username;
     protected $merchant_id;
     protected $integration_id;
+    protected $subscription_id;
+
+    // Table integration
     protected $integration_name;
 
     // Table merchant
@@ -115,7 +118,6 @@ class OrderRow
 
     // Table subscription
 
-    protected $subscription_id;
     protected $subscription_uid;
     protected $subscription_status;
     protected $subscription_status_message;
@@ -207,6 +209,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
+
+    public function setSubscriptionID($order_item_id) {
+        $this->subscription_id = $order_item_id;
+    }
 
 
     /**
@@ -319,6 +325,7 @@ SQL;
             ':uid' => $OrderRow->uid,
             ':merchant_id' => $OrderRow->merchant_id,
             ':integration_id' => $OrderRow->integration_id,
+            ':subscription_id' => $OrderRow->subscription_id,
             ':version' => $OrderRow->version,
             ':amount' => $OrderRow->amount,
             ':card_exp_month' => $OrderRow->card_exp_month,

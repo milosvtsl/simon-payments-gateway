@@ -7,7 +7,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
 <article class="themed">
 
-    <section class="content login-section">
+    <section class="not-content login-section">
 
         <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
@@ -16,7 +16,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
             <input type="hidden" name="action" value="reset" />
             <input type="hidden" name="key" value="<?php echo $_GET['key']; ?>" />
             <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" />
-            <fieldset style="display: inline-block; padding: 1em 1.5em;">
+            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em;">
                 <legend>RESET Password</legend>
 
                 <h3>Please enter your email address to receive a password reset link</h3>
@@ -43,7 +43,8 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td colspan="2" style="text-align: center;">
+                        <td class="name">Reset</td>
+                        <td style="font-size: smaller;">
                             <a href="/">Back to Login</a>
                         </td>
                     </tr>
@@ -55,9 +56,9 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
             <input type="hidden" name="action" value="reset" />
             <fieldset style="display: inline-block; padding: 1em 1.5em;">
-                <legend>RESET Password</legend>
+                <legend>Password Reset</legend>
 
-                <h3>Please enter your email address to receive a password reset link</h3>
+                <span class="info">Please enter your email address to receive a password reset link</span>
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -73,7 +74,8 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td colspan="2" style="text-align: center;">
+                        <td class="name">Reset</td>
+                        <td style="font-size: smaller;">
                             <a href="/">Back to Login</a>
                         </td>
                     </tr>

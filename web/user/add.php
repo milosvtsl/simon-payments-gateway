@@ -20,6 +20,7 @@ spl_autoload_register();
 session_start();
 
 $SessionManager = new \User\Session\SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die();
@@ -30,7 +31,6 @@ if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
     die();
 }
 
-$SessionManager = new \User\Session\SessionManager();
 
 // Render View
 $View = new User\View\AddUserView();

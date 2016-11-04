@@ -11,15 +11,15 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
 
 
-    <section class="content login-section">
+    <section class="not-content login-section">
 
 
         <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-            <fieldset style="display: inline-block; padding: 1em 1.5em;">
-                <legend>LOGIN</legend>
+            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em;">
+                <legend>Login Access</legend>
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -41,7 +41,8 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td colspan="2" style="text-align: center;">
+                        <td class="name">Reset</td>
+                        <td style="font-size: smaller;">
                             <a href="/reset.php">Password Reset</a>
                         </td>
                     </tr>

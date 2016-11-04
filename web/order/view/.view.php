@@ -70,18 +70,6 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                         <td class="value"><?php echo $Order->getCustomerFullName() ?></td>
                     </tr>
 
-                    <?php if($Order->getCustomerID()) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Customer</td>
-                            <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
-                        </tr>
-                    <?php } ?>
-                    <?php if ($Order->getPayeeEmail()) { ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Email</td>
-                            <td class="value"><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
-                        </tr>
-                    <?php }  ?>
 
                     </tbody>
                 </table>
@@ -110,15 +98,27 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                                 <td class="value"><?php echo $Order->getInvoiceNumber() ?: 'N/A'; ?></td>
                             </tr>
                         <?php } ?>
-
+                        <?php if($Order->getCustomerID()) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Customer</td>
+                                <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
+                            </tr>
+                        <?php } ?>
+                        <?php if ($Order->getPayeeEmail()) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Email</td>
+                                <td class="value"><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
+                            </tr>
+                        <?php }  ?>
                     </tbody>
                 </table>
             </fieldset>
 
+            <br />
 
             <?php if ($Order->getCardNumber()) { ?>
 
-                <fieldset style="clear: both">
+                <fieldset>
                     <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
                     <table class="table-transaction-info themed cell-borders small" style="width: 90%;">
                         <tbody>
@@ -148,7 +148,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <?php } else  { ?>
 
-                <fieldset style="clear: both">
+                <fieldset>
                     <legend>e-Check : <?php echo $Order->getCheckAccountName(); ?></legend>
                     <table class="table-transaction-card-info themed cell-borders small" style="width: 90%;">
                         <tbody>

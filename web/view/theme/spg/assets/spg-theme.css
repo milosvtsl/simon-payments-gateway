@@ -48,18 +48,22 @@ body.spg-theme > hr.themed {
 
 /** Messages **/
 
+body.spg-theme .error,
+body.spg-theme .info {
+    border-radius: 0.8em;
+    font-weight: bold;
+    color: #061375;
+}
+
 body.spg-theme span.error,
 body.spg-theme span.info {
-    font-size: x-large;
+    font-size: 1.1em;
     display: inline-block;
     padding: 0.5em 1em;
     margin: 0.2em;
-    border-radius: 0.8em;
-    font-weight: bold;
-    color: #003;
 }
 
-body.spg-theme .info { background: rgba(59, 117, 147, 0.53); }
+body.spg-theme .info {background: rgba(59, 117, 147, 0.53);}
 body.spg-theme .error { background: rgba(147, 59, 59, 0.51); }
 /** Site Menu **/
 
@@ -246,7 +250,7 @@ body.spg-theme legend.themed {
 body.spg-theme form.themed select,
 body.spg-theme form.themed textarea,
 body.spg-theme form.themed input {
-    padding: 0.5em 0.6em;
+    padding: 0.3em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
     /* margin: 0 0 0 1em; */
@@ -283,6 +287,12 @@ body.spg-theme input.button-submit {
     border-left: 1px solid #CCCCCC;
     box-shadow: 2px 2px 4px #CCC;
     font-size: larger;
+}
+
+body.spg-theme input[type=reset].themed:hover,
+body.spg-theme input[type=submit].themed:hover,
+body.spg-theme input.button-sumit:hover {
+    background: linear-gradient(0deg, #fff 0%, #a69de6 50%, #fff 100%);
 }
 
 body.spg-theme a.button {

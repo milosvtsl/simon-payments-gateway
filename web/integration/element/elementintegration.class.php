@@ -276,6 +276,7 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException($message);
 
         $Transaction->setAction("Authorized");
+        $Order->setStatus("Authorized");
 //                throw new IntegrationException($message);
 
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
@@ -287,15 +288,18 @@ class ElementIntegration extends AbstractIntegration
         // Store Transaction Result
         $Transaction->setTransactionDate($date);
 
-        $Order->setStatus("Authorized");
-        OrderRow::update($Order);
 
         // Insert Transaction
         TransactionRow::insert($Transaction);
 
         // Insert Subscription
-        if($Subscription)
+        if($Subscription) {
             SubscriptionRow::insert($Subscription);
+            $Order->setSubscriptionID($Subscription->getID());
+        }
+
+        // Update Order
+        OrderRow::update($Order);
 
         // Insert Request
         $Request->setType('transaction');
