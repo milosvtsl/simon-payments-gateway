@@ -116,7 +116,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <?php if ($Order->getCardNumber()) { ?>
 
-                <fieldset>
+                <fieldset style="clear: both">
                     <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
                     <table class="table-transaction-info themed cell-borders small" style="width: 90%;">
                         <tbody>
@@ -146,7 +146,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <?php } else  { ?>
 
-                <fieldset>
+                <fieldset style="clear: both">
                     <legend>e-Check : <?php echo $Order->getCheckAccountName(); ?></legend>
                     <table class="table-transaction-card-info themed cell-borders small" style="width: 90%;">
                         <tbody>
