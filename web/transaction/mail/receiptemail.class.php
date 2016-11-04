@@ -50,7 +50,7 @@ class ReceiptEmail extends \PHPMailer
 
         $content = <<<HTML
 Order Information
-Amount: \$          {$Order->getAmount()}
+Amount:             \${$Order->getAmount()}
 Merchant:           {$Merchant->getName()}
 Date:               {$date}
 Status:             {$Order->getStatus()}
@@ -86,15 +86,13 @@ Number:             {$Order->getCardNumber()}
 Type:               {$Order->getCardType()}
 HTML;
 
-        $content_html = nl2br($content);
-
         $sig = SiteConfig::$SITE_NAME;
 
         $this->isHTML(true);
         $this->Body = <<<HTML
 <html>
     <body>
-        {$content_html}<br/>
+        <pre>{$content}</pre>
         <br/>
         If you would like to view your receipt online, please click the following link:<br/>
         <a href="{$url}">{$url}</a><br/>

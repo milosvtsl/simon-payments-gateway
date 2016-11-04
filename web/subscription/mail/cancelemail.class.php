@@ -51,7 +51,7 @@ class CancelEmail extends \PHPMailer
 
         $content = <<<HTML
 Order Information
-Amount: \$      {$Order->getAmount()}
+Amount:         \${$Order->getAmount()}
 Merchant:       {$Merchant->getName()}
 Date:           {$date}
 Status:         {$Order->getStatus()}
