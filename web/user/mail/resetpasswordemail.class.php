@@ -41,10 +41,19 @@ class ResetPasswordEmail extends \PHPMailer
         $key = crypt($User->getPasswordHash(), md5(time()));
 //        $key2 = crypt($User->getPasswordHash(), $key);
 
-        $pu = parse_url($_SERVER['REQUEST_URI']);
+        $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/reset.php?key='.$key.'&email='.$User->getEmail();
         $username = $User->getUsername();
         $sig = SiteConfig::$SITE_NAME;
+
+        $source = '';
+        if(!empty($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'] ?: '68.3.245.85';
+            $source .= "\nIP Address: " . $ip;
+            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+            foreach($details as $k=>$v)
+                $source .= "\n{$k}: {$v}" ;
+        }
 
         $this->isHTML(true);
         $this->Body = <<<HTML
@@ -52,6 +61,7 @@ class ResetPasswordEmail extends \PHPMailer
     <body>
         A password reset has been requested for the following account:<br/>
         Username: {$username}<br/>
+        <pre>{$source}</pre>
         <br/>
         If you want to perform a password reset on this account, please click the following link:<br/>
         <a href="{$url}">{$url}</a><br/>
@@ -65,6 +75,7 @@ HTML;
         $this->AltBody = <<<TEXT
 A password reset has been requested for the following account:
 Username: {$username}
+{$source}
 
 If you want to perform a password reset on this account, please click the following link:
 <a href="{$url}">{$url}</a>
