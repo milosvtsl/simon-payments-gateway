@@ -30,7 +30,7 @@ class OrderRow
 
     public static $ENUM_RUN_FREQUENCY = array(
         self::ENUM_RUN_FREQUENCY_ONETIMEFUTURE  => "Once",
-        self::ENUM_RUN_FREQUENCY_DAILY          => "Daily",
+//        self::ENUM_RUN_FREQUENCY_DAILY          => "Daily",
         self::ENUM_RUN_FREQUENCY_WEEKLY         => "Weekly",
         self::ENUM_RUN_FREQUENCY_BIWEEKLY       => "Bi-Weekly",
         self::ENUM_RUN_FREQUENCY_MONTHLY        => "Monthly",
@@ -108,11 +108,32 @@ class OrderRow
     // Table merchant
     protected $merchant_short_name;
 
+    // Table subscription
+
+    protected $subscription_id;
+    protected $subscription_uid;
+    protected $subscription_status;
+    protected $subscription_status_message;
+    protected $subscription_recur_amount;
+    protected $subscription_recur_count;
+    protected $subscription_recur_next_date;
+    protected $subscription_recur_frequency;
+
     const SQL_SELECT = "
 SELECT oi.*,
+s.id as subscription_id,
+s.uid as subscription_uid,
+s.status as subscription_status,
+s.status_message as subscription_status_message,
+s.recur_amount as subscription_recur_amount,
+s.recur_count as subscription_recur_count,
+s.recur_next_date as subscription_recur_next_date,
+s.recur_frequency as subscription_recur_frequency,
+
 m.short_name as merchant_short_name,
 i.name integration_name
 FROM order_item oi
+LEFT JOIN subscription s on oi.id = s.order_item_id
 LEFT JOIN merchant m on oi.merchant_id = m.id
 LEFT JOIN integration i on oi.integration_id = i.id
 ";
@@ -170,6 +191,16 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }
+
+    public function getSubscriptionID()         { return $this->subscription_id; }
+    public function getSubscriptionUID()        { return $this->subscription_uid; }
+    public function getSubscriptionStatus()     { return $this->subscription_status; }
+    public function getSubscriptionMessage()    { return $this->subscription_status_message; }
+    public function getSubscriptionAmount()     { return $this->subscription_recur_amount; }
+    public function getSubscriptionCount()      { return $this->subscription_recur_count; }
+    public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
+    public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
+
 
     /**
      * Return the first authorized transaction for this order

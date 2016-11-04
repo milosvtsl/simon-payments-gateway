@@ -23,10 +23,10 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 <!-- Page Navigation -->
 <nav class="page-menu hide-on-print">
     <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-    <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN')) { ?>
+    <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
         <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
-    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
         <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
     <?php } ?>
     <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
@@ -219,6 +219,33 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </table>
             </fieldset>
 
+            <?php if ($Order->getSubscriptionCount() > 0) { ?>
+            <fieldset class="hide-on-print">
+                <legend>Subscription Status</legend>
+                <table class="table-results themed small striped-rows" style="width: 90%;">
+                    <tr>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Frequency</th>
+                        <th>Next Recurrence</th>
+                        <th>Perform</th>
+                    </tr>
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>$<?php echo $Order->getSubscriptionAmount(), ' (', $Order->getSubscriptionCount(),')'; ?></td>
+                        <td><?php echo $Order->getSubscriptionStatus(), $Order->getSubscriptionMessage() ? ': ' : '', $Order->getSubscriptionMessage(); ?></td>
+                        <td><?php echo $Order->getSubscriptionFrequency(); ?></td>
+                        <td><?php echo date("Y M j g:i A", strtotime($Order->getSubscriptionNextDate()) + $offset); ?></td>
+                        <td>
+                            <?php
+                            $disabled = $Order->getSubscriptionStatus() == 'Active' ? '' : " disabled='disabled'";
+                            echo "<input name='action' type='submit' value='Cancel'{$disabled}/>";
+                            ?>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <?php } ?>
+
             <fieldset class="hide-on-print">
                 <legend>Transaction History</legend>
                 <table class="table-results themed small striped-rows" style="width: 90%;">
@@ -251,21 +278,21 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                             </td>
                             <td>
                                 <?php
-                                    switch($Transaction->getAction()) {
-                                        case 'Authorized':
-                                            if($Order->getStatus() === 'Authorized') {
-                                                $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                echo "<input name='action' type='submit' value='Void'{$disabled}/>";
-                                            }
-                                            break;
+                                switch($Transaction->getAction()) {
+                                    case 'Authorized':
+                                        if($Order->getStatus() === 'Authorized') {
+                                            $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                            echo "<input name='action' type='submit' value='Void'{$disabled}/>";
+                                        }
+                                        break;
 
-                                        case 'Settled':
-                                            if($Order->getStatus() === 'Settled') {
-                                                $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                echo "<input name='action' type='submit' value='Return'{$disabled}/>";
-                                            }
-                                            break;
-                                    }
+                                    case 'Settled':
+                                        if($Order->getStatus() === 'Settled') {
+                                            $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                            echo "<input name='action' type='submit' value='Return'{$disabled}/>";
+                                        }
+                                        break;
+                                }
                                 ?>
                             </td>
                         </tr>

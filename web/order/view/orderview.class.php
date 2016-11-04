@@ -7,6 +7,7 @@
  */
 namespace Order\View;
 
+use Subscription\Model\SubscriptionRow;
 use System\Config\DBConfig;
 use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
@@ -89,11 +90,19 @@ class OrderView extends AbstractView
                 case 'delete':
                     print_r($post);
                     die();
-                    break;
+
                 case 'change':
                     print_r($post);
                     die();
-                    break;
+
+                case 'cancel':
+                    $message = "Canceled by " . $SessionUser->getUsername();
+                    $Subscription = SubscriptionRow::fetchByID($Order->getSubscriptionID());
+                    $MerchantIdentity->cancelSubscription($Subscription, $message);
+
+                    $this->setSessionMessage($Subscription->getStatusMessage());
+                    header('Location: /transaction/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
+                    die();
 
                 case 'void':
                     if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))

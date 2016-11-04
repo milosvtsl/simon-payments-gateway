@@ -15,6 +15,8 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
+use Subscription\Mail\CancelEmail;
+use Subscription\Model\SubscriptionRow;
 use Transaction\Model\TransactionRow;
 
 // https://finix-payments.github.io/simonpay-docs/?shell#step-1-create-an-identity-for-a-merchant
@@ -293,10 +295,28 @@ class FinixIntegration extends AbstractIntegration
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
      * @param null $callback
-     * @return mixed
+     * @return bool
      */
     function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
+
+
+    /**
+     * Cancel an active subscription
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param SubscriptionRow $Subscription
+     * @param $message
+     */
+    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message) {
+        $Subscription->cancel($message);
+
+        $Order = OrderRow::fetchByID($Subscription->getOrderID());
+        if($Order->getPayeeEmail()) {
+            $CancelReceipt = new CancelEmail($Order, $MerchantIdentity->getMerchantRow());
+            if(!$CancelReceipt->send())
+                error_log($CancelReceipt->ErrorInfo);
+        }
     }
 }
 

@@ -11,6 +11,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+use Subscription\Model\SubscriptionRow;
 use Transaction\Model\TransactionRow;
 
 abstract class AbstractIntegration
@@ -126,4 +127,12 @@ abstract class AbstractIntegration
      * @return array
      */
     abstract function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback);
+
+    /**
+     * Cancel an active subscription
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param SubscriptionRow $Subscription
+     * @param $message
+     */
+    abstract function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message);
 }

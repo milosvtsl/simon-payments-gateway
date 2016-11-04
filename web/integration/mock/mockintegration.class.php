@@ -15,6 +15,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
+use Subscription\Model\SubscriptionRow;
 use Transaction\Model\TransactionRow;
 
 class MockIntegration extends AbstractIntegration
@@ -194,6 +195,17 @@ class MockIntegration extends AbstractIntegration
      */
     function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
+    }
+
+
+    /**
+     * Cancel an active subscription
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param SubscriptionRow $Subscription
+     * @param $message
+     */
+    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message) {
+        $Subscription->cancel($message);
     }
 }
 

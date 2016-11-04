@@ -106,7 +106,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Payment Amount</td>
                             <td>
-                                <input type="text" name="amount" value="<?php echo @$LASTPOST['amount']; ?>"  size="10" placeholder="x.xx" required autofocus />
+                                <input type="text" name="amount" value="<?php echo @$LASTPOST['amount']; ?>"  size="6" placeholder="x.xx" required autofocus />
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -298,35 +298,27 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <legend>Submit Payment</legend>
 
 
-                    <table class="table-transaction-charge themed" style="float: left; color: grey; width: 48%;">
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Enable Recurring</td>
-                            <td class="value"><input type="checkbox" name="recur_enable" value="1" disabled
-                                    <?php if(@$LASTPOST['recur_enable']) echo 'checked="checked"'; ?>
-                                    /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Run until canceled</td>
-                            <td class="value"><input type="checkbox" name="recur_until_cancel" value="1" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">First Recur Date</td>
-                            <td><input type="date" name="recur_start_date" value="<?php echo date('Y-m-d', time()+24*60*60*30); ?>"/></td>
-                        </tr>
+                    <table class="table-transaction-charge themed" style="float: left; width: 48%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Count</td>
                             <td>
                                 <select name='recur_count'>
+                                    <option value="0">Disabled</option>
                                     <?php
-                                    if(empty($LASTPOST['recur_count']))
-                                        $LASTPOST['recur_count'] = '3';
-                                    for($i=1; $i<=64; $i++)
+                                    for($i=1; $i<=99; $i++)
                                         echo "\n\t<option ",
-                                        $LASTPOST['recur_count'] == $i ? 'selected="selected"' : '',
+                                        @$LASTPOST['recur_count'] == $i ? 'selected="selected"' : '',
                                         ">", $i, "</option>";
                                     ?>
                                 </select>
                             </td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Recur Amount
+                                <br />
+                                <span style="font-size: x-small; color: grey">(If different from Payment Amount)</span>
+                            </td>
+                            <td class="value"><input type="text" name="recur_amount" placeholder="x.xx" size="6" value="<?php echo @$LASTPOST['recur_amount']; ?>" required="required"/></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Frequency</td>
@@ -336,12 +328,16 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                     if(empty($LASTPOST['recur_frequency']))
                                         $LASTPOST['recur_frequency'] = 'Monthly';
                                     foreach(OrderRow::$ENUM_RUN_FREQUENCY as $type => $name)
-                                        echo "\n\t<option ",
-                                        @$LASTPOST['recur_frequency'] === $type ? 'selected="selected"' : '',
+                                        echo "\n\t<option value='", $type, "'",
+                                        @$LASTPOST['recur_frequency'] === $type ? ' selected="selected"' : '',
                                         ">", $name, "</option>";
                                     ?>
                                 </select>
                             </td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">First Recur Date</td>
+                            <td><input type="date" name="recur_next_date" value="<?php echo @$LASTPOST['recur_next_date']; ?>" required="required"/></td>
                         </tr>
                     </table>
 

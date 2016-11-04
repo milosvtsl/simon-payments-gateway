@@ -16,6 +16,8 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
+use Subscription\Mail\CancelEmail;
+use Subscription\Model\SubscriptionRow;
 use Transaction\Mail\ReceiptEmail;
 use Transaction\Model\TransactionRow;
 
@@ -239,6 +241,10 @@ class ElementIntegration extends AbstractIntegration
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
+        $Subscription = null;
+        if(!empty($post['recur_count']) && $post['recur_count'] > 0) {
+            $Subscription = SubscriptionRow::createSubscriptionFromPost($MerchantIdentity, $Order, $post);
+        }
 
         $Request = IntegrationRequestRow::prepareNew(
             __CLASS__,
@@ -283,7 +289,13 @@ class ElementIntegration extends AbstractIntegration
 
         $Order->setStatus("Authorized");
         OrderRow::update($Order);
+
+        // Insert Transaction
         TransactionRow::insert($Transaction);
+
+        // Insert Subscription
+        if($Subscription)
+            SubscriptionRow::insert($Subscription);
 
         // Insert Request
         $Request->setType('transaction');
@@ -673,6 +685,24 @@ class ElementIntegration extends AbstractIntegration
                 break;
         }
         return $updated;
+    }
+
+
+    /**
+     * Cancel an active subscription
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param SubscriptionRow $Subscription
+     * @param $message
+     */
+    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message) {
+        $Subscription->cancel($message);
+
+        $Order = OrderRow::fetchByID($Subscription->getOrderID());
+        if($Order->getPayeeEmail()) {
+            $CancelReceipt = new CancelEmail($Order, $MerchantIdentity->getMerchantRow());
+            if(!$CancelReceipt->send())
+                error_log($CancelReceipt->ErrorInfo);
+        }
     }
 }
 

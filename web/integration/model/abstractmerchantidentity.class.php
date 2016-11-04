@@ -1,5 +1,6 @@
 <?php
 namespace Integration\Model;
+use Subscription\Model\SubscriptionRow;
 use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
@@ -106,6 +107,15 @@ abstract class AbstractMerchantIdentity {
 
 
     /**
+     * @param SubscriptionRow $Subscription
+     * @param $message
+     */
+    public function cancelSubscription(SubscriptionRow $Subscription, $message) {
+        $Integration = $this->integration->getIntegration();
+        return $Integration->cancelSubscription($this, $Subscription, $message);
+    }
+
+    /**
      * Void an existing Transaction
      * @param OrderRow $Order
      * @param array $post
@@ -180,6 +190,7 @@ abstract class AbstractMerchantIdentity {
     public function getMarketCode() {
         return "Retail"; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
     }
+
 
 
 //    public function submitNewTransaction(Array $post) {

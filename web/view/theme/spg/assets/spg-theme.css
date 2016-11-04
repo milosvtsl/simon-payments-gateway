@@ -267,7 +267,7 @@ body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
     /* background: url('img/bk/input.button.png') repeat-x; */
-    margin: 0.3em 0.1em;
+    margin: 0.1em 0.1em;
     min-width: 84px;
     text-align: left;
     border-width: 1px;
