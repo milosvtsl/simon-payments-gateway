@@ -18,16 +18,16 @@ class ResetPasswordEmail extends \PHPMailer
 {
     public function __construct(UserRow $User) {
         parent::__construct();
-        $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
-        if(SiteConfig::$EMAIL_SMTP_USERNAME) {
-            $this->Username = SiteConfig::$EMAIL_SMTP_USERNAME;
-            $this->Password = SiteConfig::$EMAIL_SMTP_PASSWORD;
-            $this->SMTPSecure = 'tls';
-            $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
-        }
 
+        $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
+        $this->Username = SiteConfig::$EMAIL_USERNAME;
+        $this->Password = SiteConfig::$EMAIL_PASSWORD;
+        $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
+        $this->Timeout = SiteConfig::$EMAIL_TIMEOUT;
         $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
         $this->SMTPSecure = SiteConfig::$EMAIL_SMTP_SECURE;
+        if(SiteConfig::$EMAIL_SMTP_AUTH)
+            $this->isSMTP();
 
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
