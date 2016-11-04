@@ -318,7 +318,7 @@ SQL;
         if(!preg_match('/^[a-zA-Z0-9_-]+$/', $post['username']))
             throw new \InvalidArgumentException("Username may only contain alphanumeric and underscore characters");
 
-        if(strlen($post['username']) < 5)
+        if(strlen($post['username']) < 4)
             throw new \InvalidArgumentException("Username must be at least 5 characters");
 
         if($post['password'] !== $post['password_confirm'])

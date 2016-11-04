@@ -44,11 +44,17 @@ class AddUserView extends AbstractView
                 die();
         }
 
-        $User = UserRow::createNewUser($post, $SessionUser);
+        try {
+            $User = UserRow::createNewUser($post, $SessionUser);
+            $this->setSessionMessage("User created successfully: " . $User->getUID());
+            header('Location: /user?id=' . $User->getID());
+            die();
 
-        $this->setSessionMessage("User created successfully: " . $User->getUID());
-        header('Location: /user?id=' . $User->getID());
-        die();
+        } catch (\InvalidArgumentException $ex) {
+            $this->setSessionMessage("User creation failed: " . $ex->getMessage());
+            header('Location: /user/add.php');
+            die();
+        }
 
     }
 }

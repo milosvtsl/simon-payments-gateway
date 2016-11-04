@@ -40,7 +40,7 @@ $odd = false;
                 <input type="hidden" name="action" value="add" />
                 <fieldset>
                     <legend>New Merchant Fields</legend>
-                    <table class="table-merchant-info themed">
+                    <table class="table-merchant-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Name</td>
                             <td><input type="text" name="name" value="" required /></td>
