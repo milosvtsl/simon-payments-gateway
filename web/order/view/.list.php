@@ -67,6 +67,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <td>
                                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="33" />
                                 <input type="submit" value="Search" />
+                                <button type="submit" value="Export">Export <span style="font-size: x-small;">(as CSV)</span></button>
                             </td>
                         </tr>
                         </tbody>

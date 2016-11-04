@@ -21,9 +21,6 @@ class OrderListView extends AbstractListView {
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
-		// Render Header
-		$this->getTheme()->renderHTMLBodyHeader();
-
 		// Set up page parameters
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
 
@@ -150,11 +147,19 @@ class OrderListView extends AbstractListView {
 		if(!$this->getMessage())
 			$this->setMessage($statsMessage);
 
-		// Render Page
-		include ('.list.php');
+		if(strtolower(@$params['action']) === 'export') {
+			// Render Page
+			include ('.export.php');
 
-		// Render footer
-		$this->getTheme()->renderHTMLBodyFooter();
+		} else {
+			// Render Header
+			$this->getTheme()->renderHTMLBodyHeader();
+			// Render Page
+			include ('.list.php');
+			// Render footer
+			$this->getTheme()->renderHTMLBodyFooter();
+		}
+
 	}
 
 	public function processFormRequest(Array $post) {
