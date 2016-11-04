@@ -95,9 +95,11 @@ class SessionManager
 
         // Reset login session data
         $old = $_SESSION[static::SESSION_KEY];
-        $_SESSION[static::SESSION_KEY] = array (
-            static::SESSION_ID => $User->getID(),
-            static::SESSION_OLD => $old
+        $_SESSION = array(
+            static::SESSION_KEY => array (
+                static::SESSION_ID => $User->getID(),
+                static::SESSION_OLD => $old
+            )
         );
 
         return $User;

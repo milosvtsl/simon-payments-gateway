@@ -130,7 +130,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin Access</td>
-                                <td class="value"><input type="submit" value="Login" name="action" /></td>
+                                <td class="value"><input type="submit" class="themed" value="Login" name="action" /></td>
                             </tr>
                             <?php } ?>
                         </table>

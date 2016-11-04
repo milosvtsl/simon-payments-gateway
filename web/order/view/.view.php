@@ -114,8 +114,6 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </table>
             </fieldset>
 
-            <br />
-
             <?php if ($Order->getCardNumber()) { ?>
 
                 <fieldset>

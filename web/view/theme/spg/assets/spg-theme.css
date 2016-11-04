@@ -141,7 +141,11 @@ body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
 body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
 body.spg-theme .submenu-icon.submenu-icon-edit {background-position: -32px -32px;}
 body.spg-theme .submenu-icon.submenu-icon-add {background-position: -64px -32px;}
-body.spg-theme .submenu-icon.submenu-icon-view { background-position: -64px 0; }
+body.spg-theme .submenu-icon.submenu-icon-view { background-position: -96px 0; }
+body.spg-theme .submenu-icon.submenu-icon-print { background-position: -96px 0; }
+body.spg-theme .submenu-icon.submenu-icon-download { background-position: -96px 0; }
+body.spg-theme .submenu-icon.submenu-icon-receipt { background-position: -96px 0; }
+
 
 
 
