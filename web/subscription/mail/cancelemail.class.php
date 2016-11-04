@@ -101,7 +101,7 @@ HTML;
         $this->Body = <<<HTML
 <html>
     <body>
-        {$content_html}<br/>
+        <pre>{$content}</pre><br/>
         <br/>
         If you would like to view your cancellation online, please click the following link:<br/>
         <a href="{$url}">{$url}</a><br/>
