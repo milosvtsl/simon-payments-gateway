@@ -19,12 +19,23 @@ echo "\nTesting Email ... ", __FILE__, PHP_EOL;
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
-$Order = \Order\Model\OrderRow::fetchByID(8476);
+$Order = \Order\Model\OrderRow::fetchByID(8603);
 $Order->setPayeeEmail('ari@govpaynetwork.com');
 $Merchant = \Merchant\Model\MerchantRow::fetchByID($Order->getMerchantID());
-$EmailReceipt = new \Transaction\Mail\ReceiptEmail($Order, $Merchant);
-$EmailReceipt->addCC('ari@govpaynetwork.com', 'Tester');
-$EmailReceipt->addCC('ari@asu.edu', 'Tester');
-if(!$EmailReceipt->send())
-    error_log("Test Email Failed: " . $EmailReceipt->ErrorInfo);
+
+
+$Email = new \Transaction\Mail\ReceiptEmail($Order, $Merchant);
+$Email->addCC('ari@govpaynetwork.com', 'Tester');
+$Email->addCC('ari@asu.edu', 'Tester');
+if(!$Email->send())
+    error_log("Test Receipt Email Failed: " . $Email->ErrorInfo);
+
+
+
+$Email = new \Subscription\Mail\CancelEmail($Order, $Merchant);
+$Email->addCC('ari@govpaynetwork.com', 'Tester');
+$Email->addCC('ari@asu.edu', 'Tester');
+if(!$Email->send())
+    error_log("Test Cancel Email Failed: " . $Email->ErrorInfo);
+
 echo "\nEmail Tests successful";

@@ -89,9 +89,9 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             <td>
                                 <select name="entry_mode" class="" required autofocus>
             <!--                        <option value="">Choose a method</option>-->
-                                    <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
-                                    <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
-                                    <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'check' ? 'selected="selected"' : ''?>>e-Check</option>
+                                    <option value="keyed" <?php echo @$LASTPOST['entry_mode'] == 'Keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
+                                    <option value="swipe" <?php echo @$LASTPOST['entry_mode'] == 'Swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
+                                    <option value="check" <?php echo @$LASTPOST['entry_mode'] == 'Check' ? 'selected="selected"' : ''?>>e-Check</option>
                                 </select>
                             </td>
                         </tr>

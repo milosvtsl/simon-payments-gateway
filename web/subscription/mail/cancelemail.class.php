@@ -42,30 +42,47 @@ class CancelEmail extends \PHPMailer
         $this->addBCC($Merchant->getMainEmailID(), $Order->getCardHolderFullName());
         $this->addBCC("ari@govpaynetwork.com", $Order->getCardHolderFullName());
 
-        $this->Subject = "Cancel: " . $Merchant->getName();
+        $this->Subject = "Subscription Canceled: " . $Merchant->getName();
 
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
-        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/subscription/cancel.php?uid='.$Order->getUID();
-
-        $amount = '$' . $Order->getAmount();
-        $merchant = $Merchant->getName();
-        $date = $Order->getDate();
-        $status = $Order->getStatus();
-        $full_name = $Order->getCardHolderFullName();
-        $card_number = $Order->getCardNumber();
-        $card_type = $Order->getCardType();
+        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/transaction/receipt.php?uid='.$Order->getUID();
 
         $content = <<<HTML
-Amount: {$amount}
-Merchant: {$merchant}
-Date: {$date}
-Status: {$status}
+Your subscription has been canceled.
 
-Card Holder Information:
-Full Name: {$full_name}
-Number: {$card_number}
-Type: {$card_type}
+Order Information
+Amount: \${$Order->getAmount()}
+Merchant: {$Merchant->getName()}
+Date: {$Order->getDate()}
+Status: {$Order->getStatus()}
+
 HTML;
+        if($Order->getSubscriptionID())
+            $content .= <<<HTML
+Subscription Information
+Status: {$Order->getSubscriptionStatus()}
+Date: {$Order->getSubscriptionCancelDate()}
+
+HTML;
+
+        if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
+            $content .= <<<HTML
+E-Check Information
+Account Name: {$Order->getCheckAccountName()}
+Account Type: {$Order->getCheckAccountType()}
+Account Number: {$Order->getCheckAccountNumber()}
+Routing Number: {$Order->getCheckRoutingNumber()}
+Type: {$Order->getCheckType()}
+
+HTML;
+        else $content .= <<<HTML
+Card Holder Information
+Full Name: {$Order->getCardHolderFullName()}
+Number: {$Order->getCardNumber()}
+Type: {$Order->getCardType()}
+
+HTML;
+
 
         $content_html = nl2br($content);
 
@@ -77,7 +94,7 @@ HTML;
     <body>
         {$content_html}<br/>
         <br/>
-        If you would like to view your cancel online, please click the following link:<br/>
+        If you would like to view your cancellation online, please click the following link:<br/>
         <a href="{$url}">{$url}</a><br/>
 
         ____<br/>
@@ -89,7 +106,7 @@ HTML;
 $this->AltBody = <<<TEXT
 {$content}
 
-If you would like to view your cancel online, please click the following link:<br/>
+If you would like to view your cancellation online, please click the following link:<br/>
 {$url}
 
 ____

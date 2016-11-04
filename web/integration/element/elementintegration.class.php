@@ -257,7 +257,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        if($Order->getEntryMode() == 'check')
+        if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $request = $APIUtil->prepareCheckSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
         else
             $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
@@ -414,7 +414,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        if($Order->getEntryMode() == 'check')
+        if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $request = $APIUtil->prepareCheckVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         else
             $request = $APIUtil->prepareCreditCardVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
@@ -491,7 +491,7 @@ class ElementIntegration extends AbstractIntegration
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
-        if($Order->getEntryMode() == 'check')
+        if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $request = $APIUtil->prepareCheckReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         else
             $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);

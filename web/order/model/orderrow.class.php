@@ -18,6 +18,11 @@ class OrderRow
 {
     const _CLASS = __CLASS__;
 
+    const ENUM_ENTRY_MODE_KEYED = "Keyed";
+    const ENUM_ENTRY_MODE_SWIPE = "Swipe";
+    const ENUM_ENTRY_MODE_CHECK = "Check";
+
+
     const ENUM_RUN_FREQUENCY_ONETIMEFUTURE = "OneTimeFuture";
     const ENUM_RUN_FREQUENCY_DAILY = "Daily";
     const ENUM_RUN_FREQUENCY_WEEKLY = "Weekly";
@@ -117,6 +122,7 @@ class OrderRow
     protected $subscription_recur_amount;
     protected $subscription_recur_count;
     protected $subscription_recur_next_date;
+    protected $subscription_recur_cancel_date;
     protected $subscription_recur_frequency;
 
     const SQL_SELECT = "
@@ -199,6 +205,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getSubscriptionAmount()     { return $this->subscription_recur_amount; }
     public function getSubscriptionCount()      { return $this->subscription_recur_count; }
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
+    public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
 
 
@@ -444,7 +451,7 @@ SQL;
             $OrderRow->card_type = self::getCCType($post['card_number']);
             $OrderRow->card_number = $post['card_number'];
 
-        } else if($post['entry_mode'] === 'check') {
+        } else if(strtolower($post['entry_mode']) === 'check') {
             $OrderRow->check_account_name = $post['check_account_name'];
             $OrderRow->check_account_number = $post['check_account_number'];
             $OrderRow->check_account_type = $post['check_account_type'];
