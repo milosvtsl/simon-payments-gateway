@@ -212,5 +212,12 @@ class OrderListView extends AbstractListView {
 			header("Location: login.php");
 		}
 	}
+
+	protected function renderHTMLHeadScripts() {
+		echo <<<HEAD
+        <script src="order/view/assets/order.js"></script>
+HEAD;
+		parent::renderHTMLHeadScripts();
+	}
 }
 

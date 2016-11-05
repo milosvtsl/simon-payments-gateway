@@ -26,7 +26,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
             </aside>
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
-            <form class="form-search themed">
+            <form name="form-order-search" class="themed">
 
                 <fieldset class="search-fields">
                     <legend>Search</legend>
@@ -95,7 +95,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                     <legend>Search Report</legend>
                     <table class="table-stats themed small striped-rows" style="width: 98%;">
                         <tr>
-                            <th>Group</th>
+                            <th>Range</th>
                             <th>Authorized Total</th>
                             <th>Settled</th>
                             <th>Void</th>
