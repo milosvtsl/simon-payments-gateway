@@ -14,12 +14,12 @@ if(!$export_filename)
 header("Content-Disposition: attachment; filename=\"$export_filename\"");
 header("Content-Type: application/vnd.ms-excel");
 
-echo "Group,Count,Authorized,Settled,Void,Returned";
+echo "Span,Count,Authorized,Settled,Void,Returned";
 
 if(in_array(strtolower(@$params['action']), array('export', 'export-stats'))) {
     foreach ($ReportQuery as $Report) {
         /** @var \Order\Model\OrderQueryStats $Report */
-        echo "\n" . $Report->getGroupName(),
+        echo "\n" . $Report->getGroupSpan(),
             ',' . $Report->getCount(),
             ',$' . $Report->getTotal(),
             ',$' . $Report->getSettledTotal(),
