@@ -19,12 +19,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function updateOrderSearchForm(e, form) {
-        if(form.date_from.value) {
-            if(!form.date_to.value || form.date_to.value === form.date_to.last_value) {
-                var newdate = new Date(form.date_from.value);
-                newdate.setDate(newdate.getDate() + 1);
-                form.date_to.value = formatDateYYYYMMDD(newdate);
-                form.date_to.last_value = form.date_to.value;
+        console.log(e);
+        if(e.target && e.target.name === 'date_from') {
+            if (form.date_from.value) {
+                if (!form.date_to.value || form.date_to.value === form.date_to.last_value) {
+                    var newdate = new Date(form.date_from.value);
+                    newdate.setDate(newdate.getDate() + 1);
+                    form.date_to.value = formatDateYYYYMMDD(newdate);
+                    form.date_to.last_value = form.date_to.value;
+                }
             }
         }
     }
