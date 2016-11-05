@@ -262,7 +262,7 @@ body.spg-theme form.themed input {
 }
 body.spg-theme form.themed select,
 body.spg-theme form.themed input {
-    max-width: 16em;
+    /* max-width: 16em; */
 }
 
 body.spg-theme form.themed select.large,

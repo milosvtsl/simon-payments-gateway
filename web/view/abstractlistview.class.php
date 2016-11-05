@@ -25,9 +25,8 @@ abstract class AbstractListView extends AbstractView
     }
 
     public function getRowCount() {
-        if($this->_row_count === null)
-            throw new \InvalidArgumentException("Row count was not set");
-        return $this->_row_count;
+        return $this->_row_count
+            ?: ($this->_page*$this->_limit);
     }
 
     public function setPageParameters($page, $limit=null) {

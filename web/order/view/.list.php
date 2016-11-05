@@ -1,9 +1,12 @@
 <?php
 use Order\Model\OrderRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderQueryStats;
+use View\AbstractListView;
 /**
- * @var \Order\Model\OrderQueryStats $Stats
- * @var \View\AbstractListView $this
+ * @var OrderQueryStats $Report
+ * @var PDOStatement $ReportQuery
+ * @var AbstractListView $this
  * @var PDOStatement $Query
  **/
 
@@ -63,11 +66,25 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             </td>
                         </tr>
                         <tr>
+                            <td class="name">Report</td>
+                            <td>
+                                <select name="stats_group">
+                                    <?php
+                                    $stats_group = @$_GET['stats_group'];
+                                    foreach(array('Day', 'Week', 'Month', 'Year') as $opt)
+                                        echo "<option value='{$opt}' ", $stats_group == $opt ? ' selected="selected"' : '' ,">By ", $opt, "</option>\n";
+                                    ?>
+                                </select>
+                                <button name="action" type="submit" value="Export">Export</button>
+                                <button name="action" type="submit" value="Export-Stats">Stats</button>
+                                <button name="action" type="submit" value="Export-Data">Data</button>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="name">Value</td>
                             <td>
-                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="33" />
-                                <input name="action" type="submit" value="Search" />
-                                <button name="action" type="submit" value="Export">Export <span style="font-size: x-small;">(.csv)</span></button>
+                                <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="27" />
+                                <input name="action" type="submit" value="Search" class="themed" />
                             </td>
                         </tr>
                         </tbody>
@@ -75,9 +92,10 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                 </fieldset>
 
                 <fieldset>
-                    <legend>Search Statistics</legend>
+                    <legend>Search Report</legend>
                     <table class="table-stats themed small striped-rows" style="width: 98%;">
                         <tr>
+                            <th>Group</th>
                             <th>Authorized Total</th>
                             <th>Settled</th>
                             <th>Void</th>
@@ -86,15 +104,33 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <th>Conv. Fee</th>
                             <?php } ?>
                         </tr>
+                        <?php foreach($ReportQuery as $Report) {
+                            $report_url = $action_url . '&date_from=' . $Report->getStartDate() . '&date_to=' . $Report->getEndDate()
+                            /** @var \Order\Model\OrderQueryStats $Stats */
+                        ?>
+                        <tr class="row-even">
+                            <td><a href="<?php echo $report_url; ?>&status="><?php echo $Report->getGroupSpan(); ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=">$<?php echo number_format($Report->getTotal(),2), ' (', $Report->getTotalCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=Settled">$<?php echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=Void">$<?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=Return">$<?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <td>$<?php echo number_format($Report->getConvenienceFeeTotal(),2), ' (', $Report->getConvenienceFeeCount(), ')'; ?></td>
+                            <?php } ?>
+                        </tr>
+                        <?php } ?>
+
                         <tr class="row-even" style="font-weight: bold;">
+                            <td>Total</td>
                             <td><a href="<?php echo $action_url; ?>&status=">$<?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Settled">$<?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Void">$<?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Return">$<?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                            <td>$<?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
+                                <td>$<?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
                             <?php } ?>
                         </tr>
+
                         <tr>
                             <td colspan="5" style="text-align: right; font-size: 0.7em; color: grey;">
                                 <?php if($this->hasMessage()) echo $this->getMessage(); ?>
@@ -127,7 +163,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         foreach($Query as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getID(); ?></a></td>
-                            <td>$<?php echo $Order->getAmount(); ?></td>
+                            <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
                             <td><?php echo $Order->getCardHolderFullName(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>

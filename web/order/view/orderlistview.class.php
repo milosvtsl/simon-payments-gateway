@@ -15,7 +15,7 @@ class OrderListView extends AbstractListView {
 // TODO batch id
 
 	public function renderHTML($params=null) {
-		if(strtolower(@$params['action']) === 'export') {
+		if(in_array(strtolower(@$params['action']), array('export', 'export-stats', 'export-data'))) {
 			$this->renderHTMLBody($params);
 			return;
 		}
@@ -36,7 +36,8 @@ class OrderListView extends AbstractListView {
 		$whereSQL = "WHERE 1";
 		$statsMessage = '';
 
-		$export_filename = 'export.csv';
+		$action = strtolower(@$params['action'] ?: 'view');
+		$export_filename = $action . '.csv';
 
 		// Set up WHERE conditions
 		if(!empty($params['search'])) {
@@ -113,17 +114,39 @@ class OrderListView extends AbstractListView {
 		$DB = DBConfig::getInstance();
 
 
-//        date_default_timezone_set($timezone);
-//        $DB->exec("SET time_zone = '{$timezone}'");
-
-		$countSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
-		$Query = $DB->prepare($countSQL);
-		$Query->execute($sqlParams);
+		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
+		$StatsQuery = $DB->prepare($statsSQL);
+		$StatsQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
 		/** @var OrderQueryStats $Stats */
-		$Stats = $Query->fetch();
+		$Stats = $StatsQuery->fetch();
 		$this->setRowCount($Stats->getCount());
+
+		// TODO decide date range
+
+		$groupByStatsSQL = OrderQueryStats::SQL_GROUP_BY;
+		$limitStatsSQL = "\nLIMIT 5";
+		if(in_array(strtolower(@$params['action']),
+			array('export', 'export-stats', 'export-data')))
+			$limitStatsSQL = '';
+		switch(@$params['stats_group']) {
+			default:
+			case 'Day': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d')"; break;
+			case 'Week': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%u')"; break;
+			case 'Month': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m')"; break;
+			case 'Year': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y')"; break;
+		}
+
+		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL
+			. $groupByStatsSQL
+			. OrderQueryStats::SQL_ORDER_BY
+			. $limitStatsSQL;
+		$ReportQuery = $DB->prepare($statsSQL);
+		$ReportQuery->execute($sqlParams);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+
 
 		// Calculate GROUP BY
 		$groupSQL = OrderRow::SQL_GROUP_BY;
@@ -143,7 +166,8 @@ class OrderListView extends AbstractListView {
 
 		// Calculate LIMIT
 		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
-		if(strtolower(@$params['action']) === 'export')
+		if(in_array(strtolower(@$params['action']),
+			array('export', 'export-stats', 'export-data')))
 			$limitSQL = '';
 
 		// Query Rows
@@ -162,7 +186,8 @@ class OrderListView extends AbstractListView {
 		if(!$this->getMessage())
 			$this->setMessage($statsMessage);
 
-		if(strtolower(@$params['action']) === 'export') {
+		if(in_array(strtolower(@$params['action']),
+			array('export', 'export-stats', 'export-data'))) {
 			// Render Page
 			include ('.export.csv.php');
 
