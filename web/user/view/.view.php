@@ -91,6 +91,9 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                     } ?>
                                 </td>
                             </tr>
+
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
+
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Roles</td>
                                 <td class="value">
@@ -114,7 +117,6 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                 </td>
                             </tr>
 
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin</td>
                                 <td class="value">
