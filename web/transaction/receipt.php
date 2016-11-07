@@ -26,7 +26,8 @@ try {
     $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
     $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
 } catch (InvalidArgumentException $ex) {
-    $View = new \Order\View\OrderListView();
+//    $View = new \Order\View\OrderListView();
+    $View = new \User\View\LoginView();
     $View->setSessionMessage(
         "<span class='error'>" .
         $ex->getMessage() .
