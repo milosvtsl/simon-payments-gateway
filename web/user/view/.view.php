@@ -23,18 +23,18 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
         <?php } else { ?>
 
-            <a href="user/account.php" class="button current">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+            <a href="user/account.php#content" class="button current">My Account <div class="submenu-icon submenu-icon-view"></div></a>
             <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-            <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="user/add.php#content" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->getID() === $User->getID()) { ?>
-            <a href="user/logout.php" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
+            <a href="user/logout.php#content" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
         <?php } ?>
 
     </nav>

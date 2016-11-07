@@ -14,12 +14,12 @@ $odd = false;
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
         <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
-    <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+    <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="user/add.php" class="button current">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user/add.php#content" class="button current">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+        <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
     <?php } ?>
 </nav>
 
@@ -30,7 +30,7 @@ $odd = false;
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="user" class="nav_user">Users</a>
-                <a href="user/add.php" class="nav_user_add">Add New User</a>
+                <a href="user/add.php#content" class="nav_user_add">Add New User</a>
             </aside>
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

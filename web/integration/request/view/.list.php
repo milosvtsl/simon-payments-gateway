@@ -10,10 +10,10 @@ use Integration\Request\Model\IntegrationRequestRow;
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="integration?" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="integration/request?" class="button current">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration#content" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration/request#content" class="button current">Requests <div class="submenu-icon submenu-icon-list"></div></a>
         <?php } ?>
     </nav>
 
@@ -25,7 +25,7 @@ use Integration\Request\Model\IntegrationRequestRow;
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="integration" class="nav_integration">Integration</a>
-                <a href="integration/request?" class="nav_integration_request">Requests</a>
+                <a href="integration/request#content" class="nav_integration_request">Requests</a>
                 <a href="integration/request/list.php" class="nav_integration_list">Search</a>
             </aside>
 

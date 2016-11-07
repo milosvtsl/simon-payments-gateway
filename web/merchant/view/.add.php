@@ -17,10 +17,10 @@ $odd = false;
         <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
     <?php } ?>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-        <a href="merchant?" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="merchant/add.php" class="button current">Add Merchant <div class="submenu-icon submenu-icon-add"></div></a>
-        <a href="user?" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="order?" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="merchant/add.php#content" class="button current">Add Merchant <div class="submenu-icon submenu-icon-add"></div></a>
+        <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
     <?php } ?>
 </nav>
 
@@ -32,7 +32,7 @@ $odd = false;
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="merchant" class="nav_merchant">Merchants</a>
-                <a href="merchant/add.php" class="nav_merchant_add">Add New Merchant</a>
+                <a href="merchant/add.php#content" class="nav_merchant_add">Add New Merchant</a>
             </aside>
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
