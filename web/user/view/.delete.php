@@ -37,8 +37,9 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 
 <article id="article" class="themed">
 
-        <section id="content" class="content">             <a name='content'/>
-            <!-- Bread Crumbs -->
+    <section id="content" class="content">
+        <a name='content'></a>
+        <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="user" class="nav_user">Users</a>
                 <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>

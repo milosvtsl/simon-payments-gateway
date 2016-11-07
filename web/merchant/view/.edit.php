@@ -27,8 +27,9 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
     </nav>
 
     <article id="article" class="themed">
+        <section id="content" class="content">
+            <a name='content'></a>
 
-        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="merchant" class="nav_merchant">Merchants</a>

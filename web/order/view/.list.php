@@ -18,7 +18,9 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
 
     <article id="article" class="themed">
 
-        <section id="content" class="content">             <a name='content'/>
+        <section id="content" class="content">
+            <a name='content'></a>
+
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="order" class="nav_order">Transactions</a>

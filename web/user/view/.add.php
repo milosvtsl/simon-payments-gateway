@@ -25,7 +25,8 @@ $odd = false;
 
     <article id="article" class="themed">
 
-        <section id="content" class="content">             <a name='content'/>
+        <section id="content" class="content">
+            <a name='content'></a>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="user" class="nav_user">Users</a>

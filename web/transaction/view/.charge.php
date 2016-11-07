@@ -19,7 +19,8 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 ?>
 
     <article id="article" class="themed">
-        <section id="content" class="content">             <a name='content'/>
+        <section id="content" class="content">
+            <a name='content'></a>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="order" class="nav_transaction">Transactions</a>

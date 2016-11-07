@@ -20,7 +20,8 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 <article id="article" class="themed">
 
-    <section id="content" class="content">             <a name='content'/>
+    <section id="content" class="content">
+        <a name='content'></a>
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset>
