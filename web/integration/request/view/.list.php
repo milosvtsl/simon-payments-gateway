@@ -17,9 +17,10 @@ use Integration\Request\Model\IntegrationRequestRow;
         <?php } ?>
     </nav>
 
-    <article class="themed">
+    <article id="article" class="themed">
 
-        <section class="content">
+        <section id="content" class="content">
+            <a name='content' ></a>
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">

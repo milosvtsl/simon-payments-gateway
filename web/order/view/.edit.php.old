@@ -21,9 +21,9 @@ $action_url = 'order?uid=' . $Order->getUID() . '&action=';
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
 
-    <article class="themed">
+    <article id="article" class="themed">
 
-        <section class="content">
+        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="order" class="nav_order">Transactions</a>

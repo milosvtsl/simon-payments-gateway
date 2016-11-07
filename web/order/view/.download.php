@@ -18,9 +18,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 ?>
 
-<article class="themed">
+<article id="article" class="themed">
 
-    <section class="content">
+    <section id="content" class="content">             <a name='content'/>
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset>

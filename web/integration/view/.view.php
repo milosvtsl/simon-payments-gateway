@@ -18,8 +18,8 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
     </nav>
 
 
-    <article class="themed">
-        <section class="content">
+    <article id="article" class="themed">
+        <section id="content" class="content">             <a name='content'/>
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">

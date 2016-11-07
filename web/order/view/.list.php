@@ -16,9 +16,9 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 $action_url = 'order/list.php?' . http_build_query($_GET);
 ?>
 
-    <article class="themed">
+    <article id="article" class="themed">
 
-        <section class="content">
+        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="order" class="nav_order">Transactions</a>

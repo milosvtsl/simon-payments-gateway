@@ -25,9 +25,9 @@ $odd = false;
 </nav>
 
 
-    <article class="themed">
+    <article id="article" class="themed">
 
-        <section class="content">
+        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="merchant" class="nav_merchant">Merchants</a>

@@ -18,9 +18,8 @@ $button_current = 'charge';
 include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 ?>
 
-    <article class="themed">
-
-        <section class="content">
+    <article id="article" class="themed">
+        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="order" class="nav_transaction">Transactions</a>

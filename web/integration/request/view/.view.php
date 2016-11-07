@@ -16,8 +16,8 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
         <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
     </nav>
 
-    <article class="themed">
-        <section class="content">
+    <article id="article" class="themed">
+        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="integration" class="nav_integration">Integration</a>

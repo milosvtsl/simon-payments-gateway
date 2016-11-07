@@ -23,8 +23,8 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
     </nav>
 
 
-    <article class="themed">
-        <section class="content">
+    <article id="article" class="themed">
+        <section id="content" class="content">             <a name='content'/>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="merchant" class="nav_merchant">Merchants</a>

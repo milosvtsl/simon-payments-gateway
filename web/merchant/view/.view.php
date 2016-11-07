@@ -34,7 +34,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
         <?php } ?>
     </nav>
 
-    <article class="themed">
+    <article id="article" class="themed">
 
         <section class="content" >
             <!-- Bread Crumbs -->

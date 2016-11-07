@@ -38,9 +38,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 <!--    <a href="--><?php //echo $action_url; ?><!--bookmark" class="button">Bookmark URL <div class="submenu-icon submenu-icon-bookmark"></div></a>-->
 </nav>
 
-<article class="themed">
+<article id="article" class="themed">
 
-    <section class="content">
+    <section id="content" class="content">             <a name='content'/>
         <!-- Bread Crumbs -->
         <aside class="bread-crumbs hide-on-print">
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>

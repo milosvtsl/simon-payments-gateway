@@ -21,9 +21,9 @@ use \User\Model\UserRow;
         <?php } ?>
     </nav>
 
-    <article class="themed">
+    <article id="article" class="themed">
 
-         <section class="content">
+         <section id="content" class="content">             <a name='content'/>
              <!-- Bread Crumbs -->
              <aside class="bread-crumbs">
                  <a href="user" class="nav_user">Users</a>
