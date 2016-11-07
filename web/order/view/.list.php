@@ -95,7 +95,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                     <legend>Search Report</legend>
                     <table class="table-stats themed small striped-rows" style="width: 98%;">
                         <tr>
-                            <th><?php echo $params['stats_group']; ?>ly</th>
+                            <th><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></th>
                             <th>Authorized Total</th>
                             <th>Settled</th>
                             <th>Void</th>
