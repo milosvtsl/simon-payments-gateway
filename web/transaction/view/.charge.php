@@ -240,7 +240,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="table-payment-method-swipe themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td>
-                                <input type="password" name="card_track" size="103" value="<?php echo @$LASTPOST['card_track']; ?>" />
+                                <input type="password" name="card_track" size="48" value="<?php echo @$LASTPOST['card_track']; ?>" />
                             </td>
                         </tr>
                     </table>
@@ -346,11 +346,11 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     <table class="table-transaction-charge themed" style="width: 48%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Convenience Fee</td>
-                            <td><input type="text" size="9" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
+                            <td><input type="text" size="6" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Total Charge Amount</td>
-                            <td><input type="text" size="9" name="total_amount" value="$0.00" disabled="disabled" /></td>
+                            <td><input type="text" size="6" name="total_amount" value="$0.00" disabled="disabled" /></td>
                         </tr>
                         <!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
                         <!--                        <td class="name">Method</td>-->

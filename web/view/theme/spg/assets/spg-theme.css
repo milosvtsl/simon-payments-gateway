@@ -8,6 +8,13 @@ body.spg-theme {
     margin: 0 auto;
 }
 
+body.layout-vertical.spg-theme, 
+body.layout-vertical.spg-theme input,
+body.layout-vertical.spg-theme select,
+body.layout-vertical.spg-theme button {
+    font-size: x-large;
+}
+
 body.layout-vertical.spg-theme .hide-on-layout-vertical { display: none; }
 
 
@@ -408,7 +415,7 @@ body.spg-theme table.themed > tbody > tr > th.name,
 body.spg-theme table.themed > tbody > tr > td.name {
     /* text-align: right; */
     /* text-transform: uppercase; */
-    font-size: small;
+    font-size: smaller;
     padding: 0.5em 0 0.5em 0.5em;
     /* vertical-align: middle; */
     font-weight: bold;
