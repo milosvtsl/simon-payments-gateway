@@ -25,7 +25,7 @@ body.spg-theme > header {
 }
 
 body.spg-theme > header > a > img {
-    width:18em;
+    width: 12em;
     margin-bottom: -0.8em;
 }
 
@@ -89,7 +89,7 @@ body.spg-theme > nav.site-menu > a {
     width: 7em;
     text-transform: uppercase;
     /* border: 1px outset #FFF; */
-    /* margin-top: 2em; */
+    margin: 0.2em 0;
 }
 
 
@@ -102,32 +102,33 @@ body.spg-theme > nav.site-menu > a > div.nav-icon:hover {
 }
 
 body.spg-theme > nav.site-menu > a > div.nav-icon {
-    background: url(img/nav_icons.png) -128px 0 no-repeat;
-    width: 64px;
-    height: 64px;
+    background: url(img/nav_icons.png) 0 0 no-repeat;
+    background-size: 192px 96px;
+    width: 48px;
+    height: 48px;
+    /*width: 64px;*/
+    /*height: 64px;*/
     display: inline-block;
     padding: 0 0;
-    margin: 0 0;
-    margin-top: 0.4em;
+    margin: 0 0 0 0;
 }
-body.spg-theme > nav.site-menu > a > div.nav-login-icon {background-position: -128px -64px;}
-body.spg-theme > nav.site-menu > a > div.nav-logout-icon {background-position: -192px -64px;}
-/* body.spg-theme > nav.site-menu > a > div.nav_-ser-icon { background-position: -128px 0; } */
 body.spg-theme > nav.site-menu > a > div.nav-home-icon {background-position: 0 0;}
-body.spg-theme > nav.site-menu > a > div.nav-dashboard-icon {background-position: -64px 0;}
-body.spg-theme > nav.site-menu > a > div.nav-signup-icon {background-position: -64px -64px;}
-body.spg-theme > nav.site-menu > a > div.nav-charge-icon {background-position: 0 -64px;}
+body.spg-theme > nav.site-menu > a > div.nav-login-icon {background-position: 0 0;}
+body.spg-theme > nav.site-menu > a > div.nav-logout-icon {background-position: -144px -48px;}
+/* body.spg-theme > nav.site-menu > a > div.nav_-ser-icon { background-position: -96px 0; } */
+body.spg-theme > nav.site-menu > a > div.nav-dashboard-icon {background-position: -48px 0;}
+body.spg-theme > nav.site-menu > a > div.nav-charge-icon {background-position: 0 -48px;}
 
 
 body.spg-theme .site-welcome-text {
     /* float: left; */
     display: inline-block;
     /* clear:both; */
-    margin-right: 0.5em;
-    margin-top: 1.7em;
+    /* margin-right: 0.5em; */
+    margin-top: 0.7em;
     /* font-weight:bold; */
     font-style:italic;
-    font-size: larger;
+    font-size: large;
     line-height: 27px;
     color: #777;
 }
@@ -135,7 +136,16 @@ body.spg-theme .site-welcome-text {
 
 /** Sub Menu **/
 
-body.spg-theme .submenu-icon {/*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */background: url(img/nav_icons.png) 0 0 no-repeat;background-position: top left;background-size: 128px 64px;width: 32px;height: 32px;margin: -4px 6px 0 0px;float: left;}
+body.spg-theme .submenu-icon {
+/*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */
+    background: url(img/nav_icons.png) 0 0 no-repeat;
+    background-position: top left;
+    background-size: 128px 64px;
+    width: 32px;
+    height: 32px;
+    margin: -4px 6px 0 0;
+    float: left;
+}
 body.spg-theme .submenu-icon.submenu-icon-dashboard {background-position: 0 0;}
 body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
 body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
