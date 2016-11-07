@@ -90,8 +90,12 @@ class OrderListView extends AbstractListView {
 			$list = $SessionUser->getMerchantList() ?: array(0);
 			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 
-            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN'))
-                $whereSQL .= "\nAND 0=1";
+            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+				$this->setMessage(
+					"<span class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</span>"
+				);
+				$whereSQL .= "\nAND 0=1";
+			}
 		}
 
         // Limit to merchant
