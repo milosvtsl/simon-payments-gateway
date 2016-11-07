@@ -76,7 +76,7 @@ class LoginView extends AbstractView {
                     $NewUser = $SessionManager->login($username, $password);
 
                     $this->setSessionMessage("Welcome, " . $NewUser->getUsername());
-                    header("Location: /?action=start");
+                    header("Location: /");
 
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());

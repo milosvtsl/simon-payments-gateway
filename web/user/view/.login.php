@@ -11,7 +11,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
 
     <section class="not-content login-section">
-        <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="display: block; margin: auto; ">
+        <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="display: block; margin: auto; padding-bottom: 1em;">
 
 
         <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
