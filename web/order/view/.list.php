@@ -104,11 +104,13 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <th>Conv. Fee</th>
                             <?php } ?>
                         </tr>
-                        <?php foreach($ReportQuery as $Report) {
+                        <?php
+                            $odd = false;
+                            foreach($ReportQuery as $Report) {
                             $report_url = $action_url . '&date_from=' . $Report->getStartDate() . '&date_to=' . $Report->getEndDate()
                             /** @var \Order\Model\OrderQueryStats $Stats */
                         ?>
-                        <tr class="row-even">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href="<?php echo $report_url; ?>&status="><?php echo $Report->getGroupSpan(); ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status="><?php echo number_format($Report->getTotal(),2), ' (', $Report->getTotalCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Settled"><?php echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?></a></td>
@@ -119,8 +121,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <?php } ?>
                         </tr>
                         <?php } ?>
-
-                        <tr class="row-even" style="font-weight: bold;">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
                             <td>Total</td>
                             <td><a href="<?php echo $action_url; ?>&status="><?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Settled"><?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></a></td>
