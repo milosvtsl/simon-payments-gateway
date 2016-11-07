@@ -12,10 +12,10 @@
 //spl_autoload_register();
 
 // Test command
-$cmd_test = 'ssh access.simonpayments.com -t "cd /usr/share/nginx/spg; php test.php;"';
+$cmd_test = 'ssh access.simonpayments.com -l 30305 -t "cd /usr/share/nginx/spg; php test.php;"';
 
 // Deploy command
-$cmd_deploy = 'ssh access.simonpayments.com -t "cd /usr/share/nginx/spg; git pull;"';
+$cmd_deploy = 'ssh access.simonpayments.com -l 30305 -t "cd /usr/share/nginx/spg; git pull;"';
 
 // Check git status
 exec('git status', $out, $ret);
