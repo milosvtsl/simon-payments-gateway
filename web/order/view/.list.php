@@ -167,7 +167,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getID(); ?></a></td>
                             <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
-                            <td><?php echo $Order->getCardHolderFullName(); ?></td>
+                            <td style="max-width: 5em;"><?php echo $Order->getCardHolderFullName(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td style="max-width: 5em;"><?php echo $Order->getInvoiceNumber(); ?></td>
