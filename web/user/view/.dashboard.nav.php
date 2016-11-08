@@ -15,7 +15,7 @@ $ca[@$button_current] = ' current';
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
             <a href="transaction/charge.php#content" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
-        <a href="user/account.php#content" class="button<?php echo @$ca['account']; ?>">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+        <a href="user/account.php#content" class="button<?php echo @$ca['account']; ?>">My Account <div class="submenu-icon submenu-icon-account"></div></a>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
             <a href="order#content" class="button<?php echo @$ca['order']; ?>">Transactions <div class="submenu-icon submenu-icon-list"></div></a>

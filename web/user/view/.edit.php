@@ -24,7 +24,7 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
             <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
         <?php } else { ?>
 
-            <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-view"></div></a>
+            <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
             <a href="user/account.php?action=edit" class="button current">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php } ?>
 
