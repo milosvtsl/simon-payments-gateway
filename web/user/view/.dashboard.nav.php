@@ -11,7 +11,7 @@ $ca[@$button_current] = ' current';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-<!--        <a href="/" class="button--><?php //echo @$ca['dashboard']; ?><!--">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>-->
+        <a href="/" class="button<?php echo @$ca['dashboard']; ?> hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="user/account.php#content" class="button<?php echo @$ca['account']; ?>">My Account <div class="submenu-icon submenu-icon-account"></div></a>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>

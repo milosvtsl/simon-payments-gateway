@@ -11,7 +11,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-<!--        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>-->
+        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
             <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>

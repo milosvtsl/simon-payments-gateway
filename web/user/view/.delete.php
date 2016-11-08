@@ -10,7 +10,7 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-<!--        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>-->
+        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
 
         <?php if($SessionUser->getID() !== $User->getID()) { ?>
             <a href="<?php echo $action_url; ?>view" class="button">View User<div class="submenu-icon submenu-icon-view"></div></a>
