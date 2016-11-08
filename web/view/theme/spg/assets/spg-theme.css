@@ -103,7 +103,8 @@ body.spg-theme nav.site-menu > a.current {
 }
 
 body.spg-theme nav.site-menu > a > div.nav-icon:hover {
-    background-image: url(img/nav_icons_hover.png);
+/*     background-image: url(img/nav_icons_hover.png); */
+    opacity: 0.5;
 }
 
 body.spg-theme nav.site-menu > a > div.nav-icon {
@@ -142,8 +143,18 @@ body.spg-theme .site-welcome-text {
 /** Sub Menu **/
 
 body.spg-theme .submenu-icon {
-    /*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */background: url(img/nav_icons.png) -48px 0 no-repeat;background-position: top left;background-size: 128px 128px;width: 32px;height: 32px;margin: -4px 6px 0 0;float: left;
+    /*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */
+    background: url(img/nav_icons.png) -48px 0 no-repeat;
+    background-position: top left;
+    background-size: 128px 128px;
+    width: 32px;
+    height: 32px;
+    margin: -4px 6px 0 0;
+    float: left;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
 }
+body.spg-theme .submenu-icon:hover { opacity: 0.5; }
 body.spg-theme .submenu-icon.submenu-icon-dashboard { background-position: -32px 0; }
 body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
 body.spg-theme .submenu-icon.submenu-icon-account { background-position: 0 0; }
