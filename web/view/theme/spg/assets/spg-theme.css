@@ -30,7 +30,7 @@ body.spg-theme > header {
 
 body.spg-theme > header > a > img {
     width: 12em;
-    margin: 0.5em 0 -1em 0;
+    margin: 0.3em 0 -0.6em 0;
 }
 
 
@@ -130,7 +130,7 @@ body.spg-theme .site-welcome-text {
     display: inline-block;
     /* clear:both; */
     /* margin-right: 0.5em; */
-    margin-top: 0.7em;
+    margin-top: 0.5em;
     /* font-weight:bold; */
     font-style:italic;
     font-size: large;

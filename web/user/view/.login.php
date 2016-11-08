@@ -43,7 +43,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td style="text-align: center; font-weight: bold;">
+                        <td style="text-align: center; font-weight: bold; color: #3b7593;">
                             <a href="/reset.php">Password Reset</a>
                         </td>
                     </tr>
