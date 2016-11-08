@@ -73,9 +73,8 @@ body.spg-theme .error { background: rgba(147, 59, 59, 0.51); }
 /** Site Menu **/
 
 body.spg-theme nav.site-menu {
-    float: right;
-    margin-top: 0.3em;
-    margin-right: 0.5em;
+    /* float: right; */
+    margin: 0.3em;
 }
 
 body.layout-vertical.spg-theme nav.site-menu {
@@ -127,7 +126,7 @@ body.spg-theme nav.site-menu > a > div.nav-charge-icon {background-position: 0 -
 
 
 body.spg-theme .site-welcome-text {
-    /* float: left; */
+    float: right;
     display: inline-block;
     /* clear:both; */
     /* margin-right: 0.5em; */

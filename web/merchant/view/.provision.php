@@ -12,7 +12,7 @@ $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+<!--        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>-->
         <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>

@@ -12,7 +12,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+<!--        <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>-->
         <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
             <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>

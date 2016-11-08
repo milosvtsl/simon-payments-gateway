@@ -70,7 +70,7 @@ include '.dashboard.nav.php';
             </a>
         </div>
 
-        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; else echo "<h5>Dashboard Under Construction</h5>"; ?>
+        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; else echo "<h5></h5>"; ?>
 
     </section>
 

@@ -93,32 +93,32 @@ class SPGViewTheme extends AbstractViewTheme
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="hide-on-print hide-on-layout-vertical">
-            <a href="/">
-                <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="">
-            </a>
+<!--            <a href="/">-->
+<!--                <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="">-->
+<!--            </a>-->
             <nav class="site-menu hide-on-print">
 
-                <div class="site-welcome-text hide-on-print">
-                    <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
-                    <br />
-                    Welcome
-                </div>
             <?php if($SessionManager->isLoggedIn()) { ?>
     <!--            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>-->
+                <a href="/#content" class="nav-dashboard"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>
                 <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) { ?>
                     <a href="transaction/charge.php" class="nav-charge">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
                 <?php } else { ?>
-                    <a href="/user/account.php#content" class="nav-account"><div class="nav-icon nav-account-icon"></div><br/>Account</a>
 <!--                    <a href="/" class="nav-dashboard"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
                 <?php } ?>
 
-<!--                <a href="user/logout.php" class="nav-logout"> <div class="nav-icon nav-logout-icon"></div><br/>Log Out</a>-->
+                <a href="user/logout.php" class="nav-logout" style="float:right;"> <div class="nav-icon nav-logout-icon"></div><br/>Log Out</a>
             <?php } else { ?>
     <!--            <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>-->
     <!--            <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>-->
                 <a href="login.php" class="nav-login"> <div class="nav-icon nav-login-icon"></div><br/>Login </a>
             <?php } ?>
 
+                <div class="site-welcome-text hide-on-print">
+                    <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
+                    <br />
+                    Welcome
+                </div>
             </nav>
 
             <hr class="themed hide-on-print" style="clear: both;"/>
