@@ -108,7 +108,7 @@ body.spg-theme nav.site-menu > a > div.nav-icon:hover {
 
 body.spg-theme nav.site-menu > a > div.nav-icon {
     background: url(img/nav_icons.png) 0 0 no-repeat;
-    background-size: 192px 96px;
+    background-size: 192px 192px;
     width: 48px;
     height: 48px;
     /*width: 64px;*/
@@ -142,26 +142,21 @@ body.spg-theme .site-welcome-text {
 /** Sub Menu **/
 
 body.spg-theme .submenu-icon {
-/*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */
-    background: url(img/nav_icons.png) -48px 0 no-repeat;
-    background-position: top left;
-    background-size: 128px 64px;
-    width: 32px;
-    height: 32px;
-    margin: -4px 6px 0 0;
-    float: left;
+    /*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */background: url(img/nav_icons.png) -48px 0 no-repeat;background-position: top left;background-size: 128px 128px;width: 32px;height: 32px;margin: -4px 6px 0 0;float: left;
 }
 body.spg-theme .submenu-icon.submenu-icon-dashboard { background-position: -32px 0; }
 body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
-body.spg-theme .submenu-icon.submenu-icon-account { background-position: -96px 0; }
+body.spg-theme .submenu-icon.submenu-icon-account { background-position: 0 0; }
 body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
-body.spg-theme .submenu-icon.submenu-icon-transaction { background-position: -32px 0; }
-body.spg-theme .submenu-icon.submenu-icon-merchant { background-position: -32px 0; }
-body.spg-theme .submenu-icon.submenu-icon-user { background-position: -32px 0; }
-body.spg-theme .submenu-icon.submenu-icon-integration { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-transaction {background-position: -96px -64px;}
+body.spg-theme .submenu-icon.submenu-icon-merchant {background-position: -96px 0;}
+body.spg-theme .submenu-icon.submenu-icon-user {background-position: -64px -64px;}
+body.spg-theme .submenu-icon.submenu-icon-integration {background-position: -32px -64px;}
+body.spg-theme .submenu-icon.submenu-icon-logout {background-position: -96px -32px;}
 
 body.spg-theme .submenu-icon.submenu-icon-edit { background-position: -32px -32px;}
 body.spg-theme .submenu-icon.submenu-icon-add {background-position: -64px -32px;}
+body.spg-theme .submenu-icon.submenu-icon-delete {background-position: 0 -64px;}
 body.spg-theme .submenu-icon.submenu-icon-view { background-position: -96px 0; }
 body.spg-theme .submenu-icon.submenu-icon-print { background-position: -96px 0; }
 body.spg-theme .submenu-icon.submenu-icon-download { background-position: -96px 0; }

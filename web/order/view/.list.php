@@ -77,9 +77,6 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                                         echo "<option value='{$opt}' ", $stats_group == $opt ? ' selected="selected"' : '' ,">By ", $opt, "</option>\n";
                                     ?>
                                 </select>
-                                <button name="action" type="submit" value="Export">Export</button>
-                                <button name="action" type="submit" value="Export-Stats">Stats</button>
-                                <button name="action" type="submit" value="Export-Data">Data</button>
                             </td>
                         </tr>
                         <tr>
@@ -135,10 +132,20 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         </tr>
 
                         <tr>
-                            <td colspan="5" style="text-align: right; font-size: 0.7em; color: grey;">
-                                <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+                            <td colspan="5" style="text-align: right">
+                                <span style="font-size: 0.7em; color: grey; float: left;">
+                                    <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+                                </span>
+                                <button name="action" type="submit" value="Export">Export CSV</button>
+                                <button name="action" type="submit" value="Export-Stats">Report Only</button>
+                                <button name="action" type="submit" value="Export-Data">Data Only</button>
+
                             </td>
                         </tr>
+                            <td colspan="5" style="text-align: right; ">
+                            </td>
+                        </tr>
+
                     </table>
 
                 </fieldset>

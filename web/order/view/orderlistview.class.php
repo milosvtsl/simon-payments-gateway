@@ -135,9 +135,10 @@ class OrderListView extends AbstractListView {
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
 		switch(@$params['stats_group']) {
-			default:
 			case 'Day': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d')"; break;
 			case 'Week': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%u')"; break;
+			default:
+				$params['stats_group'] = 'Month';
 			case 'Month': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m')"; break;
 			case 'Year': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y')"; break;
 		}

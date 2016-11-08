@@ -25,7 +25,7 @@ $ca[@$button_current] = ' current';
             <a href="user#content" class="button<?php echo @$ca['user']; ?>">Users <div class="submenu-icon submenu-icon-user"></div></a>
         <?php } ?>
 
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
             <a href="integration#content" class="button<?php echo @$ca['integration']; ?>">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
         <?php } ?>
         <a href="user/logout.php#content" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
