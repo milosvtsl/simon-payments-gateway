@@ -142,7 +142,7 @@ body.spg-theme .site-welcome-text {
 
 body.spg-theme .submenu-icon {
 /*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */
-    background: url(img/nav_icons.png) 0 0 no-repeat;
+    background: url(img/nav_icons.png) -48px 0 no-repeat;
     background-position: top left;
     background-size: 128px 64px;
     width: 32px;
@@ -154,6 +154,11 @@ body.spg-theme .submenu-icon.submenu-icon-dashboard { background-position: -32px
 body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
 body.spg-theme .submenu-icon.submenu-icon-account { background-position: -96px 0; }
 body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-transaction { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-merchant { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-user { background-position: -32px 0; }
+body.spg-theme .submenu-icon.submenu-icon-integration { background-position: -32px 0; }
+
 body.spg-theme .submenu-icon.submenu-icon-edit { background-position: -32px -32px;}
 body.spg-theme .submenu-icon.submenu-icon-add {background-position: -64px -32px;}
 body.spg-theme .submenu-icon.submenu-icon-view { background-position: -96px 0; }

@@ -16,7 +16,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
             <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
         <?php } ?>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>

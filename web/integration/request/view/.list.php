@@ -12,8 +12,8 @@ use Integration\Request\Model\IntegrationRequestRow;
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="integration#content" class="button">Integration <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="integration/request#content" class="button current">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration#content" class="button">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
+            <a href="integration/request#content" class="button current">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
         <?php } ?>
     </nav>
 

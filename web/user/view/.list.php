@@ -13,10 +13,10 @@ use \User\Model\UserRow;
             <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
         <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="user#content" class="button current">Users <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
+            <a href="user#content" class="button current">Users <div class="submenu-icon submenu-icon-user"></div></a>
             <a href="user/add.php#content" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
         <?php } ?>
     </nav>

@@ -16,10 +16,10 @@ $odd = false;
     <?php } ?>
     <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-        <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
         <a href="user/add.php#content" class="button current">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-        <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-list"></div></a>
-        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
+        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
     <?php } ?>
 </nav>
 

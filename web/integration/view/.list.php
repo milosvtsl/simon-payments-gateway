@@ -10,10 +10,10 @@ use \Integration\Model\IntegrationRow;
     <nav class="page-menu hide-on-print">
         <a href="/" class="button">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-list"></div></a>
+        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="integration#content" class="button current">Integration <div class="submenu-icon submenu-icon-list"></div></a>
-            <a href="integration/request#content" class="button">Requests <div class="submenu-icon submenu-icon-list"></div></a>
+            <a href="integration#content" class="button current">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
+            <a href="integration/request#content" class="button">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
         <?php } ?>
     </nav>
 
