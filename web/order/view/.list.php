@@ -136,10 +136,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                                 <span style="font-size: 0.7em; color: grey; float: left;">
                                     <?php if($this->hasMessage()) echo $this->getMessage(); ?>
                                 </span>
-                                <button name="action" type="submit" value="Export">Export CSV</button>
-                                <button name="action" type="submit" value="Export-Stats">Report Only</button>
-                                <button name="action" type="submit" value="Export-Data">Data Only</button>
-
+                                <button name="action" type="submit" value="Export-Stats">Export Reporting (.csv)</button>
                             </td>
                         </tr>
 
@@ -172,7 +169,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         foreach($Query as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getID(); ?></a></td>
-                            <td style="max-width: 5em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
+                            <td style="max-width: 6em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
                             <td style="max-width: 5em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                             <td style="max-width: 5em;"><?php echo $Order->getInvoiceNumber(); ?></td>
@@ -183,15 +180,15 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                             <?php } ?>
                         </tr>
                         <?php } ?>
-                    </table>
-                </fieldset>
 
-                <fieldset class="pagination">
-                    <legend>Page</legend>
-                    <table class="table-pagination themed striped-rows">
                         <tr>
-                            <td colspan="2">
+                            <td colspan="5" class="pagination">
                                 <?php $this->printPagination('order?'); ?>
+                            </td>
+                            <td colspan="3" style="text-align: right">
+                                <button name="action" type="submit" value="Export-Data">Export Transactions (.csv)</button>
+                                <button name="action" type="submit" value="Export">Export All (.csv)</button>
+
                             </td>
                         </tr>
                     </table>
