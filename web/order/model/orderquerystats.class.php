@@ -40,7 +40,7 @@ SELECT
 
   DATE_FORMAT(oi.date, '%Y/%m') as 'group',
   DATE_FORMAT(oi.date, '%b %y') as 'group_name',
-  CONCAT(DATE_FORMAT(MIN(oi.date), '%b %D'), ' to ', DATE_FORMAT(DATE_ADD(MAX(oi.date), INTERVAL 1 DAY), '%b %D %Y')) as 'group_span',
+  CONCAT(DATE_FORMAT(MIN(oi.date), '%b %D %Y'), ' - ', DATE_FORMAT(DATE_ADD(MAX(oi.date), INTERVAL 1 DAY), '%b %D %Y')) as 'group_span',
   DATE_FORMAT(MIN(oi.date), '%Y-%m-%d') as start_date,
   DATE_FORMAT(DATE_ADD(MAX(oi.date), INTERVAL 1 DAY), '%Y-%m-%d') as end_date,
 

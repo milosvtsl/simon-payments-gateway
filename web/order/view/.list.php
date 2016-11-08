@@ -121,7 +121,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         </tr>
                         <?php } ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
-                            <td>Total</td>
+                            <td><?php echo $Stats->getGroupSpan(); ?> (Total)</td>
                             <td><a href="<?php echo $action_url; ?>&status="><?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Settled"><?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Void"><?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
