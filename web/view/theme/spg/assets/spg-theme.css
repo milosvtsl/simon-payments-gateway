@@ -297,10 +297,10 @@ body.spg-theme input[type=submit].themed,
 body.spg-theme input.button-submit {
     /* background: url('img/bk/input.button.png') repeat-x; */
     margin: 0.1em 0.1em;
-    min-width: 84px;
+    min-width: 68px;
     text-align: left;
     border-width: 1px;
-    border-radius: 1em;
+    border-radius: 6px;
     text-transform: uppercase;
     background-color: #3d7694;
     background: linear-gradient(0deg, #d4e7ec 0%, #fff 50%, #d4e7ec 100%);
@@ -311,7 +311,8 @@ body.spg-theme input.button-submit {
     border-bottom: 1px solid #adabab;
     border-left: 1px solid #CCCCCC;
     box-shadow: 2px 2px 4px #CCC;
-    font-size: larger;
+    font-size: 1em;
+    font-weight: bold;
 }
 
 body.spg-theme input[type=reset].themed:hover,
