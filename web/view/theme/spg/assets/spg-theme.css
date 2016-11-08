@@ -130,8 +130,8 @@ body.spg-theme .site-welcome-text {
     float: right;
     display: inline-block;
     /* clear:both; */
-    /* margin-right: 0.5em; */
-    margin-top: 1.4em;
+    margin-right: 1em;
+    margin-top: 2.9em;
     /* font-weight:bold; */
     font-style:italic;
     font-size: large;
