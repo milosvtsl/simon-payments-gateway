@@ -98,9 +98,9 @@ abstract class AbstractListView extends AbstractView
 
     function getSortURL($field, Array $args=null) {
         $args = $args ?: $_GET;
-        if(@$args[self::FIELD_ORDER_BY] == $field && strcasecmp(@$args[self::FIELD_ORDER], 'DESC') !== 0)
-            return http_build_query(array(self::FIELD_ORDER => 'DESC') + $args);
-        return http_build_query(array(self::FIELD_ORDER => 'ASC', self::FIELD_ORDER_BY => $field) + $args);
+        if(@$args[self::FIELD_ORDER_BY] == $field && strcasecmp(@$args[self::FIELD_ORDER], 'ASC') !== 0)
+            return http_build_query(array(self::FIELD_ORDER => 'ASC') + $args);
+        return http_build_query(array(self::FIELD_ORDER => 'DESC', self::FIELD_ORDER_BY => $field) + $args);
     }
 
 }
