@@ -132,7 +132,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         </tr>
 
                         <tr>
-                            <td colspan="5" style="text-align: right">
+                            <td colspan="6" style="text-align: right">
                                 <span style="font-size: 0.7em; color: grey; float: left;">
                                     <?php if($this->hasMessage()) echo $this->getMessage(); ?>
                                 </span>
@@ -140,9 +140,6 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                                 <button name="action" type="submit" value="Export-Stats">Report Only</button>
                                 <button name="action" type="submit" value="Export-Data">Data Only</button>
 
-                            </td>
-                        </tr>
-                            <td colspan="5" style="text-align: right; ">
                             </td>
                         </tr>
 
@@ -155,13 +152,15 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                     <table class="table-results themed small striped-rows" style="width: 98%;">
                         <tr>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
-                            <th>Amount</th>
-                            <th>Customer</th>
-                            <th class="hide-on-layout-vertical">Mode</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
+                            <th>Amount</th>
+                            <th>Customer/ID</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
+                            <th class="hide-on-layout-vertical">Mode</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                             <th class="hide-on-layout-vertical"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+                            <?php } ?>
                         </tr>
                         <?php
                         /** @var \Order\Model\OrderRow $Order */
@@ -173,14 +172,15 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                         foreach($Query as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getID(); ?></a></td>
+                            <td style="max-width: 5em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
-                            <td style="max-width: 5em;"><?php echo $Order->getCardHolderFullName(); ?></td>
-                            <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                            <td><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
+                            <td style="max-width: 5em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                             <td style="max-width: 5em;"><?php echo $Order->getInvoiceNumber(); ?></td>
+                            <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                             <td class="hide-on-layout-vertical"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
-
+                            <?php } ?>
                         </tr>
                         <?php } ?>
                     </table>

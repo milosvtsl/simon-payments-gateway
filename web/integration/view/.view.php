@@ -33,7 +33,7 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
             <form class="form-view-integration themed" onsubmit="return false;">
                 <fieldset>
                     <legend>Integration Information</legend>
-                    <table class="table-integration-info themed striped-rows" style="width: 98%;">
+                    <table class="table-integration-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Integration->getID(); ?></td>

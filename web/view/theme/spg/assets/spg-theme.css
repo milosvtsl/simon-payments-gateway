@@ -146,28 +146,28 @@ body.spg-theme .submenu-icon {
     /*     background: url(img/submenu_icons.png) -48px 0 no-repeat; */
     background: url(img/nav_icons.png) -48px 0 no-repeat;
     background-position: top left;
-    background-size: 128px 128px;
-    width: 32px;
-    height: 32px;
-    margin: -4px 6px 0 0;
+    background-size: 192px 192px;
+    width: 48px;
+    height: 48px;
+    margin: -13px 9px 0 -3px;
     float: left;
     transition: opacity 0.5s ease-in-out;
     opacity: 1;
 }
 body.spg-theme .submenu-icon:hover { opacity: 0.5; }
-body.spg-theme .submenu-icon.submenu-icon-dashboard { background-position: -32px 0; }
-body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -32px;}
+body.spg-theme .submenu-icon.submenu-icon-dashboard { background-position: -48px 0; }
+body.spg-theme .submenu-icon.submenu-icon-charge {background-position: 0 -48px;}
 body.spg-theme .submenu-icon.submenu-icon-account { background-position: 0 0; }
-body.spg-theme .submenu-icon.submenu-icon-list { background-position: -32px 0; }
-body.spg-theme .submenu-icon.submenu-icon-transaction {background-position: -96px -64px;}
-body.spg-theme .submenu-icon.submenu-icon-merchant {background-position: -96px 0;}
-body.spg-theme .submenu-icon.submenu-icon-user {background-position: -64px -64px;}
-body.spg-theme .submenu-icon.submenu-icon-integration {background-position: -32px -64px;}
-body.spg-theme .submenu-icon.submenu-icon-logout {background-position: -96px -32px;}
+body.spg-theme .submenu-icon.submenu-icon-list { background-position: -48px 0; }
+body.spg-theme .submenu-icon.submenu-icon-transaction {background-position: -96px -96px;}
+body.spg-theme .submenu-icon.submenu-icon-merchant {background-position: -144px 0;}
+body.spg-theme .submenu-icon.submenu-icon-user {background-position: -96px -96px;}
+body.spg-theme .submenu-icon.submenu-icon-integration {background-position: -48px -96px;}
+body.spg-theme .submenu-icon.submenu-icon-logout {background-position: -144px -48px;}
 
-body.spg-theme .submenu-icon.submenu-icon-edit { background-position: -32px -32px;}
-body.spg-theme .submenu-icon.submenu-icon-add {background-position: -64px -32px;}
-body.spg-theme .submenu-icon.submenu-icon-delete {background-position: 0 -64px;}
+body.spg-theme .submenu-icon.submenu-icon-edit { background-position: -48px -48px;}
+body.spg-theme .submenu-icon.submenu-icon-add {background-position: -96px -48px;}
+body.spg-theme .submenu-icon.submenu-icon-delete {background-position: 0 -96px;}
 body.spg-theme .submenu-icon.submenu-icon-view { background-position: -96px 0; }
 body.spg-theme .submenu-icon.submenu-icon-print { background-position: -96px 0; }
 body.spg-theme .submenu-icon.submenu-icon-download { background-position: -96px 0; }
@@ -330,13 +330,14 @@ body.spg-theme input.button-sumit:hover {
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 0.8em;
-    margin: 0 0 0.2em 0;
+    padding: 1.0em 0.5em;
+    margin: 0.0em 0 0.2em 0;
     display: block;
     color: #666;
     font-size: larger;
     border-radius: 0.6em;
-    /*     text-align: right; */
+    /* text-align: right; */
+    vertical-align: middle;
 }
 
 body.spg-theme a.button {

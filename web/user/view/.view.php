@@ -56,7 +56,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                     <fieldset>
                         <legend>User Information</legend>
                         <?php $odd = true; ?>
-                        <table class="table-user-info themed striped-rows" style="width: 98%;">
+                        <table class="table-user-info themed striped-rows">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>
                                 <td class="value"><?php echo $User->getID(); ?></td>
@@ -103,7 +103,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
                                 <td class="name">Roles</td>
                                 <td class="value">
                                     <?php if(count($User->getAuthorityList()) > 0) { ?>
-                                    <table class="themed striped-rows " style="width: 98%;">
+                                    <table class="themed striped-rows ">
                                         <tbody>
                                         <tr>
                                             <th>Auth</th>
