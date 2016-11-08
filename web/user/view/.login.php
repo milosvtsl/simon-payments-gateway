@@ -18,10 +18,15 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em;">
-                <legend>Sign in to your account</legend>
+            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
 
                 <table class="table-user-info themed">
+                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                        <td>
+                            <strong style="font-size: larger;">Sign in to your account</strong>
+
+                        </td>
+                    </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td>
                             <input type="text" name="username" id="username"  placeholder="Username"  value="" autofocus required class="themed"/>
@@ -38,7 +43,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                         </td>
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td style="text-align: center; font-size: smaller;">
+                        <td style="text-align: center; font-weight: bold;">
                             <a href="/reset.php">Password Reset</a>
                         </td>
                     </tr>

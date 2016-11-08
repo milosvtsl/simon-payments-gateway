@@ -65,6 +65,7 @@ body.spg-theme span.info {
     display: inline-block;
     padding: 0.5em 1em;
     margin: 0.2em;
+    max-width: 22em;
 }
 
 body.spg-theme .info {background: rgba(59, 117, 147, 0.53);}

@@ -3,6 +3,7 @@
     /* padding: 14em 0; */
     /* width: 280px; */
     /* display: block !important; */
+    max-width: 58em;
 }
 
 .dashboard-section .stat-box-container {text-align: center;}
