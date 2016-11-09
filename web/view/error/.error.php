@@ -33,11 +33,14 @@ $Exception = $this->getException();
                 <a href="/" class="nav_dashboard">Error: <?php $this->getMessage(); ?></a>
             </aside>
 
-            <div class="error" style="white-space: pre; padding: 1em;">
-                <?php echo $Exception->getMessage(); ?>
-                <br />
-                Support has been informed. Please try this function again soon.
-                <button onclick="window.history.back()" class="themed">Go Back</button>
+            <div style="text-align: center;">
+                <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;">
+    <?php echo $Exception->getMessage(); ?>
+    <br />
+    Support has been informed.
+    Please try this function again soon.
+    <button onclick="window.history.back()" class="themed">Go Back</button>
+                </div>
             </div>
         </section>
 
