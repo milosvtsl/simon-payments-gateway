@@ -1,4 +1,6 @@
 <?php
+use System\Config\DBConfig;
+use Order\Model\OrderQueryStats;
 use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
 use Order\Model\OrderRow;
@@ -37,6 +39,41 @@ $weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
 
 $today = date('Y-m-d', time() + $offset);
 
+// Calculate Stats
+$DB = DBConfig::getInstance();
+
+$whereSQL = "WHERE 1";
+// Handle authority
+if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+    $list = $SessionUser->getMerchantList() ?: array(0);
+    $whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
+
+    if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+        $this->setMessage(
+            "<span class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</span>"
+        );
+        $whereSQL .= "\nAND 0=1";
+    }
+}
+
+// Calculate Stats
+$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL . "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d') LIMIT 10";
+$DailyReportQuery = $DB->prepare($statsSQL);
+$DailyReportQuery->execute();
+/** @noinspection PhpMethodParametersCountMismatchInspection */
+$DailyReportQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+
+
+// Calculate Recent Orders
+$statsSQL = OrderRow::SQL_SELECT . $whereSQL . OrderRow::SQL_ORDER_BY . " LIMIT 10";
+$RecentTransactionQuery = $DB->prepare($statsSQL);
+$RecentTransactionQuery->execute();
+/** @noinspection PhpMethodParametersCountMismatchInspection */
+$RecentTransactionQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
+
+
+$action_url = 'order/list.php?';
+
 $button_current = 'dashboard';
 include '.dashboard.nav.php';
 ?>
@@ -70,8 +107,80 @@ include '.dashboard.nav.php';
             </a>
         </div>
 
+        <div class="stat-box-container">
+
+        </div>
+
         <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; else echo "<h5></h5>"; ?>
 
-    </section>
 
+        <form name="form-order-search" class="themed">
+
+            <fieldset>
+                <legend>Daily Report</legend>
+                <table class="table-stats themed small striped-rows">
+                    <tr>
+                        <th>Daily</th>
+                        <th>Authorized Total</th>
+                        <th>Settled</th>
+                        <th>Void</th>
+                        <th>Returned</th>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <th>Conv. Fee</th>
+                        <?php } ?>
+                    </tr>
+                    <?php
+                    $odd = false;
+                    foreach($DailyReportQuery as $Report) {
+                        /** @var \Order\Model\OrderQueryStats $Report */
+                        $report_url = $action_url . '&date_from=' . $Report->getStartDate() . '&date_to=' . $Report->getEndDate()
+                        /** @var \Order\Model\OrderQueryStats $Stats */
+                        ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td><a href="<?php echo $report_url; ?>&status="><?php echo $Report->getGroupSpan(); ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status="><?php echo number_format($Report->getTotal(),2), ' (', $Report->getTotalCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=Settled"><?php echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
+                            <td><a href="<?php echo $report_url; ?>&status=Return"><?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                                <td><?php echo number_format($Report->getConvenienceFeeTotal(),2), ' (', $Report->getConvenienceFeeCount(), ')'; ?></td>
+                            <?php } ?>
+                        </tr>
+                    <?php } ?>
+
+                </table>
+
+            </fieldset>
+
+            <fieldset>
+                <legend>Recent Transactions</legend>
+                <table class="table-results themed small striped-rows">
+                    <tr>
+                        <th>Customer/ID</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th class="hide-on-layout-vertical">Mode</th>
+                        <th>Status</th>
+                    </tr>
+                    <?php
+                    /** @var \Order\Model\OrderRow $Order */
+                    $odd = false;
+
+                    // Get Timezone diff
+                    $offset = $SessionUser->getTimeZoneOffset('now');
+
+                    foreach($RecentTransactionQuery as $Order) { ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td style="max-width: 5em;"><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></a></td>
+                            <td style="max-width: 6em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
+                            <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
+                            <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                            <td><?php echo $Order->getStatus(); ?></td>
+                        </tr>
+                    <?php } ?>
+
+                </table>
+            </fieldset>
+        </form>
+    </section>
 </article>

@@ -100,7 +100,7 @@ class MerchantListView extends AbstractListView {
 		$this->setListQuery($ListQuery);
 
 		$statsMessage = $this->getRowCount() . " merchants found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
-		$this->setMessage($statsMessage);
+//		$this->setMessage($statsMessage);
 
 		// Render Page
 		include ('.list.php');

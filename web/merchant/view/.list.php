@@ -39,29 +39,15 @@ use \Merchant\Model\MerchantRow;
             <form class="form-search themed">
                 <fieldset class="search-fields">
                     <legend>Search all Merchants</legend>
-                    <table class="themed">
-                        <tbody>
-                            <tr>
-                                <td class="name">Merchant</td>
-                                <td>
-                                    <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, Name" />
-                                    <select name="limit">
-                                        <?php
-                                        $limit = @$_GET['limit'] ?: 10;
-                                        foreach(array(10,25,50,100,250) as $opt)
-                                            echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="name">Submit</td>
-                                <td>
-                                    <input type="submit" value="Search" class="themed" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="Name, ID, UID" />
+                    <select name="limit">
+                        <?php
+                        $limit = @$_GET['limit'] ?: 10;
+                        foreach(array(10,25,50,100,250) as $opt)
+                            echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
+                        ?>
+                    </select>
+                    <input type="submit" value="Search" class="themed" />
                 </fieldset>
                 <br/>
                 <fieldset>
