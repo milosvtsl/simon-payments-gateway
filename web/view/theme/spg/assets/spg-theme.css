@@ -278,7 +278,7 @@ body.spg-theme legend.themed {
     /* margin-left: -0.5em; */
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
-    /* display: table-row; */
+    display: table-row;
 }
 
 body.spg-theme form.themed select,

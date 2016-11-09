@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             console.log("Card tracks parsed successfully");
             var forms = document.getElementsByName('form-transaction-charge');
             if(forms.length === 0)
-                throw new Exception("No Charge form found");
+                throw new Error("No Charge form found");
             for(var i=0; i<forms.length; i++) {
                 var form = forms[i];
                 var e = {target: form};
@@ -49,11 +49,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if(charHistory.length > 0) {
                 setStatus("Card read successfully!");
-                form.classList.add('swipe-input-successful');
+                //form.classList.add('swipe-input-successful');
             }
         } else {
             setStatus("Card Swipe Ready!");
-            form.classList.remove('swipe-input-successful');
+            //form.classList.remove('swipe-input-successful');
         }
 
         charHistory = '';
@@ -168,6 +168,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             formClasses += ' merchant-selected';
         if(form.entry_mode.value)
             formClasses += ' payment-method-selected payment-method-' + form.entry_mode.value.toLowerCase();
+
+        if(form.card_track.value.length > 100)
+            formClasses += ' swipe-input-successful';
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];

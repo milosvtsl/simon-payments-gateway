@@ -238,9 +238,12 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <legend class="alert reader-status">Please swipe your card now</legend>
                         <br />
 
+                        <div>
                         <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php echo @$LASTPOST['card_track']; ?></textarea>
                         <br />
-                        <br />
+                        <a class='submit-button' onclick="this.form.classList.add('swipe-input-successful'); return false;" class="themed">Close</a>
+                        </div>
+
                         <br />
                     </fieldset>
                 </div>
