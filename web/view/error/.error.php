@@ -33,8 +33,9 @@ $Exception = $this->getException();
             </aside>
 
             <div style="text-align: center;">
-                <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;"><?php echo $Exception->getMessage(); ?>
-<br />
+                <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;">An unexpected error has occurred:
+<?php echo $Exception->getMessage(); ?>
+
 Support has been informed.
 Please try this function again soon.
 <button onclick="window.history.back()" class="themed" style="padding: 1em; margin-top: 1em; float: right;">Go Back</button></div>
