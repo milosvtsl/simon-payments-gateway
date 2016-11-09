@@ -254,7 +254,7 @@ body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
     padding: 0.5em 0.0em 0.3em 0.6em;
     margin: 0 0.5em 0.5em 0.5em;
-    min-width: 47%;
+    /* min-width: 47%; */
     /* min-height: 7em; */
     vertical-align: top;
     background-color: #FAFAFA;

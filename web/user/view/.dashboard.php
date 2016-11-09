@@ -57,7 +57,7 @@ if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
 }
 
 // Calculate Stats
-$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL . "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d') LIMIT 10";
+$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL . "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d') ORDER BY oi.id DESC LIMIT 10";
 $DailyReportQuery = $DB->prepare($statsSQL);
 $DailyReportQuery->execute();
 /** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -114,14 +114,14 @@ include '.dashboard.nav.php';
         <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; else echo "<h5></h5>"; ?>
 
 
-        <form name="form-order-search" class="themed">
+        <form name="form-order-search" class="themed" style="text-align: center;">
 
-            <fieldset style="">
+            <fieldset style="display: inline-block; text-align: left;">
                 <legend>Daily Report</legend>
                 <table class="table-stats themed small striped-rows">
                     <tr>
                         <th>Daily</th>
-                        <th>Authorized Total</th>
+                        <th>Total</th>
                         <th>Settled</th>
                         <th>Void</th>
                         <th>Returned</th>
@@ -137,7 +137,7 @@ include '.dashboard.nav.php';
                         /** @var \Order\Model\OrderQueryStats $Stats */
                         ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href="<?php echo $report_url; ?>&status="><?php echo $Report->getGroupSpan(); ?></a></td>
+                            <td styl2e="max-width: 6em;"><a href="<?php echo $report_url; ?>&status="><?php echo strstr($Report->getGroupSpan(), ' 20', true); ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status="><?php echo number_format($Report->getTotal(),2), ' (', $Report->getTotalCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Settled"><?php echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
@@ -152,7 +152,7 @@ include '.dashboard.nav.php';
 
             </fieldset>
 
-            <fieldset>
+            <fieldset style="display: inline-block; text-align: left;">
                 <legend>Recent Transactions</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
