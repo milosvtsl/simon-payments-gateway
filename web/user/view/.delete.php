@@ -50,7 +50,7 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
             <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>delete">
                 <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                 <input type="hidden" name="action" value="delete" />
-                <fieldset>
+                <fieldset style="display: inline-block;">
                     <legend>Delete User: <?php echo $User->getFullName(); ?></legend>
                     <table class="table-user-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

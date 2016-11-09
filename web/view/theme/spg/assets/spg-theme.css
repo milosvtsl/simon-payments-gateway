@@ -536,4 +536,10 @@ fieldset.pagination {
     body.layout-horizontal.spg-theme section.content {
         margin-left: 0;
     }
+
+
+    body.spg-theme fieldset {
+        box-shadow: none !important;
+        border: 0;
+    }
 }

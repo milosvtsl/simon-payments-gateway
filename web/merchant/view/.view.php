@@ -45,7 +45,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-merchant themed " method="GET">
-                <fieldset>
+                <fieldset style="display: inline-block;">
                     <legend>Merchant Information</legend>
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal">
@@ -232,8 +232,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </table>
                 </fieldset>
 
-
-                <fieldset>
+                <fieldset style="display: inline-block;">
                     <legend>Users: <?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-merchant-users themed striped-rows">
                         <tr>
@@ -266,7 +265,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </fieldset>
 
 
-                <fieldset >
+                <fieldset style="display: inline-block;">
                     <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-results themed small striped-rows">
                         <tr>
@@ -276,9 +275,6 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                             <th>Mode</th>
                             <th>Date</th>
                             <th>Status</th>
-                            <th>Item&nbsp;ID</th>
-                            <th>Invoice&nbsp;ID</th>
-                            <th>Customer&nbsp;ID</th>
                         </tr>
                         <?php
                         /** @var \Order\Model\OrderRow $Order */
@@ -302,10 +298,6 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                                 <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
                                 <td><?php echo date("M jS Y G:i:s", strtotime($Order->getDate()) + $offset); ?></td>
                                 <td><?php echo $Order->getStatus(); ?></td>
-                                <td><?php echo $Order->getOrderItemID(); ?></td>
-                                <td><?php echo $Order->getInvoiceNumber(); ?></td>
-                                <td><?php echo $Order->getCustomerID(); ?></td>
-
                             </tr>
                         <?php } ?>
                     </table>

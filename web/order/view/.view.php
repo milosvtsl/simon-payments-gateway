@@ -72,7 +72,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </table>
                 </fieldset>
 
-                <fieldset>
+                <fieldset style="display: inline-block;">
                     <legend>Receipt</legend>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>

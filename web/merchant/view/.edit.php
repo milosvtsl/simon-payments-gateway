@@ -42,7 +42,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
-                <fieldset>
+                <fieldset style="display: inline-block;;">
                     <legend>Edit Merchant Fields</legend>
                     <table class="table-merchant-info themed small striped-rows" style="float: left;">
                         <tr>
@@ -208,7 +208,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Country</td>
                             <td>
-                                <select name="country">
+                                <select name="country" style="max-width: 20em;">
                                     <?php
                                     foreach(\System\Arrays\Locations::$COUNTRIES as $code => $name)
                                         if(strlen($code) === 3)

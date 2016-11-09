@@ -37,7 +37,8 @@ $odd = false;
 
             <form class="form-add-user themed" method="POST" action="user/add.php">
                 <input type="hidden" name="action" value="add" />
-                <fieldset>
+
+                <fieldset style="display: inline-block;">
                     <legend>New User Fields</legend>
                     <table class="table-user-info themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

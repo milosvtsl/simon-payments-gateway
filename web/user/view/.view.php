@@ -53,7 +53,7 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
                 <form class="form-view-user themed" method="POST">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
-                    <fieldset>
+                    <fieldset style="display: inline-block;">
                         <legend>User Information</legend>
                         <?php $odd = true; ?>
                         <table class="table-user-info themed striped-rows">
