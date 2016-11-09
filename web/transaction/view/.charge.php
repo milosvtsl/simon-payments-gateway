@@ -272,13 +272,17 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                 </select>
                             </td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="color: #000092;">
                             <td class="name">Account Number</td>
                             <td><input type="text" name="check_account_number" value="<?php echo @$LASTPOST['check_account_number']; ?>" placeholder="" required /></td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="color: #920000;">
                             <td class="name">Routing Number</td>
                             <td><input type="text" name="check_routing_number" value="<?php echo @$LASTPOST['check_routing_number']; ?>" placeholder="" required /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="color: #009200;">
+                            <td class="name">Check Number</td>
+                            <td><input type="text" name="check_number" value="<?php echo @$LASTPOST['check_number']; ?>" placeholder="" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Type</td>
@@ -289,10 +293,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                                     <option <?php echo @$LASTPOST['check_type'] == 'Business' ? 'selected="selected"' : ''?>>Business</option>
                                 </select>
                             </td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <td class="name">Check Number</td>
-                            <td><input type="text" name="check_number" value="<?php echo @$LASTPOST['check_number']; ?>" placeholder="" /></td>
                         </tr>
                         <tr>
                             <td colspan="2">
