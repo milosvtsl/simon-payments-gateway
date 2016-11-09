@@ -44,7 +44,7 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
         <article id="article" class="themed">
 
             <section id="content" class="content">
-                <a name='content'></a>
+                <a name='content-disabled'></a>
 
                 <!-- Bread Crumbs -->
                 <aside class="bread-crumbs">

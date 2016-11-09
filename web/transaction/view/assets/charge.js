@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 lastParseData = null;
             }
-        }, 2000);
+        }, 1500);
 
         charHistory += String.fromCharCode(charCode);
         var parseData = parseMagTekTrack(charHistory);

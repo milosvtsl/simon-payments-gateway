@@ -20,7 +20,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 
     <article id="article" class="themed">
         <section id="content" class="content">
-            <a name='content'></a>
+            <a name='content-disabled'></a>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="order" class="nav_transaction">Transactions</a>
@@ -167,7 +167,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%; min-height: 25em;">
+                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%; min-height: 26em;">
                     <legend>Cardholder Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -255,7 +255,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </fieldset>
                 </div>
 
-                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%; min-height: 25em;">
+                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%; min-height: 26em;">
                     <legend>e-Check Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">

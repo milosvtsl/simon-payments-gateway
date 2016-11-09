@@ -76,7 +76,7 @@ body.spg-theme .error {background: rgba(255, 112, 29, 0.45);color: red;}
 
 body.spg-theme nav.site-menu {
     /* float: right; */
-    margin: 0.3em;
+    margin: 0.3em 1em;
 }
 
 body.layout-vertical.spg-theme nav.site-menu {
@@ -264,6 +264,7 @@ body.spg-theme fieldset.themed {
     background-repeat: repeat-x;
     overflow: hidden;
     background-color: white;
+    box-shadow: 1px 1px 6px #777;
 }
 
 
@@ -285,7 +286,7 @@ body.spg-theme form.themed select,
 body.spg-theme form.themed textarea,
 body.spg-theme form.themed button,
 body.spg-theme form.themed input {
-    padding: 0.3em 0.6em;
+    padding: 0.4em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
     /* margin: 0 0 0 1em; */

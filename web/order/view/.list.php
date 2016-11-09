@@ -19,7 +19,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
     <article id="article" class="themed">
 
         <section id="content" class="content">
-            <a name='content'></a>
+            <a name='content-disabled'></a>
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">

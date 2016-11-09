@@ -25,7 +25,7 @@ if(!$stats) {
     }
     $stats['_time'] = time();
     $_SESSION[__FILE__] = $stats;
-    $this->setMessage("Calculated stats in " . number_format($stats['duration'], 2) . " s");
+//    $this->setMessage("Calculated stats in " . number_format($stats['duration'], 2) . " s");
 }
 
 $year_to_date = date('Y-01-01', time() + $offset);
@@ -117,7 +117,7 @@ include '.dashboard.nav.php';
         <form name="form-order-search" class="themed" style="text-align: center;">
 
             <fieldset style="display: inline-block; text-align: left;">
-                <legend>Daily Report</legend>
+                <legend>Daily Totals</legend>
                 <table class="table-stats themed small striped-rows">
                     <tr>
                         <th>Daily</th>
@@ -173,7 +173,7 @@ include '.dashboard.nav.php';
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td style="max-width: 5em;"><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></a></td>
                             <td style="max-width: 6em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
-                            <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
+                            <td><?php echo $Order->getAmount(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
                         </tr>

@@ -18,7 +18,7 @@ $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
 
     <article id="article" class="themed">
         <section id="content" class="content">
-            <a name='content'></a>
+            <a name='content-disabled'></a>
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="integration" class="nav_integration">Integration</a>
