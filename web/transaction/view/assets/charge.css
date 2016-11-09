@@ -22,11 +22,11 @@ form[name=form-transaction-charge]:not(.merchant-selected) .show-on-merchant-sel
 }
 
 form[name=form-transaction-charge] .credit-image {
-    background: url('img/credit-image.png');
-    width: 300px;
+    background: url('img/credit-image.png') no-repeat;
+    width: 270px;
     height: 45px;
-    border: 1px outset;
-    margin-top: 1em;
+    /* border: 1px outset; */
+    margin-top: 0.3em;
 }
 
 form[name=form-transaction-charge] .check-image {
@@ -35,4 +35,28 @@ form[name=form-transaction-charge] .check-image {
     height: 211px;
     border: 1px outset;
     margin-top: 1em;
+}
+
+
+/** Swipe Box **/
+
+form[name=form-transaction-charge].swipe-input-successful .swipe-fullscreen-box-container {
+    display: none !important;
+}
+
+form[name=form-transaction-charge] .swipe-fullscreen-box-container {
+    position: fixed;
+    width: 84%;
+    height: 37%;
+    top: 36%;
+    left: 5%;
+    background-color: rgba(197, 193, 204, 0.95);
+    /* opacity: 0.9; */
+    border-radius: 1em;
+    padding: 1.5em 1em;
+    box-shadow: 0 0 1.5em #666;
+}
+
+form[name=form-transaction-charge] .swipe-fullscreen-box {
+
 }

@@ -100,7 +100,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <fieldset class="show-on-merchant-selected float-left-on-layout-horizontal" style="min-width:47%;">
+                <fieldset class="show-on-merchant-selected float-left-on-layout-horizontal" style="min-width:47%; min-height: 25em;">
                     <legend>Customer Fields</legend>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -167,7 +167,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%;">
+                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%; min-height: 25em;">
                     <legend>Cardholder Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -233,18 +233,19 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
 
-                <fieldset class="show-on-payment-method-swipe show-on-payment-method-keyed show-on-merchant-selected" style="min-width:47%;">
-                    <legend class="alert reader-status">Card Swipe Ready</legend>
-                    <table class="table-payment-method-swipe themed" style="float: left;">
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <td>
-                                <input type="password" name="card_track" size="48" value="<?php echo @$LASTPOST['card_track']; ?>" />
-                            </td>
-                        </tr>
-                    </table>
-                </fieldset>
+                <div class="swipe-fullscreen-box-container show-on-payment-method-swipe show-on-merchant-selected">
+                    <fieldset class="themed swipe-fullscreen-box " style="min-width:47%;">
+                        <legend class="alert reader-status">Please swipe your card now</legend>
+                        <br />
 
-                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%;">
+                        <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php echo @$LASTPOST['card_track']; ?></textarea>
+                        <br />
+                        <br />
+                        <br />
+                    </fieldset>
+                </div>
+
+                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%; min-height: 25em;">
                     <legend>e-Check Information</legend>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -292,7 +293,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                 </fieldset>
 
 
-                <fieldset class="show-on-merchant-selected show-on-payment-method-selected" >
+                <fieldset class="show-on-merchant-selected show-on-payment-method-selected" style="clear: both;">
                     <legend>Submit Payment</legend>
 
 

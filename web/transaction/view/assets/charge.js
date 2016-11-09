@@ -49,10 +49,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
             if(charHistory.length > 0) {
                 setStatus("Card read successfully!");
+                form.classList.add('swipe-input-successful');
             }
-            charHistory = '';
         } else {
             setStatus("Card Swipe Ready!");
+            form.classList.remove('swipe-input-successful');
         }
 
         charHistory = '';
