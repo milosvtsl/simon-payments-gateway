@@ -195,7 +195,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">CVV</td>
+                            <td class="name">**CVV</td>
                             <td><input type="number" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -227,8 +227,15 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <tr>
                             <td colspan="2">
                                 <div class="credit-image"></div>
+
+                                <span style="font-size: x-small; color: grey">
+                                    **The CVV Number ("Card Verification Value") on your<br/>
+                                    credit card or debit card is a 3-4 digit number on <br />
+                                    credit and debit cards.
+                                </span>
                             </td>
                         </tr>
+
                     </table>
                 </fieldset>
 
@@ -241,7 +248,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         <div>
                         <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php echo @$LASTPOST['card_track']; ?></textarea>
                         <br />
-                        <a class='submit-button' onclick="this.form.classList.add('swipe-input-successful'); return false;" class="themed">Close</a>
+                        <input type="button" class='submit-button' value="Close" onclick="this.form.classList.add('swipe-input-successful'); return false;" />
                         </div>
 
                         <br />
@@ -316,10 +323,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Recur Amount
-                                <br />
-                                <span style="font-size: x-small; color: grey">(If different from Payment Amount)</span>
-                            </td>
+                            <td class="name">Recur Amount</td>
                             <td class="value"><input type="text" name="recur_amount" placeholder="x.xx" size="6" value="<?php echo @$LASTPOST['recur_amount']; ?>" required="required"/></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

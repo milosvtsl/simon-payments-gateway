@@ -35,31 +35,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    function updateAllForms(force) {
-        if(force || charHistory.length > 100) {
-            console.log("Card tracks parsed successfully");
-            var forms = document.getElementsByName('form-transaction-charge');
-            if(forms.length === 0)
-                throw new Error("No Charge form found");
-            for(var i=0; i<forms.length; i++) {
-                var form = forms[i];
-                var e = {target: form};
-                updateChargeForm(e, form);
-                form.card_track.value = charHistory;
-            }
-            if(charHistory.length > 0) {
-                setStatus("Card read successfully!");
-                //form.classList.add('swipe-input-successful');
-            }
-        } else {
-            setStatus("Card Swipe Ready!");
-            //form.classList.remove('swipe-input-successful');
-        }
-
-        charHistory = '';
-    }
     setTimeout(function() {
-        updateAllForms(true);
+        var forms = document.getElementsByName('form-transaction-charge');
+        for (var i = 0; i < forms.length; i++) {
+            var form = forms[i];
+            var e = {target: form};
+            updateChargeForm(e, form);
+        }
     }, 200);
 
     var charHistory = '';
@@ -68,31 +50,40 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function onKeypress(e) {
         var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
         clearTimeout(keyTimeout);
-        keyTimeout = setTimeout(updateAllForms, 500);
-
-        if(lastParseData)
-            setStatus("Card Track Parsed Successfully");
-        else
-            setStatus("Key Input Detected: " + charCode);
+        keyTimeout = setTimeout(function() {
+            // Clear history if no input for half second
+            charHistory = '';
+            if(lastParseData) {
+                setStatus("Card Track Parsed Successfully");
+                var forms = document.getElementsByName('form-transaction-charge');
+                for (var i = 0; i < forms.length; i++) {
+                    forms[i].classList.add('swipe-input-successful');
+                    updateChargeForm(e, forms[i]);
+                }
+                lastParseData = null;
+            }
+        }, 2000);
 
         charHistory += String.fromCharCode(charCode);
         var parseData = parseMagTekTrack(charHistory);
-        if(parseData && parseData.success) {
-            lastParseData = parseData;
+        if(parseData) {
+
             var forms = document.getElementsByName('form-transaction-charge');
-            if(forms.length === 0)
-                throw new Exception("No Charge form found");
-            for(var i=0; i<forms.length; i++) {
-                var form = forms[i];
-
-                form.card_track.focus();
-                form.card_track.value = charHistory;
-                updateChargeForm(e, form);
-                if(charHistory)
-                    form.card_track.removeAttribute('disabled');
-                else
-                    form.card_track.setAttribute('disabled', 'disabled');
-
+            if (parseData.success) {
+                lastParseData = parseData;
+                for (var i = 0; i < forms.length; i++) {
+                    var form = forms[i];
+                    form.card_track.focus();
+                    form.card_track.value = charHistory;
+                    updateChargeForm(e, form);
+                }
+                setStatus("Card Track Parsed Successfully");
+            } else {
+                for (var ii = 0; ii < forms.length; ii++) {
+                    var form2 = forms[ii];
+                    form2.classList.remove('swipe-input-successful');
+                }
+                setStatus("Key Input Detected: " + charCode);
             }
         }
 
@@ -119,7 +110,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
-            lastParseData = null;
         }
 
         clearTimeout(amount_timeout);
@@ -128,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.amount.value = '';
                 return;
             }
+
             var amount = parseFloat(form.amount.value);
             form.amount.value = (amount).toFixed(2);
             var fee_amount = 0;
@@ -163,18 +154,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function updateStyleSheetTheme(form) {
 
-        var formClasses = 'themed';
-        if(form.merchant_id.value)
-            formClasses += ' merchant-selected';
-        if(form.entry_mode.value)
-            formClasses += ' payment-method-selected payment-method-' + form.entry_mode.value.toLowerCase();
-
-        if(form.card_track.value.length > 100)
-            formClasses += ' swipe-input-successful';
+        form.classList[form.merchant_id.value ? 'add' : 'remove']('merchant-selected');
+        form.classList[form.entry_mode.value ? 'add' : 'remove']('payment-method-selected');
+        form.classList.remove('payment-method-keyed', 'payment-method-swipe', 'payment-method-check');
+        form.classList.add('payment-method-' + form.entry_mode.value.toLowerCase());
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
-            formClasses += ' ' + selectedOption.getAttribute('data-form-class');
+            //formClasses += ' ' + selectedOption.getAttribute('data-form-class');
             form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
             form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
             form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
@@ -185,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         } else {
 
         }
-        form.setAttribute('class', formClasses);
+        //form.setAttribute('class', formClasses);
 
         // Disable unused payment methods
         switch(form.entry_mode.value.toLowerCase()) {
