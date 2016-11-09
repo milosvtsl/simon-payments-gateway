@@ -100,8 +100,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
                 </fieldset>
 
-                <br />
-
                 <fieldset class="show-on-merchant-selected float-left-on-layout-horizontal" style="min-width:47%;">
                     <legend>Customer Fields</legend>
                     <table class="table-transaction-charge themed" style="float: left;">
@@ -292,8 +290,6 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                         </tr>
                     </table>
                 </fieldset>
-
-                <br />
 
 
                 <fieldset class="show-on-merchant-selected show-on-payment-method-selected" >
