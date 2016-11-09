@@ -116,7 +116,7 @@ include '.dashboard.nav.php';
 
         <form name="form-order-search" class="themed">
 
-            <fieldset>
+            <fieldset style="">
                 <legend>Daily Report</legend>
                 <table class="table-stats themed small striped-rows">
                     <tr>
