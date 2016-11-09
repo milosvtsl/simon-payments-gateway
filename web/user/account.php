@@ -19,6 +19,9 @@ spl_autoload_register();
 // Register Exception Handler
 \System\Exception\ExceptionHandler::register();
 
+// Register Exception Handler
+\System\Exception\ExceptionHandler::register();
+
 // Start or resume the session
 session_start();
 

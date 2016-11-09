@@ -16,6 +16,9 @@
 .login-section form.themed {
     display: inline-block;
     background: linear-gradient(141deg, #d4e7ec 0%, #f6f9fc 30%, #d4e7ec 90%);
+    border-radius: 0.6em;
+    box-shadow: 2px 2px 8px #888;
+    /* border: 1px inset #bcc5d1; */
 }
 
 .login-section form.themed > fieldset > legend {

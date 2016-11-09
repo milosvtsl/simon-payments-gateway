@@ -16,6 +16,9 @@ chdir('..');
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
+// Register Exception Handler
+\System\Exception\ExceptionHandler::register();
+
 // Start or resume the session
 session_start();
 

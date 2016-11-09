@@ -26,6 +26,9 @@ chdir('../../..');
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
+// Register Exception Handler
+\System\Exception\ExceptionHandler::register();
+
 
 $ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io Staging
 
