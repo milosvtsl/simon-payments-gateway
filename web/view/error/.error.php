@@ -29,18 +29,15 @@ $Exception = $this->getException();
         <section class="content dashboard-section">
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
-                <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
-                <a href="/" class="nav_dashboard">Error: <?php $this->getMessage(); ?></a>
+                <a href="/" class="nav_dashboard">Error: <?php echo $Exception->getMessage(); ?></a>
             </aside>
 
             <div style="text-align: center;">
-                <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;">
-    <?php echo $Exception->getMessage(); ?>
-    <br />
-    Support has been informed.
-    Please try this function again soon.
-    <button onclick="window.history.back()" class="themed">Go Back</button>
-                </div>
+                <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;"><?php echo $Exception->getMessage(); ?>
+<br />
+Support has been informed.
+Please try this function again soon.
+<button onclick="window.history.back()" class="themed" style="padding: 1em; margin-top: 1em; float: right;">Go Back</button></div>
             </div>
         </section>
 
