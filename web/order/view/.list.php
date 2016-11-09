@@ -136,7 +136,7 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                                 <span style="font-size: 0.7em; color: grey; float: left;">
                                     <?php if($this->hasMessage()) echo $this->getMessage(); ?>
                                 </span>
-                                <button name="action" type="submit" value="Export-Stats">Export Reporting (.csv)</button>
+                                <button name="action" type="submit" value="Export-Stats" class="themed">Export Reporting (.csv)</button>
                             </td>
                         </tr>
 
@@ -186,8 +186,8 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
                                 <?php $this->printPagination('order?'); ?>
                             </td>
                             <td colspan="3" style="text-align: right">
-                                <button name="action" type="submit" value="Export-Data">Export Transactions (.csv)</button>
-                                <button name="action" type="submit" value="Export">Export All (.csv)</button>
+                                <button name="action" type="submit" value="Export-Data" class="themed">Export Transactions (.csv)</button>
+                                <button name="action" type="submit" value="Export" class="themed">Export All (.csv)</button>
 
                             </td>
                         </tr>

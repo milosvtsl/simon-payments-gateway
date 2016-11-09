@@ -57,7 +57,7 @@ use \Merchant\Model\MerchantRow;
                             <tr>
                                 <td class="name">Submit</td>
                                 <td>
-                                    <input type="submit" value="Search" />
+                                    <input type="submit" value="Search" class="themed" />
                                 </td>
                             </tr>
                         </tbody>

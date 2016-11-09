@@ -2,10 +2,11 @@
 
 body.spg-theme {
     color: #000000;
-    /* background-color: #EEE; */
-    font-family: helvetica;
+    background-color: #f0f4f6;
+    font-family: arial;
     /* max-width: 90em; */
     margin: 0 auto;
+    background: linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%);
 }
 
 body.layout-vertical.spg-theme, 
@@ -236,11 +237,12 @@ body.layout-vertical.spg-theme nav.page-menu {
 body.spg-theme form.themed {
     /* background-color: #f0f4f6; */
     /* background-color: #FAFAFA; */
-    /* border: 1px solid #d4e7ec; */
+    /* border: 1px solid #bcc5d1; */
     border-radius: 0.6em;
     /* max-width: 800px; */
     /* background-image: url(img/bk/form.png); */
     background-repeat: repeat-x;
+    box-shadow: 2px 2px 8px #888;
 }
 
 body.spg-theme form.themed a {
@@ -255,12 +257,13 @@ body.spg-theme fieldset.themed {
     min-width: 47%;
     /* min-height: 7em; */
     vertical-align: top;
-    /* background-color: #FAFAFA; */
+    background-color: #FAFAFA;
     border-radius: 4px;
-    background: linear-gradient(-3deg, #ffffff 0%, #ffffff 60%, rgb(214, 223, 234) 100%);
+    /* background: linear-gradient(-3deg, #ffffff 0%, #ffffff 60%, rgb(214, 223, 234) 100%); */
     /* background-image: url(img/bk/fieldset.png); */
     background-repeat: repeat-x;
     overflow: hidden;
+    background-color: white;
 }
 
 
@@ -301,29 +304,32 @@ body.spg-theme form.themed input.large {
 
 body.spg-theme input[type=reset].themed,
 body.spg-theme input[type=submit].themed,
+body.spg-theme button.themed,
 body.spg-theme input.button-submit {
     /* background: url('img/bk/input.button.png') repeat-x; */
     margin: 0.1em 0.1em;
-    min-width: 68px;
+    min-width: 80px;
     text-align: left;
     border-width: 1px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    background-color: #3d7694;
-    background: linear-gradient(0deg, #d4e7ec 0%, #fff 50%, #d4e7ec 100%);
-    color: black;
+    border-radius: 5px;
+    text-transform: capitalize;
+    background-color: #3a7190;
+    background: linear-gradient(0deg, #3a7190 0%, #3a7190 50%, #3a7190 100%);
+    color: white;
     cursor: pointer;
     border-top: 1px solid #CCCCCC;
     border-right: 1px solid #adabab;
     border-bottom: 1px solid #adabab;
     border-left: 1px solid #CCCCCC;
     box-shadow: 2px 2px 4px #CCC;
-    font-size: 1em;
-    font-weight: bold;
+    font-size: .9em;
+    font-weight: normal;
+    text-align: center;
 }
 
 body.spg-theme input[type=reset].themed:hover,
 body.spg-theme input[type=submit].themed:hover,
+body.spg-theme button.themed:hover,
 body.spg-theme input.button-sumit:hover {
     background: linear-gradient(0deg, #fff 0%, #a69de6 50%, #fff 100%);
 }
@@ -491,7 +497,7 @@ fieldset.pagination {
     display: inline-block;
     text-align: center;
     border-radius: 0.2em;
-    background-color: #DDD;
+    background-color: #f0f4f6;
     font-weight: bold;
 }
 

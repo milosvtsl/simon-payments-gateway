@@ -50,7 +50,7 @@ use \User\Model\UserRow;
                                         echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                     ?>
                                 </select>
-                            <td class="value"><input type="submit" value="Search" /></td>
+                            <td class="value"><input type="submit" value="Search" class="themed" /></td>
                         </tr>
                     </table>
                 </fieldset>

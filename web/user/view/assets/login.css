@@ -1,3 +1,5 @@
+/** Login Section **/
+
 .login-section {
     /* margin: 0 auto; */
     position: fixed;
@@ -7,6 +9,8 @@
     /* display: inline-block; */
     background-color: #3b7593;
     text-align: center;
+    background: linear-gradient(0deg, #bcc5d1 0%, #b1ced6 50%, #3a7190 100%);
+    box-shadow: 2px 2px 4px #CCC;
 }
 
 .login-section form.themed {
@@ -34,3 +38,15 @@
     font-size: larger;
 }
 
+/** Login Text **/
+
+.login-section .login-text {
+    text-align: center;
+}
+
+.login-section .login-text a {
+    color: #3a7190;
+}
+.login-section .login-text a:visited {
+    color: #eb7738;
+}

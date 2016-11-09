@@ -76,7 +76,7 @@ use Integration\Request\Model\IntegrationRequestRow;
                                 <td>
                                     <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="All Fields" size="33" />
 
-                                    <input type="submit" value="Search" />
+                                    <input type="submit" value="Search" class="themed" />
                                 </td>
                             </tr>
                         </tbody>
