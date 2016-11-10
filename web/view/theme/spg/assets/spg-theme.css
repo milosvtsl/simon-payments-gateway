@@ -441,7 +441,7 @@ body.spg-theme table.themed > tbody > tr > td.name {
     /* text-transform: uppercase; */
     font-size: smaller;
     padding: 0.5em 0 0.5em 0.5em;
-    /* vertical-align: middle; */
+    vertical-align: top;
     font-weight: bold;
 }
 
