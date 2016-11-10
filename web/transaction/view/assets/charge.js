@@ -60,12 +60,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     forms[i].classList.add('swipe-input-successful');
                     updateChargeForm(e, forms[i]);
                 }
+                console.log("Parse Data: ", lastParseData);
                 lastParseData = null;
             }
         }, 1500);
 
         charHistory += String.fromCharCode(charCode);
+
         var parseData = parseMagTekTrack(charHistory);
+
         if(parseData) {
 
             var forms = document.getElementsByName('form-transaction-charge');
@@ -76,6 +79,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     form.card_track.focus();
                     form.card_track.value = charHistory;
                     updateChargeForm(e, form);
+                    for(var fi=0; fi<form.elements.length; fi++) {
+                        // check for leaked magtrack
+                        var elm = form.elements[fi];
+                        switch(elm.nodeName.toLowerCase()) {
+                            default:
+                            case 'select':
+                            case 'textarea':
+                                break;
+                            case 'input':
+                                if(elm.value.indexOf('%B') !== -1) elm.value = elm.value.substr(0, elm.value.indexOf('%B'));
+                                if(elm.value.indexOf('%b') !== -1) elm.value = elm.value.substr(0, elm.value.indexOf('%b'));
+                                //console.log(elm, elm.value, elm.nodeName);
+                                break;
+                        }
+
+                        //if(elm.value && elm.value.indexOf(charHistory.substr(0, 20)))
+                    }
+
                 }
                 setStatus("Card Track Parsed Successfully");
             } else {
@@ -133,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
             if (form.convenience_fee)
                 form.convenience_fee.value = '$' + (fee_amount).toFixed(2);
-        }, 2000);
+        }, 1200);
 
         // Update card type
         if(form.card_number && form.card_number.value) {
@@ -160,6 +181,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         form.classList.add('payment-method-' + form.entry_mode.value.toLowerCase());
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
+            console.log("Merchant: ", form.merchant_id.selectedIndex);
+            if(form.merchant_id.selectedIndex === -1)
+                form.merchant_id.selectedIndex = 0;
             var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
             //formClasses += ' ' + selectedOption.getAttribute('data-form-class');
             form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
@@ -293,38 +317,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function parseMagTekTrack(string) {
-        try {
-            if(!string)
-                return false;
-            string = string.replace('%B', '');
-            string = string.replace('%b', '');
-
-            var arr = string.split('^');
-            var nameArr = arr[1].split(' ');
-            var len = nameArr.length;
-// console.log(arr);
-            var data = {};
-            data.card_number = arr[0];
-            data.card_exp_year = arr[2].substring(0, 2);
-            data.card_exp_month = arr[2].substring(2, 4);
-            data.payee_first_name = '';
-            data.payee_last_name = '';
-
-            nameArr = (arr[1]||'/').split('/');
-            data.payee_first_name = capitalizeFirstLetter(nameArr[1].toLowerCase());
-            data.payee_last_name = capitalizeFirstLetter(nameArr[0].toLowerCase());
-
-            data.success = data.card_exp_month.length == 2
-                && data.card_exp_year.length == 2
-                && data.card_number.length >= 15
-                && data.payee_first_name.length > 0
-                && data.payee_first_name.length > 0;
-                console.log(data);
-            return data;
-        } catch (e) {
-            console.error(string, e);
+        if(!string)
             return false;
-        }
+        string = string.replace('%B', '');
+        string = string.replace('%b', '');
+
+        var arr = string.split('^');
+        if(arr.length <= 2)
+            return false;
+        var nameArr = arr[1].split(' ');
+
+        var data = {};
+        data.card_number = arr[0];
+        data.card_exp_year = arr[2].substring(0, 2);
+        data.card_exp_month = arr[2].substring(2, 4);
+        data.payee_first_name = '';
+        data.payee_last_name = '';
+
+        nameArr = (arr[1]||'/').split('/');
+        data.payee_first_name = capitalizeFirstLetter(nameArr[1].toLowerCase());
+        data.payee_last_name = capitalizeFirstLetter(nameArr[0].toLowerCase());
+
+        data.success = data.card_exp_month.length == 2
+            && data.card_exp_year.length == 2
+            && data.card_number.length >= 15
+            && data.payee_first_name.length > 0
+            && data.payee_first_name.length > 0;
+        return data;
     }
 
     function formatDateYYYYMMDD(date) {
