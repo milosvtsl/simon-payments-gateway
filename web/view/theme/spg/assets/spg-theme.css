@@ -403,7 +403,7 @@ body.spg-theme table.themed > tbody > tr > th {
 
 body.spg-theme table.themed > tbody > tr > td {
     padding: 0.3em 0 0.3em 0.6em;
-    vertical-align: top;
+    vertical-align: middle;
     white-space: nowrap;
     overflow: hidden;
     /* text-align: center; */
@@ -418,9 +418,10 @@ body.spg-theme table.themed.small > tbody > tr > td {
 body.spg-theme table.cell-borders {
 }
 
+body.spg-theme table.cell-borders > tbody > tr > th,
 body.spg-theme table.cell-borders > tbody > tr > td {
-    border: 1px solid #AAA;
-    padding: 1em;
+    border: 1px outset #EEE;
+    padding: 2px 1em;
 }
 
 body.spg-theme table.striped-rows > tbody > tr.row-even {

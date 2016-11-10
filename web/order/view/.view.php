@@ -48,7 +48,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-                <fieldset class="float-left-on-layout-horizontal" style="min-width: 19em;">
+                <fieldset style="display: inline-block;">
                     <legend><?php echo $Merchant->getShortName(); ?></legend>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
@@ -111,11 +111,36 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </table>
                 </fieldset>
 
+
+                <fieldset style="display:inline-block; min-width: 5em;">
+                    <legend>Totals</legend>
+                    <table class="table-transaction-info-totals themed striped-rows ">
+                        <tbody>
+                        <?php $odd = true; ?>
+                        <?php if ($Order->getConvenienceFee()) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Subtotal</td>
+                                <td class="value">$<?php echo $Order->getAmount(); ?></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Fee</td>
+                                <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
+                            </tr>
+                        <?php } ?>
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Total</td>
+                            <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+
                 <?php if ($Order->getCardNumber()) { ?>
 
-                    <fieldset>
+                    <fieldset style="max-width: 44em;">
                         <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
-                        <table class="table-transaction-info themed cell-borders small" style="width: 90%;">
+                        <table class="table-transaction-info themed cell-borders small" style="width: 94%">
                             <tbody>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <?php if($Order->getUsername()) { ?>
@@ -143,9 +168,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
                 <?php } else  { ?>
 
-                    <fieldset>
+                    <fieldset style="max-width: 44em;">
                         <legend>e-Check : <?php echo $Order->getCheckAccountName(); ?></legend>
-                        <table class="table-transaction-card-info themed cell-borders small" style="width: 90%;">
+                        <table class="table-transaction-card-info themed cell-borders small"  style="width: 94%">
                             <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <?php if($Order->getUsername()) { ?>
@@ -189,37 +214,10 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     Customer Signature
                 </fieldset>
 
-
-
-
-                <fieldset class="float-left-on-layout-horizontal" style="min-width: 5em;">
-                    <legend>Totals</legend>
-                    <table class="table-transaction-info-totals themed striped-rows ">
-                        <tbody>
-                        <?php $odd = true; ?>
-                        <?php if ($Order->getConvenienceFee()) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Subtotal</td>
-                                <td class="value">$<?php echo $Order->getAmount(); ?></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Fee</td>
-                                <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
-                            </tr>
-                        <?php } ?>
-
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Total</td>
-                            <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </fieldset>
-
                 <?php if ($Order->getSubscriptionCount() > 0) { ?>
-                <fieldset class="hide-on-print">
+                <fieldset style="max-width: 44em;" class="hide-on-print">
                     <legend>Subscription Status</legend>
-                    <table class="table-results themed small striped-rows" style="width: 90%;">
+                    <table class="table-results themed small cell-borders" style="width: 94%">
                         <tr>
                             <th>Amount</th>
                             <th>Status</th>
@@ -243,9 +241,9 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 </fieldset>
                 <?php } ?>
 
-                <fieldset class="hide-on-print">
+                <fieldset style="max-width: 44em;" class="hide-on-print">
                     <legend>Transaction History</legend>
-                    <table class="table-results themed small striped-rows" style="width: 90%;">
+                    <table class="table-results themed small cell-borders" style="width: 94%">
                         <tr>
                             <th class="hide-on-layout-vertical">TID</th>
                             <th>Date</th>
