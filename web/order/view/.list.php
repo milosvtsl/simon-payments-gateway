@@ -16,10 +16,10 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 $action_url = 'order/list.php?' . http_build_query($_GET);
 ?>
 
-    <article id="article" class="themed">
+    <article class="themed">
 
-        <section id="content" class="content">
-            <a name='content-disabled'></a>
+        <section class="content">
+
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">

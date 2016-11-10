@@ -7,7 +7,7 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
 // Render Header
 ?>
 
-    <article id="article" class="themed">
+    <article class="themed">
 
         <section class="content logout-section">
             <!-- Bread Crumbs -->

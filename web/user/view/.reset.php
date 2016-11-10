@@ -5,7 +5,7 @@ $odd = true;
 $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
 ?>
 
-<article id="article" class="themed">
+<article class="themed">
 
     <section class="not-content login-section">
 

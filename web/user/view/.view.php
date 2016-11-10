@@ -12,10 +12,15 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
+        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+            <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
+            <a href="order" class="button<?php echo @$ca['order']; ?>">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
+        <?php } ?>
+
 
         <?php if($SessionUser->getID() !== $User->getID()) { ?>
             <a href="<?php echo $action_url; ?>view" class="button current">View User<div class="submenu-icon submenu-icon-view"></div></a>
@@ -23,25 +28,24 @@ $action_url = 'user?id=' . $User->getID() . '&action=';
             <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
         <?php } else { ?>
 
-            <a href="user/account.php#content" class="button current">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php" class="button current">My Account <div class="submenu-icon submenu-icon-account"></div></a>
             <a href="user/account.php?action=edit" class="button">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php } ?>
-
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
-            <a href="user/add.php#content" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
+            <a href="user" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
+            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+            <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->getID() === $User->getID()) { ?>
-            <a href="user/logout.php#content" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
+            <a href="user/logout.php" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
         <?php } ?>
 
     </nav>
 
-        <article id="article" class="themed">
-            <section id="content" class="content">
-                <a name='content-disabled'></a>
+        <article class="themed">
+            <section class="content">
+
 
                 <!-- Bread Crumbs -->
                 <aside class="bread-crumbs">

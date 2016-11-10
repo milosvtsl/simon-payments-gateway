@@ -12,11 +12,11 @@ $Exception = $this->getException();
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
         <?php if($SessionManager->isLoggedIn()) { ?>
-            <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+            <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
             <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                 <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
             <?php } ?>
-            <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
             <a href="user/logout.php" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
         <?php } else { ?>
             <a href="login.php" class="button">Log in<div class="submenu-icon submenu-icon-login"></div></a>
@@ -24,7 +24,7 @@ $Exception = $this->getException();
 
     </nav>
 
-    <article id="article" class="themed">
+    <article class="themed">
 
         <section class="content dashboard-section">
             <!-- Bread Crumbs -->

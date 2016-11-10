@@ -10,16 +10,16 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="integration#content" class="button">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
-        <a href="integration/request#content" class="button">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
+        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="integration" class="button">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
+        <a href="integration/request" class="button">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
         <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
     </nav>
 
-    <article id="article" class="themed">
-        <section id="content" class="content">
-            <a name='content-disabled'></a>
+    <article class="themed">
+        <section class="content">
+
 
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">

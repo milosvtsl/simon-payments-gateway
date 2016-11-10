@@ -13,7 +13,7 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 ?>
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
             <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
@@ -24,14 +24,14 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
             <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
         <?php } else { ?>
 
-            <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
             <a href="user/account.php?action=edit" class="button current">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
-            <a href="user/add.php#content" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
+            <a href="user" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
+            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
+            <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
         <?php } ?>
 
         <?php if($SessionUser->getID() === $User->getID()) { ?>
@@ -41,10 +41,10 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
     </nav>
 
 
-        <article id="article" class="themed">
+        <article class="themed">
 
-            <section id="content" class="content">
-                <a name='content-disabled'></a>
+            <section class="content">
+
 
                 <!-- Bread Crumbs -->
                 <aside class="bread-crumbs">

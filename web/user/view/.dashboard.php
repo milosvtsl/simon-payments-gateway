@@ -78,7 +78,7 @@ $button_current = 'dashboard';
 include '.dashboard.nav.php';
 ?>
 
-<article id="article" class="themed">
+<article class="themed">
 
     <section class="content dashboard-section">
         <!-- Bread Crumbs -->

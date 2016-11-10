@@ -19,12 +19,12 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
             <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant#content" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
+            <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
         <?php } ?>
         <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
         <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
@@ -34,7 +34,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
         <?php } ?>
     </nav>
 
-    <article id="article" class="themed">
+    <article class="themed">
 
         <section class="content" >
             <!-- Bread Crumbs -->

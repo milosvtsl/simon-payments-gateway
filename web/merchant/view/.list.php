@@ -12,23 +12,23 @@ use \Merchant\Model\MerchantRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
+        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
             <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
         <?php } ?>
-        <a href="user/account.php#content" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-        <a href="order#content" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
+        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+        <a href="order" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant#content" class="button current">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
-            <a href="merchant/add.php#content" class="button">Add Merchant <div class="submenu-icon submenu-icon-add"></div></a>
-            <a href="user#content" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
+            <a href="merchant" class="button current">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
+            <a href="merchant/add.php" class="button">Add Merchant <div class="submenu-icon submenu-icon-add"></div></a>
+            <a href="user" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
         <?php } ?>
     </nav>
 
-    <article id="article" class="themed">
+    <article class="themed">
 
-        <section id="content" class="content">
-            <a name='content-disabled'></a>
+        <section class="content">
+
             <!-- Bread Crumbs -->
             <aside class="bread-crumbs">
                 <a href="merchant" class="nav_merchant">Merchants</a>

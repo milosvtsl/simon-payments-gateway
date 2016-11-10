@@ -71,7 +71,7 @@ class DefaultViewTheme extends AbstractViewTheme
             ?>
         </aside>
 
-        <article id="article" class="themed">
+        <article class="themed">
         <?php
     }
 
