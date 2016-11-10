@@ -348,13 +348,31 @@ include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
                     </table>
 
                     <table class="table-transaction-charge themed" style="width: 48%;">
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Convenience Fee</td>-->
+<!--                            <td><input type="text" size="6" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>-->
+<!--                        </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Convenience Fee</td>
-                            <td><input type="text" size="6" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>
+                            <td class="name">
+                                Total Charge Amount
+                            </td>
+                            <td>
+                                <input type="text" size="6" name="total_amount" value="$0.00" disabled="disabled" />
+                            </td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Total Charge Amount</td>
-                            <td><input type="text" size="6" name="total_amount" value="$0.00" disabled="disabled" /></td>
+                        <tr>
+                            <td></td>
+                            <td style="">
+                                <span class="conv-fee-text">*Includes Conv. Fee</span>
+                                <div class="conv-fee-pop-up-box">
+                                    *Charge includes a
+                                    <br />
+                                    convenience fee of
+                                    <br />
+                                    <br />
+                                    <input type="text" size="6" name="convenience_fee" value="$0.00" disabled="disabled" style="float: right;" />
+                                </div>
+                            </td>
                         </tr>
                         <!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
                         <!--                        <td class="name">Method</td>-->

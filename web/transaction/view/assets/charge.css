@@ -26,7 +26,7 @@ form[name=form-transaction-charge] .credit-image {
     width: 270px;
     height: 45px;
     /* border: 1px outset; */
-    margin-top: 0.3em;
+    margin-top: 0.8em;
 }
 
 form[name=form-transaction-charge] .check-image {
@@ -59,4 +59,31 @@ form[name=form-transaction-charge] .swipe-fullscreen-box-container {
 
 form[name=form-transaction-charge] .swipe-fullscreen-box {
 
+}
+
+
+form[name=form-transaction-charge] .conv-fee-text {
+    font-size: 0.7em;
+    padding-left: 1em;
+}
+
+
+form[name=form-transaction-charge] .conv-fee-pop-up-box {
+    display: none;
+    position: absolute;
+    /* right: 13em; */
+    font-size: small;
+    /* font-weight: bold; */
+
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    color: #fff;
+    padding: 0.5em 1em;
+
+}
+
+
+form[name=form-transaction-charge] .conv-fee-text:hover + .conv-fee-pop-up-box {
+    display: block;
 }

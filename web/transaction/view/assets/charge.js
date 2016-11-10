@@ -131,8 +131,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 fee_amount = fee_limit;
 
             form.total_amount.value = '$' + (amount + fee_amount).toFixed(2);
-            if (form.convenience_fee_total)
-                form.convenience_fee_total.value = '$' + (fee_amount).toFixed(2);
+            if (form.convenience_fee)
+                form.convenience_fee.value = '$' + (fee_amount).toFixed(2);
         }, 2000);
 
         // Update card type
