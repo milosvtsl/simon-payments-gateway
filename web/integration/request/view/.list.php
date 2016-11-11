@@ -5,17 +5,9 @@ use Integration\Request\Model\IntegrationRequestRow;
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/
-?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="menu-icon menu-icon-dashboard"></div></a>
-        <a href="user/account.php" class="button">My Account <div class="menu-icon menu-icon-account"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="integration" class="button">Integration <div class="menu-icon menu-icon-integration"></div></a>
-            <a href="integration/request" class="button current">Requests <div class="menu-icon menu-icon-integration"></div></a>
-        <?php } ?>
-    </nav>
+$this->getTheme()->printHTMLMenu('integration-request-list');
+?>
 
     <article class="themed">
 
