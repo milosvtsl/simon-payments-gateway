@@ -121,7 +121,7 @@ body.spg-theme ul.page-menu > li > ul {
     max-height: 0;
     overflow:hidden;
     transition: max-height 0.8s ease-in;
-    transition-delay: 0.3s;
+    transition-delay: 1.3s;
 }
 
 body.spg-theme ul.page-menu > li:hover > a + ul,
@@ -347,26 +347,6 @@ body.spg-theme a.button {
     min-width: 10em;
 }
 
-body.spg-theme a.button {
-/*     text-decoration: none;
-    padding: 0.5em;
-    margin: 0 0 0.3em 0;
-    display: block;
-    min-width: 170px;
-    text-align: left;
-    border-width: 1px;
-    border-radius: 1em;
-    text-transform: uppercase;
-    background-color: #3d7694;
-    color: #fff;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #adabab;
-    border-bottom: 1px solid #adabab;
-    border-left: 1px solid #CCCCCC;
-    box-shadow: 2px 2px 4px #CCC;
-    font-size: larger; */
-    /* background-image: url(img/bk/a.button.png); */
-}
 
 body.spg-theme a.button.small {
     min-width: 2em;
