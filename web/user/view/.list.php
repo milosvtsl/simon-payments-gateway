@@ -4,32 +4,18 @@ use \User\Model\UserRow;
  * @var \View\AbstractListView $this
  **/
 
+$this->getTheme()->printHTMLMenu('user-list');
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-            <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
-        <?php } ?>
-        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-        <a href="order" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
-            <a href="user" class="button current">Users <div class="submenu-icon submenu-icon-user"></div></a>
-            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-        <?php } ?>
-    </nav>
+<!-- Bread Crumbs -->
+<aside class="bread-crumbs">
+    <a href="user" class="nav_user">Users</a>
+    <a href="user/list.php" class="nav_user_list">Search</a>
+</aside>
 
     <article class="themed">
 
         <section class="content">
-
-            <!-- Bread Crumbs -->
-             <aside class="bread-crumbs">
-                 <a href="user" class="nav_user">Users</a>
-                 <a href="user/list.php" class="nav_user_list">Search</a>
-             </aside>
 
              <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 

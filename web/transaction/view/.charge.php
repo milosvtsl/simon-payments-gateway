@@ -14,18 +14,18 @@ $LASTPOST = array();
 if(isset($_SESSION['transaction/charge.php']))
     $LASTPOST = $_SESSION['transaction/charge.php'];
 
-$button_current = 'charge';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
+$this->getTheme()->printHTMLMenu('order-charge');
 ?>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="order" class="nav_transaction">Transactions</a>
+        <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
+    </aside>
 
     <article class="themed">
         <section class="content">
 
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="order" class="nav_transaction">Transactions</a>
-                <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
-            </aside>
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form name="form-transaction-charge" class=" themed" method="POST">

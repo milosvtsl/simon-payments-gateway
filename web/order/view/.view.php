@@ -16,35 +16,21 @@ $SessionUser = $SessionManager->getSessionUser();
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
 
-
-
+$this->getTheme()->printHTMLMenu('order-view', $action_url);
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs hide-on-print">
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <a href="order" class="nav_order">Transactions</a>
         <?php } ?>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="order" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
-        <?php } ?>
-        <a href="<?php echo $action_url; ?>receipt" class="button current">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>
-        <a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>
-        <a href="<?php echo $action_url_pdf; ?>" class="button">Download <div class="submenu-icon submenu-icon-download"></div></a>
-    </nav>
+        <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
+    </aside>
 
     <article class="themed">
 
         <section class="content">
 
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs hide-on-print">
-                <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                    <a href="order" class="nav_order">Transactions</a>
-                <?php } ?>
-                <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
-            </aside>
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form name="form-order-view" id="form-order-view" class="themed" method="POST">

@@ -10,48 +10,21 @@ use User\Model\UserAuthorityRow;
  **/
 $odd = false;
 $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
+$category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'user-edit';
+$this->getTheme()->printHTMLMenu($category, $action_url);
 ?>
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE', 'ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="transaction/charge.php?" class="button">Charge  <div class="submenu-icon submenu-icon-charge"></div></a>
-        <?php } ?>
-
-        <?php if($SessionUser->getID() !== $User->getID()) { ?>
-            <a href="<?php echo $action_url; ?>view" class="button">View User<div class="submenu-icon submenu-icon-view"></div></a>
-            <a href="<?php echo $action_url; ?>edit" class="button current">Edit User<div class="submenu-icon submenu-icon-edit"></div></a>
-            <a href="<?php echo $action_url; ?>delete" class="button">Delete User<div class="submenu-icon submenu-icon-delete"></div></a>
-        <?php } else { ?>
-
-            <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-            <a href="user/account.php?action=edit" class="button current">Edit Account <div class="submenu-icon submenu-icon-edit"></div></a>
-        <?php } ?>
-
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="user" class="button">Users <div class="submenu-icon submenu-icon-user"></div></a>
-            <a href="user/add.php" class="button">Add User <div class="submenu-icon submenu-icon-add"></div></a>
-            <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
-        <?php } ?>
-
-        <?php if($SessionUser->getID() === $User->getID()) { ?>
-            <a href="user/logout.php" class="button">Log out<div class="submenu-icon submenu-icon-logout"></div></a>
-        <?php } ?>
-
-    </nav>
-
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="user" class="nav_user">Users</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
+    </aside>
 
         <article class="themed">
 
             <section class="content">
 
 
-                <!-- Bread Crumbs -->
-                <aside class="bread-crumbs">
-                    <a href="user" class="nav_user">Users</a>
-                    <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-                    <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
-                </aside>
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
                 <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">

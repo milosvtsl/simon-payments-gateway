@@ -6,26 +6,20 @@ use Integration\Request\View\IntegrationRequestView;
 $Request = $this->getRequest();
 $odd = false;
 $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
+$this->getTheme()->printHTMLMenu('integration-request-view', $action_url);
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="integration" class="button">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
-        <a href="integration/request" class="button">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
-    </nav>
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="integration" class="nav_integration">Integration</a>
+        <a href="request" class="nav_integration_request">Requests</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
+    </aside>
+
 
     <article class="themed">
         <section class="content">
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="integration" class="nav_integration">Integration</a>
-                <a href="request" class="nav_integration_request">Requests</a>
-                <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
-            </aside>
-
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-integration-request themed" onsubmit="return false;">

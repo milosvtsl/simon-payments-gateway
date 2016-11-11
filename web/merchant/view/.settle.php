@@ -9,30 +9,18 @@ use Integration\Request\Model\IntegrationRequestRow;
 $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
 ?>
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-        <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
-        <a href="<?php echo $action_url; ?>settle" class="button current">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
-        <?php } ?>
-    </nav>
 
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="merchant" class="nav_merchant">Merchants</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
+        <a href="<?php echo $action_url; ?>settle" class="nav_merchant_view">Settle</a>
+    </aside>
 
     <article class="themed">
         <section class="content">
-
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="merchant" class="nav_merchant">Merchants</a>
-                <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
-                <a href="<?php echo $action_url; ?>settle" class="nav_merchant_view">Settle</a>
-            </aside>
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
         <form class="form-view-merchant themed" method="POST">

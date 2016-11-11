@@ -52,4 +52,8 @@ class BlankViewTheme extends AbstractViewTheme
 
     public function renderHTMLMetaTags($flags=0) {
     }
+
+    public function printHTMLMenu($category, $action_url=null) {
+
+    }
 }

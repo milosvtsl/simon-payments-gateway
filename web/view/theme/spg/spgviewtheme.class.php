@@ -102,16 +102,16 @@ class SPGViewTheme extends AbstractViewTheme
     <!--            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>-->
 <!--                <a href="/" class="nav-dashboard" style="float:right;"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
                 <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) { ?>
-                    <a href="transaction/charge.php" class="nav-charge" style="float:right;">  <div class="nav-icon nav-charge-icon"></div><br/>Charge</a>
+<!--                    <a href="transaction/charge.php" class="nav-charge" style="float:right;">  <div class="menu-icon menu-icon-charge"></div><br/>Charge</a>-->
                 <?php } else { ?>
 <!--                    <a href="/" class="nav-dashboard"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
                 <?php } ?>
 
-                <a href="user/logout.php" class="nav-logout" style="float:right;"> <div class="nav-icon nav-logout-icon"></div><br/>Log Out</a>
+<!--                <a href="user/logout.php" class="nav-logout" style="float:right;"> <div class="menu-icon menu-icon-logout"></div><br/>Log Out</a>-->
             <?php } else { ?>
     <!--            <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>-->
     <!--            <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>-->
-                <a href="login.php" class="nav-login" style="float:right;"> <div class="nav-icon nav-login-icon"></div><br/>Login </a>
+<!--                <a href="login.php" class="nav-login" style="float:right;"> <div class="menu-icon menu-icon-login"></div><br/>Login </a>-->
             <?php } ?>
 
                 <div class="site-welcome-text hide-on-print">
@@ -160,5 +160,109 @@ HEAD;
     }
 
     public function renderHTMLMetaTags($flags=0) {
+    }
+
+    public function printHTMLMenu($category, $action_url=null) {
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
+        list($main) = explode('-', $category, 2);
+        $mc = array();
+        $mc[@$main] = ' current';
+        $mc[@$category] = ' current';
+        ?>
+
+        <!-- Page Navigation -->
+        <ul class="page-menu hide-on-print">
+            <li>
+                <a href="/" class="button<?php echo @$mc['dashboard']; ?>">Dashboard <div class="menu-icon menu-icon-dashboard"></div></a>
+            </li>
+
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
+                <li>
+                    <a href="order" class="button<?php echo @$mc['order']; ?>">Transactions <div class="menu-icon menu-icon-transaction"></div></a>
+                    <ul>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
+                            <li>
+                                <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>">List<div class="menu-icon menu-icon-charge"></div></a>
+                            </li>
+                        <?php } ?>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+                            <li>
+                                <a href="transaction/charge.php" class="button<?php echo @$mc['order-charge']; ?>">Charge<div class="menu-icon menu-icon-charge"></div></a>
+                            </li>
+                        <?php } ?>
+                        <li>
+                            <a href="subscription" class="button<?php echo @$mc['order-subscription']; ?>">Subscription<div class="menu-icon menu-icon-subscription"></div></a>
+                        </li>
+                    </ul>
+                </li>
+            <?php } ?>
+
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                <li>
+                    <a href="merchant" class="button<?php echo @$mc['merchant']; ?>">Merchants <div class="menu-icon menu-icon-merchant"></div></a>
+                    <ul>
+                        <li>
+                            <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>">List Merchants<div class="menu-icon menu-icon-list"></div></a>
+                        </li>
+                        <li>
+                            <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>">Add Merchant<div class="menu-icon menu-icon-add"></div></a>
+                        </li>
+                    </ul>
+                </li>
+            <?php } ?>
+
+
+            <li>
+                <a href="user" class="button<?php echo @$mc['user']; ?>">Users <div class="menu-icon menu-icon-user"></div></a>
+                <ul>
+                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                        <li>
+                            <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>">List Users<div class="menu-icon menu-icon-list"></div></a>
+                        </li>
+                        <li>
+                            <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>">Add User <div class="menu-icon menu-icon-add"></div></a>
+                        </li>
+                    <?php } ?>
+
+                    <?php if(in_array($category, array('user-view', 'user-edit', 'user-delete'))) { ?>
+                        <li>
+                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>">View User<div class="menu-icon menu-icon-view"></div></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>">Edit User<div class="menu-icon menu-icon-edit"></div></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>">Delete User<div class="menu-icon menu-icon-delete"></div></a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>">My Account <div class="menu-icon menu-icon-account"></div></a>
+                        </li>
+                        <li>
+                            <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>">Edit Account <div class="menu-icon menu-icon-edit"></div></a>
+                        </li>
+                    <?php } ?>
+
+                    <li>
+                        <a href="user/logout.php" class="button<?php echo @$mc['user-logout']; ?>">Log out<div class="menu-icon menu-icon-logout"></div></a>
+                    </li>
+                </ul>
+            </li>
+
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                <li>
+                    <a href="integration" class="button<?php echo @$mc['integration']; ?>">Integration <div class="menu-icon menu-icon-integration"></div></a>
+                    <ul>
+                        <li>
+                            <a href="integration/requests/" class="button<?php echo @$mc['integration-requests']; ?>">Integration Requests<div class="menu-icon menu-icon-list"></div></a>
+                        </li>
+                    </ul>
+                </li>
+            <?php } ?>
+        </ul>
+
+        <?php
     }
 }

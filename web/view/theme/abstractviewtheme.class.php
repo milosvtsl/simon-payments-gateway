@@ -19,5 +19,6 @@ abstract class AbstractViewTheme
     abstract public function renderHTMLBodyHeader($flags=0);
     abstract public function renderHTMLBodyFooter($flags=0);
 
+    abstract public function printHTMLMenu($category, $action_url=null);
 }
 

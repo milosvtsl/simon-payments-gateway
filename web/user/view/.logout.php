@@ -2,19 +2,16 @@
 /** @var \View\AbstractView $this */
 $this->getTheme()->renderHTMLBodyHeader();
 
-$button_current = 'integration';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-// Render Header
+$this->getTheme()->printHTMLMenu('user-logout');
 ?>
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="user/logout.php" class="nav-log-out">Log Out</a>
+    </aside>
 
     <article class="themed">
 
         <section class="content logout-section">
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="user/logout.php" class="nav-log-out">Log Out</a>
-            </aside>
-
 
 
                 <div class="box-login">

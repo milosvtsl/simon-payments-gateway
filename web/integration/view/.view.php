@@ -6,27 +6,18 @@ use Integration\View\IntegrationView;
 $Integration = $this->getIntegration();
 $odd = false;
 $action_url = 'integration?id=' . $Integration->getID() . '&action=';
+$this->getTheme()->printHTMLMenu('integration-view', $action_url);
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="integration" class="button">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
-        <a href="integration/request" class="button">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
-        <a href="<?php echo $action_url; ?>view" class="button current">View <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
-    </nav>
-
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="integration" class="nav_integration">Integration</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
+    </aside>
 
     <article class="themed">
         <section class="content">
 
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="integration" class="nav_integration">Integration</a>
-                <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
-            </aside>
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 

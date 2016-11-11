@@ -74,18 +74,17 @@ $RecentTransactionQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
 
 $action_url = 'order/list.php?';
 
-$button_current = 'dashboard';
-include '.dashboard.nav.php';
+$this->getTheme()->printHTMLMenu('dashboard');
 ?>
+<!-- Bread Crumbs -->
+<aside class="bread-crumbs">
+    <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
+    <a href="/" class="nav_dashboard">Dashboard</a>
+</aside>
 
 <article class="themed">
 
     <section class="content dashboard-section">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
-            <a href="/" class="nav_dashboard">Dashboard</a>
-        </aside>
 
 
         <div class="stat-box-container">

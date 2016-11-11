@@ -58,18 +58,6 @@ class DefaultViewTheme extends AbstractViewTheme
             </a>
 
         </header>
-        <nav>
-            <?php
-            foreach ($this->getNavLinkHTML() as $html)
-                echo "\n\t\t", $html;
-            ?>
-        </nav>
-        <aside class="bread-crumbs">
-            <?php
-            foreach ($this->getCrumbLinkHTML() as $i=>$html)
-                echo ($i>0?' \ ':''), "\n\t\t", $html;
-            ?>
-        </aside>
 
         <article class="themed">
         <?php
@@ -102,5 +90,9 @@ class DefaultViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLMetaTags($flags=0) {
+    }
+
+    public function printHTMLMenu($category, $action_url=null) {
+        // TODO: Implement printHTMLMenu() method.
     }
 }

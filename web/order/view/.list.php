@@ -10,22 +10,21 @@ use View\AbstractListView;
  * @var PDOStatement $Query
  **/
 
-$button_current = 'order';
-include dirname(dirname(__DIR__)) . '/user/view/.dashboard.nav.php';
-
 $action_url = 'order/list.php?' . http_build_query($_GET);
+
+$this->getTheme()->printHTMLMenu('order-list');
 ?>
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="order" class="nav_order">Transactions</a>
+        <a href="order/list.php" class="nav_order_list">Search</a>
+    </aside>
 
     <article class="themed">
 
         <section class="content">
 
 
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="order" class="nav_order">Transactions</a>
-                <a href="order/list.php" class="nav_order_list">Search</a>
-            </aside>
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form name="form-order-search" class="themed">

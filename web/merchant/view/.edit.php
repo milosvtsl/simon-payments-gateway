@@ -7,35 +7,19 @@ use Merchant\Model\MerchantRow;
 $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
+$this->getTheme()->printHTMLMenu('merchant-edit', $action_url);
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-            <a href="transaction/charge.php" class="button<?php echo @$ca['charge']; ?>">Charge<div class="submenu-icon submenu-icon-charge"></div></a>
-        <?php } ?>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-            <a href="merchant" class="button">Merchants <div class="submenu-icon submenu-icon-merchant"></div></a>
-        <?php } ?>
-        <a href="<?php echo $action_url; ?>view" class="button">View <div class="submenu-icon submenu-icon-view"></div></a>
-        <a href="<?php echo $action_url; ?>edit" class="button current">Edit <div class="submenu-icon submenu-icon-edit"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="<?php echo $action_url; ?>provision" class="button">Provision <div class="submenu-icon submenu-icon-provision"></div></a>
-            <a href="<?php echo $action_url; ?>settle" class="button">Settle <div class="submenu-icon submenu-icon-settle"></div></a>
-        <?php } ?>
-    </nav>
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="merchant" class="nav_merchant">Merchants</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
+        <a href="<?php echo $action_url; ?>edit" class="nav_merchant_view">Edit</a>
+    </aside>
 
     <article class="themed">
         <section class="content">
 
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="merchant" class="nav_merchant">Merchants</a>
-                <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
-                <a href="<?php echo $action_url; ?>edit" class="nav_merchant_view">Edit</a>
-            </aside>
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 

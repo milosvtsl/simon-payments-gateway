@@ -3,30 +3,18 @@ use \Integration\Model\IntegrationRow;
 /**
  * @var \View\AbstractListView $this
  **/
-
+$this->getTheme()->printHTMLMenu('integration-list', $action_url);
 ?>
 
-    <!-- Page Navigation -->
-    <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
-        <a href="order" class="button">Transactions <div class="submenu-icon submenu-icon-transaction"></div></a>
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="integration" class="button current">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
-            <a href="integration/request" class="button">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
-        <?php } ?>
-    </nav>
-
+<!-- Bread Crumbs -->
+<aside class="bread-crumbs">
+    <a href="integration" class="nav_integration">Integration</a>
+    <a href="integration/list.php" class="nav_integration_list">Search</a>
+</aside>
 
     <article class="themed">
         <section class="content">
 
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="integration" class="nav_integration">Integration</a>
-                <a href="integration/list.php" class="nav_integration_list">Search</a>
-            </aside>
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 
             <form class="form-search themed">

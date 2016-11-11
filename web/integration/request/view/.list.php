@@ -9,11 +9,11 @@ use Integration\Request\Model\IntegrationRequestRow;
 
     <!-- Page Navigation -->
     <nav class="page-menu hide-on-print">
-        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="submenu-icon submenu-icon-dashboard"></div></a>
-        <a href="user/account.php" class="button">My Account <div class="submenu-icon submenu-icon-account"></div></a>
+        <a href="/" class="button hide-on-layout-horizontal1">Dashboard <div class="menu-icon menu-icon-dashboard"></div></a>
+        <a href="user/account.php" class="button">My Account <div class="menu-icon menu-icon-account"></div></a>
         <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="integration" class="button">Integration <div class="submenu-icon submenu-icon-integration"></div></a>
-            <a href="integration/request" class="button current">Requests <div class="submenu-icon submenu-icon-integration"></div></a>
+            <a href="integration" class="button">Integration <div class="menu-icon menu-icon-integration"></div></a>
+            <a href="integration/request" class="button current">Requests <div class="menu-icon menu-icon-integration"></div></a>
         <?php } ?>
     </nav>
 
