@@ -184,7 +184,7 @@ HEAD;
                     <ul>
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                             <li>
-                                <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>">List<div class="menu-icon menu-icon-charge"></div></a>
+                                <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>">List<div class="menu-icon menu-icon-list"></div></a>
                             </li>
                         <?php } ?>
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
@@ -256,7 +256,7 @@ HEAD;
                     <a href="integration" class="button<?php echo @$mc['integration']; ?>">Integration <div class="menu-icon menu-icon-integration"></div></a>
                     <ul>
                         <li>
-                            <a href="integration/requests/" class="button<?php echo @$mc['integration-requests']; ?>">Integration Requests<div class="menu-icon menu-icon-list"></div></a>
+                            <a href="integration/requests/" class="button<?php echo @$mc['integration-requests']; ?>">Requests<div class="menu-icon menu-icon-list"></div></a>
                         </li>
                     </ul>
                 </li>
