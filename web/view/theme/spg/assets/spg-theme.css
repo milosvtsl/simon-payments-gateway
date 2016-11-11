@@ -49,7 +49,7 @@ body.layout-horizontal.spg-theme section.content {
 }
 
 body.spg-theme header hr.themed {
-	border-width: 5px;
+	border-width: 1px;
 	border-color: #3d7694;
 	margin-bottom: 0;
 }
