@@ -7,7 +7,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
 
 
-<article class="themed">
+<article>
 
 
     <section class="not-content login-section">
