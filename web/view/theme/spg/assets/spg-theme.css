@@ -150,8 +150,9 @@ body.spg-theme .menu-icon {
     background-size: 192px 192px;
     width: 48px;
     height: 48px;
-    margin: -13px 9px 0 -3px;
-    float: left;
+    margin-bottom: -17px;
+    /* margin: -13px 9px 0 -3px; */
+    /* float: left; */
     transition: opacity 0.5s ease-in-out;
     opacity: 1;
     display: inline-block;
@@ -160,12 +161,19 @@ body.spg-theme .menu-icon {
 body.spg-theme a:hover .menu-icon               {
     opacity: 0.5;
 }
-body.spg-theme .menu-icon.menu-icon-toggle      { background-position: -48px 0; }
+body.spg-theme .menu-icon.menu-icon-toggle      {
+    background-position: -32px 0;
+    background-size: 128px 128px;
+    width: 32px;
+    height: 32px;
+    margin: -8px 8px;
+}
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 0; }
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -48px;}
 body.spg-theme .menu-icon.menu-icon-account     { background-position: 0 0; }
 body.spg-theme .menu-icon.menu-icon-list        { background-position: -48px 0; }
 body.spg-theme .menu-icon.menu-icon-transaction { background-position: -144px -96px;}
+body.spg-theme .menu-icon.menu-icon-subscription{ background-position: -144px -96px;}
 body.spg-theme .menu-icon.menu-icon-merchant    { background-position: -144px 0;}
 body.spg-theme .menu-icon.menu-icon-user        { background-position: -96px -96px;}
 body.spg-theme .menu-icon.menu-icon-integration { background-position: -48px -96px;}
@@ -359,8 +367,8 @@ body.spg-theme input.button-sumit:hover {
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 1.0em 0.5em;
-    margin: 0.0em 0 0.0em 0;
+    padding: 0em 0.5em 1em 0.5em;
+    /* margin: 0.0em 0 0.0em 0; */
     display: block;
     color: #666;
     font-size: larger;
@@ -374,7 +382,8 @@ body.spg-theme a.button {
 
 body.spg-theme a.button.small {
     min-width: 2em;
-    font-size: small;
+    /* font-size: small; */
+    padding: 1em 0.5em;
 }
 body.spg-theme a.button:hover {
     background-color: #d4e7ec;
