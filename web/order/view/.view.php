@@ -16,18 +16,22 @@ $SessionUser = $SessionManager->getSessionUser();
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
 
-$this->getTheme()->printHTMLMenu('order-view', $action_url);
+$this->getTheme()->printHTMLMenu('order-view', $action_url, array(
+        '<a href="' . $action_url . 'receipt" class="button">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>',
+        '<a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>',
+        '<a href="' . $action_url . 'download" class="button">Download <div class="submenu-icon submenu-icon-download"></div></a>',
+));
 ?>
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs hide-on-print">
-        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-            <a href="order" class="nav_order">Transactions</a>
-        <?php } ?>
-        <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
-    </aside>
-
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs hide-on-print">
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                <a href="order" class="nav_order">Transactions</a>
+            <?php } ?>
+            <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
+        </aside>
+
 
         <section class="content">
 
@@ -248,7 +252,7 @@ $this->getTheme()->printHTMLMenu('order-view', $action_url);
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="hide-on-layout-vertical"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Transaction->getTransactionID(); ?></a></td>
+                                <td class="hide-on-layout-vertical"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
                                 <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>

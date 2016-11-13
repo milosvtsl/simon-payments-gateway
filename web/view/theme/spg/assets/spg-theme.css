@@ -59,6 +59,7 @@ body.layout-horizontal > article.themed {
 
 body.layout-horizontal.spg-theme section.content {
     /* margin-left: 12em; */
+    margin-top: 0.5em;
 }
 
 body.spg-theme header hr.themed {
@@ -187,6 +188,11 @@ body.spg-theme .menu-icon.menu-icon-print       { background-position: -144px -9
 body.spg-theme .menu-icon.menu-icon-download    { background-position: -144px -96px;}
 body.spg-theme .menu-icon.menu-icon-receipt     { background-position: -144px -96px;}
 
+body.spg-theme .menu-button-toggle {
+    border-bottom: 1px solid #666;
+    background-color: #CCC;
+}
+
 /** Menu Animation **/
 
 body.menu-full.spg-theme > article.themed {
@@ -213,11 +219,13 @@ body.menu-hidden.spg-theme ul.page-menu {
 /** Bread Crumbs **/
 
 body.spg-theme .bread-crumbs {
-    /* border-bottom: 1px solid #999; */
-    padding: 0.2em 0.5em 0.2em 0.5em;
-    margin: 0 0;
+    border-bottom: 1px solid #666;
+    padding: 0.8em 0.5em 0.4em 0.5em;
+    margin: -8px 0 0 0;
     /* background-color: #f6f9fc; */
     position: relative;
+    background-color: #CCC;
+    height: 24px;
 }
 
 
@@ -282,8 +290,8 @@ body.spg-theme form.themed a {
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
-    padding: 0.5em 0.0em 0.3em 0.6em;
-    margin: 0 0.5em 0.5em 0.5em;
+    padding: 0.5em 0.3em 0.3em 0.3em;
+    margin: 0em 0.5em 0.5em 0.5em;
     /* min-width: 47%; */
     /* min-height: 7em; */
     vertical-align: top;
@@ -367,7 +375,7 @@ body.spg-theme input.button-sumit:hover {
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 0em 0.5em 1em 0.5em;
+    padding: 0.35em 0.5em 1em 0.5em;
     /* margin: 0.0em 0 0.0em 0; */
     display: block;
     color: #666;
@@ -382,8 +390,8 @@ body.spg-theme a.button {
 
 body.spg-theme a.button.small {
     min-width: 2em;
-    /* font-size: small; */
-    padding: 1em 0.5em;
+    font-size: medium;
+    padding: 0.8em 0.5em 0.6em 0.5em;
 }
 body.spg-theme a.button:hover {
     background-color: #d4e7ec;

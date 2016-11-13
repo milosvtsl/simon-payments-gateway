@@ -175,7 +175,7 @@ HEAD;
         <!-- Page Navigation -->
         <ul class="page-menu hide-on-print">
             <li>
-                <a href="#" class="button small"><div class="menu-icon menu-icon-toggle"></div> Menu</a>
+                <a href="#" class="button small menu-button-toggle"><div class="menu-icon menu-icon-toggle"></div> Menu</a>
             </li>
             <li>
                 <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div> Dashboard </a>

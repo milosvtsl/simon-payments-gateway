@@ -84,7 +84,7 @@ class OrderView extends AbstractView
 //                    $EditOrder->updateFields($post)
 //                        ? $this->setSessionMessage("Order Updated Successfully: " . $EditOrder->getUID())
 //                        : $this->setSessionMessage("No changes detected: " . $EditOrder->getUID());
-//                    header('Location: order?id=' . $EditOrder->getID() . '#form-order-view');
+//                    header('Location: order?id=' . $EditOrder->getID() . '');
 //                    die();
 
                 case 'delete':
@@ -103,7 +103,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'void':
@@ -115,7 +115,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'return':
@@ -127,7 +127,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'reverse':
@@ -139,7 +139,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '#form-order-view');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 default:
@@ -150,7 +150,7 @@ class OrderView extends AbstractView
             $this->setSessionMessage(
                 "<span class='error'>Error: ".$ex->getMessage() . "</span>"
             );
-            header('Location: /order/receipt.php?uid=' . $Order->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '#form-order-view');
+            header('Location: /order/receipt.php?uid=' . $Order->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }

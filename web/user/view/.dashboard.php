@@ -170,7 +170,7 @@ $this->getTheme()->printHTMLMenu('dashboard');
 
                     foreach($RecentTransactionQuery as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td style="max-width: 5em;"><a href='order?uid=<?php echo $Order->getUID(); ?>#form-order-view'><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></a></td>
+                            <td style="max-width: 5em;"><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></a></td>
                             <td style="max-width: 6em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td><?php echo $Order->getAmount(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
