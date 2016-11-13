@@ -189,6 +189,44 @@ body.spg-theme .menu-button-toggle {
     background-color: #CCC;
 }
 
+
+body.spg-theme a.button {
+    text-decoration: none;
+    padding: 0.35em 0.5em 1em 0.5em;
+    /* margin: 0.0em 0 0.0em 0; */
+    display: block;
+    color: #666;
+    font-size: larger;
+    /* border-radius: 0.6em; */
+    /* text-align: right; */
+    vertical-align: middle;
+    white-space: nowrap;
+    min-width: 10em;
+}
+
+
+body.spg-theme a.button.small {
+    min-width: 2em;
+    font-size: medium;
+    padding: 0.8em 0.5em 0.6em 0.5em;
+}
+body.spg-theme a.button:hover {
+    background-color: #d4e7ec;
+    /* color: #ffffff; */
+}
+body.spg-theme a.button.current {
+    background-color: #3095bb;
+    font-weight: bold;
+    color: #DDD;
+}
+body.spg-theme a.current + ul > li > a.current {
+    background-color: rgba(48, 149, 187, 0.78);
+}
+body.spg-theme a.button[disabled] {
+    color: gray;
+    cursor: default;
+}
+
 /** Menu Animation **/
 
 body.menu-full.spg-theme > article.themed {
@@ -369,39 +407,6 @@ body.spg-theme input.button-sumit:hover {
     background: linear-gradient(0deg, #fff 0%, #a69de6 50%, #fff 100%);
 }
 
-body.spg-theme a.button {
-    text-decoration: none;
-    padding: 0.35em 0.5em 1em 0.5em;
-    /* margin: 0.0em 0 0.0em 0; */
-    display: block;
-    color: #666;
-    font-size: larger;
-    /* border-radius: 0.6em; */
-    /* text-align: right; */
-    vertical-align: middle;
-    white-space: nowrap;
-    min-width: 10em;
-}
-
-
-body.spg-theme a.button.small {
-    min-width: 2em;
-    font-size: medium;
-    padding: 0.8em 0.5em 0.6em 0.5em;
-}
-body.spg-theme a.button:hover {
-    background-color: #d4e7ec;
-    /* color: #ffffff; */
-}
-body.spg-theme a.button.current {
-    background-color: #3095bb;
-    font-weight: bold;
-    color: #DDD;
-}
-body.spg-theme a.button[disabled] {
-    color: gray;
-    cursor: default;
-}
 
 body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
