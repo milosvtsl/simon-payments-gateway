@@ -4,12 +4,12 @@ $this->getTheme()->renderHTMLBodyHeader();
 
 $this->getTheme()->printHTMLMenu('user-logout');
 ?>
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="user/logout.php" class="nav-log-out">Log Out</a>
-    </aside>
-
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="user/logout.php" class="nav-log-out">Log Out</a>
+        </aside>
+
 
         <section class="content logout-section">
 

@@ -13,13 +13,14 @@ $this->getTheme()->printHTMLMenu('merchant-add');
 ?>
 
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="merchant" class="nav_merchant">Merchants</a>
-        <a href="merchant/add.php" class="nav_merchant_add">Add New Merchant</a>
-    </aside>
-
     <article class="themed">
+
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="merchant" class="nav_merchant">Merchants</a>
+            <a href="merchant/add.php" class="nav_merchant_add">Add New Merchant</a>
+        </aside>
+
         <section class="content">
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

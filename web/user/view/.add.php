@@ -8,14 +8,13 @@ use System\Arrays\TimeZones;
 $odd = false;
 $this->getTheme()->printHTMLMenu('user-add');
 ?>
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="user" class="nav_user">Users</a>
-        <a href="user/add.php" class="nav_user_add">Add New User</a>
-    </aside>
 
     <article class="themed">
-
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="user" class="nav_user">Users</a>
+            <a href="user/add.php" class="nav_user_add">Add New User</a>
+        </aside>
         <section class="content">
 
 

@@ -13,14 +13,14 @@ $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'user-edit';
 $this->getTheme()->printHTMLMenu($category, $action_url);
 ?>
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="user" class="nav_user">Users</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-        <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
-    </aside>
-
         <article class="themed">
+            <!-- Bread Crumbs -->
+            <aside class="bread-crumbs">
+                <a href="user" class="nav_user">Users</a>
+                <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+                <a href="<?php echo $action_url; ?>edit" class="nav_user_edit">Edit</a>
+            </aside>
+
 
             <section class="content">
 

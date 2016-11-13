@@ -10,14 +10,14 @@ $this->getTheme()->printHTMLMenu('integration-edit', $action_url);
 ?>
 
 
-<!-- Bread Crumbs -->
-<aside class="bread-crumbs">
-    <a href="integration" class="nav_integration">Integration</a>
-    <a href="<?php echo $action_url; ?>view" class="nav-integration-view"><?php echo $Integration->getName(); ?></a>
-    <a href="<?php echo $action_url; ?>edit" class="nav-integration-edit">Edit</a>
-</aside>
-
     <article class="themed">
+
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="integration" class="nav_integration">Integration</a>
+            <a href="<?php echo $action_url; ?>view" class="nav-integration-view"><?php echo $Integration->getName(); ?></a>
+            <a href="<?php echo $action_url; ?>edit" class="nav-integration-edit">Edit</a>
+        </aside>
         <section class="content">
 
 

@@ -6,13 +6,13 @@ use \Integration\Model\IntegrationRow;
 $this->getTheme()->printHTMLMenu('integration-list', $action_url);
 ?>
 
-<!-- Bread Crumbs -->
-<aside class="bread-crumbs">
-    <a href="integration" class="nav_integration">Integration</a>
-    <a href="integration/list.php" class="nav_integration_list">Search</a>
-</aside>
 
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="integration" class="nav_integration">Integration</a>
+            <a href="integration/list.php" class="nav_integration_list">Search</a>
+        </aside>
         <section class="content">
 
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>

@@ -11,15 +11,15 @@ $this->getTheme()->printHTMLMenu('user-delete', $action_url);
 
 ?>
 
-<!-- Bread Crumbs -->
-<aside class="bread-crumbs">
-    <a href="user" class="nav_user">Users</a>
-    <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-    <a href="<?php echo $action_url; ?>delete" class="nav_user_delete">Delete</a>
-</aside>
-
 
 <article class="themed">
+
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="user" class="nav_user">Users</a>
+        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
+        <a href="<?php echo $action_url; ?>delete" class="nav_user_delete">Delete</a>
+    </aside>
 
     <section class="content">
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

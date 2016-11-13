@@ -89,7 +89,7 @@ class SPGViewTheme extends AbstractViewTheme
         $SessionUser = $SessionManager->getSessionUser();
 
         ?>
-    <body class="spg-theme <?php echo $body_class; ?>">
+    <body class="spg-theme menu-full <?php echo $body_class; ?>">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="hide-on-print hide-on-layout-vertical">
@@ -174,6 +174,9 @@ HEAD;
 
         <!-- Page Navigation -->
         <ul class="page-menu hide-on-print">
+            <li>
+                <a href="#" class="button">Menu<div class="menu-icon menu-icon-toggle"></div></a>
+            </li>
             <li>
                 <a href="/" class="button<?php echo @$mc['dashboard']; ?>">Dashboard <div class="menu-icon menu-icon-dashboard"></div></a>
             </li>

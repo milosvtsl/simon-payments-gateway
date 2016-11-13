@@ -7,13 +7,13 @@ use \Merchant\Model\MerchantRow;
 $this->getTheme()->printHTMLMenu('merchant-list');
 ?>
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="merchant" class="nav_merchant">Merchants</a>
-        <a href="merchant/list.php" class="nav_merchant_list">Search</a>
-    </aside>
 
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="merchant" class="nav_merchant">Merchants</a>
+            <a href="merchant/list.php" class="nav_merchant_list">Search</a>
+        </aside>
 
         <section class="content">
 

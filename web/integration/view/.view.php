@@ -9,13 +9,15 @@ $action_url = 'integration?id=' . $Integration->getID() . '&action=';
 $this->getTheme()->printHTMLMenu('integration-view', $action_url);
 ?>
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="integration" class="nav_integration">Integration</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
-    </aside>
-
     <article class="themed">
+
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="integration" class="nav_integration">Integration</a>
+            <a href="<?php echo $action_url; ?>view" class="nav_integration_view"><?php echo $Integration->getName(); ?></a>
+        </aside>
+
+
         <section class="content">
 
 

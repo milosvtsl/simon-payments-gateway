@@ -10,16 +10,16 @@ $this->getTheme()->printHTMLMenu('integration-request-view', $action_url);
 ?>
 
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="integration" class="nav_integration">Integration</a>
-        <a href="request" class="nav_integration_request">Requests</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
-    </aside>
-
 
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="integration" class="nav_integration">Integration</a>
+            <a href="request" class="nav_integration_request">Requests</a>
+            <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
+        </aside>
         <section class="content">
+
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-integration-request themed" onsubmit="return false;">

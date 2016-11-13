@@ -14,13 +14,13 @@ $action_url = 'order/list.php?' . http_build_query($_GET);
 
 $this->getTheme()->printHTMLMenu('order-list');
 ?>
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="order" class="nav_order">Transactions</a>
-        <a href="order/list.php" class="nav_order_list">Search</a>
-    </aside>
-
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="order" class="nav_order">Transactions</a>
+            <a href="order/list.php" class="nav_order_list">Search</a>
+        </aside>
+
 
         <section class="content">
 

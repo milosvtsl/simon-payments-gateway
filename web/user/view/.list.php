@@ -7,13 +7,13 @@ use \User\Model\UserRow;
 $this->getTheme()->printHTMLMenu('user-list');
 ?>
 
-<!-- Bread Crumbs -->
-<aside class="bread-crumbs">
-    <a href="user" class="nav_user">Users</a>
-    <a href="user/list.php" class="nav_user_list">Search</a>
-</aside>
-
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="user" class="nav_user">Users</a>
+            <a href="user/list.php" class="nav_user_list">Search</a>
+        </aside>
+
 
         <section class="content">
 

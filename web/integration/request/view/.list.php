@@ -10,16 +10,14 @@ $this->getTheme()->printHTMLMenu('integration-request-list');
 ?>
 
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="integration" class="nav_integration">Integration</a>
+            <a href="integration/request" class="nav_integration_request">Requests</a>
+            <a href="integration/request/list.php" class="nav_integration_list">Search</a>
+        </aside>
 
         <section class="content">
-            <a name='content' ></a>
-
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="integration" class="nav_integration">Integration</a>
-                <a href="integration/request" class="nav_integration_request">Requests</a>
-                <a href="integration/request/list.php" class="nav_integration_list">Search</a>
-            </aside>
 
             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 

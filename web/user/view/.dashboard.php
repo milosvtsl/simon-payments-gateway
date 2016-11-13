@@ -76,13 +76,13 @@ $action_url = 'order/list.php?';
 
 $this->getTheme()->printHTMLMenu('dashboard');
 ?>
-<!-- Bread Crumbs -->
-<aside class="bread-crumbs">
-    <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
-    <a href="/" class="nav_dashboard">Dashboard</a>
-</aside>
 
 <article class="themed">
+    <!-- Bread Crumbs -->
+    <aside class="bread-crumbs">
+        <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
+        <a href="/" class="nav_dashboard">Dashboard</a>
+    </aside>
 
     <section class="content dashboard-section">
 

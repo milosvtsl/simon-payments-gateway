@@ -17,13 +17,13 @@ if(isset($_SESSION['transaction/charge.php']))
 $this->getTheme()->printHTMLMenu('order-charge');
 ?>
 
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="order" class="nav_transaction">Transactions</a>
-        <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
-    </aside>
 
     <article class="themed">
+        <!-- Bread Crumbs -->
+        <aside class="bread-crumbs">
+            <a href="order" class="nav_transaction">Transactions</a>
+            <a href="transaction/charge.php" class="nav_transaction_charge">New Charge</a>
+        </aside>
         <section class="content">
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
