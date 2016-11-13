@@ -185,6 +185,21 @@ HEAD;
                 <li>
                     <a href="order" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div> Transactions </a>
                     <ul>
+
+
+
+                        <?php if(in_array($category, array('order-view', 'order-edit', 'order-delete'))) { ?>
+                            <li>
+                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['order-view']; ?>"><div class="menu-icon menu-icon-view"></div> View Receipt</a>
+                            </li>
+                            <li>
+                                <a href="javascript:window.print();" class="button<?php echo @$mc['order-print']; ?>"><div class="menu-icon menu-icon-print"></div> Print</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo str_replace('receipt.php', 'pdf.php', $action_url); ?>view" class="button<?php echo @$mc['order-download']; ?>"><div class="menu-icon menu-icon-download"></div> Download</a>
+                            </li>
+                        <?php } ?>
+
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                             <li>
                                 <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div> List </a>
@@ -198,6 +213,8 @@ HEAD;
                         <li>
                             <a href="subscription" class="button<?php echo @$mc['order-subscription']; ?>"><div class="menu-icon menu-icon-subscription"></div> Subscription </a>
                         </li>
+
+
                     </ul>
                 </li>
             <?php } ?>

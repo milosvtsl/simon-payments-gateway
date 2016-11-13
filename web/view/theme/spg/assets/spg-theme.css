@@ -196,7 +196,7 @@ body.spg-theme .menu-button-toggle {
 /** Menu Animation **/
 
 body.menu-full.spg-theme > article.themed {
-    margin-left: 13em;
+    /* margin-left: 13em; */
 }
 body.menu-small.spg-theme > article.themed {
     margin-left: 4em;
