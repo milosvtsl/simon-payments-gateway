@@ -139,11 +139,7 @@ body.spg-theme ul.page-menu > li > ul {
 }
 
 body.spg-theme ul.page-menu > li:hover > a + ul,
-body.spg-theme ul.page-menu > li > a.current + ul {
-/*     display: block; */
-    max-height: 20em;
-    transition-delay: 0s;
-}
+body.spg-theme ul.page-menu > li > a.current + ul {/*     display: block; */max-height: 40em;transition-delay: 0s;}
 
 
 body.spg-theme .menu-icon {
