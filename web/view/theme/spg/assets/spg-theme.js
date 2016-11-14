@@ -2,6 +2,18 @@
  * Created by ari on 10/19/2016.
  */
 
+function toggleNavMenu(e) {
+    if(e) e.preventDefault();
+    var body = document.body;
+    if(body.classList.contains('menu-full')) {
+        body.classList.remove('menu-full');
+        body.classList.add('menu-small');
+    } else {
+        body.classList.add('menu-full');
+        body.classList.remove('menu-small');
+    }
+}
+
 // Initialize
 document.addEventListener("DOMContentLoaded", function(e) {
 //     window.onresize = onResize;
