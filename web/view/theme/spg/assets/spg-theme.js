@@ -12,11 +12,18 @@ function toggleNavMenu(e) {
         body.classList.add('menu-full');
         body.classList.remove('menu-small');
     }
+
+    localStorage.setItem('menu-small', body.classList.contains('menu-small') ? '1' : '0');
 }
 
 // Initialize
 document.addEventListener("DOMContentLoaded", function(e) {
 //     window.onresize = onResize;
+
+    if(localStorage.getItem('menu-small') === '1') {
+        document.body.classList.remove('menu-full');
+        document.body.classList.add('menu-small');
+    }
 
     function onResize(e) {
         var height = (e.srcElement || e.currentTarget).innerHeight;
