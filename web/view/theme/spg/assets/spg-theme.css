@@ -589,4 +589,8 @@ fieldset.pagination {
         box-shadow: none !important;
         border: 0;
     }
+
+    body.spg-theme > article.themed {
+        margin-left: 0;
+    }
 }
