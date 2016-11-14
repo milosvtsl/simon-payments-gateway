@@ -82,16 +82,21 @@ abstract class AbstractView
     public function getTheme()          { return $this->_theme ?: SiteConfig::getDefaultViewTheme(); }
     public function setTheme(AbstractViewTheme $Theme) { $this->_theme = $Theme; }
 
+    private static $rendered_head = false;
+
     public function renderHTML($params=null) {
         if(!$params)
             $params = $_GET;
 
-        if($this->_exception)
-            header('HTTP/1.1 400 ' . $this->_exception->getMessage());
+        if(!self::$rendered_head) {
+            if($this->_exception)
+                header('HTTP/1.1 400 ' . $this->_exception->getMessage());
 
-        echo "<!DOCTYPE html>\n";
-        echo "<html lang='en'>\n";
-        $this->renderHTMLHead();
+            echo "<!DOCTYPE html>\n";
+            echo "<html lang='en'>\n";
+            $this->renderHTMLHead();
+        }
+        self::$rendered_head = true;
         $this->renderHTMLBody($params);
         echo "</html>";
     }

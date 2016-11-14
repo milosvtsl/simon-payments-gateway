@@ -14,10 +14,6 @@ $this->getTheme()->printHTMLMenu('error');
     <article class="themed">
 
         <section class="content dashboard-section">
-            <!-- Bread Crumbs -->
-            <aside class="bread-crumbs">
-                <a href="/" class="nav_dashboard">Error: <?php echo $Exception->getMessage(); ?></a>
-            </aside>
 
             <div style="text-align: center;">
                 <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;">An unexpected error has occurred:

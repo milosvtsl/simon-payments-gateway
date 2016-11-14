@@ -56,12 +56,17 @@ class SubscriptionRow
     protected $recur_cancel_date;
 
     // Table order_item
+    protected $order_invoice_number;
+    protected $order_customer_id;
+    protected $order_payee_receipt_email;
+    protected $order_amount;
     protected $order_status;
     protected $customer_first_name;
     protected $customer_last_name;
 
     // Table merchant
     protected $merchant_short_name;
+    protected $merchant_id;
 
     // Table Integration
     protected $integration_name;
@@ -73,6 +78,11 @@ oi.date as order_date,
 oi.status as order_status,
 oi.customer_first_name as customer_first_name,
 oi.customer_last_name as customer_last_name,
+oi.merchant_id as merchant_id,
+oi.amount as order_amount,
+oi.invoice_number as order_invoice_number,
+oi.customer_id as order_customer_id,
+oi.payee_reciept_email as order_payee_receipt_email,
 m.short_name as merchant_short_name,
 i.id integration_id,
 i.name integration_name
@@ -96,12 +106,17 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getRecurNextDate()      { return $this->recur_next_date; }
     public function getRecurCancelDate()    { return $this->recur_cancel_date; }
 
+    public function getInvoiceNumber()      { return $this->order_invoice_number; }
+    public function getCustomerID()         { return $this->order_customer_id; }
+    public function getPayeeEmail()         { return $this->order_payee_receipt_email; }
+    public function getOrderAmount()        { return $this->order_amount; }
     public function getOrderStatus()        { return $this->order_status; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
+    public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
 
-    public function getPayeeFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getCustomerFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function setStatus($status, $message) {
         $this->status = $status;
         $this->status_message = $message;
