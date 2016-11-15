@@ -115,6 +115,8 @@ body.spg-theme .page-menu {
     background-color: #f6f9fc;
     position: absolute;
     /* border-right: 1px solid #999; */
+    font-size: larger;
+
 }
 
 body.spg-theme ul.page-menu > li > ul {
@@ -123,8 +125,11 @@ body.spg-theme ul.page-menu > li > ul {
     margin: 0 0 0 1em;
     background-color: #f6f9fc;
 }
+body.spg-theme ul.page-menu > li > a {
+}
 body.spg-theme ul.page-menu > li > ul > li {
     max-width: 10em;
+    font-size: smaller;
 }
 body.spg-theme .page-menu li {
     display: block;
@@ -139,11 +144,7 @@ body.spg-theme ul.page-menu > li > ul {
 }
 
 body.spg-theme ul.page-menu > li:hover > a + ul,
-body.spg-theme ul.page-menu > li > a.current + ul {
-/*     display: block; */
-    max-height: 20em;
-    transition-delay: 0s;
-}
+body.spg-theme ul.page-menu > li > a.current + ul {/*     display: block; */max-height: 40em;transition-delay: 0s;}
 
 
 body.spg-theme .menu-icon {
@@ -152,6 +153,7 @@ body.spg-theme .menu-icon {
     width: 48px;
     height: 48px;
     margin-bottom: -17px;
+    margin-right: 13px;
     /* margin: -13px 9px 0 -3px; */
     /* float: left; */
     transition: opacity 0.5s ease-in-out;
@@ -168,6 +170,12 @@ body.spg-theme .menu-icon.menu-icon-toggle      {
     width: 32px;
     height: 32px;
     margin: -8px 8px;
+    transition: transform 0.5s;
+}
+
+body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
+    transform: rotate(90deg);
+    transition: transform 0.5s;
 }
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 0; }
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -48px;}
@@ -193,10 +201,48 @@ body.spg-theme .menu-button-toggle {
     background-color: #CCC;
 }
 
+
+body.spg-theme a.button {
+    text-decoration: none;
+    padding: 0.35em 0.5em 1em 0.5em;
+    /* margin: 0.0em 0 0.0em 0; */
+    display: block;
+    color: #666;
+    /* border-radius: 0.6em; */
+    /* text-align: right; */
+    vertical-align: middle;
+    white-space: nowrap;
+    min-width: 10em;
+}
+
+
+body.spg-theme a.button.small {
+    min-width: 2em;
+    font-size: medium;
+    padding: 0.8em 0.5em 0.6em 0.5em;
+}
+body.spg-theme a.button:hover {
+    /* background-color: #d4e7ec; */
+    /* color: #ffffff; */
+    font-weight: bold;
+}
+body.spg-theme a.button.current {
+    background-color: #3095bb;
+    font-weight: bold;
+    color: #DDD;
+}
+body.spg-theme a.current + ul > li > a.current {
+    background-color: rgba(48, 149, 187, 0.78);
+}
+body.spg-theme a.button[disabled] {
+    color: gray;
+    cursor: default;
+}
+
 /** Menu Animation **/
 
 body.menu-full.spg-theme > article.themed {
-    margin-left: 13em;
+    /* margin-left: 13em; */
 }
 body.menu-small.spg-theme > article.themed {
     margin-left: 4em;
@@ -205,16 +251,27 @@ body.menu-hidden.spg-theme > article.themed {
     margin-left: 0;
 }
 
+body.menu-small.spg-theme ul.page-menu:hover,
 body.menu-full.spg-theme ul.page-menu {
     max-width: 13em;
+    transition: max-width 0.4s;
+}
+body.menu-small.spg-theme ul.page-menu:not(:hover) ul {
+    margin-left: 0;
+    transition: margin-left 0.4s;
 }
 body.menu-small.spg-theme ul.page-menu {
-    max-width: 5em;
+    max-width: 3.6em;
+    border-right: 1px solid #666;
+    transition: max-width 0.4s ease-out, margin-left 0.4s;
 }
 body.menu-hidden.spg-theme ul.page-menu {
     max-width: 0;
 }
 
+body.menu-small .hide-on-menu-small {
+    display: none;
+}
 
 /** Bread Crumbs **/
 
@@ -373,39 +430,6 @@ body.spg-theme input.button-sumit:hover {
     background: linear-gradient(0deg, #fff 0%, #a69de6 50%, #fff 100%);
 }
 
-body.spg-theme a.button {
-    text-decoration: none;
-    padding: 0.35em 0.5em 1em 0.5em;
-    /* margin: 0.0em 0 0.0em 0; */
-    display: block;
-    color: #666;
-    font-size: larger;
-    /* border-radius: 0.6em; */
-    /* text-align: right; */
-    vertical-align: middle;
-    white-space: nowrap;
-    min-width: 10em;
-}
-
-
-body.spg-theme a.button.small {
-    min-width: 2em;
-    font-size: medium;
-    padding: 0.8em 0.5em 0.6em 0.5em;
-}
-body.spg-theme a.button:hover {
-    background-color: #d4e7ec;
-    /* color: #ffffff; */
-}
-body.spg-theme a.button.current {
-    background-color: #3095bb;
-    font-weight: bold;
-    color: #DDD;
-}
-body.spg-theme a.button[disabled] {
-    color: gray;
-    cursor: default;
-}
 
 body.layout-vertical.spg-theme a.button {/*     font-size: 1.5em; *//* display: block; */}
 
@@ -564,5 +588,9 @@ fieldset.pagination {
     body.spg-theme fieldset {
         box-shadow: none !important;
         border: 0;
+    }
+
+    body.spg-theme > article.themed {
+        margin-left: 0;
     }
 }

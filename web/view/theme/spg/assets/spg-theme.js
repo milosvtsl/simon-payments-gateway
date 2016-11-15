@@ -2,9 +2,28 @@
  * Created by ari on 10/19/2016.
  */
 
+function toggleNavMenu(e) {
+    if(e) e.preventDefault();
+    var body = document.body;
+    if(body.classList.contains('menu-full')) {
+        body.classList.remove('menu-full');
+        body.classList.add('menu-small');
+    } else {
+        body.classList.add('menu-full');
+        body.classList.remove('menu-small');
+    }
+
+    localStorage.setItem('menu-small', body.classList.contains('menu-small') ? '1' : '0');
+}
+
 // Initialize
 document.addEventListener("DOMContentLoaded", function(e) {
 //     window.onresize = onResize;
+
+    if(localStorage.getItem('menu-small') === '1') {
+        document.body.classList.remove('menu-full');
+        document.body.classList.add('menu-small');
+    }
 
     function onResize(e) {
         var height = (e.srcElement || e.currentTarget).innerHeight;
