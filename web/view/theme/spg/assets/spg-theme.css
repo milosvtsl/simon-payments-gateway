@@ -144,7 +144,11 @@ body.spg-theme ul.page-menu > li > ul {
 }
 
 body.spg-theme ul.page-menu > li:hover > a + ul,
-body.spg-theme ul.page-menu > li > a.current + ul {/*     display: block; */max-height: 40em;transition-delay: 0s;}
+body.spg-theme ul.page-menu > li > a.current + ul {
+    /*     display: block; */
+    max-height: 40em;
+    transition-delay: 0.4s;
+    }
 
 
 body.spg-theme .menu-icon {
@@ -192,9 +196,9 @@ body.spg-theme .menu-icon.menu-icon-edit        { background-position: -48px -48
 body.spg-theme .menu-icon.menu-icon-add         { background-position: -96px -48px;}
 body.spg-theme .menu-icon.menu-icon-delete      { background-position: 0 -96px;}
 body.spg-theme .menu-icon.menu-icon-view        { background-position: -96px 0; }
-body.spg-theme .menu-icon.menu-icon-print       { background-position: -144px -96px;}
-body.spg-theme .menu-icon.menu-icon-download    { background-position: -144px -96px;}
-body.spg-theme .menu-icon.menu-icon-receipt     { background-position: -144px -96px;}
+body.spg-theme .menu-icon.menu-icon-print       {background-position: 0 -144px;}
+body.spg-theme .menu-icon.menu-icon-download    {background-position: -48px -144px;}
+body.spg-theme .menu-icon.menu-icon-receipt     {background-position: -96px -144px;}
 
 body.spg-theme .menu-button-toggle {
     border-bottom: 1px solid #666;

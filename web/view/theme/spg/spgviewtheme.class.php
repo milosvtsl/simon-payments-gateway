@@ -203,7 +203,7 @@ HEAD;
 
                         <?php if(in_array($category, array('order-view', 'order-edit', 'order-delete'))) { ?>
                             <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['order-view']; ?>"><div class="menu-icon menu-icon-view"></div>View Receipt</a>
+                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['order-view']; ?>"><div class="menu-icon menu-icon-receipt"></div>View Receipt</a>
                             </li>
                             <li>
                                 <a href="javascript:window.print();" class="button<?php echo @$mc['order-print']; ?>"><div class="menu-icon menu-icon-print"></div>Print</a>
