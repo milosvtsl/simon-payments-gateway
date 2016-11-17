@@ -15,9 +15,14 @@ abstract class AbstractApp {
     /**
      * Print an HTML representation of this app
      * @param array $params
-     * @return mixed
      */
-    abstract function printAppHTML(Array $params=array());
+    abstract function renderAppHTML(Array $params=array());
+
+
+    /**
+     * Render all HTML Head Assets relevant to this APP
+     */
+    abstract function renderHTMLHeadContent();
 
     /**
      * Get App Name
@@ -48,13 +53,5 @@ abstract class AbstractApp {
     }
 
 
-    /**
-     * @return \User\Model\UserRow
-     */
-    function getSessionUser() {
-        $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
-        return $SessionUser;
-    }
 }
 
