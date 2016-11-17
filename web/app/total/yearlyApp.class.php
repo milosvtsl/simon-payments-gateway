@@ -47,12 +47,13 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(CASE WHEN date>='{$yearly}' THEN amount ELSE 0 END) as yearly,
-    SUM(CASE WHEN date>='{$yearly}' THEN 1 ELSE 0 END) as yearly_count
-
+	SUM(amount) as yearly,
+	COUNT() as yearly_count
  FROM order_item oi
 
- WHERE status in ('Settled', 'Authorized')
+WHERE 
+    date>='{$yearly}'
+    AND status in ('Settled', 'Authorized')
 SQL;
 
         $SessionUser = $this->getSessionUser();

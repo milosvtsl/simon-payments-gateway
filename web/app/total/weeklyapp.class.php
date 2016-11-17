@@ -47,14 +47,16 @@ HTML;
 
         $weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
 
+
         $SQL = <<<SQL
 SELECT
-	SUM(CASE WHEN date>='{$weekly}' THEN amount ELSE 0 END) as weekly,
-	SUM(CASE WHEN date>='{$weekly}' THEN 1 ELSE 0 END) as weekly_count
-
+	SUM(amount) as weekly,
+	COUNT() as weekly_count
  FROM order_item oi
 
- WHERE status in ('Settled', 'Authorized')
+WHERE 
+    date>='{$weekly}'
+    AND status in ('Settled', 'Authorized')
 SQL;
 
         $SessionUser = $this->getSessionUser();

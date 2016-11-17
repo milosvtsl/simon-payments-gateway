@@ -49,12 +49,13 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(CASE WHEN date>='{$today}' THEN amount ELSE 0 END) as today,
-	SUM(CASE WHEN date>='{$today}' THEN 1 ELSE 0 END) as today_count
-
+	SUM(amount) as today,
+	COUNT() as today_count
  FROM order_item oi
 
- WHERE status in ('Settled', 'Authorized')
+WHERE
+    date>='{$today}'
+    AND status in ('Settled', 'Authorized')
 SQL;
 
         $SessionUser = $this->getSessionUser();

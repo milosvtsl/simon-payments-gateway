@@ -49,11 +49,13 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(CASE WHEN date>='{$week_to_date}' THEN amount ELSE 0 END) as week_to_date,
-	SUM(CASE WHEN date>='{$week_to_date}' THEN 1 ELSE 0 END) as week_to_date_count
+	SUM(amount) as week_to_date,
+	COUNT() as week_to_date_count
  FROM order_item oi
 
- WHERE status in ('Settled', 'Authorized')
+WHERE
+    date>='{$week_to_date}'
+    AND status in ('Settled', 'Authorized')
 SQL;
 
         $SessionUser = $this->getSessionUser();

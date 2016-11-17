@@ -49,14 +49,14 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(CASE WHEN date>='{$monthly}' THEN amount ELSE 0 END) as monthly,
-	SUM(CASE WHEN date>='{$monthly}' THEN 1 ELSE 0 END) as monthly_count
-
+	SUM(amount) as monthly,
+	COUNT() as monthly_count
  FROM order_item oi
 
- WHERE status in ('Settled', 'Authorized')
+WHERE
+    date>='{$monthly}'
+    AND status in ('Settled', 'Authorized')
 SQL;
-
         $SessionUser = $this->getSessionUser();
         $ids = $SessionUser->getMerchantList() ?: array(-1);
         $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
