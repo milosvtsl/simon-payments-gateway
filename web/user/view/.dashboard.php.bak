@@ -8,8 +8,71 @@ use Order\Model\OrderRow;
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
+// Get Timezone diff
+$offset = $SessionUser->getTimeZoneOffset('now');
 
-$AppManager = new App
+$stats = null;
+if(!empty($_SESSION[__FILE__])) {
+    $stats = $_SESSION[__FILE__];
+    if($stats['_time']<time() - 60*10)
+        $stats = null;
+}
+if(!$stats) {
+    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+        $stats = OrderRow::queryMerchantStats(null, $offset);
+    } else {
+        $stats = OrderRow::queryMerchantStats($SessionUser, $offset);
+    }
+    $stats['_time'] = time();
+    $_SESSION[__FILE__] = $stats;
+//    $this->setMessage("Calculated stats in " . number_format($stats['duration'], 2) . " s");
+}
+
+$year_to_date = date('Y-01-01', time() + $offset);
+$yearly  = date('Y-m-d', time() - 24*60*60*365 + $offset);
+
+$month_to_date = date('Y-m-01', time() + $offset);
+$monthly  = date('Y-m-d', time() - 24*60*60*30 + $offset);
+
+$week_to_date = date('Y-m-d', time() - 24*60*60*date('w') + $offset);
+$weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
+
+$today = date('Y-m-d', time() + $offset);
+
+// Calculate Stats
+$DB = DBConfig::getInstance();
+
+$whereSQL = "WHERE 1";
+// Handle authority
+if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+    $list = $SessionUser->getMerchantList() ?: array(0);
+    $whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
+
+    if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+        $this->setMessage(
+            "<span class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</span>"
+        );
+        $whereSQL .= "\nAND 0=1";
+    }
+}
+
+// Calculate Stats
+$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL . "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d') ORDER BY oi.id DESC LIMIT 10";
+$DailyReportQuery = $DB->prepare($statsSQL);
+$DailyReportQuery->execute();
+/** @noinspection PhpMethodParametersCountMismatchInspection */
+$DailyReportQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+
+
+// Calculate Recent Orders
+$statsSQL = OrderRow::SQL_SELECT . $whereSQL . OrderRow::SQL_ORDER_BY . " LIMIT 10";
+$RecentTransactionQuery = $DB->prepare($statsSQL);
+$RecentTransactionQuery->execute();
+/** @noinspection PhpMethodParametersCountMismatchInspection */
+$RecentTransactionQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
+
+
+$action_url = 'order/list.php?';
 
 $this->getTheme()->printHTMLMenu('dashboard');
 ?>
