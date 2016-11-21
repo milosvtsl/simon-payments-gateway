@@ -50,7 +50,7 @@ form[name=form-transaction-charge] .swipe-fullscreen-box-container {
     /* height: 37%; */
     top: 27%;
     left: 5%;
-    background-color: rgba(197, 193, 204, 0.95);
+    background-color: rgb(188, 197, 209);
     /* opacity: 0.9; */
     border-radius: 1em;
     padding: 1.5em 1em;
