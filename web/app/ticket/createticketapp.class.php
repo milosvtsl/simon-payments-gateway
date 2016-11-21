@@ -40,7 +40,7 @@ class CreateTicketApp extends AbstractApp
 
                     <input type="text" name="subject" placeholder="Subject" class="themed"/>
                     <br />
-                    <textarea name="content" class="themed"></textarea>
+                    <textarea name="content" class="themed" placeholder="Message"></textarea>
                     <br />
                     <button name="submit" type="submit" class="themed">Create</button>
                 </fieldset>

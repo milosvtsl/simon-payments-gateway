@@ -9,6 +9,7 @@
     display: inline-block;
     text-align: center;
     cursor: pointer;
+    color: white;
     box-shadow: 2px 2px 4px #CCC;
     transition: box-shadow 0.5s ease;
     background-color: gray;
@@ -18,6 +19,22 @@
 .app-ticket:hover {
     box-shadow: 0px 0px 3em rgba(0, 0, 255, 0.44);
     background: linear-gradient(to bottom, rgba(43, 15, 222, 0.45) 0%, rgba(174, 62, 145, 0.07) 100%);
+}
+
+/** Form **/
+
+.app-ticket form input,
+.app-ticket form button,
+.app-ticket form select,
+.app-ticket form textarea {
+    padding: 0.5em;
+    margin: 0.5em;
+    min-width: 14em;
+    border-radius: 4px;
+}
+
+.app-ticket form fieldset {
+    border: 0px;
 }
 
 /** Create Ticket **/
