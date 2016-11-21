@@ -128,7 +128,7 @@ body.spg-theme ul.page-menu > li > ul {
 body.spg-theme ul.page-menu > li > a {
 }
 body.spg-theme ul.page-menu > li > ul > li {
-    max-width: 10em;
+    /* max-width: 10em; */
     font-size: smaller;
 }
 body.spg-theme .page-menu li {
@@ -231,12 +231,15 @@ body.spg-theme a.button:hover {
     font-weight: bold;
 }
 body.spg-theme a.button.current {
+    background: linear-gradient(-25deg, #3095bb 20%, #d7ebff 100%);
     background-color: #3095bb;
     font-weight: bold;
     color: #DDD;
+
 }
 body.spg-theme a.current + ul > li > a.current {
     background-color: rgba(48, 149, 187, 0.78);
+    background: linear-gradient(-145deg, #3095bb 20%, #6095bb 100%);
 }
 body.spg-theme a.button[disabled] {
     color: gray;

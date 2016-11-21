@@ -1,5 +1,5 @@
 <?php
-namespace App\Total;
+namespace App\Chart;
 use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
@@ -10,13 +10,24 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class MTDApp extends AbstractTotalsApp {
+class MTDChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
 
-    public function __construct(UserRow $SessionUser) {
+    private $config;
+
+    public function __construct(UserRow $SessionUser, $config) {
         parent::__construct($SessionUser);
+        $this->config = $config;
+    }
+
+    /**
+     * Generate a string representing the user configuration for this app
+     * @return mixed
+     */
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -31,11 +42,11 @@ class MTDApp extends AbstractTotalsApp {
         $count = number_format($stats['month_to_date_count']);
         
         echo <<<HTML
-        <div class="app-total app-total-mtd">
-            <a href="order?date_from={$stats['time_month_to_date']}" class="app-total-mtd-amount">
+        <div class="app-chart app-chart-mtd">
+            <a href="order?date_from={$stats['time_month_to_date']}" class="app-chart-amount app-chart-mtd-amount">
                 ${$amount}
             </a> 
-            <a href="order?date_from={$stats['time_month_to_date']}" class="app-total-mtd-count">
+            <a href="order?date_from={$stats['time_month_to_date']}" class="app-chart-count app-chart-mtd-count">
                 This month ({$count})
             </a> 
         </div>

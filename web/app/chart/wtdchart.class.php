@@ -1,5 +1,5 @@
 <?php
-namespace App\Total;
+namespace App\Chart;
 use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
@@ -10,13 +10,24 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class WeeklyApp extends AbstractTotalsApp {
+class WTDChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
 
-    public function __construct(UserRow $SessionUser) {
+    private $config;
+
+    public function __construct(UserRow $SessionUser, $config) {
         parent::__construct($SessionUser);
+        $this->config = $config;
+    }
+
+    /**
+     * Generate a string representing the user configuration for this app
+     * @return mixed
+     */
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -27,16 +38,16 @@ class WeeklyApp extends AbstractTotalsApp {
     function renderAppHTML(Array $params = array()) {
         $stats = $this->getStats();
 
-        $amount = number_format($stats['weekly'], 2);
-        $count = number_format($stats['weekly_count']);
+        $amount = number_format($stats['week_to_date'], 2);
+        $count = number_format($stats['week_to_date_count']);
         
         echo <<<HTML
-        <div class="app-total app-total-weekly">
-            <a href="order?date_from={$stats['time_weekly']}" class="app-total-weekly-amount">
+        <div class="app-chart app-chart-wtd">
+            <a href="order?date_from={$stats['time_week_to_date']}" class="app-chart-amount app-chart-wtd-amount">
                 ${$amount}
             </a> 
-            <a href="order?date_from={$stats['time_weekly']}" class="app-total-weekly-count">
-                Weekly ({$count})
+            <a href="order?date_from={$stats['time_week_to_date']}" class="app-chart-count app-chart-wtd-count">
+                This week ({$count})
             </a> 
         </div>
 HTML;
@@ -45,17 +56,16 @@ HTML;
     public function fetchStats() {
         $offset = 0;
 
-        $weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
-
+        $week_to_date = date('Y-m-d', time() - 24*60*60*date('w') + $offset);
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as weekly,
-	COUNT() as weekly_count
+	SUM(amount) as week_to_date,
+	COUNT() as week_to_date_count
  FROM order_item oi
 
-WHERE 
-    date>='{$weekly}'
+WHERE
+    date>='{$week_to_date}'
     AND status in ('Settled', 'Authorized')
 SQL;
 
@@ -71,10 +81,9 @@ SQL;
         $stats = $stmt->fetch();
         $duration += microtime(true);
         $stats['duration'] = $duration;
-        $stats['time_weekly'] = $weekly;
+        $stats['time_week_to_date'] = $week_to_date;
 
         return $stats;
     }
-
 }
 

@@ -1,6 +1,5 @@
 <?php
-namespace App\Total;
-use App\AbstractApp;
+namespace App\Chart;
 use System\Config\DBConfig;
 use User\Model\UserRow;
 
@@ -10,13 +9,24 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class YTDApp extends AbstractTotalsApp {
+class YearlyChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
 
-    public function __construct(UserRow $SessionUser) {
+    private $config;
+
+    public function __construct(UserRow $SessionUser, $config) {
         parent::__construct($SessionUser);
+        $this->config = $config;
+    }
+
+    /**
+     * Generate a string representing the user configuration for this app
+     * @return mixed
+     */
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -27,16 +37,16 @@ class YTDApp extends AbstractTotalsApp {
     function renderAppHTML(Array $params = array()) {
         $stats = $this->getStats();
 
-        $amount = number_format($stats['year_to_date'], 2);
-        $count = number_format($stats['year_to_date_count']);
-        
+        $amount = number_format($stats['yearly'], 2);
+        $count = number_format($stats['yearly_count']);
+
         echo <<<HTML
-        <div class="app-total app-total-ytd">
-            <a href="order?date_from={$stats['time_year_to_date']}" class="app-total-ytd-amount">
+        <div class="app-chart app-chart-yearly">
+            <a href="order?date_from={$stats['time_yearly']}" class="app-chart-amount app-chart-yearly-amount">
                 ${$amount}
             </a> 
-            <a href="order?date_from={$stats['time_year_to_date']}" class="app-total-ytd-count">
-                This year ({$count})
+            <a href="order?date_from={$stats['time_yearly']}" class="app-chart-count app-chart-yearly-count">
+                Yearly ({$count})
             </a> 
         </div>
 HTML;
@@ -44,17 +54,16 @@ HTML;
 
     public function fetchStats() {
         $offset = 0;
-
-        $year_to_date = date('Y-01-01');
+        $yearly  = date('Y-m-d', time() - 24*60*60*365 + $offset);
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as year_to_date,
-	COUNT() as year_to_date_count
+	SUM(amount) as yearly,
+	COUNT() as yearly_count
  FROM order_item oi
 
-WHERE
-    date>='{$year_to_date}'
+WHERE 
+    date>='{$yearly}'
     AND status in ('Settled', 'Authorized')
 SQL;
 
@@ -70,10 +79,11 @@ SQL;
         $stats = $stmt->fetch();
         $duration += microtime(true);
         $stats['duration'] = $duration;
-        $stats['time_year_to_date'] = $year_to_date;
+        $stats['time_yearly'] = $yearly;
 
         return $stats;
     }
+
 
 }
 
