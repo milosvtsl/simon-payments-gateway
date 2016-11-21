@@ -44,7 +44,7 @@ class WeeklyChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-weekly">
             <a href="order?date_from={$stats['time_weekly']}" class="app-chart-amount app-chart-weekly-amount">
-                ${$amount}
+                \${$amount}
             </a> 
             <a href="order?date_from={$stats['time_weekly']}" class="app-chart-count app-chart-weekly-count">
                 Weekly ({$count})
@@ -62,7 +62,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as weekly,
-	COUNT() as weekly_count
+	COUNT(*) as weekly_count
  FROM order_item oi
 
 WHERE 

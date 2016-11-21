@@ -43,7 +43,7 @@ class YearlyChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-yearly">
             <a href="order?date_from={$stats['time_yearly']}" class="app-chart-amount app-chart-yearly-amount">
-                ${$amount}
+                \${$amount}
             </a> 
             <a href="order?date_from={$stats['time_yearly']}" class="app-chart-count app-chart-yearly-count">
                 Yearly ({$count})
@@ -59,7 +59,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as yearly,
-	COUNT() as yearly_count
+	COUNT(*) as yearly_count
  FROM order_item oi
 
 WHERE 

@@ -44,7 +44,7 @@ class WTDChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-wtd">
             <a href="order?date_from={$stats['time_week_to_date']}" class="app-chart-amount app-chart-wtd-amount">
-                ${$amount}
+                \${$amount}
             </a> 
             <a href="order?date_from={$stats['time_week_to_date']}" class="app-chart-count app-chart-wtd-count">
                 This week ({$count})
@@ -61,7 +61,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as week_to_date,
-	COUNT() as week_to_date_count
+	COUNT(*) as week_to_date_count
  FROM order_item oi
 
 WHERE

@@ -1,13 +1,20 @@
 <?php
 namespace User\View;
 
+use User\Session\SessionManager;
 use View\AbstractView;
+use App\AppManager;
 
 
 class DashboardView extends AbstractView {
 
     protected function renderHTMLHeadLinks() {
-        echo "\t\t<link href='user/view/assets/dashboard.css' type='text/css' rel='stylesheet' />\n";
+		$SessionManager = new SessionManager();
+		$SessionUser = $SessionManager->getSessionUser();
+		$AppManager = new AppManager($SessionUser);
+		$AppManager->renderHTMLHeadContent();
+
+		echo "\t\t<link href='user/view/assets/dashboard.css' type='text/css' rel='stylesheet' />\n";
         parent::renderHTMLHeadLinks();
     }
 

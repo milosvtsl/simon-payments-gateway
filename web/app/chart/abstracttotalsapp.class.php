@@ -71,13 +71,12 @@ abstract class AbstractTotalsApp extends AbstractApp
      * Render all HTML Head Assets relevant to this APP
      */
     function renderHTMLHeadContent() {
-        static $render_once = false;
-        if($render_once)
+        if(self::$render_once)
             return;
-        $render_once = true;
+        self::$render_once = true;
 
         echo "\t\t<script src='app/chart/assets/app-chart.js'></script>\n";
         echo "\t\t<link href='app/chart/assets/app-chart.css' type='text/css' rel='stylesheet' />\n";
     }
-
+    private static $render_once = false;
 }

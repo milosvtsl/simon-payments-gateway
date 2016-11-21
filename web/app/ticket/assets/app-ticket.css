@@ -1,0 +1,28 @@
+/** App Total **/
+
+.app-ticket {
+    width: 40%;
+    padding: 0.3em 0;
+    margin: 0.5em 1em;
+    border: 1px outset #FFF;
+    border-radius: 0.3em;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 4px #CCC;
+    transition: box-shadow 0.5s ease;
+    background-color: gray;
+}
+
+
+.app-ticket:hover {
+    box-shadow: 0px 0px 3em rgba(0, 0, 255, 0.44);
+    background: linear-gradient(to bottom, rgba(43, 15, 222, 0.45) 0%, rgba(174, 62, 145, 0.07) 100%);
+}
+
+/** Create Ticket **/
+
+.app-ticket-create {
+    background: linear-gradient(to bottom, #ff5bd5 0%, #ae3e91 100%);
+    text-align: left;
+}

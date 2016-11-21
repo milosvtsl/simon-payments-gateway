@@ -44,7 +44,7 @@ class DailyChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-today">
             <a href="order?date_from={$stats['time_today']}" class="app-chart-amount app-chart-today-amount">
-                ${$amount}
+                \${$amount}
             </a>
             <a href="order?date_from={$stats['time_today']}" class="app-chart-count app-chart-today-count">
                 Today ({$count})
@@ -61,7 +61,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as today,
-	COUNT() as today_count
+	COUNT(*) as today_count
  FROM order_item oi
 
 WHERE

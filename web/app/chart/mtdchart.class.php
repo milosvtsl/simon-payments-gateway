@@ -44,7 +44,7 @@ class MTDChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-mtd">
             <a href="order?date_from={$stats['time_month_to_date']}" class="app-chart-amount app-chart-mtd-amount">
-                ${$amount}
+                \${$amount}
             </a> 
             <a href="order?date_from={$stats['time_month_to_date']}" class="app-chart-count app-chart-mtd-count">
                 This month ({$count})
@@ -60,7 +60,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as month_to_date,
-	COUNT() as month_to_date_count
+	COUNT(*) as month_to_date_count
  FROM order_item oi
 
 WHERE 

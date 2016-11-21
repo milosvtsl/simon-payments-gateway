@@ -44,7 +44,7 @@ class MonthlyChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-monthly">
             <a href="order?date_from={$stats['time_monthly']}" class="app-chart-amount app-chart-monthly-amount">
-                ${$amount}
+                \${$amount}
             </a> 
             <a href="order?date_from={$stats['time_monthly']}" class="app-chart-count app-chart-monthly-count">
                 Monthly ({$count})
@@ -61,7 +61,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as monthly,
-	COUNT() as monthly_count
+	COUNT(*) as monthly_count
  FROM order_item oi
 
 WHERE

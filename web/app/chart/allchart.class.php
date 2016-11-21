@@ -44,7 +44,7 @@ class AllChart extends AbstractTotalsApp {
         echo <<<HTML
         <div class="app-chart app-chart-all">
             <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-amount app-chart-all-amount">
-                ${$amount}
+                \${$amount}
             </a> 
             <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count app-chart-all-count">
                 This year ({$count})
@@ -61,7 +61,7 @@ HTML;
         $SQL = <<<SQL
 SELECT
 	SUM(amount) as year_to_date,
-	COUNT() as year_to_date_count
+	COUNT(*) as year_to_date_count
  FROM order_item oi
 
 WHERE
