@@ -1,5 +1,6 @@
 <?php
-namespace App\Total;
+namespace App\Chart;
+use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
 
@@ -9,13 +10,24 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class YearlyApp extends AbstractTotalsApp {
+class MonthlyChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
 
-    public function __construct(UserRow $SessionUser) {
+    private $config;
+
+    public function __construct(UserRow $SessionUser, $config) {
         parent::__construct($SessionUser);
+        $this->config = $config;
+    }
+
+    /**
+     * Generate a string representing the user configuration for this app
+     * @return mixed
+     */
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -26,36 +38,36 @@ class YearlyApp extends AbstractTotalsApp {
     function renderAppHTML(Array $params = array()) {
         $stats = $this->getStats();
 
-        $amount = number_format($stats['yearly'], 2);
-        $count = number_format($stats['yearly_count']);
+        $amount = number_format($stats['monthly'], 2);
+        $count = number_format($stats['monthly_count']);
 
         echo <<<HTML
-        <div class="app-total app-total-yearly">
-            <a href="order?date_from={$stats['time_yearly']}" class="app-total-yearly-amount">
+        <div class="app-chart app-chart-monthly">
+            <a href="order?date_from={$stats['time_monthly']}" class="app-chart-amount app-chart-monthly-amount">
                 ${$amount}
             </a> 
-            <a href="order?date_from={$stats['time_yearly']}" class="app-total-yearly-count">
-                Yearly ({$count})
+            <a href="order?date_from={$stats['time_monthly']}" class="app-chart-count app-chart-monthly-count">
+                Monthly ({$count})
             </a> 
         </div>
 HTML;
+
     }
 
     public function fetchStats() {
         $offset = 0;
-        $yearly  = date('Y-m-d', time() - 24*60*60*365 + $offset);
+        $monthly  = date('Y-m-d', time() - 24*60*60*30 + $offset);
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as yearly,
-	COUNT() as yearly_count
+	SUM(amount) as monthly,
+	COUNT() as monthly_count
  FROM order_item oi
 
-WHERE 
-    date>='{$yearly}'
+WHERE
+    date>='{$monthly}'
     AND status in ('Settled', 'Authorized')
 SQL;
-
         $SessionUser = $this->getSessionUser();
         $ids = $SessionUser->getMerchantList() ?: array(-1);
         $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
@@ -68,11 +80,10 @@ SQL;
         $stats = $stmt->fetch();
         $duration += microtime(true);
         $stats['duration'] = $duration;
-        $stats['time_yearly'] = $yearly;
+        $stats['time_monthly'] = $monthly;
 
         return $stats;
     }
-
 
 }
 

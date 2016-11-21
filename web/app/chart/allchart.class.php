@@ -1,5 +1,5 @@
 <?php
-namespace App\Total;
+namespace App\Chart;
 use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
@@ -10,13 +10,24 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class DailyApp extends AbstractTotalsApp {
+class AllChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
 
-    public function __construct(UserRow $SessionUser) {
+    private $config;
+
+    public function __construct(UserRow $SessionUser, $config) {
         parent::__construct($SessionUser);
+        $this->config = $config;
+    }
+
+    /**
+     * Generate a string representing the user configuration for this app
+     * @return mixed
+     */
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -27,34 +38,34 @@ class DailyApp extends AbstractTotalsApp {
     function renderAppHTML(Array $params = array()) {
         $stats = $this->getStats();
 
-        $amount = number_format($stats['today'], 2);
-        $count = number_format($stats['today_count']);
-
+        $amount = number_format($stats['year_to_date'], 2);
+        $count = number_format($stats['year_to_date_count']);
+        
         echo <<<HTML
-        <div class="app-total app-total-today">
-            <a href="order?date_from={$stats['time_today']}" class="app-total-today-amount">
+        <div class="app-chart app-chart-all">
+            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-amount app-chart-all-amount">
                 ${$amount}
-            </a>
-            <a href="order?date_from={$stats['time_today']}" class="app-total-today-count">
-                Today ({$count})
+            </a> 
+            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count app-chart-all-count">
+                This year ({$count})
             </a> 
         </div>
 HTML;
-
     }
 
     public function fetchStats() {
         $offset = 0;
-        $today = date('Y-m-d', time() + $offset);
+
+        $year_to_date = date('Y-01-01');
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as today,
-	COUNT() as today_count
+	SUM(amount) as year_to_date,
+	COUNT() as year_to_date_count
  FROM order_item oi
 
 WHERE
-    date>='{$today}'
+    date>='{$year_to_date}'
     AND status in ('Settled', 'Authorized')
 SQL;
 
@@ -70,7 +81,7 @@ SQL;
         $stats = $stmt->fetch();
         $duration += microtime(true);
         $stats['duration'] = $duration;
-        $stats['time_today'] = $today;
+        $stats['time_year_to_date'] = $year_to_date;
 
         return $stats;
     }

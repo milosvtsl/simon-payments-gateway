@@ -5,7 +5,7 @@
  * Date: 11/16/2016
  * Time: 8:19 PM
  */
-namespace App\Total;
+namespace App\Chart;
 
 use App\AbstractApp;
 use User\Model\UserRow;
@@ -18,10 +18,25 @@ abstract class AbstractTotalsApp extends AbstractApp
     private $stats = null;
     private $user = null;
 
+    /**
+     * Fetch statistics from the database
+     * @return mixed
+     */
     abstract protected function fetchStats();
+
+    /**
+     * Generate a string representing the user configuration for this app
+     * @return mixed
+     */
+    abstract protected function getConfig();
 
     public function __construct(UserRow $SessionUser) {
         $this->user = $SessionUser;
+    }
+
+    function getStats() {
+        if($this->stats)
+            return $this->stats;
 
         // Session key based on file path
         $sessionKey = static::SESSION_KEY;
@@ -40,6 +55,8 @@ abstract class AbstractTotalsApp extends AbstractApp
             $this->stats['timestamp'] = time();
             $_SESSION[$sessionKey] = $this->stats;
         }
+
+        return $this->stats;
     }
 
     /**
@@ -47,10 +64,6 @@ abstract class AbstractTotalsApp extends AbstractApp
      */
     function getSessionUser() {
         return $this->user;
-    }
-
-    function getStats() {
-        return $this->stats;
     }
 
 
@@ -63,8 +76,8 @@ abstract class AbstractTotalsApp extends AbstractApp
             return;
         $render_once = true;
 
-        echo "\t\t<script src='app/total/assets/app-total.js'></script>\n";
-        echo "\t\t<link href='app/total/assets/app-total.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<script src='app/chart/assets/app-chart.js'></script>\n";
+        echo "\t\t<link href='app/chart/assets/app-chart.css' type='text/css' rel='stylesheet' />\n";
     }
 
 }
