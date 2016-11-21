@@ -131,6 +131,7 @@ body.spg-theme ul.page-menu > li > ul > li {
     /* max-width: 10em; */
     font-size: smaller;
 }
+
 body.spg-theme .page-menu li {
     display: block;
     clear: both;
@@ -153,7 +154,7 @@ body.spg-theme ul.page-menu > li > a.current + ul {
 
 body.spg-theme .menu-icon {
     background: url(img/nav_icons.png) no-repeat top left;
-    background-size: 192px 192px;
+    background-size: 192px 240px;
     width: 48px;
     height: 48px;
     margin-bottom: -17px;
@@ -168,12 +169,13 @@ body.spg-theme .menu-icon {
 body.spg-theme a:hover .menu-icon               {
     opacity: 0.5;
 }
+
 body.spg-theme .menu-icon.menu-icon-toggle      {
     background-position: -32px 0;
-    background-size: 128px 128px;
+    background-size: 128px 160px;
     width: 32px;
     height: 32px;
-    margin: -8px 8px;
+    margin: -8px 8px -7px 8px;
     transition: transform 0.5s;
 }
 
@@ -181,12 +183,12 @@ body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
     transform: rotate(90deg);
     transition: transform 0.5s;
 }
-body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 0; }
+body.spg-theme .menu-icon.menu-icon-dashboard   {background-position: 0 -192px;}
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -48px;}
 body.spg-theme .menu-icon.menu-icon-account     { background-position: 0 0; }
-body.spg-theme .menu-icon.menu-icon-list        { background-position: -48px 0; }
+body.spg-theme .menu-icon.menu-icon-list        {background-position: -48px -192px;}
 body.spg-theme .menu-icon.menu-icon-transaction { background-position: -144px -96px;}
-body.spg-theme .menu-icon.menu-icon-subscription{ background-position: -144px -96px;}
+body.spg-theme .menu-icon.menu-icon-subscription{background-position: -144px -144px;}
 body.spg-theme .menu-icon.menu-icon-merchant    { background-position: -144px 0;}
 body.spg-theme .menu-icon.menu-icon-user        { background-position: -96px -96px;}
 body.spg-theme .menu-icon.menu-icon-integration { background-position: -48px -96px;}
@@ -202,7 +204,7 @@ body.spg-theme .menu-icon.menu-icon-receipt     {background-position: -96px -144
 
 body.spg-theme .menu-button-toggle {
     border-bottom: 1px solid #666;
-    background-color: #CCC;
+    background-color: #bcc5d1;
 }
 
 
@@ -226,20 +228,17 @@ body.spg-theme a.button.small {
     padding: 0.8em 0.5em 0.6em 0.5em;
 }
 body.spg-theme a.button:hover {
-    /* background-color: #d4e7ec; */
+    background-color: #d4e7ec;
     /* color: #ffffff; */
     font-weight: bold;
 }
 body.spg-theme a.button.current {
-    background: linear-gradient(-25deg, #3095bb 20%, #d7ebff 100%);
-    background-color: #3095bb;
+    background-color: #d4e7ec;
     font-weight: bold;
-    color: #DDD;
-
+    color: #4296bb;
 }
 body.spg-theme a.current + ul > li > a.current {
-    background-color: rgba(48, 149, 187, 0.78);
-    background: linear-gradient(-145deg, #3095bb 20%, #6095bb 100%);
+    background-color: rgb(212, 231, 236);
 }
 body.spg-theme a.button[disabled] {
     color: gray;
@@ -288,7 +287,7 @@ body.spg-theme .bread-crumbs {
     margin: -8px 0 0 0;
     /* background-color: #f6f9fc; */
     position: relative;
-    background-color: #CCC;
+    background-color: #bcc5d1;
     height: 24px;
 }
 
@@ -338,7 +337,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 body.spg-theme form.themed {
     /* background-color: #f0f4f6; */
-    /* background-color: #FAFAFA; */
+    background-color: #e1ebf1;
     /* border: 1px inset #bcc5d1; */
     /* border-radius: 0.6em; */
     /* max-width: 800px; */
@@ -348,7 +347,7 @@ body.spg-theme form.themed {
 }
 
 body.spg-theme form.themed a {
-    text-decoration: none;
+    /* text-decoration: none; */
 }
 
 body.spg-theme form.themed > fieldset,
@@ -375,6 +374,7 @@ body.spg-theme fieldset.themed > legend,
 body.spg-theme legend.themed {
     font-weight: bolder;
     background: #FFF;
+    /* text-align: center; */
     border-radius: 10px;
     padding: 0.4em 0.8em 0 0.8em;
     /* border-bottom: 1px inset #b1ced6; */
@@ -562,7 +562,7 @@ fieldset.pagination {
 }
 
 .pagination a.current {
-    background-color: #AAA;
+    background-color: #bcc5d1;
 }
 
 
