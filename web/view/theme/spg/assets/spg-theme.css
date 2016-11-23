@@ -114,9 +114,8 @@ body.spg-theme .page-menu {
     overflow: hidden;
     background-color: #f6f9fc;
     position: absolute;
-    /* border-right: 1px solid #999; */
+    border-right: 1px solid #999;
     font-size: larger;
-
 }
 
 body.spg-theme ul.page-menu > li > ul {
@@ -175,7 +174,7 @@ body.spg-theme .menu-icon.menu-icon-toggle      {
     background-size: 128px 160px;
     width: 32px;
     height: 32px;
-    margin: -8px 8px -7px 8px;
+    margin: -8px 8px -8px 8px;
     transition: transform 0.5s;
 }
 
