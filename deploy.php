@@ -15,7 +15,7 @@
 $cmd_test = 'ssh access.simonpayments.com -p 30305 -t "cd /usr/share/nginx/spg; php test.php;"';
 
 // Deploy command
-$cmd_deploy = 'ssh access.simonpayments.com -p 30305 -t "cd /usr/share/nginx/spg; git pull;"';
+$cmd_deploy = 'ssh access.simonpayments.com -p 30305 -t "cd /usr/share/nginx/spg; git pull origin production;"';
 
 // Check git status
 exec('git status', $out, $ret);
