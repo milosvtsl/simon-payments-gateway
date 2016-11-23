@@ -15,8 +15,6 @@ class MerchantListView extends AbstractListView {
 	 * @param array $params
 	 */
 	public function renderHTMLBody(Array $params) {
-		// Render Header
-		$this->getTheme()->renderHTMLBodyHeader();
 
 		// Set up page parameters
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
@@ -104,9 +102,6 @@ class MerchantListView extends AbstractListView {
 
 		// Render Page
 		include ('.list.php');
-
-		// Render footer
-		$this->getTheme()->renderHTMLBodyFooter();
 	}
 
 

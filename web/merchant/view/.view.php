@@ -15,15 +15,15 @@ $SessionUser = $SessionManager->getSessionUser();
 
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
-$this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL($action_url,     $Merchant->getShortName());
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('merchant-view', $action_url);
+
 ?>
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="merchant" class="nav_merchant">Merchants</a>
-            <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
-        </aside>
-
 
         <section class="content" >
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

@@ -16,10 +16,6 @@ class AddUserView extends AbstractView
 {
 
     public function renderHTMLBody(Array $params) {
-
-        // Render Header
-        $this->getTheme()->renderHTMLBodyHeader();
-
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add other users
@@ -30,9 +26,6 @@ class AddUserView extends AbstractView
 
         // Render Page
         include('.add.php');
-
-        // Render footer
-        $this->getTheme()->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

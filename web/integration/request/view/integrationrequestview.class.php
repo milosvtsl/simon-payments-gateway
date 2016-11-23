@@ -31,9 +31,6 @@ class IntegrationRequestView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
 
-        // Render Header
-        $this->getTheme()->renderHTMLBodyHeader();
-
         // Render Page
         switch($this->_action) {
             case 'view':
@@ -45,9 +42,6 @@ class IntegrationRequestView extends AbstractView
             default:
                 throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
-
-        // Render footer
-        $this->getTheme()->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

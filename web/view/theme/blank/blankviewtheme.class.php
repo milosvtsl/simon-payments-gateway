@@ -56,4 +56,18 @@ class BlankViewTheme extends AbstractViewTheme
     public function printHTMLMenu($category, $action_url=null) {
 
     }
+
+    public function printBreadCrumbs($getFullName, $string) {
+        // TODO: Implement printBreadCrumbs() method.
+    }
+
+    /**
+     * Add a path (bread crumb) url
+     * @param $name
+     * @param $url
+     * @return mixed
+     */
+    public function addPathURL($url, $name) {
+        // TODO: Implement addPathURL() method.
+    }
 }

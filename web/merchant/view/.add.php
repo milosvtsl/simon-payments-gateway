@@ -9,17 +9,16 @@ use Merchant\Model\MerchantRow;
 $Merchant = new MerchantRow();
 $odd = false;
 
-$this->getTheme()->printHTMLMenu('merchant-add');
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL('merchant/add.php',  'Add New Merchant');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('merchant-add');
 ?>
 
 
     <article class="themed">
-
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="merchant" class="nav_merchant">Merchants</a>
-            <a href="merchant/add.php" class="nav_merchant_add">Add New Merchant</a>
-        </aside>
 
         <section class="content">
 

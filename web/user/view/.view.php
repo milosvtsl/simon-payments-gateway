@@ -8,16 +8,16 @@ use Merchant\Model\MerchantRow;
 $odd = false;
 $action_url = 'user?id=' . $User->getID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account' : 'user-view';
-$this->getTheme()->printHTMLMenu($category, $action_url);
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('user',          'Users');
+$Theme->addPathURL($action_url,     $User->getUsername());
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu($category,    $action_url);
 ?>
 
     <article class="themed">
 
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="user" class="nav_user">Users</a>
-            <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-        </aside>
             <section class="content">
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
@@ -116,3 +116,5 @@ $this->getTheme()->printHTMLMenu($category, $action_url);
                 </form>
             </section>
         </article>
+
+<?php $Theme->renderHTMLBodyFooter(); ?>

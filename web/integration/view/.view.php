@@ -6,7 +6,12 @@ use Integration\View\IntegrationView;
 $Integration = $this->getIntegration();
 $odd = false;
 $action_url = 'integration?id=' . $Integration->getID() . '&action=';
-$this->getTheme()->printHTMLMenu('integration-view', $action_url);
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('integration',                   'Integration');
+$Theme->addPathURL($action_url,                     $Request->getID());
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('integration-view',    $action_url);
 ?>
 
     <article class="themed">

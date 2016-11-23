@@ -3,7 +3,12 @@ use \Integration\Model\IntegrationRow;
 /**
  * @var \View\AbstractListView $this
  **/
-$this->getTheme()->printHTMLMenu('integration-list', $action_url);
+$Theme = $this->getTheme();
+$Theme->addPathURL('integration',             'Integration');
+$Theme->addPathURL('integration/list.php',    'Search');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('integration-list');
+?>
 ?>
 
 

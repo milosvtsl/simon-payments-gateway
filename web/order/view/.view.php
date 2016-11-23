@@ -1,8 +1,6 @@
 <?php
 use \Merchant\Model\MerchantRow;
 /** @var \Order\View\OrderView $this*/
-// Render Header
-$this->getTheme()->renderHTMLBodyHeader();
 
 $Order = $this->getOrder();
 $Transaction = $Order->fetchAuthorizedTransaction();
@@ -16,22 +14,15 @@ $SessionUser = $SessionManager->getSessionUser();
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
 
-$this->getTheme()->printHTMLMenu('order-view', $action_url, array(
-        '<a href="' . $action_url . 'receipt" class="button">Receipt <div class="submenu-icon submenu-icon-receipt"></div></a>',
-        '<a href="javascript:window.print();" class="button">Print <div class="submenu-icon submenu-icon-print"></div></a>',
-        '<a href="' . $action_url . 'download" class="button">Download <div class="submenu-icon submenu-icon-download"></div></a>',
-));
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('order',        'Transactions');
+$Theme->addPathURL($action_url,    $Order->getUID());
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('order-view', $action_url);
 ?>
 
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs hide-on-print">
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <a href="order" class="nav_order">Transactions</a>
-            <?php } ?>
-            <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Order->getUID(); ?></a>
-        </aside>
-
 
         <section class="content">
 

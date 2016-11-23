@@ -17,8 +17,6 @@ class IntegrationRequestListView extends AbstractListView {
 	 * @param array $params
      */
 	public function renderHTMLBody(Array $params) {
-		// Render Header
-		$this->getTheme()->renderHTMLBodyHeader();
 
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
@@ -123,9 +121,6 @@ class IntegrationRequestListView extends AbstractListView {
 
 		// Render Page
 		include ('.list.php');
-
-		// Render footer
-		$this->getTheme()->renderHTMLBodyFooter();
 	}
 
 	public function processFormRequest(Array $post) {

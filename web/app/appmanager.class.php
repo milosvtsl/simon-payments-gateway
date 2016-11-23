@@ -21,7 +21,7 @@ use User\Model\UserRow;
 
 class AppManager {
 
-    const DEFAULT_CONFIG = '{"chart-daily":{},"chart-wtd":{},"chart-mtd":{},"chart-ytd":{},"ticket-create":{},"ticket-view":{}}';
+    const DEFAULT_CONFIG = '{"chart-daily":{},"chart-wtd":{},"chart-mtd":{},"chart-ytd":{}}'; // ,"ticket-create":{},"ticket-view":{}}';
 
     private $config;
 

@@ -6,18 +6,15 @@ use Integration\Request\View\IntegrationRequestView;
 $Request = $this->getRequest();
 $odd = false;
 $action_url = 'integration/request?id=' . $Request->getID() . '&action=';
-$this->getTheme()->printHTMLMenu('integration-request-view', $action_url);
+$Theme = $this->getTheme();
+$Theme->addPathURL('integration',                   'Integration');
+$Theme->addPathURL('integration/request',           'Requests');
+$Theme->addPathURL($action_url,                     $Request->getID());
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('integration-request-view',    $action_url);
 ?>
-
-
-
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="integration" class="nav_integration">Integration</a>
-            <a href="request" class="nav_integration_request">Requests</a>
-            <a href="<?php echo $action_url; ?>view" class="nav_request_view">#<?php echo $Request->getID(); ?></a>
-        </aside>
+
         <section class="content">
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

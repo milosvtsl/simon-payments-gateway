@@ -4,16 +4,14 @@ use \Merchant\Model\MerchantRow;
  * @var \View\AbstractListView $this
  **/
 
-$this->getTheme()->printHTMLMenu('merchant-list');
+$Theme = $this->getTheme();
+$Theme->addPathURL('merchant',             'Merchants');
+$Theme->addPathURL('merchant/list.php',    'Search');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('merchant-list');
 ?>
 
-
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="merchant" class="nav_merchant">Merchants</a>
-            <a href="merchant/list.php" class="nav_merchant_list">Search</a>
-        </aside>
 
         <section class="content">
 
@@ -69,3 +67,5 @@ $this->getTheme()->printHTMLMenu('merchant-list');
             </form>
         </section>
     </article>
+
+    <?php $Theme->renderHTMLBodyFooter(); ?>

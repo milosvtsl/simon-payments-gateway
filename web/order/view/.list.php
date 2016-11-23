@@ -12,15 +12,13 @@ use View\AbstractListView;
 
 $action_url = 'order/list.php?' . http_build_query($_GET);
 
-$this->getTheme()->printHTMLMenu('order-list');
+$Theme = $this->getTheme();
+$Theme->addPathURL('order',             'Transactions');
+$Theme->addPathURL('order/list.php',    'Search');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('order-list');
 ?>
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="order" class="nav_order">Transactions</a>
-            <a href="order/list.php" class="nav_order_list">Search</a>
-        </aside>
-
 
         <section class="content">
 
@@ -195,3 +193,5 @@ $this->getTheme()->printHTMLMenu('order-list');
             </form>
         </section>
     </article>
+
+    <?php $Theme->renderHTMLBodyFooter(); ?>

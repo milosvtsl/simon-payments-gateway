@@ -6,15 +6,16 @@ use System\Arrays\TimeZones;
  * @var \User\Model\UserRow $User
  **/
 $odd = false;
-$this->getTheme()->printHTMLMenu('user-add');
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('user',          'Users');
+$Theme->addPathURL('user/add.php',  'Add New User');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('user-add');
+
 ?>
 
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="user" class="nav_user">Users</a>
-            <a href="user/add.php" class="nav_user_add">Add New User</a>
-        </aside>
         <section class="content">
 
 

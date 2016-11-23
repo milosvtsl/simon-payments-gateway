@@ -13,7 +13,8 @@ body.layout-vertical.spg-theme,
 body.layout-vertical.spg-theme input,
 body.layout-vertical.spg-theme select,
 body.layout-vertical.spg-theme button {
-    font-size: x-large;
+    /* font-size: x-large; */
+    font-size: larger;
 }
 
 body.layout-vertical.spg-theme .hide-on-layout-vertical { display: none; }
@@ -114,9 +115,11 @@ body.spg-theme .page-menu {
     overflow: hidden;
     background-color: #f6f9fc;
     position: absolute;
-    /* border-right: 1px solid #999; */
+    border-right: 1px solid #999;
     font-size: larger;
+}
 
+body.spg-theme.layout-vertical .page-menu {
 }
 
 body.spg-theme ul.page-menu > li > ul {
@@ -149,7 +152,7 @@ body.spg-theme ul.page-menu > li > a.current + ul {
     /*     display: block; */
     max-height: 40em;
     transition-delay: 0.4s;
-    }
+}
 
 
 body.spg-theme .menu-icon {
@@ -175,8 +178,9 @@ body.spg-theme .menu-icon.menu-icon-toggle      {
     background-size: 128px 160px;
     width: 32px;
     height: 32px;
-    margin: -8px 8px -7px 8px;
+    margin: 6px 15px -8px 18px;
     transition: transform 0.5s;
+    /* margin: 0 0; */
 }
 
 body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
@@ -203,8 +207,13 @@ body.spg-theme .menu-icon.menu-icon-download    {background-position: -48px -144
 body.spg-theme .menu-icon.menu-icon-receipt     {background-position: -96px -144px;}
 
 body.spg-theme .menu-button-toggle {
-    border-bottom: 1px solid #666;
+    /* border-bottom: 1px solid #666; */
     background-color: #bcc5d1;
+    /* border: 1px outset #FFF; */
+    height: 43px;
+}
+body.spg-theme.menu-small .menu-button-toggle {
+    /* border: 0px inset #FFF; */
 }
 
 
@@ -216,9 +225,9 @@ body.spg-theme a.button {
     color: #666;
     /* border-radius: 0.6em; */
     /* text-align: right; */
-    vertical-align: middle;
+    /* vertical-align: middle; */
     white-space: nowrap;
-    min-width: 10em;
+    /* min-width: 10em; */
 }
 
 
@@ -245,22 +254,17 @@ body.spg-theme a.button[disabled] {
     cursor: default;
 }
 
+
+
 /** Menu Animation **/
 
-body.menu-full.spg-theme > article.themed {
-    /* margin-left: 13em; */
-}
-body.menu-small.spg-theme > article.themed {
-    margin-left: 4em;
-}
-body.menu-hidden.spg-theme > article.themed {
-    margin-left: 0;
-}
+
 
 body.menu-small.spg-theme ul.page-menu:hover,
 body.menu-full.spg-theme ul.page-menu {
     max-width: 13em;
     transition: max-width 0.4s;
+    z-index: 99;
 }
 body.menu-small.spg-theme ul.page-menu:not(:hover) ul {
     margin-left: 0;
@@ -271,6 +275,9 @@ body.menu-small.spg-theme ul.page-menu {
     border-right: 1px solid #666;
     transition: max-width 0.4s ease-out, margin-left 0.4s;
 }
+body.menu-small.spg-theme.layout-vertical ul.page-menu {
+    max-width: 0px;
+}
 body.menu-hidden.spg-theme ul.page-menu {
     max-width: 0;
 }
@@ -279,16 +286,33 @@ body.menu-small .hide-on-menu-small {
     display: none;
 }
 
+
+.spg-theme.menu-full > article.themed {
+    /* margin-left: 13em; */
+}
+.spg-theme.menu-small > article.themed {
+    margin-left: 4.5em;
+}
+.spg-theme.layout-vertical.menu-small > article.themed {
+/*     margin-left: 3em; */
+}
+
+.spg-theme.layout-vertical.menu-small > article.themed {
+    margin-left: 0;
+}
+
 /** Bread Crumbs **/
 
 body.spg-theme .bread-crumbs {
     border-bottom: 1px solid #666;
-    padding: 0.8em 0.5em 0.4em 0.5em;
-    margin: -8px 0 0 0;
+    /* padding: 0.8em 0.5em 0.4em 0.9em; */
+    /* margin: -8px 0 0 0; */
     /* background-color: #f6f9fc; */
-    position: relative;
+    /* position: relative; */
     background-color: #bcc5d1;
-    height: 24px;
+    height: 44px;
+    /* display: block; */
+    vertical-align: top;
 }
 
 
@@ -297,24 +321,25 @@ body.spg-theme .bread-crumbs a:hover {
     font-weight: bold;
 }
 
-body.spg-theme .bread-crumbs a {
+body.spg-theme .bread-crumbs a.breadcrumb {
     text-decoration: none;
-    color: #555;
-    font-size: medium;
+    color: #666;
+    font-size: x-large;
     text-transform: lowercase;
+    display: inline-block;
 }
 
 
 body.spg-theme .bread-crumbs a::after {
-    content: ' |';
-    color: #EEE;
+/*     content: ' |'; */
+/*     color: #EEE; */
 }
 body.spg-theme .bread-crumbs a:last-child:after {
     content: '';
 }
 
 body.layout-vertical.spg-theme .bread-crumbs {
-    margin: 0.3em 1em 1em 1em;
+    /* margin: 0.3em 1em 1em 1em; */
 }
 
 
@@ -333,11 +358,13 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 
 
+
+
 /** Tables **/
 
 body.spg-theme form.themed {
     /* background-color: #f0f4f6; */
-    background-color: #e1ebf1;
+    /* background-color: #e1ebf1; */
     /* border: 1px inset #bcc5d1; */
     /* border-radius: 0.6em; */
     /* max-width: 800px; */

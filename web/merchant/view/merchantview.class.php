@@ -42,9 +42,6 @@ class MerchantView extends AbstractView
             die();
         }
 
-        // Render Header
-        $this->getTheme()->renderHTMLBodyHeader();
-
         // Render Page
         switch($this->_action) {
             case 'view':
@@ -65,9 +62,6 @@ class MerchantView extends AbstractView
             default:
                 throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
         }
-
-        // Render footer
-        $this->getTheme()->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

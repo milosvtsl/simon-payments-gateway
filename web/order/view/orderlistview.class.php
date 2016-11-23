@@ -197,12 +197,8 @@ class OrderListView extends AbstractListView {
 			include ('.export.csv.php');
 
 		} else {
-			// Render Header
-			$this->getTheme()->renderHTMLBodyHeader();
 			// Render Page
 			include ('.list.php');
-			// Render footer
-			$this->getTheme()->renderHTMLBodyFooter();
 		}
 
 	}

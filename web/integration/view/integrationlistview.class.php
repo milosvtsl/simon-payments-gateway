@@ -15,9 +15,6 @@ class IntegrationListView extends AbstractListView {
 	 */
 	public function renderHTMLBody(Array $params) {
 
-		// Render Header
-		$this->getTheme()->renderHTMLBodyHeader();
-
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
 		$statsMessage = '';
@@ -64,9 +61,6 @@ class IntegrationListView extends AbstractListView {
 
 		// Render Page
 		include ('.list.php');
-
-		// Render footer
-		$this->getTheme()->renderHTMLBodyFooter();
 	}
 
 

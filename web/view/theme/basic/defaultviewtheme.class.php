@@ -95,4 +95,8 @@ class DefaultViewTheme extends AbstractViewTheme
     public function printHTMLMenu($category, $action_url=null) {
         // TODO: Implement printHTMLMenu() method.
     }
+
+    public function printBreadCrumbs($getFullName, $string) {
+        // TODO: Implement printBreadCrumbs() method.
+    }
 }

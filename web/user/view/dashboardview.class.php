@@ -19,16 +19,8 @@ class DashboardView extends AbstractView {
     }
 
 	public function renderHTMLBody(Array $params) {
-        $Theme = $this->getTheme();
-
-		// Render Header
-        $Theme->renderHTMLBodyHeader();
-
 		// Render Page
 		include ('.dashboard.php');
-
-		// Render footer
-        $Theme->renderHTMLBodyFooter();
 	}
 
 	public function processFormRequest(Array $post) {

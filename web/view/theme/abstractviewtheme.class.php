@@ -12,6 +12,14 @@ abstract class AbstractViewTheme
     const FLAG_HEADER_MINIMAL = 0x01;
     const FLAG_FOOTER_MINIMAL = 0x02;
 
+    /**
+     * Add a path (bread crumb) url
+     * @param $name
+     * @param $url
+     * @return mixed
+     */
+    abstract public function addPathURL($url, $name);
+
     abstract public function renderHTMLHeadScripts($flags=0);
     abstract public function renderHTMLHeadLinks($flags=0);
     abstract public function renderHTMLMetaTags($flags=0);
@@ -20,5 +28,7 @@ abstract class AbstractViewTheme
     abstract public function renderHTMLBodyFooter($flags=0);
 
     abstract public function printHTMLMenu($category, $action_url=null);
+
+//    abstract public function printBreadCrumbs($urlHTML);
 }
 

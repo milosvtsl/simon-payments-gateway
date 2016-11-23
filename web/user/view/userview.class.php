@@ -30,9 +30,6 @@ class UserView extends AbstractView
 
         $User = $this->getUser();
 
-        // Render Header
-        $this->getTheme()->renderHTMLBodyHeader();
-
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit other users
@@ -56,9 +53,6 @@ class UserView extends AbstractView
                 include('.delete.php');
                 break;
         }
-
-        // Render footer
-        $this->getTheme()->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

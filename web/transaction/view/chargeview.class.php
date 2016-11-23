@@ -21,14 +21,8 @@ class ChargeView extends AbstractView
 
 
     public function renderHTMLBody(Array $params) {
-        // Render Header
-        $this->getTheme()->renderHTMLBodyHeader();
-
         // Render Page
         include('.charge.php');
-
-        // Render footer
-        $this->getTheme()->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

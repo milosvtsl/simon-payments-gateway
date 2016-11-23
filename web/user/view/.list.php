@@ -4,16 +4,14 @@ use \User\Model\UserRow;
  * @var \View\AbstractListView $this
  **/
 
-$this->getTheme()->printHTMLMenu('user-list');
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('user',             'Users');
+$Theme->addPathURL('user/list.php',    'Search');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('user-list');
 ?>
-
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="user" class="nav_user">Users</a>
-            <a href="user/list.php" class="nav_user_list">Search</a>
-        </aside>
-
 
         <section class="content">
 
@@ -73,3 +71,6 @@ $this->getTheme()->printHTMLMenu('user-list');
             </form>
         </section>
     </article>
+
+
+<?php $Theme->renderHTMLBodyFooter(); ?>

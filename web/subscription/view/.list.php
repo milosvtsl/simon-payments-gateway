@@ -10,15 +10,13 @@ use View\AbstractListView;
 
 $action_url = 'subscription/list.php?' . http_build_query($_GET);
 
-$this->getTheme()->printHTMLMenu('order-subscription-list');
+$Theme = $this->getTheme();
+$Theme->addPathURL('subscription',             'Subscriptions');
+$Theme->addPathURL('subscription/list.php',    'Search');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('order-subscription-list');
 ?>
     <article class="themed">
-        <!-- Bread Crumbs -->
-        <aside class="bread-crumbs">
-            <a href="subscription" class="nav_order">Subscriptions</a>
-            <a href="subscription/list.php" class="nav_order_list">Search</a>
-        </aside>
-
 
         <section class="content">
 
