@@ -43,6 +43,7 @@ class UserRow
     protected $password;
     protected $username;
     protected $date;
+    protected $app_config;
     protected $timezone;
     protected $admin_id;
 
@@ -71,6 +72,7 @@ FROM user u
     public function getCreateDate()     { return $this->date; }
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
+    public function getAppConfig()      { return $this->app_config; }
 
     public function getTimeZoneOffset($date='now') {
         $tz = new \DateTimeZone($this->getTimeZone());
