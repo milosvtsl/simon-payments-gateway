@@ -8,7 +8,8 @@ use App\Chart\WeeklyChart;
 use App\Chart\WTDChart;
 use App\Chart\YearlyChart;
 use App\Chart\YTDChart;
-use App\ticket\CreateTicketApp;
+use App\Ticket\CreateTicketApp;
+use App\Ticket\RecentTicketsApp;
 use User\Model\UserRow;
 /**
  * Created by PhpStorm.
@@ -20,7 +21,7 @@ use User\Model\UserRow;
 
 class AppManager {
 
-    const DEFAULT_CONFIG = '{"chart-daily":{},"chart-wtd":{},"chart-mtd":{},"chart-ytd":{},"ticket-create":{}}';
+    const DEFAULT_CONFIG = '{"chart-daily":{},"chart-wtd":{},"chart-mtd":{},"chart-ytd":{},"ticket-create":{},"ticket-view":{}}';
 
     private $config;
 
@@ -49,6 +50,7 @@ class AppManager {
                 case 'chart-ytd': $App = new YTDChart($SessionUser, $config); break;
 
                 case 'ticket-create': $App = new CreateTicketApp($SessionUser, $config); break;
+                case 'ticket-view': $App = new RecentTicketsApp($SessionUser, $config); break;
 
                 default: throw new \InvalidArgumentException("Invalid Config Key: " . $key);
             }

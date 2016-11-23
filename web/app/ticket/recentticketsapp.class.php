@@ -9,7 +9,7 @@ namespace App\Ticket;
 
 use App\AbstractApp;
 
-class CreateTicketApp extends AbstractApp
+class RecentTicketsApp extends AbstractApp
 {
     const SESSION_KEY = __FILE__;
 
@@ -23,19 +23,12 @@ class CreateTicketApp extends AbstractApp
         <div class="app-ticket app-ticket-create">
             <form name="app-ticket-create">
                 <fieldset>
-                    <legend>Submit a new Ticket</legend>
-
-                    <input type="text" name="subject" placeholder="Subject" class="themed"/>
-                    <br />
-                    <textarea name="content" class="themed" placeholder="Message"></textarea>
-                    <br />
-                    <button name="submit" type="submit" class="themed">Create</button>
+                    <legend>View Open Tickets</legend>
                 </fieldset>
             </form>
         </div>
 HTML;
     }
-
 
     /**
      * Render all HTML Head Assets relevant to this APP
