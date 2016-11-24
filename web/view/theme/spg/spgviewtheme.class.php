@@ -269,7 +269,7 @@ HEAD;
                     <a href="integration" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>Integration</a>
                     <ul>
                         <li>
-                            <a href="integration/requests/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>Requests</a>
+                            <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>Requests</a>
                         </li>
                     </ul>
                 </li>

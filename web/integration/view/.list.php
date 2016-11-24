@@ -9,7 +9,6 @@ $Theme->addPathURL('integration/list.php',    'Search');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('integration-list');
 ?>
-?>
 
 
     <article class="themed">
