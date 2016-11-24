@@ -220,13 +220,6 @@ HEAD;
                             <li>
                                 <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>Edit Merchant</a>
                             </li>
-                        <?php } else { ?>
-                            <li>
-                                <a href="merchant/account.php" class="button<?php echo @$mc['merchant-account']; ?>"> <div class="menu-icon menu-icon-account"></div>My Account</a>
-                            </li>
-                            <li>
-                                <a href="merchant/account.php?action=edit" class="button<?php echo @$mc['merchant-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>Edit Account</a>
-                            </li>
                         <?php } ?>
 
                     </ul>
