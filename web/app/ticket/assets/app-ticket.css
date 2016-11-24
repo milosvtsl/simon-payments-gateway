@@ -16,6 +16,7 @@
     vertical-align: top;
     position: relative;
     color: white;
+    text-align: left;
 }
 
 .app-ticket:hover {

@@ -51,12 +51,12 @@ class YearlyChart extends AbstractTotalsApp {
             </a> 
             <div class="app-button-config">
                 <ul>
-                    <li><a href="#" onclick="appAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><a href="#" onclick="appAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><a href="#" onclick="appAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><a href="#" onclick="appAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><a href="#" onclick="appAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><a href="#" onclick="appAction('remove', '{$appClassName}');">Remove</a></li>
+                    <li><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><a href="#" onclick="appChartAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><a href="#" onclick="appChartAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><a href="#" onclick="appChartAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><a href="#" onclick="appChartAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><a href="#" onclick="appChartAction('remove', '{$appClassName}');">Remove</a></li>
                 </ul>
             </div>
         </div>

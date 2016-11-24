@@ -29,12 +29,12 @@ class RecentTicketsApp extends AbstractApp
             </form>
             <div class="app-button-config">
                 <ul>
-                    <li><a href="#" onclick="appAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><a href="#" onclick="appAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><a href="#" onclick="appAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><a href="#" onclick="appAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><a href="#" onclick="appAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><a href="#" onclick="appAction('remove', '{$appClassName}');">Remove</a></li>
+                    <li><a href="#" onclick="appTicketAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><a href="#" onclick="appTicketAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><a href="#" onclick="appTicketAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><a href="#" onclick="appTicketAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><a href="#" onclick="appTicketAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><a href="#" onclick="appTicketAction('remove', '{$appClassName}');">Remove</a></li>
                 </ul>
             </div>
         </div>

@@ -21,7 +21,8 @@ use User\Model\UserRow;
 
 class AppManager {
 
-    const DEFAULT_CONFIG = '{"chart-daily":{},"chart-wtd":{},"chart-mtd":{},"chart-ytd":{},"ticket-view":{},"ticket-create":{}}';
+//    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{},"app-ticket-view":{},"app-ticket-create":{}}';
+    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{}}';
 
     private $config;
 
@@ -40,17 +41,17 @@ class AppManager {
         $configs = $this->config;
         foreach($configs as $key => $config) {
             switch(strtolower($key)) {
-                case 'chart-all': $App = new AllChart($SessionUser, $config); break;
-                case 'chart-daily': $App = new DailyChart($SessionUser, $config); break;
-                case 'chart-weekly': $App = new WeeklyChart($SessionUser, $config); break;
-                case 'chart-wtd': $App = new WTDChart($SessionUser, $config); break;
-                case 'chart-monthly': $App = new MonthlyChart($SessionUser, $config); break;
-                case 'chart-mtd': $App = new MTDChart($SessionUser, $config); break;
-                case 'chart-yearly': $App = new YearlyChart($SessionUser, $config); break;
-                case 'chart-ytd': $App = new YTDChart($SessionUser, $config); break;
+                case 'app-chart-all': $App = new AllChart($SessionUser, $config); break;
+                case 'app-chart-daily': $App = new DailyChart($SessionUser, $config); break;
+                case 'app-chart-weekly': $App = new WeeklyChart($SessionUser, $config); break;
+                case 'app-chart-wtd': $App = new WTDChart($SessionUser, $config); break;
+                case 'app-chart-monthly': $App = new MonthlyChart($SessionUser, $config); break;
+                case 'app-chart-mtd': $App = new MTDChart($SessionUser, $config); break;
+                case 'app-chart-yearly': $App = new YearlyChart($SessionUser, $config); break;
+                case 'app-chart-ytd': $App = new YTDChart($SessionUser, $config); break;
 
-                case 'ticket-create': $App = new CreateTicketApp($SessionUser, $config); break;
-                case 'ticket-view': $App = new RecentTicketsApp($SessionUser, $config); break;
+                case 'app-ticket-create': $App = new CreateTicketApp($SessionUser, $config); break;
+                case 'app-ticket-view': $App = new RecentTicketsApp($SessionUser, $config); break;
 
                 default: throw new \InvalidArgumentException("Invalid Config Key: " . $key);
             }
