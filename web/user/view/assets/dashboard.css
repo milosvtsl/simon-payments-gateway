@@ -1,9 +1,11 @@
 .dashboard-section {
-    margin: 0 auto;
+    /* margin: 0 auto; */
     /* padding: 14em 0; */
     /* width: 280px; */
     /* display: block !important; */
-    max-width: 58em;
+    /* max-width: 58em; */
+    position: relative;
+    text-align: center;
 }
 
 .dashboard-section .stat-box-container {
