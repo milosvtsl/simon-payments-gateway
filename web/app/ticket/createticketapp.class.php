@@ -19,9 +19,11 @@ class CreateTicketApp extends AbstractApp
      */
     function renderAppHTML(Array $params = array())
     {
+        $appClassName = 'app-ticket-create';
+
         echo <<<HTML
-        <div class="app-ticket app-ticket-create">
-            <form name="app-ticket-create">
+        <div class="app-ticket {$appClassName}">
+            <form name="{$appClassName}">
                 <fieldset>
                     <legend>Submit a new Ticket</legend>
 
@@ -32,6 +34,16 @@ class CreateTicketApp extends AbstractApp
                     <button name="submit" type="submit" class="themed">Create</button>
                 </fieldset>
             </form>
+            <div class="app-button-config">
+                <ul>
+                    <li><a href="#" onclick="appAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><a href="#" onclick="appAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><a href="#" onclick="appAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><a href="#" onclick="appAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><a href="#" onclick="appAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><a href="#" onclick="appAction('remove', '{$appClassName}');">Remove</a></li>
+                </ul>
+            </div>
         </div>
 HTML;
     }

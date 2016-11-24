@@ -40,15 +40,26 @@ class YTDChart extends AbstractTotalsApp {
 
         $amount = number_format($stats['year_to_date'], 2);
         $count = number_format($stats['year_to_date_count']);
-        
+
+        $appClassName = 'app-chart-ytd';
         echo <<<HTML
-        <div class="app-chart app-chart-ytd">
-            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-amount app-chart-ytd-amount">
+        <div class="app-chart {$appClassName}">
+            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-amount {$appClassName}-amount">
                 \${$amount}
             </a> 
-            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count app-chart-ytd-count">
+            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count {$appClassName}-count">
                 This year ({$count})
             </a> 
+            <div class="app-button-config">
+                <ul>
+                    <li><a href="#" onclick="appAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><a href="#" onclick="appAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><a href="#" onclick="appAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><a href="#" onclick="appAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><a href="#" onclick="appAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><a href="#" onclick="appAction('remove', '{$appClassName}');">Remove</a></li>
+                </ul>
+            </div>
         </div>
 HTML;
     }

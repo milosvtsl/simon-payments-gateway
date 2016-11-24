@@ -19,13 +19,24 @@ class RecentTicketsApp extends AbstractApp
      */
     function renderAppHTML(Array $params = array())
     {
+        $appClassName = 'app-ticket-recent';
         echo <<<HTML
-        <div class="app-ticket app-ticket-create">
-            <form name="app-ticket-create">
+        <div class="app-ticket app-ticket-recent">
+            <form name="app-ticket-recent">
                 <fieldset>
                     <legend>View Open Tickets</legend>
                 </fieldset>
             </form>
+            <div class="app-button-config">
+                <ul>
+                    <li><a href="#" onclick="appAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><a href="#" onclick="appAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><a href="#" onclick="appAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><a href="#" onclick="appAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><a href="#" onclick="appAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><a href="#" onclick="appAction('remove', '{$appClassName}');">Remove</a></li>
+                </ul>
+            </div>
         </div>
 HTML;
     }
