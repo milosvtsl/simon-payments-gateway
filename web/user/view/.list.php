@@ -40,7 +40,7 @@ $Theme->printHTMLMenu('user-list');
                 </fieldset>
                 <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed striped-rows small" style="width: 98%;">
+                    <table class="table-results themed striped-rows small">
                         <tr>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>

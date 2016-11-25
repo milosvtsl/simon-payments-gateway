@@ -6,8 +6,8 @@ $Order = $this->getOrder();
 $Transaction = $Order->fetchAuthorizedTransaction();
 $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
 $odd = true;
-$action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
-$action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID();
+$action_url = 'order/receipt.php?uid=' . $Order->getUID(false) . '&action=';
+$action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID(false);
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
@@ -35,18 +35,22 @@ $Theme->printHTMLMenu('order-view', $action_url);
                         <tbody>
                         <?php $odd = true; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Location</td>
-                            <td class="value"><?php echo $Merchant->getCity(), ',', $Merchant->getState(), ' ', $Merchant->getZipCode() ?></td>
+                            <td class="name">City, State</td>
+                            <td class="value"><?php echo $Merchant->getCity(), ',', $Merchant->getState(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Zip Code</td>
+                            <td class="value"><?php echo $Merchant->getZipCode(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Phone</td>
                             <td class="value"><?php echo $Merchant->getTelephone(); ?></td>
                         </tr>
 
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Customer</td>
-                            <td class="value"><?php echo $Order->getCustomerFullName() ?></td>
-                        </tr>
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Customer</td>-->
+<!--                            <td class="value">--><?php //echo $Order->getCustomerFullName() ?><!--</td>-->
+<!--                        </tr>-->
 
 
                         </tbody>
@@ -137,7 +141,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                                     <?php if($Order->getUsername()) { ?>
                                         <td class="value"><?php echo $Order->getUsername(); ?></td>
                                     <?php }  ?>
-                                    <td class="value"><?php echo $Order->getCardNumber(); ?></td>
+                                    <td class="value"><?php echo $Order->getCardNumber() ? substr($Order->getCardNumber(), -4) : 'N/A'; ?></td>
                                     <td class="value"><?php echo $Order->getCardType(); ?></td>
                                     <td class="value"><?php echo $Order->getStatus(); ?></td>
                                     <td class="value"><?php echo $Transaction ? $Transaction->getTransactionID() : "N/A"; ?></td>

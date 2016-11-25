@@ -151,7 +151,11 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public function getID()                 { return $this->id; }
 
-    public function getUID()                { return $this->uid; }
+    public function getUID($truncated=true){
+        if(!$truncated)
+            return $this->uid;
+        return '...' . strrchr($this->uid, '-');
+    }
     public function getAmount()             { return $this->amount; }
     public function getStatus()             { return $this->status; }
     public function getDate()               { return $this->date; }

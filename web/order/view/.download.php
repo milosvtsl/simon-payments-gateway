@@ -6,8 +6,8 @@ $Order = $this->getOrder();
 $Transaction = $Order->fetchAuthorizedTransaction();
 $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
 $odd = true;
-$action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
-$action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID();
+$action_url = 'order/receipt.php?uid=' . $Order->getUID(false) . '&action=';
+$action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID(false);
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 

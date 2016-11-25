@@ -103,7 +103,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
 
                 case 'void':
@@ -115,7 +115,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
 
                 case 'return':
@@ -127,7 +127,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
 
                 case 'reverse':
@@ -139,7 +139,7 @@ class OrderView extends AbstractView
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
 
                 default:
@@ -150,7 +150,7 @@ class OrderView extends AbstractView
             $this->setSessionMessage(
                 "<span class='error'>Error: ".$ex->getMessage() . "</span>"
             );
-            header('Location: /order/receipt.php?uid=' . $Order->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
+            header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }

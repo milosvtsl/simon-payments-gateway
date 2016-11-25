@@ -89,11 +89,10 @@ $Theme->printHTMLMenu('order-list');
 
                 <fieldset>
                     <legend>Search Report</legend>
-                    <table class="table-stats themed small striped-rows" style="width: 98%;">
+                    <table class="table-stats themed small striped-rows">
                         <tr>
                             <th><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></th>
-                            <th>Authorized Total</th>
-                            <th>Settled</th>
+                            <th>Authorized</th>
                             <th>Void</th>
                             <th>Returned</th>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
@@ -109,7 +108,7 @@ $Theme->printHTMLMenu('order-list');
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href="<?php echo $report_url; ?>&status="><?php echo $Report->getGroupSpan(); ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status="><?php echo number_format($Report->getTotal(),2), ' (', $Report->getTotalCount(), ')'; ?></a></td>
-                            <td><a href="<?php echo $report_url; ?>&status=Settled"><?php echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?></a></td>
+<!--                            <td><a href="--><?php //echo $report_url; ?><!--&status=Settled">--><?php //echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?><!--</a></td>-->
                             <td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Return"><?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
@@ -118,9 +117,9 @@ $Theme->printHTMLMenu('order-list');
                         </tr>
                         <?php } ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
-                            <td><?php echo $Stats->getGroupSpan(); ?> (Total)</td>
+                            <td><?php echo $Stats->getGroupSpan(); ?></td>
                             <td><a href="<?php echo $action_url; ?>&status="><?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
-                            <td><a href="<?php echo $action_url; ?>&status=Settled"><?php echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?></a></td>
+<!--                            <td><a href="--><?php //echo $action_url; ?><!--&status=Settled">--><?php //echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?><!--</a></td>-->
                             <td><a href="<?php echo $action_url; ?>&status=Void"><?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
@@ -143,7 +142,7 @@ $Theme->printHTMLMenu('order-list');
 
                 <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows" style="width: 98%;">
+                    <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
@@ -179,11 +178,9 @@ $Theme->printHTMLMenu('order-list');
                         <?php } ?>
 
                         <tr>
-                            <td colspan="5" class="pagination">
-                                <?php $this->printPagination('order?'); ?>
-                            </td>
-                            <td colspan="3" style="text-align: right">
-                                <button name="action" type="submit" value="Export-Data" class="themed">Export Transactions (.csv)</button>
+                            <td colspan="6" class="pagination">
+                                <span style=""><?php $this->printPagination('order?'); ?></span>
+                                <button name="action" type="submit" value="Export-Data" class="themed">Export Data Only (.csv)</button>
                                 <button name="action" type="submit" value="Export" class="themed">Export All (.csv)</button>
 
                             </td>

@@ -87,7 +87,7 @@ $Theme->printHTMLMenu('order-subscription-list');
 
                 <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows" style="width: 98%;">
+                    <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_ID); ?>">ID</a></th>
                             <th>Amount</th>

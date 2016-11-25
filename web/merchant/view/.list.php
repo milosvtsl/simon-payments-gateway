@@ -33,7 +33,7 @@ $Theme->printHTMLMenu('merchant-list');
                 <br/>
                 <fieldset>
                     <legend>Search Results</legend>
-                    <table class="table-results themed small striped-rows" style="width: 98%">
+                    <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>

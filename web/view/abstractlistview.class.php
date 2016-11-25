@@ -64,7 +64,7 @@ abstract class AbstractListView extends AbstractView
     }
 
     public function printPagination($baseURL, Array $args=null) {
-
+        $max = 12;
         $page = $this->getCurrentPage();
         $pageTotal = $this->getTotalPages();
 
@@ -81,6 +81,8 @@ abstract class AbstractListView extends AbstractView
                 $pages[] = $page + $pi;
             $pi*=2;
             if($pi > 999999) break;
+            if(sizeof($pages) >= $max)
+                break;
         }
         $pages = array_unique($pages);
         sort($pages);
