@@ -27,8 +27,13 @@ body.layout-horizontal > article.themed {
 
 /** Header **/
 
+body.spg-theme > header > a.logo > img {
+    width: 12em;
+    margin: 0.3em 0px -0.6em 0em;
+    float: left;
+}
 body.spg-theme header hr.themed {
-    border: 1px #3d7694;
+    border: 1px solid #3d7694;
     margin-bottom: 0;
 }
 
