@@ -2,89 +2,35 @@
 
 body.spg-theme {
     color: #000000;
-    background-color: #f0f4f6;
-    font-family: arial;
-    /* max-width: 90em; */
+    font-family: arial, serif;
     margin: 0 auto;
-    background: linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%);
-}
-
-body.layout-vertical.spg-theme, 
-body.layout-vertical.spg-theme input,
-body.layout-vertical.spg-theme select,
-body.layout-vertical.spg-theme button {
-    /* font-size: x-large; */
-    /* font-size: larger; */
-}
-
-body.layout-vertical.spg-theme .hide-on-layout-vertical { display: none; }
-body.layout-horizontal.spg-theme .hide-on-layout-horizontal { display: none; }
-
-
-body.layout-horizontal.spg-theme {
-}
-body.layout-horizontal.spg-theme .float-left-on-layout-horizontal {float: left;}
-body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {float: right;}
-
-body.spg-theme > header {
-    /* display: inline-block; */
-    /* margin-right: -6em; */
-}
-
-body.spg-theme > header > a.logo > img {
-    width: 12em;
-    margin: 0.3em 0px -0.6em 0em;
-    float: left;
+    background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%);
 }
 
 
-body.spg-theme > article {
-    margin-top: 0.5em;
-}
+/** Vertical and Horizontal layout options **/
 
-body.spg-theme > footer {
-    font-size: small;
-    text-align: center;
-    padding: 3em;
-    clear: both;
+body.layout-vertical.spg-theme .hide-on-layout-vertical,
+body.layout-horizontal.spg-theme .hide-on-layout-horizontal {
+    display: none;
 }
 
 
+body.layout-horizontal.spg-theme .float-left-on-layout-horizontal,
+body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
+    float: right;
+}
 
 body.layout-horizontal > article.themed {
-    /* background-color: white; */
-    /* background: linear-gradient(141deg, #f6f9fc 0%, #ffffff 50%, #f6f9fc 74%); */
-    /* display: inline-block; */
-    /* width: 80%; */
     margin-left: 13em;
 }
 
+/** Header **/
+
 body.spg-theme header hr.themed {
-	border-width: 1px;
-	border-color: #3d7694;
-	margin-bottom: 0;
+    border: 1px #3d7694;
+    margin-bottom: 0;
 }
-
-/** Messages **/
-
-body.spg-theme .error,
-body.spg-theme .info {
-    border-radius: 0.8em;
-    font-weight: bold;
-    color: #061375;
-}
-
-body.spg-theme span.error,
-body.spg-theme span.info {
-    font-size: 1.1em;
-    display: inline-block;
-    padding: 0.5em 1em;
-    margin: 0.2em;
-    max-width: 22em;
-}
-
-body.spg-theme .info {background: rgba(59, 117, 147, 0.53);}
-body.spg-theme .error {background: rgba(255, 112, 29, 0.45);color: red;}
 
 body.spg-theme .site-welcome-text {
     float: right;
@@ -100,7 +46,24 @@ body.spg-theme .site-welcome-text {
 }
 
 
+/** Article **/
+
+body.spg-theme > article {
+    margin-top: 0.5em;
+}
+
+/** Footer **/
+
+body.spg-theme > footer {
+    font-size: small;
+    text-align: center;
+    padding: 3em;
+    clear: both;
+}
+
+
 /** Page Menu **/
+
 body.spg-theme .page-menu {
     padding: 0 0;
     margin: 0 0;
@@ -112,6 +75,7 @@ body.spg-theme .page-menu {
     background-color: #f6f9fc;
     position: absolute;
     border-right: 1px solid #999;
+    border-bottom: 1px solid #AAA;
     font-size: larger;
 }
 
@@ -123,8 +87,6 @@ body.spg-theme ul.page-menu > li > ul {
     padding: 0 0;
     margin: 0 0 0 1em;
     background-color: #f6f9fc;
-}
-body.spg-theme ul.page-menu > li > a {
 }
 body.spg-theme ul.page-menu > li > ul > li {
     /* max-width: 10em; */
@@ -143,12 +105,17 @@ body.spg-theme ul.page-menu > li > ul {
     transition-delay: 1.3s;
 }
 
+body.spg-theme ul.page-menu > li > a {
+}
+
 body.spg-theme ul.page-menu > li:hover > a + ul,
 body.spg-theme ul.page-menu > li > a.current + ul {
     /*     display: block; */
     max-height: 40em;
     transition-delay: 0.4s;
 }
+
+/** Menu Icons **/
 
 body.spg-theme.layout-vertical .menu-icon {
     font-size: 2vw;
@@ -173,6 +140,8 @@ body.spg-theme a:hover .menu-icon {
     margin-left: 6px;
 }
 
+
+
 body.spg-theme .menu-icon.menu-icon-toggle      {
     background-position: -4em 0;
     /*     font-size: 8px; */
@@ -189,6 +158,22 @@ body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
     transform: rotate(0deg);
     transition: transform 0.5s;
 }
+body.spg-theme .menu-button-toggle {
+    /* border-bottom: 1px solid #666; */
+    background-color: #bcc5d1;
+    /* border: 1px outset #FFF; */
+    height: 43px;
+}
+body.spg-theme.menu-small .menu-button-toggle {
+    /* border: 0px inset #FFF; */
+}
+body.spg-theme.layout-vertical .menu-button-toggle {
+    /*     padding: 1em; */
+}
+
+
+/** Menu Icon Types **/
+
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 -16em;}
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
 body.spg-theme .menu-icon.menu-icon-account     { background-position: 0 0; }
@@ -208,18 +193,9 @@ body.spg-theme .menu-icon.menu-icon-print       { background-position: 0 -12em;}
 body.spg-theme .menu-icon.menu-icon-download    { background-position: -4em -12em;}
 body.spg-theme .menu-icon.menu-icon-receipt     { background-position: -8em -12em;}
 
-body.spg-theme .menu-button-toggle {
-    /* border-bottom: 1px solid #666; */
-    background-color: #bcc5d1;
-    /* border: 1px outset #FFF; */
-    height: 43px;
-}
-body.spg-theme.menu-small .menu-button-toggle {
-    /* border: 0px inset #FFF; */
-}
-body.spg-theme.layout-vertical .menu-button-toggle {
-/*     padding: 1em; */
-}
+
+
+/** Menu Buttons **/
 
 body.spg-theme a.button {
     text-decoration: none;
@@ -242,7 +218,7 @@ body.spg-theme a.button.small {
 }
 body.spg-theme a.button:hover {
     background-color: #d4e7ec;
-    background: linear-gradient(90deg, #d4e7ec 0%, #ffffff 100%);
+    background: linear-gradient(90deg, #d4e7ec 0%, #f6f9fc 100%);
     /* color: #ffffff; */
     font-weight: bold;
 }
@@ -363,6 +339,30 @@ body.layout-vertical.spg-theme nav.page-menu {
     float: inherit;
     margin: 0.6em;
 }
+
+
+
+
+/** Messages **/
+
+body.spg-theme .error,
+body.spg-theme .info {
+    border-radius: 0.8em;
+    font-weight: bold;
+    color: #061375;
+}
+
+body.spg-theme span.error,
+body.spg-theme span.info {
+    font-size: 1.1em;
+    display: inline-block;
+    padding: 0.5em 1em;
+    margin: 0.2em;
+    max-width: 22em;
+}
+
+body.spg-theme .info {background: rgba(59, 117, 147, 0.53);}
+body.spg-theme .error {background: rgba(255, 112, 29, 0.45);color: red;}
 
 
 
