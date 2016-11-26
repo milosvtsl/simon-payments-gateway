@@ -179,7 +179,7 @@ body.spg-theme .menu-button-toggle {
     /* border-bottom: 1px solid #666; */
     background-color: #bcc5d1;
     /* border: 1px outset #FFF; */
-    height: 43px;
+    /* height: 53px; */
 }
 body.spg-theme.menu-small .menu-button-toggle {
     /* border: 0px inset #FFF; */
@@ -310,7 +310,7 @@ body.spg-theme .bread-crumbs {
     /* background-color: #f6f9fc; */
     /* position: relative; */
     background-color: #bcc5d1;
-    height: 54px;
+    /* height: 54px; */
     /* display: block; */
     vertical-align: top;
 }
