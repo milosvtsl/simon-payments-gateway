@@ -165,10 +165,10 @@ $Theme->printHTMLMenu('order-list');
                         foreach($Query as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
-                            <td style="max-width: 6em;"><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
+                            <td ><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
-                            <td style="max-width: 5em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
-                            <td style="max-width: 5em;"><?php echo $Order->getInvoiceNumber(); ?></td>
+                            <td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
+                            <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
                             <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
