@@ -165,8 +165,8 @@ HEAD;
             </li>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
-                <li>
-                    <a href="order" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>Transactions </a>
+                <li class="menu-submenu menu-submenu-order">
+                    <a href="order" onclick="this.classList.toggle('current'); return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>Transactions </a>
                     <ul>
 
 
@@ -203,8 +203,8 @@ HEAD;
             <?php } ?>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                <li>
-                    <a href="merchant" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>Merchants </a>
+                <li class="menu-submenu menu-submenu-merchant">
+                    <a href="merchant" onclick="this.classList.toggle('current'); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>Merchants </a>
                     <ul>
                         <li>
                             <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>List Merchants </a>
@@ -227,8 +227,8 @@ HEAD;
             <?php } ?>
 
 
-            <li>
-                <a href="user" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>Users </a>
+            <li class="menu-submenu menu-submenu-user">
+                <a href="user" onclick="this.classList.toggle('current'); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>Users </a>
                 <ul>
                     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                         <li>
@@ -265,8 +265,8 @@ HEAD;
             </li>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <li>
-                    <a href="integration" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>Integration</a>
+                <li class="menu-submenu menu-submenu-integration">
+                    <a href="integration" onclick="this.classList.toggle('current'); return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>Integration</a>
                     <ul>
                         <li>
                             <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>Requests</a>
