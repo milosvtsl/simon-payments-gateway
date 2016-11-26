@@ -29,7 +29,7 @@ body.layout-horizontal > article.themed {
 
 body.spg-theme > header > a.logo > img {
     width: 12em;
-    margin: 0.3em 0px -0.6em 0em;
+    margin: 0px 0px 0px -11px;
     float: left;
 }
 body.spg-theme header hr.themed {
@@ -41,13 +41,13 @@ body.spg-theme .site-welcome-text {
     float: right;
     display: inline-block;
     /* clear:both; */
-    margin-right: 1em;
-    margin-top: 2.9em;
+    margin: 29px 6px;
     /* font-weight:bold; */
     font-style:italic;
     font-size: large;
     line-height: 27px;
     color: #777;
+    vertical-align: bottom;
 }
 
 

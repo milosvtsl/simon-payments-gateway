@@ -72,10 +72,6 @@ class SPGViewTheme extends AbstractViewTheme
 <!--                <a href="login.php" class="nav-login" style="float:right;"> <div class="menu-icon menu-icon-login"></div><br/>Login </a>-->
             <?php } ?>
 
-                <div class="site-welcome-text hide-on-print">
-                    Welcome,
-                    <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
-                </div>
             </nav>
 
             <hr class="themed hide-on-print" style="clear: both;"/>
@@ -95,6 +91,12 @@ class SPGViewTheme extends AbstractViewTheme
                 echo "\n\t\t\t<a class='breadcrumb' href='", $url, "'>", $name, "</a>";
             }
             ?>
+
+            <div class="site-welcome-text hide-on-print">
+                Welcome,
+                <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
+            </div>
+
         </aside>
 
     <?php } ?>
