@@ -456,7 +456,7 @@ SQL;
         $OrderRow->order_item_id = rand(1999,9999); // TODO: fix?
 
         if(in_array(strtolower($post['entry_mode']), array('keyed', 'swipe'))) {
-            $OrderRow->card_track = $post['card_track'];
+            $OrderRow->card_track = trim($post['card_track']);
             $OrderRow->card_exp_month = $post['card_exp_month'];
             $OrderRow->card_exp_year = $post['card_exp_year'];
             $OrderRow->card_type = self::getCCType($post['card_number']);

@@ -46,6 +46,7 @@ form[name=form-transaction-charge].swipe-input-successful .swipe-fullscreen-box-
 
 form[name=form-transaction-charge] .swipe-fullscreen-box-container {
     position: fixed;
+    z-index: 999;
     width: 84%;
     /* height: 37%; */
     top: 27%;
