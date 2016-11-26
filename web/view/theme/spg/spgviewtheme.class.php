@@ -94,7 +94,9 @@ class SPGViewTheme extends AbstractViewTheme
 
             <div class="site-welcome-text hide-on-print">
                 Welcome,
+                <a href="user/account.php" style="text-decoration: none;">
                 <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
+                </a>
             </div>
 
         </aside>

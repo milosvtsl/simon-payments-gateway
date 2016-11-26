@@ -49,6 +49,9 @@ body.spg-theme .site-welcome-text {
     color: #777;
     vertical-align: bottom;
 }
+body.spg-theme .site-welcome-text a {
+    text-decoration: none;
+}
 
 
 /** Article **/
@@ -313,7 +316,7 @@ body.spg-theme .bread-crumbs {
 }
 
 
-body.spg-theme .bread-crumbs a:hover {
+body.spg-theme .bread-crumbs > a:hover {
     background-color: #b6ccda;
     font-weight: bold;
 }
