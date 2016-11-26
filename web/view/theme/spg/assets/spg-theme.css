@@ -41,7 +41,7 @@ body.spg-theme .site-welcome-text {
     float: right;
     display: inline-block;
     /* clear:both; */
-    margin: 29px 6px;
+    margin: 29px 12px 0px 0px;
     /* font-weight:bold; */
     font-style:italic;
     font-size: large;
