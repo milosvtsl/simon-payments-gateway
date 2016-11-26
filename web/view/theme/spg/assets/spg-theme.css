@@ -18,7 +18,7 @@ body.layout-horizontal.spg-theme .hide-on-layout-horizontal {
 
 body.layout-horizontal.spg-theme .float-left-on-layout-horizontal,
 body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
-    float: right;
+    float: left;
 }
 
 body.layout-horizontal > article.themed {
