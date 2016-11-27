@@ -56,7 +56,11 @@ ul.app-provision-list {
 }
 
 ul.app-provision-list > li {
-    padding: 0.2em;
+    padding: 0.4em;
+}
+ul.app-provision-list > li a {
+    text-decoration: none;
+    color: white;
 }
 
 ul.app-provision-list > li:hover {

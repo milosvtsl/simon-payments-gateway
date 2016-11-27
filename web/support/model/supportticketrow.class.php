@@ -28,12 +28,14 @@ class SupportTicketRow
     const SORT_BY_DATE              = 'st.date';
     const SORT_BY_STATUS            = 'st.status';
     const SORT_BY_MERCHANT_ID       = 'st.merchant_id';
+    const SORT_BY_CATEGORY          = 'st.category';
 
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,
         self::SORT_BY_DATE,
 
         self::SORT_BY_STATUS,
+        self::SORT_BY_CATEGORY,
         self::SORT_BY_MERCHANT_ID,
     );
 
@@ -75,7 +77,7 @@ LEFT JOIN order_item oi on st.order_item_id = oi.id
 LEFT JOIN merchant m on st.merchant_id = m.id
 ";
     const SQL_GROUP_BY = ""; // "\nGROUP BY s.id";
-    const SQL_ORDER_BY = "\nORDER BY s.id DESC";
+    const SQL_ORDER_BY = "\nORDER BY st.id DESC";
 
     public function getID()                 { return $this->id; }
     public function getOrderID()            { return $this->order_item_id; }
@@ -205,7 +207,7 @@ LEFT JOIN merchant m on st.merchant_id = m.id
      */
     public static function fetchByField($field, $value) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE s.{$field} = ?");
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE st.{$field} = ?");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($value));

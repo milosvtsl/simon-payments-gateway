@@ -45,14 +45,18 @@ class ProvisionStatusApp extends AbstractApp {
                 if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_TESTING)
                     continue;
 
+                $statusHTML .= "\n\t\t\t\t<li>"
+                            . "<a href='merchant?id=" . $Merchant->getID() . "'>" . $Merchant->getShortName() . "</a>: ";
+
                 if($MerchantIdentity->isProvisioned($reason)) {
-                    $statusHTML .= "\n\t\t\t\t<li>" . $Merchant->getShortName() . ": <span class='ready'>Ready</span></li>";
+                    $statusHTML .= "<span class='ready'>Ready</span></li>";
                 } else {
-                    $statusHTML .= "\n\t\t\t\t<li>" . $Merchant->getShortName() . ": <span class='not-ready'>{$reason}</span></li>";
+                    $statusHTML .= "<span class='not-ready'>{$reason}</span></li>";
                 }
             }
         }
 
+        // TODO: cache?
 
         $appClassName = 'app-provision-status';
         echo <<<HTML
