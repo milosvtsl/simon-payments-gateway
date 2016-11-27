@@ -44,11 +44,16 @@ class DailyChart extends AbstractTotalsApp {
         $appClassName = 'app-chart-today';
         echo <<<HTML
         <div class="app-chart {$appClassName}">
+            <div class="app-section-top">
+                <div class="app-section-text-large" style="text-align: center;">
+                    <a href="order?date_from={$stats['time_today']}" class="app-chart-count {$appClassName}-count">
+                        Today ({$count})
+                    </a>
+                </div>
+                <hr class="themed" />
+            </div>
             <a href="order?date_from={$stats['time_today']}" class="app-chart-amount {$appClassName}-amount">
                 \${$amount}
-            </a>
-            <a href="order?date_from={$stats['time_today']}" class="app-chart-count {$appClassName}-count">
-                Today ({$count})
             </a>
             <div class="app-button-config">
                 <ul>

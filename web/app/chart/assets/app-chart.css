@@ -2,20 +2,20 @@
 
 .app-chart {
     width: 18em;
-    min-height: 4em;
-    padding: 5em 0px;
+    min-height: 12em;
+    /* padding: 5em 0px; */
     margin: 0.5em 0.4em;
     /*border: 0px outset #FFF;*/
     border-radius: 0.3em;
     display: inline-block;
-     /*text-align: center;*/
-    cursor: pointer;
+    /*text-align: center;*/
+    /* cursor: pointer; */
     box-shadow: 2px 2px 4px #CCC;
     transition: box-shadow 0.5s ease;
     background-color: gray;
     vertical-align: top;
-
     position: relative;
+    color: white;
 }
 
 
@@ -29,6 +29,8 @@
     color: white;
     font-size: xx-large;
     text-decoration: none;
+    text-shadow: 2px 2px 3px #444;
+    padding: 1.5em 0.5em;
 }
 .app-chart-count {
     display: block;
@@ -39,47 +41,14 @@
 /** App Config **/
 
 .app-chart .app-button-config {
-    width: 1em;
-    height: 1em;
-    right: 6px;
-    top: 6px;
+    right: 0px;
+    top: 0px;
     position: absolute;
-    /* background-color: green; */
-    background-image: url('img/btn_icons.png');
-    background-size: 4em 4em;
-    font-size: 16px;
-}
-
-.app-chart .app-button-config > ul {
-     margin-left: -33px;
-     margin-top: 7px;
-     position: absolute;
-     z-index: 999;
-     list-style-type: none;
-     text-align: left;
-     max-height: 0px;
-     /* display: block; */
-     display: none;
-}
-.app-chart .app-button-config:hover > ul {
-    max-height: 400px;
-    display: block;
-}
-
-.app-chart .app-button-config > ul > li {
-    background-color: lightgray;
-    padding: 5px 10px;
-    white-space: nowrap;
-    border: 1px outset;
-}
-.app-chart .app-button-config > ul > li:hover {
-    background-color: gray;
-    border: 1px inset;
-    font-weight: bold;
-}
-.app-chart .app-button-config > ul > li > a {
-    text-decoration: none;
-    color: black;
+    z-index: 99;
+    margin: 2px;
+    border: 1px outset rgba(221,221,221,0.50);
+    border-radius: 4px;
+    background-color: #ffc074;
 }
 
 

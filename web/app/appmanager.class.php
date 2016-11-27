@@ -1,14 +1,15 @@
 <?php
 namespace App;
-use App\Chart\AllChart;
 use App\Chart\DailyChart;
 use App\Chart\MonthlyChart;
 use App\Chart\MTDChart;
+use App\Provision\ProvisionStatusApp;
 use App\Chart\WeeklyChart;
 use App\Chart\WTDChart;
 use App\Chart\YearlyChart;
 use App\Chart\YTDChart;
 use App\Ticket\CreateTicketApp;
+use App\Ticket\NewsApp;
 use App\Ticket\RecentTicketsApp;
 use User\Model\UserRow;
 /**
@@ -21,8 +22,8 @@ use User\Model\UserRow;
 
 class AppManager {
 
-//    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{},"app-ticket-view":{},"app-ticket-create":{}}';
-    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{}}';
+    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{},"app-provision-status":{},"app-ticket-view":{},"app-ticket-news":{},"app-ticket-create":{}}';
+//    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{},"app-provision-status":{}}';
 
     private $config;
 
@@ -41,7 +42,6 @@ class AppManager {
         $configs = $this->config;
         foreach($configs as $key => $config) {
             switch(strtolower($key)) {
-                case 'app-chart-all': $App = new AllChart($SessionUser, $config); break;
                 case 'app-chart-daily': $App = new DailyChart($SessionUser, $config); break;
                 case 'app-chart-weekly': $App = new WeeklyChart($SessionUser, $config); break;
                 case 'app-chart-wtd': $App = new WTDChart($SessionUser, $config); break;
@@ -52,6 +52,9 @@ class AppManager {
 
                 case 'app-ticket-create': $App = new CreateTicketApp($SessionUser, $config); break;
                 case 'app-ticket-view': $App = new RecentTicketsApp($SessionUser, $config); break;
+                case 'app-ticket-news': $App = new NewsApp($SessionUser, $config); break;
+
+                case 'app-provision-status': $App = new ProvisionStatusApp($SessionUser, $config); break;
 
                 default: throw new \InvalidArgumentException("Invalid Config Key: " . $key);
             }

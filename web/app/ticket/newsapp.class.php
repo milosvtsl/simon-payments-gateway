@@ -10,7 +10,7 @@ namespace App\Ticket;
 use App\AbstractApp;
 use User\Model\UserRow;
 
-class RecentTicketsApp extends AbstractApp
+class NewsApp extends AbstractApp
 {
     const SESSION_KEY = __FILE__;
 
@@ -30,16 +30,16 @@ class RecentTicketsApp extends AbstractApp
      */
     function renderAppHTML(Array $params = array())
     {
-        $appClassName = 'app-ticket-recent';
+        $appClassName = 'app-ticket-news';
         echo <<<HTML
-        <div class="app-ticket app-ticket-recent">
-            <form name="app-ticket-recent">
+        <div class="app-ticket app-ticket-news">
+            <form name="app-ticket-news">
                 <div class="app-section-top">
-                    <div class="app-section-text-large" style="text-align: center;"> Recent Tickets</div>
+                    <div class="app-section-text-large" style="text-align: center;"> News &AMP; Announcements</div>
                     <hr />
                 </div>
                 <ul class="app-ticket-list">
-                    <li>No recent support tickets</li>
+                    <li style="font-style: italic;">No news at this time</li>
                 </ul>
             </form>
             <div class="app-button-config">

@@ -44,12 +44,18 @@ class YTDChart extends AbstractTotalsApp {
         $appClassName = 'app-chart-ytd';
         echo <<<HTML
         <div class="app-chart {$appClassName}">
+            <div class="app-section-top">
+                <div class="app-section-text-large" style="text-align: center;">
+                    <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count {$appClassName}-count">
+                        This year ({$count})
+                    </a>
+                </div>
+                <hr />
+            </div>
             <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-amount {$appClassName}-amount">
                 \${$amount}
             </a> 
-            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count {$appClassName}-count">
-                This year ({$count})
-            </a> 
+            </a>
             <div class="app-button-config">
                 <ul>
                     <li><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>

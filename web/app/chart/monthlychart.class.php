@@ -44,11 +44,16 @@ class MonthlyChart extends AbstractTotalsApp {
         $appClassName = 'app-chart-monthly';
         echo <<<HTML
         <div class="app-chart {$appClassName}">
+            <div class="app-section-top">
+                <div class="app-section-text-large" style="text-align: center;">
+                    <a href="order?date_from={$stats['time_monthly']}" class="app-chart-count {$appClassName}-count">
+                        Monthly ({$count})
+                    </a>
+                </div>
+                <hr />
+            </div>
             <a href="order?date_from={$stats['time_monthly']}" class="app-chart-amount {$appClassName}-amount">
                 \${$amount}
-            </a> 
-            <a href="order?date_from={$stats['time_monthly']}" class="app-chart-count {$appClassName}-count">
-                Monthly ({$count})
             </a>
             <div class="app-button-config">
                 <ul>

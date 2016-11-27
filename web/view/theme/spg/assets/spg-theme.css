@@ -189,7 +189,7 @@ body.spg-theme.layout-vertical .menu-button-toggle {
 }
 
 
-/** Menu Icon Types **/
+/** Nav Menu Icon Types **/
 
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 -16em;}
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
@@ -210,6 +210,68 @@ body.spg-theme .menu-icon.menu-icon-print       { background-position: 0 -12em;}
 body.spg-theme .menu-icon.menu-icon-download    { background-position: -4em -12em;}
 body.spg-theme .menu-icon.menu-icon-receipt     { background-position: -8em -12em;}
 
+/** Dashboard Apps **/
+
+/** App Menu Icons **/
+
+.app-button-config {
+    width: 1em;
+    height: 1em;
+    background-image: url('img/btn_icons.png');
+    background-size: 4em 4em;
+    font-size: 16px;
+}
+
+
+
+
+.app-button-config > ul {
+    margin-left: -33px;
+    margin-top: 7px;
+    position: absolute;
+    z-index: 999;
+    list-style-type: none;
+    text-align: left;
+    max-height: 0px;
+    /* display: block; */
+    display: none;
+}
+.app-button-config:hover > ul {
+    max-height: 400px;
+    display: block;
+}
+
+.app-button-config > ul > li {
+    background-color: #ffc074;
+    padding: 5px 10px;
+    white-space: nowrap;
+    border: 1px outset;
+}
+.app-button-config > ul > li:hover {
+    background-color: gray;
+    border: 1px inset;
+    font-weight: bold;
+}
+.app-button-config > ul > li > a {
+    text-decoration: none;
+    color: black;
+}
+
+/** App Sections **/
+
+.app-section-top {
+    height: 3.5em;
+    /* padding: 0.5em 0.0em; */
+    /* text-align: center; */
+}
+
+.app-section-text-large {
+    font-size: 1.4em;
+    /* text-decoration: underline; */
+    text-shadow: 2px 2px 3px #444;
+    padding: 0.7em 0 0.2em 0;
+    /* font-family: monospace; */
+}
 
 
 /** Menu Buttons **/

@@ -8,10 +8,21 @@
 namespace App\Ticket;
 
 use App\AbstractApp;
+use User\Model\UserRow;
 
 class CreateTicketApp extends AbstractApp
 {
     const SESSION_KEY = __FILE__;
+
+    private $user;
+    private $config;
+
+    public function __construct(UserRow $SessionUser, $config) {
+        $this->user = $SessionUser;
+        $this->config = $config;
+    }
+
+    public function getUser() { return $this->user; }
 
     /**
      * Print an HTML representation of this app
@@ -24,15 +35,21 @@ class CreateTicketApp extends AbstractApp
         echo <<<HTML
         <div class="app-ticket {$appClassName}">
             <form name="{$appClassName}">
-                <fieldset>
-                    <legend>Submit a new Ticket</legend>
+                <div class="app-section-top">
+                    <div class="app-section-text-large" style="text-align: center;">Create a Support Ticket</div>
+                </div>
 
-                    <input type="text" name="subject" placeholder="Subject" class="themed"/>
-                    <br />
-                    <textarea name="content" class="themed" placeholder="Message"></textarea>
-                    <br />
-                    <button name="submit" type="submit" class="themed">Create</button>
-                </fieldset>
+                <textarea name="content" class="themed" placeholder="Message" rows="5" cols="30" style="width: 19.4em;"></textarea>
+
+                <select name="category" required style="min-width: 15em;">
+                    <option value="">Choose a Category</option>
+                    <option>Technical</option>
+                    <option>Reporting</option>
+                    <option>Billing</option>
+                    <option>Sales</option>
+                </select>
+
+                <button type="submit" name="submit" style="margin-bottom: 0.5em; float: right;" disabled="disabled">Create</button>
             </form>
             <div class="app-button-config">
                 <ul>
