@@ -29,6 +29,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     protected $AccountToken;
     protected $ApplicationID;
     protected $AcceptorID;
+    protected $DefaultTerminalID;
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
         parent::__construct($Merchant, $APIData);
@@ -45,6 +46,9 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
 
     public function getAccountToken()   { return $this->AccountToken; }
 
+    public function getDefaultTerminalID() {
+        return $this->DefaultTerminalID ?: '0001';
+    }
 
     public function getAcceptorID()     { return $this->AcceptorID; }
     public function getApplicationID()  { return $this->ApplicationID; }
@@ -85,6 +89,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
         // TODO: Implement settleRemote() method.
     }
 
+
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();
         $data = json_decode($response, true);
@@ -100,6 +105,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
                 $this->AccountToken = $data['AccountToken'];
                 $this->ApplicationID = $data['ApplicationID'];
                 $this->AcceptorID = $data['AcceptorID'];
+                $this->DefaultTerminalID = @$data['DefaultTerminalID'];
                 $this->created_at = $APIRequest->getDate();
                 $this->updated_at = $APIRequest->getDate();
                 break;

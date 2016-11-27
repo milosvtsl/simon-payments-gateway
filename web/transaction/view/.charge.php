@@ -62,7 +62,7 @@ $Theme->printHTMLMenu('order-charge');
                                                 " data-convenience-fee-flat='", $Merchant->getFeeFlat(), "'",
                                                 " data-convenience-fee-limit='", $Merchant->getFeeLimit(), "'",
                                                 " data-convenience-fee-variable-rate='", $Merchant->getFeeVariable(), "'",
-                                                (@$LASTPOST['merchant_id'] == $Merchant->getID() ? 'selected="selected" ' : ''),
+//                                                (@$LASTPOST['merchant_id'] == $Merchant->getID() ? 'selected="selected" ' : ''),
                                                 " value='", $Merchant->getID(), "'>",
                                                     $Merchant->getShortName(),
                                                     ( $testing || $SessionUser->hasAuthority('ROLE_ADMIN')
@@ -90,9 +90,9 @@ $Theme->printHTMLMenu('order-charge');
                             <td>
                                 <select name="entry_mode" class="" required autofocus>
             <!--                        <option value="">Choose a method</option>-->
-                                    <option value="Keyed" <?php echo @$LASTPOST['entry_mode'] == 'Keyed' ? 'selected="selected"' : ''?>>Keyed Card</option>
-                                    <option value="Swipe" <?php echo @$LASTPOST['entry_mode'] == 'Swipe' ? 'selected="selected"' : ''?>>Swipe Card</option>
-                                    <option value="Check" <?php echo @$LASTPOST['entry_mode'] == 'Check' ? 'selected="selected"' : ''?>>e-Check</option>
+                                    <option value="Keyed">Keyed Card</option>
+                                    <option value="Swipe">Swipe Card</option>
+                                    <option value="Check">e-Check</option>
                                 </select>
                             </td>
                         </tr>
@@ -105,44 +105,44 @@ $Theme->printHTMLMenu('order-charge');
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Payment Amount</td>
                             <td>
-                                <input type="text" name="amount" value="<?php echo @$LASTPOST['amount']; ?>"  size="6" placeholder="x.xx" required autofocus />
+                                <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required autofocus />
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer Name</td>
                             <td>
-                                <input type="text" name="customer_first_name" value="<?php echo @$LASTPOST['customer_first_name']; ?>" placeholder="First Name" size="12" />
-                                <input type="text" name="customermi" value="<?php echo @$LASTPOST['customermi']; ?>" placeholder="MI" size="1" /> <br/>
-                                <input type="text" name="customer_last_name" value="<?php echo @$LASTPOST['customer_last_name']; ?>" placeholder="Last Name" size="12" />
+                                <input type="text" name="customer_first_name" value="<?php // echo @$LASTPOST['customer_first_name']; ?>" placeholder="First Name" size="12" />
+                                <input type="text" name="customermi" value="<?php // echo @$LASTPOST['customermi']; ?>" placeholder="MI" size="1" /> <br/>
+                                <input type="text" name="customer_last_name" value="<?php // echo @$LASTPOST['customer_last_name']; ?>" placeholder="Last Name" size="12" />
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
-                            <td><input type="text" name="payee_reciept_email" value="<?php echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="xxx@xxx.xxx" /></td>
+                            <td><input type="text" name="payee_reciept_email" value="<?php // echo @$LASTPOST['payee_reciept_email']; ?>" placeholder="xxx@xxx.xxx" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Phone</td>
-                            <td><input type="text" name="payee_phone_number" value="<?php echo @$LASTPOST['payee_phone_number']; ?>" placeholder="xxx-xxx-xxxx" /></td>
+                            <td><input type="text" name="payee_phone_number" value="<?php // echo @$LASTPOST['payee_phone_number']; ?>" placeholder="xxx-xxx-xxxx" /></td>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Billing Address</td>
                             <td>
-                                <input type="text" name="payee_address" value="<?php echo @$LASTPOST['payee_address']; ?>" placeholder="Address" />
+                                <input type="text" name="payee_address" value="<?php // echo @$LASTPOST['payee_address']; ?>" placeholder="Address" />
                                 <br/>
-                                <input type="text" name="payee_address2" value="<?php echo @$LASTPOST['payee_address2']; ?>" placeholder="Address #2" />
+                                <input type="text" name="payee_address2" value="<?php // echo @$LASTPOST['payee_address2']; ?>" placeholder="Address #2" />
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Billing Zip/State</td>
                             <td>
-                                <input type="text" name="payee_zipcode" value="<?php echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="6" class="zip-lookup-field-zipcode" />
+                                <input type="text" name="payee_zipcode" value="<?php // echo @$LASTPOST['payee_zipcode']; ?>" placeholder="ZipCode" size="6" class="zip-lookup-field-zipcode" />
                                 <select name="payee_state" style="width: 7em;" class='zip-lookup-field-state-short'>
                                     <option value="">State</option>
                                     <?php
                                     foreach(\System\Arrays\Locations::$STATES as $code => $name)
                                         echo "\n\t<option value='", $code, "' ",
-                                        ($code === @$LASTPOST['payee_state'] ? ' selected="selected"' : ''),
+//                                        ($code === @$LASTPOST['payee_state'] ? ' selected="selected"' : ''),
                                         ">", $name, "</option>";
                                     ?>
                                 </select>
@@ -151,17 +151,17 @@ $Theme->printHTMLMenu('order-charge');
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Billing City</td>
                             <td>
-                                <input type="text" name="payee_city" size="10" value="<?php echo @$LASTPOST['payee_city']; ?>" placeholder="City" class='zip-lookup-field-city-title-case' />
+                                <input type="text" name="payee_city" size="10" value="<?php // echo @$LASTPOST['payee_city']; ?>" placeholder="City" class='zip-lookup-field-city-title-case' />
                             </td>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Customer&nbsp;ID#</td>
-                            <td><input type="text" name="customer_id" value="<?php echo @$LASTPOST['customer_id']; ?>" placeholder="Optional Customer ID" /></td>
+                            <td><input type="text" name="customer_id" value="<?php // echo @$LASTPOST['customer_id']; ?>" placeholder="Optional Customer ID" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Invoice&nbsp;ID#</td>
-                            <td><input type="text" name="invoice_number" value="<?php echo @$LASTPOST['invoice_number']; ?>" placeholder="Optional Invoice Number" /></td>
+                            <td><input type="text" name="invoice_number" value="<?php // echo @$LASTPOST['invoice_number']; ?>" placeholder="Optional Invoice Number" /></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -171,54 +171,54 @@ $Theme->printHTMLMenu('order-charge');
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">First Name</td>
-                            <td><input type="text" name="payee_first_name" value="<?php echo @$LASTPOST['payee_first_name']; ?>" placeholder="First Name" required /></td>
+                            <td><input type="text" name="payee_first_name" value="<?php // echo @$LASTPOST['payee_first_name']; ?>" placeholder="First Name" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Last Name</td>
-                            <td><input type="text" name="payee_last_name" value="<?php echo @$LASTPOST['payee_last_name']; ?>" placeholder="Last Name" required /></td>
+                            <td><input type="text" name="payee_last_name" value="<?php // echo @$LASTPOST['payee_last_name']; ?>" placeholder="Last Name" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Card Number</td>
-                            <td><input type="text" name="card_number" value="<?php echo @$LASTPOST['card_number']; ?>" placeholder="xxxxxxxxxxxxxxxx" required /></td>
+                            <td><input type="text" name="card_number" value="<?php // echo @$LASTPOST['card_number']; ?>" placeholder="xxxxxxxxxxxxxxxx" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Card Type</td>
                             <td>
                                 <select name="card_type" required>
                                     <option value="">Choose an option</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'Visa' ? 'selected="selected"' : ''?> title="Visa">Visa</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'MasterCard' ? 'selected="selected"' : ''?> title="MasterCard">MasterCard</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'Amex' ? 'selected="selected"' : ''?> title="Amex">Amex</option>
-                                    <option <?php echo @$LASTPOST['card_type'] == 'Discover' ? 'selected="selected"' : ''?> title="Discover">Discover</option>
+                                    <option title="Visa">Visa</option>
+                                    <option title="MasterCard">MasterCard</option>
+                                    <option title="Amex">Amex</option>
+                                    <option title="Discover">Discover</option>
                                 </select>
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">**CVV</td>
-                            <td><input type="number" name="card_cvv2" value="<?php echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
+                            <td><input type="number" name="card_cvv2" value="<?php // echo @$LASTPOST['card_cvv2']; ?>" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Expiration</td>
                             <td>
                                 <select name='card_exp_month' id='expireMM' required>
                                     <option value=''>Month</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '01' ? 'selected="selected"' : ''?> value='01'>January</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '02' ? 'selected="selected"' : ''?> value='02'>February</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '03' ? 'selected="selected"' : ''?> value='03'>March</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '04' ? 'selected="selected"' : ''?> value='04'>April</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '05' ? 'selected="selected"' : ''?> value='05'>May</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '06' ? 'selected="selected"' : ''?> value='06'>June</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '07' ? 'selected="selected"' : ''?> value='07'>July</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '08' ? 'selected="selected"' : ''?> value='08'>August</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '09' ? 'selected="selected"' : ''?> value='09'>September</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '10' ? 'selected="selected"' : ''?> value='10'>October</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '11' ? 'selected="selected"' : ''?> value='11'>November</option>
-                                    <option <?php echo @$LASTPOST['card_exp_month'] == '12' ? 'selected="selected"' : ''?> value='12'>December</option>
+                                    <option value='01'>January</option>
+                                    <option value='02'>February</option>
+                                    <option value='03'>March</option>
+                                    <option value='04'>April</option>
+                                    <option value='05'>May</option>
+                                    <option value='06'>June</option>
+                                    <option value='07'>July</option>
+                                    <option value='08'>August</option>
+                                    <option value='09'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
                                 </select>
                                 <select name='card_exp_year' id='expireYY' required>
                                     <option value=''>Year</option>
                                     <?php for($i=16; $i<64; $i++) { ?>
-                                    <option <?php echo @$LASTPOST['card_exp_year'] == $i ? 'selected="selected"' : ''?> value='<?php echo $i; ?>'>20<?php echo $i; ?></option>
+                                    <option value='<?php echo $i; ?>'>20<?php echo $i; ?></option>
                                     <?php } ?>
                                 </select>
                             </td>
@@ -245,7 +245,7 @@ $Theme->printHTMLMenu('order-charge');
                         <br />
 
                         <div>
-                        <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php echo @$LASTPOST['card_track']; ?></textarea>
+                        <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php // echo @$LASTPOST['card_track']; ?></textarea>
                         <br />
                         <input type="button" class='submit-button' value="Close" onclick="this.form.classList.add('swipe-input-successful'); return false;" />
                         </div>
@@ -259,37 +259,37 @@ $Theme->printHTMLMenu('order-charge');
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Account Name</td>
-                            <td><input type="text" name="check_account_name" value="<?php echo @$LASTPOST['check_account_name']; ?>" placeholder="" required /></td>
+                            <td><input type="text" name="check_account_name" value="<?php // echo @$LASTPOST['check_account_name']; ?>" placeholder="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Account Type</td>
                             <td>
                                 <select name="check_account_type" required>
                                     <option value="">Choose an option</option>
-                                    <option <?php echo @$LASTPOST['check_account_type'] == 'Checking' ? 'selected="selected"' : ''?>>Checking</option>
-                                    <option <?php echo @$LASTPOST['check_account_type'] == 'Savings' ? 'selected="selected"' : ''?>>Savings</option>
+                                    <option>Checking</option>
+                                    <option>Savings</option>
                                 </select>
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="color: #000092;">
                             <td class="name">Account Number</td>
-                            <td><input type="text" name="check_account_number" value="<?php echo @$LASTPOST['check_account_number']; ?>" placeholder="" required /></td>
+                            <td><input type="text" name="check_account_number" value="<?php // echo @$LASTPOST['check_account_number']; ?>" placeholder="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="color: #920000;">
                             <td class="name">Routing Number</td>
-                            <td><input type="text" name="check_routing_number" value="<?php echo @$LASTPOST['check_routing_number']; ?>" placeholder="" required /></td>
+                            <td><input type="text" name="check_routing_number" value="<?php // echo @$LASTPOST['check_routing_number']; ?>" placeholder="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="color: #009200;">
                             <td class="name">Check Number</td>
-                            <td><input type="text" name="check_number" value="<?php echo @$LASTPOST['check_number']; ?>" placeholder="" /></td>
+                            <td><input type="text" name="check_number" value="<?php // echo @$LASTPOST['check_number']; ?>" placeholder="" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Check Type</td>
                             <td>
                                 <select name="check_type" required>
                                     <option value="">Choose an option</option>
-                                    <option <?php echo @$LASTPOST['check_type'] == 'Personal' ? 'selected="selected"' : ''?>>Personal</option>
-                                    <option <?php echo @$LASTPOST['check_type'] == 'Business' ? 'selected="selected"' : ''?>>Business</option>
+                                    <option>Personal</option>
+                                    <option>Business</option>
                                 </select>
                             </td>
                         </tr>
@@ -315,7 +315,7 @@ $Theme->printHTMLMenu('order-charge');
                                     <?php
                                     for($i=1; $i<=99; $i++)
                                         echo "\n\t<option ",
-                                        @$LASTPOST['recur_count'] == $i ? 'selected="selected"' : '',
+//                                        @$LASTPOST['recur_count'] == $i ? 'selected="selected"' : '',
                                         ">", $i, "</option>";
                                     ?>
                                 </select>
@@ -323,18 +323,18 @@ $Theme->printHTMLMenu('order-charge');
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Amount</td>
-                            <td class="value"><input type="text" name="recur_amount" placeholder="x.xx" size="6" value="<?php echo @$LASTPOST['recur_amount']; ?>" required="required"/></td>
+                            <td class="value"><input type="text" name="recur_amount" placeholder="x.xx" size="6" value="<?php // echo @$LASTPOST['recur_amount']; ?>" required="required"/></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Frequency</td>
                             <td>
                                 <select name='recur_frequency'>
                                     <?php
-                                    if(empty($LASTPOST['recur_frequency']))
-                                        $LASTPOST['recur_frequency'] = 'Monthly';
+//                                    if(empty($LASTPOST['recur_frequency']))
+//                                        $LASTPOST['recur_frequency'] = 'Monthly';
                                     foreach(OrderRow::$ENUM_RUN_FREQUENCY as $type => $name)
                                         echo "\n\t<option value='", $type, "'",
-                                        @$LASTPOST['recur_frequency'] === $type ? ' selected="selected"' : '',
+//                                        @$LASTPOST['recur_frequency'] === $type ? ' selected="selected"' : '',
                                         ">", $name, "</option>";
                                     ?>
                                 </select>
@@ -342,7 +342,7 @@ $Theme->printHTMLMenu('order-charge');
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">First Recur Date</td>
-                            <td><input type="date" name="recur_next_date" value="<?php echo @$LASTPOST['recur_next_date']; ?>" required="required"/></td>
+                            <td><input type="date" name="recur_next_date" value="<?php // echo @$LASTPOST['recur_next_date']; ?>" required="required"/></td>
                         </tr>
                     </table>
 
@@ -396,4 +396,27 @@ $Theme->printHTMLMenu('order-charge');
         </section>
     </article>
 
+    <?php
+        if(sizeof($LASTPOST) > 0) {
+            $json = json_encode($LASTPOST);
+            ?>
+            <script>
+                var LASTPOST = <?php echo $json; ?>;
+                var chargeForm = document.getElementsByName('form-transaction-charge')[0];
+                for(var key in LASTPOST) {
+                    if(LASTPOST.hasOwnProperty(key)) {
+                        var value = LASTPOST[key];
+                        console.log("Updating form with saved value: " + key);
+                        chargeForm[key].value = value;
+                    }
+                }
+                if(LASTPOST.card_track)
+                    chargeForm.classList.add('swipe-input-successful');
+            </script>
+            <?php
+        }
+    ?>
+
     <?php $Theme->renderHTMLBodyFooter(); ?>
+
+

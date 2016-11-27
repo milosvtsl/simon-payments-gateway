@@ -66,7 +66,7 @@ class ElementAPIUtil {
         $ShippingPhone = ''; // $BillingPhone;
 
 
-        $TerminalID = '0001';
+        $TerminalID = $MerchantIdentity->getDefaultTerminalID();
         $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
         $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
         $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
@@ -337,7 +337,7 @@ PHP;
         $ShippingPhone = ''; // $BillingPhone;
 
 
-        $TerminalID = '0001';
+        $TerminalID = $MerchantIdentity->getDefaultTerminalID();
         $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
         $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
         $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
@@ -596,7 +596,7 @@ PHP;
         $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
 
 
-        $TerminalID = '0001';
+        $TerminalID = $MerchantIdentity->getDefaultTerminalID();
         $CVVPresenceCode = 'UseDefault'; // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
         $MotoECICode = 'NotUsed'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
 
@@ -757,8 +757,7 @@ PHP;
         $BillPaymentFlag = 'False'; // False or True
         $ReversalReason = 'Unknown'; // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
 
-
-        $TerminalID = '0001';
+        $TerminalID = $MerchantIdentity->getDefaultTerminalID();
         $CVVPresenceCode = 'UseDefault'; // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
         $MotoECICode = 'NotUsed'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
 
@@ -1458,7 +1457,7 @@ SOAP;
         $ReverseOrder = 'False';
 
         $TransactionID = @$post['transaction_id'];
-        $TerminalID = '';
+        $TerminalID = $MerchantIdentity->getDefaultTerminalID();
         $ApprovedAmount = '';
         $ExpressTransactionDate = '';
         $ExpressTransactionTime = '';
