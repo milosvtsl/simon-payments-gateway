@@ -1,6 +1,8 @@
 <?php
 namespace App\Provision;
 use App\AbstractApp;
+use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantRow;
 use User\Model\UserRow;
 
 /**
@@ -28,16 +30,40 @@ class ProvisionStatusApp extends AbstractApp {
      */
     function renderAppHTML(Array $params = array())
     {
+        /** @var UserRow $SessionUser */
+        $SessionUser = $this->user;
+
+        $statusHTML = '';
+        $MerchantQuery = $SessionUser->queryUserMerchants();
+        foreach ($MerchantQuery as $Merchant) {
+            /** @var MerchantRow $Merchant */
+            foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
+                $reason = null;
+                $Integration = $MerchantIdentity->getIntegrationRow();
+                if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
+                    continue;
+                if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_TESTING)
+                    continue;
+
+                if($MerchantIdentity->isProvisioned($reason)) {
+                    $statusHTML .= "\n\t\t\t\t<li>" . $Merchant->getShortName() . ": <span class='ready'>Ready</span></li>";
+                } else {
+                    $statusHTML .= "\n\t\t\t\t<li>" . $Merchant->getShortName() . ": <span class='not-ready'>{$reason}</span></li>";
+                }
+            }
+        }
+
+
         $appClassName = 'app-provision-status';
         echo <<<HTML
         <div class="app-provision app-provision-status">
             <form name="app-provision-status">
                 <div class="app-section-top">
-                    <div class="app-section-text-large" style="text-align: center;"> Merchant Status</div>
+                    <div class="app-section-text-large" style="text-align: center;">Provision Status</div>
                     <hr />
                 </div>
                 <ul class="app-provision-list">
-                    <li>Provision Status: N/A</li>
+                    {$statusHTML}
                 </ul>
             </form>
             <div class="app-button-config">

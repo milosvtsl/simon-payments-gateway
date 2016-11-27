@@ -51,10 +51,28 @@ ul.app-provision-list {
     list-style-type: none;
     max-height: 8em;
     overflow-y: auto;
-    padding: 0 1em;
+    padding: 0 0.3em;
     margin: 0em 0 0em 0;
 }
 
 ul.app-provision-list > li {
-    padding: .4em;
+    padding: 0.2em;
+}
+
+ul.app-provision-list > li:hover {
+        background-color: rgba(0, 0, 0, 0.19)
+}
+
+ul.app-provision-list .ready {
+    color: lightgreen;
+    font-weight: bold;
+    float: right;
+    width: 3em;
+}
+
+ul.app-provision-list .not-ready {
+    color: #8e6262;
+    font-weight: bold;
+    float: right;
+    width: 3em;
 }
