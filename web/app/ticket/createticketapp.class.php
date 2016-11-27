@@ -39,7 +39,7 @@ class CreateTicketApp extends AbstractApp
                     <div class="app-section-text-large" style="text-align: center;">Create a Support Ticket</div>
                 </div>
 
-                <textarea name="content" class="themed" placeholder="Message" rows="5" cols="30" style="width: 19.4em;"></textarea>
+                <textarea name="content" class="themed" placeholder="Coming Soon" rows="5" cols="30" style="width: 19.4em;"></textarea>
 
                 <select name="category" required style="min-width: 15em;">
                     <option value="">Choose a Category</option>

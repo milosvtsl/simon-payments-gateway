@@ -39,7 +39,7 @@ class RecentTicketsApp extends AbstractApp
                     <hr />
                 </div>
                 <ul class="app-ticket-list">
-                    <li>No recent support tickets</li>
+                    <li style="font-style: italic;">No recent support tickets</li>
                 </ul>
             </form>
             <div class="app-button-config">
