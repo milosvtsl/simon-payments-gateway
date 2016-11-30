@@ -44,7 +44,7 @@ if(in_array(strtolower(@$params['action']), array('export', 'export-data'))) {
     foreach($Query as $Order) {
         /** @var OrderRow $Order */
         echo
-            "\n", $Order->getUID(),
+            "\n", $Order->getUID(false),
             ', $', $Order->getAmount(),
 //            ", $", $Order->getConvenienceFee() ?: 0,
             ', ', $Order->getStatus(),
