@@ -276,7 +276,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         $odd = false;
                         foreach($OrderQuery as $Order) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
+                                <td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
                                 <td>$<?php echo $Order->getAmount(); ?></td>
                                 <td><?php echo $Order->getCardHolderFullName(); ?></td>
                                 <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
