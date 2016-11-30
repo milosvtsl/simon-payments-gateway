@@ -17,7 +17,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('order',        'Transactions');
-$Theme->addPathURL($action_url,    $Order->getUID());
+$Theme->addPathURL($action_url,    $Order->getUID(true));
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('order-view', $action_url);
 ?>
