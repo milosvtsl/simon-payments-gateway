@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         var parseData = parseMagTekTrack(charHistory);
 
+//         console.log(charHistory, parseData);
+
         if(parseData) {
 
             var forms = document.getElementsByName('form-transaction-charge');
