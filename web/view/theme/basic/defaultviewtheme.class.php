@@ -36,7 +36,7 @@ class DefaultViewTheme extends AbstractViewTheme
             }
 
             if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
-                $this->addNavLink('transaction/charge.php', "Charge");
+                $this->addNavLink('order/charge.php', "Charge");
             }
 
 //            $this->addNavLink('login.php?action=logout', "Log Out");

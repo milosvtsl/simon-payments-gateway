@@ -12,7 +12,7 @@ use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 

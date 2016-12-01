@@ -4,19 +4,19 @@ use User\Session\SessionManager;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 /**
- * @var \Transaction\View\ChargeView $this
+ * @var \Order\View\ChargeView $this
  **/
 $odd = false;
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 $LASTPOST = array();
-if(isset($_SESSION['transaction/charge.php']))
-    $LASTPOST = $_SESSION['transaction/charge.php'];
+if(isset($_SESSION['order/charge.php']))
+    $LASTPOST = $_SESSION['order/charge.php'];
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('order',                     'Transactions');
-$Theme->addPathURL('transaction/charge.php',    'New Charge');
+$Theme->addPathURL('order/charge.php',    'New Charge');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('order-charge');
 ?>

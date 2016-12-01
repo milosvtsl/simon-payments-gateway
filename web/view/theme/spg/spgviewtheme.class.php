@@ -60,7 +60,7 @@ class SPGViewTheme extends AbstractViewTheme
     <!--            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>-->
 <!--                <a href="/" class="nav-dashboard" style="float:right;"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
                 <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) { ?>
-<!--                    <a href="transaction/charge.php" class="nav-charge" style="float:right;">  <div class="menu-icon menu-icon-charge"></div><br/>Charge</a>-->
+<!--                    <a href="order/charge.php" class="nav-charge" style="float:right;">  <div class="menu-icon menu-icon-charge"></div><br/>Charge</a>-->
                 <?php } else { ?>
 <!--                    <a href="/" class="nav-dashboard"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
                 <?php } ?>
@@ -184,12 +184,12 @@ HEAD;
                             </li>
                             <li>
                                 <a href="<?php echo str_replace('receipt.php', 'pdf.php', $action_url); ?>view" class="button<?php echo @$mc['order-download']; ?>"><div class="menu-icon menu-icon-download"></div>Download</a>
-                            </li>
+                        </li>
                         <?php } ?>
 
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
                             <li>
-                                <a href="transaction/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>Charge </a>
+                                <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>Charge </a>
                             </li>
                         <?php } ?>
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>

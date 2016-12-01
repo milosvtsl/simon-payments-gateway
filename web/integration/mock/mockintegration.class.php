@@ -16,7 +16,7 @@ use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
 use Subscription\Model\SubscriptionRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 class MockIntegration extends AbstractIntegration
 {

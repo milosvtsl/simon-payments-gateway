@@ -12,7 +12,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Subscription\Model\SubscriptionRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 abstract class AbstractIntegration
 {

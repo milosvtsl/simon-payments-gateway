@@ -9,7 +9,7 @@ namespace Integration\Element;
 
 use Integration\Model\Ex\IntegrationException;
 use Order\Model\OrderRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 class ElementAPIUtil {
 

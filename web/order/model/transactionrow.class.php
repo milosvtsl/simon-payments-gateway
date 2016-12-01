@@ -5,7 +5,7 @@
  * Date: 8/28/2016
  * Time: 1:32 PM
  */
-namespace Transaction\Model;
+namespace Order\Model;
 
 use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;

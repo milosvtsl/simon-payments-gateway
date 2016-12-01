@@ -11,7 +11,7 @@ use System\Config\DBConfig;
 use System\Config\SiteConfig;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class OrderRow

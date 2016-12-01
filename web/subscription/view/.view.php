@@ -246,11 +246,11 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                             <th>Perform</th>
                         </tr>
                         <?php
-                        /** @var \Transaction\Model\TransactionRow $Transaction */
+                        /** @var \Order\Model\TransactionRow $Transaction */
                         $DB = \System\Config\DBConfig::getInstance();
-                        $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.subscription_item_id = ? LIMIT 100");
+                        $TransactionQuery = $DB->prepare(\Order\Model\TransactionRow::SQL_SELECT . "WHERE t.subscription_item_id = ? LIMIT 100");
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
-                        $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
+                        $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Order\Model\TransactionRow::_CLASS);
                         $TransactionQuery->execute(array($this->getSubscription()->getID()));
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>

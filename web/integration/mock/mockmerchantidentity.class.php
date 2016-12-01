@@ -13,7 +13,7 @@ use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 class MockMerchantIdentity extends AbstractMerchantIdentity
 {

@@ -1,7 +1,4 @@
 <?php
-use Order\View\OrderView;
-use Transaction\Model\TransactionRow;
-
 /**
  * Created by PhpStorm.
  * User: ari
@@ -32,12 +29,5 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-if(isset($_GET['id'])) {
-    $TransactionRow = TransactionRow::fetchByID($_GET['id']);
-    $View = new OrderView($TransactionRow->getOrderID(), @$_GET['action']);
-    $View->handleRequest();
-
-} else {
-    $View = new \Order\View\OrderListView();
-    $View->handleRequest();
-}
+$View = new \Order\View\ChargeView();
+$View->handleRequest();

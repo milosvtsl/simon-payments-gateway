@@ -10,7 +10,7 @@ namespace Integration\Model;
 use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 class IntegrationRow
 {

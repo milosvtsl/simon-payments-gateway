@@ -5,14 +5,14 @@
  * Date: 8/28/2016
  * Time: 1:32 PM
  */
-namespace Transaction\Mail;
+namespace Order\Mail;
 
 
 use System\Config\SiteConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use PHPMailer;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 @define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/support/PHPMailer/');

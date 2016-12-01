@@ -5,7 +5,7 @@
  * Date: 9/2/2016
  * Time: 11:13 AM
  */
-namespace Transaction\Model;
+namespace Order\Model;
 
 
 class TransactionQueryStats
