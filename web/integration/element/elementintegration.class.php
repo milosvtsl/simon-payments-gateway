@@ -681,6 +681,10 @@ class ElementIntegration extends AbstractIntegration
                             TransactionRow::insert($SettledTransaction);
 
                             $OrderRow->setStatus("Settled");
+
+                            $batch_id = $OrderRow->calculateCurrentBatchID();
+                            $OrderRow->setBatchID($batch_id);
+
                             OrderRow::update($OrderRow);
                             $updated = true;
                         }
