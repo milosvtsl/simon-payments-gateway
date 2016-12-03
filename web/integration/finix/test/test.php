@@ -23,7 +23,7 @@ spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // Register Exception Handler
-\System\Exception\ExceptionHandler::register();
+//\System\Exception\ExceptionHandler::register();
 
 
 // Test Data
