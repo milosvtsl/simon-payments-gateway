@@ -6,7 +6,7 @@
  * Time: 1:32 PM
  */
 namespace {
-    define('DOMPDF_DIR', dirname(dirname(__DIR__)) . '/system/support/DOMPDF/');
+    define('DOMPDF_DIR', dirname(dirname(__DIR__)) . '/system/lib/DOMPDF/');
 
 
     require_once DOMPDF_DIR . '/src/Autoloader.php';

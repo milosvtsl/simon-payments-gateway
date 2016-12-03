@@ -12,7 +12,7 @@ use System\Config\SiteConfig;
 use PHPMailer;
 use User\Model\UserRow;
 
-require_once dirname(dirname(__DIR__)) . '/system/support/PHPMailer/PHPMailerAutoload.php';
+require_once dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/PHPMailerAutoload.php';
 
 class ResetPasswordEmail extends \PHPMailer
 {
