@@ -115,13 +115,13 @@ class UserView extends AbstractView
 
                     // Set message and redirect
                     $updates > 0
-                        ? $this->setSessionMessage($updates . " user fields updated successfully: " . $User->getUID())
-                        : $this->setSessionMessage("No changes detected: " . $User->getUID());
+                        ? $this->setSessionMessage("<div class='info'>" . $updates . " user fields updated successfully: " . $User->getUID() . '</div>')
+                        : $this->setSessionMessage("<div class='info'>No changes detected: " . $User->getUID() . '</div>');
                     header('Location: /user?id=' . $User->getID());
                     die();
 
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $this->setSessionMessage("<div class='error'>" . $ex->getMessage() . "</div>");
 //                    $this->renderHTML(array(
 //                        'action' => 'edit'
 //                    ));
