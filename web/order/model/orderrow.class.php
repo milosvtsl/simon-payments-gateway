@@ -11,7 +11,7 @@ use System\Config\DBConfig;
 use System\Config\SiteConfig;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class OrderRow
@@ -109,6 +109,7 @@ class OrderRow
     protected $merchant_id;
     protected $integration_id;
     protected $subscription_id;
+    protected $batch_id;
 
     // Table integration
     protected $integration_name;
@@ -218,6 +219,38 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $this->subscription_id = $order_item_id;
     }
 
+    public function getBatchID()            { return $this->batch_id; }
+    public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
+
+    public function calculateCurrentBatchID($time=null) {
+        $DB = DBConfig::getInstance();
+
+        $batch_date = date('Y-m-d', $time);
+
+        $sql = <<<SQL
+SELECT MAX(oi.batch_id)
+FROM paylogic.order_item oi
+WHERE oi.date > ?
+AND oi.merchant_id = ?
+SQL;
+        $stmt = $DB->prepare($sql);
+        $stmt->execute(array($batch_date, $this->merchant_id));
+        $batch_id = $stmt->fetchColumn(0);
+
+        if(!$batch_id) {
+            $sql = <<<SQL
+SELECT MAX(oi.batch_id)
+FROM paylogic.order_item oi
+WHERE oi.merchant_id = ?
+SQL;
+            $stmt = $DB->prepare($sql);
+            $stmt->execute(array($this->merchant_id));
+            $batch_id = $stmt->fetchColumn(0);
+            $batch_id += 1; // Increase batch id for new day
+        }
+
+        return $batch_id;
+    }
 
     /**
      * Return the first authorized transaction for this order
@@ -330,6 +363,7 @@ SQL;
             ':merchant_id' => $OrderRow->merchant_id,
             ':integration_id' => $OrderRow->integration_id,
             ':subscription_id' => $OrderRow->subscription_id,
+            ':batch_id' => $OrderRow->batch_id,
             ':version' => $OrderRow->version,
             ':amount' => $OrderRow->amount,
             ':card_exp_month' => $OrderRow->card_exp_month,

@@ -14,7 +14,7 @@ use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\PDF\ReceiptPDF;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 

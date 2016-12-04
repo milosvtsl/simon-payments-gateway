@@ -13,7 +13,7 @@ use PHPMailer;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/system/support/PHPMailer/PHPMailerAutoload.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/system/lib/PHPMailer/PHPMailerAutoload.php';
 
 class ErrorEmail extends \PHPMailer
 {

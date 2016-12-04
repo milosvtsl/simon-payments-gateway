@@ -13,7 +13,7 @@ use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 echo "\nBatch ... ", __FILE__, PHP_EOL;
 

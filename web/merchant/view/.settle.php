@@ -26,7 +26,7 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
         <form class="form-view-merchant themed" method="POST">
 
                 <fieldset class="themed">
-                    <legend>Merchant Information</legend>
+                    <div class="legend">Merchant Information</div>
                     <table class="table-merchant-info themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
@@ -65,7 +65,7 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
                 <?php if(empty($_GET['integration_id'])) { ?>
 
                 <fieldset class="themed" style="max-width: 59em;">
-                    <legend>Choose Provisioned Integration</legend>
+                    <div class="legend">Choose Provisioned Integration</div>
                     <?php
 
                     $DB = \System\Config\DBConfig::getInstance();
@@ -87,10 +87,10 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
                         $reason = null;
                         ?>
                         <fieldset style="display: inline-block; margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity:0.5;'; ?>">
-                            <legend>
+                            <div class="legend">
                                 <?php echo $IntegrationRow->getName(); ?>
                                 (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)
-                            </legend>
+                            </div>
                             <table class="table-merchant-info themed" style="float: left; min-width: 27em; min-height: 22em;">
                                 <tr>
                                     <th>Field</th>
@@ -154,7 +154,7 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
                 <?php } else { ?>
 
                 <fieldset class="themed" style="max-width: 59em;">
-                    <legend>Settle Funds Now</legend>
+                    <div class="legend">Settle Funds Now</div>
                     <?php
                     $integration_id = $_GET['integration_id'];
                     $DB = \System\Config\DBConfig::getInstance();

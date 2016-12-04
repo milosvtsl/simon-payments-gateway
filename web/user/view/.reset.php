@@ -17,7 +17,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
             <input type="hidden" name="key" value="<?php echo $_GET['key']; ?>" />
             <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" />
             <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
-                <legend>RESET Password</legend>
+                <div class="legend">RESET Password</div>
 
                 <h3>Please enter your email address to receive a password reset link</h3>
 
@@ -51,7 +51,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
             <input type="hidden" name="action" value="reset" />
             <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
-                <legend>Password Reset</legend>
+                <div class="legend">Password Reset</div>
 
                 <span class="info">Please enter your email address to receive a password reset link</span>
 

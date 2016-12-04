@@ -12,7 +12,7 @@ use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
@@ -25,7 +25,7 @@ spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // Register Exception Handler
-\System\Exception\ExceptionHandler::register();
+//\System\Exception\ExceptionHandler::register();
 
 
 // Test Data
@@ -137,15 +137,22 @@ $tests = array(
 //    array('amount' => '2.13', 'entry_mode' => 'check'),
 
 //    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
-//    array('amount' => '2.31', 'entry_mode' => 'check', 'void' => true),
+//    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev
-if(@$_SERVER['COMPUTERNAME'] !== 'KADO')
+if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
     $tests = array();
+
+$batch_id = null;
 
 foreach($tests as $testData) {
     $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
+
+    if(!$batch_id) {
+        $batch_id = $Order->calculateCurrentBatchID();
+        echo "\nCalculating Current Batch ID: ", $batch_id;
+    }
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $testData+$data);

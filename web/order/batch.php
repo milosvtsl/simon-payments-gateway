@@ -29,5 +29,5 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-$View = new Transaction\View\ChargeView();
+$View = new \Order\View\BatchListView();
 $View->handleRequest();

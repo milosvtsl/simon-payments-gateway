@@ -26,7 +26,7 @@ $Theme->printHTMLMenu('order-subscription-list');
             <form name="form-subscription-search" class="themed">
 
                 <fieldset class="search-fields">
-                    <legend>Search</legend>
+                    <div class="legend">Search</div>
                     <table class="themed">
                         <tbody>
                         <tr>
@@ -86,7 +86,7 @@ $Theme->printHTMLMenu('order-subscription-list');
                 </fieldset>
 
                 <fieldset>
-                    <legend>Search Results</legend>
+                    <div class="legend">Search Results</div>
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_ID); ?>">ID</a></th>

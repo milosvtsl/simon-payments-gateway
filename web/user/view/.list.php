@@ -19,7 +19,7 @@ $Theme->printHTMLMenu('user-list');
 
             <form class="form-user-search themed">
                 <fieldset class="search-fields">
-                    <legend>Search</legend>
+                    <div class="legend">Search</div>
                     <table>
                         <tr>
                             <td class="name">Search</td>
@@ -39,7 +39,7 @@ $Theme->printHTMLMenu('user-list');
                     </table>
                 </fieldset>
                 <fieldset>
-                    <legend>Search Results</legend>
+                    <div class="legend">Search Results</div>
                     <table class="table-results themed striped-rows small">
                         <tr>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
@@ -65,7 +65,7 @@ $Theme->printHTMLMenu('user-list');
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Page</legend>
+                    <div class="legend">Page</div>
                     <?php $this->printPagination('user?'); ?>
                 </fieldset>
             </form>

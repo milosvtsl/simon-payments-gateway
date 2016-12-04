@@ -23,7 +23,7 @@ $Theme->printHTMLMenu('integration-list');
 
             <form class="form-search themed">
                 <fieldset>
-                    <legend>Integration</legend>
+                    <div class="legend">Integration</div>
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="integration?<?php echo $this->getSortURL(IntegrationRow::SORT_BY_ID); ?>">ID</a></th>

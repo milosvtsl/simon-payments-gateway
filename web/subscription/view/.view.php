@@ -38,7 +38,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
 
             <form name="form-subscription-view" id="form-subscription-view" class="themed" method="POST">
                 <fieldset style="display: inline-block;">
-                    <legend><?php echo $Merchant->getShortName(); ?></legend>
+                    <div class="legend"><?php echo $Merchant->getShortName(); ?></div>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
                         <?php $odd = true; ?>
@@ -62,7 +62,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                 </fieldset>
 
                 <fieldset style="display: inline-block;">
-                    <legend>Subscription</legend>
+                    <div class="legend">Subscription</div>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
                             <?php $odd = true; ?>
@@ -106,7 +106,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
 
 
                 <fieldset style="display:inline-block; min-width: 5em;">
-                    <legend>Totals</legend>
+                    <div class="legend">Totals</div>
                     <table class="table-transaction-info-totals themed striped-rows ">
                         <tbody>
                         <?php $odd = true; ?>
@@ -132,7 +132,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                 <?php if ($Subscription->getCardNumber()) { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <legend>Card Holder: <?php echo $Subscription->getCardHolderFullName(); ?></legend>
+                        <div class="legend">Card Holder: <?php echo $Subscription->getCardHolderFullName(); ?></div>
                         <table class="table-transaction-info themed cell-bsubscriptions small" style="width: 94%">
                             <tbody>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -162,7 +162,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                 <?php } else  { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <legend>e-Check : <?php echo $Subscription->getCheckAccountName(); ?></legend>
+                        <div class="legend">e-Check : <?php echo $Subscription->getCheckAccountName(); ?></div>
                         <table class="table-transaction-card-info themed cell-bsubscriptions small"  style="width: 94%">
                             <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -209,7 +209,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
 
                 <?php if ($Subscription->getSubscriptionCount() > 0) { ?>
                 <fieldset style="max-width: 44em;" class="hide-on-print">
-                    <legend>Subscription Status</legend>
+                    <div class="legend">Subscription Status</div>
                     <table class="table-results themed small cell-bsubscriptions" style="width: 94%">
                         <tr>
                             <th>Amount</th>
@@ -235,7 +235,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                 <?php } ?>
 
                 <fieldset style="max-width: 44em;" class="hide-on-print">
-                    <legend>Transaction History</legend>
+                    <div class="legend">Transaction History</div>
                     <table class="table-results themed small cell-bsubscriptions" style="width: 94%">
                         <tr>
                             <th class="hide-on-layout-vertical">TID</th>
@@ -246,11 +246,11 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                             <th>Perform</th>
                         </tr>
                         <?php
-                        /** @var \Transaction\Model\TransactionRow $Transaction */
+                        /** @var \Order\Model\TransactionRow $Transaction */
                         $DB = \System\Config\DBConfig::getInstance();
-                        $TransactionQuery = $DB->prepare(\Transaction\Model\TransactionRow::SQL_SELECT . "WHERE t.subscription_item_id = ? LIMIT 100");
+                        $TransactionQuery = $DB->prepare(\Order\Model\TransactionRow::SQL_SELECT . "WHERE t.subscription_item_id = ? LIMIT 100");
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
-                        $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Transaction\Model\TransactionRow::_CLASS);
+                        $TransactionQuery->setFetchMode(\PDO::FETCH_CLASS, \Order\Model\TransactionRow::_CLASS);
                         $TransactionQuery->execute(array($this->getSubscription()->getID()));
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>

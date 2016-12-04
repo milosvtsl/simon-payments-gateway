@@ -23,7 +23,8 @@ $Theme->printHTMLMenu('integration-request-list');
 
             <form class="form-search themed">
                 <fieldset class="search-fields">
-                    <legend>Search</legend>
+                    <div class="legend">Search</div>
+<!--                    <legend>Search</legend>-->
                     <table>
                         <tbody>
                             <tr>
@@ -73,7 +74,8 @@ $Theme->printHTMLMenu('integration-request-list');
                     </table>
                 </fieldset>
                 <fieldset>
-                    <legend>Search Results</legend>
+                    <div class="legend">Search Results</div>
+<!--                    <legend>Search Results</legend>-->
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_ID); ?>">ID</a></th>
@@ -113,7 +115,8 @@ $Theme->printHTMLMenu('integration-request-list');
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Page</legend>
+                    <div class="legend">Page</div>
+<!--                    <legend>Page</legend>-->
                     <?php $this->printPagination('integration/request?'); ?>
                 </fieldset>
             </form>

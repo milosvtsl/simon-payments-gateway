@@ -19,7 +19,7 @@ $this->getTheme()->printHTMLMenu('user-logout');
                     <form name="form-login" action='user/logout.php?action=logout' method='POST' class="themed">
 
                         <fieldset>
-                            <legend>LOGOUT</legend>
+                            <div class="legend">LOGOUT</div>
                             <input type="hidden" name="action" value="logout" />
                             <div class="form-actions">
                                 <div class="clearfix">

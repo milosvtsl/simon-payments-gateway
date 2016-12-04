@@ -18,8 +18,8 @@ use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
-use Transaction\Mail\ReceiptEmail;
-use Transaction\Model\TransactionRow;
+use Order\Mail\ReceiptEmail;
+use Order\Model\TransactionRow;
 
 class ElementIntegration extends AbstractIntegration
 {
@@ -681,6 +681,10 @@ class ElementIntegration extends AbstractIntegration
                             TransactionRow::insert($SettledTransaction);
 
                             $OrderRow->setStatus("Settled");
+
+                            $batch_id = $OrderRow->calculateCurrentBatchID();
+                            $OrderRow->setBatchID($batch_id);
+
                             OrderRow::update($OrderRow);
                             $updated = true;
                         }

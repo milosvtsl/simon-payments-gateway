@@ -4,19 +4,19 @@ use User\Session\SessionManager;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 /**
- * @var \Transaction\View\ChargeView $this
+ * @var \Order\View\ChargeView $this
  **/
 $odd = false;
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 $LASTPOST = array();
-if(isset($_SESSION['transaction/charge.php']))
-    $LASTPOST = $_SESSION['transaction/charge.php'];
+if(isset($_SESSION['order/charge.php']))
+    $LASTPOST = $_SESSION['order/charge.php'];
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('order',                     'Transactions');
-$Theme->addPathURL('transaction/charge.php',    'New Charge');
+$Theme->addPathURL('order/charge.php',    'New Charge');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('order-charge');
 ?>
@@ -34,7 +34,8 @@ $Theme->printHTMLMenu('order-charge');
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
                 <fieldset class="float-left-on-layout-horizontal" style="min-width:47%;">
-                    <legend>Choose a Merchant</legend>
+<!--                    <legend>Choose a Merchant</legend>-->
+                    <div class="legend">Choose a Merchant</div>
                     <table class="table-choose-merchant themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td>
@@ -84,7 +85,7 @@ $Theme->printHTMLMenu('order-charge');
                 </fieldset>
 
                 <fieldset class="show-on-merchant-selected" style="min-width:47%;">
-                    <legend>Choose a Payment Method</legend>
+                    <div class="legend">Choose a Payment Method</div>
                     <table class="table-payment-method themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td>
@@ -100,7 +101,7 @@ $Theme->printHTMLMenu('order-charge');
                 </fieldset>
 
                 <fieldset class="show-on-merchant-selected float-left-on-layout-horizontal" style="min-width:47%; min-height: 25em;">
-                    <legend>Customer Fields</legend>
+                    <div class="legend">Customer Fields</div>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Payment Amount</td>
@@ -166,8 +167,8 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%; min-height: 26em;">
-                    <legend>Cardholder Information</legend>
+                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%; min-height: 25em;">
+                    <div class="legend">Cardholder Information</div>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">First Name</td>
@@ -254,8 +255,8 @@ $Theme->printHTMLMenu('order-charge');
                     </fieldset>
                 </div>
 
-                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%; min-height: 26em;">
-                    <legend>e-Check Information</legend>
+                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%; min-height: 25em;">
+                    <div class="legend">e-Check Information</div>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Account Name</td>
@@ -303,7 +304,7 @@ $Theme->printHTMLMenu('order-charge');
 
 
                 <fieldset class="show-on-merchant-selected show-on-payment-method-selected" style="clear: both;">
-                    <legend>Submit Payment</legend>
+                    <div class="legend">Submit Payment</div>
 
 
                     <table class="table-transaction-charge themed" style="float: left; width: 48%;">

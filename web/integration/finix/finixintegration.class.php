@@ -17,7 +17,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
-use Transaction\Model\TransactionRow;
+use Order\Model\TransactionRow;
 
 // https://finix-payments.github.io/simonpay-docs/?shell#step-1-create-an-identity-for-a-merchant
 class FinixIntegration extends AbstractIntegration

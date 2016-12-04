@@ -25,7 +25,7 @@ $Theme->printHTMLMenu('user-add');
                 <input type="hidden" name="action" value="add" />
 
                 <fieldset style="display: inline-block;">
-                    <legend>New User Fields</legend>
+                    <div class="legend">New User Fields</div>
                     <table class="table-user-info themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Username</td>

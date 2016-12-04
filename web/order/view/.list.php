@@ -28,7 +28,7 @@ $Theme->printHTMLMenu('order-list');
             <form name="form-order-search" class="themed">
 
                 <fieldset class="search-fields">
-                    <legend>Search</legend>
+                    <div class="legend">Search</div>
                     <table class="themed">
                         <tbody>
                         <tr>
@@ -88,7 +88,7 @@ $Theme->printHTMLMenu('order-list');
                 </fieldset>
 
                 <fieldset>
-                    <legend>Search Report</legend>
+                    <div class="legend">Search Report</div>
                     <table class="table-stats themed small striped-rows">
                         <tr>
                             <th><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></th>
@@ -141,7 +141,7 @@ $Theme->printHTMLMenu('order-list');
                 </fieldset>
 
                 <fieldset>
-                    <legend>Search Results</legend>
+                    <div class="legend">Search Results</div>
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
@@ -178,10 +178,10 @@ $Theme->printHTMLMenu('order-list');
                         <?php } ?>
 
                         <tr>
-                            <td colspan="6" class="pagination">
+                            <td colspan="8" class="pagination">
                                 <span style=""><?php $this->printPagination('order?'); ?></span>
-                                <button name="action" type="submit" value="Export-Data" class="themed">Export Data Only (.csv)</button>
-                                <button name="action" type="submit" value="Export" class="themed">Export All (.csv)</button>
+                                <button name="action" type="submit" value="Export-Data" class="themed" style="float:right;">Export Data Only (.csv)</button>
+                                <button name="action" type="submit" value="Export" class="themed" style="float:right;">Export All (.csv)</button>
 
                             </td>
                         </tr>

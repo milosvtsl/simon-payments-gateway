@@ -27,7 +27,7 @@ $Order->setPayeeEmail('ari@govpaynetwork.com');
 $Merchant = \Merchant\Model\MerchantRow::fetchByID($Order->getMerchantID());
 
 
-$Email = new \Transaction\Mail\ReceiptEmail($Order, $Merchant);
+$Email = new \Order\Mail\ReceiptEmail($Order, $Merchant);
 $Email->addCC('ari@govpaynetwork.com', 'Tester');
 echo "\nSending Receipt Email...";
 if(!$Email->send())

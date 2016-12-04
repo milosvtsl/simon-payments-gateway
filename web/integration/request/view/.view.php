@@ -21,7 +21,7 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
 
             <form class="form-view-integration-request themed" onsubmit="return false;">
                 <fieldset>
-                    <legend>Request Information</legend>
+                    <div class="legend">Request Information</div>
                     <table class="table-integration-request-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
