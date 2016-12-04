@@ -27,7 +27,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
                 <fieldset style="display: inline-block;;">
-                    <legend>Edit Merchant Fields</legend>
+                    <div class="legend">Edit Merchant Fields</div>
                     <table class="table-merchant-info themed small striped-rows" style="float: left;">
                         <tr>
                             <th colspan="2">Information</th>

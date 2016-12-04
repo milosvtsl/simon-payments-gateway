@@ -29,7 +29,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                     <input type="hidden" name="action" value="edit" />
                     <fieldset style="display: inline-block;">
-                        <legend>Edit User Fields</legend>
+                        <div class="legend">Edit User Fields</div>
                         <table class="table-user-info themed striped-rows">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>

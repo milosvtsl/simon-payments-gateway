@@ -20,7 +20,7 @@ $Theme->printHTMLMenu('support-ticket-view',    $action_url);
 
             <form class="form-view-support-ticket themed" onsubmit="return false;">
                 <fieldset>
-                    <legend>Ticket Information</legend>
+                    <div class="legend">Ticket Information</div>
                     <table class="table-support-ticket-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>

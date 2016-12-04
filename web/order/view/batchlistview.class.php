@@ -4,15 +4,12 @@ namespace Order\View;
 use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Order\Model\OrderQueryStats;
+use Order\Model\BatchQueryStats;
 use User\Session\SessionManager;
 use View\AbstractListView;
 
 
 class BatchListView extends AbstractListView {
-
-//Need to be able to pull information by batch, day, card #, amount, MID, TID ect.
-// TODO batch id
 
 	public function renderHTML($params=null) {
 		if(in_array(strtolower(@$params['action']), array('export', 'export-stats', 'export-data'))) {
@@ -107,98 +104,43 @@ class BatchListView extends AbstractListView {
 //            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
         }
 
-        // Limit to status
-        if(!empty($params['status'])) {
-            $whereSQL .= "\nAND oi.status = :status";
-            $sqlParams['status'] = $params['status'];
-            $statsMessage .= " by status '" . $params['status'] . "' ";
-        }
-
 		// Query Statistics
 		$DB = DBConfig::getInstance();
 
 
-		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
+		$statsSQL = BatchQueryStats::SQL_SELECT . $whereSQL;
 		$StatsQuery = $DB->prepare($statsSQL);
 		$StatsQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
-		/** @var OrderQueryStats $Stats */
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
+		/** @var BatchQueryStats $Stats */
 		$Stats = $StatsQuery->fetch();
 		$this->setRowCount($Stats->getCount());
 
-		// TODO decide date range
-
-		$groupByStatsSQL = OrderQueryStats::SQL_GROUP_BY;
+		$groupByStatsSQL = BatchQueryStats::SQL_GROUP_BY;
 		$limitStatsSQL = "\nLIMIT 5";
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
-		switch(@$params['stats_group']) {
-			case 'Day': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d')"; break;
-			case 'Week': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%u')"; break;
-			default:
-				$params['stats_group'] = 'Month';
-			case 'Month': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m')"; break;
-			case 'Year': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y')"; break;
-		}
 
-		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL
+		$statsSQL = BatchQueryStats::SQL_SELECT . $whereSQL
 			. $groupByStatsSQL
-			. OrderQueryStats::SQL_ORDER_BY
+			. BatchQueryStats::SQL_ORDER_BY
 			. $limitStatsSQL;
 		$ReportQuery = $DB->prepare($statsSQL);
 		$ReportQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
 
-
-		// Calculate GROUP BY
-		$groupSQL = OrderRow::SQL_GROUP_BY;
-
-		// Calculate ORDER BY
-		$orderSQL = OrderRow::SQL_ORDER_BY;
-		if(!empty($params[self::FIELD_ORDER_BY])) {
-			$sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
-			$sortField = $params[self::FIELD_ORDER_BY];
-			if(substr($sortField, 0, 3) !== 'oi.')
-				$sortField = 'oi.' . $sortField;
-			if(!in_array($sortField, OrderRow::$SORT_FIELDS))
-				throw new \InvalidArgumentException("Invalid order-by field");
-			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
-			$statsMessage .= "\nsorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
-		}
-
-		// Calculate LIMIT
-		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
-		if(in_array(strtolower(@$params['action']),
-			array('export', 'export-stats', 'export-data')))
-			$limitSQL = '';
-
-		// Query Rows
-		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
-		$Query = $DB->prepare($mainSQL);
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
-		$time = -microtime(true);
-		$Query->execute($sqlParams);
-		$time += microtime(true);
-
-
-		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $statsMessage .= " (GMT " . $offset/(60*60) . ")";
-
-		if(!$this->getMessage())
-			$this->setMessage($statsMessage);
 
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data'))) {
 			// Render Page
-			include ('.export.csv.php');
+			include ('.batch.export.csv.php');
 
 		} else {
 			// Render Page
-			include ('.list.php');
+			include ('.batch.php');
 		}
 
 	}

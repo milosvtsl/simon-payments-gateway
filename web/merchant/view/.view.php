@@ -30,7 +30,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
             <form class="form-view-merchant themed " method="GET">
                 <fieldset style="display: inline-block;">
-                    <legend>Merchant Information</legend>
+                    <div class="legend">Merchant Information</div>
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -174,7 +174,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                 </fieldset>
 
                 <fieldset>
-                    <legend>Provisions: <?php echo $Merchant->getShortName(); ?></legend>
+                    <div class="legend">Provisions: <?php echo $Merchant->getShortName(); ?></div>
                     <table class="table-merchant-info themed striped-rows">
                         <tr>
                             <th>ID</th>
@@ -217,7 +217,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                 </fieldset>
 
                 <fieldset style="display: inline-block;">
-                    <legend>Users: <?php echo $Merchant->getShortName(); ?></legend>
+                    <div class="legend">Users: <?php echo $Merchant->getShortName(); ?></div>
                     <table class="table-merchant-users themed striped-rows">
                         <tr>
                             <th>ID</th>
@@ -250,7 +250,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
 
                 <fieldset style="display: inline-block;">
-                    <legend>Orders: <?php echo $Merchant->getShortName(); ?></legend>
+                    <div class="legend">Orders: <?php echo $Merchant->getShortName(); ?></div>
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th>ID</th>

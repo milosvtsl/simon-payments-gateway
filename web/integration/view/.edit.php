@@ -25,7 +25,7 @@ $this->getTheme()->printHTMLMenu('integration-edit', $action_url);
 
             <form class="form-view-integration themed" method="POST">
                 <fieldset>
-                    <legend>Edit Integration Fields</legend>
+                    <div class="legend">Edit Integration Fields</div>
                     <table class="table-integration-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>

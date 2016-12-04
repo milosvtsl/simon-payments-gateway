@@ -25,7 +25,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                 <form class="form-view-user themed" method="POST">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                     <fieldset style="display: inline-block;">
-                        <legend>User Information</legend>
+                        <div class="legend">User Information</div>
                         <?php $odd = true; ?>
                         <table class="table-user-info themed striped-rows">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

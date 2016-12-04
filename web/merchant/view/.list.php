@@ -19,7 +19,7 @@ $Theme->printHTMLMenu('merchant-list');
 
             <form class="form-search themed">
                 <fieldset class="search-fields">
-                    <legend>Search all Merchants</legend>
+                    <div class="legend">Search all Merchants</div>
                     <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="Name, ID, UID" />
                     <select name="limit">
                         <?php
@@ -31,8 +31,9 @@ $Theme->printHTMLMenu('merchant-list');
                     <input type="submit" value="Search" class="themed" />
                 </fieldset>
                 <br/>
+
                 <fieldset>
-                    <legend>Search Results</legend>
+                    <div class="legend">Search Results</div>
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_ID); ?>">ID</a></th>
@@ -57,8 +58,9 @@ $Theme->printHTMLMenu('merchant-list');
                         <?php } ?>
                     </table>
                 </fieldset>
+
                 <fieldset class="pagination">
-                    <legend>Page</legend>
+                    <div class="legend">Page</div>
                     <?php $this->printPagination('merchant?'); ?>
 
                     <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>

@@ -30,7 +30,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
 
             <form name="form-order-view" id="form-order-view" class="themed" method="POST">
                 <fieldset style="display: inline-block;">
-                    <legend><?php echo $Merchant->getShortName(); ?></legend>
+                    <div class="legend"><?php echo $Merchant->getShortName(); ?></div>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
                         <?php $odd = true; ?>
@@ -58,7 +58,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                 </fieldset>
 
                 <fieldset style="display: inline-block;">
-                    <legend>Receipt</legend>
+                    <div class="legend">Receipt</div>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
                             <?php $odd = true; ?>
@@ -98,7 +98,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
 
 
                 <fieldset style="display:inline-block; min-width: 5em;">
-                    <legend>Totals</legend>
+                    <div class="legend">Totals</div>
                     <table class="table-transaction-info-totals themed striped-rows ">
                         <tbody>
                         <?php $odd = true; ?>
@@ -124,7 +124,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                 <?php if ($Order->getCardNumber()) { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
+                        <div class="legend">Card Holder: <?php echo $Order->getCardHolderFullName(); ?></div>
                         <table class="table-transaction-info themed cell-borders small" style="width: 94%">
                             <tbody>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -154,7 +154,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                 <?php } else  { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <legend>e-Check : <?php echo $Order->getCheckAccountName(); ?></legend>
+                        <div class="legend">e-Check : <?php echo $Order->getCheckAccountName(); ?></div>
                         <table class="table-transaction-card-info themed cell-borders small"  style="width: 94%">
                             <tbody>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -201,7 +201,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
 
                 <?php if ($Order->getSubscriptionCount() > 0) { ?>
                 <fieldset style="max-width: 44em;" class="hide-on-print">
-                    <legend>Subscription Status</legend>
+                    <div class="legend">Subscription Status</div>
                     <table class="table-results themed small cell-borders" style="width: 94%">
                         <tr>
                             <th>Amount</th>
@@ -227,7 +227,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                 <?php } ?>
 
                 <fieldset style="max-width: 44em;" class="hide-on-print">
-                    <legend>Transaction History</legend>
+                    <div class="legend">Transaction History</div>
                     <table class="table-results themed small cell-borders" style="width: 94%">
                         <tr>
                             <th class="hide-on-layout-vertical">TID</th>

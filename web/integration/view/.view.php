@@ -30,7 +30,7 @@ $Theme->printHTMLMenu('integration-view',    $action_url);
 
             <form class="form-view-integration themed" onsubmit="return false;">
                 <fieldset>
-                    <legend>Integration Information</legend>
+                    <div class="legend">Integration Information</div>
                     <table class="table-integration-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>

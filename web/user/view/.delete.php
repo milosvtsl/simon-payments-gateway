@@ -28,7 +28,7 @@ $this->getTheme()->printHTMLMenu('user-delete', $action_url);
                 <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                 <input type="hidden" name="action" value="delete" />
                 <fieldset style="display: inline-block;">
-                    <legend>Delete User: <?php echo $User->getFullName(); ?></legend>
+                    <div class="legend">Delete User: <?php echo $User->getFullName(); ?></div>
                     <table class="table-user-info themed striped-rows">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>

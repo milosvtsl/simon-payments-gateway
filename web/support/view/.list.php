@@ -21,7 +21,7 @@ $Theme->printHTMLMenu('support-ticket-list');
 
             <form class="form-support-ticket-search themed">
                 <fieldset class="search-fields">
-                    <legend>Search</legend>
+                    <div class="legend">Search</div>
                     <table>
                         <tbody>
                             <tr>
@@ -62,7 +62,7 @@ $Theme->printHTMLMenu('support-ticket-list');
                     </table>
                 </fieldset>
                 <fieldset>
-                    <legend>Search Results</legend>
+                    <div class="legend">Search Results</div>
                     <table class="table-results themed small striped-rows">
                         <tr>
                             <th><a href="support?<?php echo $this->getSortURL(SupportTicketRow::SORT_BY_ID); ?>">ID</a></th>
@@ -90,7 +90,7 @@ $Theme->printHTMLMenu('support-ticket-list');
                     </table>
                 </fieldset>
                 <fieldset class="pagination">
-                    <legend>Page</legend>
+                    <div class="legend">Page</div>
                     <?php $this->printPagination('support?'); ?>
                 </fieldset>
             </form>
