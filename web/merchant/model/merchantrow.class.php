@@ -186,9 +186,9 @@ LEFT JOIN state s on m.state_id = s.id
     public function getMerchantID()     { return $this->merchant_id; }
     public function getMerchantSIC()    { return $this->sic; }
 
-    public function getFeeLimit()       { return floatval($this->convenience_fee_limit); }
-    public function getFeeFlat()        { return floatval($this->convenience_fee_flat); }
-    public function getFeeVariable()    { return floatval($this->convenience_fee_variable_rate); }
+    public function getConvenienceFeeLimit()       { return floatval($this->convenience_fee_limit); }
+    public function getConvenienceFeeFlat()        { return floatval($this->convenience_fee_flat); }
+    public function getConvenienceFeeVariable()    { return floatval($this->convenience_fee_variable_rate); }
 
     public function getBatchTime()      { return $this->batch_capture_time; }
     public function getBatchTimeZone()  { return $this->batch_capture_time_zone; }

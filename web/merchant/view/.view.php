@@ -67,15 +67,15 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Fee: Limit</td>
-                            <td>$<?php echo number_format($Merchant->getFeeLimit(), 2); ?></td>
+                            <td>$<?php echo number_format($Merchant->getConvenienceFeeLimit(), 2); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Fee: Flat</td>
-                            <td>$<?php echo number_format($Merchant->getFeeFlat(), 2); ?></td>
+                            <td>$<?php echo number_format($Merchant->getConvenienceFeeFlat(), 2); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Fee: Variable</td>
-                            <td>$<?php echo number_format($Merchant->getFeeVariable(), 2); ?></td>
+                            <td>$<?php echo number_format($Merchant->getConvenienceFeeVariable(), 2); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Batch Close</td>

@@ -137,6 +137,10 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public function getHolderFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
 
+    public function setServiceFee($service_fee) {
+        $this->service_fee = $service_fee;
+    }
+
     public function setAction($action) {
         $this->action = $action;
     }
@@ -318,7 +322,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
         $TransactionRow->is_reviewed = 0;
         $TransactionRow->return_type = 'Both';
-        $TransactionRow->service_fee = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+
 
         if(!empty($post['username']))
             $TransactionRow->username = $post['username'];

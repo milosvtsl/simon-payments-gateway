@@ -239,6 +239,9 @@ class ElementIntegration extends AbstractIntegration
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
+        $Transaction->setServiceFee($service_fee);
+
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
         $Subscription = null;

@@ -58,6 +58,14 @@ abstract class AbstractMerchantIdentity {
     abstract public function calculateConvenienceFee(OrderRow $OrderRow);
 
     /**
+     * Calculate Transaction Convenience Fee
+     * @param OrderRow $OrderRow
+     * @param $action
+     * @return mixed
+     */
+    abstract public function calculateServiceFee(OrderRow $OrderRow, $action);
+
+    /**
      * Construct a new Merchant Identity
      * @param MerchantRow $Merchant
      * @param IntegrationRow $APIData

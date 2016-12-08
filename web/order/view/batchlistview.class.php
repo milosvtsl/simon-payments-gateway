@@ -26,11 +26,13 @@ class BatchListView extends AbstractListView {
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
+		$limit = @$params['limit'] ?: 50;
+
 		// Set up page parameters
-		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
+		$this->setPageParameters(@$params['page'] ?: 1, $limit);
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = ""; // \n\tWHERE 1";
 		$statsMessage = '';
 
 		$action = strtolower(@$params['action'] ?: 'view');
@@ -117,7 +119,7 @@ class BatchListView extends AbstractListView {
 		$Stats = $StatsQuery->fetch();
 		$this->setRowCount($Stats->getCount());
 
-		$limitStatsSQL = "\nLIMIT 5";
+        $limitStatsSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
@@ -127,10 +129,10 @@ class BatchListView extends AbstractListView {
 			. BatchQueryStats::SQL_GROUP_BY
 			. BatchQueryStats::SQL_ORDER_BY
 			. $limitStatsSQL;
-		$ReportQuery = $DB->prepare($statsSQL);
-		$ReportQuery->execute($sqlParams);
+		$BatchQuery = $DB->prepare($statsSQL);
+		$BatchQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
+		$BatchQuery->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
 
 
 		if(in_array(strtolower(@$params['action']),
@@ -146,14 +148,14 @@ class BatchListView extends AbstractListView {
 			echo '"Span","Count","Authorized","Settled","Void","Returned","",""';
 
 			if(in_array(strtolower(@$params['action']), array('export', 'export-stats'))) {
-				foreach ($ReportQuery as $Report) {
-					/** @var \Order\Model\OrderQueryStats $Report */
-					echo "\n\"" . $Report->getGroupSpan(),
-						'", ' . $Report->getCount(),
-						', $' . $Report->getTotal(),
-						', $' . $Report->getSettledTotal(),
-						', $' . $Report->getVoidTotal(),
-						', $' . $Report->getReturnTotal(),
+				foreach ($BatchQuery as $Batch) {
+					/** @var \Order\Model\OrderQueryStats $Batch */
+					echo "\n\"" . $Batch->getGroupSpan(),
+						'", ' . $Batch->getCount(),
+						', $' . $Batch->getTotal(),
+						', $' . $Batch->getSettledTotal(),
+						', $' . $Batch->getVoidTotal(),
+						', $' . $Batch->getReturnTotal(),
 					',,';
 				}
 			}
@@ -173,7 +175,7 @@ class BatchListView extends AbstractListView {
 			<section class="content">
 				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
 				<form name="form-order-search" class="themed">
-					<fieldset class="search-fields">
+					<fieldset class="search-fields" style="display: inline-block;">
 						<div class="legend">Search</div>
 						<table class="themed">
 							<tbody>
@@ -187,13 +189,6 @@ class BatchListView extends AbstractListView {
 							<tr>
 								<td class="name">Limit</td>
 								<td>
-									<select name="limit">
-										<?php
-										$limit = @$_GET['limit'] ?: 10;
-										foreach(array(10,25,50,100,250) as $opt)
-											echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
-										?>
-									</select>
 									<select name="merchant_id" style="min-width: 20.5em;" >
 										<option value="">By Merchant</option>
 										<?php
@@ -211,18 +206,6 @@ class BatchListView extends AbstractListView {
 								</td>
 							</tr>
 							<tr>
-								<td class="name">Report</td>
-								<td>
-									<select name="stats_group">
-										<?php
-										$stats_group = @$_GET['stats_group'];
-										foreach(array('Day', 'Week', 'Month', 'Year') as $opt)
-											echo "<option value='{$opt}' ", $stats_group == $opt ? ' selected="selected"' : '' ,">By ", $opt, "</option>\n";
-										?>
-									</select>
-								</td>
-							</tr>
-							<tr>
 								<td class="name">Value</td>
 								<td>
 									<input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="27" />
@@ -233,41 +216,40 @@ class BatchListView extends AbstractListView {
 						</table>
 					</fieldset>
 
-					<fieldset>
-						<div class="legend">Search Report</div>
+					<br />
+
+					<fieldset style="display: inline-block;">
+						<div class="legend">Batch Report</div>
 						<table class="table-stats themed small striped-rows">
 							<tr>
 								<th>Batch ID</th>
-								<th>Status</th>
                                 <th>Date</th>
-                                <th>Count</th>
+                                <th>Amount</th>
                                 <th>Merchant</th>
 							</tr>
 							<?php
 							$odd = false;
-							foreach($ReportQuery as $Report) {
-                                /** @var BatchQueryStats $Report */
-								$report_url = $action_url . '&date_from=' . $Report->getStartDate() . '&date_to=' . $Report->getEndDate()
+							foreach($BatchQuery as $Batch) {
+                                /** @var BatchQueryStats $Batch */
+								$report_url = $action_url . '&date_from=' . $Batch->getStartDate() . '&date_to=' . $Batch->getEndDate()
 								/** @var \Order\Model\OrderQueryStats $Stats */
 								?>
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-									<td><a href="order/batch.php?id=<?php echo $Report->getBatchID(); ?>"><?php echo $Report->getBatchID(); ?></a></td>
-                                    <td><?php echo $Report->getStatus(); ?></td>
-                                    <td><?php echo $Report->getStartDate(); ?></td>
-                                    <td><?php echo $Report->getCount(); ?></td>
-                                    <td><?php echo $Report->getMerchantShrtName(); ?></td>
+									<td><a href="order/batch.php?id=<?php echo $Batch->getBatchID(); ?>"><?php echo $Batch->getBatchID(); ?></a></td>
+                                    <td><?php echo date('Y-m-d', strtotime($Batch->getStartDate())); ?></td>
+                                    <td>$<?php echo number_format($Batch->getAmount(), 2), ' (', $Batch->getCount(), ')'; ?></td>
+                                    <td><a href="merchant?id=<?php echo $Batch->getMerchantID(); ?>"><?php echo $Batch->getMerchantShrtName(); ?></a></td>
 								</tr>
 							<?php } ?>
 
 							<tr>
-								<td colspan="6" style="text-align: right">
-                                    <span style="font-size: 0.7em; color: grey; float: left;">
-                                        <?php if($this->hasMessage()) echo $this->getMessage(); ?>
-                                    </span>
-									<button name="action" type="submit" value="Export-Stats" class="themed">Export Reporting (.csv)</button>
+                                <td colspan="8" class="pagination">
+                                    <span style=""><?php $this->printPagination('order/batch.php?'); ?></span>
+									<button name="action" type="submit" value="Export-Stats" class="themed" style="float: right;">Export Batch Data (.csv)</button>
 								</td>
 							</tr>
-						</table>
+
+                        </table>
 					</fieldset>
 				</form>
 			</section>

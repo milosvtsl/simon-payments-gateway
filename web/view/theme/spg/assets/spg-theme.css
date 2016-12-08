@@ -163,7 +163,7 @@ body.spg-theme .menu-icon.menu-icon-toggle      {
     background-position: -4em 0;
     /*     font-size: 8px; */
     margin: 2px 15px -15px 10px;
-    transform: rotate(90deg);
+    transform: rotate(0deg);
     transition: transform 0.5s;
     /* margin: 0 0; */
 }
@@ -172,7 +172,7 @@ body.spg-theme a:hover .menu-icon-toggle {
     margin-left: 10px;
 }
 body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
-    transform: rotate(0deg);
+    transform: rotate(90deg);
     transition: transform 0.5s;
 }
 body.spg-theme .menu-button-toggle {
@@ -372,7 +372,7 @@ body.spg-theme .bread-crumbs {
     /* background-color: #f6f9fc; */
     /* position: relative; */
     background-color: #bcc5d1;
-    /* height: 54px; */
+    min-height: 54px;
     /* display: block; */
     vertical-align: top;
 }
@@ -387,7 +387,7 @@ body.spg-theme .bread-crumbs a.breadcrumb {
     text-decoration: none;
     color: #3b7593;
     font-size: 1.7em;
-    text-transform: lowercase;
+    /*text-transform: lowercase;*/
     display: inline-block;
     line-height: 2em;
     /* font-style: italic; */

@@ -1,4 +1,4 @@
-<?php
+o<?php
 /**
  * Created by PhpStorm.
  * User: ari
@@ -12,6 +12,107 @@ use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
 class ElementAPIUtil {
+
+    protected function prepareSOAPRequest(
+        ElementMerchantIdentity $MerchantIdentity,
+        $Action,
+        Array $transactionArgs = array(),
+        Array $cardArgs = array(),
+        Array $terminalArgs = array(),
+        Array $addressArgs = array()
+    ) {
+
+        $TerminalID = $MerchantIdentity->getDefaultTerminalID();
+        $TerminalType = 'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+        $CardPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent;
+        $CardholderPresentCode = 'UseDefault'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+        $CardInputCode = 'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+        $CVVPresenceCode = 'UseDefault'; // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
+        $TerminalCapabilityCode = 'UseDefault'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+        $TerminalEnvironmentCode = 'UseDefault'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+        $MotoECICode = 'NotUsed'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
+        $CVVResponseType = 'Regular'; // Regular or Extended
+        $ConsentCode = 'NotUsed'; // NotUsed or FaceToFace or Phone or Internet
+        $TerminalSerialNumber = '';
+        $TerminalEncryptionFormat = 'Default'; // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7
+        $LaneNumber = '';
+        $Model = '';
+        $EMVKernelVersion = '';
+
+        $terminalArgs += array(
+            'TerminalID' => $MerchantIdentity->getDefaultTerminalID(),
+            'TerminalType' => 'PointOfSale',                    // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+            'CardPresentCode' => 'UseDefault',                  // UseDefault or Unknown or Present or NotPresent;
+            'CardholderPresentCode' => 'UseDefault',            // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+            'CardInputCode' => 'MagstripeRead',                 // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+            'CVVPresenceCode' => 'UseDefault',                  // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
+            'TerminalCapabilityCode' => 'UseDefault',           // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+            'TerminalEnvironmentCode' => 'UseDefault',          // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+            'MotoECICode' => 'NotUsed',                         // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
+            'CVVResponseType' => 'Regular',                     // Regular or Extended
+            'ConsentCode' => 'NotUsed',                         // NotUsed or FaceToFace or Phone or Internet
+            'TerminalSerialNumber' => '',
+            'TerminalEncryptionFormat' => 'Default',            // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7
+            'LaneNumber' => '',
+            'Model' => '',
+            'EMVKernelVersion' => '',
+    );
+
+        $contentXML = "\n      <terminal>";
+        foreach($terminalArgs as $arg => $val)
+            $contentXML .= "\n        <{$arg}>{$val}</{$arg}>";
+        $contentXML .= "\n      </terminal>";
+
+        $contentXML .= "\n      <card>";
+        foreach($cardArgs as $arg => $val)
+            $contentXML .= "\n        <{$arg}>{$val}</{$arg}>";
+        $contentXML .= "\n      </card>";
+
+        $AccountID = $MerchantIdentity->getAccountID();
+        $AccountToken = $MerchantIdentity->getAccountToken();
+        $AcceptorID = $MerchantIdentity->getAcceptorID();
+        $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
+
+        $ApplicationID = $MerchantIdentity->getApplicationID();
+        $ApplicationName = 'Simon Payments Gateway';
+        $ApplicationVersion = '1';
+
+        $contentXML = $terminalXML . $cardXML . $transactionXML . $addressXML;
+
+        $request = <<<PHP
+<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+  <soap12:Body>
+    <{$Action} xmlns="https://transaction.elementexpress.com">
+      <credentials>
+        <AccountID>{$AccountID}</AccountID>
+        <AccountToken>{$AccountToken}</AccountToken>
+        <AcceptorID>{$AcceptorID}</AcceptorID>
+        <NewAccountToken>{$NewAccountToken}</NewAccountToken>
+      </credentials>
+      <application>
+        <ApplicationID>{$ApplicationID}</ApplicationID>
+        <ApplicationName>{$ApplicationName}</ApplicationName>
+        <ApplicationVersion>{$ApplicationVersion}</ApplicationVersion>
+      </application>
+      {$contentXML}
+      <extendedParameters>
+        <ExtendedParameters>
+          <Key>string</Key>
+          <Value />
+        </ExtendedParameters>
+        <ExtendedParameters>
+          <Key>string</Key>
+          <Value />
+        </ExtendedParameters>
+      </extendedParameters>
+    </{$Action}>
+  </soap12:Body>
+</soap12:Envelope>
+PHP;
+
+        return $request;
+    }
 
     public function prepareCreditCardSaleRequest(
         ElementMerchantIdentity $MerchantIdentity,
@@ -154,6 +255,11 @@ class ElementAPIUtil {
             $MotoECICode = 'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
         }
 
+
+
+        $cardXML,
+        $transactionXML,
+        $addressXML
 
         $request = <<<PHP
 <?xml version="1.0" encoding="utf-8"?>
@@ -314,7 +420,7 @@ PHP;
         $ExpirationYear = $OrderRow->getCardExpYear();
 
         $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = 0; // $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
@@ -565,7 +671,7 @@ PHP;
         $ReferenceNumber = $OrderRow->getReferenceNumber();
 
         $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = 0; // $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
@@ -727,7 +833,7 @@ PHP;
         $ReferenceNumber = $OrderRow->getReferenceNumber();
 
         $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = 0; // $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
@@ -902,7 +1008,10 @@ PHP;
 
         $TransactionAmount = $OrderRow->getAmount();
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
+        if($ConvenienceFeeAmount) {
+            $TransactionAmount = $TransactionAmount + $ConvenienceFeeAmount;
+            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
+        }
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
 
@@ -1113,7 +1222,7 @@ PHP;
         $ReferenceNumber = $OrderRow->getReferenceNumber();
 
         $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = 0; // $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 
@@ -1265,7 +1374,7 @@ PHP;
         $ReferenceNumber = $OrderRow->getReferenceNumber();
 
         $TransactionAmount = $OrderRow->getAmount();
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
+        $ConvenienceFeeAmount = 0; // $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
         $TransactionAmount = number_format($TransactionAmount, 2, '.', '');
 

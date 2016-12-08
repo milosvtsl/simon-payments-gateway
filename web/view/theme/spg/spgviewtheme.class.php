@@ -173,7 +173,11 @@ HEAD;
                     <a href="order" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>Transactions </a>
                     <ul>
 
-
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+                            <li>
+                                <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>Charge </a>
+                            </li>
+                        <?php } ?>
 
                         <?php if(in_array($category, array('order-view', 'order-edit', 'order-delete'))) { ?>
                             <li>
@@ -187,17 +191,15 @@ HEAD;
                         </li>
                         <?php } ?>
 
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-                            <li>
-                                <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>Charge </a>
-                            </li>
-                        <?php } ?>
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                             <li>
                                 <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>Orders </a>
                             </li>
                             <li>
                                 <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>Subscriptions </a>
+                            </li>
+                            <li>
+                                <a href="order/batch.php" class="button<?php echo @$mc['order-batch-list']; ?>"><div class="menu-icon menu-icon-batch"></div>Batch Report </a>
                             </li>
                         <?php } ?>
 
