@@ -123,7 +123,7 @@ $tests = array(
 //    array('amount' => '3.25', 'entry_mode' => 'swipe', 'return' => true),
 
     // ACH Tests
-//    array('amount' => '2.01', 'entry_mode' => 'check'),
+    array('amount' => '2.01', 'entry_mode' => 'Check'),
 //    array('amount' => '2.02', 'entry_mode' => 'check'),
 //    array('amount' => '2.03', 'entry_mode' => 'check'),
 //    array('amount' => '2.04', 'entry_mode' => 'check'),
