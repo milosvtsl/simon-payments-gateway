@@ -69,7 +69,7 @@ LEFT JOIN state s on m.state_id = s.id
         'name',
         'short_name',
         'main_email_id',
-        'merchant_id',
+    //        'merchant_id',
         'sic',
         'notes',
         'convenience_fee_flat',
@@ -130,7 +130,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $gateway_token;
     protected $main_contact;
     protected $main_email_id;
-//    protected $merchant_id;
+    protected $merchant_id;
     protected $name;
     protected $title;
     protected $dob;

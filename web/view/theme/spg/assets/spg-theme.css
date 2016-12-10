@@ -179,11 +179,32 @@ body.spg-theme .menu-button-account {
     margin: 3px 4px 0px 0px;
 }
 
+
+body.spg-theme ul.menu-account {
+    max-height: 0px;
+    overflow: hidden;
+    /*display: none;*/
+    transition: max-height 1s ease-in;
+    position: absolute;
+    right: 0;
+    z-index: 999;
+    list-style: none;
+    margin: 1px 0px 0px 0px;
+    padding: 0 0 6px 8px;
+    border-radius: 0 0  0 4px;
+    background-color: #bcc5d1;
+}
+/*:hover*/
+body.spg-theme ul.menu-account:hover,
+body.spg-theme .menu-button-account:hover + ul.menu-account {
+    max-height: 100em;
+
+}
 /** Nav Menu Icon Types **/
 
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 -16em;}
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
-body.spg-theme .menu-icon.menu-icon-account     { background-position: 0 0; }
+body.spg-theme .menu-icon.menu-icon-account     {background-position: -95px 0;}
 body.spg-theme .menu-icon.menu-icon-list        { background-position: -4em -16em;}
 body.spg-theme .menu-icon.menu-icon-transaction { background-position: -12em -8em;}
 body.spg-theme .menu-icon.menu-icon-subscription{ background-position: -12em -12em;}
