@@ -142,7 +142,7 @@ body.spg-theme .menu-icon {
     background-size: 16em 20em;
     width: 4em;
     height: 4em;
-    margin: 6px 18px -11px 6px;
+    margin: 5px 15px -9px 8px;
     /* margin-left: 0px; */
     /* margin: -13px 9px 0 -3px; */
     /* float: left; */
@@ -172,7 +172,7 @@ body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
     transform: rotate(90deg);
     transition: transform 0.5s;
 }
-body.spg-theme .menu-button-toggle {/* margin: 0px 0px 0px 10px; */padding-left: 5px;}
+body.spg-theme .menu-button-toggle {/* margin: 0px 0px 0px 10px; *//* padding-left: 5px; */}
 
 body.spg-theme .menu-button-account {
     margin: 3px 4px 0px 0px;
@@ -345,7 +345,7 @@ body.menu-small.spg-theme ul.page-menu:not(:hover) ul {
     transition: margin-left 0.4s;
 }
 body.menu-small.spg-theme ul.page-menu {
-    max-width: 59px;
+    max-width: 50px;
     border-right: 1px solid #666;
     transition: max-width 0.4s ease-out, margin-left 0.4s;
 }
