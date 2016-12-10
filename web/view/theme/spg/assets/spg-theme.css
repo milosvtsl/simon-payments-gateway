@@ -29,7 +29,7 @@ body.layout-horizontal > article.themed {
 
 body.spg-theme > header > a.logo > img {
     width: 12em;
-    margin: 0px 0px 0px -11px;
+    margin: -14px 0px 3px -9px;
     float: left;
 }
 body.spg-theme header hr.themed {
@@ -38,16 +38,14 @@ body.spg-theme header hr.themed {
 }
 
 body.spg-theme .site-welcome-text {
-    float: right;
-    display: inline-block;
-    /* clear:both; */
     margin: 1px 12px 0px 0px;
-    /* font-weight:bold; */
     font-style:italic;
-    font-size: large;
-    line-height: 27px;
-    color: #777;
     vertical-align: bottom;
+    text-decoration: none;
+    color: #3b7593;
+    font-size: 1.7em;
+    display: inline-block;
+    line-height: 2em;
 }
 body.spg-theme .site-welcome-text a {
     text-decoration: none;
@@ -144,9 +142,9 @@ body.spg-theme .menu-icon {
     background-size: 16em 20em;
     width: 4em;
     height: 4em;
-    margin-bottom: -17px;
-    margin-right: 13px;
-    margin-left: 0px;
+    margin: 0px 0 -16px 0px;
+    /* margin-right: 13px; */
+    /* margin-left: 0px; */
     /* margin: -13px 9px 0 -3px; */
     /* float: left; */
     transition: margin-left 0.7s ease-out;
@@ -154,40 +152,32 @@ body.spg-theme .menu-icon {
     /* padding-left: 48px; */
 }
 body.spg-theme a:hover .menu-icon {
-    margin-left: 6px;
+    /* margin-left: 6px; */
 }
 
 
 
-body.spg-theme .menu-icon.menu-icon-toggle      {
+body.spg-theme .menu-icon.menu-icon-toggle {
     background-position: -4em 0;
     /*     font-size: 8px; */
-    margin: 2px 15px -15px 10px;
+    /* margin: 2px 15px -15px 10px; */
     transform: rotate(0deg);
     transition: transform 0.5s;
     /* margin: 0 0; */
 }
 
 body.spg-theme a:hover .menu-icon-toggle {
-    margin-left: 10px;
+    /* margin-left: 10px; */
 }
 body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
     transform: rotate(90deg);
     transition: transform 0.5s;
 }
-body.spg-theme .menu-button-toggle {
-    /* border-bottom: 1px solid #666; */
-    background-color: #bcc5d1;
-    /* border: 1px outset #FFF; */
-    /* height: 53px; */
-}
-body.spg-theme.menu-small .menu-button-toggle {
-    /* border: 0px inset #FFF; */
-}
-body.spg-theme.layout-vertical .menu-button-toggle {
-    /*     padding: 1em; */
-}
+body.spg-theme .menu-button-toggle {/* margin: 0px 0px 0px 10px; */padding-left: 5px;}
 
+body.spg-theme .menu-button-account {
+    margin: 3px 4px 0px 0px;
+}
 
 /** Nav Menu Icon Types **/
 
@@ -278,11 +268,13 @@ body.spg-theme .menu-icon.menu-icon-receipt     { background-position: -8em -12e
 
 body.spg-theme a.button {
     text-decoration: none;
-    padding: 0.35em 0.5em 1.0em 0.5em;
+    /* padding: 0.35em 0.5em 1.0em 0.5em; */
     /* margin: 0em 0px 0px 0px; */
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
     display: block;
     color: #666;
-    /*border-radius: 8px 0 0 8px;*/
+    min-height: 48px;
     /* text-align: right; */
     /* vertical-align: middle; */
     white-space: nowrap;
@@ -333,7 +325,7 @@ body.menu-small.spg-theme ul.page-menu:not(:hover) ul {
     transition: margin-left 0.4s;
 }
 body.menu-small.spg-theme ul.page-menu {
-    max-width: 3.6em;
+    max-width: 59px;
     border-right: 1px solid #666;
     transition: max-width 0.4s ease-out, margin-left 0.4s;
 }
@@ -377,6 +369,9 @@ body.spg-theme .bread-crumbs {
     vertical-align: top;
 }
 
+body.spg-theme .bread-crumbs > a {
+    text-decoration: none;
+}
 
 body.spg-theme .bread-crumbs > a:hover {
     background-color: #b6ccda;

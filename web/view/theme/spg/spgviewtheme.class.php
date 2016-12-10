@@ -80,7 +80,7 @@ class SPGViewTheme extends AbstractViewTheme
         <!-- Bread Crumbs -->
         <aside class="bread-crumbs hide-on-print">
 
-            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="display: inline-block;">
+            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
                 <div class="menu-icon menu-icon-toggle"></div>
             </a>
             <?php
@@ -92,7 +92,12 @@ class SPGViewTheme extends AbstractViewTheme
             }
             ?>
 
-            <div class="site-welcome-text hide-on-print">
+
+            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-account" style="float: right;">
+                <div class="menu-icon menu-icon-account"></div>
+            </a>
+
+            <div class="site-welcome-text hide-on-print" style="float: right;">
                 Welcome,
                 <a href="user/account.php" style="text-decoration: none;">
                 <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
@@ -165,44 +170,52 @@ HEAD;
 <!--                </a>-->
 <!--            </li>-->
             <li>
-                <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>Dashboard </a>
+                <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
+                    Dashboard </a>
             </li>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                 <li class="menu-submenu menu-submenu-order">
-                    <a href="order" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>Transactions </a>
+                    <a href="order" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>
+                        Transactions</a>
                     <ul>
 
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
                             <li>
-                                <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>Charge </a>
+                                <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>
+                                    Charge </a>
                             </li>
                         <?php } ?>
 
                         <?php if(in_array($category, array('order-view', 'order-edit', 'order-delete'))) { ?>
                             <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['order-view']; ?>"><div class="menu-icon menu-icon-receipt"></div>View Receipt</a>
+                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['order-view']; ?>"><div class="menu-icon menu-icon-receipt"></div>
+                                    View Receipt</a>
                             </li>
                             <li>
-                                <a href="javascript:window.print();" class="button<?php echo @$mc['order-print']; ?>"><div class="menu-icon menu-icon-print"></div>Print</a>
+                                <a href="javascript:window.print();" class="button<?php echo @$mc['order-print']; ?>"><div class="menu-icon menu-icon-print"></div>
+                                    Print</a>
                             </li>
                             <li>
-                                <a href="<?php echo str_replace('receipt.php', 'pdf.php', $action_url); ?>view" class="button<?php echo @$mc['order-download']; ?>"><div class="menu-icon menu-icon-download"></div>Download</a>
+                                <a href="<?php echo str_replace('receipt.php', 'pdf.php', $action_url); ?>view" class="button<?php echo @$mc['order-download']; ?>"><div class="menu-icon menu-icon-download"></div>
+                                    Download</a>
                         </li>
                         <?php } ?>
 
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                             <li>
-                                <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>Orders </a>
+                                <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                    Search </a>
                             </li>
                             <li>
-                                <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>Subscriptions </a>
+                                <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>
+                                    Subscriptions </a>
                             </li>
                             <li>
-                                <a href="order/batch.php" class="button<?php echo @$mc['order-batch-list']; ?>"><div class="menu-icon menu-icon-batch"></div>Batch Report </a>
+                                <a href="order/batch.php" class="button<?php echo @$mc['order-batch-list']; ?>"><div class="menu-icon menu-icon-batch"></div>
+                                    Batch Report </a>
                             </li>
                         <?php } ?>
-
 
                     </ul>
                 </li>
@@ -210,21 +223,26 @@ HEAD;
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
-                    <a href="merchant" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>Merchants </a>
+                    <a href="merchant" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
+                        Merchants </a>
                     <ul>
                         <li>
-                            <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>List Merchants </a>
+                            <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                List Merchants </a>
                         </li>
                         <li>
-                            <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>"><div class="menu-icon menu-icon-add"></div>Add Merchant </a>
+                            <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>"><div class="menu-icon menu-icon-add"></div>
+                                Add Merchant </a>
                         </li>
 
                         <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete'))) { ?>
                             <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>View Merchant</a>
+                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
+                                    View Merchant</a>
                             </li>
                             <li>
-                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>Edit Merchant</a>
+                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
+                                    Edit Merchant</a>
                             </li>
                         <?php } ?>
 
@@ -234,52 +252,64 @@ HEAD;
 
 
             <li class="menu-submenu menu-submenu-user">
-                <a href="user" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>Users </a>
+                <a href="user" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
+                    Users </a>
                 <ul>
                     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                         <li>
-                            <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>List Users</a>
+                            <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                List Users</a>
                         </li>
                         <li>
-                            <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>"> <div class="menu-icon menu-icon-add"></div>Add User</a>
+                            <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>"> <div class="menu-icon menu-icon-add"></div>
+                                Add User</a>
                         </li>
                     <?php } ?>
 
                     <?php if(in_array($category, array('user-view', 'user-edit', 'user-delete'))) { ?>
                         <li>
-                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>"><div class="menu-icon menu-icon-view"></div>View User</a>
+                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>"><div class="menu-icon menu-icon-view"></div>
+                                View User</a>
                         </li>
                         <li>
-                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>Edit User</a>
+                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
+                                Edit User</a>
                         </li>
                         <li>
-                            <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>"><div class="menu-icon menu-icon-delete"></div>Delete User</a>
+                            <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>"><div class="menu-icon menu-icon-delete"></div>
+                                Delete User</a>
                         </li>
                     <?php } else { ?>
                         <li>
-                            <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>My Account</a>
+                            <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
+                                My Account</a>
                         </li>
                         <li>
-                            <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>Edit Account</a>
+                            <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>
+                                Edit Account</a>
                         </li>
                     <?php } ?>
 
                     <li>
-                        <a href="user/logout.php" class="button<?php echo @$mc['user-logout']; ?>"><div class="menu-icon menu-icon-logout"></div>Log out</a>
+                        <a href="user/logout.php" class="button<?php echo @$mc['user-logout']; ?>"><div class="menu-icon menu-icon-logout"></div>
+                            Log out</a>
                     </li>
                 </ul>
             </li>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-integration">
-                    <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>Integration</a>
+                    <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>
+                        Integration</a>
                     <ul>
                         <li>
-                            <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>Requests</a>
+                            <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                Requests</a>
                         </li>
                     </ul>
                 </li>
             <?php } ?>
+
         </ul>
 
         <?php

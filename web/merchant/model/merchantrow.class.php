@@ -130,7 +130,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $gateway_token;
     protected $main_contact;
     protected $main_email_id;
-    protected $merchant_id;
+//    protected $merchant_id;
     protected $name;
     protected $title;
     protected $dob;
@@ -183,7 +183,7 @@ LEFT JOIN state s on m.state_id = s.id
     public function getUID()            { return $this->uid; }
     public function getName()           { return $this->name; }
     public function getShortName()      { return $this->short_name ?: $this->name; }
-    public function getMerchantID()     { return $this->merchant_id; }
+//    public function getMerchantID()     { return $this->merchant_id; }
     public function getMerchantSIC()    { return $this->sic; }
 
     public function getConvenienceFeeLimit()       { return floatval($this->convenience_fee_limit); }

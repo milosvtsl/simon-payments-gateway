@@ -57,10 +57,10 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <td class="name">URL</td>
                             <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
                         </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant ID</td>
-                            <td><?php echo $Merchant->getMerchantID(); ?></td>
-                        </tr>
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Merchant ID</td>-->
+<!--                            <td>--><?php //echo $Merchant->getMerchantID(); ?><!--</td>-->
+<!--                        </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant SIC</td>
                             <td><?php echo $Merchant->getMerchantSIC(); ?></td>

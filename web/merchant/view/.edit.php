@@ -70,10 +70,6 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="text" name="url" size="32" value="<?php echo $Merchant->getURL(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant ID</td>
-                            <td><input type="text" name="merchant_id" size="12" value="<?php echo $Merchant->getID(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant SIC</td>
                             <td><input type="text" name="sic" size="12" value="<?php echo $Merchant->getMerchantSIC(); ?>" /></td>
                         </tr>
