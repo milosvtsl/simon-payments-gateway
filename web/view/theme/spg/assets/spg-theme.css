@@ -43,9 +43,9 @@ body.spg-theme .site-welcome-text {
     vertical-align: bottom;
     text-decoration: none;
     color: #3b7593;
-    font-size: 1.7em;
+    font-size: 1em;
     display: inline-block;
-    line-height: 2em;
+    line-height: 3em;
 }
 body.spg-theme .site-welcome-text a {
     text-decoration: none;
@@ -80,8 +80,8 @@ body.spg-theme .page-menu {
     overflow: hidden;
     background-color: #f6f9fc;
     position: absolute;
-    border-right: 1px solid #999;
-    border-bottom: 1px solid #AAA;
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #d9d9d9;
     font-size: larger;
 }
 
@@ -125,10 +125,10 @@ body.spg-theme ul.page-menu > li > a.current + ul {
 
 body.spg-theme ul.page-menu .menu-submenu {border-radius: 0px 0px 0px 6px;}
 body.spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-body.spg-theme ul.page-menu .menu-submenu-order        {background-color: lightblue;}
-body.spg-theme ul.page-menu .menu-submenu-merchant     {background-color: tan;}
-body.spg-theme ul.page-menu .menu-submenu-user         {background-color: lightgreen;}
-body.spg-theme ul.page-menu .menu-submenu-integration  { background-color: lightgray; }
+body.spg-theme ul.page-menu .menu-submenu-order        {background-color: #a1d2e2;}
+body.spg-theme ul.page-menu .menu-submenu-merchant     {background-color: #a1d2e2;}
+body.spg-theme ul.page-menu .menu-submenu-user         {background-color: #a1d2e2;}
+body.spg-theme ul.page-menu .menu-submenu-integration  {background-color: #a1d2e2;}
 
 /** Menu Icons **/
 
@@ -137,17 +137,16 @@ body.spg-theme.layout-vertical .menu-icon {
 }
 
 body.spg-theme .menu-icon {
-    font-size: 12px;
+    font-size: 9px;
     background: url(img/nav_icons.png) no-repeat top left;
     background-size: 16em 20em;
     width: 4em;
     height: 4em;
-    margin: 0px 0 -16px 0px;
-    /* margin-right: 13px; */
+    margin: 6px 18px -11px 6px;
     /* margin-left: 0px; */
     /* margin: -13px 9px 0 -3px; */
     /* float: left; */
-    transition: margin-left 0.7s ease-out;
+    transition: margin-left 0.3s ease-out;
     display: inline-block;
     /* padding-left: 48px; */
 }
@@ -204,7 +203,7 @@ body.spg-theme .menu-button-account:hover + ul.menu-account {
 
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 -16em;}
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
-body.spg-theme .menu-icon.menu-icon-account     {background-position: -95px 0;}
+body.spg-theme .menu-icon.menu-icon-account     {background-position: -8em 0;}
 body.spg-theme .menu-icon.menu-icon-list        { background-position: -4em -16em;}
 body.spg-theme .menu-icon.menu-icon-transaction { background-position: -12em -8em;}
 body.spg-theme .menu-icon.menu-icon-subscription{ background-position: -12em -12em;}
@@ -291,8 +290,8 @@ body.spg-theme a.button {
     text-decoration: none;
     /* padding: 0.35em 0.5em 1.0em 0.5em; */
     /* margin: 0em 0px 0px 0px; */
-    margin: 0px 0px 0px 0px;
-    padding: 5px;
+    margin: 0px 0px 1px 0px;
+    padding: 0px 9px 0px 0px;
     display: block;
     color: #666;
     min-height: 48px;
@@ -379,12 +378,12 @@ body.menu-small .hide-on-menu-small {
 /** Bread Crumbs **/
 
 body.spg-theme .bread-crumbs {
-    border-bottom: 1px solid #666;
+    border-bottom: 1px solid #a0a0a3;
     /* padding: 0.8em 0.5em 0.4em 0.9em; */
     /* margin: -8px 0 0 0; */
     /* background-color: #f6f9fc; */
     /* position: relative; */
-    background-color: #bcc5d1;
+    background-color: #bad4db;
     min-height: 54px;
     /* display: block; */
     vertical-align: top;
@@ -401,7 +400,7 @@ body.spg-theme .bread-crumbs > a:hover {
 
 body.spg-theme .bread-crumbs a.breadcrumb {
     text-decoration: none;
-    color: #3b7593;
+    color: #b1cad2;
     font-size: 1.7em;
     /*text-transform: lowercase;*/
     display: inline-block;
