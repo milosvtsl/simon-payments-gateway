@@ -4,7 +4,7 @@ body.spg-theme {
     color: #000000;
     font-family: arial, serif;
     margin: 0 auto;
-    background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%);
+    /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
 }
 
 
@@ -80,7 +80,7 @@ body.spg-theme .page-menu {
     overflow: hidden;
     background-color: #f6f9fc;
     position: absolute;
-    border-right: 1px solid #eaeaea;
+    border-right: 1px solid #d4dce0;
     border-bottom: 1px solid #d9d9d9;
     font-size: larger;
 }
@@ -103,13 +103,7 @@ body.spg-theme .page-menu li {
     display: block;
     clear: both;
 }
-body.spg-theme ul.page-menu > li > ul {
-/*     display: none; */
-    max-height: 0;
-    overflow:hidden;
-    transition: max-height 0.8s ease-in;
-    transition-delay: 1.3s;
-}
+body.spg-theme ul.page-menu > li > ul {/* display: none; */max-height: 0;overflow:hidden;transition: max-height 0.6s ease-in;/* transition-delay: .8s; */}
 
 body.spg-theme ul.page-menu > li > a {
 }
@@ -118,7 +112,7 @@ body.spg-theme ul.page-menu > li:hover > a + ul,
 body.spg-theme ul.page-menu > li > a.current + ul {
     /*     display: block; */
     max-height: 40em;
-    transition-delay: 0.4s;
+    transition-delay: 0.1s;
 }
 
 /** Sub Menu **/
@@ -291,7 +285,7 @@ body.spg-theme a.button {
     /* padding: 0.35em 0.5em 1.0em 0.5em; */
     /* margin: 0em 0px 0px 0px; */
     margin: 0px 0px 1px 0px;
-    padding: 0px 9px 0px 0px;
+    padding: 0px 20px 0px 0px;
     display: block;
     color: #666;
     min-height: 48px;
@@ -299,7 +293,7 @@ body.spg-theme a.button {
     /* vertical-align: middle; */
     white-space: nowrap;
     /* min-width: 10em; */
-    background-color: #f6f9fc;
+    background-color: #f0f4f6;
 }
 
 
@@ -383,7 +377,7 @@ body.spg-theme .bread-crumbs {
     /* margin: -8px 0 0 0; */
     /* background-color: #f6f9fc; */
     /* position: relative; */
-    background-color: #bad4db;
+    background-color: #f0f4f6;
     min-height: 54px;
     /* display: block; */
     vertical-align: top;
@@ -400,7 +394,7 @@ body.spg-theme .bread-crumbs > a:hover {
 
 body.spg-theme .bread-crumbs a.breadcrumb {
     text-decoration: none;
-    color: #b1cad2;
+    color: #f0f4f6;
     font-size: 1.7em;
     /*text-transform: lowercase;*/
     display: inline-block;
