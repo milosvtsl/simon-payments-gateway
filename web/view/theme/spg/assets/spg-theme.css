@@ -15,15 +15,22 @@ body.layout-horizontal.spg-theme .hide-on-layout-horizontal {
     display: none;
 }
 
-
-body.layout-horizontal.spg-theme .float-left-on-layout-horizontal,
-body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
+body.layout-horizontal.spg-theme .float-left-on-layout-horizontal {
     float: left;
+}
+body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
+    float: right;
 }
 
 body.layout-horizontal > article.themed {
     margin-left: 13em;
 }
+
+body.spg-theme.layout-vertical .menu-icon {
+    font-size: 2vw;
+}
+
+
 
 /** Header **/
 
@@ -74,15 +81,14 @@ body.spg-theme .page-menu {
     padding: 0 0;
     margin: 0 0;
     max-width: 0;
-    /* height: 105%; */
     display: inline-block;
-    /* float: left; */
     overflow: hidden;
-    background-color: #f6f9fc;
+    /*background-color: #f6f9fc;*/
     position: absolute;
     border-right: 1px solid #d4dce0;
     border-bottom: 1px solid #d9d9d9;
     font-size: larger;
+    box-shadow: 0px 1px 2px #555;
 }
 
 body.spg-theme.layout-vertical .page-menu {
@@ -103,7 +109,13 @@ body.spg-theme .page-menu li {
     display: block;
     clear: both;
 }
-body.spg-theme ul.page-menu > li > ul {/* display: none; */max-height: 0;overflow:hidden;transition: max-height 0.6s ease-in;/* transition-delay: .8s; */}
+body.spg-theme ul.page-menu > li > ul {
+/* display: none; */
+    max-height: 0;
+    overflow:hidden;
+    transition: max-height 0.6s ease-in;
+    /* transition-delay: .8s; */
+}
 
 body.spg-theme ul.page-menu > li > a {
 }
@@ -117,7 +129,9 @@ body.spg-theme ul.page-menu > li > a.current + ul {
 
 /** Sub Menu **/
 
-body.spg-theme ul.page-menu .menu-submenu {border-radius: 0px 0px 0px 6px;}
+body.spg-theme ul.page-menu .menu-submenu {
+    border-radius: 0px 0px 0px 3px;
+}
 body.spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
 body.spg-theme ul.page-menu .menu-submenu-order        {background-color: #a1d2e2;}
 body.spg-theme ul.page-menu .menu-submenu-merchant     {background-color: #a1d2e2;}
@@ -125,10 +139,6 @@ body.spg-theme ul.page-menu .menu-submenu-user         {background-color: #a1d2e
 body.spg-theme ul.page-menu .menu-submenu-integration  {background-color: #a1d2e2;}
 
 /** Menu Icons **/
-
-body.spg-theme.layout-vertical .menu-icon {
-    font-size: 2vw;
-}
 
 body.spg-theme .menu-icon {
     font-size: 9px;
@@ -148,8 +158,6 @@ body.spg-theme a:hover .menu-icon {
     /* margin-left: 6px; */
 }
 
-
-
 body.spg-theme .menu-icon.menu-icon-toggle {
     background-position: -4em 0;
     /*     font-size: 8px; */
@@ -166,7 +174,9 @@ body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
     transform: rotate(90deg);
     transition: transform 0.5s;
 }
-body.spg-theme .menu-button-toggle {/* margin: 0px 0px 0px 10px; *//* padding-left: 5px; */}
+body.spg-theme .menu-button-toggle {
+/* margin: 0px 0px 0px 10px; *//* padding-left: 5px; */
+}
 
 body.spg-theme .menu-button-account {
     /* margin: 3px 4px 0px 0px; */
@@ -183,12 +193,13 @@ body.spg-theme ul.menu-account {
     right: 0;
     z-index: 999;
     list-style: none;
-    margin: 11px 0px 0px 0px;
-    padding: 0 0 3px 3px;
+    margin: 2px 0px 0px 0px;
+    padding: 0 0 2px 2px;
     border-radius: 0 0  0 4px;
     background-color: #bcc5d1;
+    box-shadow: 0px 0px 2px #222;
 }
-/*:hover*/
+
 body.spg-theme ul.menu-account:hover,
 body.spg-theme .menu-button-account:hover + ul.menu-account {
     max-height: 100em;
@@ -298,11 +309,11 @@ body.spg-theme a.button {
 }
 
 
-body.spg-theme a.button.small {
-    min-width: 2em;
-    font-size: medium;
-    padding: 0.8em 0.5em 0.6em 0.5em;
-}
+/*body.spg-theme a.button.small {*/
+    /*min-width: 2em;*/
+    /*font-size: medium;*/
+    /*padding: 0.8em 0.5em 0.6em 0.5em;*/
+/*}*/
 body.spg-theme a.button:hover {
     background-color: #d4e7ec;
     background: linear-gradient(90deg, #d4e7ec 0%, #f6f9fc 100%);
@@ -382,6 +393,7 @@ body.spg-theme .bread-crumbs {
     min-height: 47px;
     /* display: block; */
     vertical-align: top;
+    box-shadow: 0px 0px 2px #222;
 }
 
 body.spg-theme .bread-crumbs > a {
@@ -395,8 +407,8 @@ body.spg-theme .bread-crumbs > a:hover {
 
 body.spg-theme .bread-crumbs a.breadcrumb {
     text-decoration: none;
-    color: #f0f4f6;
-    font-size: 1.7em;
+    color: #a0b0b9;
+    font-size: 1.4em;
     /*text-transform: lowercase;*/
     display: inline-block;
     line-height: 2em;
