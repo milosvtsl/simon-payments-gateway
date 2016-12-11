@@ -8,7 +8,7 @@ $AppManager = new \App\AppManager($SessionUser);
 
 $Theme = $this->getTheme();
 
-$Theme->addPathURL('/', 'Dashboard');
+//$Theme->addPathURL('/', 'Dashboard');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('dashboard');
 ?>

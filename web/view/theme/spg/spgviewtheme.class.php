@@ -93,20 +93,20 @@ class SPGViewTheme extends AbstractViewTheme
             ?>
 
 
-            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-account" style="float: right;">
+            <a href="#" class="menu-button-account" style="float: right;">
                 <div class="menu-icon menu-icon-account"></div>
                 <ul class="menu-account">
                     <li>
                         <a href="user/account.php" class="button"> <div class="menu-icon menu-icon-account"></div>
-                            My Account</a>
+                            <span>My Account</span></a>
                     </li>
                     <li>
                         <a href="user/account.php?action=edit" class="button"> <div class="menu-icon menu-icon-edit"></div>
-                            Edit Account</a>
+                            <span>Edit Account</span></a>
                     </li>
                     <li>
                         <a href="user/logout.php" class="button"><div class="menu-icon menu-icon-logout"></div>
-                            Log out</a>
+                            <span>Log out</span></a>
                     </li>
                 </ul>
             </a>

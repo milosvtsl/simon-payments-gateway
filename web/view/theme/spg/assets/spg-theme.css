@@ -169,21 +169,22 @@ body.spg-theme.menu-small .menu-icon.menu-icon-toggle {
 body.spg-theme .menu-button-toggle {/* margin: 0px 0px 0px 10px; *//* padding-left: 5px; */}
 
 body.spg-theme .menu-button-account {
-    margin: 3px 4px 0px 0px;
+    /* margin: 3px 4px 0px 0px; */
 }
 
 
 body.spg-theme ul.menu-account {
     max-height: 0px;
+    max-width: 4em;
     overflow: hidden;
     /*display: none;*/
-    transition: max-height 1s ease-in;
+    transition: max-height 1s ease-in, max-width 1s ease-in;
     position: absolute;
     right: 0;
     z-index: 999;
     list-style: none;
-    margin: 1px 0px 0px 0px;
-    padding: 0 0 6px 8px;
+    margin: 11px 0px 0px 0px;
+    padding: 0 0 3px 3px;
     border-radius: 0 0  0 4px;
     background-color: #bcc5d1;
 }
@@ -191,7 +192,7 @@ body.spg-theme ul.menu-account {
 body.spg-theme ul.menu-account:hover,
 body.spg-theme .menu-button-account:hover + ul.menu-account {
     max-height: 100em;
-
+    max-width: 100em;
 }
 /** Nav Menu Icon Types **/
 
@@ -284,7 +285,7 @@ body.spg-theme a.button {
     text-decoration: none;
     /* padding: 0.35em 0.5em 1.0em 0.5em; */
     /* margin: 0em 0px 0px 0px; */
-    margin: 0px 0px 1px 0px;
+    margin: 1px 0px 0px 0px;
     padding: 0px 20px 0px 0px;
     display: block;
     color: #666;
@@ -378,7 +379,7 @@ body.spg-theme .bread-crumbs {
     /* background-color: #f6f9fc; */
     /* position: relative; */
     background-color: #f0f4f6;
-    min-height: 54px;
+    min-height: 47px;
     /* display: block; */
     vertical-align: top;
 }
