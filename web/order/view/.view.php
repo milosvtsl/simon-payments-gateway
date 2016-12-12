@@ -252,7 +252,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                                 <td>
-                                    <a href="integration/request?type=transaction&type_id=<?php echo $Transaction->getID(); ?>">
+                                    <a href="integration/request?id=<?php echo $Transaction->getIntegrationRequestID(); ?>">
                                         <?php echo $Transaction->getAction(); ?>
                                     </a>
                                 </td>

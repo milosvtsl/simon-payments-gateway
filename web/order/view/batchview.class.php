@@ -18,7 +18,7 @@ use Order\Model\TransactionRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
-class OrderView extends AbstractView
+class BatchView extends AbstractView
 {
     const VIEW_PATH = 'batch';
     const VIEW_NAME = 'Transactions';
