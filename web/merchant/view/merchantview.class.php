@@ -89,8 +89,8 @@ class MerchantView extends AbstractView
             case 'edit':
                 try {
                     $Merchant->updateFields($post)
-                        ? $this->setSessionMessage("Merchant Updated Successfully: " . $Merchant->getName())
-                        : $this->setSessionMessage("No changes detected: " . $Merchant->getName());
+                        ? $this->setSessionMessage("<div class='info'>Merchant Updated Successfully: " . $Merchant->getName() . "</div>")
+                        : $this->setSessionMessage("<div class='info'>No changes detected: " . $Merchant->getName() . "</div>");
 
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());

@@ -129,11 +129,27 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     public function calculateConvenienceFee(OrderRow $OrderRow) {
         $Merchant = $this->getMerchantRow();
         $amount = $OrderRow->getAmount();
-        $fee = $Merchant->getFeeFlat();
-        $fee += $amount * floatval($Merchant->getFeeVariable())/100;
-        if($Merchant->getFeeLimit() > 0 && $fee > $Merchant->getFeeLimit())
-            $fee = $Merchant->getFeeLimit();
+        $fee = $Merchant->getConvenienceFeeFlat();
+        $fee += $amount * floatval($Merchant->getConvenienceFeeVariable())/100;
+        if($Merchant->getConvenienceFeeLimit() > 0 && $fee > $Merchant->getConvenienceFeeLimit())
+            $fee = $Merchant->getConvenienceFeeLimit();
         return round($fee, 2);
+    }
+
+
+    /**
+     * Calculate Transaction Service Fee
+     * @param OrderRow $OrderRow
+     * @param $action
+     * @return mixed
+     */
+    public function calculateServiceFee(OrderRow $OrderRow, $action) {
+        switch(strtolower($action)) {
+            default:
+            case 'settled':
+            case 'authorized':
+                return 0;
+        }
     }
 
 

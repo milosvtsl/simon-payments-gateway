@@ -26,11 +26,13 @@ class BatchListView extends AbstractListView {
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
+		$limit = @$params['limit'] ?: 50;
+
 		// Set up page parameters
-		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
+		$this->setPageParameters(@$params['page'] ?: 1, $limit);
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = ""; // \n\tWHERE 1";
 		$statsMessage = '';
 
 		$action = strtolower(@$params['action'] ?: 'view');
@@ -117,30 +119,144 @@ class BatchListView extends AbstractListView {
 		$Stats = $StatsQuery->fetch();
 		$this->setRowCount($Stats->getCount());
 
-		$groupByStatsSQL = BatchQueryStats::SQL_GROUP_BY;
-		$limitStatsSQL = "\nLIMIT 5";
+        $limitStatsSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
 
-		$statsSQL = BatchQueryStats::SQL_SELECT . $whereSQL
-			. $groupByStatsSQL
+		$statsSQL = BatchQueryStats::SQL_SELECT
+			. $whereSQL
+			. BatchQueryStats::SQL_GROUP_BY
 			. BatchQueryStats::SQL_ORDER_BY
 			. $limitStatsSQL;
-		$ReportQuery = $DB->prepare($statsSQL);
-		$ReportQuery->execute($sqlParams);
+		$BatchQuery = $DB->prepare($statsSQL);
+		$BatchQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
+		$BatchQuery->setFetchMode(\PDO::FETCH_CLASS, BatchQueryStats::_CLASS);
 
 
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data'))) {
 			// Render Page
-			include ('.batch.export.csv.php');
+//			include ('.batch.export.csv.php');
+
+			if(!$export_filename)
+				$export_filename = 'export.csv';
+			header("Content-Disposition: attachment; filename=\"$export_filename\"");
+			header("Content-Type: application/vnd.ms-excel");
+
+			echo '"Span","Count","Authorized","Settled","Void","Returned","",""';
+
+			if(in_array(strtolower(@$params['action']), array('export', 'export-stats'))) {
+				foreach ($BatchQuery as $Batch) {
+					/** @var \Order\Model\OrderQueryStats $Batch */
+					echo "\n\"" . $Batch->getGroupSpan(),
+						'", ' . $Batch->getCount(),
+						', $' . $Batch->getTotal(),
+						', $' . $Batch->getSettledTotal(),
+						', $' . $Batch->getVoidTotal(),
+						', $' . $Batch->getReturnTotal(),
+					',,';
+				}
+			}
 
 		} else {
 			// Render Page
-			include ('.batch.php');
+//			include ('.batch.php');
+			$action_url = 'order/list.php?' . http_build_query($_GET);
+
+			$Theme = $this->getTheme();
+			$Theme->addPathURL('order',             'Transactions');
+			$Theme->addPathURL('order/list.php',    'Search');
+			$Theme->renderHTMLBodyHeader();
+			$Theme->printHTMLMenu('order-list');
+			?>
+		<article class="themed">
+			<section class="content">
+				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<form name="form-order-search" class="themed">
+					<fieldset class="search-fields" style="display: inline-block;">
+						<div class="legend">Search</div>
+						<table class="themed">
+							<tbody>
+							<tr>
+								<td class="name">From</td>
+								<td>
+									<input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
+									<input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
+								</td>
+							</tr>
+							<tr>
+								<td class="name">Limit</td>
+								<td>
+									<select name="merchant_id" style="min-width: 20.5em;" >
+										<option value="">By Merchant</option>
+										<?php
+										if($SessionUser->hasAuthority('ROLE_ADMIN'))
+											$MerchantQuery = MerchantRow::queryAll();
+										else
+											$MerchantQuery = $SessionUser->queryUserMerchants();
+										foreach($MerchantQuery as $Merchant)
+											/** @var \Merchant\Model\MerchantRow $Merchant */
+											echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
+											($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+											"'>", $Merchant->getShortName(), "</option>";
+										?>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="name">Value</td>
+								<td>
+									<input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="27" />
+									<input name="action" type="submit" value="Search" class="themed" />
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</fieldset>
+
+					<br />
+
+					<fieldset style="display: inline-block;">
+						<div class="legend">Batch Report</div>
+						<table class="table-stats themed small striped-rows">
+							<tr>
+								<th>Batch ID</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Merchant</th>
+							</tr>
+							<?php
+							$odd = false;
+							foreach($BatchQuery as $Batch) {
+                                /** @var BatchQueryStats $Batch */
+								$report_url = $action_url . '&date_from=' . $Batch->getStartDate() . '&date_to=' . $Batch->getEndDate()
+								/** @var \Order\Model\OrderQueryStats $Stats */
+								?>
+								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+									<td><a href="order/batch.php?id=<?php echo $Batch->getBatchID(); ?>"><?php echo $Batch->getBatchID(); ?></a></td>
+                                    <td><?php echo date('Y-m-d', strtotime($Batch->getStartDate())); ?></td>
+                                    <td>$<?php echo number_format($Batch->getAmount(), 2), ' (', $Batch->getCount(), ')'; ?></td>
+                                    <td><a href="merchant?id=<?php echo $Batch->getMerchantID(); ?>"><?php echo $Batch->getMerchantShrtName(); ?></a></td>
+								</tr>
+							<?php } ?>
+
+							<tr>
+                                <td colspan="8" class="pagination">
+                                    <span style=""><?php $this->printPagination('order/batch.php?'); ?></span>
+									<button name="action" type="submit" value="Export-Stats" class="themed" style="float: right;">Export Batch Data (.csv)</button>
+								</td>
+							</tr>
+
+                        </table>
+					</fieldset>
+				</form>
+			</section>
+		</article>
+
+			<?php
+			$Theme->renderHTMLBodyFooter();
 		}
 
 	}

@@ -69,7 +69,7 @@ LEFT JOIN state s on m.state_id = s.id
         'name',
         'short_name',
         'main_email_id',
-        'merchant_id',
+    //        'merchant_id',
         'sic',
         'notes',
         'convenience_fee_flat',
@@ -183,12 +183,12 @@ LEFT JOIN state s on m.state_id = s.id
     public function getUID()            { return $this->uid; }
     public function getName()           { return $this->name; }
     public function getShortName()      { return $this->short_name ?: $this->name; }
-    public function getMerchantID()     { return $this->merchant_id; }
+//    public function getMerchantID()     { return $this->merchant_id; }
     public function getMerchantSIC()    { return $this->sic; }
 
-    public function getFeeLimit()       { return floatval($this->convenience_fee_limit); }
-    public function getFeeFlat()        { return floatval($this->convenience_fee_flat); }
-    public function getFeeVariable()    { return floatval($this->convenience_fee_variable_rate); }
+    public function getConvenienceFeeLimit()       { return floatval($this->convenience_fee_limit); }
+    public function getConvenienceFeeFlat()        { return floatval($this->convenience_fee_flat); }
+    public function getConvenienceFeeVariable()    { return floatval($this->convenience_fee_variable_rate); }
 
     public function getBatchTime()      { return $this->batch_capture_time; }
     public function getBatchTimeZone()  { return $this->batch_capture_time_zone; }

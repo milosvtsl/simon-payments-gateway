@@ -71,12 +71,31 @@ class ElementIntegration extends AbstractIntegration
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
 
+//        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+
         $duration = -microtime(true);
-        if(!$response = curl_exec($ch)) {
+        $response = curl_exec($ch);
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+
+        if(!$response) {
             $response = curl_error($ch);
-            trigger_error($response);
+            if($response)
+                trigger_error($response);
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+        } else {
+
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $header = substr($response, 0, $header_size);
+            if($httpcode !== 200) {
+                throw new IntegrationException("Invalid Response: " . $header);
+            }
+            $body = substr($response, $header_size);
+            $response = $body;
         }
+
+
         curl_close($ch);
 
         // Set duration
@@ -184,6 +203,12 @@ class ElementIntegration extends AbstractIntegration
                     ?: @$data['CheckSaleResponse'];
                 break;
 
+            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL:
+                $response =
+                    @$data['CreditCardReversalResponse']
+                        ?: @$data['CheckReversalResponse'];
+                break;
+
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
                 $response =
                     @$data['CreditCardReturnResponse']
@@ -205,7 +230,7 @@ class ElementIntegration extends AbstractIntegration
                 break;
 
             default:
-                throw new IntegrationException("Invalid integration type");
+                throw new IntegrationException("Invalid integration type: " . $Request->getIntegrationType());
         }
         $response = $response['response'];
         if(!$response)
@@ -239,6 +264,9 @@ class ElementIntegration extends AbstractIntegration
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
+        $Transaction->setServiceFee($service_fee);
+
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
         $Subscription = null;

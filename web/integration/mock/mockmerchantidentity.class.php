@@ -94,18 +94,32 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
      * Calculate Transaction Service Fee
      * @param OrderRow $OrderRow
      * @return mixed
+     * @internal param $action
      */
     public function calculateConvenienceFee(OrderRow $OrderRow) {
         $Merchant = $this->getMerchantRow();
         $amount = $OrderRow->getAmount();
-        $fee = $Merchant->getFeeFlat();
-        $fee += $amount * $Merchant->getFeeVariable();
-        if($fee > $Merchant->getFeeLimit())
-            $fee = $Merchant->getFeeLimit();
+        $fee = $Merchant->getConvenienceFeeFlat();
+        $fee += $amount * $Merchant->getConvenienceFeeVariable();
+        if($fee > $Merchant->getConvenienceFeeLimit())
+            $fee = $Merchant->getConvenienceFeeLimit();
         return $fee;
     }
 
-
+    /**
+     * Calculate Transaction Service Fee
+     * @param OrderRow $OrderRow
+     * @param $action
+     * @return mixed
+     */
+    public function calculateServiceFee(OrderRow $OrderRow, $action) {
+        switch(strtolower($action)) {
+            default:
+            case 'settled':
+            case 'authorized':
+                return 0;
+        }
+    }
     // Static
 
     public static function prepareMerchantRequest(IntegrationRequestRow $NewRequest, MerchantRow $M) {

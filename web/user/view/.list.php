@@ -22,7 +22,7 @@ $Theme->printHTMLMenu('user-list');
                     <div class="legend">Search</div>
                     <table>
                         <tr>
-                            <td class="name">Search</td>
+<!--                            <td class="name">Search</td>-->
                             <td class="value">
                                 <input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="By ID, Name, Email" />
                             </td>

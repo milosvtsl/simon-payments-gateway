@@ -12,7 +12,7 @@
     /* cursor: pointer; */
     box-shadow: 2px 2px 4px #CCC;
     transition: box-shadow 0.5s ease;
-    background-color: gray;
+    background: linear-gradient(to bottom, #d4e7ec 0%, #f0f4f6 100%);
     vertical-align: top;
     position: relative;
     color: white;
@@ -46,9 +46,9 @@
     position: absolute;
     z-index: 99;
     margin: 4px;
-    border: 1px outset rgba(221,221,221,0.50);
+    /* border: 1px outset rgba(221,221,221,0.50); */
     border-radius: 4px;
-    background-color: #ffc074;
+    /* background-color: #ffc074; */
 }
 
 
@@ -58,12 +58,12 @@
 
 }
 .app-chart-wtd {
-    background: linear-gradient(to bottom, #ff5bd5 0%, #ae3e91 100%);
+    background: linear-gradient(to bottom, #ff5b99 0%, #ae3e3e 100%);
 }
 .app-chart-mtd {
-    background: linear-gradient(to bottom, #d5ff5b 0%, #94b13f 100%);
+    background: linear-gradient(to bottom, #fef97b 0%, #d57d10 100%);
 }
 .app-chart-ytd {
-    background: linear-gradient(to bottom, #5bd5ff 0%, #4095b3 100%);
+    background: linear-gradient(to bottom, #69d0fe 0%, #3b7593 100%);
 }
 

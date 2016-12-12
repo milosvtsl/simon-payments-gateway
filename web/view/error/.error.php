@@ -16,7 +16,7 @@ $this->getTheme()->printHTMLMenu('error');
         <section class="content dashboard-section">
 
             <div style="text-align: center;">
-                <div class="error" style="white-space: pre; padding: 1em; display: inline-block; text-align: left;">An unexpected error has occurred:
+                <div class="error" style="white-space: pre-wrap; padding: 1em; display: inline-block; text-align: left;">An unexpected error has occurred:
 <?php echo $Exception->getMessage(); ?>
 
 
