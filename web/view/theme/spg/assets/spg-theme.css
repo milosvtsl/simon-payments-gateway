@@ -27,7 +27,7 @@ body.layout-horizontal > article.themed {
 }
 
 body.spg-theme.layout-vertical .menu-icon {
-    font-size: 2vw;
+    /*font-size: 2vw;*/
 }
 
 
@@ -578,7 +578,7 @@ body.spg-theme input.button-sumit:hover {
 }
 
 
-body.layout-vertical.spg-theme a.button {font-size: 1.5em;/* display: block; */}
+/*body.layout-vertical.spg-theme a.button {font-size: 1.5em;/!* display: block; *!/}*/
 
 
 body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0.5em;/* min-width: 48%; */}
