@@ -95,6 +95,7 @@ class TransactionRow
     // Table Integration
     protected $integration_name;
     protected $integration_id;
+    protected $integration_request_id;
 
     const SQL_SELECT = "
 SELECT oi.*, t.*,
@@ -103,11 +104,13 @@ oi.date as order_date,
 oi.status as order_status,
 m.short_name as merchant_short_name,
 i.id integration_id,
-i.name integration_name
+i.name integration_name,
+ir.id integration_request_id
 FROM transaction t
 LEFT JOIN order_item oi on t.order_item_id = oi.id
 LEFT JOIN merchant m on oi.merchant_id = m.id
 LEFT JOIN integration i on oi.integration_id = i.id
+LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transaction%'
 ";
     const SQL_GROUP_BY = ""; // "\nGROUP BY t.id";
     const SQL_ORDER_BY = "\nORDER BY t.id DESC";
@@ -134,6 +137,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
+    public function getIntegrationRequestID()      { return $this->integration_request_id; }
 
     public function getHolderFullName()     { return $this->customer_first_name . ' ' . $this->customer_last_name; }
 
