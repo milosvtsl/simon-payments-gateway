@@ -117,19 +117,9 @@ class OrderReportView extends AbstractListView {
 		$DB = DBConfig::getInstance();
 
 
-		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
-		$StatsQuery = $DB->prepare($statsSQL);
-		$StatsQuery->execute($sqlParams);
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
-		/** @var OrderQueryStats $Stats */
-		$Stats = $StatsQuery->fetch();
-		$this->setRowCount($Stats->getCount());
-
 		// TODO decide date range
 
-		$groupByStatsSQL = OrderQueryStats::SQL_GROUP_BY;
-		$limitStatsSQL = "\nLIMIT 5";
+		$limitStatsSQL = "\nLIMIT 12";
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
@@ -143,61 +133,176 @@ class OrderReportView extends AbstractListView {
 		}
 
 		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL
+			. OrderQueryStats::SQL_ORDER_BY
+			. $limitStatsSQL;
+		$StatsQuery = $DB->prepare($statsSQL);
+		$StatsQuery->execute($sqlParams);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+		$Stats = $StatsQuery->fetch();
+		$this->setRowCount($Stats->getCount());
+
+
+		$reportSQL = OrderQueryStats::SQL_SELECT . $whereSQL
 			. $groupByStatsSQL
 			. OrderQueryStats::SQL_ORDER_BY
 			. $limitStatsSQL;
-		$ReportQuery = $DB->prepare($statsSQL);
+		$ReportQuery = $DB->prepare($reportSQL);
 		$ReportQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
 		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
 
-
-		// Calculate GROUP BY
-		$groupSQL = OrderRow::SQL_GROUP_BY;
-
-		// Calculate ORDER BY
-		$orderSQL = OrderRow::SQL_ORDER_BY;
-		if(!empty($params[self::FIELD_ORDER_BY])) {
-			$sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
-			$sortField = $params[self::FIELD_ORDER_BY];
-			if(substr($sortField, 0, 3) !== 'oi.')
-				$sortField = 'oi.' . $sortField;
-			if(!in_array($sortField, OrderRow::$SORT_FIELDS))
-				throw new \InvalidArgumentException("Invalid order-by field");
-			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
-			$statsMessage .= "\nsorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
-		}
-
-		// Calculate LIMIT
-		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
-		if(in_array(strtolower(@$params['action']),
-			array('export', 'export-stats', 'export-data')))
-			$limitSQL = '';
-
-		// Query Rows
-		$mainSQL = OrderRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
-		$Query = $DB->prepare($mainSQL);
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$Query->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
-		$time = -microtime(true);
-		$Query->execute($sqlParams);
-		$time += microtime(true);
-
-
-		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $statsMessage .= " (GMT " . $offset/(60*60) . ")";
-
-		if(!$this->getMessage())
-			$this->setMessage($statsMessage);
+		$action_url = 'order/list.php?' . http_build_query($_GET);
 
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data'))) {
 			// Render Page
-			include ('.export.csv.php');
 
+			if(!$export_filename)
+				$export_filename = 'export.csv';
+			header("Content-Disposition: attachment; filename=\"$export_filename\"");
+			header("Content-Type: application/vnd.ms-excel");
+
+			echo '"Span","Count","Authorized","Settled","Void","Returned","",""';
+
+			if(in_array(strtolower(@$params['action']), array('export', 'export-stats'))) {
+				foreach ($ReportQuery as $Report) {
+					/** @var \Order\Model\OrderQueryStats $Report */
+					echo "\n\"" . $Report->getGroupSpan(),
+						'", ' . $Report->getCount(),
+						', $' . $Report->getTotal(),
+						', $' . $Report->getSettledTotal(),
+						', $' . $Report->getVoidTotal(),
+						', $' . $Report->getReturnTotal(),
+					',,';
+				}
+			}
 		} else {
 			// Render Page
-			include ('.list.php');
+
+			$Theme = $this->getTheme();
+			$Theme->addPathURL('order',             'Transactions');
+			$Theme->addPathURL('order/list.php',    'Search');
+			$Theme->renderHTMLBodyHeader();
+			$Theme->printHTMLMenu('order-list');
+			?>
+		<article class="themed">
+
+			<section class="content">
+
+
+				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+
+				<form name="form-order-search" class="themed">
+
+					<fieldset class="search-fields">
+						<div class="legend">Search</div>
+						<table class="themed" style="width: 100%;">
+							<tbody>
+							<tr>
+								<td class="name">From</td>
+								<td>
+									<input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
+									<input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
+								</td>
+							</tr>
+							<tr>
+								<td class="name">Merchant</td>
+								<td>
+									<select name="merchant_id" style="min-width: 20.5em;" >
+										<option value="">By Merchant</option>
+										<?php
+										if($SessionUser->hasAuthority('ROLE_ADMIN'))
+											$MerchantQuery = MerchantRow::queryAll();
+										else
+											$MerchantQuery = $SessionUser->queryUserMerchants();
+										foreach($MerchantQuery as $Merchant)
+											/** @var \Merchant\Model\MerchantRow $Merchant */
+											echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
+											($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+											"'>", $Merchant->getShortName(), "</option>";
+										?>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="name">Submit</td>
+								<td>
+									<select name="stats_group">
+										<?php
+										$stats_group = @$_GET['stats_group'];
+										foreach(array('Day', 'Week', 'Month', 'Year') as $opt)
+											echo "<option value='{$opt}' ", $stats_group == $opt ? ' selected="selected"' : '' ,">By ", $opt, "</option>\n";
+										?>
+									</select>
+									<input name="action" type="submit" value="Generate" class="themed" />
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</fieldset>
+
+					<fieldset>
+						<div class="legend">Report Results</div>
+						<table class="table-stats themed small striped-rows" style='width: 100%;'>
+							<tr>
+								<th><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></th>
+								<th>Authorized</th>
+								<th>Void</th>
+								<th>Returned</th>
+								<?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+									<th>Conv. Fee</th>
+								<?php } ?>
+							</tr>
+							<?php
+							$odd = false;
+							foreach($ReportQuery as $Report) {
+								/** @var OrderQueryStats $Report */
+								$report_url = $action_url . '&date_from=' . $Report->getStartDate() . '&date_to=' . $Report->getEndDate()
+								/** @var \Order\Model\OrderQueryStats $Stats */
+								?>
+								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+									<td><a href="<?php echo $report_url; ?>&status="><?php echo $Report->getGroupSpan(); ?></a></td>
+									<td><a href="<?php echo $report_url; ?>&status="><?php echo number_format($Report->getTotal(),2), ' (', $Report->getTotalCount(), ')'; ?></a></td>
+									<!--                            <td><a href="--><?php //echo $report_url; ?><!--&status=Settled">--><?php //echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?><!--</a></td>-->
+									<td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
+									<td><a href="<?php echo $report_url; ?>&status=Return"><?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
+									<?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+										<td><?php echo number_format($Report->getConvenienceFeeTotal(),2), ' (', $Report->getConvenienceFeeCount(), ')'; ?></td>
+									<?php } ?>
+								</tr>
+							<?php } ?>
+							<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
+								<td><?php echo $Stats->getGroupSpan(); ?></td>
+								<td><a href="<?php echo $action_url; ?>&status="><?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
+								<!--                            <td><a href="--><?php //echo $action_url; ?><!--&status=Settled">--><?php //echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?><!--</a></td>-->
+								<td><a href="<?php echo $action_url; ?>&status=Void"><?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
+								<td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
+								<?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+									<td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
+								<?php } ?>
+							</tr>
+
+							<tr>
+								<td colspan="6" style="text-align: right">
+									<span style="font-size: 0.7em; color: grey; float: left;">
+										<?php if($this->hasMessage()) echo $this->getMessage(); ?>
+									</span>
+									<button name="action" type="submit" value="Export-Stats" class="themed">Export Report (.csv)</button>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+				</form>
+			</section>
+		</article>
+
+		<?php $Theme->renderHTMLBodyFooter(); ?>
+
+<?php
+
+
+
 		}
 
 	}
