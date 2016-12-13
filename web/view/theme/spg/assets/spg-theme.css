@@ -596,6 +596,9 @@ body.spg-theme table.themed > tbody > tr > td {
     overflow: hidden;
     /* text-align: center; */
 }
+body.spg-theme table.themed > tbody > tr > td > a {
+    text-decoratioN: none;
+}
 
 body.spg-theme table.themed.small > tbody > tr > th,
 body.spg-theme table.themed.small > tbody > tr > td {
