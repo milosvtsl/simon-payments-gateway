@@ -298,9 +298,11 @@ class OrderListView extends AbstractListView {
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
 								<th>Customer/ID</th>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
+                                <th>Amount</th>
 								<th class="hide-on-layout-narrow">Mode</th>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
-                                <th>Amount</th>
+                                <th class="hide-on-layout-narrow">Account</th>
+                                <th class="hide-on-layout-narrow">Type</th>
                                 <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
 									<th class="hide-on-layout-narrow"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
 								<?php } ?>
@@ -317,10 +319,12 @@ class OrderListView extends AbstractListView {
 									<td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
 									<td ><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
 									<td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
-									<td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
+                                    <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
+                                    <td style="font-weight: bold;">$<?php echo $Order->getAmount(); ?></td>
 									<td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>
 									<td><?php echo $Order->getStatus(); ?></td>
-                                    <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
+                                    <td class="hide-on-layout-narrow"><?php echo substr($Order->getCardNumber(), -8); ?></td>
+                                    <td class="hide-on-layout-narrow"><?php echo $Order->getCardType(); ?></td>
 									<?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
 										<td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
 									<?php } ?>
