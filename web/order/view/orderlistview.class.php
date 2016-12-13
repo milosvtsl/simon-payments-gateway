@@ -123,7 +123,7 @@ class OrderListView extends AbstractListView {
 			$limitStatsSQL = '';
 
 		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL
-			. OrderQueryStats::SQL_ORDER_BY
+//			. OrderQueryStats::SQL_ORDER_BY
 			. $limitStatsSQL;
 		$StatsQuery = $DB->prepare($statsSQL);
 		$StatsQuery->execute($sqlParams);
@@ -138,16 +138,18 @@ class OrderListView extends AbstractListView {
 
 		// Calculate ORDER BY
 		$orderSQL = OrderRow::SQL_ORDER_BY;
-		if(!empty($params[self::FIELD_ORDER_BY])) {
-			$sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
-			$sortField = $params[self::FIELD_ORDER_BY];
-			if(substr($sortField, 0, 3) !== 'oi.')
-				$sortField = 'oi.' . $sortField;
-			if(!in_array($sortField, OrderRow::$SORT_FIELDS))
-				throw new \InvalidArgumentException("Invalid order-by field");
-			$orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
-			$statsMessage .= "\nsorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
-		}
+        if(empty($params[self::FIELD_ORDER_BY]))
+            $params[self::FIELD_ORDER_BY] = 'oi.date';
+        if(empty($params[self::FIELD_ORDER]))
+            $params[self::FIELD_ORDER] = 'DESC';
+        $sortOrder = strcasecmp($params[self::FIELD_ORDER], 'DESC') === 0 ? 'DESC' : 'ASC';
+        $sortField = $params[self::FIELD_ORDER_BY];
+        if(substr($sortField, 0, 3) !== 'oi.')
+            $sortField = 'oi.' . $sortField;
+        if(!in_array($sortField, OrderRow::$SORT_FIELDS))
+            throw new \InvalidArgumentException("Invalid order-by field");
+        $orderSQL = "\nORDER BY {$sortField} {$sortOrder}";
+        $statsMessage .= "\nsorted by field '{$sortField}' in " . strtolower($sortOrder) . "ending order";
 
 		// Calculate LIMIT
 		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
