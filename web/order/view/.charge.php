@@ -33,7 +33,7 @@ $Theme->printHTMLMenu('order-charge');
                 <input type="hidden" name="convenience_fee_limit" value="" />
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-                <fieldset class="float-left-on-layout-horizontal" style="min-width:47%;">
+                <fieldset class="inline-block-on-layout-full" style="min-width:48%;">
 <!--                    <legend>Choose a Merchant</legend>-->
                     <div class="legend">Choose a Merchant</div>
                     <table class="table-choose-merchant themed" style="float: left;">
@@ -84,7 +84,7 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="show-on-merchant-selected" style="min-width:47%;">
+                <fieldset class="show-on-merchant-selected inline-block-on-layout-full" style="min-width:48%; ">
                     <div class="legend">Choose a Payment Method</div>
                     <table class="table-payment-method themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -100,13 +100,13 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="show-on-merchant-selected float-left-on-layout-horizontal" style="min-width:47%; min-height: 25em;">
+                <fieldset class="show-on-merchant-selected inline-block-on-layout-full" style="min-width:48%; height: 26em;">
                     <div class="legend">Customer Fields</div>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">Payment Amount</td>
                             <td>
-                                <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required autofocus />
+                                <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required autofocus/>
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -167,7 +167,7 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="form-payment-method-credit show-on-merchant-selected show-on-payment-method-keyed show-on-payment-method-swipe" style="min-width:47%; min-height: 25em;">
+                <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-card" style="min-width:48%; height: 26em;">
                     <div class="legend">Cardholder Information</div>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -241,21 +241,21 @@ $Theme->printHTMLMenu('order-charge');
 
 
                 <div class="swipe-fullscreen-box-container show-on-payment-method-swipe show-on-merchant-selected">
-                    <fieldset class="themed swipe-fullscreen-box " style="min-width:47%;">
-                        <legend class="alert reader-status">Please swipe your card now</legend>
+                    <fieldset class="themed swipe-fullscreen-box " style="min-width:48%; padding: 8px;">
+                        <div class="legend alert reader-status">Please swipe your card now</div>
                         <br />
 
                         <div>
                         <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php // echo @$LASTPOST['card_track']; ?></textarea>
                         <br />
-                        <input type="button" class='submit-button' value="Close" onclick="this.form.classList.add('swipe-input-successful'); return false;" />
+                        <input type="button" class='submit-button themed' value="Close" onclick="this.form.classList.add('swipe-input-successful'); return false;" />
                         </div>
 
                         <br />
                     </fieldset>
                 </div>
 
-                <fieldset class="form-payment-method-check show-on-payment-method-check" style="min-width:47%; min-height: 25em;">
+                <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:48%; height: 26em;">
                     <div class="legend">e-Check Information</div>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -303,7 +303,7 @@ $Theme->printHTMLMenu('order-charge');
                 </fieldset>
 
 
-                <fieldset class="show-on-merchant-selected show-on-payment-method-selected" style="clear: both;">
+                <fieldset class="inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-selected" style="clear: both; min-width: 97.7%;">
                     <div class="legend">Submit Payment</div>
 
 

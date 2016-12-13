@@ -149,6 +149,7 @@ class SPGViewTheme extends AbstractViewTheme
 
     public function renderHTMLHeadLinks($flags=0) {
         echo <<<HEAD
+        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1, user-scalable=0">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
         <script src="view/theme/spg/assets/spg-theme.js"></script>
@@ -215,7 +216,7 @@ HEAD;
                                     <span>Search</span> </a>
                             </li>
                             <li>
-                                <a href="order/report.php" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-report"></div>
+                                <a href="order/report.php" class="button<?php echo @$mc['order-report']; ?>"><div class="menu-icon menu-icon-report"></div>
                                     <span>Report</span> </a>
                             </li>
                             <li>

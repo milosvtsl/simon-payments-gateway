@@ -3,6 +3,7 @@
 body.spg-theme {
     color: #000000;
     font-family: arial, serif;
+    /* font-size: 2.5vw; */
     margin: 0 auto;
     /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
 }
@@ -11,7 +12,7 @@ body.spg-theme {
 /** Vertical and Horizontal layout options **/
 
 body.spg-theme.layout-full .inline-block-on-layout-full {
-    display: inline-block;
+    display: inline-block !important;
 }
 
 body.layout-narrow.spg-theme .hide-on-layout-narrow,
@@ -20,19 +21,19 @@ body.layout-horizontal.spg-theme .hide-on-layout-horizontal {
     display: none;
 }
 
-/*body.layout-horizontal.spg-theme .float-left-on-layout-horizontal {*/
-    /*float: left;*/
-/*}*/
-/*body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {*/
-    /*float: right;*/
-/*}*/
+body.layout-horizontal.spg-theme .float-left-on-layout-horizontal {
+    float: left;
+}
+body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
+    float: right;
+}
 
 body.layout-full > article.themed {
     margin-left: 13em;
 }
 
 body.spg-theme.layout-vertical .menu-icon {
-    /*font-size: 2vw;*/
+    /* font-size: 2vw; */
 }
 
 
@@ -505,8 +506,8 @@ body.spg-theme form.themed a {
 body.spg-theme form.themed > fieldset,
 body.spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
-    padding: 0.5em 0.5em 0.3em 0.5em;
-    margin: 0em 0.5em 0.5em 0.5em;
+    padding: 0.5em 0.0em 0.3em 0.0em;
+    margin: 0em 0.0em 0.5em 0.5em;
     /* min-width: 47%; */
     /* min-height: 7em; */
     vertical-align: top;
