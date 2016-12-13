@@ -177,10 +177,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function updateStyleSheetTheme(form) {
 
+        var entry_mode = form.entry_mode.value.toLowerCase();
+
         form.classList[form.merchant_id.value ? 'add' : 'remove']('merchant-selected');
         form.classList[form.entry_mode.value ? 'add' : 'remove']('payment-method-selected');
-        form.classList.remove('payment-method-keyed', 'payment-method-swipe', 'payment-method-check');
-        form.classList.add('payment-method-' + form.entry_mode.value.toLowerCase());
+        form.classList.remove('payment-method-keyed', 'payment-method-swipe', 'payment-method-check', 'payment-method-card');
+        form.classList.add('payment-method-' + entry_mode);
+
+        switch(entry_mode) {
+            case 'keyed':
+            case 'swipe':
+                form.classList.add('payment-method-card');
+                break;
+        }
 
         if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
             console.log("Merchant: ", form.merchant_id.selectedIndex);
