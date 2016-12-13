@@ -320,7 +320,7 @@ class OrderListView extends AbstractListView {
 									<td ><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
 									<td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                                     <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
-                                    <td style="font-weight: bold;">$<?php echo $Order->getAmount(); ?></td>
+                                    <td style=" font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
 									<td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>
 									<td><?php echo $Order->getStatus(); ?></td>
                                     <td class="hide-on-layout-narrow"><?php echo substr($Order->getCardNumber(), -8); ?></td>
