@@ -37,14 +37,13 @@ class OrderQueryStats
     const SQL_ORDER_BY = "\n\tORDER BY `group` desc";
     const SQL_SELECT = "
 SELECT
+  count(*) as count,
 
   DATE_FORMAT(oi.date, '%Y/%m') as 'group',
   DATE_FORMAT(oi.date, '%b %y') as 'group_name',
   CONCAT(DATE_FORMAT(MIN(oi.date), '%b %D %Y'), ' - ', DATE_FORMAT(DATE_ADD(MAX(oi.date), INTERVAL 1 DAY), '%b %D %Y')) as 'group_span',
   DATE_FORMAT(MIN(oi.date), '%Y-%m-%d') as start_date,
   DATE_FORMAT(DATE_ADD(MAX(oi.date), INTERVAL 1 DAY), '%Y-%m-%d') as end_date,
-
-  count(*) as count,
 
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.amount ELSE 0 END) as total,
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN 1 ELSE 0 END) as total_count,

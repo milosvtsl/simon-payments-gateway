@@ -230,7 +230,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                     <div class="legend">Transaction History</div>
                     <table class="table-results themed small cell-borders" style="width: 94%">
                         <tr>
-                            <th class="hide-on-layout-vertical">TID</th>
+                            <th class="hide-on-layout-narrow">TID</th>
                             <th>Date</th>
                             <th>Amount</th>
                             <th>Fee</th>
@@ -247,7 +247,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="hide-on-layout-vertical"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
+                                <td class="hide-on-layout-narrow"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
                                 <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>

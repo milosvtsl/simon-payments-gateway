@@ -147,7 +147,7 @@ LEFT JOIN merchant m on oi.merchant_id = m.id
 LEFT JOIN integration i on oi.integration_id = i.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY oi.id";
-    const SQL_ORDER_BY = "\nORDER BY oi.id DESC";
+    const SQL_ORDER_BY = "\nORDER BY oi.id ASC";
 
 
     public function getID()                 { return $this->id; }

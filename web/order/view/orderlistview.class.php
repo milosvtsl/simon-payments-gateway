@@ -30,7 +30,7 @@ class OrderListView extends AbstractListView {
         $SessionUser = $SessionManager->getSessionUser();
 
 		// Set up page parameters
-		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
+		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
 
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
@@ -117,40 +117,20 @@ class OrderListView extends AbstractListView {
 		// Query Statistics
 		$DB = DBConfig::getInstance();
 
-
-		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL;
-		$StatsQuery = $DB->prepare($statsSQL);
-		$StatsQuery->execute($sqlParams);
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
-		/** @var OrderQueryStats $Stats */
-		$Stats = $StatsQuery->fetch();
-		$this->setRowCount($Stats->getCount());
-
-		// TODO decide date range
-
-		$groupByStatsSQL = OrderQueryStats::SQL_GROUP_BY;
 		$limitStatsSQL = "\nLIMIT 5";
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
-		switch(@$params['stats_group']) {
-			case 'Day': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d')"; break;
-			case 'Week': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%u')"; break;
-			default:
-				$params['stats_group'] = 'Month';
-			case 'Month': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m')"; break;
-			case 'Year': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y')"; break;
-		}
 
 		$statsSQL = OrderQueryStats::SQL_SELECT . $whereSQL
-			. $groupByStatsSQL
 			. OrderQueryStats::SQL_ORDER_BY
 			. $limitStatsSQL;
-		$ReportQuery = $DB->prepare($statsSQL);
-		$ReportQuery->execute($sqlParams);
+		$StatsQuery = $DB->prepare($statsSQL);
+		$StatsQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
-		$ReportQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
+		$Stats = $StatsQuery->fetch();
+		$this->setRowCount($Stats->getCount());
 
 
 		// Calculate GROUP BY
@@ -171,8 +151,7 @@ class OrderListView extends AbstractListView {
 
 		// Calculate LIMIT
 		$limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
-		if(in_array(strtolower(@$params['action']),
-			array('export', 'export-stats', 'export-data')))
+		if(strtolower(substr(@$params['action'], 0, 6)) == 'export')
 			$limitSQL = '';
 
 		// Query Rows
@@ -184,21 +163,224 @@ class OrderListView extends AbstractListView {
 		$Query->execute($sqlParams);
 		$time += microtime(true);
 
-
 		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
         $statsMessage .= " (GMT " . $offset/(60*60) . ")";
 
 		if(!$this->getMessage())
 			$this->setMessage($statsMessage);
 
-		if(in_array(strtolower(@$params['action']),
-			array('export', 'export-stats', 'export-data'))) {
-			// Render Page
-			include ('.export.csv.php');
+        $action_url = 'order/list.php?' . http_build_query($_GET);
 
+		if(strtolower(substr(@$params['action'], 0, 6)) == 'export') {
+			// Export Data
+
+            if(!$export_filename)
+                $export_filename = 'export.csv';
+            header("Content-Disposition: attachment; filename=\"$export_filename\"");
+            header("Content-Type: application/vnd.ms-excel");
+
+            echo '"Span","Count","Authorized","Settled","Void","Returned","",""';
+
+//            if(in_array(strtolower(@$params['action']), array('export', 'export-stats'))) {
+//                foreach ($StatsQuery as $Stats) {
+//                    /** @var \Order\Model\OrderQueryStats $Stats */
+//                    echo "\n\"" . $Stats->getGroupSpan(),
+//                        '", ' . $Stats->getCount(),
+//                        ', $' . $Stats->getTotal(),
+//                        ', $' . $Stats->getSettledTotal(),
+//                        ', $' . $Stats->getVoidTotal(),
+//                        ', $' . $Stats->getReturnTotal(),
+//                    ',,';
+//                }
+//            }
+
+            echo "\n\"Total" ,
+                '", ' . $Stats->getCount(),
+                ', $' . $Stats->getTotal(),
+                ', $' . $Stats->getSettledTotal(),
+                ', $' . $Stats->getVoidTotal(),
+                ', $' . $Stats->getReturnTotal(),
+            '';
+
+            echo "\n\n";
+            echo "\nUID,Amount,Status,Mode,Date,Invoice,Cust ID,Customer";
+            $offset = $SessionUser->getTimeZoneOffset();
+            foreach($Query as $Order) {
+                /** @var OrderRow $Order */
+                echo
+                "\n", $Order->getUID(false),
+                ', $', $Order->getAmount(),
+        //            ", $", $Order->getConvenienceFee() ?: 0,
+                ', ', $Order->getStatus(),
+                ', ', $Order->getEntryMode(),
+                ', ', $Order->getDate(),
+                ', ', str_replace(',', ';', $Order->getInvoiceNumber()),
+                ', ', str_replace(',', ';', $Order->getCustomerID()),
+                ', ', str_replace(',', ';', $Order->getCardHolderFullName()),
+                '';
+            }
 		} else {
 			// Render Page
-			include ('.list.php');
+
+			$Theme = $this->getTheme();
+			$Theme->addPathURL('order',             'Transactions');
+			$Theme->addPathURL('order/list.php',    'Search');
+			$Theme->renderHTMLBodyHeader();
+			$Theme->printHTMLMenu('order-list');
+			?>
+		<article class="themed">
+
+			<section class="content">
+
+
+				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+
+				<form name="form-order-search" class="themed">
+
+					<fieldset class="search-fields">
+						<div class="legend">Search</div>
+						<table class="themed" style="width: 100%;">
+							<tbody>
+							<tr>
+								<td class="name">From</td>
+								<td>
+									<input type="date" name="date_from" value="<?php echo @$_GET['date_from']; ?>" /> to
+									<input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
+								</td>
+							</tr>
+							<tr>
+								<td class="name">Merchant</td>
+								<td>
+									<select name="merchant_id" style="min-width: 20.5em;" >
+										<option value="">By Merchant</option>
+										<?php
+										if($SessionUser->hasAuthority('ROLE_ADMIN'))
+											$MerchantQuery = MerchantRow::queryAll();
+										else
+											$MerchantQuery = $SessionUser->queryUserMerchants();
+										foreach($MerchantQuery as $Merchant)
+											/** @var \Merchant\Model\MerchantRow $Merchant */
+											echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
+											($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+											"'>", $Merchant->getShortName(), "</option>";
+										?>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="name">Search</td>
+								<td>
+									<input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="42" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name">Submit</td>
+                                <td>
+                                    <input name="action" type="submit" value="Search" class="themed" />
+                                    <select name="limit">
+                                        <?php
+                                        $limit = @$_GET['limit'] ?: 25;
+                                        foreach(array(10,25,50,100,250) as $opt)
+                                            echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
+                                        ?>
+                                    </select>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</fieldset>
+
+					<fieldset>
+						<div class="legend">Search Results</div>
+						<table class="table-results themed small striped-rows" style="width: 100%;">
+							<tr>
+								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
+								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
+								<th>Customer/ID</th>
+								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
+								<th class="hide-on-layout-narrow">Mode</th>
+								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
+                                <th>Amount</th>
+                                <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+									<th class="hide-on-layout-narrow"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+								<?php } ?>
+							</tr>
+							<?php
+							/** @var \Order\Model\OrderRow $Order */
+							$odd = false;
+
+							// Get Timezone diff
+							$offset = $SessionUser->getTimeZoneOffset('now');
+
+							foreach($Query as $Order) { ?>
+								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+									<td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
+									<td ><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
+									<td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
+									<td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
+									<td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+									<td><?php echo $Order->getStatus(); ?></td>
+                                    <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
+									<?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+										<td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+									<?php } ?>
+								</tr>
+							<?php } ?>
+
+							<tr>
+								<td colspan="8" class="pagination">
+									<span style=""><?php $this->printPagination('order?'); ?></span>
+									<button name="action" type="submit" value="Export-Data" class="themed" style="float:right;">Export Data (.csv)</button>
+								</td>
+							</tr>
+						</table>
+					</fieldset>
+
+
+                    <fieldset>
+                        <div class="legend">Search Stats</div>
+                        <table class="table-stats themed small striped-rows" >
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name"><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></td>
+                                <td><?php echo $Stats->getGroupSpan(); ?></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Authorized</td>
+                                <td><a href="<?php echo $action_url; ?>&status="><?php echo number_format($Stats->getTotal(),2), ' (', $Stats->getTotalCount(), ')'; ?></a></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Void</td>
+                                <td><a href="<?php echo $action_url; ?>&status=Void"><?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name"">Returned</td>
+                                <td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
+                            </tr>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Conv. Fee</td>
+                                <td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
+                            </tr>
+                            <?php } ?>
+
+                            <tr>
+                                <td colspan="6" style="text-align: right">
+                                    <span style="font-size: 0.7em; color: grey; float: left;">
+                                        <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+                                    </span>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </fieldset>
+
+
+                </form>
+			</section>
+		</article>
+			<?php
+			$Theme->renderHTMLBodyFooter();
 		}
 
 	}
