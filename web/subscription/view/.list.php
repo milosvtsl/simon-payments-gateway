@@ -97,7 +97,7 @@ $Theme->printHTMLMenu('order-subscription-list');
                             <th><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_STATUS); ?>">Status</a></th>
                             <th><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_DATE); ?>">Next Date</a></th>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                            <th class="hide-on-layout-vertical"><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+                            <th class="hide-on-layout-narrow"><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                             <?php } ?>
                         </tr>
                         <?php
@@ -117,7 +117,7 @@ $Theme->printHTMLMenu('order-subscription-list');
                             <td><?php echo $Subscription->getStatus(); ?></td>
                             <td><?php echo date("M jS h:i A", strtotime($Subscription->getRecurNextDate()) + $offset); ?></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                            <td class="hide-on-layout-vertical"><a href='merchant?id=<?php echo $Subscription->getMerchantID(); ?>'><?php echo $Subscription->getMerchantShortName(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Subscription->getMerchantID(); ?>'><?php echo $Subscription->getMerchantShortName(); ?></a></td>
                             <?php } ?>
                         </tr>
                         <?php } ?>

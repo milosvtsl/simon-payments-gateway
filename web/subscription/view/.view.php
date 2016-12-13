@@ -238,7 +238,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                     <div class="legend">Transaction History</div>
                     <table class="table-results themed small cell-bsubscriptions" style="width: 94%">
                         <tr>
-                            <th class="hide-on-layout-vertical">TID</th>
+                            <th class="hide-on-layout-narrow">TID</th>
                             <th>Date</th>
                             <th>Amount</th>
                             <th>Fee</th>
@@ -255,7 +255,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="hide-on-layout-vertical"><a href='/subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
+                                <td class="hide-on-layout-narrow"><a href='/subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
                                 <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>

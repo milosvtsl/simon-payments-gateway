@@ -149,10 +149,10 @@ $Theme->printHTMLMenu('order-list');
                             <th>Amount</th>
                             <th>Customer/ID</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
-                            <th class="hide-on-layout-vertical">Mode</th>
+                            <th class="hide-on-layout-narrow">Mode</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                            <th class="hide-on-layout-vertical"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+                            <th class="hide-on-layout-narrow"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                             <?php } ?>
                         </tr>
                         <?php
@@ -169,10 +169,10 @@ $Theme->printHTMLMenu('order-list');
                             <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
                             <td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                             <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
-                            <td class="hide-on-layout-vertical"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                            <td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                            <td class="hide-on-layout-vertical"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
                             <?php } ?>
                         </tr>
                         <?php } ?>
