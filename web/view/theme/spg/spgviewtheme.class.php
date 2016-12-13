@@ -110,7 +110,7 @@ class SPGViewTheme extends AbstractViewTheme
                 </ul>
             </a>
 
-            <div class="site-welcome-text hide-on-print" style="float: right;">
+            <div class="site-welcome-text hide-on-print hide-on-layout-narrow hide-on-layout-vertical" style="float: right;">
                 Welcome,
                 <a href="user/account.php" style="text-decoration: none;">
                 <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
