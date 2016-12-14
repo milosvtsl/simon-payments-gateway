@@ -148,12 +148,13 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks($flags=0) {
+        $v = 2;
         echo <<<HEAD
         <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1, user-scalable=0">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
-        <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
-        <script src="view/theme/spg/assets/spg-theme.js"></script>
-        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
+        <link href='view/theme/spg/assets/spg-theme.css?v={$v}' type='text/css' rel='stylesheet'>
+        <script src="view/theme/spg/assets/spg-theme.js?v={$v}"></script>
+        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico?v={$v}">
 HEAD;
     }
 
