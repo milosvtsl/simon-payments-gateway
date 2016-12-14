@@ -153,7 +153,7 @@ class SPGViewTheme extends AbstractViewTheme
             $v = '';
 
         echo <<<HEAD
-        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=1, user-scalable=0">
+        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         <link href='view/theme/spg/assets/spg-theme.css{$v}' type='text/css' rel='stylesheet'>
         <script src="view/theme/spg/assets/spg-theme.js{$v}"></script>
