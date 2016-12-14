@@ -231,11 +231,22 @@ body.spg-theme.layout-narrow .menu-icon.menu-icon-toggle {
     transform: rotate(90deg);
     transition: transform 0.5s;
 }
-body.spg-theme .menu-button-toggle {/* margin: 0px 0px 0px 10px; *//* padding-left: 5px; */display: inline-block;height: 47px;width: 51px;}
-
-body.spg-theme .menu-button-account {
-    /* margin: 3px 4px 0px 0px; */
+body.spg-theme .bread-crumbs .menu-button-toggle {
+    display: inline-block;
     height: 47px;
+    width: 51px;
+}
+
+body.spg-theme .bread-crumbs .menu-button-account {
+    height: 47px;
+    width: 52px;
+}
+
+
+body.spg-theme ul.menu-account a.button > span {
+    margin: 0px 0 10px 0;
+    display: inline-block;
+    font-size: larger;
 }
 
 
@@ -275,6 +286,7 @@ body.spg-theme .menu-icon.menu-icon-merchant    { background-position: -12em 0;}
 body.spg-theme .menu-icon.menu-icon-user        { background-position: -8em -8em;}
 body.spg-theme .menu-icon.menu-icon-integration { background-position: -4em -8em;}
 body.spg-theme .menu-icon.menu-icon-logout      { background-position: -12em -4em;}
+body.spg-theme .menu-icon.menu-icon-sub-menu    {background-position: -12em -16em;}
 
 body.spg-theme .menu-icon.menu-icon-edit        { background-position: -4em -4em;}
 body.spg-theme .menu-icon.menu-icon-add         { background-position: -8em -4em;}

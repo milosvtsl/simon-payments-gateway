@@ -93,7 +93,7 @@ class SPGViewTheme extends AbstractViewTheme
 
 
             <a href="#" class="menu-button-account" style="float: right;">
-                <div class="menu-icon menu-icon-account"></div>
+                <div class="menu-icon menu-icon-sub-menu"></div>
                 <ul class="menu-account">
                     <li>
                         <a href="user/account.php" class="button"> <div class="menu-icon menu-icon-account"></div>
