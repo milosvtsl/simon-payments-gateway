@@ -117,7 +117,7 @@ class MerchantListView extends AbstractListView {
 					<fieldset class="search-fields">
 						<div class="legend">Search all Merchants</div>
 
-						<table class="themed">
+						<table class="themed" >
 							<tbody>
 								<tr>
 									<td class="name">Merchant</td>
