@@ -45,7 +45,7 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Date</td>
-                            <td><?php echo date("M jS Y G:i:s", strtotime($Request->getDate())); ?></td>
+                            <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>URL</td>

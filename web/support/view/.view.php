@@ -44,7 +44,7 @@ $Theme->printHTMLMenu('support-ticket-view',    $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Date</td>
-                            <td><?php echo date("M jS Y G:i:s", strtotime($Ticket->getDate())); ?></td>
+                            <td><?php echo date("M dS Y G:i:s", strtotime($Ticket->getDate())); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>URL</td>

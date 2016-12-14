@@ -3,7 +3,7 @@
 .login-section {
     /* margin: 0 auto; */
     position: fixed;
-    padding: 14em 0;
+    padding: 6em 0;
     width: 100%;
     height: 100%;
     /* display: inline-block; */
@@ -11,6 +11,8 @@
     text-align: center;
     background: linear-gradient(0deg, #bcc5d1 0%, #b1ced6 50%, #3a7190 100%);
     box-shadow: 2px 2px 4px #CCC;
+
+    transition: all 0.5s ease-out 0s;
 }
 
 .login-section form.themed {
@@ -19,6 +21,9 @@
     border-radius: 0.6em;
     box-shadow: 2px 2px 8px #888;
     /* border: 1px inset #bcc5d1; */
+
+    animation: slideDown ease-out 0.9s;
+
 }
 
 .login-section form.themed > fieldset > legend {
@@ -29,12 +34,63 @@
 }
 
 
+.login-section form.themed input {
+
+    animation: bounceIn ease-out 1s;
+
+    animation-duration: .8s;
+    animation-delay: 1.4s;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
+}
 .login-section form.themed input[type=text],
 .login-section form.themed input[type=email],
 .login-section form.themed input[type=password] {
     width: 18em;
+    animation-delay: .8s;
 }
 
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        transform: translateY(-100%);
+    }
+    50% {
+        transform: translateY(-20%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
 
 .login-section form.themed input {
     padding: 0.4em 0.8em !important;
@@ -53,3 +109,4 @@
 .login-section .login-text a:visited {
     color: #eb7738;
 }
+

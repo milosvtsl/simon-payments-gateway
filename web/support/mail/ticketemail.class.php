@@ -52,7 +52,7 @@ class TicketEmail extends \PHPMailer
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/support/ticket.php?uid='.$SupportTicket->getUID();
 
-        $create_date = date('M jS Y G:i', strtotime($SupportTicket->getDate()) ?: time());
+        $create_date = date('M dS Y G:i', strtotime($SupportTicket->getDate()) ?: time());
 
         $content = <<<HTML
 Support Ticket

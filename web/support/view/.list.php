@@ -78,7 +78,7 @@ $Theme->printHTMLMenu('support-ticket-list');
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='support?uid=<?php echo $Ticket->getUID(); ?>'><?php echo $Ticket->getID(); ?></a></td>
                             <td><?php echo $Ticket->getCategory(); ?></td>
-                            <td><?php echo date("M jS Y G:i:s", strtotime($Ticket->getDate())); ?></td>
+                            <td><?php echo date("M dS Y G:i:s", strtotime($Ticket->getDate())); ?></td>
                             <td><?php echo $Ticket->getSubject(); ?></td>
                             <td>
                                 <textarea rows="2" cols="24" onclick="this.rows++; this.cols+=3;"><?php

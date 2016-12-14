@@ -377,7 +377,7 @@ class OrderView extends AbstractView
 
                     <fieldset class="hide-on-print inline-block-on-layout-full">
                         <div class="legend">Transaction History</div>
-                        <table class="table-results themed small cell-borders">
+                        <table class="table-results themed small cell-borders" style="width: 100%;">
                             <tr>
                                 <th class="hide-on-layout-narrow">TID</th>
                                 <th>Date</th>
