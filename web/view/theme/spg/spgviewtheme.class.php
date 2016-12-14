@@ -244,11 +244,11 @@ HEAD;
                     <ul>
                         <li>
                             <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>List Merchants</span> </a>
+                                <span>Search</span> </a>
                         </li>
                         <li>
                             <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>"><div class="menu-icon menu-icon-add"></div>
-                                <span>Add Merchant</span> </a>
+                                <span>Add</span> </a>
                         </li>
 
                         <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete'))) { ?>
