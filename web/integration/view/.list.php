@@ -5,7 +5,7 @@ use \Integration\Model\IntegrationRow;
  **/
 $Theme = $this->getTheme();
 $Theme->addPathURL('integration',             'Integration');
-$Theme->addPathURL('integration/list.php',    'Search');
+$Theme->addPathURL('integration/list.php',    'API Endpoints');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('integration-list');
 ?>

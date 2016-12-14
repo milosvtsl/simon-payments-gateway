@@ -92,7 +92,7 @@ class SPGViewTheme extends AbstractViewTheme
             ?>
 
 
-            <a href="#" class="menu-button-account" style="float: right;">
+            <a href="#" onclick="return false;" class="menu-button-account" style="float: right;">
                 <div class="menu-icon menu-icon-sub-menu"></div>
                 <ul class="menu-account">
                     <li>
@@ -188,7 +188,7 @@ HEAD;
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                 <li class="menu-submenu menu-submenu-order">
-                    <a href="order" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>
+                    <a href="order" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>
                         <span>Transactions</span></a>
                     <ul>
 
@@ -239,7 +239,7 @@ HEAD;
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
-                    <a href="merchant" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
+                    <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
                         <span>Merchants</span> </a>
                     <ul>
                         <li>
@@ -268,7 +268,7 @@ HEAD;
 
 
             <li class="menu-submenu menu-submenu-user">
-                <a href="user" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
+                <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
                     <span>Users</span> </a>
                 <ul>
                     <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
@@ -318,6 +318,10 @@ HEAD;
                     <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>
                         <span>Integration</span></a>
                     <ul>
+                        <li>
+                            <a href="integration" class="button<?php echo @$mc['integration']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                <span>API Endpoints</span></a>
+                        </li>
                         <li>
                             <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>
                                 <span>Requests</span></a>
