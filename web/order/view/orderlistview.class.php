@@ -74,13 +74,13 @@ class OrderListView extends AbstractListView {
 		if(!empty($params['date_from'])) {
 			$whereSQL .= "\nAND oi.date >= :from";
 			$sqlParams['from'] = date("Y-m-d G:00:00", strtotime($params['date_from']) + $offset);
-			$statsMessage .= " from " . date("M jS Y G:00", strtotime($params['date_from']) + $offset);
+			$statsMessage .= " from " . date("M dS Y G:00", strtotime($params['date_from']) + $offset);
 			$export_filename = date("Y-m-d", strtotime($params['date_from']) + $offset) . $export_filename;
 		}
 		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
 			$sqlParams['to'] = date("Y-m-d G:00:00", strtotime($params['date_to']) + $offset);
-			$statsMessage .= " to " . date("M jS Y G:00", strtotime($params['date_to']) + $offset);
+			$statsMessage .= " to " . date("M dS Y G:00", strtotime($params['date_to']) + $offset);
 			$export_filename = date("Y-m-d", strtotime($params['date_to']) + $offset) . $export_filename;
 		}
 
@@ -132,6 +132,8 @@ class OrderListView extends AbstractListView {
 		$Stats = $StatsQuery->fetch();
 		$this->setRowCount($Stats->getCount());
 
+
+//        $DailyStats =
 
 		// Calculate GROUP BY
 		$groupSQL = OrderRow::SQL_GROUP_BY;
@@ -319,7 +321,7 @@ class OrderListView extends AbstractListView {
 							foreach($Query as $Order) { ?>
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
 									<td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
-									<td ><?php echo date("M jS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
+									<td ><?php echo date("M dS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
 									<td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                                     <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
                                     <td style=" font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
@@ -334,7 +336,7 @@ class OrderListView extends AbstractListView {
 							<?php } ?>
 
 							<tr>
-								<td colspan="8" class="pagination">
+								<td colspan="10" class="pagination">
 									<span style=""><?php $this->printPagination('order?'); ?></span>
 									<button name="action" type="submit" value="Export-Data" class="themed" style="float:right;">Export Data (.csv)</button>
 								</td>
@@ -343,7 +345,7 @@ class OrderListView extends AbstractListView {
 					</fieldset>
 
 
-                    <fieldset>
+                    <fieldset class="inline-block-on-layout-full">
                         <div class="legend">Search Stats</div>
                         <table class="table-stats themed small striped-rows" >
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -363,10 +365,10 @@ class OrderListView extends AbstractListView {
                                 <td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
                             </tr>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Conv. Fee</td>
-                                <td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
-                            </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name">Conv. Fee</td>
+                                    <td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
+                                </tr>
                             <?php } ?>
 
                             <tr>
@@ -376,11 +378,8 @@ class OrderListView extends AbstractListView {
                                     </span>
                                 </td>
                             </tr>
-
                         </table>
-
                     </fieldset>
-
 
                 </form>
 			</section>

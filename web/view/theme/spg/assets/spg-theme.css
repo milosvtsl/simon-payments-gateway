@@ -30,6 +30,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 
 body.layout-full > article.themed {
     margin-left: 13em;
+    margin-right: 0.5em;
 }
 
 body.spg-theme.layout-vertical .menu-icon {
@@ -111,9 +112,19 @@ body.spg-theme ul.page-menu > li > ul {
     /* transition-delay: .8s; */
 }
 
+body.spg-theme ul.page-menu > li > ul .menu-icon {
+    font-size: 7px;
+    margin-left: 12px;
+}
+
 body.spg-theme ul.page-menu > li > a {
 }
 
+
+body.spg-theme ul.page-menu a.button > span {
+    margin: 10px 0 10px 0;
+    display: inline-block;
+}
 
 
 /** Menu Animation **/
@@ -347,7 +358,6 @@ body.spg-theme a.button {
     padding: 0px 20px 0px 0px;
     display: block;
     color: #666;
-    min-height: 48px;
     /* text-align: right; */
     /* vertical-align: middle; */
     white-space: nowrap;
@@ -388,6 +398,7 @@ body.spg-theme a.button[disabled] {
 }
 .spg-theme.layout-narrow > article.themed {
     margin-left: 3.3em;
+    margin-right: 0.4em;
 }
 body.spg-theme nav.page-menu {
     float: left;
@@ -594,7 +605,7 @@ body.spg-theme input.button-sumit:hover {
 /*body.layout-vertical.spg-theme a.button {font-size: 1.5em;/!* display: block; *!/}*/
 
 
-body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0;/* min-width: 48%; *//* width: 100%; */}
+body.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0px;/* min-width: 48%; *//* width: 100%; */}
 
 body.spg-theme table.themed > tbody > tr > th {
     background-color: #bcc5d1;

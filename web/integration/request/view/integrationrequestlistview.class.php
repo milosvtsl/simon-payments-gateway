@@ -42,12 +42,12 @@ class IntegrationRequestListView extends AbstractListView {
         if(!empty($params['date_from'])) {
             $whereSQL .= "\nAND oi.date >= :from";
             $sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']));
-            $statsMessage .= " from " . date("M jS Y", strtotime($params['date_from']));
+            $statsMessage .= " from " . date("M dS Y", strtotime($params['date_from']));
         }
         if(!empty($params['date_to'])) {
             $whereSQL .= "\nAND oi.date <= :to";
             $sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']));
-            $statsMessage .= " to " . date("M jS Y", strtotime($params['date_to']));
+            $statsMessage .= " to " . date("M dS Y", strtotime($params['date_to']));
         }
 
         if(!empty($params['integration_id'])) {
