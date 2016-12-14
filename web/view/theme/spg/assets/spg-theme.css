@@ -199,7 +199,7 @@ body.spg-theme ul.page-menu .menu-submenu-integration  { background-color: #a1d2
 
 body.spg-theme .menu-icon {
     font-size: 9px;
-    background: url(img/nav_icons.png) no-repeat top left;
+    background: url(img/nav_icons.png?v=2) no-repeat top left;
     background-size: 16em 20em;
     width: 4em;
     height: 4em;
