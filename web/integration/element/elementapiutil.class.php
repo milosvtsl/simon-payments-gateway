@@ -38,26 +38,26 @@ class ElementAPIUtil {
             'EMVKernelVersion' => '',
         );
 
-        if(isset($args['card'])) {
+        if(isset($args['terminal'])) {
             if (@$args['card']['MagneprintData']) { // Card Present
-                $args['card']['CardholderPresentCode'] =    'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-                $args['card']['CardInputCode'] =            'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
-                $args['card']['CardPresentCode'] =          'Present'; // UseDefault or Unknown or Present or NotPresent;
-                $args['card']['TerminalCapabilityCode'] =   'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-                $args['card']['TerminalEnvironmentCode'] =  'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
-                $args['card']['TerminalType'] =             'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-                $args['card']['MarketCode'] =               'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                $args['card']['CardNumber'] =               '';
+                $args['terminal']['CardholderPresentCode'] =    'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+                $args['terminal']['CardInputCode'] =            'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+                $args['terminal']['CardPresentCode'] =          'Present'; // UseDefault or Unknown or Present or NotPresent;
+                $args['terminal']['TerminalCapabilityCode'] =   'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+                $args['terminal']['TerminalEnvironmentCode'] =  'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+                $args['terminal']['TerminalType'] =             'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+                $args['terminal']['MarketCode'] =               'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+                $args['terminal']['CardNumber'] =               '';
             } else {
-                $args['card']['CardholderPresentCode'] =    'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-                $args['card']['CardInputCode'] =            'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
-                $args['card']['CardPresentCode'] =          'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
-                $args['card']['TerminalCapabilityCode'] =   'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-                $args['card']['TerminalEnvironmentCode'] =  'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
-                $args['card']['TerminalType'] =             'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-                $args['card']['MarketCode'] =               'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                $args['card']['MagneprintData'] =           '';
-                $args['card']['MotoECICode'] =              'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
+                $args['terminal']['CardholderPresentCode'] =    'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
+                $args['terminal']['CardInputCode'] =            'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
+                $args['terminal']['CardPresentCode'] =          'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
+                $args['terminal']['TerminalCapabilityCode'] =   'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
+                $args['terminal']['TerminalEnvironmentCode'] =  'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
+                $args['terminal']['TerminalType'] =             'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
+                $args['terminal']['MarketCode'] =               'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
+                $args['terminal']['MagneprintData'] =           '';
+                $args['terminal']['MotoECICode'] =              'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
             }
         }
 
