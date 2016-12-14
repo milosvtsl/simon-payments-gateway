@@ -73,13 +73,13 @@ class BatchListView extends AbstractListView {
 		if(!empty($params['date_from'])) {
 			$whereSQL .= "\nAND oi.date >= :from";
 			$sqlParams['from'] = date("Y-m-d G:00:00", strtotime($params['date_from']) + $offset);
-			$statsMessage .= " from " . date("M jS Y G:00", strtotime($params['date_from']) + $offset);
+			$statsMessage .= " from " . date("M dS Y G:00", strtotime($params['date_from']) + $offset);
 			$export_filename = date("Y-m-d", strtotime($params['date_from']) + $offset) . $export_filename;
 		}
 		if(!empty($params['date_to'])) {
 			$whereSQL .= "\nAND oi.date <= :to";
 			$sqlParams['to'] = date("Y-m-d G:00:00", strtotime($params['date_to']) + $offset);
-			$statsMessage .= " to " . date("M jS Y G:00", strtotime($params['date_to']) + $offset);
+			$statsMessage .= " to " . date("M dS Y G:00", strtotime($params['date_to']) + $offset);
 			$export_filename = date("Y-m-d", strtotime($params['date_to']) + $offset) . $export_filename;
 		}
 

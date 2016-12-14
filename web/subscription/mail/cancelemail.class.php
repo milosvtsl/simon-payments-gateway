@@ -46,9 +46,9 @@ class CancelEmail extends \PHPMailer
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID(false);
 
-        $cancel_date = date('M jS Y G:i', strtotime($Order->getSubscriptionCancelDate()) ?: time());
-        $date = date('M jS Y G:i', strtotime($Order->getDate()) ?: time());
-        $next_date = $Order->getSubscriptionNextDate() ? date('M jS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
+        $cancel_date = date('M dS Y G:i', strtotime($Order->getSubscriptionCancelDate()) ?: time());
+        $date = date('M dS Y G:i', strtotime($Order->getDate()) ?: time());
+        $next_date = $Order->getSubscriptionNextDate() ? date('M dS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
 
         $content = <<<HTML
 Order Information
