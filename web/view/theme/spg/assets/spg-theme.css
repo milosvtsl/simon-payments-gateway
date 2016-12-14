@@ -254,6 +254,7 @@ body.spg-theme ul.menu-account {
     max-height: 0px;
     max-width: 4em;
     overflow: hidden;
+    min-width: 14em;
     display: none;
     transition: max-height 1s ease-in, max-width 1s ease-in, display 1s;
     position: absolute;
@@ -278,8 +279,10 @@ body.spg-theme .menu-button-account:hover + ul.menu-account {
 
 body.spg-theme .menu-icon.menu-icon-dashboard   { background-position: 0 -16em;}
 body.spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
-body.spg-theme .menu-icon.menu-icon-account     {background-position: -8em 0;}
+body.spg-theme .menu-icon.menu-icon-account     { background-position: -8em 0;}
 body.spg-theme .menu-icon.menu-icon-list        { background-position: -4em -16em;}
+body.spg-theme .menu-icon.menu-icon-report      { background-position: -4em -16em;}
+body.spg-theme .menu-icon.menu-icon-batch       { background-position: -12em -12em;}
 body.spg-theme .menu-icon.menu-icon-transaction { background-position: -12em -8em;}
 body.spg-theme .menu-icon.menu-icon-subscription{ background-position: -12em -12em;}
 body.spg-theme .menu-icon.menu-icon-merchant    { background-position: -12em 0;}
@@ -373,7 +376,7 @@ body.spg-theme a.button {
     /* text-align: right; */
     /* vertical-align: middle; */
     white-space: nowrap;
-    /* min-width: 10em; */
+    /* min-width: 9em; */
     background-color: #f0f4f6;
 }
 
