@@ -112,7 +112,7 @@ class SPGViewTheme extends AbstractViewTheme
             </a>
 
             <form style="display: inline-block; float: right;">
-                <input type="text" class="menu-search themed" placeholder="Search TID, MID, Customer, Invoice ID..." size="30" />
+                <input tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Customer, Invoice ID..." size="30" />
             </form>
         </aside>
 
