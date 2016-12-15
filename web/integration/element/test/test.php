@@ -99,7 +99,7 @@ $tests = array(
 //    array('amount' => '3.20', 'entry_mode' => 'keyed'),
 
 //    array('amount' => '3.20', 'entry_mode' => 'keyed', 'return' => true),
-//    array('amount' => '3.25', 'entry_mode' => 'keyed', 'return' => true),
+    array('amount' => '3.25', 'entry_mode' => 'keyed', 'return' => true),
 
 //    array('amount' => '5.09', 'entry_mode' => 'keyed', 'void' => true),
 //    array('amount' => '6.12', 'entry_mode' => 'keyed', 'reversal' => true),
@@ -109,7 +109,7 @@ $tests = array(
     // Swiped Tests
 //    array('amount' => '2.04', 'entry_mode' => 'swipe'),
 //    array('amount' => '2.05', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.06', 'entry_mode' => 'swipe'),
+    array('amount' => '2.06', 'entry_mode' => 'swipe'),
 //    array('amount' => '2.07', 'entry_mode' => 'swipe'),
 //    array('amount' => '2.08', 'entry_mode' => 'swipe'),
 //    array('amount' => '2.09', 'entry_mode' => 'swipe'),
