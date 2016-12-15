@@ -184,7 +184,7 @@ class OrderView extends AbstractView
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-                    <fieldset class="inline-block-on-layout-full" style="min-height: 9em;">
+                    <fieldset class="inline-block-on-layout-full">
                         <div class="legend">Receipt</div>
                         <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
                             <tbody>
@@ -243,7 +243,7 @@ class OrderView extends AbstractView
 
                     <?php if ($Order->getCardNumber()) { ?>
 
-                        <fieldset class="inline-block-on-layout-full" style="min-height: 9em;">
+                        <fieldset class="inline-block-on-layout-full">
                             <div class="legend">Card Holder: <?php echo $Order->getCardHolderFullName(); ?></div>
                             <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
                                 <tbody>
@@ -265,13 +265,17 @@ class OrderView extends AbstractView
                                         <td class="name" style="width: 30%;">Status</td>
                                         <td class="value"><?php echo $Order->getStatus(); ?></td>
                                     </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Method</td>
+                                        <td class="value"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </fieldset>
 
                     <?php } else  { ?>
 
-                        <fieldset class="inline-block-on-layout-full" style="min-height: 9em;">
+                        <fieldset class="inline-block-on-layout-full">
                             <div class="legend">e-Check : <?php echo $Order->getCheckAccountName(); ?></div>
                             <table class="table-transaction-card-info themed cell-borders small"  style="width: 100%">
                                 <tbody>
@@ -294,7 +298,7 @@ class OrderView extends AbstractView
                                         <td class="value"><?php echo $Order->getCheckRoutingNumber(); ?></td>
                                     </tr>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Usage</td>
+                                        <td class="name" style="width: 30%;">Account Type</td>
                                         <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
                                     </tr>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -302,19 +306,15 @@ class OrderView extends AbstractView
                                         <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
                                     </tr>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Status</td>
-                                        <td class="value"><?php echo $Order->getStatus(); ?></td>
-                                    </tr>
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Order&nbsp;ID</td>
-                                        <td class="value"><?php echo $Order->getID(); ?></td>
+                                        <td class="name" style="width: 30%;">Method</td>
+                                        <td class="value"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </fieldset>
                     <?php } ?>
 
-                    <fieldset class="inline-block-on-layout-full" style="min-height: 9em;">
+                    <fieldset class="inline-block-on-layout-full">
                         <div class="legend"><?php echo $Merchant->getShortName(); ?></div>
                         <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
                             <tbody>
