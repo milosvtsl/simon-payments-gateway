@@ -88,11 +88,12 @@ $Theme->printHTMLMenu('merchant-add');
                             <td>
                                 <select name="state_id" required>
                                     <?php
+                                    $default_state = $Merchant->getRegionCode() ?: 'FL';
                                     $StateQuery = \System\Model\StateRow::queryAll();
                                     foreach($StateQuery as $State)
                                         /** @var \System\Model\StateRow $State */
                                         echo "<option value='", $State->getID(), "'",
-                                        ($State->getShortCode() === $Merchant->getRegionCode() ? ' selected="selected"' : ''),
+                                        ($State->getShortCode() == $default_state ? ' selected="selected"' : ''),
                                         ">", $State->getName(), "</option>\n";
                                     ?>
                                 </select>
@@ -108,10 +109,11 @@ $Theme->printHTMLMenu('merchant-add');
                             <td>
                                 <select name="country" required>
                                     <?php
+                                    $default_country = $Merchant->getCountryCode() ?: 'USA';
                                     foreach(\System\Arrays\Locations::$COUNTRIES as $code => $name)
                                         if(strlen($code) === 3)
                                             echo "<option value='", $code, "'",
-                                            ($code === $Merchant->getCountryCode() ? ' selected="selected"' : ''),
+                                            ($code === $default_country ? ' selected="selected"' : ''),
                                             ">", $name, "</option>\n";
                                     ?>
                                 </select>
