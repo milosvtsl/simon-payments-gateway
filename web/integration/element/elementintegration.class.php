@@ -295,11 +295,11 @@ class ElementIntegration extends AbstractIntegration
         IntegrationRequestRow::insert($Request);
 
         $response = $this->parseResponseData($Request);
-        $code = $response['ExpressResponseCode'];
-        $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
             throw new IntegrationException("Invalid response data");
 
+        $code = $response['ExpressResponseCode'];
+        $message = $response['ExpressResponseMessage'];
         if($code !== "0")
             throw new IntegrationException($message);
 

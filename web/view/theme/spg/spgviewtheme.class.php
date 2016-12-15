@@ -77,11 +77,12 @@ class SPGViewTheme extends AbstractViewTheme
             <hr class="themed hide-on-print" style="clear: both;"/>
         </header>
 
-        <aside class="bread-crumbs hide-on-print">
+        <aside class="sub-header hide-on-print">
 
             <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
                 <div class="menu-icon menu-icon-toggle"></div>
             </a>
+            <span class="bread-crumbs">
             <?php
             foreach($this->breadcrumbs as $i => $breadcrumb) {
                 list($url, $name) = $breadcrumb;
@@ -90,6 +91,7 @@ class SPGViewTheme extends AbstractViewTheme
                 echo "\n\t\t\t<a class='breadcrumb' href='", $url, "'>", $name, "</a>";
             }
             ?>
+            </span>
 
 
             <a href="#" onclick="return false;" class="menu-button-account" style="float: right;">
@@ -110,13 +112,9 @@ class SPGViewTheme extends AbstractViewTheme
                 </ul>
             </a>
 
-            <div class="site-welcome-text hide-on-print hide-on-layout-narrow hide-on-layout-vertical" style="float: right;">
-                Welcome,
-                <a href="user/account.php" style="text-decoration: none;">
-                <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
-                </a>
-            </div>
-
+            <form action="order" style="display: inline-block; float: right;">
+                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Customer, Invoice ID..." />
+            </form>
         </aside>
 
     <?php } ?>

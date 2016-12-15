@@ -90,16 +90,24 @@ $Theme->printHTMLMenu('integration-request-list');
                         <?php
                         /** @var IntegrationRequestRow $Request */
                         $odd = false;
-                        foreach($Query as $Request) { ?>
+                        foreach($Query as $Request) {
+                            $type_html = $Request->getIntegrationTypeID();
+                            switch($Request->getIntegrationType()) {
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL:
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
+                                    if($Request->getOrderItemID())
+                                        $type_html = "<a href='order?id=" . $Request->getOrderItemID() . "'>"
+                                            . $Request->getIntegrationTypeID() . "</a>";
+                                    break;
+                            }
+                            ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='integration/request?id=<?php echo $Request->getID(); ?>'><?php echo $Request->getID(); ?></a></td>
                             <td><?php echo $Request->getIntegrationName(); ?></td>
                             <td><?php echo $Request->getIntegrationType(); ?></td>
-                            <td>
-                                <a href='<?php echo strtolower($Request->getIntegrationType()); ?>?id=<?php echo $Request->getIntegrationTypeID(); ?>'>
-                                    <?php echo $Request->getIntegrationTypeID(); ?>
-                                </a>
-                            </td>
+                            <td><?php echo $type_html; ?></td>
                             <td><?php echo $Request->getResult(); ?></td>
                             <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
                             <td><?php echo round($Request->getDuration(), 3); ?>s</td>
