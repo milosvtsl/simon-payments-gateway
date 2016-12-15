@@ -70,12 +70,17 @@ body.spg-theme .menu-search {
     border-radius: 8px;
     border: 1px inset;
     opacity: 0.7;
-    transition: opacity 1s;
+    transition: opacity 1s, max-width 1.4s ease-out;
+    transition-delay: 0.8s;
+    max-width: 7.5em;
 }
 
 body.spg-theme .menu-search:focus,
 body.spg-theme .menu-search:hover {
     opacity: 1;
+    max-width: 30em;
+    transition-delay: 0s;
+    transition-duration: 0.6s;
 }
 
 /** Article **/
