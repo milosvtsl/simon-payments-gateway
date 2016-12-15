@@ -34,7 +34,7 @@ class OrderQueryStats
     protected $convenience_fee_count;
 
     const SQL_GROUP_BY = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m')";
-    const SQL_ORDER_BY = "\n\tORDER BY `group` desc";
+    const SQL_ORDER_BY = "\n\tORDER BY `date` ASC";
     const SQL_SELECT = "
 SELECT
   count(*) as count,

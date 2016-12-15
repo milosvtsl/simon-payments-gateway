@@ -217,11 +217,11 @@ HEAD;
 
                         <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
                             <li>
-                                <a href="order/list.php" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                <a href="order/list.php?date_from=<?php echo date('Y-m-d'); ?>" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>
                                     <span>Search</span> </a>
                             </li>
                             <li>
-                                <a href="order/report.php" class="button<?php echo @$mc['order-report']; ?>"><div class="menu-icon menu-icon-report"></div>
+                                <a href="order/report.php?date_from=<?php echo date('Y-m-01'); ?>" class="button<?php echo @$mc['order-report']; ?>"><div class="menu-icon menu-icon-report"></div>
                                     <span>Report</span> </a>
                             </li>
                             <li>

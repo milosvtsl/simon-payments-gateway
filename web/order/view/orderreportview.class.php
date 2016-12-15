@@ -124,10 +124,10 @@ class OrderReportView extends AbstractListView {
 			array('export', 'export-stats', 'export-data')))
 			$limitStatsSQL = '';
 		switch(@$params['stats_group']) {
+			default:
+				$params['stats_group'] = 'Day';
 			case 'Day': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m%d')"; break;
 			case 'Week': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%u')"; break;
-			default:
-				$params['stats_group'] = 'Month';
 			case 'Month': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y%m')"; break;
 			case 'Year': $groupByStatsSQL = "\n\tGROUP BY DATE_FORMAT(oi.date, '%Y')"; break;
 		}
@@ -140,13 +140,14 @@ class OrderReportView extends AbstractListView {
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
 		$StatsQuery->setFetchMode(\PDO::FETCH_CLASS, OrderQueryStats::_CLASS);
 		$Stats = $StatsQuery->fetch();
-		$this->setRowCount($Stats->getCount());
+//		$this->setRowCount($Stats->getCount());
 
 
+		$limitReportSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
 		$reportSQL = OrderQueryStats::SQL_SELECT . $whereSQL
 			. $groupByStatsSQL
 			. OrderQueryStats::SQL_ORDER_BY
-			. $limitStatsSQL;
+			. $limitReportSQL;
 		$ReportQuery = $DB->prepare($reportSQL);
 		$ReportQuery->execute($sqlParams);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -163,18 +164,19 @@ class OrderReportView extends AbstractListView {
 			header("Content-Disposition: attachment; filename=\"$export_filename\"");
 			header("Content-Type: application/vnd.ms-excel");
 
-			echo '"Span","Count","Authorized","Settled","Void","Returned","",""';
+			$s = ",";
+			echo "Span-Group{$s}Count{$s}Authorized{$s}Settled{$s}Void{$s}Returned{$s}{$s}";
 
 			if(in_array(strtolower(@$params['action']), array('export', 'export-stats'))) {
 				foreach ($ReportQuery as $Report) {
 					/** @var \Order\Model\OrderQueryStats $Report */
 					echo "\n\"" . $Report->getGroupSpan(),
-						'", ' . $Report->getCount(),
-						', $' . $Report->getTotal(),
-						', $' . $Report->getSettledTotal(),
-						', $' . $Report->getVoidTotal(),
-						', $' . $Report->getReturnTotal(),
-					',,';
+						"\"{$s}" . $Report->getCount(),
+						"{$s}\$" . $Report->getTotal(),
+						"{$s}\$" . $Report->getSettledTotal(),
+						"{$s}\$" . $Report->getVoidTotal(),
+						"{$s}\$" . $Report->getReturnTotal(),
+					"{$s}{$s}";
 				}
 			}
 		} else {
@@ -235,6 +237,13 @@ class OrderReportView extends AbstractListView {
 											echo "<option value='{$opt}' ", $stats_group == $opt ? ' selected="selected"' : '' ,">By ", $opt, "</option>\n";
 										?>
 									</select>
+									<select name="limit">
+										<?php
+										$limit = @$_GET['limit'] ?: 25;
+										foreach(array(10,25,50,100,250) as $opt)
+											echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
+										?>
+									</select>
 									<input name="action" type="submit" value="Generate" class="themed" />
 								</td>
 							</tr>
@@ -246,7 +255,7 @@ class OrderReportView extends AbstractListView {
 						<div class="legend">Report Results</div>
 						<table class="table-stats themed small striped-rows" style='width: 100%;'>
 							<tr>
-								<th><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></th>
+								<th>Range: <?php echo @$params['stats_group'] ? @$params['stats_group'] : 'N/A'; ?></th>
 								<th>Authorized</th>
 								<th>Void</th>
 								<th>Returned</th>
@@ -284,13 +293,12 @@ class OrderReportView extends AbstractListView {
 							</tr>
 
 							<tr>
-								<td colspan="6" style="text-align: right">
-									<span style="font-size: 0.7em; color: grey; float: left;">
-										<?php if($this->hasMessage()) echo $this->getMessage(); ?>
-									</span>
-									<button name="action" type="submit" value="Export-Stats" class="themed">Export Report (.csv)</button>
+								<td colspan="10" class="pagination">
+									<span style=""><?php $this->printPagination('order/report.php?'); ?></span>
+									<button name="action" type="submit" value="Export-Stats" class="themed" style="float: right;">Export Report (.csv)</button>
 								</td>
 							</tr>
+
 						</table>
 					</fieldset>
 				</form>
