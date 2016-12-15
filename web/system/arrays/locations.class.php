@@ -546,7 +546,7 @@ class Locations {
         "UKR" => "Ukraine",
         "UMI" => "United States Minor Outlying Islands",
         "URY" => "Uruguay",
-        "USA" => "United States of America",
+        "USA  " => "United States of America",
         "UZB" => "Uzbekistan",
         "VAT" => "Holy See (Vatican City State)",
         "VCT" => "Saint Vincent and the Grenadines",
