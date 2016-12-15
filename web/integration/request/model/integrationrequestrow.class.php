@@ -48,9 +48,16 @@ class IntegrationRequestRow
 
 
     const SQL_SELECT = "
-SELECT ir.*, i.name integration_name, i.class_path integration_class_path
+SELECT
+    ir.*,
+    i.name integration_name,
+    i.class_path integration_class_path,
+    oi.id order_item_id,
+    t.id transaction_id
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
+LEFT JOIN transaction t ON t.id = ir.type_id AND ir.type LIKE 'transaction%'
+LEFT JOIN order_item oi ON oi.id = t.order_item_id
 ";
     const SQL_GROUP_BY = "\nGROUP BY ir.id";
     const SQL_ORDER_BY = "\nORDER BY ir.id DESC";
@@ -77,6 +84,12 @@ LEFT JOIN integration i ON i.id = ir.integration_id
 
     protected $integration_name;
     protected $integration_class_path;
+
+    // Table: order_item
+    protected $order_item_id;
+
+    // Table: transaction
+    protected $transaction_id;
 
     // Functions
 
@@ -252,6 +265,21 @@ LEFT JOIN integration i ON i.id = ir.integration_id
         return $stmt->rowCount();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTransactionID()
+    {
+        return $this->transaction_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderItemID()
+    {
+        return $this->order_item_id;
+    }
 
 
 }
