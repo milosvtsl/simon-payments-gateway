@@ -90,9 +90,20 @@ $Theme->printHTMLMenu('integration-request-list');
                         <?php
                         /** @var IntegrationRequestRow $Request */
                         $odd = false;
-                        foreach($Query as $Request) { ?>
+                        foreach($Query as $Request) {
+                            $type_html = $Request->getIntegrationTypeID();
+                            switch($Request->getIntegrationType()) {
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL:
+                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
+                                    $type_html = "<a href='order?id='" . $Request->getIntegrationTypeID() . ">"
+                                        . $Request->getIntegrationTypeID() . "</a>";
+                                    break;
+                            }
+                            ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td><a href='integration/request?id=<?php echo $Request->getID(); ?>'><?php echo $Request->getID(); ?></a></td>
+                            <td><?php echo $type_html; ?></td>
                             <td><?php echo $Request->getIntegrationName(); ?></td>
                             <td><?php echo $Request->getIntegrationType(); ?></td>
                             <td>
