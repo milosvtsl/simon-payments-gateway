@@ -92,6 +92,7 @@ class SPGViewTheme extends AbstractViewTheme
             ?>
 
 
+
             <a href="#" onclick="return false;" class="menu-button-account" style="float: right;">
                 <div class="menu-icon menu-icon-sub-menu"></div>
                 <ul class="menu-account">
@@ -110,13 +111,9 @@ class SPGViewTheme extends AbstractViewTheme
                 </ul>
             </a>
 
-            <div class="site-welcome-text hide-on-print hide-on-layout-narrow hide-on-layout-vertical" style="float: right;">
-                Welcome,
-                <a href="user/account.php" style="text-decoration: none;">
-                <?php echo $SessionUser->getFullName()?:$SessionUser->getUsername(); ?>
-                </a>
-            </div>
-
+            <form style="display: inline-block; float: right;">
+                <input type="text" class="menu-search themed" placeholder="Search TID, MID, Customer, Invoice ID..." size="30" />
+            </form>
         </aside>
 
     <?php } ?>

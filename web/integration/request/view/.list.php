@@ -97,8 +97,9 @@ $Theme->printHTMLMenu('integration-request-list');
                                 case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
                                 case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL:
                                 case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-                                    $type_html = "<a href='order?id=" . $Request->getOrderItemID() . "'>"
-                                        . $Request->getIntegrationTypeID() . "</a>";
+                                    if($Request->getOrderItemID())
+                                        $type_html = "<a href='order?id=" . $Request->getOrderItemID() . "'>"
+                                            . $Request->getIntegrationTypeID() . "</a>";
                                     break;
                             }
                             ?>
