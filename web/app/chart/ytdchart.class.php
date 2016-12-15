@@ -56,14 +56,14 @@ class YTDChart extends AbstractTotalsApp {
                 \${$amount}
             </a> 
             </a>
-            <div class="app-button-config">
-                <ul>
-                    <li><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><a href="#" onclick="appChartAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><a href="#" onclick="appChartAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><a href="#" onclick="appChartAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><a href="#" onclick="appChartAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><a href="#" onclick="appChartAction('remove', '{$appClassName}');">Remove</a></li>
+            <div class="app-button app-button-config app-button-top-right">
+                <ul class="app-menu">
+                    <li><div class='app-button app-button-top'></div><a href="#" onclick="appChartAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><div class='app-button app-button-up'></div><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><div class='app-button app-button-down'></div><a href="#" onclick="appChartAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><div class='app-button app-button-bottom'></div><a href="#" onclick="appChartAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appChartAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><div class='app-button app-button-remove'></div><a href="#" onclick="appChartAction('remove', '{$appClassName}');">Remove</a></li>
                 </ul>
             </div>
         </div>
