@@ -42,14 +42,14 @@ class RecentTicketsApp extends AbstractApp
                     <li style="font-style: italic;">No recent support tickets</li>
                 </ul>
             </form>
-            <div class="app-button-config">
-                <ul>
-                    <li><a href="#" onclick="appTicketAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><a href="#" onclick="appTicketAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><a href="#" onclick="appTicketAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><a href="#" onclick="appTicketAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><a href="#" onclick="appTicketAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><a href="#" onclick="appTicketAction('remove', '{$appClassName}');">Remove</a></li>
+            <div class="app-button app-button-config app-button-top-right">
+                <ul class="app-menu">
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('remove', '{$appClassName}');">Remove</a></li>
                 </ul>
             </div>
         </div>

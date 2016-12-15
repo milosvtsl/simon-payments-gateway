@@ -96,17 +96,20 @@ class SPGViewTheme extends AbstractViewTheme
 
             <a href="#" onclick="return false;" class="menu-button-account" style="float: right;">
                 <div class="menu-icon menu-icon-sub-menu"></div>
-                <ul class="menu-account">
+                <ul class="menu-sub-menu">
                     <li>
-                        <a href="user/account.php" class="button"> <div class="menu-icon menu-icon-account"></div>
+                        <a href="user/account.php" class="button">
+                            <div class="menu-icon menu-icon-account"></div>
                             <span>My Account</span></a>
                     </li>
                     <li>
-                        <a href="user/account.php?action=edit" class="button"> <div class="menu-icon menu-icon-edit"></div>
+                        <a href="user/account.php?action=edit" class="button">
+                            <div class="menu-icon menu-icon-edit"></div>
                             <span>Edit Account</span></a>
                     </li>
                     <li>
-                        <a href="user/logout.php" class="button"><div class="menu-icon menu-icon-logout"></div>
+                        <a href="user/logout.php" class="button">
+                            <div class="menu-icon menu-icon-logout"></div>
                             <span>Log out</span></a>
                     </li>
                 </ul>

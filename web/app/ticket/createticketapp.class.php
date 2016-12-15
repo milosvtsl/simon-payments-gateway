@@ -51,15 +51,16 @@ class CreateTicketApp extends AbstractApp
 
                 <button type="submit" name="submit" style="margin-bottom: 0.5em; float: right;" disabled="disabled">Create</button>
             </form>
-            <div class="app-button-config">
-                <ul>
-                    <li><a href="#" onclick="appTicketAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><a href="#" onclick="appTicketAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><a href="#" onclick="appTicketAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><a href="#" onclick="appTicketAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><a href="#" onclick="appTicketAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><a href="#" onclick="appTicketAction('remove', '{$appClassName}');">Remove</a></li>
+            <div class="app-button app-button-config app-button-top-right">
+                                <ul class="app-menu">
+                    <li><div class='app-button app-button-top'></div><a href="#" onclick="appTicketAction('move-top', '{$appClassName}');">Move to top</a></li>
+                    <li><div class='app-button app-button-up'></div><a href="#" onclick="appTicketAction('move-up', '{$appClassName}');">Move up</a></li>
+                    <li><div class='app-button app-button-down'></div><a href="#" onclick="appTicketAction('move-down', '{$appClassName}');">Move down</a></li>
+                    <li><div class='app-button app-button-bottom'></div><a href="#" onclick="appTicketAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
+                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appTicketAction('config', '{$appClassName}');">Configure...</a></li>
+                    <li><div class='app-button app-button-remove'></div><a href="#" onclick="appTicketAction('remove', '{$appClassName}');">Remove</a></li>
                 </ul>
+
             </div>
         </div>
 HTML;

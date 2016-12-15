@@ -65,15 +65,3 @@ ul.app-ticket-list > li {
     padding: .4em;
 }
 
-/** App Config **/
-
-.app-ticket .app-button-config {
-    right: 0px;
-    top: 0px;
-    position: absolute;
-    z-index: 99;
-    margin: 4px;
-    /* border: 1px outset rgba(221,221,221,0.50); */
-    border-radius: 4px;
-    /* background-color: #ffc074; */
-}
