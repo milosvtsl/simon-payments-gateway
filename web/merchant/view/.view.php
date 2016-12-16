@@ -30,13 +30,12 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
             <form class="form-view-merchant themed " method="GET">
                 <fieldset style="position: relative;">
-
-                    <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>">
-                        <div class="app-button app-button-edit app-button-top-right">
-                        </div>
-                    </a>
-
-                    <div class="legend">Merchant Information</div>
+                    <div class="legend">
+                        <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
+                            <div class="app-button app-button-edit" style="display: inline-block;"></div>
+                        </a>
+                        Merchant Information
+                    </div>
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -180,12 +179,12 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                 </fieldset>
 
                 <fieldset style="position: relative;">
-                    <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>">
-                        <div class="app-button app-button-edit app-button-top-right">
-                        </div>
-                    </a>
-
-                    <div class="legend">Provisions: <?php echo $Merchant->getShortName(); ?></div>
+                    <div class="legend">
+                        <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
+                            <div class="app-button app-button-edit" style="display: inline-block;"></div>
+                        </a>
+                        Provisions: <?php echo $Merchant->getShortName(); ?>
+                    </div>
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
@@ -228,12 +227,12 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                 </fieldset>
 
                 <fieldset style="position: relative;">
-                    <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>">
-                        <div class="app-button app-button-edit app-button-top-right">
-                        </div>
-                    </a>
-
-                    <div class="legend">Users: <?php echo $Merchant->getShortName(); ?></div>
+                    <div class="legend">
+                        <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
+                            <div class="app-button app-button-edit" style="display: inline-block;"></div>
+                        </a>
+                        Users: <?php echo $Merchant->getShortName(); ?>
+                    </div>
                     <table class="table-merchant-users themed striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
@@ -266,7 +265,9 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
 
                 <fieldset>
-                    <div class="legend">Orders: <?php echo $Merchant->getShortName(); ?></div>
+                    <div class="legend">
+                        Orders: <?php echo $Merchant->getShortName(); ?>
+                    </div>
                     <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
