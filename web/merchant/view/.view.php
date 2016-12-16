@@ -29,10 +29,16 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form class="form-view-merchant themed " method="GET">
-                <fieldset style="display: inline-block;">
+                <fieldset style="position: relative;">
+
+                    <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>">
+                        <div class="app-button app-button-edit app-button-top-right">
+                        </div>
+                    </a>
+
                     <div class="legend">Merchant Information</div>
                     <?php $odd = true; ?>
-                    <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal">
+                    <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
@@ -115,7 +121,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
                     </table>
 
-                    <table class="table-merchant-info themed small striped-rows">
+                    <table class="table-merchant-info themed small striped-rows" style="width: 50%;">
                         <?php $odd = true; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Title</td>
@@ -163,7 +169,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Country</td>
-                            <td><?php echo \System\Arrays\Locations::$COUNTRIES[$Merchant->getCountryCode()]; ?></td>
+                            <td><?php echo @\System\Arrays\Locations::$COUNTRIES[$Merchant->getCountryCode()]; ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td colspan="2">
@@ -173,9 +179,14 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                     </table>
                 </fieldset>
 
-                <fieldset>
+                <fieldset style="position: relative;">
+                    <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>">
+                        <div class="app-button app-button-edit app-button-top-right">
+                        </div>
+                    </a>
+
                     <div class="legend">Provisions: <?php echo $Merchant->getShortName(); ?></div>
-                    <table class="table-merchant-info themed striped-rows">
+                    <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -216,9 +227,14 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;">
+                <fieldset style="position: relative;">
+                    <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>">
+                        <div class="app-button app-button-edit app-button-top-right">
+                        </div>
+                    </a>
+
                     <div class="legend">Users: <?php echo $Merchant->getShortName(); ?></div>
-                    <table class="table-merchant-users themed striped-rows">
+                    <table class="table-merchant-users themed striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
@@ -249,9 +265,9 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                 </fieldset>
 
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <div class="legend">Orders: <?php echo $Merchant->getShortName(); ?></div>
-                    <table class="table-results themed small striped-rows">
+                    <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
                             <th>Amount</th>

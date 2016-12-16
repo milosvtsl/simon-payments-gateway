@@ -5,21 +5,21 @@ use Merchant\Model\MerchantRow;
  * @var PDOStatement $UserQuery
  * @var \User\Model\UserRow $User
  **/
+
 $odd = false;
 $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
-$this->getTheme()->printHTMLMenu('user-delete', $action_url);
+$category = 'user-delete';
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('user',          'Users');
+$Theme->addPathURL($action_url,     $User->getUsername());
+$Theme->addPathURL($action_url.'delete',     'Delete');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu($category,    $action_url);
+
 
 ?>
-
-
 <article class="themed">
-
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="user" class="nav_user">Users</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_user_view"><?php echo $User->getUsername(); ?></a>
-        <a href="<?php echo $action_url; ?>delete" class="nav_user_delete">Delete</a>
-    </aside>
 
     <section class="content">
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
@@ -27,9 +27,9 @@ $this->getTheme()->printHTMLMenu('user-delete', $action_url);
             <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>delete">
                 <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                 <input type="hidden" name="action" value="delete" />
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <div class="legend">Delete User: <?php echo $User->getFullName(); ?></div>
-                    <table class="table-user-info themed striped-rows">
+                    <table class="table-user-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td class="value"><?php echo $User->getID(); ?></td>

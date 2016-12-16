@@ -12,6 +12,7 @@ $action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
 $Theme = $this->getTheme();
 $Theme->addPathURL('merchant',      'Merchants');
 $Theme->addPathURL($action_url,     $Merchant->getShortName());
+$Theme->addPathURL($action_url.'edit',     'Edit');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('merchant-edit', $action_url);
 ?>
@@ -26,15 +27,31 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
-                <fieldset style="display: inline-block;;">
-                    <div class="legend">Edit Merchant Fields</div>
-                    <table class="table-merchant-info themed small striped-rows" style="float: left;">
+                <fieldset>
+                    <div class="legend">Edit Merchant #<?php echo $Merchant->getID(); ?></div>
+                    <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
                         <tr>
                             <th colspan="2">Information</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">ID</td>
-                            <td><?php echo $Merchant->getID(); ?></td>
+                            <td class="name">Name</td>
+                            <td><input type="text" name="name" size="24" value="<?php echo $Merchant->getName(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Short Name</td>
+                            <td><input type="text" name="short_name" size="24" value="<?php echo $Merchant->getShortName(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Email</td>
+                            <td><input type="text" name="email" size="24" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">URL</td>
+                            <td><input type="text" name="url" size="24" value="<?php echo $Merchant->getURL(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Merchant SIC</td>
+                            <td><input type="text" name="sic" size="12" value="<?php echo $Merchant->getMerchantSIC(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Status</td>
@@ -48,30 +65,6 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                     ?>
                                 </select>
                             </td>
-                        </tr>
-    <!--                    <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-    <!--                        <td>UID</td>-->
-    <!--                        <td>--><?php //echo $Merchant->getUID(); ?><!--</td>-->
-    <!--                    </tr>-->
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Name</td>
-                            <td><input type="text" name="name" size="32" value="<?php echo $Merchant->getName(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Short Name</td>
-                            <td><input type="text" name="short_name" size="32" value="<?php echo $Merchant->getShortName(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Email</td>
-                            <td><input type="text" name="email" size="32" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">URL</td>
-                            <td><input type="text" name="url" size="32" value="<?php echo $Merchant->getURL(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant SIC</td>
-                            <td><input type="text" name="sic" size="12" value="<?php echo $Merchant->getMerchantSIC(); ?>" /></td>
                         </tr>
                         <tr>
                             <th colspan="2">Convenience Fee</th>
@@ -114,23 +107,23 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Discover Ext</td>
-                            <td><input type="text" name="discover_external" size="32" value="<?php echo $Merchant->getDiscoverExt(); ?>" /></td>
+                            <td><input type="text" name="discover_external" size="24" value="<?php echo $Merchant->getDiscoverExt(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Amex Ext</td>
-                            <td><input type="text" name="amex_external" size="32" value="<?php echo $Merchant->getAmexExt(); ?>" /></td>
+                            <td><input type="text" name="amex_external" size="24" value="<?php echo $Merchant->getAmexExt(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Agent Chain</td>
-                            <td><input type="text" name="agent_chain" size="32" value="<?php echo $Merchant->getAgentChain(); ?>" /></td>
+                            <td><input type="text" name="agent_chain" size="24" value="<?php echo $Merchant->getAgentChain(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Tax ID</td>
-                            <td><input type="text" name="tax_id" size="32" value="<?php echo $Merchant->getTaxID(); ?>" /></td>
+                            <td><input type="text" name="tax_id" size="24" value="<?php echo $Merchant->getTaxID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Business Tax ID</td>
-                            <td><input type="text" name="business_tax_id" size="32" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
+                            <td><input type="text" name="business_tax_id" size="24" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
                         </tr>
                         <tr>
                             <th colspan="2">Business</th>
@@ -151,19 +144,19 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Phone Number</td>
-                            <td><input type="text" name="telephone" size="32" value="<?php echo $Merchant->getTelephone(); ?>" /></td>
+                            <td><input type="text" name="telephone" size="24" value="<?php echo $Merchant->getTelephone(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address</td>
-                            <td><input type="text" name="address" size="32" value="<?php echo $Merchant->getAddress(); ?>" /></td>
+                            <td><input type="text" name="address" size="24" value="<?php echo $Merchant->getAddress(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address 2</td>
-                            <td><input type="text" name="address2" size="32" value="<?php echo $Merchant->getAddress2(); ?>" /></td>
+                            <td><input type="text" name="address2" size="24" value="<?php echo $Merchant->getAddress2(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">City</td>
-                            <td><input type="text" name="city" size="32" value="<?php echo $Merchant->getCity(); ?>" /></td>
+                            <td><input type="text" name="city" size="24" value="<?php echo $Merchant->getCity(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">State</td>
@@ -188,7 +181,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Country</td>
                             <td>
-                                <select name="country" style="max-width: 20em;">
+                                <select name="country" style="max-width: 16em;">
                                     <?php
                                     foreach(\System\Arrays\Locations::$COUNTRIES as $code => $name)
                                         if(strlen($code) === 3)
@@ -201,23 +194,23 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                     </table>
                     <?php $odd = false; ?>
-                    <table class="table-merchant-info themed small striped-rows">
+                    <table class="table-merchant-info themed small striped-rows" style="width: 49%">
                         <tr>
                             <th colspan="2">Contact Information</th>
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Main Contact</td>
-                            <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getMainContact(); ?>" /></td>
+                            <td><input type="text" name="main_contact" value="<?php echo $Merchant->getMainContact(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Sale Rep</td>
-                            <td><input type="text" name="sale_rep" size="32" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
+                            <td><input type="text" name="sale_rep" value="<?php echo $Merchant->getSaleRep(); ?>" /></td>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Title</td>
-                            <td><input type="text" name="main_contact" size="32" value="<?php echo $Merchant->getTitle(); ?>" /></td>
+                            <td><input type="text" name="main_contact" value="<?php echo $Merchant->getTitle(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">DOB</td>
@@ -276,7 +269,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="44" placeholder="Merchant-specific notes" ><?php echo $Merchant->getNotes(); ?></textarea></td>
+                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="Merchant-specific notes" ><?php echo $Merchant->getNotes(); ?></textarea></td>
                         </tr>
 
                         <tr >

@@ -24,10 +24,16 @@ $Theme->printHTMLMenu($category,    $action_url);
 
                 <form class="form-view-user themed" method="POST">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
-                    <fieldset style="display: inline-block;">
+                    <fieldset style="position: relative">
+
+                        <a href="user?action=edit&id=<?php echo $User->getID(); ?>">
+                            <div class="app-button app-button-edit app-button-top-right">
+                            </div>
+                        </a>
+
                         <div class="legend">User Information</div>
                         <?php $odd = true; ?>
-                        <table class="table-user-info themed striped-rows">
+                        <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>
                                 <td class="value"><?php echo $User->getID(); ?></td>

@@ -26,7 +26,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset>
                 <legend><?php echo $Merchant->getShortName(); ?></legend>
-                <table class="table-transaction-info themed striped-rows">
+                <table class="table-transaction-info themed striped-rows" style="width:60%">
                     <tbody>
                     <?php $odd = true; ?>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -62,7 +62,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <fieldset>
                 <legend>Receipt</legend>
-                <table class="table-transaction-info themed striped-rows">
+                <table class="table-transaction-info themed striped-rows" style="width:60%">
                     <tbody>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="name">Date</td>
@@ -94,24 +94,22 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     <table class="table-transaction-info themed cell-borders" style="width: 98%; text-align: left;">
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
+                            <td>Order ID</td>
                             <?php if($Order->getUsername()) { ?>
                                 <td>User ID</td>
                             <?php }  ?>
                             <td>Credit Card</td>
                             <td>Card Type</td>
                             <td>Status</td>
-                            <td>Code</td>
-                            <td>Order ID</td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="value"><?php echo $Order->getID(); ?></td>
                             <?php if($Order->getUsername()) { ?>
                                 <td class="value"><?php echo $Order->getUsername(); ?></td>
                             <?php }  ?>
                             <td class="value"><?php echo $Order->getCardNumber(); ?></td>
                             <td class="value"><?php echo $Order->getCardType(); ?></td>
                             <td class="value"><?php echo $Order->getStatus(); ?></td>
-                            <td class="value"><?php echo $Transaction->getTransactionID(); ?></td>
-                            <td class="value"><?php echo $Order->getID(); ?></td>
                         </tr>
                         </tbody>
                     </table>
@@ -159,7 +157,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
             <fieldset style="display: inline-block; float: right;">
                 <legend>Totals</legend>
-                <table class="table-transaction-info-totals themed striped-rows">
+                <table class="table-transaction-info-totals themed striped-rows" style="width:60%">
                     <tbody>
                     <?php if ($Order->getConvenienceFee()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
