@@ -123,14 +123,14 @@ body.layout-full > article.themed {
     /* border-right: 1px solid #d4dce0; */
     /* border-bottom: 1px solid #d9d9d9; */
     font-size: larger;
-    background-color: #DDD;
+    /* background-color: #DDD; */
     /* box-shadow: 0px 1px 2px #555; */
 }
 
 .spg-theme ul.page-menu > li > ul {
     list-style: none;
     padding: 0 0;
-    margin: 0 0 0 1em;
+    margin: 0 2px 0 12px;
     max-height: 0;
     overflow:hidden;
     transition: max-height 0.6s ease-in;
@@ -140,7 +140,7 @@ body.layout-full > article.themed {
 
 .spg-theme ul.page-menu > li > ul .menu-icon {
     font-size: 7px;
-    margin-left: 12px;
+    margin-left: 8px;
 }
 
 .spg-theme ul.page-menu > li > a {
@@ -162,7 +162,7 @@ body.layout-full.spg-theme ul.page-menu {
     z-index: 99;
 }
 body.layout-narrow.spg-theme ul.page-menu:not(:hover) ul {
-    margin-left: 0;
+    margin-left: 3px;
     transition: margin-left 0.4s;
 }
 body.layout-narrow.spg-theme ul.page-menu {
@@ -213,13 +213,15 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme ul.page-menu .menu-submenu {
-    border-radius: 0 0 0 3px;
+    border-radius: 0 0 0 6px;
+    margin-bottom: 1px;
 }
+
 .spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-.spg-theme ul.page-menu .menu-submenu-order        { background-color: #a1d2e2; }
-.spg-theme ul.page-menu .menu-submenu-merchant     { background-color: #a1d2e2; }
-.spg-theme ul.page-menu .menu-submenu-user         { background-color: #a1d2e2; }
-.spg-theme ul.page-menu .menu-submenu-integration  { background-color: #a1d2e2; }
+.spg-theme ul.page-menu .menu-submenu-order        { background-color: lightblue; }
+.spg-theme ul.page-menu .menu-submenu-merchant     { background-color: tan; }
+.spg-theme ul.page-menu .menu-submenu-user         { background-color: lightgreen; }
+.spg-theme ul.page-menu .menu-submenu-integration  { background-color: lightgray; }
 
 
 
@@ -443,7 +445,8 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* vertical-align: middle; */
     white-space: nowrap;
     /* min-width: 9em; */
-    background-color: #f0f4f6;
+    background-color: rgba(240, 244, 246, 0.6);
+    /* border-radius: 8px; */
 }
 
 
@@ -462,7 +465,6 @@ body.layout-vertical.spg-theme nav.page-menu {
     background-color: #d4e7ec;
     font-weight: bold;
     color: #4296bb;
-
 }
 .spg-theme a.current + ul > li > a.current {
     background-color: rgb(212, 231, 236);
