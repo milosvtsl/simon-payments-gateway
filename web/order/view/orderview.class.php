@@ -184,6 +184,35 @@ class OrderView extends AbstractView
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
+
+
+                    <fieldset class="inline-block-on-layout-full">
+                        <div class="legend"><?php echo $Merchant->getShortName(); ?></div>
+                        <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
+                            <tbody>
+                            <?php $odd = true; ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name" style="width: 30%;">City</td>
+                                <td class="value"><?php echo $Merchant->getCity(); ?></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name" style="width: 30%;">State</td>
+                                <td class="value"><?php echo $Merchant->getState(); ?></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name" style="width: 30%;">Zip Code</td>
+                                <td class="value"><?php echo $Merchant->getZipCode(); ?></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name" style="width: 30%;">Phone</td>
+                                <td class="value"><?php echo $Merchant->getTelephone(); ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </fieldset>
+
+
+
                     <fieldset class="inline-block-on-layout-full">
                         <div class="legend">Receipt</div>
                         <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
@@ -314,32 +343,6 @@ class OrderView extends AbstractView
                         </fieldset>
                     <?php } ?>
 
-                    <fieldset class="inline-block-on-layout-full">
-                        <div class="legend"><?php echo $Merchant->getShortName(); ?></div>
-                        <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
-                            <tbody>
-                            <?php $odd = true; ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name" style="width: 30%;">City</td>
-                                <td class="value"><?php echo $Merchant->getCity(); ?></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name" style="width: 30%;">State</td>
-                                <td class="value"><?php echo $Merchant->getState(); ?></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name" style="width: 30%;">Zip Code</td>
-                                <td class="value"><?php echo $Merchant->getZipCode(); ?></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name" style="width: 30%;">Phone</td>
-                                <td class="value"><?php echo $Merchant->getTelephone(); ?></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </fieldset>
-
-
                     <fieldset class="show-on-print" style="clear: both;">
                         <br/>
                         <br/>
@@ -411,14 +414,14 @@ class OrderView extends AbstractView
                                             case 'Authorized':
                                                 if($Order->getStatus() === 'Authorized') {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "<input name='action' type='submit' value='Void'{$disabled}/>";
+                                                    echo "<input name='action' type='submit' value='Void'{$disabled} onclick='return confirmOrderViewAction(\"Void\", event);'/>";
                                                 }
                                                 break;
 
                                             case 'Settled':
                                                 if($Order->getStatus() === 'Settled') {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "<input name='action' type='submit' value='Return'{$disabled}/>";
+                                                    echo "<input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction(\"Return\", event);'/>";
                                                 }
                                                 break;
                                         }
@@ -428,8 +431,6 @@ class OrderView extends AbstractView
                             <?php } ?>
                         </table>
                     </fieldset>
-
-
                 </form>
             </section>
         </article>
@@ -439,4 +440,25 @@ class OrderView extends AbstractView
         // Render Footer
         $this->getTheme()->renderHTMLBodyFooter();
     }
+
+    protected function renderHTMLHeadScripts()
+    {
+        parent::renderHTMLHeadScripts();
+
+        echo <<<HTML
+        <script>
+            function confirmOrderViewAction(action, e) {
+                var message = "Action: " + action + "\\nAre you sure you want to perform this action?";
+                var ret = confirm(message);
+                if(!ret) {
+                    if(e)
+                        e.preventDefault();
+                    return false;
+                }
+            }
+        </script>
+HTML;
+
+    }
+
 }

@@ -15,6 +15,7 @@ $category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'use
 $Theme = $this->getTheme();
 $Theme->addPathURL('user',          'Users');
 $Theme->addPathURL($action_url,     $User->getUsername());
+$Theme->addPathURL($action_url.'edit',     'Edit');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu($category,    $action_url);
 ?>
@@ -28,9 +29,9 @@ $Theme->printHTMLMenu($category,    $action_url);
                 <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                     <input type="hidden" name="action" value="edit" />
-                    <fieldset style="display: inline-block;">
+                    <fieldset>
                         <div class="legend">Edit User Fields</div>
-                        <table class="table-user-info themed striped-rows">
+                        <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>
                                 <td class="value"><?php echo $User->getID(); ?></td>
