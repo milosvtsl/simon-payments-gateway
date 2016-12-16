@@ -116,7 +116,7 @@ class SPGViewTheme extends AbstractViewTheme
             </a>
 
             <form action="order" style="display: inline-block; float: right;">
-                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Customer, Invoice ID..." />
+                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
             </form>
         </aside>
 
@@ -325,7 +325,7 @@ HEAD;
                         </li>
                         <li>
                             <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>Requests</span></a>
+                                <span>API Requests</span></a>
                         </li>
                     </ul>
                 </li>

@@ -65,16 +65,19 @@ body.layout-full > article.themed {
 
 .spg-theme .menu-search {
     /* float: right; */
-    padding: 11px 16px;
-    margin: 4px 1px;
+    padding: 8px 16px 8px 24px;
+    margin: 7px 1px;
     border-radius: 8px;
     border: 1px inset;
     opacity: 0.7;
     transition: opacity 1s, max-width 1.4s ease-out;
     transition-delay: 0.8s;
-    max-width: 6.4em;
+    max-width: 3.2em;
     z-index: 99;
     position: relative;
+    background: url('img/icons/btn_search.png') no-repeat #FFF;
+    background-size: 24px;
+    background-position: 1px 4px;
 }
 
 .spg-theme .menu-search:focus,

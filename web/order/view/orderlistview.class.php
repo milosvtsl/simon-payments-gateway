@@ -46,7 +46,7 @@ class OrderListView extends AbstractListView {
 				oi.id = :exact
 				OR oi.uid = :exact
 
-				OR oi.amount = :exact
+				OR (oi.amount = :exact AND oi.amount > 0)
 				OR oi.invoice_number = :exact
 				OR oi.customer_id = :exact
 				OR oi.username = :exact
