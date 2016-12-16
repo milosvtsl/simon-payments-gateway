@@ -28,9 +28,9 @@ $Theme->printHTMLMenu('merchant-add');
                 <input type="hidden" name="action" value="add" />
                 <fieldset>
                     <div class="legend">New Merchant Fields</div>
-                    <table class="table-merchant-info themed striped-rows">
+                    <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Name</td>
+                            <td class="name" style="width: 20%;">Name</td>
                             <td><input type="text" name="name" value="" required /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

@@ -24,9 +24,9 @@ $Theme->printHTMLMenu('user-add');
             <form class="form-add-user themed" method="POST" action="user/add.php">
                 <input type="hidden" name="action" value="add" />
 
-                <fieldset style="display: inline-block;">
+                <fieldset>
                     <div class="legend">New User Fields</div>
-                    <table class="table-user-info themed">
+                    <table class="table-user-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Username</td>
                             <td><input type="text" name="username" value="" required /></td>
