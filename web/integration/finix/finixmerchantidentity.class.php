@@ -185,10 +185,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     public function prepareMerchantIdentityRequest() {
         $IntegrationRow = $this->getIntegrationRow();
         $NewRequest = IntegrationRequestRow::prepareNew(
-            $IntegrationRow->getClassPath(),
-            $IntegrationRow->getID(),
-            IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY,
-            $this->getMerchantRow()->getID()
+            $this,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY
         );
 
         $M = $this->getMerchantRow();
@@ -285,10 +283,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     public function prepareMerchantPaymentInstrumentRequest() {
         $IntegrationRow = $this->getIntegrationRow();
         $NewRequest = IntegrationRequestRow::prepareNew(
-            $IntegrationRow->getClassPath(),
-            $IntegrationRow->getID(),
-            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT,
-            $this->getMerchantRow()->getID()
+            $this,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT
         );
 
         $M = $this->getMerchantRow();
@@ -316,10 +312,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $IntegrationRow = $this->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
         $NewRequest = IntegrationRequestRow::prepareNew(
-            $IntegrationRow->getClassPath(),
-            $IntegrationRow->getID(),
-            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION,
-            $this->getMerchantRow()->getID()
+            $this,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION
         );
         $url = $Integration->getRequestURL($NewRequest);
         $url = str_replace(':IDENTITY_ID', $this->getRemoteID(), $url);

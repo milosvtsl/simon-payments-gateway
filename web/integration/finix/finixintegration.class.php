@@ -107,9 +107,10 @@ class FinixIntegration extends AbstractIntegration
      * Was this request successful?
      * @param IntegrationRequestRow $Request
      * @param null $reason
+     * @param null $code
      * @return bool
      */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
+    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
         $data = $Request->parseResponseData();
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:

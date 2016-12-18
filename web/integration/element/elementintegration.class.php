@@ -109,9 +109,11 @@ class ElementIntegration extends AbstractIntegration
             // Try parsing the response
             $Request->parseResponseData();
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful())
+            if($Request->isRequestSuccessful($reason, $code)) {
                 $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-
+            }
+            $Request->setResponseMessage($reason);
+            $Request->setResponseCode($code);
         } catch (IntegrationException $ex) {
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
@@ -122,10 +124,10 @@ class ElementIntegration extends AbstractIntegration
      * Was this request successful?
      * @param IntegrationRequestRow $Request
      * @param null $reason
+     * @param null $code
      * @return bool
-     * @throws IntegrationException
      */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
+    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
         $response = $Request->parseResponseData();
         $code = $response['ExpressResponseCode'];
         $reason = $response['ExpressResponseMessage'];
@@ -275,10 +277,8 @@ class ElementIntegration extends AbstractIntegration
         }
 
         $Request = IntegrationRequestRow::prepareNew(
-            __CLASS__,
-            $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION,
-            -1 // $MerchantIdentity->getMerchantRow()->getID()
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
         $url = $this->getRequestURL($Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
@@ -332,6 +332,8 @@ class ElementIntegration extends AbstractIntegration
         // Insert Request
         $Request->setType('transaction');
         $Request->setTypeID($Transaction->getID());
+        $Request->setOrderItemID($Order->getID());
+        $Request->setTransactionID($Transaction->getID());
         IntegrationRequestRow::update($Request);
 
         if($Order->getPayeeEmail()) {
@@ -364,10 +366,8 @@ class ElementIntegration extends AbstractIntegration
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
         $Request = IntegrationRequestRow::prepareNew(
-            __CLASS__,
-            $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL,
-            $MerchantIdentity->getMerchantRow()->getID()
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL
         );
         $url = $this->getRequestURL($Request);
         $Request->setRequestURL($url);
@@ -409,6 +409,8 @@ class ElementIntegration extends AbstractIntegration
         // Insert Request
         $Request->setType('transaction');
         $Request->setTypeID($ReverseTransaction->getID());
+        $Request->setOrderItemID($Order->getID());
+        $Request->setTransactionID($ReverseTransaction->getID());
         IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
@@ -436,10 +438,8 @@ class ElementIntegration extends AbstractIntegration
             throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $Order->getID());
 
         $Request = IntegrationRequestRow::prepareNew(
-            __CLASS__,
-            $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID,
-            $MerchantIdentity->getMerchantRow()->getID()
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID
         );
         $url = $this->getRequestURL($Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
@@ -487,6 +487,8 @@ class ElementIntegration extends AbstractIntegration
         // Insert Request
         $Request->setType('transaction');
         $Request->setTypeID($VoidTransaction->getID());
+        $Request->setOrderItemID($Order->getID());
+        $Request->setTransactionID($VoidTransaction->getID());
         IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
@@ -514,10 +516,8 @@ class ElementIntegration extends AbstractIntegration
             throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $Order->getID());
 
         $Request = IntegrationRequestRow::prepareNew(
-            __CLASS__,
-            $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN,
-            $MerchantIdentity->getMerchantRow()->getID()
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN
         );
         $url = $this->getRequestURL($Request);
         $Request->setRequestURL($url);
@@ -563,6 +563,8 @@ class ElementIntegration extends AbstractIntegration
         // Insert Request
         $Request->setType('transaction');
         $Request->setTypeID($ReturnTransaction->getID());
+        $Request->setOrderItemID($Order->getID());
+        $Request->setTransactionID($ReturnTransaction->getID());
         IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
@@ -583,10 +585,8 @@ class ElementIntegration extends AbstractIntegration
      */
     function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
         $Request = IntegrationRequestRow::prepareNew(
-            __CLASS__,
-            $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK,
-            $MerchantIdentity->getMerchantRow()->getID()
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
         );
         $url = $this->getRequestURL($Request);
         $Request->setRequestURL($url);
@@ -617,11 +617,10 @@ class ElementIntegration extends AbstractIntegration
      * @throws IntegrationException
      */
     function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback) {
-        $Request = IntegrationRequestRow::prepareNew(
-            __CLASS__,
-            $MerchantIdentity->getIntegrationRow()->getID(),
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH,
-            $MerchantIdentity->getMerchantRow()->getID()
+        $Request = IntegrationRequestRow::
+        prepareNew(
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH
         );
         $url = $this->getRequestURL($Request);
         $Request->setRequestURL($url);
