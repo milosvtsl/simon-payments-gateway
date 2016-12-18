@@ -33,15 +33,7 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Type</td>
-                            <td><a href='integration/request?type_id=<?php echo $Request->getIntegrationTypeID(); ?>'><?php echo $Request->getIntegrationType(); ?></a></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Type ID</td>
-                            <td>
-                                <a href='<?php echo strtolower($Request->getIntegrationType()); ?>?id=<?php echo $Request->getIntegrationTypeID(); ?>'>
-                                    <?php echo $Request->getIntegrationTypeID(); ?>
-                                </a>
-                            </td>
+                            <td><?php echo $Request->getIntegrationType(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Date</td>
@@ -56,19 +48,39 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
                             <td><?php echo $Request->getResult(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Code</td>
+                            <td><?php echo $Request->getResponseCode(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Message</td>
+                            <td><?php echo $Request->getResponseMessage(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Merchant</td>
+                            <td><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Order</td>
+                            <td><a href='order?id=<?php echo $Request->getOrderItemID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>Transaction</td>
+                            <td><a href='transaction?id=<?php echo $Request->getTransactionID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td>User</td>
+                            <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Request</td>
                             <td>
-                                <textarea rows="30" cols="58" onclick="this.rows++; this.cols+=3;"><?php
-                                    echo $Request->getRequest();
-                                    ?></textarea>
+                                <textarea rows="30" cols="58" onclick="this.rows++; this.cols+=3;"><?php echo $Request->getRequest(); ?></textarea>
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Response</td>
                             <td>
-                                <textarea rows="30" cols="58" onclick="this.rows++; this.cols+=3;"><?php
-                                    echo $Request->getResponse();
-                                    ?></textarea>
+                                <textarea rows="30" cols="58" onclick="this.rows++; this.cols+=3;"><?php echo $Request->getResponse(); ?></textarea>
                             </td>
                         </tr>
                     </table>
