@@ -108,7 +108,7 @@ class IntegrationRequestListView extends AbstractListView {
         $limitSQL = "\nLIMIT " . $this->getOffset() . ', ' . $this->getLimit();
 
         // Query Rows
-        $mainSQL = IntegrationRequestRow::SQL_SELECT . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
+        $mainSQL = IntegrationRequestRow::SQL_SELECT_PARTIAL . $whereSQL . $groupSQL . $orderSQL . $limitSQL;
 		$Query = $DB->prepare($mainSQL);
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
 		$Query->setFetchMode(\PDO::FETCH_CLASS, IntegrationRequestRow::_CLASS);
