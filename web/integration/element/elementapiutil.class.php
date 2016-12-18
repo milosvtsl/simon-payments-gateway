@@ -770,7 +770,7 @@ SOAP;
         $TrackingID = '';
         $TransactionAmount = '';
         $TransactionStatus = @$post['status'];
-        $TransactionStatusCode = '';
+        $TransactionStatusCode = '5';
         $TransactionType = '';
         $XID = '';
         $SourceIPAddress = '';

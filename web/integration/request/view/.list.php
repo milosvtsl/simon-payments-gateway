@@ -76,48 +76,34 @@ $Theme->printHTMLMenu('integration-request-list');
                 <fieldset>
                     <div class="legend">Search Results</div>
 <!--                    <legend>Search Results</legend>-->
-                    <table class="table-results themed small striped-rows">
+                    <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_INTEGRATION_ID); ?>">Integration</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE); ?>">Type</a></th>
-                            <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE_ID); ?>">Type&nbsp;ID</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESULT); ?>">Result</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_DATE); ?>">Date</a></th>
-                            <th>Duration</th>
-                            <th>Response</th>
+                            <th class="hide-on-layout-narrow">Duration</th>
+                            <th class="hide-on-layout-narrow"><a href="merchant?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+                            <th><a href="order?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_ORDER_ITEM_ID); ?>">Order</a></th>
+                            <th class="hide-on-layout-narrow"><a href="transaction?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TRANSACTION_ID); ?>">Transaction</a></th>
+                            <th class="hide-on-layout-narrow"><a href="user?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_USER_ID); ?>">User</a></th>
                         </tr>
                         <?php
                         /** @var IntegrationRequestRow $Request */
                         $odd = false;
-                        foreach($Query as $Request) {
-                            $type_html = $Request->getIntegrationTypeID();
-                            switch($Request->getIntegrationType()) {
-                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
-                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL:
-                                case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-                                    if($Request->getOrderItemID())
-                                        $type_html = "<a href='order?id=" . $Request->getOrderItemID() . "'>"
-                                            . $Request->getIntegrationTypeID() . "</a>";
-                                    break;
-                            }
-                            ?>
+                        foreach($Query as $Request) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td><a href='integration/request?id=<?php echo $Request->getID(); ?>'><?php echo $Request->getID(); ?></a></td>
-                            <td><?php echo $Request->getIntegrationName(); ?></td>
+                            <td><a href='integration?id=<?php echo $Request->getIntegrationID(); ?>'><?php echo $Request->getIntegrationName(); ?></a></td>
                             <td><?php echo $Request->getIntegrationType(); ?></td>
-                            <td><?php echo $type_html; ?></td>
                             <td><?php echo $Request->getResult(); ?></td>
                             <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
-                            <td><?php echo round($Request->getDuration(), 3); ?>s</td>
-                            <td>
-                                <textarea rows="2" cols="24" onclick="this.rows++; this.cols+=3;"><?php
-                                    echo $Request->getResponse();
-                                    echo "\n\nRequest:\n";
-                                    echo $Request->getRequest();
-                                    ?></textarea>
-                            </td>
+                            <td class="hide-on-layout-narrow"><?php echo round($Request->getDuration(), 3); ?>s</td>
+                            <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantID(); ?></a></td>
+                            <td><a href='order?id=<?php echo $Request->getOrderItemID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='transaction?id=<?php echo $Request->getTransactionID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
                         </tr>
                         <?php } ?>
                     </table>

@@ -50,7 +50,7 @@ class SPGViewTheme extends AbstractViewTheme
     <body class="spg-theme <?php echo $body_class; ?>">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
-        <header class="hide-on-print hide-on-layout-vertical">
+        <header class="themed hide-on-print hide-on-layout-vertical">
             <a href="/" class="logo">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="">
             </a>
@@ -149,7 +149,7 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks($flags=0) {
-        $v = '?v=2';
+        $v = '?v=3';
         if(in_array(strtolower(@$_SERVER['SERVER_NAME']), array('localhost')))
             $v = '';
 

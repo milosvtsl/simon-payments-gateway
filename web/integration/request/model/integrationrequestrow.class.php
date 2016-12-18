@@ -34,6 +34,10 @@ class IntegrationRequestRow
     const SORT_BY_INTEGRATION_ID            = 'ir.integration_id';
     const SORT_BY_TYPE                      = 'ir.type';
     const SORT_BY_TYPE_ID                   = 'ir.type_id';
+    const SORT_BY_USER_ID                   = 'ir.user_id';
+    const SORT_BY_MERCHANT_ID               = 'ir.merchant_id';
+    const SORT_BY_ORDER_ITEM_ID             = 'ir.order_item_id';
+    const SORT_BY_TRANSACTION_ID            = 'ir.transaction_id';
     const SORT_BY_DATE                      = 'ir.date';
     const SORT_BY_RESULT                    = 'ir.result';
 
@@ -42,23 +46,35 @@ class IntegrationRequestRow
         self::SORT_BY_INTEGRATION_ID,
         self::SORT_BY_TYPE,
         self::SORT_BY_TYPE_ID,
+        self::SORT_BY_USER_ID,
+        self::SORT_BY_MERCHANT_ID,
+        self::SORT_BY_ORDER_ITEM_ID,
+        self::SORT_BY_TRANSACTION_ID,
         self::SORT_BY_DATE,
         self::SORT_BY_RESULT,
     );
+
+
+    const SQL_SELECT_PARTIAL = "
+SELECT
+    ir.id, ir.integration_id, ir.type, ir.type_id, ir.url, ir.response_code, ir.response_message,
+    ir.result, ir.date, ir.duration, ir.user_id, ir.merchant_id, ir.order_item_id, ir.transaction_id,
+    i.name integration_name,
+    i.class_path integration_class_path
+FROM integration_request ir
+LEFT JOIN integration i ON i.id = ir.integration_id
+";
 
 
     const SQL_SELECT = "
 SELECT
     ir.*,
     i.name integration_name,
-    i.class_path integration_class_path,
-    oi.id order_item_id,
-    t.id transaction_id
+    i.class_path integration_class_path
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
-LEFT JOIN transaction t ON t.id = ir.type_id AND ir.type LIKE 'transaction%'
-LEFT JOIN order_item oi ON oi.id = t.order_item_id
 ";
+
     const SQL_GROUP_BY = "\nGROUP BY ir.id";
     const SQL_ORDER_BY = "\nORDER BY ir.id DESC";
 
@@ -72,24 +88,34 @@ LEFT JOIN order_item oi ON oi.id = t.order_item_id
     protected $id;
     protected $integration_id;
     protected $type;
-    protected $type_id;
+    protected $type_id;     // TODO: depreciate
     protected $url;
     protected $request;
     protected $response;
+    protected $response_code;
+    protected $response_message;
     protected $result;
     protected $date;
     protected $duration;
+    protected $user_id;
+    protected $merchant_id;
+    protected $order_item_id;
+    protected $transaction_id;
 
     // Table: integration
 
     protected $integration_name;
     protected $integration_class_path;
 
-    // Table: order_item
-    protected $order_item_id;
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
-    // Table: transaction
-    protected $transaction_id;
+
 
     // Functions
 
@@ -104,6 +130,12 @@ LEFT JOIN order_item oi ON oi.id = t.order_item_id
     public function getResult()             { return $this->result; }
     public function getDate()               { return $this->date; }
     public function getDuration()           { return $this->duration; }
+    public function getResponseCode()       { return $this->response_code; }
+    public function getResponseMessage()    { return $this->response_message; }
+    public function getUserID()             { return $this->user_id; }
+    public function getMerchantID()         { return $this->merchant_id; }
+    public function getOrderItemID()        { return $this->order_item_id; }
+    public function getTransactionID()      { return $this->transaction_id; }
 
     public function setDuration($ms)        { $this->duration = $ms; }
 
@@ -264,23 +296,6 @@ LEFT JOIN order_item oi ON oi.id = t.order_item_id
             throw new \PDOException("Failed to update row");
         return $stmt->rowCount();
     }
-
-    /**
-     * @return mixed
-     */
-    public function getTransactionID()
-    {
-        return $this->transaction_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrderItemID()
-    {
-        return $this->order_item_id;
-    }
-
 
 }
 

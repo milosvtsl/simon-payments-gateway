@@ -5,6 +5,11 @@
     font-family: arial, serif;
     margin: 0 auto;
     /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
+    background-color: #f0f4f6;
+}
+
+.spg-theme header.themed {
+    background-color: #FFF;
 }
 
 
@@ -115,18 +120,17 @@ body.layout-full > article.themed {
     /*background-color: #f6f9fc;*/
     /*position: absolute;*/
     float: left;
-    border-right: 1px solid #d4dce0;
-    border-bottom: 1px solid #d9d9d9;
+    /* border-right: 1px solid #d4dce0; */
+    /* border-bottom: 1px solid #d9d9d9; */
     font-size: larger;
-    background-color: #DDD;
-
-    box-shadow: 0px 1px 2px #555;
+    /* background-color: #DDD; */
+    /* box-shadow: 0px 1px 2px #555; */
 }
 
 .spg-theme ul.page-menu > li > ul {
     list-style: none;
     padding: 0 0;
-    margin: 0 0 0 1em;
+    margin: 0 2px 0 12px;
     max-height: 0;
     overflow:hidden;
     transition: max-height 0.6s ease-in;
@@ -136,7 +140,7 @@ body.layout-full > article.themed {
 
 .spg-theme ul.page-menu > li > ul .menu-icon {
     font-size: 7px;
-    margin-left: 12px;
+    margin-left: 8px;
 }
 
 .spg-theme ul.page-menu > li > a {
@@ -158,12 +162,14 @@ body.layout-full.spg-theme ul.page-menu {
     z-index: 99;
 }
 body.layout-narrow.spg-theme ul.page-menu:not(:hover) ul {
-    margin-left: 0;
+    margin-left: 3px;
     transition: margin-left 0.4s;
 }
 body.layout-narrow.spg-theme ul.page-menu {
     max-width: 50px;
-    border-right: 1px solid #666;
+    /* border-right: 1px solid #666; */
+    /* border-right: 1px solid #d4dce0; */
+    /* border-bottom: 1px solid #d9d9d9; */
     transition: max-width 0.4s ease-out, margin-left 0.4s;
 }
 /*body.layout-narrow.spg-theme.layout-vertical ul.page-menu {*/
@@ -207,13 +213,15 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme ul.page-menu .menu-submenu {
-    border-radius: 0 0 0 3px;
+    border-radius: 2px 2px 2px 6px;
+    margin-bottom: 1px;
 }
+
 .spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-.spg-theme ul.page-menu .menu-submenu-order        { background-color: #a1d2e2; }
-.spg-theme ul.page-menu .menu-submenu-merchant     { background-color: #a1d2e2; }
-.spg-theme ul.page-menu .menu-submenu-user         { background-color: #a1d2e2; }
-.spg-theme ul.page-menu .menu-submenu-integration  { background-color: #a1d2e2; }
+.spg-theme ul.page-menu .menu-submenu-order        {background-color: rgba(173, 216, 230, .8);}
+.spg-theme ul.page-menu .menu-submenu-merchant     {background-color: rgba(210, 180, 140, .8);}
+.spg-theme ul.page-menu .menu-submenu-user         {background-color: rgba(144, 238, 144, .8);}
+.spg-theme ul.page-menu .menu-submenu-integration  {background-color: rgba(211, 211, 211, .8);}
 
 
 
@@ -286,10 +294,10 @@ body.layout-vertical.spg-theme nav.page-menu {
     list-style: none;
     /* margin: 2px 0px 0px 0px; */
     margin: 0 0;
-    padding: 0 0 1px 1px;
+    padding: 0 0 0px 1px;
     border-radius: 0 0  0 4px;
     background-color: #bcc5d1;
-    box-shadow: 0px 1px 2px #222;
+    /* box-shadow: 0px 1px 2px #222; */
 }
 
 .spg-theme ul.menu-sub-menu:hover,
@@ -429,7 +437,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     text-decoration: none;
     /* padding: 0.35em 0.5em 1.0em 0.5em; */
     /* margin: 0em 0px 0px 0px; */
-    margin: 1px 0px 0px 0px;
+    /* margin: 1px 0px 0px 0px; */
     padding: 0px 20px 0px 0px;
     display: block;
     color: #666;
@@ -437,9 +445,13 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* vertical-align: middle; */
     white-space: nowrap;
     /* min-width: 9em; */
-    background-color: #f0f4f6;
+    background-color: rgba(240, 244, 246, 0.6);
+    /* border-radius: 8px; */
 }
 
+.spg-theme li.menu-submenu > a.button {
+    background-color: rgba(240, 244, 246, 1.0);
+}
 
 /*.spg-theme a.button.small {*/
     /*min-width: 2em;*/
@@ -456,7 +468,6 @@ body.layout-vertical.spg-theme nav.page-menu {
     background-color: #d4e7ec;
     font-weight: bold;
     color: #4296bb;
-
 }
 .spg-theme a.current + ul > li > a.current {
     background-color: rgb(212, 231, 236);
@@ -506,7 +517,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     min-height: 47px;
     /* display: block; */
     vertical-align: top;
-    box-shadow: 0px 0px 2px #222;
+    /* box-shadow: 0px 0px 2px #222; */
 }
 
 .spg-theme .bread-crumbs {
