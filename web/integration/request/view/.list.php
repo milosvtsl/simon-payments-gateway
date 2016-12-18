@@ -82,12 +82,14 @@ $Theme->printHTMLMenu('integration-request-list');
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_INTEGRATION_ID); ?>">Integration</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TYPE); ?>">Type</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESULT); ?>">Result</a></th>
+                            <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESPONSE_MESSAGE); ?>">Message</a></th>
+                            <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_RESPONSE_CODE); ?>">Code</a></th>
                             <th><a href="integration/request?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_DATE); ?>">Date</a></th>
-                            <th class="hide-on-layout-narrow">Duration</th>
                             <th class="hide-on-layout-narrow"><a href="merchant?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                             <th><a href="order?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_ORDER_ITEM_ID); ?>">Order</a></th>
                             <th class="hide-on-layout-narrow"><a href="transaction?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_TRANSACTION_ID); ?>">Transaction</a></th>
                             <th class="hide-on-layout-narrow"><a href="user?<?php echo $this->getSortURL(IntegrationRequestRow::SORT_BY_USER_ID); ?>">User</a></th>
+                            <th class="hide-on-layout-narrow">Duration</th>
                         </tr>
                         <?php
                         /** @var IntegrationRequestRow $Request */
@@ -98,12 +100,14 @@ $Theme->printHTMLMenu('integration-request-list');
                             <td><a href='integration?id=<?php echo $Request->getIntegrationID(); ?>'><?php echo $Request->getIntegrationName(); ?></a></td>
                             <td><?php echo $Request->getIntegrationType(); ?></td>
                             <td><?php echo $Request->getResult(); ?></td>
+                            <td><?php echo $Request->getResponseMessage(); ?></td>
+                            <td><?php echo $Request->getResponseCode(); ?></td>
                             <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
-                            <td class="hide-on-layout-narrow"><?php echo round($Request->getDuration(), 3); ?>s</td>
                             <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
                             <td><a href='order?id=<?php echo $Request->getOrderItemID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
                             <td class="hide-on-layout-narrow"><a href='transaction?id=<?php echo $Request->getTransactionID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
                             <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><?php echo round($Request->getDuration(), 3); ?>s</td>
                         </tr>
                         <?php } ?>
                     </table>

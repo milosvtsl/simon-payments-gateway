@@ -7,9 +7,11 @@
  */
 namespace Integration\Request\Model;
 
+use Integration\Model\AbstractMerchantIdentity;
 use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\IntegrationRow;
+use User\Model\UserRow;
 
 class IntegrationRequestRow
 {
@@ -40,6 +42,8 @@ class IntegrationRequestRow
     const SORT_BY_TRANSACTION_ID            = 'ir.transaction_id';
     const SORT_BY_DATE                      = 'ir.date';
     const SORT_BY_RESULT                    = 'ir.result';
+    const SORT_BY_RESPONSE_MESSAGE          = 'ir.response_message';
+    const SORT_BY_RESPONSE_CODE             = 'ir.response_code';
 
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,
@@ -52,6 +56,8 @@ class IntegrationRequestRow
         self::SORT_BY_TRANSACTION_ID,
         self::SORT_BY_DATE,
         self::SORT_BY_RESULT,
+        self::SORT_BY_RESPONSE_MESSAGE,
+        self::SORT_BY_RESPONSE_CODE,
     );
 
 
@@ -152,9 +158,17 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
     public function setResponse($response)  { $this->response = $response; }
     public function setResult($result)      { $this->result = $result; }
     public function setRequestURL($url)     { $this->url = $url; }
+    public function setResponseCode($code)  { $this->response_code = $code; }
+    public function setResponseMessage($message)  {
+        $this->response_message = $message;
+    }
 
     public function setType($type)          { $this->type = $type; }
     public function setTypeID($id)          { $this->type_id = $id; }
+    public function setOrderItemID($id)     { $this->transaction_id = $id; }
+    public function setTransactionID($id)   { $this->order_item_id = $id; }
+    public function setUserID($id)          { $this->user_id = $id; }
+    public function setMerchantID($id)      { $this->merchant_id = $id; }
 
     /**
      * @return AbstractIntegration
@@ -171,9 +185,9 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
 //        $Integration->execute($this);
 //    }
 
-    function isRequestSuccessful(&$reason=null) {
+    function isRequestSuccessful(&$reason=null, &$code=null) {
         $Integration = $this->getIntegration();
-        return $Integration->isRequestSuccessful($this, $reason);
+        return $Integration->isRequestSuccessful($this, $reason, $code);
     }
 
     function printFormHTML() {
@@ -198,13 +212,23 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
 
     // Static
 
-    public static function prepareNew($integration_class_path, $integration_id, $type, $type_id) {
+    public static function prepareNew(AbstractMerchantIdentity $MerchantIdentity, $type, UserRow $SessionUser=null) {
+        $integration_class_path = $MerchantIdentity->getIntegrationRow()->getClassPath();
+        $integration_id = $MerchantIdentity->getIntegrationRow()->getID();
+        $type_id = $MerchantIdentity->getMerchantRow()->getID();
+
+
         $Request = new self;
         $Request->integration_class_path = $integration_class_path;
         $Request->integration_id = $integration_id;
         $Request->type = $type;
         $Request->type_id = $type_id;
+        $Request->merchant_id = $MerchantIdentity->getMerchantRow()->getID();
         $Request->result = self::ENUM_RESULT_FAIL;
+
+        if($SessionUser)
+            $Request->setUserID($SessionUser->getID());
+
         return $Request;
     }
 
@@ -255,19 +279,31 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
             . "\n\t`url` = :url,"
             . "\n\t`request` = :request,"
             . "\n\t`response` = :response,"
+            . "\n\t`response_code` = :response_code,"
+            . "\n\t`response_message` = :response_message,"
             . "\n\t`result` = :result,"
             . "\n\t`duration` = :duration,"
+            . "\n\t`user_id` = :user_id,"
+            . "\n\t`merchant_id` = :merchant_id,"
+            . "\n\t`transaction_id` = :transaction_id,"
+            . "\n\t`order_item_id` = :order_item_id,"
             . "\n\t`date` = NOW()");
         $NewRow->date = date('Y-m-d G:i:s');
         $ret = $stmt->execute(array(
-            ':type' => $NewRow->getIntegrationType(),
-            ':type_id' => $NewRow->getIntegrationTypeID(),
-            ':integration_id' => $NewRow->getIntegrationID(),
+            ':type' => $NewRow->type,
+            ':type_id' => $NewRow->type_id,
+            ':integration_id' => $NewRow->integration_id,
             ':url' => $NewRow->url,
             ':request' => $NewRow->request,
             ':response' => $NewRow->response,
+            ':response_code' => $NewRow->response_code,
+            ':response_message' => $NewRow->response_message,
             ':result' => $NewRow->result,
             ':duration' => $NewRow->duration,
+            ':user_id' => $NewRow->user_id,
+            ':transaction_id' => $NewRow->transaction_id,
+            ':order_item_id' => $NewRow->order_item_id,
+            ':merchant_id' => $NewRow->merchant_id,
         ));
         if(!$ret || !$DB->lastInsertId())
             throw new \PDOException("Failed to insert new row");
@@ -289,6 +325,10 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
             . "\n\t`request` = :request,"
             . "\n\t`response` = :response,"
             . "\n\t`result` = :result,"
+            . "\n\t`user_id` = :user_id,"
+            . "\n\t`transaction_id` = :transaction_id,"
+            . "\n\t`order_item_id` = :order_item_id,"
+            . "\n\t`merchant_id` = :merchant_id,"
             . "\n\t`duration` = :duration"
             . "\nWHERE id = " . $UpdateRow->id . "\nLIMIT 1");
         $ret = $stmt->execute(array(
@@ -299,12 +339,17 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
             ':request' => $UpdateRow->request,
             ':response' => $UpdateRow->response,
             ':result' => $UpdateRow->result,
+            ':user_id' => $UpdateRow->user_id,
+            ':transaction_id' => $UpdateRow->transaction_id,
+            ':order_item_id' => $UpdateRow->order_item_id,
+            ':merchant_id' => $UpdateRow->merchant_id,
             ':duration' => $UpdateRow->duration,
         ));
         if(!$ret)
             throw new \PDOException("Failed to update row");
         return $stmt->rowCount();
     }
+
 
 }
 

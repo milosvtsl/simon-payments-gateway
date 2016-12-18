@@ -57,9 +57,10 @@ class MockIntegration extends AbstractIntegration
      * Was this request successful?
      * @param IntegrationRequestRow $Request
      * @param null $reason
+     * @param null $code
      * @return bool
      */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null) {
+    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
         return true;
     }
 

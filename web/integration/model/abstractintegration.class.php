@@ -28,10 +28,11 @@ abstract class AbstractIntegration
     /**
      * Was this request successful?
      * @param IntegrationRequestRow $Request
+     * @param null $reason
+     * @param null $code
      * @return bool
-     * @throws IntegrationException if the request status could not be processed
      */
-    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason=null);
+    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null);
 
     /**
      * Print an HTML form containing the request fields
