@@ -165,8 +165,8 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
 
     public function setType($type)          { $this->type = $type; }
     public function setTypeID($id)          { $this->type_id = $id; }
-    public function setOrderItemID($id)     { $this->transaction_id = $id; }
-    public function setTransactionID($id)   { $this->order_item_id = $id; }
+    public function setOrderItemID($id)     { $this->order_item_id = $id; }
+    public function setTransactionID($id)   { $this->transaction_id = $id; }
     public function setUserID($id)          { $this->user_id = $id; }
     public function setMerchantID($id)      { $this->merchant_id = $id; }
 
