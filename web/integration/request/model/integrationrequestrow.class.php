@@ -67,10 +67,12 @@ SELECT
     ir.result, ir.date, ir.duration, ir.user_id, ir.merchant_id, ir.order_item_id, ir.transaction_id,
     i.name integration_name,
     i.class_path integration_class_path,
-    m.short_name as merchant_name
+    m.short_name as merchant_name,
+    u.username as user_name
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
+LEFT JOIN user u ON u.id = ir.user_id
 ";
 
 
@@ -79,10 +81,12 @@ SELECT
     ir.*,
     i.name integration_name,
     i.class_path integration_class_path,
-    m.short_name as merchant_name
+    m.short_name as merchant_name,
+    u.username as user_name
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
+LEFT JOIN user u ON u.id = ir.user_id
 ";
 
     const SQL_GROUP_BY = "\nGROUP BY ir.id";
@@ -121,6 +125,10 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
 
     protected $merchant_name;
 
+    // Table: user
+
+    protected $user_name;
+
     /**
      * @return mixed
      */
@@ -147,6 +155,7 @@ LEFT JOIN merchant m ON m.id = ir.merchant_id
     public function getResponseCode()       { return $this->response_code; }
     public function getResponseMessage()    { return $this->response_message; }
     public function getUserID()             { return $this->user_id; }
+    public function getUserName()           { return $this->user_name; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantName()       { return $this->merchant_name; }
     public function getOrderItemID()        { return $this->order_item_id; }

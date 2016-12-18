@@ -17,6 +17,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
 use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use User\Model\UserRow;
 
 class MockIntegration extends AbstractIntegration
 {
@@ -107,11 +108,12 @@ class MockIntegration extends AbstractIntegration
      * Submit a new transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return TransactionRow
      * @throws IntegrationException
      */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");

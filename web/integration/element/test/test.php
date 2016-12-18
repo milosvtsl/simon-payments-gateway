@@ -13,6 +13,9 @@ use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use User\Model\GuestUser;
+use User\Model\SystemUser;
+use User\Model\UserRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
@@ -27,6 +30,7 @@ spl_autoload_register();
 // Register Exception Handler
 //\System\Exception\ExceptionHandler::register();
 
+$SessionUser = new SystemUser();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
@@ -37,10 +41,10 @@ $ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7')
 // Real API Health Check
 $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 
-$HealthCheckRequest = $MerchantIdentity->performHealthCheck(array());
+$HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$stats = $MerchantIdentity->performTransactionQuery(array('status' => 'Settled'),
+$stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
     function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
         return NULL;
     }
@@ -146,6 +150,7 @@ if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
 
 $batch_id = null;
 
+
 foreach($tests as $testData) {
     $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
 
@@ -155,24 +160,24 @@ foreach($tests as $testData) {
     }
 
     // Create transaction
-    $Transaction = $MerchantIdentity->submitNewTransaction($Order, $testData+$data);
+    $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
     echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getTransactionID();
 
     // Void transaction
     if(!empty($testData['void'])) {
-        $VoidTransaction = $MerchantIdentity->voidTransaction($Order, array());
+        $VoidTransaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, array());
         echo "\nVoided: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getTransactionID();
     }
 
     // Return transaction
     if(!empty($testData['return'])) {
-        $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, array());
+        $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, array());
         echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' ' . $ReturnTransaction->getAction(), ' #' . $ReturnTransaction->getTransactionID();
     }
 
     // Reverse transaction
     if(!empty($testData['reversal'])) {
-        $ReverseTransaction = $MerchantIdentity->reverseTransaction($Order, array());
+        $ReverseTransaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, array());
         echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getTransactionID();
     }
 

@@ -18,3 +18,4 @@ class GuestUser extends UserRow
     protected $lname = 'User';
     protected $username = 'guest';
 }
+
