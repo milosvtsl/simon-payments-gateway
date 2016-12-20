@@ -15,7 +15,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
+            <fieldset style=" padding: 0.5em; margin: 0.3em; text-align: left;">
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

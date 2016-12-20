@@ -86,7 +86,7 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
     //                        continue;
                         $reason = null;
                         ?>
-                        <fieldset style="display: inline-block; margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity:0.5;'; ?>">
+                        <fieldset style=" margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity:0.5;'; ?>">
                             <div class="legend">
                                 <?php echo $IntegrationRow->getName(); ?>
                                 (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)

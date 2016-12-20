@@ -155,7 +155,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
 
 
 
-            <fieldset style="display: inline-block; float: right;">
+            <fieldset style=" float: right;">
                 <legend>Totals</legend>
                 <table class="table-transaction-info-totals themed striped-rows" style="width:60%">
                     <tbody>

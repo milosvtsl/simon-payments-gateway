@@ -87,7 +87,7 @@ FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
 LEFT JOIN user u ON u.id = ir.user_id
-";
+ ";
 
     const SQL_GROUP_BY = "\nGROUP BY ir.id";
     const SQL_ORDER_BY = "\nORDER BY ir.id DESC";

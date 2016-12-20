@@ -115,7 +115,7 @@ $this->getTheme()->printHTMLMenu('dashboard');
 
         <form name="form-order-search" class="themed" style="text-align: center;">
 
-            <fieldset style="display: inline-block; text-align: left;">
+            <fieldset style=" text-align: left;">
                 <legend>Daily Totals</legend>
                 <table class="table-stats themed small striped-rows">
                     <tr>
@@ -151,7 +151,7 @@ $this->getTheme()->printHTMLMenu('dashboard');
 
             </fieldset>
 
-            <fieldset style="display: inline-block; text-align: left;">
+            <fieldset style=" text-align: left;">
                 <legend>Recent Transactions</legend>
                 <table class="table-results themed small striped-rows">
                     <tr>
