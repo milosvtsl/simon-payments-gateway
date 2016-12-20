@@ -140,7 +140,7 @@ body.layout-full > article.themed {
 
 .spg-theme ul.page-menu > li > ul .menu-icon {
     font-size: 7px;
-    margin-left: 8px;
+    /* margin-left: 8px; */
 }
 
 .spg-theme ul.page-menu > li > a {
@@ -148,7 +148,7 @@ body.layout-full > article.themed {
 
 
 .spg-theme ul.page-menu a.button > span {
-    margin: 10px 0 10px 0;
+    margin: 0px 0px 0px 5px;
     display: inline-block;
 }
 
@@ -233,7 +233,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     background-size: 16em 20em;
     width: 4em;
     height: 4em;
-    margin: 5px 9px -9px 8px;
+    /* margin: 0px 0px 0px 0px; */
     /* margin-left: 0px; */
     /* margin: -13px 9px 0 -3px; */
     /* float: left; */
@@ -261,13 +261,13 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 .spg-theme .sub-header .menu-button-toggle {
     display: inline-block;
-    height: 47px;
-    width: 51px;
+    padding: 5px 6px 0px 6px;
 }
 
 .spg-theme .sub-header .menu-button-account {
-    height: 47px;
-    width: 52px;
+    /* height: 47px; */
+    /* width: 52px; */
+    padding: 5px 6px 0px 6px;
 }
 
 
@@ -293,8 +293,8 @@ body.layout-vertical.spg-theme nav.page-menu {
     z-index: 999;
     list-style: none;
     /* margin: 2px 0px 0px 0px; */
-    margin: 0 0;
-    padding: 0 0 0px 1px;
+    margin: 3px 0px;
+    padding: 0 0px 0px 1px;
     border-radius: 0 0  0 4px;
     background-color: #bcc5d1;
     /* box-shadow: 0px 1px 2px #222; */
@@ -435,29 +435,20 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme a.button {
     text-decoration: none;
-    /* padding: 0.35em 0.5em 1.0em 0.5em; */
-    /* margin: 0em 0px 0px 0px; */
-    /* margin: 1px 0px 0px 0px; */
-    padding: 0px 20px 0px 0px;
+    padding: 5px 20px 5px 8px;
     display: block;
     color: #666;
-    /* text-align: right; */
-    /* vertical-align: middle; */
     white-space: nowrap;
-    /* min-width: 9em; */
     background-color: rgba(240, 244, 246, 0.6);
-    /* border-radius: 8px; */
+}
+.spg-theme a.button > * {
+    vertical-align: middle;
 }
 
 .spg-theme li.menu-submenu > a.button {
     background-color: rgba(240, 244, 246, 1.0);
 }
 
-/*.spg-theme a.button.small {*/
-    /*min-width: 2em;*/
-    /*font-size: medium;*/
-    /*padding: 0.8em 0.5em 0.6em 0.5em;*/
-/*}*/
 .spg-theme a.button:hover {
     background-color: #d4e7ec;
     background: linear-gradient(90deg, #d4e7ec 0%, #f6f9fc 100%);

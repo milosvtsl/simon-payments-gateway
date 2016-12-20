@@ -184,6 +184,11 @@ class OrderView extends AbstractView
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
+                    <div>
+                        <button>
+                            <div class="menu-icon menu-icon-print" ></div>
+                        </button>
+                    </div>
                     <fieldset class="inline-block-on-layout-full" style="min-width: 48%;">
                         <div class="legend">Receipt</div>
                         <table class="table-transaction-info themed cell-borders small" style="width: 100%;">
