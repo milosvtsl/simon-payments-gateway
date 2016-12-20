@@ -345,9 +345,9 @@ class OrderListView extends AbstractListView {
 					</fieldset>
 
 
-                    <fieldset class="inline-block-on-layout-full">
+                    <fieldset>
                         <div class="legend">Search Stats</div>
-                        <table class="table-stats themed small striped-rows" >
+                        <table class="table-stats themed small striped-rows" style="min-width: 50%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name"><?php echo @$params['stats_group'] ? @$params['stats_group'] . 'ly' : 'Range'; ?></td>
                                 <td><?php echo $Stats->getGroupSpan(); ?></td>

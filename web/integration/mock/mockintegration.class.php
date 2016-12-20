@@ -17,6 +17,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
 use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use User\Model\UserRow;
 
 class MockIntegration extends AbstractIntegration
 {
@@ -107,11 +108,12 @@ class MockIntegration extends AbstractIntegration
      * Submit a new transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return TransactionRow
      * @throws IntegrationException
      */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
@@ -150,7 +152,7 @@ class MockIntegration extends AbstractIntegration
      * @param array $post
      * @return mixed
      */
-    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
+    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, UserRow $SessionUser, Array $post) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
     }
 
@@ -161,7 +163,7 @@ class MockIntegration extends AbstractIntegration
      * @param array $post
      * @return mixed
      */
-    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
     }
 
@@ -172,7 +174,7 @@ class MockIntegration extends AbstractIntegration
      * @param array $post
      * @return mixed
      */
-    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
     }
 
@@ -183,7 +185,7 @@ class MockIntegration extends AbstractIntegration
      * @return IntegrationRequestRow
      * @throws IntegrationException
      */
-    function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+    function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
     }
 
@@ -194,7 +196,7 @@ class MockIntegration extends AbstractIntegration
      * @param null $callback
      * @return mixed
      */
-    function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback) {
+    function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post, $callback) {
         throw new \InvalidArgumentException("TODO: Not yet implemented");
     }
 
@@ -205,7 +207,7 @@ class MockIntegration extends AbstractIntegration
      * @param SubscriptionRow $Subscription
      * @param $message
      */
-    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message) {
+    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message) {
         $Subscription->cancel($message);
     }
 }

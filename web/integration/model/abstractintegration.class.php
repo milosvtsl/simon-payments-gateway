@@ -13,6 +13,7 @@ use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use User\Model\UserRow;
 
 abstract class AbstractIntegration
 {
@@ -78,62 +79,69 @@ abstract class AbstractIntegration
     /**
      * Submit a new transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
      * @return TransactionRow
-     * @throws IntegrationException
      */
-    abstract function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
+    abstract function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post);
 
     /**
      * Void an existing Transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $OrderRow
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      */
-    abstract function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post);
+    abstract function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, UserRow $SessionUser, Array $post);
 
     /**
      * Reverse an existing Transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      */
-    abstract function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
+    abstract function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post);
 
     /**
      * Return an existing Transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      */
-    abstract function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post);
+    abstract function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post);
 
     /**
      * Perform health check on remote api
      * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      */
-    abstract function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+    abstract function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post);
 
     /**
      * Perform transaction query on remote api
      * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param UserRow $SessionUser
      * @param array $post
      * @param null $callback
      * @return array
      */
-    abstract function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback);
+    abstract function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post, $callback);
 
     /**
      * Cancel an active subscription
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param SubscriptionRow $Subscription
+     * @param UserRow $SessionUser
      * @param $message
+     * @return
      */
-    abstract function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message);
+    abstract function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message);
 }

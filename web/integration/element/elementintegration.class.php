@@ -20,6 +20,7 @@ use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
 use Order\Mail\ReceiptEmail;
 use Order\Model\TransactionRow;
+use User\Model\UserRow;
 
 class ElementIntegration extends AbstractIntegration
 {
@@ -255,11 +256,14 @@ class ElementIntegration extends AbstractIntegration
      * Submit a new transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return TransactionRow
      * @throws IntegrationException
+     * @throws \Exception
+     * @throws \phpmailerException
      */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
@@ -334,6 +338,8 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($Transaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($Transaction->getID());
+        if($SessionUser)
+            $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::update($Request);
 
         if($Order->getPayeeEmail()) {
@@ -350,11 +356,14 @@ class ElementIntegration extends AbstractIntegration
      * Reverse an existing Transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      * @throws IntegrationException
+     * @throws \Exception
+     * @throws \phpmailerException
      */
-    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function reverseTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 
@@ -411,6 +420,8 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($ReverseTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($ReverseTransaction->getID());
+        if($SessionUser)
+            $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
@@ -425,11 +436,14 @@ class ElementIntegration extends AbstractIntegration
      * Void an existing Transaction
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      * @throws IntegrationException
+     * @throws \Exception
+     * @throws \phpmailerException
      */
-    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function voidTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 
@@ -489,6 +503,8 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($VoidTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($VoidTransaction->getID());
+        if($SessionUser)
+            $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
@@ -503,11 +519,14 @@ class ElementIntegration extends AbstractIntegration
      * Return an existing Transaction
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return mixed
      * @throws IntegrationException
+     * @throws \Exception
+     * @throws \phpmailerException
      */
-    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, Array $post) {
+    function returnTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");
 
@@ -565,6 +584,8 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($ReturnTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($ReturnTransaction->getID());
+        if($SessionUser)
+            $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
 
         if($Order->getPayeeEmail()) {
@@ -579,11 +600,12 @@ class ElementIntegration extends AbstractIntegration
     /**
      * Perform health check on remote api
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param UserRow $SessionUser
      * @param array $post
      * @return IntegrationRequestRow
      * @throws IntegrationException
      */
-    function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
+    function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post) {
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
@@ -612,11 +634,12 @@ class ElementIntegration extends AbstractIntegration
      * Perform transaction query on remote api
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
+     * @param UserRow $SessionUser
      * @param Callable $callback
      * @return mixed
      * @throws IntegrationException
      */
-    function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, Array $post, $callback) {
+    function performTransactionQuery(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post, $callback) {
         $Request = IntegrationRequestRow::
         prepareNew(
             $MerchantIdentity,
@@ -727,9 +750,12 @@ class ElementIntegration extends AbstractIntegration
      * Cancel an active subscription
      * @param AbstractMerchantIdentity $MerchantIdentity
      * @param SubscriptionRow $Subscription
+     * @param UserRow $SessionUser
      * @param $message
+     * @throws \Exception
+     * @throws \phpmailerException
      */
-    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, $message) {
+    function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message) {
         $Subscription->cancel($message);
 
         $Order = OrderRow::fetchByID($Subscription->getOrderID());

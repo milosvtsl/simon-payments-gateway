@@ -218,7 +218,7 @@ class BatchListView extends AbstractListView {
 
 					<br />
 
-					<fieldset style="display: inline-block;">
+					<fieldset style="">
 						<div class="legend">Batch Report</div>
 						<table class="table-stats themed small striped-rows">
 							<tr>

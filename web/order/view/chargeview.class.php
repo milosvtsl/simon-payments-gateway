@@ -47,7 +47,7 @@ class ChargeView extends AbstractView
             $Order = $MerchantIdentity->createOrResumeOrder($post);
             $_SESSION['order/charge.php']['order_id'] = $Order->getID();
 
-            $Transaction = $MerchantIdentity->submitNewTransaction($Order, $post);
+            $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $post);
 
             $this->setSessionMessage(
                 "<span class='info'>Success: " . $Transaction->getStatusMessage() . "</span>"

@@ -37,7 +37,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
             <form name="form-subscription-view" id="form-subscription-view" class="themed" method="POST">
-                <fieldset style="display: inline-block;">
+                <fieldset style="">
                     <div class="legend"><?php echo $Merchant->getShortName(); ?></div>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>
@@ -61,7 +61,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                     </table>
                 </fieldset>
 
-                <fieldset style="display: inline-block;">
+                <fieldset style="">
                     <div class="legend">Subscription</div>
                     <table class="table-transaction-info themed striped-rows">
                         <tbody>

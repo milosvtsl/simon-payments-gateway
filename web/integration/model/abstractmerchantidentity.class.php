@@ -7,6 +7,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use User\Model\UserRow;
 
 /**
  * Created by PhpStorm.
@@ -100,12 +101,13 @@ abstract class AbstractMerchantIdentity {
     /**
      * Submit a new transaction
      * @param OrderRow $Order
+     * @param UserRow $SessionUser
      * @param array $post
      * @return TransactionRow
      */
-    function submitNewTransaction(OrderRow $Order, Array $post) {
+    function submitNewTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->submitNewTransaction($this, $Order, $post);
+        return $Integration->submitNewTransaction($this, $Order, $SessionUser, $post);
     }
 
     function createOrResumeOrder(Array $post) {
@@ -116,65 +118,72 @@ abstract class AbstractMerchantIdentity {
 
     /**
      * @param SubscriptionRow $Subscription
+     * @param UserRow $SessionUser
      * @param $message
+     * @return
      */
-    public function cancelSubscription(SubscriptionRow $Subscription, $message) {
+    public function cancelSubscription(SubscriptionRow $Subscription, UserRow $SessionUser, $message) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->cancelSubscription($this, $Subscription, $message);
+        return $Integration->cancelSubscription($this, $Subscription, $SessionUser, $message);
     }
 
     /**
      * Void an existing Transaction
+     * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
      * @return mixed
      */
-    function voidTransaction(OrderRow $Order, Array $post) {
+    function voidTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->voidTransaction($this, $Order, $post);
+        return $Integration->voidTransaction($this, $Order, $SessionUser, $post);
     }
 
     /**
      * Return an existing Transaction
+     * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
      * @return mixed
      */
-    function returnTransaction(OrderRow $Order, Array $post) {
+    function returnTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->returnTransaction($this, $Order, $post);
+        return $Integration->returnTransaction($this, $Order, $SessionUser, $post);
     }
 
     /**
      * Return an existing Transaction
+     * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
      * @return mixed
      */
-    function reverseTransaction(OrderRow $Order, Array $post) {
+    function reverseTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->reverseTransaction($this, $Order, $post);
+        return $Integration->reverseTransaction($this, $Order, $SessionUser, $post);
     }
 
     /**
      * Perform health check on integration
+     * @param UserRow $SessionUser
      * @param array $post
      * @return IntegrationRequestRow
      */
-    function performHealthCheck(Array $post) {
+    function performHealthCheck(UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->performHealthCheck($this, $post);
+        return $Integration->performHealthCheck($this, $SessionUser, $post);
     }
 
     /**
      * Perform health check on integration
+     * @param UserRow $SessionUser
      * @param array $post
      * @param Callable $callback
      * @return array
      */
-    function performTransactionQuery(Array $post, $callback) {
+    function performTransactionQuery(UserRow $SessionUser, Array $post, $callback) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->performTransactionQuery($this, $post, $callback);
+        return $Integration->performTransactionQuery($this, $SessionUser, $post, $callback);
     }
 
 //    /**

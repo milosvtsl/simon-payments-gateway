@@ -84,7 +84,7 @@ $this->getTheme()->printHTMLMenu('merchant-provision', $action_url);
                         $isProduction = $IntegrationRow->getAPIType() === IntegrationRow::ENUM_API_TYPE_PRODUCTION;
                         $reason = null;
                         ?>
-                        <fieldset style="display: inline-block; margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity1:0.5;'; ?>">
+                        <fieldset style=" margin-bottom: 1em; <?php if(!$isProduction) echo 'opacity1:0.5;'; ?>">
                             <div class="legend">
                                 <?php echo $IntegrationRow->getName(); ?>
                                 (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)
