@@ -14,6 +14,7 @@ use Merchant\Model\MerchantRow;
 use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use User\Model\SystemUser;
 
 echo "\nBatch ... ", __FILE__, PHP_EOL;
 
@@ -32,6 +33,7 @@ spl_autoload_register();
 
 $ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io Staging
 
+$SessionUser = new SystemUser();
 
 $MerchantQuery = MerchantRow::queryAll();
 foreach($MerchantQuery as $Merchant) {
@@ -42,7 +44,7 @@ foreach($MerchantQuery as $Merchant) {
 
     echo "\n\nMerchant: ", $Merchant->getName(), " MID=", $MerchantIdentity->getRemoteID();
 
-    $stats = $MerchantIdentity->performTransactionQuery(array('status' => 'Settled'),
+    $stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
         function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
             echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $TransactionRow->getAction(), ' => ', $item['TransactionStatus'];
             return true;
