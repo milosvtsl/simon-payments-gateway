@@ -532,6 +532,15 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 
 
+/** Page Buttons **/
+
+.page-buttons {
+    padding: 1em 2em;
+    /* text-align: center; */
+}
+
+.page-buttons .page-button {padding: 1em 3em;margin: 0 1em;border-radius: 0.8em;border: 1px outset;}
+
 
 /** Messages **/
 
