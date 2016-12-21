@@ -183,6 +183,16 @@ class OrderView extends AbstractView
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
+                <div class="page-buttons order-page-buttons hide-on-print">
+                    <button onclick="window.print(); return false;" class="page-button page-button-print">
+                        <div class="menu-icon menu-icon-print" ></div>
+                    </button>
+                    <a href="<?php echo $action_url_pdf; ?>">
+                        <button class="page-button page-button-download">
+                            <div class="menu-icon menu-icon-download" ></div>
+                        </button>
+                    </a>
+                </div>
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
                     <fieldset class="inline-block-on-layout-full" style="min-width: 48%;">
@@ -330,20 +340,6 @@ class OrderView extends AbstractView
                             </tbody>
                         </table>
                     </fieldset>
-
-
-                    <div class="page-buttons order-page-buttons hide-on-print">
-                        <button onclick="window.print(); return false;" class="page-button page-button-print">
-                            <div class="menu-icon menu-icon-print" ></div>
-                        </button>
-                        <a href="<?php echo $action_url_pdf; ?>">
-                            <button class="page-button page-button-download">
-                                <div class="menu-icon menu-icon-download" ></div>
-                            </button>
-                        </a>
-                    </div>
-
-
 
                     <fieldset class="show-on-print" style="clear: both;">
                         <br/>
