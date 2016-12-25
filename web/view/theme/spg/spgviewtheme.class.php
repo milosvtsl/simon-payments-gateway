@@ -54,26 +54,6 @@ class SPGViewTheme extends AbstractViewTheme
             <a href="/" class="logo">
                 <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="">
             </a>
-            <nav class="site-menu hide-on-print">
-
-            <?php if($SessionManager->isLoggedIn()) { ?>
-    <!--            <a href="user/dashboard.php" class="nav-login"><div class="nav-icon nav-dashboard-icon"></div><br /> Dashboard </a>-->
-<!--                <a href="/" class="nav-dashboard" style="float:right;"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
-                <?php if($SessionUser->hasAuthority('ROLE_POST_CHARGE')) { ?>
-<!--                    <a href="order/charge.php" class="nav-charge" style="float:right;">  <div class="menu-icon menu-icon-charge"></div><br/>Charge</a>-->
-                <?php } else { ?>
-<!--                    <a href="/" class="nav-dashboard"><div class="nav-icon nav-dashboard-icon"></div><br/>Dashboard</a>-->
-                <?php } ?>
-
-<!--                <a href="user/logout.php" class="nav-logout" style="float:right;"> <div class="menu-icon menu-icon-logout"></div><br/>Log Out</a>-->
-            <?php } else { ?>
-    <!--            <a href="/" class="nav-login"><div class="nav-icon nav-home-icon"></div><br/> Home</a>-->
-    <!--            <a href="signup.php" class="nav-login"> <div class="nav-icon nav-signup-icon"></div><br/> Signup </a>-->
-<!--                <a href="login.php" class="nav-login" style="float:right;"> <div class="menu-icon menu-icon-login"></div><br/>Login </a>-->
-            <?php } ?>
-
-            </nav>
-
             <hr class="themed hide-on-print" style="clear: both;"/>
         </header>
 

@@ -10,6 +10,7 @@
 
 .spg-theme header.themed {
     background-color: #FFF;
+    min-height: 52px;
 }
 
 
@@ -47,7 +48,7 @@ body.layout-full > article.themed {
 
 .spg-theme > header > a.logo > img {
     width: 12em;
-    margin: -14px 0px 3px -9px;
+    margin: -22px 0px 3px -9px;
     float: left;
 }
 .spg-theme header hr.themed {
@@ -230,7 +231,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme .menu-icon {
     font-size: 9px;
     background: url(img/nav_icons.png?v=2) no-repeat top left;
-    background-size: 16em 20em;
+    background-size: 16em 24em;
     width: 4em;
     height: 4em;
     /* margin: 0px 0px 0px 0px; */
@@ -312,10 +313,10 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
 .spg-theme .menu-icon.menu-icon-account     { background-position: -8em 0;}
 .spg-theme .menu-icon.menu-icon-list        { background-position: -4em -16em;}
-.spg-theme .menu-icon.menu-icon-report      { background-position: -4em -16em;}
+.spg-theme .menu-icon.menu-icon-report      {background-position: -8em -12em;}
 .spg-theme .menu-icon.menu-icon-batch       { background-position: -12em -12em;}
 .spg-theme .menu-icon.menu-icon-transaction { background-position: -12em -8em;}
-.spg-theme .menu-icon.menu-icon-subscription{ background-position: -12em -12em;}
+.spg-theme .menu-icon.menu-icon-subscription{background-position: 0em -20em;}
 .spg-theme .menu-icon.menu-icon-merchant    { background-position: -12em 0;}
 .spg-theme .menu-icon.menu-icon-user        { background-position: -8em -8em;}
 .spg-theme .menu-icon.menu-icon-integration { background-position: -4em -8em;}
@@ -621,7 +622,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme form.themed textarea,
 .spg-theme form.themed button,
 .spg-theme form.themed input {
-    padding: 1.4em 3.6em;
+    padding: 0.4em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
     /* margin: 0 0 0 1em; */
