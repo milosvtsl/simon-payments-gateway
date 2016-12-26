@@ -643,31 +643,9 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme form.themed textarea,
 .spg-theme form.themed button,
 .spg-theme form.themed input {
-    background-color: #6496c8;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 10px #27496d;
-    margin: 0.1em 0.1em;
-    min-width: 80px;
-    text-align: left;
-    border-width: 1px;
-    border-radius: 1px;
-    text-transform: capitalize;
-    background-color: #3a7190;
-    background: linear-gradient(0deg, #3a7190 0%, #3a7190 50%, #3a7190 100%);
-    color: white;
-    cursor: pointer;
-    border-top: 1px solid #CCCCCC;
-    border-right: 1px solid #adabab;
-    border-bottom: 1px solid #adabab;
-    border-left: 1px solid #CCCCCC;
-    box-shadow: 2px 2px 4px #CCC;
-    font-size: .9em;
-    font-weight: normal;
-    text-align: center;
     padding: 0.4em 0.6em;
     border-radius: 0.3em;
-    /* border-width: 1px; */
+    border-width: 1px;
     /* margin: 0 0 0 1em; */
 }
 .spg-theme form.themed select,
@@ -687,16 +665,11 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme button.themed,
 .spg-theme input.button-submit {
     /* background: url('img/bk/input.button.png') repeat-x; */
-    color: #fff;
-    background-color: #6496c8;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 10px #27496d;
     margin: 0.1em 0.1em;
     min-width: 80px;
     text-align: left;
     border-width: 1px;
-    border-radius: 1px;
+    border-radius: 5px;
     text-transform: capitalize;
     background-color: #3a7190;
     background: linear-gradient(0deg, #3a7190 0%, #3a7190 50%, #3a7190 100%);
