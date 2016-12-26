@@ -538,13 +538,13 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme .bread-crumbs > a {
     text-decoration: none;
-    color: #a0b0b9;
+    color: #21455b;
     font-size: .7em;
     /*text-transform: lowercase;*/
     display: inline-block;
-    line-height: 2.2em;
+    /* line-height: 2.2em; */
     /* font-style: italic; */
-    padding: 1.5em;
+    padding: 1.2em;
 }
 
 .spg-theme .bread-crumbs > a:hover {
