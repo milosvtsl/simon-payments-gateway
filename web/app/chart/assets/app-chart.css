@@ -20,8 +20,8 @@
 
 
 .app-chart:hover {
-    box-shadow: 0px 0px 3em rgba(0, 0, 255, 0.44);
-    background: linear-gradient(to bottom, rgba(43, 15, 222, 0.45) 0%, rgba(174, 62, 145, 0.07) 100%);
+    box-shadow: 0px 0px 3em #8adeff;
+    background: linear-gradient(to bottom, #ccd7e6 0%, rgba(174, 62, 145, 0.07) 100%);
 }
 
 .app-chart-amount {

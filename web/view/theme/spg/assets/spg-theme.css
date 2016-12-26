@@ -10,7 +10,7 @@
 
 .spg-theme header.themed {
     background-color: #FFF;
-    min-height: 52px;
+    /* min-height: 52px; */
 }
 
 
@@ -48,7 +48,7 @@ body.layout-full > article.themed {
 
 .spg-theme > header > a.logo > img {
     width: 12em;
-    margin: -22px 0px 3px -9px;
+    margin: -30px 0px 2px -9px;
     float: left;
 }
 .spg-theme header hr.themed {
@@ -521,7 +521,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 /** Bread Crumbs **/
 
 .spg-theme .sub-header {
-    /* border-bottom: 3px solid #ddf1fa; */
+    border-bottom: 1px solid #21455b;
     /* padding: 0.8em 0.5em 0.4em 0.9em; */
     /* margin: -8px 0 0 0; */
     background-color: #e7f0f3;
@@ -529,7 +529,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     min-height: 47px;
     /* display: block; */
     vertical-align: top;
-    /* box-shadow: 0px 0px 2px #222; */
+    box-shadow: 0px 2px 2px #fefefe;
 }
 
 .spg-theme .bread-crumbs {
