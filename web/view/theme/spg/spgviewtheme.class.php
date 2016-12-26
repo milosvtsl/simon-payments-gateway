@@ -129,7 +129,7 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks($flags=0) {
-        $v = '?v=3';
+        $v = '?v=4';
         if(in_array(strtolower(@$_SERVER['SERVER_NAME']), array('localhost')))
             $v = '';
 
