@@ -115,7 +115,7 @@ body.layout-full > article.themed {
 /** Page Menu **/
 
 .spg-theme ul.page-menu {
-    padding: 0 0;
+    padding: 0 4px;
     margin: 0 0;
     /* max-width: 0; */
     display: inline-block;
@@ -284,13 +284,13 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 .spg-theme .sub-header .menu-button-toggle {
     display: inline-block;
-    padding: 0px 6px 0px 6px;
+    padding: 0px 0px 0px 10px;
 }
 
 .spg-theme .sub-header .menu-button-account {
     /* height: 47px; */
     /* width: 52px; */
-    padding: 0px 3px 0px 3px;
+    padding: 0px 3px 0px 0px;
 }
 
 
@@ -528,30 +528,32 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* position: relative; */
     /* min-height: 38px; */
     /* display: block; */
-    vertical-align: top;
     box-shadow: 0px 2px 2px #fefefe;
 }
 
+.spg-theme .sub-header > * {
+    vertical-align: middle;
+}
+
 .spg-theme .bread-crumbs {
-    position: absolute;
+    /* display: inline-block; */
 }
 
 .spg-theme .bread-crumbs > a {
     text-decoration: none;
     color: #21455b;
-    font-size: .7em;
+    font-size: 0.9em;
     /*text-transform: lowercase;*/
     display: inline-block;
-    /* line-height: 2.2em; */
     /* font-style: italic; */
-    padding: 1.2em;
+    padding: 0.4em;
+    border-radius: 4px;
 }
 
 .spg-theme .bread-crumbs > a:hover {
     background-color: #b6ccda;
     font-weight: bold;
 }
-
 
 
 /** Page Buttons **/
