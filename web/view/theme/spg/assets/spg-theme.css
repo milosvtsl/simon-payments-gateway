@@ -367,14 +367,24 @@ body.layout-vertical.spg-theme nav.page-menu {
     font-size: 16px;
     text-decoration: none;
 }
+.spg-theme .app-button.large {
+    font-size: 32px;
+}
+.spg-theme .app-button.small {
+    font-size: 16px;
+}
 
-.spg-theme .app-button.app-button-up        { background-position: -1em 0em; }
-.spg-theme .app-button.app-button-down      { background-position: -2em 0em;}
-.spg-theme .app-button.app-button-top       { background-position: -3em 0em;}
-.spg-theme .app-button.app-button-bottom    { background-position: 0em -1em; }
-.spg-theme .app-button.app-button-config    { background-position: 0em 0em; }
-.spg-theme .app-button.app-button-remove    { background-position: -1em -1em; }
-.spg-theme .app-button.app-button-edit      {background-position: -3em -1em;}
+.spg-theme .app-button.app-button-up            { background-position: -1em 0em; }
+.spg-theme .app-button.app-button-down          { background-position: -2em 0em;}
+.spg-theme .app-button.app-button-top           { background-position: -3em 0em;}
+.spg-theme .app-button.app-button-bottom        { background-position: 0em -1em; }
+.spg-theme .app-button.app-button-config        { background-position: 0em 0em; }
+.spg-theme .app-button.app-button-remove        { background-position: -1em -1em; }
+.spg-theme .app-button.app-button-edit          { background-position: -3em -1em; }
+.spg-theme .app-button.app-button-search        { background-position: -3em -1em; }
+.spg-theme .app-button.app-button-fullscreen    { background-position: -3em -1em; }
+.spg-theme .app-button.app-button-print         {background-position: -1em -2em;}
+.spg-theme .app-button.app-button-download      {background-position: -4em -1em;}
 
 .spg-theme .app-button-config {
 
@@ -563,7 +573,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* text-align: center; */
 }
 
-.page-buttons .page-button {/* padding: 1em 3em; */margin: 0 1em;border-radius: 0.8em;border: 1px outset;}
+.page-buttons .page-button {padding: 1em 3em;margin: 0 1em;border-radius: 0.8em;border: 1px outset;cursor: pointer;}
 
 
 /** Messages **/

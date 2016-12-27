@@ -185,11 +185,11 @@ class OrderView extends AbstractView
 
                 <div class="page-buttons order-page-buttons hide-on-print">
                     <button onclick="window.print(); return false;" class="page-button page-button-print">
-                        <div class="menu-icon menu-icon-print" ></div>
+                        <div class="app-button large app-button-print" ></div>
                     </button>
                     <a href="<?php echo $action_url_pdf; ?>">
                         <button class="page-button page-button-download">
-                            <div class="menu-icon menu-icon-download" ></div>
+                            <div class="app-button large app-button-download" ></div>
                         </button>
                     </a>
                 </div>
