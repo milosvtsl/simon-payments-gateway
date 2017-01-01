@@ -371,7 +371,7 @@ class ChargeView extends AbstractView
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">First Recur Date</td>
-                                <td><input type="date" name="recur_next_date" required="required"/></td>
+                                <td><input type="date" name="recur_next_date" required="required" style="max-width: 10em;"/></td>
                             </tr>
                         </table>
 
