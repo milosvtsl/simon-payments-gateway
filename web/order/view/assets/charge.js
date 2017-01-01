@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         var entry_mode = form.entry_mode.value.toLowerCase();
 
-        form.classList[form.merchant_id.value ? 'add' : 'remove']('merchant-selected');
+        // form.classList[form.merchant_id.value ? 'add' : 'remove']('merchant-selected');
         form.classList[form.entry_mode.value ? 'add' : 'remove']('payment-method-selected');
         form.classList.remove('payment-method-keyed', 'payment-method-swipe', 'payment-method-check', 'payment-method-card');
         form.classList.add('payment-method-' + entry_mode);
@@ -191,23 +191,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 break;
         }
 
-        if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
-            console.log("Merchant: ", form.merchant_id.selectedIndex);
-            if(form.merchant_id.selectedIndex === -1)
-                form.merchant_id.selectedIndex = 0;
-            var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
-            //formClasses += ' ' + selectedOption.getAttribute('data-form-class');
-            form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
-            form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
-            form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
-            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
-
-//             console.log("Merchant: ", form.merchant_id.value, formClasses);
-
-        } else {
-
-        }
-        //form.setAttribute('class', formClasses);
 
         // Disable unused payment methods
         switch(form.entry_mode.value.toLowerCase()) {
