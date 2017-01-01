@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    setTimeout(function() {
-        var forms = document.getElementsByName('form-transaction-charge');
-        for (var i = 0; i < forms.length; i++) {
-            var form = forms[i];
-            var e = {target: form};
-            updateChargeForm(e, form);
-        }
-    }, 200);
+    // setTimeout(function() {
+    //     var forms = document.getElementsByName('form-transaction-charge');
+    //     for (var i = 0; i < forms.length; i++) {
+    //         var form = forms[i];
+    //         var e = {target: form};
+    //         updateChargeForm(e, form);
+    //     }
+    // }, 200);
 
     var charHistory = '';
     var lastParseData = false;
@@ -128,11 +128,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.card_number.value = lastParseData.card_number;
             form.payee_first_name.value = lastParseData.payee_first_name;
             form.payee_last_name.value = lastParseData.payee_last_name;
-            form.customer_first_name.value = lastParseData.payee_first_name;
-            form.customer_last_name.value = lastParseData.payee_last_name;
-
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
+
+            if(!form.customer_first_name.value)
+                form.customer_first_name.value = lastParseData.payee_first_name;
+            if(!form.customer_last_name.value)
+                form.customer_last_name.value = lastParseData.payee_last_name;
         }
 
         clearTimeout(amount_timeout);

@@ -22,20 +22,25 @@ class ChargeView extends AbstractView
     /** @var MerchantFormRow */
     private $form;
 
-    public function __construct($formUID=null, $category=null)    {
+    public function __construct($formUID=null)    {
         if($formUID) {
             $OrderForm = MerchantFormRow::fetchByUID($formUID);
         } else {
-            $OrderForm = MerchantFormRow::fetchGlobalForm($category);
+            $OrderForm = MerchantFormRow::fetchGlobalForm();
         }
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-            if($OrderForm->getMerchantID() !== null) {
+        if($OrderForm->getMerchantID() !== null) {
+            if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
                 if(!in_array($OrderForm->getMerchantID(), $SessionUser->getMerchantList()))
                     throw new Exception("Invalid authorization to use form uid: " . $OrderForm->getUID());
             }
+        } else {
+            // Assign the first merchant id from the user's list
+            $list = $SessionUser->getMerchantList();
+            if(sizeof($list)>0)
+                $OrderForm->setMerchantID($list[0]);
         }
 
         $this->form = $OrderForm;
@@ -44,6 +49,9 @@ class ChargeView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         $OrderForm = $this->form;
+        if(!$OrderForm->getMerchantID())
+            throw new Exception("Merchant ID not selected");
+        $MerchantRow = MerchantRow::fetchByID($OrderForm->getMerchantID());
 
         // Render Page
         $odd = false;
@@ -68,7 +76,11 @@ class ChargeView extends AbstractView
 
                 <?php if($this->hasMessage()) echo "<h5 class='info'>", $this->getMessage(), "</h5>"; ?>
 
-                <form name="form-transaction-charge" class="<?php echo $OrderForm->getFormClasses(); ?> themed" method="POST">
+                <form name="form-transaction-charge" class="<?php echo $OrderForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed" method="POST">
+                    <input type="hidden" name="convenience_fee_flat" value="<?php echo $MerchantRow->getConvenienceFeeFlat(); ?>" />
+                    <input type="hidden" name="convenience_fee_limit" value="<?php echo $MerchantRow->getConvenienceFeeLimit(); ?>" />
+                    <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $MerchantRow->getConvenienceFeeVariable(); ?>" />
+                    <input type="hidden" name="merchant_id" value="<?php echo $MerchantRow->getID(); ?>" />
                     <input type="hidden" name="merchant_form_id" value="<?php echo $OrderForm->getID(); ?>" />
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:48%; ">
@@ -97,12 +109,12 @@ class ChargeView extends AbstractView
                                         title="Select a charge form template">
                                         <?php
 
-                                        if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-                                            echo '<option value="">Choose an Order Form (as Admin ', $SessionUser->getUsername(), ')</option>';
-                                            $MerchantFormQuery = MerchantFormRow::queryAll();
-                                        } else {
-                                            $MerchantFormQuery = MerchantFormRow::queryByUserID($SessionUser->getID());
-                                        }
+//                                        if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+//                                            echo '<option value="">Choose an Order Form (as Admin ', $SessionUser->getUsername(), ')</option>';
+//                                            $MerchantFormQuery = MerchantFormRow::queryAll();
+//                                        } else {
+                                            $MerchantFormQuery = MerchantFormRow::queryAvailableForms($SessionUser->getID());
+//                                        }
                                         foreach ($MerchantFormQuery as $Form) {
                                             echo "\n\t\t\t\t\t\t\t<option",
                                             " value='", $Form->getID(), "'>",
@@ -112,73 +124,6 @@ class ChargeView extends AbstractView
                                         ?>
                                     </select>
                                 </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-
-                    <fieldset class="inline-block-on-layout-full" style="min-width:48%; height: 26em;">
-                        <div class="legend">Customer Fields</div>
-                        <table class="table-transaction-charge themed" style="float: left;">
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                                <td class="name">Payment Amount</td>
-                                <td>
-                                    <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required autofocus/>
-                                </td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Customer Name</td>
-                                <td>
-                                    <input type="text" name="customer_first_name" placeholder="First Name" size="12" />
-                                    <input type="text" name="customermi" placeholder="MI" size="1" /> <br/>
-                                    <input type="text" name="customer_last_name" placeholder="Last Name" size="12" />
-                                </td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Email</td>
-                                <td><input type="text" name="payee_reciept_email" placeholder="xxx@xxx.xxx" /></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Phone</td>
-                                <td><input type="text" name="payee_phone_number" placeholder="xxx-xxx-xxxx" /></td>
-                            </tr>
-
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Billing Address</td>
-                                <td>
-                                    <input type="text" name="payee_address" placeholder="Address" />
-                                    <br/>
-                                    <input type="text" name="payee_address2" placeholder="Address #2" />
-                                </td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Billing Zip/State</td>
-                                <td>
-                                    <input type="text" name="payee_zipcode" placeholder="ZipCode" size="6" class="zip-lookup-field-zipcode" />
-                                    <select name="payee_state" style="width: 7em;" class='zip-lookup-field-state-short' title="Billing State">
-                                        <option value="">State</option>
-                                        <?php
-                                        foreach(Locations::$STATES as $code => $name)
-                                            echo "\n\t<option value='", $code, "' ",
-        //                                        ($code === @$LASTPOST['payee_state'] ? ' selected="selected"' : ''),
-                                            ">", $name, "</option>";
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Billing City</td>
-                                <td>
-                                    <input type="text" name="payee_city" size="10" placeholder="City" class='zip-lookup-field-city-title-case' />
-                                </td>
-                            </tr>
-
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Customer&nbsp;ID#</td>
-                                <td><input type="text" name="customer_id" placeholder="Optional Customer ID" /></td>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Invoice&nbsp;ID#</td>
-                                <td><input type="text" name="invoice_number" placeholder="Optional Invoice Number" /></td>
                             </tr>
                         </table>
                     </fieldset>
@@ -318,8 +263,75 @@ class ChargeView extends AbstractView
                         </table>
                     </fieldset>
 
+                    <fieldset class="inline-block-on-layout-full" style="min-width:48%; height: 26em;">
+                        <div class="legend">Customer Fields</div>
+                        <table class="table-transaction-charge themed" style="float: left;">
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                                <td class="name">Payment Amount</td>
+                                <td>
+                                    <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required autofocus/>
+                                </td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Customer Name</td>
+                                <td>
+                                    <input type="text" name="customer_first_name" placeholder="First Name" size="12" />
+                                    <input type="text" name="customermi" placeholder="MI" size="1" /> <br/>
+                                    <input type="text" name="customer_last_name" placeholder="Last Name" size="12" />
+                                </td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Email</td>
+                                <td><input type="text" name="payee_reciept_email" placeholder="xxx@xxx.xxx" /></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Phone</td>
+                                <td><input type="text" name="payee_phone_number" placeholder="xxx-xxx-xxxx" /></td>
+                            </tr>
 
-                    <fieldset class="inline-block-on-layout-full show-on-payment-method-selected" style="clear: both; min-width: 98.7%;">
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Billing Address</td>
+                                <td>
+                                    <input type="text" name="payee_address" placeholder="Address" />
+                                    <br/>
+                                    <input type="text" name="payee_address2" placeholder="Address #2" />
+                                </td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Billing Zip/State</td>
+                                <td>
+                                    <input type="text" name="payee_zipcode" placeholder="ZipCode" size="6" class="zip-lookup-field-zipcode" />
+                                    <select name="payee_state" style="width: 7em;" class='zip-lookup-field-state-short' title="Billing State">
+                                        <option value="">State</option>
+                                        <?php
+                                        foreach(Locations::$STATES as $code => $name)
+                                            echo "\n\t<option value='", $code, "' ",
+                                                //                                        ($code === @$LASTPOST['payee_state'] ? ' selected="selected"' : ''),
+                                            ">", $name, "</option>";
+                                        ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Billing City</td>
+                                <td>
+                                    <input type="text" name="payee_city" size="10" placeholder="City" class='zip-lookup-field-city-title-case' />
+                                </td>
+                            </tr>
+
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Customer&nbsp;ID#</td>
+                                <td><input type="text" name="customer_id" placeholder="Optional Customer ID" /></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Invoice&nbsp;ID#</td>
+                                <td><input type="text" name="invoice_number" placeholder="Optional Invoice Number" /></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+
+
+                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 98.7%;">
                         <div class="legend">Submit Payment</div>
 
 

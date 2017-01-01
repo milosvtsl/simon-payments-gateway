@@ -63,6 +63,8 @@ FROM merchant_form mf
     public function getMerchantID()     { return $this->merchant_id; }
     public function getMerchantName()   { return $this->merchant_name; }
 
+    public function setMerchantID($id)  { $this->merchant_id = $id; }
+    
     // Static
 
     public static function fetchByID($id) {
@@ -116,19 +118,20 @@ FROM merchant_form mf
     }
 
     /**
-     * @param $id
+     * @param $userID
      * @return MerchantFormRow[] | \PDOStatement
      * @throws \Exception
      */
-    public static function queryByUserID($id) {
+    public static function queryAvailableForms($userID) {
         $sql = static::SQL_SELECT
             . "\nLEFT JOIN user_merchants um on mf.merchant_id = um.id_merchant "
-            . "\nWHERE um.id_user = ?";
+            . "\nWHERE um.id_user = ? OR mf.merchant_id is NULL"
+            . "\nORDER BY mf.merchant_id desc, mf.id desc";
         $DB = DBConfig::getInstance();
         $MerchantFormQuery = $DB->prepare($sql);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $MerchantFormQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $MerchantFormQuery->execute(array($id));
+        $MerchantFormQuery->execute(array($userID));
         return $MerchantFormQuery;
     }
     
