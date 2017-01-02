@@ -123,13 +123,17 @@ class ChargeView extends AbstractView
 //                                        }
                                         foreach ($MerchantFormQuery as $Form) {
                                             echo "\n\t\t\t\t\t\t\t<option",
-//                                            ($Form->getID() === $OrderForm->getID() ? ' selected' : ''),
-                                            " value='?form_uid=", $Form->getUID(), "&merchant_id=", $MerchantRow->getID() ,"'>",
+                                            ($Form->getID() === $OrderForm->getID() ? ' selected="selected" value=""' :
+                                            " value='?form_uid=" . $Form->getUID() . "&merchant_id=" . $MerchantRow->getID() . "'"),
+                                            ">",
                                                 $Form->getTitle(),
                                             "</option>";
                                         }
                                         ?>
                                     </select>
+                                    <a href="merchant/form.php?form_id=<?php echo $OrderForm->getID(); ?>" style="float: right; display: inline-block; padding: 2px 8px;">
+                                        <div class="app-button app-button-edit" style="font-size: 24px;"></div>
+                                    </a>
                                 </td>
                             </tr>
                         </table>
