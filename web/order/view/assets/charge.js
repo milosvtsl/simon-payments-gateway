@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     }
 
-    // setTimeout(function() {
-    //     var forms = document.getElementsByName('form-transaction-charge');
-    //     for (var i = 0; i < forms.length; i++) {
-    //         var form = forms[i];
-    //         var e = {target: form};
-    //         updateChargeForm(e, form);
-    //     }
-    // }, 200);
+    setTimeout(function() {
+        var forms = document.getElementsByName('form-transaction-charge');
+        for (var i = 0; i < forms.length; i++) {
+            var form = forms[i];
+            var e = {target: form};
+            updateChargeForm(e, form);
+        }
+    }, 200);
 
     var charHistory = '';
     var lastParseData = false;
@@ -120,6 +120,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var amount_timeout = null;
     function updateChargeForm(e, form) {
+        if(form.change_form_url.value) {
+            document.location.href = document.location.href.split('?')[0] + form.change_form_url.value;
+            return false;
+        }
         updateStyleSheetTheme(form);
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {

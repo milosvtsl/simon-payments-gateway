@@ -72,7 +72,7 @@ class BatchView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage(
-                "<span class='error'>Error: ".$ex->getMessage() . "</span>"
+                "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
             header('Location: /order/batch.php?batch_id=' . $this->batch_id . '&merchant_id='.$this->merchant_id.'&message=' . $ex->getMessage()  . '');
             die();

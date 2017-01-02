@@ -29,5 +29,5 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-$View = new \Order\View\ChargeView();
+$View = new \Order\View\ChargeView(@$_GET['form_uid']);
 $View->handleRequest();

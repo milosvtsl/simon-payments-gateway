@@ -148,7 +148,7 @@ class OrderView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage(
-                "<span class='error'>Error: ".$ex->getMessage() . "</span>"
+                "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
             header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();

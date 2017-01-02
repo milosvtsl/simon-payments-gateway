@@ -31,18 +31,16 @@ FROM merchant_form mf
         self::SORT_BY_NAME,
     );
 
+    const FLAG_RECUR_ENABLED = 'recur_enabled';
+
     protected $id;
     protected $uid;
     protected $merchant_id;
     protected $title;
     protected $classes;
     protected $fields;
-    protected $category;
-    protected $constants;
+    protected $flags;
     protected $created;
-
-    // Table merchant
-    protected $merchant_name;
 
     public function __construct(Array $params=array()) {
         foreach($params as $key=>$param)
@@ -58,12 +56,48 @@ FROM merchant_form mf
     public function getUID()            { return $this->uid; }
     public function getTitle()          { return $this->title; }
     public function getFormClasses()    { return $this->classes; }
-    public function getCategory()       { return $this->category; }
 
     public function getMerchantID()     { return $this->merchant_id; }
-    public function getMerchantName()   { return $this->merchant_name; }
 
-    public function setMerchantID($id)  { $this->merchant_id = $id; }
+    public function getFlagList() {
+        if(!is_array($this->flags)) 
+            $this->flags = json_decode($this->flags, true);
+        return $this->flags;                
+    }
+    public function hasFlag($flag) {
+        $list = $this->getFlagList();
+        return isset($list[$flag]);
+    }
+    public function setFlag($flag, $value=true) {
+        $list = $this->getFlagList();
+        $list[$flag] = $value;
+    }
+    public function getFlag($flag) {
+        $list = $this->getFlagList();
+        return $list[$flag];
+    }
+
+    public function getFieldList() {
+        if(!is_array($this->fields))
+            $this->fields = json_decode($this->fields, true);
+        return $this->fields;
+    }
+    public function hasField($fieldName) {
+        $list = $this->getFieldList();
+        return isset($list[$fieldName]);
+    }
+
+    public function isFieldRequired($fieldName) {
+        $list = $this->getFieldList();
+        return @$list[$fieldName]['required'] ? true : false;
+    }
+
+    public function isRecurAvailable() {
+        return $this->hasFlag(self::FLAG_RECUR_ENABLED);
+    }
+
+
+//    public function setMerchantID($id)  { $this->merchant_id = $id; }
     
     // Static
 
@@ -191,4 +225,3 @@ FROM merchant_form mf
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
 }
-

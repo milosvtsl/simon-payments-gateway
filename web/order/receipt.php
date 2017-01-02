@@ -32,9 +32,9 @@ try {
 //    $View = new \Order\View\OrderListView();
     $View = new \User\View\LoginView();
     $View->setSessionMessage(
-        "<span class='error'>" .
+        "<div class='error'>" .
         $ex->getMessage() .
-        "</span>"
+        "</div>"
     );
 }
 $View->handleRequest();

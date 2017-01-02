@@ -25,9 +25,9 @@ form[name=form-transaction-charge]:not(.merchant-selected) .show-on-merchant-sel
 form[name=form-transaction-charge] .credit-image {
     background: url('img/credit-image.png') no-repeat;
     width: 270px;
-    height: 45px;
+    height: 44px;
     /* border: 1px outset; */
-    margin-top: 0.8em;
+    /* margin-top: 0.8em; */
 }
 
 form[name=form-transaction-charge] .check-image {
@@ -74,15 +74,14 @@ form[name=form-transaction-charge] .conv-fee-pop-up-box {
     display: none;
     position: absolute;
     /* right: 13em; */
+    margin-left: 7em;
     font-size: small;
     /* font-weight: bold; */
-
     background: #333;
     background: rgba(0,0,0,.8);
     border-radius: 5px;
     color: #fff;
     padding: 0.5em 1em;
-
 }
 
 

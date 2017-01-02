@@ -21,6 +21,8 @@ class ChargeView extends AbstractView
 {
     /** @var MerchantFormRow */
     private $form;
+    /** @var MerchantRow */
+    private $merchant;
 
     public function __construct($formUID=null)    {
         if($formUID) {
@@ -28,35 +30,39 @@ class ChargeView extends AbstractView
         } else {
             $OrderForm = MerchantFormRow::fetchGlobalForm();
         }
+        $this->form = $OrderForm;
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if($OrderForm->getMerchantID() !== null) {
+        $merchant_id = $OrderForm->getMerchantID();
+        if($merchant_id !== null) {
             if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-                if(!in_array($OrderForm->getMerchantID(), $SessionUser->getMerchantList()))
-                    throw new Exception("Invalid authorization to use form uid: " . $OrderForm->getUID());
+                if(!in_array($merchant_id, $SessionUser->getMerchantList()))
+                    throw new \Exception("Invalid authorization to use form uid: " . $OrderForm->getUID());
             }
         } else {
             // Assign the first merchant id from the user's list
             $list = $SessionUser->getMerchantList();
-            if(sizeof($list)>0)
-                $OrderForm->setMerchantID($list[0]);
+            if(sizeof($list)==0)
+                throw new \Exception("No merchants assigned to user");
+            $merchant_id = $list[0];
         }
 
-        $this->form = $OrderForm;
-        parent::__construct($OrderForm->getTitle());
+        $this->merchant = MerchantRow::fetchByID($merchant_id);
+        parent::__construct($OrderForm->getTitle() . ' - ' . $this->merchant->getShortName());
     }
 
     public function renderHTMLBody(Array $params) {
+        $MerchantRow = $this->merchant;
+        /** @var MerchantFormRow $OrderForm */
         $OrderForm = $this->form;
-        if(!$OrderForm->getMerchantID())
-            throw new Exception("Merchant ID not selected");
-        $MerchantRow = MerchantRow::fetchByID($OrderForm->getMerchantID());
 
         // Render Page
         $odd = false;
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
+
+        $CUSTOM_FIELDS = array();
 
         $LASTPOST = array();
         if(isset($_SESSION['order/charge.php']))
@@ -64,7 +70,7 @@ class ChargeView extends AbstractView
 
         $Theme = $this->getTheme();
         $Theme->addPathURL('order',               'Transactions');
-        $Theme->addPathURL('order/charge.php',    'New Charge');
+        $Theme->addPathURL('order/charge.php',    $OrderForm->getTitle() . ' - ' . $MerchantRow->getShortName());
         $Theme->renderHTMLBodyHeader();
         $Theme->printHTMLMenu('order-charge');
 
@@ -74,14 +80,14 @@ class ChargeView extends AbstractView
         <article class="themed">
             <section class="content">
 
-                <?php if($this->hasMessage()) echo "<h5 class='info'>", $this->getMessage(), "</h5>"; ?>
+                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
                 <form name="form-transaction-charge" class="<?php echo $OrderForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed" method="POST">
                     <input type="hidden" name="convenience_fee_flat" value="<?php echo $MerchantRow->getConvenienceFeeFlat(); ?>" />
                     <input type="hidden" name="convenience_fee_limit" value="<?php echo $MerchantRow->getConvenienceFeeLimit(); ?>" />
                     <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $MerchantRow->getConvenienceFeeVariable(); ?>" />
                     <input type="hidden" name="merchant_id" value="<?php echo $MerchantRow->getID(); ?>" />
-                    <input type="hidden" name="merchant_form_id" value="<?php echo $OrderForm->getID(); ?>" />
+                    <input type="hidden" name="form_uid" value="<?php echo $OrderForm->getUID(); ?>" />
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:48%; ">
                         <div class="legend">Choose a Payment Method</div>
@@ -104,9 +110,9 @@ class ChargeView extends AbstractView
                         <table class="table-choose-merchant themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
-                                    <select name="form_id" class="" 
-                                        onchange="document.location.url = '<?php echo $action_url; ?>?form_id=' + this.value;"
+                                    <select name="change_form_url" class=""
                                         title="Select a charge form template">
+                                        <option value="">Switch Templates</option>
                                         <?php
 
 //                                        if($SessionUser->hasAuthority('ROLE_ADMIN')) {
@@ -117,7 +123,8 @@ class ChargeView extends AbstractView
 //                                        }
                                         foreach ($MerchantFormQuery as $Form) {
                                             echo "\n\t\t\t\t\t\t\t<option",
-                                            " value='", $Form->getID(), "'>",
+//                                            ($Form->getID() === $OrderForm->getID() ? ' selected' : ''),
+                                            " value='?form_uid=", $Form->getUID(), "&merchant_id=", $MerchantRow->getID() ,"'>",
                                                 $Form->getTitle(),
                                             "</option>";
                                         }
@@ -128,7 +135,7 @@ class ChargeView extends AbstractView
                         </table>
                     </fieldset>
 
-                    <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:48%; height: 26em;">
+                    <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:48%; min-height: 21em;">
                         <div class="legend">Cardholder Information</div>
                         <table class="table-transaction-charge themed">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -146,7 +153,7 @@ class ChargeView extends AbstractView
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">Card Type</td>
                                 <td>
-                                    <select name="card_type" required>
+                                    <select name="card_type" required title="Choose a Card Type">
                                         <option value="">Choose an option</option>
                                         <option title="Visa">Visa</option>
                                         <option title="MasterCard">MasterCard</option>
@@ -162,7 +169,7 @@ class ChargeView extends AbstractView
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">Expiration</td>
                                 <td>
-                                    <select name='card_exp_month' id='expireMM' required>
+                                    <select name='card_exp_month' id='expireMM' required title="Choose a card expiration month">
                                         <option value=''>Month</option>
                                         <option value='01'>January</option>
                                         <option value='02'>February</option>
@@ -177,7 +184,7 @@ class ChargeView extends AbstractView
                                         <option value='11'>November</option>
                                         <option value='12'>December</option>
                                     </select>
-                                    <select name='card_exp_year' id='expireYY' required>
+                                    <select name='card_exp_year' id='expireYY' required title="Choose an expiration year">
                                         <option value=''>Year</option>
                                         <?php for($i=16; $i<64; $i++) { ?>
                                             <option value='<?php echo $i; ?>'>20<?php echo $i; ?></option>
@@ -190,9 +197,8 @@ class ChargeView extends AbstractView
                                     <div class="credit-image"></div>
 
                                         <span style="font-size: x-small; color: grey">
-                                            **The CVV Number ("Card Verification Value") on your<br/>
-                                            credit card or debit card is a 3-4 digit number on <br />
-                                            credit and debit cards.
+                                            **The CVV Number ("Card Verification Value") on your credit card <br/>
+                                            or debit card is a 3-4 digit number on credit and debit cards.
                                         </span>
                                 </td>
                             </tr>
@@ -216,7 +222,7 @@ class ChargeView extends AbstractView
                         </fieldset>
                     </div>
 
-                    <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:48%; height: 26em;">
+                    <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:48%; min-height: 21em;">
                         <div class="legend">e-Check Information</div>
                         <table class="table-transaction-charge themed">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -263,7 +269,7 @@ class ChargeView extends AbstractView
                         </table>
                     </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="min-width:48%; height: 26em;">
+                    <fieldset class="inline-block-on-layout-full" style="min-width:48%; min-height: 21em;">
                         <div class="legend">Customer Fields</div>
                         <table class="table-transaction-charge themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -280,14 +286,18 @@ class ChargeView extends AbstractView
                                     <input type="text" name="customer_last_name" placeholder="Last Name" size="12" />
                                 </td>
                             </tr>
+                            <?php if($OrderForm->hasField('payee_receipt_email')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Email</td>
-                                <td><input type="text" name="payee_reciept_email" placeholder="xxx@xxx.xxx" /></td>
+                                <td><input type="text" name="payee_reciept_email" placeholder="xxx@xxx.xxx" <?php echo $OrderForm->isFieldRequired('payee_receipt_email') ? 'required ' : ''; ?>/></td>
                             </tr>
+                            <?php } ?>
+                            <?php if($OrderForm->hasField('payee_phone_number')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Phone</td>
-                                <td><input type="text" name="payee_phone_number" placeholder="xxx-xxx-xxxx" /></td>
+                                <td><input type="text" name="payee_phone_number" placeholder="xxx-xxx-xxxx" <?php echo $OrderForm->isFieldRequired('payee_phone_number') ? 'required ' : ''; ?> /></td>
                             </tr>
+                            <?php } ?>
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Billing Address</td>
@@ -301,7 +311,7 @@ class ChargeView extends AbstractView
                                 <td class="name">Billing Zip/State</td>
                                 <td>
                                     <input type="text" name="payee_zipcode" placeholder="ZipCode" size="6" class="zip-lookup-field-zipcode" />
-                                    <select name="payee_state" style="width: 7em;" class='zip-lookup-field-state-short' title="Billing State">
+                                    <select name="payee_state" style="width: 7em;" class='zip-lookup-field-state-short' title="Choose a billing state">
                                         <option value="">State</option>
                                         <?php
                                         foreach(Locations::$STATES as $code => $name)
@@ -319,27 +329,30 @@ class ChargeView extends AbstractView
                                 </td>
                             </tr>
 
+                            <?php if($OrderForm->hasField('customer_id')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Customer&nbsp;ID#</td>
-                                <td><input type="text" name="customer_id" placeholder="Optional Customer ID" /></td>
+                                <td><input type="text" name="customer_id" placeholder="Optional Customer ID" <?php echo $OrderForm->isFieldRequired('customer_id') ? 'required ' : ''; ?>/></td>
                             </tr>
+                            <?php } ?>
+
+                            <?php if($OrderForm->hasField('invoice_number')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Invoice&nbsp;ID#</td>
-                                <td><input type="text" name="invoice_number" placeholder="Optional Invoice Number" /></td>
+                                <td><input type="text" name="invoice_number" placeholder="Optional Invoice Number" <?php echo $OrderForm->isFieldRequired('invoice_number') ? 'required ' : ''; ?>/></td>
                             </tr>
+                            <?php } ?>
                         </table>
                     </fieldset>
 
 
-                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 98.7%;">
-                        <div class="legend">Submit Payment</div>
-
-
+                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 48%; min-height: 12em;" <?php echo $OrderForm->isRecurAvailable() ? '' : 'disabled '; ?>>
+                        <div class="legend">Re-bill Schedule</div>
                         <table class="table-transaction-charge themed" style="float: left; width: 48%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Recur Count</td>
+                                <td class="name">Re-bill Count</td>
                                 <td>
-                                    <select name='recur_count' title="The number of times a transaction will rebill">
+                                    <select name='recur_count' title="The number of times an order will automatically re-bill">
                                         <option value="0">Disabled</option>
                                         <?php
                                         for($i=1; $i<=99; $i++)
@@ -351,13 +364,13 @@ class ChargeView extends AbstractView
                                 </td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Recur Amount</td>
+                                <td class="name">Re-bill Amount</td>
                                 <td class="value"><input type="text" name="recur_amount" placeholder="x.xx" size="6" required="required"/></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Recur Frequency</td>
+                                <td class="name">Re-bill Frequency</td>
                                 <td>
-                                    <select name='recur_frequency'>
+                                    <select name='recur_frequency' title="Choose the frequency in which this order will automatically re-bill">
                                         <?php
                                         //                                    if(empty($LASTPOST['recur_frequency']))
                                         //                                        $LASTPOST['recur_frequency'] = 'Monthly';
@@ -370,11 +383,14 @@ class ChargeView extends AbstractView
                                 </td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">First Recur Date</td>
+                                <td class="name">First Re-bill Date</td>
                                 <td><input type="date" name="recur_next_date" required="required" style="max-width: 10em;"/></td>
                             </tr>
                         </table>
+                    </fieldset>
 
+                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 48%; min-height: 12em;">
+                        <div class="legend">Submit Order</div>
                         <table class="table-transaction-charge themed" style="width: 48%;">
                             <!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
                             <!--                            <td class="name">Convenience Fee</td>-->
@@ -482,7 +498,7 @@ class ChargeView extends AbstractView
 
         } catch (\Exception $ex) {
             $this->setSessionMessage(
-                "<span class='error'>Error: " . $ex->getMessage() . "</span>"
+                "<div class='error'>Error: " . $ex->getMessage() . "</div>"
             );
             header('Location: /order/charge.php');
             if($Order)
