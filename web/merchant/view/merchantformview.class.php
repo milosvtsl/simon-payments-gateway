@@ -157,12 +157,12 @@ HEAD;
                     <input type="hidden" name="id" value="<?php echo $Form->getID(); ?>" />
                     <input type="hidden" name="action" value="edit" />
                     <fieldset>
-                        <div class="legend">Customize Fields for Form #<?php echo $Form->getUID(); ?></div>
+                        <div class="legend">Customize Fields for Order Page Template #<?php echo $Form->getUID(); ?></div>
 
                         <?php $odd = false; ?>
                         <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
                             <tr>
-                                <th colspan="2">Order Form Information</th>
+                                <th colspan="2">Template Information</th>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>
@@ -195,8 +195,8 @@ HEAD;
                             </tr>
                             <tr >
                                 <td colspan="2">
-                                    <input type="submit" value="Update" class="themed"/>
-                                    <input type="reset" value="Reset" class="themed"/>
+                                    <input type="submit" value="Update Template" class="themed"/>
+                                    <input type="reset" value="Reset Form" class="themed"/>
                                 </td>
                             </tr>
                         </table>
