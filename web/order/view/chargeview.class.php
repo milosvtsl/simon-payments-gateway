@@ -67,10 +67,13 @@ class ChargeView extends AbstractView
             $LASTPOST = $_SESSION['order/charge.php'];
 
         $Theme = $this->getTheme();
-        $Theme->addPathURL('order',               'Transactions');
-        $Theme->addPathURL('order/charge.php',    $OrderForm->getTitle() . ' - ' . $MerchantRow->getShortName());
         $Theme->renderHTMLBodyHeader();
-        $Theme->printHTMLMenu('order-charge');
+
+        if(!@$params['iframe']) {
+            $Theme->addPathURL('order',               'Transactions');
+            $Theme->addPathURL('order/charge.php',    $OrderForm->getTitle() . ' - ' . $MerchantRow->getShortName());
+            $Theme->printHTMLMenu('order-charge');
+        }
 
         $action_url = 'order/charge.php';
 
@@ -462,9 +465,9 @@ class ChargeView extends AbstractView
         </script>
         <?php
         }
-        $Theme->renderHTMLBodyFooter();
 
-
+        if(!@$params['iframe'])
+            $Theme->renderHTMLBodyFooter();
     }
 
     public function processFormRequest(Array $post) {

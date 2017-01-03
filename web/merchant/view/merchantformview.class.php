@@ -159,8 +159,50 @@ HEAD;
                     <fieldset>
                         <div class="legend">Customize Fields for Order Page Template #<?php echo $Form->getUID(); ?></div>
 
+
                         <?php $odd = false; ?>
-                        <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
+                        <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%">
+                            <tbody>
+                            <tr>
+                                <th>Display Name</th>
+                                <th>Enabled</th>
+                                <th>Required</th>
+                                <th>Field</th>
+                            </tr>
+                            <?php
+                            // TODO: add additional field select
+                            foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                ?>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td><input type="text" name="field[<?php echo $field; ?>][name]" value="<?php echo $Form->getCustomFieldName($field, $title); ?>" placeholder="<?php echo $title; ?>" size="12" /></td>
+                                    <td>
+                                        <label style="display: block; text-align: center;"><input type="checkbox" name="field[<?php echo $field; ?>][enabled]" <?php echo $Form->hasField($field) ? ' checked' : '' ?> /></label>
+                                    </td>
+                                    <td>
+                                        <label style="display: block; text-align: center;"><input type="checkbox" name="field[<?php echo $field; ?>][required]" <?php echo $Form->isFieldRequired($field) ? ' checked' : '' ?> /></label>
+                                    </td>
+                                    <td><?php echo $field; ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td colspan="4">
+                                    <?php
+                                    // TODO: add additional field select
+                                    foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                        ?>
+
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <?php $odd = false; ?>
+                        <table class="table-merchant-info themed small striped-rows" style="width: 49%;">
                             <tr>
                                 <th colspan="2">Template Information</th>
                             </tr>
@@ -200,35 +242,11 @@ HEAD;
                                 </td>
                             </tr>
                         </table>
+                    </fieldset>
 
-                        <?php $odd = false; ?>
-                        <table class="table-merchant-info themed small striped-rows" style="width: 49%">
-                        <tbody>
-                            <tr>
-                                <th>Display Name</th>
-                                <th>Enabled</th>
-                                <th>Required</th>
-                                <th>Field</th>
-                            </tr>
-                            <?php
-                            // TODO: add additional field select
-                            foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
-                                ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td><input type="text" name="field[<?php echo $field; ?>][name]" value="<?php echo $Form->getCustomFieldName($field, $title); ?>" placeholder="<?php echo $title; ?>" size="12" /></td>
-                                    <td>
-                                        <label style="display: block; text-align: center;"><input type="checkbox" name="field[<?php echo $field; ?>][enabled]" <?php echo $Form->hasField($field) ? ' checked' : '' ?> /></label>
-                                    </td>
-                                    <td>
-                                        <label style="display: block; text-align: center;"><input type="checkbox" name="field[<?php echo $field; ?>][required]" <?php echo $Form->isFieldRequired($field) ? ' checked' : '' ?> /></label>
-                                    </td>
-                                    <td><?php echo $field; ?></td>
-                                </tr>
-                                <?php
-                            }
-                            ?>
-                            </tbody>
-                        </table>
+                    <fieldset>
+                        <div class="legend">Preview Order Page Template #<?php echo $Form->getUID(); ?></div>
+                        <iframe src="order/charge.php?iframe=1&disabled=1" style="width: 99%; min-height: 56em; opacity: 0.5;"></iframe>
                     </fieldset>
                 </form>
             </section>
