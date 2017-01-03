@@ -62,8 +62,6 @@ class ChargeView extends AbstractView
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
-        $CUSTOM_FIELDS = array();
-
         $LASTPOST = array();
         if(isset($_SESSION['order/charge.php']))
             $LASTPOST = $_SESSION['order/charge.php'];
@@ -131,7 +129,7 @@ class ChargeView extends AbstractView
                                         }
                                         ?>
                                     </select>
-                                    <a href="merchant/form.php?form_id=<?php echo $OrderForm->getID(); ?>" style="float: right; display: inline-block; padding: 2px 8px;">
+                                    <a href="merchant/form.php?id=<?php echo $OrderForm->getID(); ?>" style="float: right; display: inline-block; padding: 2px 8px;">
                                         <div class="app-button app-button-edit" style="font-size: 24px;"></div>
                                     </a>
                                 </td>

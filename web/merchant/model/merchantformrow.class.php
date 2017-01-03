@@ -16,7 +16,7 @@ class MerchantFormRow
     const TABLE_NAME = 'merchant_form';
 
     const SORT_BY_ID                = 'mf.id';
-    const SORT_BY_NAME              = 'mf.name';
+    const SORT_BY_TITLE             = 'mf.title';
 
     const SQL_SELECT = "
 SELECT mf.*
@@ -28,10 +28,30 @@ FROM merchant_form mf
 
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,
-        self::SORT_BY_NAME,
+        self::SORT_BY_TITLE,
     );
 
     const FLAG_RECUR_ENABLED = 'recur_enabled';
+    public static $AVAILABLE_FIELDS = array(
+        // Built In
+        'customer_id' => 'Customer ID',
+        'username' => 'Username',
+        'invoice_number' => 'Invoice #',
+
+        // Custom
+        'case_number' => 'Case #',
+        'citation_number' => 'Citation #',
+        'time_pay_number' => 'Time Pay #',
+        'defendant_number' => 'Defendant #',
+        'docket_number' => 'Docket #',
+        'social_security_number' => 'S.S.N.',
+
+        'birth_date' => 'D.O.B.',
+        'court_date' => 'Court Date',
+
+        'notes_text' => 'Notes',
+        'plea_text' => 'Plea',
+    );
 
     protected $id;
     protected $uid;
@@ -46,6 +66,7 @@ FROM merchant_form mf
         foreach($params as $key=>$param)
             $this->$key = $param;
     }
+
 
 
     public function __set($key, $value) {
@@ -96,10 +117,18 @@ FROM merchant_form mf
         return $this->hasFlag(self::FLAG_RECUR_ENABLED);
     }
 
-
+    public function getCustomFieldName($fieldName, $defaultName=null) {
+        $list = $this->getFieldList();
+        return @$list[$fieldName]['name'] ?: $defaultName;
+    }
+    
 //    public function setMerchantID($id)  { $this->merchant_id = $id; }
     
     // Static
+
+    public static function getAvailableFields() {
+        return self::$AVAILABLE_FIELDS;
+    }
 
     public static function fetchByID($id) {
         return self::fetchByField('id', $id);
@@ -224,4 +253,5 @@ FROM merchant_form mf
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
+
 }

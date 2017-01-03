@@ -16,9 +16,6 @@ use View\AbstractView;
 
 class MerchantView extends AbstractView
 {
-    const VIEW_PATH = 'integration';
-    const VIEW_NAME = 'Integration';
-
     private $_merchant;
     private $_action;
 
