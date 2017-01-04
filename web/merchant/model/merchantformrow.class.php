@@ -123,7 +123,66 @@ FROM merchant_form mf
     }
     
 //    public function setMerchantID($id)  { $this->merchant_id = $id; }
-    
+
+
+    public function updateFields($post) {
+        $sqlSet = "\n`title` = :title ";
+        $params = array(
+            ':title' => $post['title'],
+        );
+
+        // Set Flags
+        $flags = '';
+        foreach($post['flags'] as $value)
+            $flags[]= preg_replace('/[^a-z0-9_-]+/', '', $value);
+        $params[':flags'] = implode(';', $flags);
+        $sqlSet .= ",\n `flags` = :flags";
+
+        // Set Classes
+        $classes = '';
+        foreach($post['classes'] as $value)
+            $classes[]= preg_replace('/[^a-z0-9_-]+/', '', $value);
+        $params[':classes'] = implode(';', $classes);
+        $sqlSet .= ",\n `classes` = :classes";
+
+
+        // Set Fields
+
+        $fields = array(); // json_decode($this->fields, true);
+        foreach($post['fields'] as $field => $value) {
+            $field = preg_replace('/[^a-z0-9_-]+/', '', $field);
+            $fields[$field] = array();
+            $defaultName = MerchantFormRow::$AVAILABLE_FIELDS[$field];
+            if(!$defaultName)
+                continue;
+
+            if(empty($value['enabled']) && empty($value['required'])) {
+                unset($fields[$field]);
+                continue;
+            }
+            if($value['name'] !== $defaultName)     $fields[$field]['name'] = $value['name'];
+            else                                    unset($fields[$field]['name']);
+
+            if(!empty($value['required']))      $fields[$field]['required'] = 1;
+            else                                unset($fields[$field]['required']);
+        }
+        $params[':fields'] = json_encode($fields, JSON_PRETTY_PRINT);
+        $sqlSet .= ",\n `fields` = :fields";
+
+
+        $sql = "UPDATE " . self::TABLE_NAME . " SET " . $sqlSet . "\nWHERE id=:id";
+        $params[':id'] = $this->getID();
+
+//        print_r($post);
+//        print_r($params);
+//        die($sql);
+
+        $DB = DBConfig::getInstance();
+        $EditQuery = $DB->prepare($sql);
+        $EditQuery->execute($params);
+        return $EditQuery->rowCount();
+    }
+
     // Static
 
     public static function getAvailableFields() {

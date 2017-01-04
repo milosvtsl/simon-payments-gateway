@@ -124,8 +124,8 @@ class MerchantFormListView extends AbstractListView {
 							$odd = false;
 							foreach($this->getListQuery() as $Form) { ?>
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-									<td><a href='merchant/form.php?id=<?php echo $Form->getID(); ?>'><?php echo $Form->getID(); ?></a></td>
-									<td><a href='merchant/form.php?id=<?php echo $Form->getID(); ?>'><?php echo $Form->getTitle(); ?></a></td>
+									<td><a href='merchant/form.php?uid=<?php echo $Form->getUID(); ?>'><?php echo $Form->getID(); ?></a></td>
+									<td><a href='merchant/form.php?uid=<?php echo $Form->getUID(); ?>'><?php echo $Form->getTitle(); ?></a></td>
 									<td><?php echo $Form->getUID(); ?></td>
 								</tr>
 							<?php } ?>

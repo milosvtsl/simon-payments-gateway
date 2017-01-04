@@ -29,8 +29,8 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-if(!empty($_GET['id'])) {
-    $View = new \Merchant\View\MerchantFormView($_GET['id'], @$_GET['action']);
+if(!empty($_GET['uid'])) {
+    $View = new \Merchant\View\MerchantFormView($_GET['uid'], @$_GET['action']);
     $View->handleRequest();
 
 } else {
