@@ -337,16 +337,30 @@ class ChargeView extends AbstractView
                             <?php if($OrderForm->hasField('customer_id')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Customer&nbsp;ID#</td>
-                                <td><input type="text" name="customer_id" placeholder="Optional Customer ID" <?php echo $OrderForm->isFieldRequired('customer_id') ? 'required ' : ''; ?>/></td>
+                                <td><input type="text" name="customer_id" placeholder="Customer ID" <?php echo $OrderForm->isFieldRequired('customer_id') ? 'required ' : ''; ?>/></td>
                             </tr>
                             <?php } ?>
 
                             <?php if($OrderForm->hasField('invoice_number')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Invoice&nbsp;ID#</td>
-                                <td><input type="text" name="invoice_number" placeholder="Optional Invoice Number" <?php echo $OrderForm->isFieldRequired('invoice_number') ? 'required ' : ''; ?>/></td>
+                                <td><input type="text" name="invoice_number" placeholder="Invoice Number" <?php echo $OrderForm->isFieldRequired('invoice_number') ? 'required ' : ''; ?>/></td>
                             </tr>
                             <?php } ?>
+
+
+                            <?php
+                                foreach($OrderForm->getAllCustomFields(false) as $field) {
+                                    $title = $OrderForm->getCustomFieldName($field);
+                                    ?>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name"><?php echo $title; ?></td>
+                                <td><input type="text" name="<?php echo $field; ?>" placeholder="<?php echo $title; ?>" <?php echo $OrderForm->isFieldRequired($field) ? 'required ' : ''; ?>/></td>
+                            </tr>
+                                    <?php
+                                }
+                            ?>
+
                         </table>
                     </fieldset>
 

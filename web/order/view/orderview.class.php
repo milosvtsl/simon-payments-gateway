@@ -98,7 +98,7 @@ class OrderView extends AbstractView
                 case 'cancel':
                     $message = "Canceled by " . $SessionUser->getUsername();
                     $Subscription = SubscriptionRow::fetchByID($Order->getSubscriptionID());
-                    $MerchantIdentity->cancelSubscription($Subscription, $message);
+                    $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
@@ -110,7 +110,7 @@ class OrderView extends AbstractView
                     if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
                         throw new Exception("Invalid Authority to Void Charges");
 
-                    $Transaction = $MerchantIdentity->voidTransaction($Order, $post);
+                    $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
@@ -119,10 +119,10 @@ class OrderView extends AbstractView
                     die();
 
                 case 'return':
-                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
+                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
                         throw new Exception("Invalid Authority to Return Charges");
 
-                    $Transaction = $MerchantIdentity->returnTransaction($Order, $post);
+                    $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
@@ -131,10 +131,10 @@ class OrderView extends AbstractView
                     die();
 
                 case 'reverse':
-                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
+                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
                         throw new Exception("Invalid Authority to Return Charges");
 
-                    $Transaction = $MerchantIdentity->reverseTransaction($Order, $post);
+                    $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
                         "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"

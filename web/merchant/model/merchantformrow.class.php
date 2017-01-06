@@ -124,6 +124,11 @@ FROM merchant_form mf
     
 //    public function setMerchantID($id)  { $this->merchant_id = $id; }
 
+    public function getAllCustomFields($including_built_in_fields=false)
+    {
+        $list = $this->getFieldList();
+        return $list;
+    }
 
     public function updateFields($post) {
         $sqlSet = "\n`title` = :title ";
@@ -312,5 +317,6 @@ FROM merchant_form mf
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
+
 
 }
