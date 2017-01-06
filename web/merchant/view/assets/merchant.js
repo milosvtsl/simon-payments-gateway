@@ -12,8 +12,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function onForm(e) {
         if (e.target && e.target.form) {
             var form = e.target.form;
-            if (form.getAttribute('name') === 'form-merchant-edit') {
-                updateMerchantEditForm(e, form);
+            switch (form.getAttribute('name')) {
+                case 'form-merchant-edit':
+                    return updateMerchantEditForm(e, form);
+
+                case 'form-merchant-form-edit':
+                    return updateMerchantFormEditForm(e, form);
             }
         }
     }
@@ -28,6 +32,28 @@ document.addEventListener("DOMContentLoaded", function(event) {
             form.convenience_fee_flat.disabled = false;
             form.convenience_fee_variable.disabled = false;
 
+        }
+    }
+
+    function updateMerchantFormEditForm(e, form) {
+        if(form.field_add_select.value) {
+            var field = form.field_add_select.value;
+            form.field_add_select.value = '';
+            e.preventDefault();
+            var checkbox = form["fields[" + field + "][enabled]"];
+            checkbox.checked = true;
+            console.log("Adding field ", field, checkbox);
+
+            var rows = form.getElementsByClassName('field-row');
+            for(var i=0; i<rows.length; i++) {
+                var row = rows[i];
+                var rowfield = row.getAttribute('data-field');
+                var rowcheckbox = form["fields[" + rowfield + "][enabled]"];
+                row.classList.toggle('enabled', rowcheckbox.checked);
+            }
+
+
+            return false;
         }
     }
 

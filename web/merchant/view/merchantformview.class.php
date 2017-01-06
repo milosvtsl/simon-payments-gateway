@@ -100,6 +100,7 @@ class MerchantFormView extends AbstractView
     protected function renderHTMLHeadScripts() {
         echo <<<HEAD
         <script src="merchant/view/assets/merchant.js"></script>
+        <link type='text/css' rel='stylesheet' href='merchant/view/assets/merchant.css'> 
 HEAD;
         parent::renderHTMLHeadScripts();
     }
@@ -122,64 +123,14 @@ HEAD;
         <article class="themed">
             <section class="content">
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
-                <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
+                <form name="form-merchant-form-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                     <input type="hidden" name="id" value="<?php echo $Form->getID(); ?>" />
                     <input type="hidden" name="action" value="edit" />
                     <fieldset>
                         <div class="legend">Customize Fields for Order Page Template #<?php echo $Form->getUID(); ?></div>
 
-
                         <?php $odd = false; ?>
                         <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
-                            <tbody style=" max-height: 30em; overflow-y: auto;">
-                            <tr>
-                                <th>Field Name</th>
-                                <th>Visible</th>
-                                <th>Required</th>
-                                <th>Field (in database)</th>
-                            </tr>
-                            <?php
-                            // TODO: add additional field select
-                            foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
-                                if(!$Form->hasField($field))
-                                    continue;
-                                ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td><input type="text" name="fields[<?php echo $field; ?>][name]" value="<?php echo $Form->getCustomFieldName($field, $title); ?>" placeholder="<?php echo $title; ?>" size="12" /></td>
-                                    <td>
-                                        <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][enabled]" <?php echo $Form->hasField($field) ? ' checked' : '' ?> /></label>
-                                    </td>
-                                    <td>
-                                        <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][required]" <?php echo $Form->isFieldRequired($field) ? ' checked' : '' ?> /></label>
-                                    </td>
-                                    <td><?php echo $field; ?></td>
-                                </tr>
-                                <?php
-                            }
-
-                            foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
-                                if($Form->hasField($field))
-                                    continue;
-                                ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td><input type="text" name="fields[<?php echo $field; ?>][name]" value="<?php echo $Form->getCustomFieldName($field, $title); ?>" placeholder="<?php echo $title; ?>" size="12" /></td>
-                                    <td>
-                                        <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][enabled]" <?php echo $Form->hasField($field) ? ' checked' : '' ?> /></label>
-                                    </td>
-                                    <td>
-                                        <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][required]" <?php echo $Form->isFieldRequired($field) ? ' checked' : '' ?> /></label>
-                                    </td>
-                                    <td><?php echo $field; ?></td>
-                                </tr>
-                                <?php
-                            }
-
-                            ?>
-                            </tbody>
-                        </table>
-
-                        <?php $odd = false; ?>
-                        <table class="table-merchant-info themed small striped-rows" style="width: 49%;">
                             <tr>
                                 <th colspan="2">Template Information</th>
                             </tr>
@@ -222,6 +173,70 @@ HEAD;
                                 </td>
                             </tr>
                         </table>
+
+                        <?php $odd = false; ?>
+                        <div style="width: 49%; max-height: 22em; overflow-y: auto">
+                            <table class="table-merchant-info themed small striped-rows" style="width: 100%;">
+                                <tbody>
+                                <tr>
+                                    <th>Field Name</th>
+                                    <th>Enabled</th>
+                                    <th>Required</th>
+                                    <th class="hide-on-layout-narrow">Field (in database)</th>
+                                </tr>
+                                <?php
+                                // TODO: add additional field select
+                                foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                    if(!$Form->hasField($field))
+                                        continue;
+                                    ?>
+                                    <tr class="field-row enabled row-<?php echo ($odd=!$odd)?'odd':'even';?>" data-field="<?php echo $field; ?>">
+                                        <td><input type="text" name="fields[<?php echo $field; ?>][name]" value="<?php echo $Form->getCustomFieldName($field, $title); ?>" placeholder="<?php echo $title; ?>" size="12" /></td>
+                                        <td>
+                                            <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][enabled]" <?php echo $Form->hasField($field) ? ' checked' : '' ?> /></label>
+                                        </td>
+                                        <td>
+                                            <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][required]" <?php echo $Form->isFieldRequired($field) ? ' checked' : '' ?> /></label>
+                                        </td>
+                                        <td class="hide-on-layout-narrow"><?php echo $field; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+
+                                foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                    if($Form->hasField($field))
+                                        continue;
+                                    ?>
+                                    <tr class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?>" data-field="<?php echo $field; ?>">
+                                        <td><input type="text" name="fields[<?php echo $field; ?>][name]" value="<?php echo $Form->getCustomFieldName($field, $title); ?>" placeholder="<?php echo $title; ?>" size="12" /></td>
+                                        <td>
+                                            <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][enabled]" <?php echo $Form->hasField($field) ? ' checked' : '' ?> /></label>
+                                        </td>
+                                        <td>
+                                            <label style="display: block; text-align: center;"><input type="checkbox" name="fields[<?php echo $field; ?>][required]" <?php echo $Form->isFieldRequired($field) ? ' checked' : '' ?> /></label>
+                                        </td>
+                                        <td class="hide-on-layout-narrow"><?php echo $field; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+
+                                ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td colspan="4">
+                                            <select name="field_add_select">
+                                                <option value="">Create a Custom Form Field</option>
+                                            <?php
+                                            foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                                echo "\n\t\t\t\t<option value='{$field}'>{$title}</option>";
+                                            } ?>
+                                            </select>
+                                            <input name="field_add_submit" type="button" value="Create" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </fieldset>
 
                     <fieldset>

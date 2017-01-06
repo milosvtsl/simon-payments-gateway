@@ -1,0 +1,7 @@
+form[name=form-merchant-form-edit] .field-row.enabled{
+    display: table-row;
+}
+
+form[name=form-merchant-form-edit] .field-row{
+    display: none;
+}
