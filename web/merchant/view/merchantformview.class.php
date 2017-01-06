@@ -116,6 +116,7 @@ HEAD;
 
         $Theme = $this->getTheme();
         $Theme->addPathURL('merchant',      'Merchants');
+        $Theme->addPathURL('merchant/form.php',     'Forms');
         $Theme->addPathURL($action_url,     $Form->getTitle());
         $Theme->renderHTMLBodyHeader();
         $Theme->printHTMLMenu('merchant-edit', $action_url);
