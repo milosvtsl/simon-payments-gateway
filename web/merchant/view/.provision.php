@@ -9,19 +9,20 @@ use Integration\Request\Model\IntegrationRequestRow;
 $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
-$this->getTheme()->printHTMLMenu('merchant-provision', $action_url);
+
+$Theme = $this->getTheme();
+$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL($action_url,     $Merchant->getShortName());
+$Theme->addPathURL($action_url.'provision',     'Provision');
+$Theme->renderHTMLBodyHeader();
+$Theme->printHTMLMenu('merchant-provision', $action_url);
+
+
 ?>
 
 
 <article class="themed">
-
-    <!-- Bread Crumbs -->
-    <aside class="bread-crumbs">
-        <a href="merchant" class="nav_merchant">Merchants</a>
-        <a href="<?php echo $action_url; ?>view" class="nav_merchant_view"><?php echo $Merchant->getShortName(); ?></a>
-        <a href="<?php echo $action_url; ?>provision" class="nav_merchant_view">Provision</a>
-    </aside>
-        <section class="content">
+     <section class="content">
 
             <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 

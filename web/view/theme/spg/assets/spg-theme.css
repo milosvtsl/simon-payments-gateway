@@ -335,21 +335,22 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
 .spg-theme .menu-icon.menu-icon-account     { background-position: -8em 0;}
 .spg-theme .menu-icon.menu-icon-list        { background-position: -4em -16em;}
-.spg-theme .menu-icon.menu-icon-report      {background-position: -12em -8em;}
-.spg-theme .menu-icon.menu-icon-batch       {background-position: -4em -20em;}
-.spg-theme .menu-icon.menu-icon-transaction {background-position: -8em -12em;}
-.spg-theme .menu-icon.menu-icon-subscription{background-position: 0em -20em;}
+.spg-theme .menu-icon.menu-icon-report      { background-position: -12em -8em;}
+.spg-theme .menu-icon.menu-icon-batch       { background-position: -4em -20em;}
+.spg-theme .menu-icon.menu-icon-transaction { background-position: -8em -12em;}
+.spg-theme .menu-icon.menu-icon-subscription{ background-position: 0em -20em;}
 .spg-theme .menu-icon.menu-icon-merchant    { background-position: -12em 0;}
 .spg-theme .menu-icon.menu-icon-user        { background-position: -8em -8em;}
 .spg-theme .menu-icon.menu-icon-integration { background-position: -4em -8em;}
+.spg-theme .menu-icon.menu-icon-provision   { background-position: -4em -8em;}
 .spg-theme .menu-icon.menu-icon-logout      { background-position: -12em -4em;}
-.spg-theme .menu-icon.menu-icon-sub-menu    {background-position: -12em -16em;}
+.spg-theme .menu-icon.menu-icon-sub-menu    { background-position: -12em -16em;}
 
 .spg-theme .menu-icon.menu-icon-edit        { background-position: -4em -4em;}
 .spg-theme .menu-icon.menu-icon-add         { background-position: -8em -4em;}
 .spg-theme .menu-icon.menu-icon-delete      { background-position: 0 -8em;}
 .spg-theme .menu-icon.menu-icon-view        { background-position: -8em 0; }
-.spg-theme .menu-icon.menu-icon-print       {background-position: 0 -12em;}
+.spg-theme .menu-icon.menu-icon-print       { background-position: 0 -12em;}
 .spg-theme .menu-icon.menu-icon-download    { background-position: -4em -12em;}
 .spg-theme .menu-icon.menu-icon-receipt     { background-position: -8em -12em;}
 
