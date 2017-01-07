@@ -235,7 +235,7 @@ HEAD;
                                 <span>Forms</span> </a>
                         </li>
 
-                        <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete'))) { ?>
+                        <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
                             <li>
                                 <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
                                     <span>View Merchant</span></a>
@@ -243,6 +243,10 @@ HEAD;
                             <li>
                                 <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
                                     <span>Edit Merchant</span></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
+                                    <span>Provision Merchant</span></a>
                             </li>
                         <?php } ?>
 

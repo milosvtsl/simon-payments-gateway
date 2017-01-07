@@ -122,6 +122,7 @@ class OrderView extends AbstractView
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
                         throw new Exception("Invalid Authority to Return Charges");
 
+                    $partial_return_amount = $post['partial_return_amount'];
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
@@ -419,7 +420,8 @@ class OrderView extends AbstractView
                                             case 'Settled':
                                                 if($Order->getStatus() === 'Settled') {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "<input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction(\"Return\", event);'/>";
+                                                    echo "\n\t\t\t<input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction(\"Return\", event);'/>";
+                                                    echo "\n\t\t\t<input name='partial_return_amount' type='hidden' />";
                                                 }
                                                 break;
                                         }
