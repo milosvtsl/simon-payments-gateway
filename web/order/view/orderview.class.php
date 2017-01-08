@@ -7,14 +7,11 @@
  */
 namespace Order\View;
 
-use Subscription\Model\SubscriptionRow;
-use System\Config\DBConfig;
 use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Order\PDF\ReceiptPDF;
-use Order\Model\TransactionRow;
+use Subscription\Model\SubscriptionRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -450,7 +447,7 @@ class OrderView extends AbstractView
             function confirmOrderViewAction(action, e) {
                 switch(action.toLowerCase()) {
                     case 'return':
-                        e.target.form.partial_return_amount.value = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank for a FULL RETURN");
+                        e.target.form.partial_return_amount.value = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank to return the FULL AMOUNT");
                         break;
                 }
 
