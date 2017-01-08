@@ -222,6 +222,21 @@ HEAD;
                     <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
                         <span>Merchants</span> </a>
                     <ul>
+                        <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
+                            <li>
+                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
+                                    <span>View Merchant</span></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
+                                    <span>Edit Merchant</span></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
+                                    <span>Provision</span></a>
+                            </li>
+                        <?php } ?>
+
                         <li>
                             <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
                                 <span>Search</span> </a>
@@ -234,21 +249,6 @@ HEAD;
                             <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form']; ?>"><div class="menu-icon menu-icon-customize"></div>
                                 <span>Forms</span> </a>
                         </li>
-
-                        <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
-                            <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                    <span>View Merchant</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                    <span>Edit Merchant</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
-                                    <span>Provision Merchant</span></a>
-                            </li>
-                        <?php } ?>
 
                     </ul>
                 </li>
