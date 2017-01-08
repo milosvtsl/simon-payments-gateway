@@ -161,7 +161,11 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function setTransactionDate($date) {
         $this->transaction_date = $date;
     }
-
+    
+    public function setAmount($transactionAmount) {
+        $this->amount = $transactionAmount;
+    }
+    
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }
@@ -355,7 +359,6 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public static function generateReferenceNumber() {
         return sprintf('%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535));
     }
-
 
 
 }

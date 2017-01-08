@@ -122,7 +122,7 @@ class OrderView extends AbstractView
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
                         throw new Exception("Invalid Authority to Return Charges");
 
-                    $partial_return_amount = $post['partial_return_amount'];
+//                    $partial_return_amount = $post['partial_return_amount'];
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
@@ -448,6 +448,12 @@ class OrderView extends AbstractView
         echo <<<HTML
         <script>
             function confirmOrderViewAction(action, e) {
+                switch(action.toLowerCase()) {
+                    case 'return':
+                        e.target.form.partial_return_amount.value = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank for a FULL RETURN");
+                        break;
+                }
+
                 var message = "Action: " + action + "\\nAre you sure you want to perform this action?";
                 var ret = confirm(message);
                 if(!ret) {
@@ -455,6 +461,7 @@ class OrderView extends AbstractView
                         e.preventDefault();
                     return false;
                 }
+                
             }
         </script>
 HTML;

@@ -329,6 +329,7 @@ XML;
         ElementMerchantIdentity $MerchantIdentity,
         OrderRow $OrderRow,
         TransactionRow $AuthorizedTransaction,
+        TransactionRow $ReturnTransaction,
         Array $post)
     {
         $Action = 'CreditCardReturn';
@@ -344,48 +345,48 @@ XML;
             'credentials' => array(),
             'application' => array(),
             'terminal' => array(),
-            'card' => array(
-                'Track1Data' => '',
-                'Track2Data' => '',
-                'Track3Data' => '',
-                'MagneprintData' => $OrderRow->getCardTrack(),
-                'CardNumber' => $OrderRow->getCardNumber(),
-                'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
-                'ExpirationMonth' => $OrderRow->getCardExpMonth(),
-                'ExpirationYear' => $OrderRow->getCardExpYear(),
-                'CardholderName' => $OrderRow->getCardHolderFullName(),
-                'CVV' => @$post['card_cvv2'],
-                'CAVV' => '',
-                'XID' => '',
-                'PINBLOCK' => @$post['pin'],
-                'KeySerialNumber' => '',
-                'EncryptedFormat' =>            'Default', // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7;
-                'EncryptedTrack1Data' => '',
-                'EncryptedTrack2Data' => '',
-                'EncryptedCardData' => '',
-                'CardDataKeySerialNumber' => '',
-                'AVSResponseCode' => '',
-                'CVVResponseCode' => '',
-                'CAVVResponseCode' => '',
-                'CardLogo' => '',
-                'GiftCardSecurityCode' => '',
-                'AlternateCardNumber1' => '',
-                'AlternateCardNumber2' => '',
-                'AlternateCardNumber3' => '',
-                'SecondaryCardNumber' => '',
-            ),
+//            'card' => array(
+//                'Track1Data' => '',
+//                'Track2Data' => '',
+//                'Track3Data' => '',
+//                'MagneprintData' => $OrderRow->getCardTrack(),
+//                'CardNumber' => $OrderRow->getCardNumber(),
+//                'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
+//                'ExpirationMonth' => $OrderRow->getCardExpMonth(),
+//                'ExpirationYear' => $OrderRow->getCardExpYear(),
+//                'CardholderName' => $OrderRow->getCardHolderFullName(),
+//                'CVV' => @$post['card_cvv2'],
+//                'CAVV' => '',
+//                'XID' => '',
+//                'PINBLOCK' => @$post['pin'],
+//                'KeySerialNumber' => '',
+//                'EncryptedFormat' =>            'Default', // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7;
+//                'EncryptedTrack1Data' => '',
+//                'EncryptedTrack2Data' => '',
+//                'EncryptedCardData' => '',
+//                'CardDataKeySerialNumber' => '',
+//                'AVSResponseCode' => '',
+//                'CVVResponseCode' => '',
+//                'CAVVResponseCode' => '',
+//                'CardLogo' => '',
+//                'GiftCardSecurityCode' => '',
+//                'AlternateCardNumber1' => '',
+//                'AlternateCardNumber2' => '',
+//                'AlternateCardNumber3' => '',
+//                'SecondaryCardNumber' => '',
+//            ),
             'transaction' => array(
                 'TransactionID' => $AuthorizedTransaction->getTransactionID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
-                'OriginalAuthorizedAmount' => '',
+                'OriginalAuthorizedAmount' => $TransactionAmount,
                 'TotalAuthorizedAmount' => '',
                 'SalesTaxAmount' => '',
                 'TipAmount' => '',
                 'ReferenceNumber' => $OrderRow->getReferenceNumber(),
                 'TicketNumber' => substr(strtoupper($AuthorizedTransaction->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'System', // System or Full or Partial;
+                'ReversalType' => 'Full', // System or Full or Partial;
                 'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
                 'BillPaymentFlag' => 'False', // False or True
                 'DuplicateCheckDisableFlag' => 'False',
@@ -400,26 +401,16 @@ XML;
                 'EMVEncryptionFormat' => 'Default',
                 'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
             ),
-            'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
-                'BillingAddress1' => $OrderRow->getPayeeAddress(),
-                'BillingAddress2' => $OrderRow->getPayeeAddress2(),
-                'BillingCity' => $OrderRow->getPayeeCity(),
-                'BillingState' => $OrderRow->getPayeeState(),
-                'BillingZipcode' => $OrderRow->getPayeeZipCode(),
-                'BillingEmail' => $OrderRow->getPayeeEmail(),
-                'BillingPhone' => $OrderRow->getPayeePhone(),
-
-                'ShippingName' => '', // $BillingName;
-                'ShippingAddress1' => '', // $BillingAddress1;
-                'ShippingAddress2' => '', // $BillingAddress2;
-                'ShippingCity' => '', // $BillingCity;
-                'ShippingState' => '', // $BillingState;
-                'ShippingZipcode' => '', // $BillingZipcode;
-                'ShippingEmail' => '', // $BillingEmail;
-                'ShippingPhone' => '', // $BillingPhone;
-            ),
         );
+
+        if(isset($post['partial_return_amount']) && ($post['partial_return_amount'] >= 0.01)) {
+            $partial_return_amount = $post['partial_return_amount'];
+            if($partial_return_amount > $OrderRow->getAmount())
+                throw new \InvalidArgumentException("Invalid Partial Return Amount");
+            $args['transaction']['ReversalType'] = 'Partial';
+            $args['transaction']['TransactionAmount'] = number_format($partial_return_amount, 2, '.', '');
+            $ReturnTransaction->setAmount($partial_return_amount);
+        }
 
         $request = $this->prepareSOAPRequest(
             $MerchantIdentity,
@@ -427,6 +418,7 @@ XML;
             $args,
             $post
         );
+
         return $request;
     }
 
@@ -461,7 +453,7 @@ XML;
                 'TipAmount' => '',
                 'ReferenceNumber' => $OrderRow->getReferenceNumber(),
                 'TicketNumber' => substr(strtoupper($AuthorizedTransaction->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'System', // System or Full or Partial;
+                'ReversalType' => 'Full', // System or Full or Partial;
                 'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
                 'BillPaymentFlag' => 'False', // False or True
                 'DuplicateCheckDisableFlag' => 'False',
@@ -639,6 +631,7 @@ XML;
         ElementMerchantIdentity $MerchantIdentity,
         OrderRow $OrderRow,
         TransactionRow $AuthorizedTransaction,
+        TransactionRow $ReturnTransaction,
         Array $post)
     {
         $Action = 'CheckReturn';
@@ -665,7 +658,7 @@ XML;
                 'TipAmount' => '',
                 'ReferenceNumber' => $OrderRow->getReferenceNumber(),
                 'TicketNumber' => substr(strtoupper($AuthorizedTransaction->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'System', // System or Full or Partial;
+                'ReversalType' => 'Full', // System or Full or Partial;
                 'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
                 'BillPaymentFlag' => 'False', // False or True
                 'DuplicateCheckDisableFlag' => 'False',
@@ -681,6 +674,15 @@ XML;
                 'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
             ),
         );
+
+        if(isset($post['partial_return_amount']) && ($post['partial_return_amount'] >= 0.01)) {
+            $partial_return_amount = $post['partial_return_amount'];
+            if($partial_return_amount > $OrderRow->getAmount())
+                throw new \InvalidArgumentException("Invalid Partial Return Amount");
+            $args['transaction']['ReversalType'] = 'Partial';
+            $args['transaction']['TransactionAmount'] = number_format($partial_return_amount, 2, '.', '');
+            $ReturnTransaction->setAmount($partial_return_amount);
+        }
 
         $request = $this->prepareSOAPRequest(
             $MerchantIdentity,
