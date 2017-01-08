@@ -534,6 +534,8 @@ class ElementIntegration extends AbstractIntegration
         if(!$AuthorizedTransaction)
             throw new \InvalidArgumentException("Authorized Transaction Not Found for order: " . $Order->getID());
 
+        $ReturnTransaction = $AuthorizedTransaction->createReturnTransaction();
+
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN
@@ -543,9 +545,9 @@ class ElementIntegration extends AbstractIntegration
 
         $APIUtil = new ElementAPIUtil();
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
-            $request = $APIUtil->prepareCheckReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
+            $request = $APIUtil->prepareCheckReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $ReturnTransaction, $post);
         else
-            $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
+            $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $ReturnTransaction, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
@@ -558,7 +560,6 @@ class ElementIntegration extends AbstractIntegration
         if($code === '101')
             throw new IntegrationException($message);
 
-        $ReturnTransaction = $AuthorizedTransaction->createReturnTransaction();
 
         $action = "Return";
         if($code !== "0")
