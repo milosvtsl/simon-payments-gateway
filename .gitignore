@@ -1,4 +1,2 @@
 .idea*
-*.gsp
-vendor/
 .env
