@@ -43,7 +43,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
-                            <td><input type="text" name="email" size="24" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
+                            <td><input type="text" name="main_email_id" size="24" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">URL</td>
