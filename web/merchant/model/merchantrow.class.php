@@ -7,6 +7,9 @@
  */
 namespace Merchant\Model;
 
+use Integration\Model\Ex\FraudException;
+use Integration\Model\Ex\IntegrationException;
+use Order\Model\OrderRow;
 use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
@@ -22,14 +25,17 @@ class MerchantRow
     const FRAUD_FLAG_DUPLICATE_CARD_DAILY = 0x01;
     const FRAUD_FLAG_DUPLICATE_CARD_10MINUTE = 0x02;
     const FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY = 0x04;
+    const FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE = 0x08;
+
+    const SORT_BY_ID                = 'm.id';
 
     public static $FRAUD_FLAG_DESCRIPTIONS = array(
         self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves on the Same Day",
         self::FRAUD_FLAG_DUPLICATE_CARD_10MINUTE => "Duplicate Approves within 10 minutes",
         self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY => "Duplicate Declines on the Same Day",
+        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE => "Duplicate Declines within 10 minutes",
     );
 
-    const SORT_BY_ID                = 'm.id';
     const SORT_BY_NAME              = 'm.name';
     const SORT_BY_MAIN_EMAIL_ID     = 'm.main_email_id';
 
@@ -354,6 +360,7 @@ LEFT JOIN state s on m.state_id = s.id
 
         return $Identities;
     }
+
 
     // Static
 

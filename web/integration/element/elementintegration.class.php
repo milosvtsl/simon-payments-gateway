@@ -264,6 +264,10 @@ class ElementIntegration extends AbstractIntegration
      * @throws \phpmailerException
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
+
+        // Perform Fraud Scrubbing
+        $Order->performFraudScrubbing($MerchantIdentity, $SessionUser, $post);
+
         OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
             throw new \InvalidArgumentException("Order must exist in the database");

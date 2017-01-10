@@ -7,6 +7,7 @@
  */
 namespace Order\Model;
 
+use Integration\Model\Ex\FraudException;
 use System\Config\DBConfig;
 use System\Config\SiteConfig;
 use Integration\Model\AbstractMerchantIdentity;
@@ -267,14 +268,32 @@ SQL;
         return $AuthorizedTransaction;
     }
 
+    public function performFraudScrubbing(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post)
+    {
+        $Merchant = $MerchantIdentity->getMerchantRow();
+        $amount = $this->getAmount();
+
+        $max = floatval($Merchant->getFraudHighLimit());
+        if($max !== null)
+            if($amount < $max)
+                throw new FraudException("Order is above High Limit ($amount < $max)");
+
+        $min = floatval($Merchant->getFraudLowLimit());
+        if($min !== null && $min >= 0.01)
+            if($amount > $min)
+                throw new FraudException("Order is below Low Limit ($amount > $min)");
+
+    }
+
+
     // Static
-
-
+    
     const STAT_AMOUNT_TOTAL = 'amount_total';
     const STAT_DAILY = 'daily';
     const STAT_WEEK_TO_DATE = 'wtd';
     const STAT_WEEKLY = 'weekly';
     const STAT_MONTH_TO_DATE = 'mtd';
+
     const STAT_MONTHLY = 'monthly';
 
     public static function queryMerchantStats(UserRow $SessionUser=null, $offset=null) {
@@ -437,7 +456,6 @@ SQL;
             throw new \InvalidArgumentException("{$field} not found: " . $value);
         return $Row;
     }
-
     /**
      * @param $uid
      * @return OrderRow
@@ -445,6 +463,8 @@ SQL;
     public static function fetchByUID($uid) {
         return static::fetchByField('uid', $uid);
     }
+
+
     /**
      * @param $id
      * @return OrderRow
@@ -536,7 +556,6 @@ SQL;
         return $OrderRow;
     }
 
-
     static function getCCType($cardNumber) {
         $cardNumber = preg_replace('/\D/', '', $cardNumber);
 
@@ -574,8 +593,6 @@ SQL;
         $l = strlen($number);
         return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
-
-
 
 }
 
