@@ -52,7 +52,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant MCC Code</td>
                             <td>
-                                <select name="mcc" style="width: 16em;">
+                                <select name="mcc" style="width: 16em;" title="Select Merchant MCC Code">
                                     <?php
                                     foreach(\System\Arrays\Merchants::$MCC as $code=>$title)
                                         echo "<option value='", $code, "'",
@@ -249,7 +249,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td>
                                 <label style="display: block;">
                                 <input type='checkbox' name="fraud_flags[<?php echo $type; ?>]" style="transform: scale(1.8); margin: 0.44em;"
-                                       <?php echo (intval($type) & intval($Merchant->getFraudFlags()) ? ' checked' : ''); ?>
+                                       <?php echo $Merchant->hasFlag($type) ? ' checked' : ''; ?>
                                  title="<?php echo $description; ?>"/>
                                 </label>
                             </td>

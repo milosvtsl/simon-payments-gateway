@@ -261,6 +261,10 @@ LEFT JOIN state s on m.state_id = s.id
     public function getFraudHighMonthlyLimit()     { return $this->fraud_high_monthly_limit; }
     public function getFraudFlags()         { return $this->fraud_flags; }
 
+    public function hasFlag($type) {
+        return (intval($type) & intval($this->fraud_flags));
+    }
+
     public function getNotes()              { return $this->notes; }
 
     public function getURL()                { return $this->url; }
@@ -278,18 +282,19 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getChargeFormClasses()  { return $this->charge_form_classes ?: 'default'; }
 
-    public function getCheckFormClasses()   { return 'default'; }
 
+    public function getCheckFormClasses()   { return 'default'; }
 
     public function isConvenienceFeeEnabled() {
         return
             $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
     }
-
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $first;
     }
+
+
     public function getMainContactLastName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $last;
@@ -322,7 +327,6 @@ LEFT JOIN state s on m.state_id = s.id
         return $EditQuery->rowCount();
     }
 
-
     public function getProvisionRequest(IntegrationRow $IntegrationRow) {
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(IntegrationRequestRow::SQL_SELECT
@@ -338,6 +342,7 @@ LEFT JOIN state s on m.state_id = s.id
             ':integration_id' => $IntegrationRow->getID(),
         ));
     }
+
 
     /**
      * @return AbstractMerchantIdentity[]
@@ -361,8 +366,8 @@ LEFT JOIN state s on m.state_id = s.id
         return $Identities;
     }
 
-
     // Static
+
 
     /**
      * @param $id
@@ -378,7 +383,6 @@ LEFT JOIN state s on m.state_id = s.id
         $stmt->execute(array($id));
         return $stmt->fetch();
     }
-
 
     /**
      * @param $field
