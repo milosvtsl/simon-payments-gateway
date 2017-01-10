@@ -109,7 +109,7 @@ class SPGViewTheme extends AbstractViewTheme
         ?>
         <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
         <footer class="hide-on-print">
-            <span>&copy; 2016 Simon Payments, LLC. All rights reserved.</span>
+            <span>&copy; 2017 Simon Payments, LLC. All rights reserved.</span>
         </footer>
         <?php } ?>
     </body>
