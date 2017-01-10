@@ -67,8 +67,8 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 <!--                            <td>--><?php //echo $Merchant->getMerchantID(); ?><!--</td>-->
 <!--                        </tr>-->
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant SIC</td>
-                            <td><?php echo $Merchant->getMerchantSIC(); ?></td>
+                            <td class="name">Merchant MCC</td>
+                            <td><?php echo $Merchant->getMerchantMCC(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Fee: Limit</td>

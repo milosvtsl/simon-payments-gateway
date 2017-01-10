@@ -19,6 +19,16 @@ class MerchantRow
     const _CLASS = __CLASS__;
     const TABLE_NAME = 'merchant';
 
+    const FRAUD_FLAG_DUPLICATE_CARD_DAILY = 0x01;
+    const FRAUD_FLAG_DUPLICATE_CARD_10MINUTE = 0x02;
+    const FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY = 0x04;
+
+    public static $FRAUD_FLAG_DESCRIPTIONS = array(
+        self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves on the Same Day",
+        self::FRAUD_FLAG_DUPLICATE_CARD_10MINUTE => "Duplicate Approves within 10 minutes",
+        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY => "Duplicate Declines on the Same Day",
+    );
+
     const SORT_BY_ID                = 'm.id';
     const SORT_BY_NAME              = 'm.name';
     const SORT_BY_MAIN_EMAIL_ID     = 'm.main_email_id';
@@ -107,6 +117,11 @@ LEFT JOIN state s on m.state_id = s.id
         'payout_account_type',
         'payout_account_number',
         'payout_bank_code',
+
+        'fraud_high_limit',
+        'fraud_low_limit',
+        'fraud_high_monthly_limit',
+        'fraud_flags',
 
         'notes',
     );
@@ -276,6 +291,12 @@ LEFT JOIN state s on m.state_id = s.id
 
 
     public function updateFields($post) {
+        $flags = 0;
+        foreach($post['fraud_flags'] as $type => $value)
+            if($value)
+                $flags |= intval($type);
+        $post['fraud_flags'] = $flags;
+
         $sqlSet = "";
         $params = array();
         foreach(self::$UPDATE_FIELDS as $field) {
