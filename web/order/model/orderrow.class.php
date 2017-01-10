@@ -273,14 +273,14 @@ SQL;
         $Merchant = $MerchantIdentity->getMerchantRow();
         $amount = $this->getAmount();
 
-        $max = floatval($Merchant->getFraudHighLimit());
+        $max = $Merchant->getFraudHighLimit();
         if($max !== null)
-            if($amount < $max)
+            if($amount < floatval($max))
                 throw new FraudException("Order is above High Limit ($amount < $max)");
 
-        $min = floatval($Merchant->getFraudLowLimit());
-        if($min !== null && $min >= 0.01)
-            if($amount > $min)
+        $min = $Merchant->getFraudLowLimit();
+        if($min !== null && floatval($min) >= 0.01)
+            if($amount > floatval($min))
                 throw new FraudException("Order is below Low Limit ($amount > $min)");
 
     }

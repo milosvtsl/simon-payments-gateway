@@ -249,7 +249,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td>
                                 <label style="display: block;">
                                 <input type='checkbox' name="fraud_flags[<?php echo $type; ?>]" style="transform: scale(1.8); margin: 0.44em;"
-                                       <?php echo (intval($type) & intval($Merchant->getFraudFlags()) ? ' checked' : ''); ?>
+                                       <?php echo $Merchant->hasFlag($type) ? ' checked' : ''; ?>
                                  title="<?php echo $description; ?>"/>
                                 </label>
                             </td>
