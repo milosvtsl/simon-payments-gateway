@@ -148,7 +148,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address</td>
-                            <td><input type="text" name="address" size="24" value="<?php echo $Merchant->getAddress(); ?>" /></td>
+                            <td><input type="text" name="address1" size="24" value="<?php echo $Merchant->getAddress(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address 2</td>
@@ -269,7 +269,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="Merchant-specific notes" ><?php echo $Merchant->getNotes(); ?></textarea></td>
+                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="Merchant-specific notes" style="width: 96%;" ><?php echo $Merchant->getNotes(); ?></textarea></td>
                         </tr>
 
                         <tr >
