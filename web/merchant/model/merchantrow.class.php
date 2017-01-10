@@ -162,6 +162,11 @@ LEFT JOIN state s on m.state_id = s.id
     protected $payout_account_number;
     protected $payout_bank_code;
 
+    protected $fraud_high_limit;
+    protected $fraud_low_limit;
+    protected $fraud_high_monthly_limit;
+    protected $fraud_flags;
+
     // Table status
     protected $status_name;
 
@@ -177,7 +182,7 @@ LEFT JOIN state s on m.state_id = s.id
             $this->$key = $param;
     }
     public function __set($key, $value) {
-        throw new \InvalidArgumentException("Property does not exist: " . $key);
+        error_log("Property does not exist: " . $key);
     }
 
     public function getID()             { return $this->id; }
@@ -229,6 +234,11 @@ LEFT JOIN state s on m.state_id = s.id
     public function getPayoutAccountType()  { return $this->payout_account_type; }
     public function getPayoutAccountNumber(){ return $this->payout_account_number; }
     public function getPayoutBankCode()     { return $this->payout_bank_code; }
+
+    public function getFraudHighLimit()     { return $this->fraud_high_limit; }
+    public function getFraudLowLimit()      { return $this->fraud_low_limit; }
+    public function getFraudHighMonthlyLimit()     { return $this->fraud_high_monthly_limit; }
+    public function getFraudFlags()         { return $this->fraud_flags; }
 
     public function getNotes()              { return $this->notes; }
 

@@ -93,7 +93,7 @@ LEFT JOIN user u ON u.id = ir.user_id
     const SQL_ORDER_BY = "\nORDER BY ir.id DESC";
 
     public function __set($key, $value) {
-        throw new \InvalidArgumentException("Property does not exist: " . $key);
+        error_log("Property does not exist: " . $key);
     }
 
 

@@ -190,6 +190,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <th>ID</th>
                             <th>Name</th>
                             <th>Type</th>
+                            <th>MID</th>
                             <th>Complete</th>
                             <th>Provisioned</th>
                             <th>Settle</th>
@@ -215,6 +216,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                                 <td><a href="integration?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
                                 <td><a href="integration?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getName(); ?></a></td>
                                 <td><?php echo $UserRow->getAPIType(); ?></td>
+                                <td><?php echo $MerchantIdentity->getRemoteID() ? '<strong>'.$MerchantIdentity->getRemoteID().'</strong>' : 'N/A'; ?></td>
                                 <td><?php echo "<span style='color:", ($MerchantIdentity->isProfileComplete() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                                 <td><?php echo "<span style='color:", ($MerchantIdentity->isProvisioned() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
                                 <td><?php echo "<span style='color:", ($MerchantIdentity->canSettleFunds() ? "green'>Yes"  : "red'>No"), "</span>"; ?></td>
