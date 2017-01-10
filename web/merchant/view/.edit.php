@@ -192,11 +192,11 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td>
                                 <select name="country" style="max-width: 16em;">
                                     <?php
-                                    foreach(\System\Arrays\Locations::$COUNTRIES as $code => $name)
+                                    foreach(\System\Arrays\Locations::$COUNTRIES as $code => $description)
                                         if(strlen($code) === 3)
                                             echo "<option value='", $code, "'",
                                             ($code === $Merchant->getCountryCode() ? ' selected="selected"' : ''),
-                                            ">", $name, "</option>\n";
+                                            ">", $description, "</option>\n";
                                     ?>
                                 </select>
                             </td>
@@ -226,7 +226,35 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="date" name="main_contact" value="<?php echo $Merchant->getDOB(); ?>" /></td>
                         </tr>
 
-
+                        <tr>
+                            <th colspan="2">Fraud Scrubbing</th>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Transaction High Limit (USD)</td>
+                            <td><input type="text" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit() ?: ''; ?>" placeholder="Maximum Transaction Amount"  /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Transaction Low Limit (USD)</td>
+                            <td><input type="text" name="fraud_low_limit" value="<?php echo $Merchant->getFraudLowLimit() ?: ''; ?>" placeholder="Minimum Transaction Amount" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Transaction High Monthly Limit (USD)</td>
+                            <td><input type="text" name="fraud_high_monthly_limit" value="<?php echo $Merchant->getFraudHighMonthlyLimit() ?: ''; ?>" placeholder="Monthly Transaction Limit" /></td>
+                        </tr>
+                        <?php
+                        foreach(MerchantRow::$FRAUD_FLAG_DESCRIPTIONS as $type => $description) {
+                        ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name"><?php echo $description; ?></td>
+                            <td>
+                                <label style="display: block;">
+                                <input type='checkbox' name="fraud_flags[<?php echo $type; ?>]" style="transform: scale(1.8); margin: 0.44em;"
+                                       <?php echo (intval($type) & intval($Merchant->getFraudFlags()) ? ' checked' : ''); ?>
+                                 title="<?php echo $description; ?>"/>
+                                </label>
+                            </td>
+                        </tr>
+                        <?php } ?>
                         <tr>
                             <th colspan="2">Payment Instrument</th>
                         </tr>
@@ -238,10 +266,10 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                 <select name="payout_type">
                                     <option value="">Choose a payout type</option>
                                     <?php
-                                    foreach(MerchantRow::$ENUM_PAYOUT_TYPES as $type => $name)
+                                    foreach(MerchantRow::$ENUM_PAYOUT_TYPES as $type => $description)
                                         echo "<option value='", $type, "'",
                                         ($type === $Merchant->getPayoutType() ? ' selected="selected"' : ''),
-                                        ">", $name, "</option>\n";
+                                        ">", $description, "</option>\n";
                                     ?>
                                 </select>
                             </td>
@@ -256,10 +284,10 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                 <select name="payout_account_type">
                                     <option value="">Choose an Account Type</option>
                                     <?php
-                                    foreach(MerchantRow::$ENUM_PAYOUT_ACCOUNT_TYPES as $type => $name)
+                                    foreach(MerchantRow::$ENUM_PAYOUT_ACCOUNT_TYPES as $type => $description)
                                         echo "<option value='", $type, "'",
                                         ($type === $Merchant->getPayoutType() ? ' selected="selected"' : ''),
-                                        ">", $name, "</option>\n";
+                                        ">", $description, "</option>\n";
                                     ?>
                                 </select>
                             </td>
