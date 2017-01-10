@@ -52,7 +52,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant MCC Code</td>
                             <td>
-                                <select name="mcc" style="width: 16em;">
+                                <select name="mcc" style="width: 16em;" title="Select Merchant MCC Code">
                                     <?php
                                     foreach(\System\Arrays\Merchants::$MCC as $code=>$title)
                                         echo "<option value='", $code, "'",

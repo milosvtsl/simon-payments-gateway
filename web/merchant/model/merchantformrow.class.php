@@ -70,7 +70,7 @@ FROM merchant_form mf
 
 
     public function __set($key, $value) {
-        throw new \InvalidArgumentException("Property does not exist: " . $key);
+        error_log("Property does not exist: " . $key);
     }
 
     public function getID()             { return $this->id; }

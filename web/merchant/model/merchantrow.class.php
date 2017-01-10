@@ -177,7 +177,7 @@ LEFT JOIN state s on m.state_id = s.id
             $this->$key = $param;
     }
     public function __set($key, $value) {
-        throw new \InvalidArgumentException("Property does not exist: " . $key);
+        error_log("Property does not exist: " . $key);
     }
 
     public function getID()             { return $this->id; }
