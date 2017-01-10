@@ -275,13 +275,13 @@ SQL;
 
         $max = $Merchant->getFraudHighLimit();
         if($max !== null)
-            if($amount < floatval($max))
-                throw new FraudException("Order is above High Limit ($amount < $max)");
+            if($amount > floatval($max))
+                throw new FraudException("Order is above High Limit ($amount > $max)");
 
         $min = $Merchant->getFraudLowLimit();
         if($min !== null && floatval($min) >= 0.01)
-            if($amount > floatval($min))
-                throw new FraudException("Order is below Low Limit ($amount > $min)");
+            if($amount < floatval($min))
+                throw new FraudException("Order is below Low Limit ($amount < $min)");
 
     }
 
