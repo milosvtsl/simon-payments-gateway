@@ -140,6 +140,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $sale_rep;
     protected $short_name;
     protected $sic;
+    protected $mcc;
     protected $store_id;
     protected $telephone;
     protected $zipcode;
@@ -185,6 +186,7 @@ LEFT JOIN state s on m.state_id = s.id
     public function getShortName()      { return $this->short_name ?: $this->name; }
 //    public function getMerchantID()     { return $this->merchant_id; }
     public function getMerchantSIC()    { return $this->sic; }
+    public function getMerchantMCC()    { return $this->mcc; }
 
     public function getConvenienceFeeLimit()       { return floatval($this->convenience_fee_limit); }
     public function getConvenienceFeeFlat()        { return floatval($this->convenience_fee_flat); }

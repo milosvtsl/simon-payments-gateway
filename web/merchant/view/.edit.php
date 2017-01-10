@@ -50,8 +50,17 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="text" name="url" size="24" value="<?php echo $Merchant->getURL(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant SIC</td>
-                            <td><input type="text" name="sic" size="12" value="<?php echo $Merchant->getMerchantSIC(); ?>" /></td>
+                            <td class="name">Merchant MCC Code</td>
+                            <td>
+                                <select name="mcc" style="width: 16em;">
+                                    <?php
+                                    foreach(\System\Arrays\Merchants::$MCC as $code=>$title)
+                                        echo "<option value='", $code, "'",
+                                        ($Merchant->getMerchantMCC() == $code ? ' selected="selected"' : ''),
+                                        ">$code - $title</option>\n";
+                                    ?>
+                                </select>
+                            </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Status</td>
