@@ -509,7 +509,7 @@ class ChargeView extends AbstractView
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $post);
 
             $this->setSessionMessage(
-                "<span class='info'>Success: " . $Transaction->getStatusMessage() . "</span>"
+                "<div class='info'>Success: " . $Transaction->getStatusMessage() . "</div>"
             );
             header('Location: /order/receipt.php?uid=' . $Order->getUID(false));
             unset($_SESSION['order/charge.php']);

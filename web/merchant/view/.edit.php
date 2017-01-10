@@ -148,7 +148,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address</td>
-                            <td><input type="text" name="address" size="24" value="<?php echo $Merchant->getAddress(); ?>" /></td>
+                            <td><input type="text" name="address1" size="24" value="<?php echo $Merchant->getAddress(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address 2</td>

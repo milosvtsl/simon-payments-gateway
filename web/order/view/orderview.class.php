@@ -98,7 +98,7 @@ class OrderView extends AbstractView
                     $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -110,7 +110,7 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -123,7 +123,7 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -135,7 +135,7 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();

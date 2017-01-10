@@ -100,7 +100,7 @@ class SubscriptionView extends AbstractView
                     $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
                     header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
                     die();
