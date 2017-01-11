@@ -100,7 +100,7 @@ FROM merchant_form mf
 
     public function getFieldList() {
         if(!is_array($this->fields))
-            $this->fields = json_decode($this->fields, true);
+            $this->fields = json_decode($this->fields, true) ?: array();
         return $this->fields;
     }
     public function hasField($fieldName) {
@@ -119,7 +119,7 @@ FROM merchant_form mf
 
     public function getCustomFieldName($fieldName, $defaultName=null) {
         $list = $this->getFieldList();
-        return @$list[$fieldName]['name'] ?: $defaultName;
+        return @$list[$fieldName]['name'] ?: $defaultName ?: self::$AVAILABLE_FIELDS[$fieldName];
     }
     
 //    public function setMerchantID($id)  { $this->merchant_id = $id; }
@@ -127,7 +127,7 @@ FROM merchant_form mf
     public function getAllCustomFields($including_built_in_fields=false)
     {
         $list = $this->getFieldList();
-        return $list;
+        return array_keys($list);
     }
 
     public function updateFields($post) {
