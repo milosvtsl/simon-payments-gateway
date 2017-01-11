@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var amount_timeout = null;
     function updateChargeForm(e, form) {
-        if(form.change_form_url.value) {
+        if(form.change_form_url && form.change_form_url.value) {
             document.location.href = document.location.href.split('?')[0] + form.change_form_url.value;
             return false;
         }
@@ -128,7 +128,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.location.href = document.location.href.split('?')[0] + form.change_merchant_url.value;
             return false;
         }
+
         updateStyleSheetTheme(form);
+
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
             //form.entry_method.value = 'Swipe';

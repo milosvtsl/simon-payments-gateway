@@ -117,7 +117,6 @@ class ChargeView extends AbstractView
                                         $MerchantQuery = $SessionUser->queryUserMerchants();
                                         foreach ($MerchantQuery as $MerchantOption) {
                                             /** @var MerchantRow $MerchantOption */
-                                            print_r($MerchantOption);
                                             echo "\n\t\t\t\t\t\t\t<option",
                                                 ($MerchantOption->getID() === $MerchantRow->getID() ? ' selected="selected" value=""' :
                                                 " value='?form_uid=" . $OrderForm->getUID() . "&merchant_id=" . $MerchantOption->getID() . "'"), '>',
