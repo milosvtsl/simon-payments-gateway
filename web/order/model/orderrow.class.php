@@ -204,10 +204,13 @@ LEFT JOIN integration i on oi.integration_id = i.id
 
     public function setPayeeEmail($email)   { $this->payee_reciept_email = $email; }
 
+    public function setTotalReturnedAmount($total_returned_amount) {
+        $this->total_returned_amount = $total_returned_amount;
+    }
+
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }
-
     public function getSubscriptionID()         { return $this->subscription_id; }
     public function getSubscriptionUID()        { return $this->subscription_uid; }
     public function getSubscriptionStatus()     { return $this->subscription_status; }
@@ -216,13 +219,14 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getSubscriptionCount()      { return $this->subscription_recur_count; }
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
+
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
 
     public function setSubscriptionID($order_item_id) {
         $this->subscription_id = $order_item_id;
     }
-
     public function getBatchID()            { return $this->batch_id; }
+
     public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
 
     public function calculateCurrentBatchID($time=null) {
@@ -270,6 +274,7 @@ SQL;
         return $AuthorizedTransaction;
     }
 
+
     public function performFraudScrubbing(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post)
     {
         $Merchant = $MerchantIdentity->getMerchantRow();
@@ -287,13 +292,12 @@ SQL;
 
     }
 
-
     // Static
-    
     const STAT_AMOUNT_TOTAL = 'amount_total';
     const STAT_DAILY = 'daily';
     const STAT_WEEK_TO_DATE = 'wtd';
     const STAT_WEEKLY = 'weekly';
+
     const STAT_MONTH_TO_DATE = 'mtd';
 
     const STAT_MONTHLY = 'monthly';
@@ -381,7 +385,6 @@ SQL;
         if($DB->lastInsertId())
             $OrderRow->id = $DB->lastInsertId();
     }
-
     /**
      * @param $field
      * @param $value
@@ -399,6 +402,8 @@ SQL;
             throw new \InvalidArgumentException("{$field} not found: " . $value);
         return $Row;
     }
+
+
     /**
      * @param $uid
      * @return OrderRow
@@ -415,7 +420,6 @@ SQL;
     public static function fetchByID($id) {
         return static::fetchByField('id', $id);
     }
-
 
     /**
      * @param AbstractMerchantIdentity $MerchantIdentity
