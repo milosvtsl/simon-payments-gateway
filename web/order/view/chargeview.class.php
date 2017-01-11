@@ -16,6 +16,7 @@ use Order\Model\OrderRow;
 use System\Arrays\Locations;
 use User\Session\SessionManager;
 use View\AbstractView;
+use View\Error\Mail\ErrorEmail;
 
 class ChargeView extends AbstractView
 {
@@ -520,9 +521,18 @@ class ChargeView extends AbstractView
                 "<div class='error'>Error: " . $ex->getMessage() . "</div>"
             );
             header('Location: /order/charge.php');
+
+            // Delete pending orders that didn't complete
             if($Order)
                 OrderRow::delete($Order);
-            // Delete pending orders that didn't complete
+
+            error_log($ex->getMessage());
+            
+            // Send error email
+            $Email = new ErrorEmail($ex);
+            $Email->send();
+
+
             die();
         }
     }

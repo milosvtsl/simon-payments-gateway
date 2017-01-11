@@ -410,6 +410,9 @@ XML;
             $args['transaction']['ReversalType'] = 'Partial';
             $args['transaction']['TransactionAmount'] = number_format($partial_return_amount, 2, '.', '');
             $ReturnTransaction->setAmount($partial_return_amount);
+            $OrderRow->setTotalReturnedAmount($partial_return_amount);
+        } else {
+            $OrderRow->setTotalReturnedAmount($OrderRow->getAmount());
         }
 
         $request = $this->prepareSOAPRequest(
@@ -681,7 +684,9 @@ XML;
                 throw new \InvalidArgumentException("Invalid Partial Return Amount");
             $args['transaction']['ReversalType'] = 'Partial';
             $args['transaction']['TransactionAmount'] = number_format($partial_return_amount, 2, '.', '');
-            $ReturnTransaction->setAmount($partial_return_amount);
+            $OrderRow->setTotalReturnedAmount($partial_return_amount);
+        } else {
+            $OrderRow->setTotalReturnedAmount($OrderRow->getAmount());
         }
 
         $request = $this->prepareSOAPRequest(

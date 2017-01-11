@@ -45,16 +45,16 @@ SELECT
   DATE_FORMAT(MIN(oi.date), '%Y-%m-%d') as start_date,
   DATE_FORMAT(DATE_ADD(MAX(oi.date), INTERVAL 1 DAY), '%Y-%m-%d') as end_date,
 
-  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.amount ELSE 0 END) as total,
+  sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN (oi.amount - oi.total_returned_amount) ELSE 0 END) as total,
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN 1 ELSE 0 END) as total_count,
 
-  sum(CASE WHEN oi.status = 'Settled' THEN oi.amount ELSE 0 END) as settled_total,
+  sum(CASE WHEN oi.status = 'Settled' THEN (oi.amount - oi.total_returned_amount) ELSE 0 END) as settled_total,
   sum(CASE WHEN oi.status = 'Settled' THEN 1 ELSE 0 END) as settled_count,
 
-  sum(CASE WHEN oi.status = 'Void' THEN oi.amount ELSE 0 END) as void_total,
+  sum(CASE WHEN oi.status = 'Void' THEN (oi.amount - oi.total_returned_amount) ELSE 0 END) as void_total,
   sum(CASE WHEN oi.status = 'Void' THEN 1 ELSE 0 END) as void_count,
 
-  sum(CASE WHEN oi.status = 'Return' THEN oi.amount ELSE 0 END) as return_total,
+  sum(CASE WHEN oi.status = 'Return' THEN (oi.amount - oi.total_returned_amount) ELSE 0 END) as return_total,
   sum(CASE WHEN oi.status = 'Return' THEN 1 ELSE 0 END) as return_count,
 
   sum(CASE WHEN oi.status IN ('Authorized', 'Settled') THEN oi.convenience_fee ELSE 0 END) as convenience_fee_total,

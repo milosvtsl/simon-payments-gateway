@@ -77,7 +77,7 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as year_to_date,
+	SUM(amount - total_returned_amount) as year_to_date,
 	COUNT(amount) as year_to_date_count
  FROM order_item oi
 
