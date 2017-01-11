@@ -525,7 +525,7 @@ class ChargeView extends AbstractView
             }
             $OrderForm = $this->form;
             $Order = $MerchantIdentity->createOrResumeOrder($post);
-            $Order->setForm($OrderForm->getID());
+            $Order->setFormID($OrderForm->getID());
 
             $_SESSION['order/charge.php']['order_id'] = $Order->getID();
 
