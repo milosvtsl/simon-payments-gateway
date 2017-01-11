@@ -425,7 +425,7 @@ class OrderView extends AbstractView
                                                 break;
 
                                             case 'Settled':
-                                                if($Order->getStatus() === 'Settled') {
+                                                if($Order->getStatus() === 'Settled' && !$Order->getTotalReturnedAmount()) {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
                                                     echo "\n\t\t\t<input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction(\"Return\", event);'/>";
                                                     echo "\n\t\t\t<input name='partial_return_amount' type='hidden' />";
