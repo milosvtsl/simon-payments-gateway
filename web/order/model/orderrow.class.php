@@ -159,6 +159,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
         return '...' . strrchr($this->uid, '-');
     }
     public function getAmount()             { return $this->amount; }
+    public function getTotalReturnedAmount()    { return $this->total_returned_amount; }
+
     public function getStatus()             { return $this->status; }
     public function getDate()               { return $this->date; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
@@ -295,65 +297,6 @@ SQL;
     const STAT_MONTH_TO_DATE = 'mtd';
 
     const STAT_MONTHLY = 'monthly';
-
-    public static function queryMerchantStats(UserRow $SessionUser=null, $offset=null) {
-
-        $year_to_date = date('Y-01-01');
-        $yearly  = date('Y-m-d', time() - 24*60*60*365 + $offset);
-
-        $month_to_date = date('Y-m-01');
-        $monthly  = date('Y-m-d', time() - 24*60*60*30 + $offset);
-
-        $week_to_date = date('Y-m-d', time() - 24*60*60*date('w') + $offset);
-        $weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
-
-        $today = date('Y-m-d', time() + $offset);
-
-        $SQL = <<<SQL
-SELECT
-	SUM(amount) as amount_total,
-
-	SUM(CASE WHEN date>='{$year_to_date}' THEN amount ELSE 0 END) as year_to_date,
-	SUM(CASE WHEN date>='{$year_to_date}' THEN 1 ELSE 0 END) as year_to_date_count,
-	SUM(CASE WHEN date>='{$yearly}' THEN amount ELSE 0 END) as yearly,
-    SUM(CASE WHEN date>='{$yearly}' THEN 1 ELSE 0 END) as yearly_count,
-
-	SUM(CASE WHEN date>='{$month_to_date}' THEN amount ELSE 0 END) as month_to_date,
-	SUM(CASE WHEN date>='{$month_to_date}' THEN 1 ELSE 0 END) as month_to_date_count,
-	SUM(CASE WHEN date>='{$monthly}' THEN amount ELSE 0 END) as monthly,
-	SUM(CASE WHEN date>='{$monthly}' THEN 1 ELSE 0 END) as monthly_count,
-
-	SUM(CASE WHEN date>='{$week_to_date}' THEN amount ELSE 0 END) as week_to_date,
-	SUM(CASE WHEN date>='{$week_to_date}' THEN 1 ELSE 0 END) as week_to_date_count,
-	SUM(CASE WHEN date>='{$weekly}' THEN amount ELSE 0 END) as weekly,
-	SUM(CASE WHEN date>='{$weekly}' THEN 1 ELSE 0 END) as weekly_count,
-
-	SUM(CASE WHEN date>='{$today}' THEN amount ELSE 0 END) as today,
-	SUM(CASE WHEN date>='{$today}' THEN 1 ELSE 0 END) as today_count,
-
-    SUM(convenience_fee) as fee_total
-
- FROM order_item oi
-
- WHERE status in ('Settled', 'Authorized')
-SQL;
-
-        if($SessionUser) {
-            $ids = $SessionUser->getMerchantList() ?: array(-1);
-            $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-//            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
-        }
-
-        $duration = -microtime(true);
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare($SQL);
-        $stmt->execute();
-        $stats = $stmt->fetch();
-        $duration += microtime(true);
-        $stats['duration'] = $duration;
-
-        return $stats;
-    }
 
     public static function delete(OrderRow $OrderRow) {
         $SQL = "DELETE FROM order_item WHERE id = ?";

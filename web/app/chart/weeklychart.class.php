@@ -77,7 +77,7 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as weekly,
+	SUM(amount - total_returned_amount) as weekly,
 	COUNT(*) as weekly_count
  FROM order_item oi
 

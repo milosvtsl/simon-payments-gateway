@@ -76,7 +76,7 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as today,
+	SUM(amount - total_returned_amount) as today,
 	COUNT(*) as today_count
  FROM order_item oi
 

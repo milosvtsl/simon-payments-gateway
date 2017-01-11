@@ -76,7 +76,7 @@ HTML;
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount) as monthly,
+	SUM(amount - total_returned_amount) as monthly,
 	COUNT(*) as monthly_count
  FROM order_item oi
 

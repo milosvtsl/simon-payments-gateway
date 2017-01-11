@@ -218,6 +218,13 @@ class OrderView extends AbstractView
                                     <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
                                 </tr>
 
+                            <?php if ($Order->getTotalReturnedAmount()) { ?>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Total Returned</td>
+                                    <td class="value" style="color: red;">$<?php echo $Order->getTotalReturnedAmount(); ?></td>
+                                </tr>
+                            <?php } ?>
+
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">Date</td>
                                     <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate()) + $offset); ?></td>
