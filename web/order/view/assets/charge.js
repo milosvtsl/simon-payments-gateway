@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             document.location.href = document.location.href.split('?')[0] + form.change_form_url.value;
             return false;
         }
-        if(form.change_merchant_url.value) {
+        if(form.change_merchant_url && form.change_merchant_url.value) {
             document.location.href = document.location.href.split('?')[0] + form.change_merchant_url.value;
             return false;
         }
