@@ -62,6 +62,8 @@ LEFT JOIN state s on m.state_id = s.id
         'GOVERNMENT_AGENCY'              => "Government Agency",
     );
 
+    const ENUM_STATUS_LIVE = 1;
+
     public static $ENUM_STATUS = array(
         1 => "Live",
         2 => "In Progress",
@@ -187,6 +189,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $fraud_low_limit;
     protected $fraud_high_monthly_limit;
     protected $fraud_flags;
+    protected $integration_default_id;
 
     // Table status
     protected $status_name;
@@ -366,8 +369,12 @@ LEFT JOIN state s on m.state_id = s.id
         return $Identities;
     }
 
-    // Static
+    public function getDefaultIntegrationID() {
+        return $this->integration_default_id;
+    }
 
+
+    // Static
 
     /**
      * @param $id
@@ -426,12 +433,12 @@ LEFT JOIN state s on m.state_id = s.id
     public static function queryByUserID($id) {
         $sql = MerchantRow::SQL_SELECT
             . "\nLEFT JOIN user_merchants um on m.id = um.id_merchant "
-            . "\nWHERE um.id_user = ?";
+            . "\nWHERE m.status_id = ? AND um.id_user = ?";
         $DB = DBConfig::getInstance();
         $MerchantQuery = $DB->prepare($sql);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $MerchantQuery->execute(array($id));
+        $MerchantQuery->execute(array(MerchantRow::ENUM_STATUS_LIVE, $id));
         return $MerchantQuery;
     }
 

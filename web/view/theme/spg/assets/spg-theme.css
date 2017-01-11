@@ -144,7 +144,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
     margin-left: 12em;
 }
 .spg-theme.layout-narrow ul.page-menu + article.themed {
-    margin-left: 51px;
+    margin-left: 60px;
 }
 
 body.layout-narrow.spg-theme ul.page-menu:not(:hover) ul {

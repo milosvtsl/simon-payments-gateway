@@ -84,6 +84,11 @@ FROM user u
     public function getMerchantCount() {
         return sizeof($this->getMerchantList());
     }
+
+    /**
+     * @return array
+     * @deprecated 
+     */
     public function getMerchantList() {
         if(is_array($this->merchant_list))
             return $this->merchant_list;

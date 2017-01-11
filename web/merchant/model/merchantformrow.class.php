@@ -194,6 +194,7 @@ FROM merchant_form mf
         return self::$AVAILABLE_FIELDS;
     }
 
+    
     public static function fetchByID($id) {
         return self::fetchByField('id', $id);
     }
@@ -215,7 +216,7 @@ FROM merchant_form mf
             $sql .= " AND mf.category LIKE ?";
             $values[] = $category;
         }
-        $stmt = $DB->prepare($sql . "\norder by id desc LIMIT 1");
+        $stmt = $DB->prepare($sql . "\norder by uid='default' desc, id desc LIMIT 1");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute($values);
@@ -228,7 +229,7 @@ FROM merchant_form mf
     /**
      * @param $field
      * @param $value
-     * @return MerchantRow
+     * @return MerchantFormRow
      * @throws \Exception
      */
     public static function fetchByField($field, $value) {

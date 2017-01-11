@@ -25,7 +25,7 @@ class ChargeView extends AbstractView
     /** @var MerchantRow */
     private $merchant;
 
-    public function __construct($formUID=null)    {
+    public function __construct($merchant_id, $formUID=null)    {
         if($formUID) {
             $OrderForm = MerchantFormRow::fetchByUID($formUID);
         } else {
@@ -35,7 +35,7 @@ class ChargeView extends AbstractView
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        $merchant_id = $OrderForm->getMerchantID();
+//        $merchant_id = $OrderForm->getMerchantID();
         if($merchant_id !== null) {
             if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
                 if(!in_array($merchant_id, $SessionUser->getMerchantList()))
@@ -43,10 +43,8 @@ class ChargeView extends AbstractView
             }
         } else {
             // Assign the first merchant id from the user's list
-            $list = $SessionUser->getMerchantList();
-            if(sizeof($list)==0)
-                throw new \Exception("No merchants assigned to user");
-            $merchant_id = $list[0];
+            $MerchantQuery = $SessionUser->queryUserMerchants();
+            $merchant_id = $MerchantQuery->fetch()->getID();
         }
 
         $this->merchant = MerchantRow::fetchByID($merchant_id);
@@ -108,10 +106,28 @@ class ChargeView extends AbstractView
                     </fieldset>
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:48%;">
-                        <div class="legend">Available Order Forms</div>
+                        <div class="legend">Order Form Options</div>
                         <table class="table-choose-merchant themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
+                                    <?php if(sizeof($SessionUser->getMerchantList()) > 1) { ?>
+                                    <select name="change_merchant_url" class="">
+                                        <option value="">Switch Merchant</option>
+                                        <?php
+                                        $MerchantQuery = $SessionUser->queryUserMerchants();
+                                        foreach ($MerchantQuery as $MerchantOption) {
+                                            /** @var MerchantRow $MerchantOption */
+                                            print_r($MerchantOption);
+                                            echo "\n\t\t\t\t\t\t\t<option",
+                                                ($MerchantOption->getID() === $MerchantRow->getID() ? ' selected="selected" value=""' :
+                                                " value='?form_uid=" . $OrderForm->getUID() . "&merchant_id=" . $MerchantOption->getID() . "'"), '>',
+                                            $MerchantOption->getShortName(),
+                                            "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    <?php } ?>
+
                                     <select name="change_form_url" class=""
                                         title="Select a charge form template">
                                         <option value="">Switch Templates</option>
@@ -136,10 +152,13 @@ class ChargeView extends AbstractView
                                     <a href="merchant/form.php?uid=<?php echo $OrderForm->getUID(); ?>" style="float: right; display: inline-block; padding: 2px 8px;">
                                         <div class="app-button app-button-edit" style="font-size: 24px;"></div>
                                     </a>
+
                                 </td>
                             </tr>
                         </table>
                     </fieldset>
+
+
 
                     <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:48%; min-height: 21em;">
                         <div class="legend">Cardholder Information</div>
@@ -492,8 +511,8 @@ class ChargeView extends AbstractView
                 $post['order_id'] = $_SESSION['order/charge.php']['order_id'];
 
             $_SESSION['order/charge.php'] = $post;
-            $Integration = IntegrationRow::fetchByID($post['integration_id']);
-            $Merchant = MerchantRow::fetchByID($post['merchant_id']);
+            $Merchant = $this->merchant; // MerchantRow::fetchByID($post['merchant_id']);
+            $Integration = IntegrationRow::fetchByID($Merchant->getDefaultIntegrationID());
             $MerchantIdentity = $Integration->getMerchantIdentity($Merchant);
 
             $SessionManager = new SessionManager();
@@ -504,10 +523,21 @@ class ChargeView extends AbstractView
                 if(!$SessionUser->hasMerchant($Merchant->getID()))
                     throw new IntegrationException("User does not have authority");
             }
+            $OrderForm = $this->form;
             $Order = $MerchantIdentity->createOrResumeOrder($post);
+            $Order->setForm($OrderForm->getID());
+
             $_SESSION['order/charge.php']['order_id'] = $Order->getID();
 
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $post);
+
+            // Insert custom order fields
+
+            foreach($OrderForm->getAllCustomFields(false) as $customField) {
+                if(!empty($post[$customField])) {
+                    $Order->insertCustomField($customField, $post[$customField]);
+                }
+            }
 
             $this->setSessionMessage(
                 "<div class='info'>Success: " . $Transaction->getStatusMessage() . "</div>"

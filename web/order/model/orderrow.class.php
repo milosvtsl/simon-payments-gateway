@@ -111,6 +111,10 @@ class OrderRow
     protected $integration_id;
     protected $subscription_id;
     protected $batch_id;
+    protected $form_id;
+
+    // Table order_field
+    protected $order_fields;
 
     // Table integration
     protected $integration_name;
@@ -141,7 +145,13 @@ s.recur_next_date as subscription_recur_next_date,
 s.recur_frequency as subscription_recur_frequency,
 
 m.short_name as merchant_short_name,
-i.name integration_name
+i.name integration_name,
+(SELECT GROUP_CONCAT(
+  CONCAT_WS(':', of.field_name, of.field_value) SEPARATOR '|') 
+  FROM order_field of 
+  WHERE oi.id = of.order_id 
+) as order_fields
+
 FROM order_item oi
 LEFT JOIN subscription s on oi.id = s.order_item_id
 LEFT JOIN merchant m on oi.merchant_id = m.id
@@ -195,9 +205,12 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
-    public function getOrderItemID()        { return $this->order_item_id; }
+    public function getFormID()             { return $this->form_id; }
+    public function setFormID($form_id)     { $this->form_id = $form_id; }
 
+    public function getOrderItemID()        { return $this->order_item_id; }
     public function getConvenienceFee()     { return $this->convenience_fee; }
+
     public function getEntryMode()          { return $this->entry_mode; }
 
     public function setStatus($status)      { $this->status = $status; }
@@ -207,7 +220,6 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function setTotalReturnedAmount($total_returned_amount) {
         $this->total_returned_amount = $total_returned_amount;
     }
-
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }
@@ -218,16 +230,31 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getSubscriptionAmount()     { return $this->subscription_recur_amount; }
     public function getSubscriptionCount()      { return $this->subscription_recur_count; }
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
+
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
 
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
-
     public function setSubscriptionID($order_item_id) {
         $this->subscription_id = $order_item_id;
     }
+
     public function getBatchID()            { return $this->batch_id; }
 
+    public function getCustomFieldValues() {
+        if(!is_array($this->order_fields)) {
+            $arr = array();
+            $split = explode('|', $this->order_fields);
+            foreach($split as $pair) {
+                $pair = explode(':', $pair);
+                $arr[$pair[0]] = $pair[1];
+            }
+            $this->order_fields = $arr;
+        }
+        return $this->order_fields;
+    }
+
     public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
+
 
     public function calculateCurrentBatchID($time=null) {
         $DB = DBConfig::getInstance();
@@ -274,7 +301,6 @@ SQL;
         return $AuthorizedTransaction;
     }
 
-
     public function performFraudScrubbing(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post)
     {
         $Merchant = $MerchantIdentity->getMerchantRow();
@@ -291,11 +317,16 @@ SQL;
                 throw new FraudException("Order is below Low Limit ($amount < $min)");
 
     }
-
+    public function insertCustomField($field, $value) {
+        OrderFieldRow::insertOrUpdate($this, $field, $value);
+    }
     // Static
     const STAT_AMOUNT_TOTAL = 'amount_total';
+
     const STAT_DAILY = 'daily';
+
     const STAT_WEEK_TO_DATE = 'wtd';
+
     const STAT_WEEKLY = 'weekly';
 
     const STAT_MONTH_TO_DATE = 'mtd';
@@ -310,18 +341,19 @@ SQL;
         if(!$ret)
             throw new \PDOException("Failed to delete row");
     }
-
     public static function insert(OrderRow $OrderRow) {
         if($OrderRow->id)
             throw new \InvalidArgumentException("Order Row has already been inserted");
         self::insertOrUpdate($OrderRow);
     }
 
+
     public static function update(OrderRow $OrderRow) {
         if(!$OrderRow->id)
             throw new \InvalidArgumentException("Order Row is missing an id");
         self::insertOrUpdate($OrderRow);
     }
+
 
     public static function insertOrUpdate(OrderRow $OrderRow) {
         $values = array(
@@ -385,6 +417,7 @@ SQL;
         if($DB->lastInsertId())
             $OrderRow->id = $DB->lastInsertId();
     }
+
     /**
      * @param $field
      * @param $value
@@ -403,7 +436,6 @@ SQL;
         return $Row;
     }
 
-
     /**
      * @param $uid
      * @return OrderRow
@@ -411,7 +443,6 @@ SQL;
     public static function fetchByUID($uid) {
         return static::fetchByField('uid', $uid);
     }
-
 
     /**
      * @param $id
@@ -478,13 +509,13 @@ SQL;
         $OrderRow->customer_first_name = @$post['customer_first_name'];
         $OrderRow->customer_last_name = @$post['customer_last_name'];
         $OrderRow->customermi = @$post['customermi'];
-        $OrderRow->customer_id = $post['customer_id'];
+        $OrderRow->customer_id = @$post['customer_id'];
 
-        $OrderRow->invoice_number = $post['invoice_number'];
+        $OrderRow->invoice_number = @$post['invoice_number'];
 
         $OrderRow->payee_first_name = $post['payee_first_name'];
         $OrderRow->payee_last_name = $post['payee_last_name'];
-        $OrderRow->payee_phone_number = $post['payee_phone_number'];
+        $OrderRow->payee_phone_number = @$post['payee_phone_number'];
         $OrderRow->payee_address = $post['payee_address'];
         $OrderRow->payee_address2 = $post['payee_address2'];
 
