@@ -53,6 +53,11 @@ FROM merchant_form mf
         'plea_text' => 'Plea',
     );
 
+    public static $BUILD_IN_FIELDS = array(
+        'payee_receipt_email' => 'Email',
+        'payee_phone_number' => 'Phone',
+    );
+
     protected $id;
     protected $uid;
     protected $merchant_id;
@@ -119,7 +124,7 @@ FROM merchant_form mf
 
     public function getCustomFieldName($fieldName, $defaultName=null) {
         $list = $this->getFieldList();
-        return @$list[$fieldName]['name'] ?: $defaultName ?: self::$AVAILABLE_FIELDS[$fieldName];
+        return @$list[$fieldName]['name'] ?: $defaultName ?: @self::$AVAILABLE_FIELDS[$fieldName] ?: self::$BUILD_IN_FIELDS[$fieldName];
     }
     
 //    public function setMerchantID($id)  { $this->merchant_id = $id; }
