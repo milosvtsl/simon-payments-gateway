@@ -187,7 +187,7 @@ HEAD;
                                 </tr>
                                 <?php
                                 // TODO: add additional field select
-                                foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                foreach(MerchantFormRow::getAvailableFields(true) as $field=>$title) {
                                     if(!$Form->hasField($field))
                                         continue;
                                     ?>
@@ -204,7 +204,7 @@ HEAD;
                                     <?php
                                 }
 
-                                foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                foreach(MerchantFormRow::getAvailableFields(true) as $field=>$title) {
                                     if($Form->hasField($field))
                                         continue;
                                     ?>
@@ -227,7 +227,7 @@ HEAD;
                                             <select name="field_add_select">
                                                 <option value="">Create a Custom Form Field</option>
                                             <?php
-                                            foreach(MerchantFormRow::getAvailableFields() as $field=>$title) {
+                                            foreach(MerchantFormRow::getAvailableFields(true) as $field=>$title) {
                                                 echo "\n\t\t\t\t<option value='{$field}'>{$title}</option>";
                                             } ?>
                                             </select>

@@ -200,7 +200,9 @@ FROM merchant_form mf
 
     // Static
 
-    public static function getAvailableFields() {
+    public static function getAvailableFields($include_built_in_fields=false) {
+        if($include_built_in_fields)
+            return self::$AVAILABLE_FIELDS + self::$BUILD_IN_FIELDS;
         return self::$AVAILABLE_FIELDS;
     }
 
