@@ -128,3 +128,5 @@ $Theme->printHTMLMenu('merchant-add');
             </form>
         </section>
     </article>
+
+<?php         $this->getTheme()->renderHTMLBodyFooter(); ?>

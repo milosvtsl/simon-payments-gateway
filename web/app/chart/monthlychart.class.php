@@ -85,9 +85,8 @@ WHERE
     AND status in ('Settled', 'Authorized')
 SQL;
         $SessionUser = $this->getSessionUser();
-        $ids = $SessionUser->getMerchantList() ?: array(-1);
-        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-//            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
         $duration = -microtime(true);
         $DB = DBConfig::getInstance();

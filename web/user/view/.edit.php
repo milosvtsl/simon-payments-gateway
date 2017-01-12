@@ -3,11 +3,16 @@ use Merchant\Model\MerchantRow;
 use User\Model\UserRow;
 use User\Model\AuthorityRow;
 use User\Model\UserAuthorityRow;
+use User\Session\SessionManager;
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
- * @var UserRow $User
  **/
+
+$SessionManager = new SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
+$User = $this->getUser();
+
 $odd = false;
 $action_url = '/user/index.php?id=' . $User->getID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'user-edit';

@@ -319,3 +319,5 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
             </form>
         </section>
     </article>
+
+<?php $this->getTheme()->renderHTMLBodyFooter(); ?>

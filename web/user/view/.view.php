@@ -1,12 +1,19 @@
 <?php
 use Merchant\Model\MerchantRow;
+use User\Session\SessionManager;
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
  * @var \User\Model\UserRow $User
  **/
+
+
+$SessionManager = new SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
+$User = $this->getUser();
+
 $odd = false;
-$action_url = 'user?id=' . $User->getID() . '&action=';
+$action_url = 'user?uid=' . $User->getUID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account' : 'user-view';
 
 $Theme = $this->getTheme();
@@ -31,7 +38,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                             </div>
                         </a>
 
-                        <div class="legend">User Information</div>
+                        <div class="legend">User Information: <?php echo $User->getFullName(); ?></div>
                         <?php $odd = true; ?>
                         <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -105,7 +112,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <?php
                                     try {
                                         $AdminUser = \User\Model\UserRow::fetchByID($User->getAdminID());
-                                        echo "<a href='/user?id=", $AdminUser->getID(), "'>", $AdminUser->getFullName(), "</a>";
+                                        echo "<a href='/user?uid=", $AdminUser->getUID(), "'>", $AdminUser->getFullName(), "</a>";
                                     } catch (InvalidArgumentException $ex) {
 
                                     }

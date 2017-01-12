@@ -15,8 +15,8 @@ use View\AbstractView;
 class UserView extends AbstractView
 {
     private $user;
-    public function __construct($user_id) {
-        $this->user = UserRow::fetchByID($user_id);
+    public function __construct($user_uid) {
+        $this->user = UserRow::fetchByUID($user_uid);
         if(!$this->user)
             throw new \InvalidArgumentException("Invalid User ID: " . $user_id);
         parent::__construct();
@@ -27,18 +27,8 @@ class UserView extends AbstractView
 
     public function renderHTMLBody(Array $params) {
         $action = @$params['action'] ?: 'view';
-
-        $User = $this->getUser();
-
-        $SessionUser = SessionManager::get()->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-            // Only admins may edit other users
-            if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
-                $this->setSessionMessage("Unable to view user. Permission required: ROLE_ADMIN");
-                header('Location: /user'); // ?id=' . $User->getID() . '&action=edit&message=Unable to view user. Permission required: ROLE_ADMIN');
-                die();
-            }
-        }
+        
+        $this->handleAuthority();
 
         // Render Page
         switch($action) {
@@ -58,17 +48,10 @@ class UserView extends AbstractView
     public function processFormRequest(Array $post) {
         $User = $this->getUser();
 
+        $this->handleAuthority();
+
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-            // Only admins may edit other users
-            if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
-                $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
-
-                header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');                
-                die();
-            }
-        }
 
         // Process POST
         switch(strtolower(@$post['action'])) {
@@ -117,7 +100,7 @@ class UserView extends AbstractView
                     $updates > 0
                         ? $this->setSessionMessage("<div class='info'>" . $updates . " user fields updated successfully: " . $User->getUID() . '</div>')
                         : $this->setSessionMessage("<div class='info'>No changes detected: " . $User->getUID() . '</div>');
-                    header('Location: /user?id=' . $User->getID());
+                    header('Location: /user?uid=' . $User->getUID());
                     die();
 
                 } catch (\Exception $ex) {
@@ -125,7 +108,7 @@ class UserView extends AbstractView
 //                    $this->renderHTML(array(
 //                        'action' => 'edit'
 //                    ));
-                    header('Location: /user?id=' . $User->getID() . '&action=edit&message=' . $ex->getMessage());
+                    header('Location: /user?uid=' . $User->getUID() . '&action=edit&message=' . $ex->getMessage());
                     die();
                 }
                 break;
@@ -146,23 +129,40 @@ class UserView extends AbstractView
                     die();
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
-                    header('Location: /user?id=' . $User->getID() . '&action=delete&message=' . $ex->getMessage());
+                    header('Location: /user?uid=' . $User->getUID() . '&action=delete&message=' . $ex->getMessage());
                     die();
                 }
 
             case 'login':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
                     $this->setSessionMessage("Could not log in as user. Permission required: ROLE_ADMIN");
-                    header('Location: /user?id=' . $User->getID());
+                    header('Location: /user?uid=' . $User->getUID());
                     die();
                 }
                 $SessionManager->adminLoginAsUser($User);
                 $this->setSessionMessage("Admin Login as: " . $User->getUsername());
-                header('Location: /user?id=' . $User->getID());
+                header('Location: /user?uid=' . $User->getUID());
                 die();
 
             default:
                 throw new \InvalidArgumentException("Invalid Action");
+        }
+
+    }
+
+    private function handleAuthority()
+    {
+        $User = $this->getUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+            // Only admins may edit other users
+            if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
+                $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
+
+                header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');
+                die();
+            }
         }
 
     }

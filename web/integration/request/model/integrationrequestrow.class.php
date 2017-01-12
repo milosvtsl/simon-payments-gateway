@@ -68,7 +68,8 @@ SELECT
     i.name integration_name,
     i.class_path integration_class_path,
     m.short_name as merchant_name,
-    u.username as user_name
+    u.username as user_name,
+    u.uid as user_uid
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
@@ -82,7 +83,8 @@ SELECT
     i.name integration_name,
     i.class_path integration_class_path,
     m.short_name as merchant_name,
-    u.username as user_name
+    u.username as user_name,
+    u.uid as user_uid
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
@@ -128,7 +130,8 @@ LEFT JOIN user u ON u.id = ir.user_id
     // Table: user
 
     protected $user_name;
-
+    protected $user_uid;
+    
     /**
      * @return mixed
      */
@@ -155,6 +158,7 @@ LEFT JOIN user u ON u.id = ir.user_id
     public function getResponseCode()       { return $this->response_code; }
     public function getResponseMessage()    { return $this->response_message; }
     public function getUserID()             { return $this->user_id; }
+    public function getUserUID()            { return $this->user_uid; }
     public function getUserName()           { return $this->user_name; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantName()       { return $this->merchant_name; }

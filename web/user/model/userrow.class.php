@@ -61,6 +61,7 @@ FROM user u
     const SQL_ORDER_BY = "\nORDER BY u.id DESC";
 
 
+
     public function getID()             { return $this->id; }
     public function getUID()            { return $this->uid; }
     public function getUsername()       { return $this->username; }
@@ -266,6 +267,20 @@ SQL;
 
     // Static
 
+
+
+    public static function fetchByUID($uid)
+    {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.uid = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
+        $stmt->execute(array($uid));
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("User UID not found: " . $uid);
+        return $Row;
+    }
     /**
      * @param $id
      * @return UserRow

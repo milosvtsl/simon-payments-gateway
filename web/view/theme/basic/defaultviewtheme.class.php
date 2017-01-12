@@ -32,7 +32,7 @@ class DefaultViewTheme extends AbstractViewTheme
 //                $this->addNavLink('integration', "Integration");
 
             } else {
-                $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
+                $this->addNavLink('user?uid=' . $SessionUser->getUID(), "My Account");
             }
 
             if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {

@@ -220,25 +220,27 @@ HEAD;
                 </li>
             <?php } ?>
 
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
                     <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
                         <span>Merchants</span> </a>
                     <ul>
-                        <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
-                            <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                    <span>View Merchant</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                    <span>Edit Merchant</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
-                                    <span>Provision</span></a>
-                            </li>
-                        <?php } ?>
+
+                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+
+                    <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
+                        <li>
+                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
+                                <span>View Merchant</span></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
+                                <span>Edit Merchant</span></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
+                                <span>Provision</span></a>
+                        </li>
+                    <?php } ?>
 
                         <li>
                             <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
@@ -250,16 +252,16 @@ HEAD;
                         </li>
                         <li>
                             <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form-list']; ?>"><div class="menu-icon menu-icon-customize"></div>
-                                <span>Forms</span> </a>
+                                <span>Order Forms</span> </a>
                         </li>
                         <li>
                             <a href="merchant/addform.php" class="button<?php echo @$mc['merchant-form-add']; ?>"><div class="menu-icon menu-icon-add"></div>
-                                <span>New Form</span> </a>
+                                <span>Create Form</span> </a>
                         </li>
+                        <?php } ?>
 
                     </ul>
                 </li>
-            <?php } ?>
 
 
             <li class="menu-submenu menu-submenu-user">

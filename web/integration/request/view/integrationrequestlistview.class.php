@@ -219,7 +219,7 @@ class IntegrationRequestListView extends AbstractListView {
                                     <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
                                     <td><a href='order?id=<?php echo $Request->getOrderItemID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
                                     <td class="hide-on-layout-narrow"><a href='transaction?id=<?php echo $Request->getTransactionID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
-                                    <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserName(); ?></a></td>
+                                    <td class="hide-on-layout-narrow"><a href='user?uid=<?php echo $Request->getUserUID(); ?>'><?php echo $Request->getUserName(); ?></a></td>
                                     <td class="hide-on-layout-narrow"><?php echo round($Request->getDuration(), 3); ?>s</td>
                                 </tr>
                             <?php } ?>

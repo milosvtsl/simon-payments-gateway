@@ -69,7 +69,7 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>User</td>
-                            <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='user?uid=<?php echo $Request->getUserUID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Request</td>

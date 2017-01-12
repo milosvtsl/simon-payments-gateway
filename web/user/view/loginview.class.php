@@ -87,10 +87,17 @@ class LoginView extends AbstractView {
             case 'logout':
                 try {
                     $SessionManager = new SessionManager();
+                    $SessionUser = $SessionManager->getSessionUser();
                     $SessionManager->logout();
+                    $this->setSessionMessage("Logged out successfully: " . $SessionUser->getUsername());
 
-                    $this->setSessionMessage("Logged out successfully");
-                    header("Location: /");
+                    if($SessionManager->isLoggedIn()) {
+                        header("Location: /user?uid=" . $SessionUser->getUID());
+
+                    } else {
+                        header("Location: /");
+                    }
+
                 } catch (\Exception $ex) {
                     $this->setSessionMessage($ex->getMessage());
                     header("Location: login.php");

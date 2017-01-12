@@ -29,12 +29,12 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-if(isset($_GET['id'])) {
+if(isset($_GET['uid'])) {
     if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
-        $View = new \User\View\UserView($_GET['id']);
+        $View = new \User\View\UserView($_GET['uid']);
         $View->handleRequest();
     } else {
-        $View = new \User\View\UserView($SessionUser->getID());
+        $View = new \User\View\UserView($SessionUser->getUID());
         $View->handleRequest();
     }
 

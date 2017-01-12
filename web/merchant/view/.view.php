@@ -294,8 +294,8 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         foreach($UserQuery as $UserRow) {
                             ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href="user?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
-                                <td><a href="user?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
+                                <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
+                                <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
                             </tr>
 
                         <?php } ?>
@@ -347,3 +347,5 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
             </form>
         </section>
     </article>
+
+<?php $this->getTheme()->renderHTMLBodyFooter(); ?>
