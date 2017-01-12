@@ -77,7 +77,7 @@ class MerchantFormListView extends AbstractListView {
 		$Theme->addPathURL('merchant',             'Merchants');
 		$Theme->addPathURL('merchant/form.php',    'Forms');
 		$Theme->renderHTMLBodyHeader();
-		$Theme->printHTMLMenu('merchant-form');
+		$Theme->printHTMLMenu('merchant-form-list');
 ?>
 		<article class="themed">
 			<section class="content">

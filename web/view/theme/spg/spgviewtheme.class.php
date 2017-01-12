@@ -128,7 +128,7 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks($flags=0) {
-        $v = '?v=5';
+        $v = '?v=5'; // filemtime()
         if(in_array(strtolower(@$_SERVER['SERVER_NAME']), array('localhost')))
             $v = '';
 
@@ -246,8 +246,12 @@ HEAD;
                                 <span>Add</span> </a>
                         </li>
                         <li>
-                            <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form']; ?>"><div class="menu-icon menu-icon-customize"></div>
+                            <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form-list']; ?>"><div class="menu-icon menu-icon-customize"></div>
                                 <span>Forms</span> </a>
+                        </li>
+                        <li>
+                            <a href="merchant/addform.php" class="button<?php echo @$mc['merchant-form-add']; ?>"><div class="menu-icon menu-icon-add"></div>
+                                <span>New Form</span> </a>
                         </li>
 
                     </ul>

@@ -82,7 +82,10 @@ class ChargeView extends AbstractView
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-                <form name="form-transaction-charge" class="<?php echo $OrderForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed" method="POST">
+                <form name="form-transaction-charge"
+                      class="<?php echo $OrderForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
+                      method="POST"
+                >
                     <input type="hidden" name="convenience_fee_flat" value="<?php echo $MerchantRow->getConvenienceFeeFlat(); ?>" />
                     <input type="hidden" name="convenience_fee_limit" value="<?php echo $MerchantRow->getConvenienceFeeLimit(); ?>" />
                     <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $MerchantRow->getConvenienceFeeVariable(); ?>" />
@@ -188,7 +191,7 @@ class ChargeView extends AbstractView
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">**CVV</td>
-                                <td><input type="number" name="card_cvv2" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
+                                <td><input type="text" name="card_cvv2" placeholder="xxxx" autocomplete="off" style="width: 4em;" /></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">Expiration</td>
@@ -427,7 +430,9 @@ class ChargeView extends AbstractView
                         </table>
                     </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 48%; min-height: 12em;">
+                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 48%; min-height: 12em;"
+                    <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>
+                    >
                         <div class="legend">Submit Order</div>
                         <table class="table-transaction-charge themed" style="width: 48%;">
                             <!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->

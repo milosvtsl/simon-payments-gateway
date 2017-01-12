@@ -34,9 +34,9 @@ FROM merchant_form mf
     const FLAG_RECUR_ENABLED = 'recur_enabled';
     public static $AVAILABLE_FIELDS = array(
         // Built In
-        'customer_id' => 'Customer ID',
-        'username' => 'Username',
-        'invoice_number' => 'Invoice #',
+//        'customer_id' => 'Customer ID',
+//        'username' => 'Username',
+//        'invoice_number' => 'Invoice #',
 
         // Custom
         'case_number' => 'Case #',
@@ -54,6 +54,10 @@ FROM merchant_form mf
     );
 
     public static $BUILD_IN_FIELDS = array(
+        'customer_id' => 'Customer ID',
+        'username' => 'Username',
+        'invoice_number' => 'Invoice #',
+
         'payee_receipt_email' => 'Email',
         'payee_phone_number' => 'Phone',
     );
@@ -131,8 +135,9 @@ FROM merchant_form mf
 
     public function getAllCustomFields($including_built_in_fields=false)
     {
-        $list = $this->getFieldList();
-        return array_keys($list);
+        $list = array_keys($this->getFieldList());
+        $list = array_diff($list, array_keys(self::$BUILD_IN_FIELDS));
+        return $list;
     }
 
     public function updateFields($post) {
@@ -162,7 +167,7 @@ FROM merchant_form mf
         foreach($post['fields'] as $field => $value) {
             $field = preg_replace('/[^a-z0-9_-]+/', '', $field);
             $fields[$field] = array();
-            $defaultName = MerchantFormRow::$AVAILABLE_FIELDS[$field];
+            $defaultName = @MerchantFormRow::$AVAILABLE_FIELDS[$field] ?: @MerchantFormRow::$BUILD_IN_FIELDS[$field] ?: $field;
             if(!$defaultName)
                 continue;
 
@@ -285,39 +290,31 @@ FROM merchant_form mf
 
     /**
      * @param $post
-     * @return MerchantRow
+     * @return MerchantFormRow
      */
     public static function createNewMerchantForm($post) {
-        if(strlen($post['name']) < 5)
-            throw new \InvalidArgumentException("Merchant Name must be at least 5 characters");
-
-        if (!filter_var($post['main_email_id'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
-
         $params = array();
-        $Merchant = new MerchantFormRow();
-        $Merchant->uid = strtolower(self::generateGUID());
-        $params[':uid'] = $Merchant->uid;
+        $params[':uid'] = self::generateGUID();
+        $sqlSet = "\nSET uid = :uid";
 
-        $sqlSet = "";
-        foreach(self::$UPDATE_FIELDS as $field) {
-            if(!empty($post[$field])) {
-                $params[':'.$field] = $post[$field];
-                $sqlSet .= ($sqlSet ? ",\n" : "\nSET ") . $field . '=:' . $field;
-                $Merchant->$field = $post[$field];
-            }
-        }
-        if(!$sqlSet)
-            return 0;
-        $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet
-            . ", uid = :uid, version = 10";
+        if(strlen($post['title']) < 5)
+            throw new \InvalidArgumentException("Form Title must be at least 5 characters");
+        $params[':title'] = $post['title'];
+        $sqlSet .= ",title = :title";
+
+        $MerchantRow = MerchantRow::fetchByUID($post['merchant_uid']);
+        $params[':merchant_id'] = $MerchantRow->getID();
+        $sqlSet .= ",merchant_id = :merchant_id";
+
+        $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet;
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($sql);
         $ret = $stmt->execute($params);
         if(!$ret || !$DB->lastInsertId())
             throw new \PDOException("Failed to insert new row");
-        $Merchant->id = $DB->lastInsertId();
-        return $Merchant;
+        $id = $DB->lastInsertId();
+        $NewForm = self::fetchByID($id);
+        return $NewForm;
     }
 
     public static function generateGUID() {

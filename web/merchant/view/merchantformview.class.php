@@ -119,7 +119,7 @@ HEAD;
         $Theme->addPathURL('merchant/form.php',     'Forms');
         $Theme->addPathURL($action_url,     $Form->getTitle());
         $Theme->renderHTMLBodyHeader();
-        $Theme->printHTMLMenu('merchant-edit', $action_url);
+        $Theme->printHTMLMenu('merchant-form-edit', $action_url);
 ?>
         <article class="themed">
             <section class="content">
@@ -242,7 +242,7 @@ HEAD;
 
                     <fieldset>
                         <div class="legend">Preview Order Page Template #<?php echo $Form->getUID(); ?></div>
-                        <iframe src="order/charge.php?iframe=1&disabled=1" style="width: 99%; min-height: 56em; opacity: 0.5; transform: scale(0.8);"></iframe>
+                        <iframe src="order/charge.php?form_uid=<?php echo $Form->getUID(); ?>&iframe=1&disabled=1" style="width: 99%; min-height: 56em; opacity: 0.5; transform: scale(0.8);"></iframe>
                     </fieldset>
                 </form>
             </section>
