@@ -28,13 +28,16 @@ if(!isset($_GET['uid']))
 try {
     $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
     $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
+    $View->handleRequest();
+
 } catch (InvalidArgumentException $ex) {
 //    $View = new \Order\View\OrderListView();
-    $View = new \User\View\LoginView();
-    $View->setSessionMessage(
-        "<div class='error'>" .
-        $ex->getMessage() .
-        "</div>"
-    );
+
+    $SessionManager = new \User\Session\SessionManager();
+    if(!$SessionManager->isLoggedIn()) {
+        header('Location: /login.php?message=' . $ex->getMessage());
+        die();
+    }
+
+    throw $ex;
 }
-$View->handleRequest();

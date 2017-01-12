@@ -20,6 +20,7 @@
     display: inline-block !important;
 }
 
+body.layout-guest.spg-theme .hide-on-layout-guest,
 body.layout-narrow.spg-theme .hide-on-layout-narrow,
 body.layout-vertical.spg-theme .hide-on-layout-vertical,
 body.layout-horizontal.spg-theme .hide-on-layout-horizontal {

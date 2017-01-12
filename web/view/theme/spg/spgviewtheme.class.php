@@ -44,7 +44,8 @@ class SPGViewTheme extends AbstractViewTheme
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-
+        if(!$SessionManager->isLoggedIn())
+            $body_class .= ' layout-guest';
 
         ?>
     <body class="spg-theme <?php echo $body_class; ?>">
@@ -73,7 +74,7 @@ class SPGViewTheme extends AbstractViewTheme
             </span>
 
 
-            <a href="#" onclick="return false;" class="menu-button-account" style="float: right;">
+            <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
                 <div class="menu-icon menu-icon-sub-menu"></div>
                 <ul class="menu-sub-menu">
                     <li>
@@ -109,7 +110,7 @@ class SPGViewTheme extends AbstractViewTheme
         ?>
         <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
         <footer class="hide-on-print">
-            <span>&copy; 2017 Simon Payments, LLC. All rights reserved.</span>
+            <span>&copy; <?php echo date('Y'); ?> Simon Payments, LLC. All rights reserved.</span>
         </footer>
         <?php } ?>
     </body>
@@ -128,16 +129,15 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks($flags=0) {
-        $v = '?v=5'; // filemtime()
-        if(in_array(strtolower(@$_SERVER['SERVER_NAME']), array('localhost')))
-            $v = '';
+        $vjs = '?v=' . filemtime(__DIR__ . '/assets/spg-theme.js');
+        $vcss = '?v=' . filemtime(__DIR__ . '/assets/spg-theme.css');
 
         echo <<<HEAD
         <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
-        <link href='view/theme/spg/assets/spg-theme.css{$v}' type='text/css' rel='stylesheet'>
-        <script src="view/theme/spg/assets/spg-theme.js{$v}"></script>
-        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico{$v}">
+        <link href='view/theme/spg/assets/spg-theme.css{$vcss}' type='text/css' rel='stylesheet'>
+        <script src="view/theme/spg/assets/spg-theme.js{$vjs}"></script>
+        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
 HEAD;
     }
 
@@ -153,6 +153,9 @@ HEAD;
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
+
+        if(!$SessionManager->isLoggedIn())
+            return;
 
         list($main) = explode('-', $category, 2);
         $mc = array();
