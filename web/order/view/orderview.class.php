@@ -340,17 +340,18 @@ class OrderView extends AbstractView
 
 
                             <?php
-                            if($Order->getFormID()) {
-                                $OrderForm = MerchantFormRow::fetchByID($Order->getFormID());
-                                foreach($Order->getCustomFieldValues() as $field=>$value) {
+
+                            $OrderForm = $Order->getFormID() ? MerchantFormRow::fetchByID($Order->getFormID()) : NULL;
+                            foreach($Order->getCustomFieldValues() as $field=>$value) {
+                                $title = $field;
+                                if($OrderForm)
                                     $title = $OrderForm->getCustomFieldName($field);
-                                    ?>
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name"><?php echo $title; ?></td>
-                                        <td><?php echo $value; ?></td>
-                                    </tr>
-                                    <?php
-                                }
+                                ?>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name"><?php echo $title; ?></td>
+                                    <td><?php echo $value; ?></td>
+                                </tr>
+                                <?php
                             }
                             ?>
 

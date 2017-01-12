@@ -93,7 +93,7 @@ class ChargeView extends AbstractView
                     <input type="hidden" name="form_uid" value="<?php echo $OrderForm->getUID(); ?>" />
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:48%; ">
-                        <div class="legend">Choose a Payment Method</div>
+                        <div class="legend">Payment Method: <?php echo $MerchantRow->getShortName(); ?></div>
                         <table class="table-payment-method themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
@@ -377,7 +377,9 @@ class ChargeView extends AbstractView
                                     ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name"><?php echo $title; ?></td>
-                                <td><input type="text" name="<?php echo $field; ?>" placeholder="<?php echo $title; ?>" <?php echo $OrderForm->isFieldRequired($field) ? 'required ' : ''; ?>/></td>
+                                <td>
+                                    <input type="text" name="<?php echo $field; ?>" placeholder="<?php echo $title; ?>" <?php echo $OrderForm->isFieldRequired($field) ? 'required ' : ''; ?>/>
+                                </td>
                             </tr>
                                     <?php
                                 }

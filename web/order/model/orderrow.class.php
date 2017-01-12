@@ -362,6 +362,7 @@ SQL;
             ':integration_id' => $OrderRow->integration_id,
             ':subscription_id' => $OrderRow->subscription_id,
             ':batch_id' => $OrderRow->batch_id,
+            ':form_id' => $OrderRow->form_id,
             ':version' => $OrderRow->version,
             ':amount' => $OrderRow->amount,
             ':card_exp_month' => $OrderRow->card_exp_month,
