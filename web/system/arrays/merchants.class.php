@@ -8,14 +8,16 @@
 
 namespace System\Arrays;
 
-use Dompdf\Exception;
 
 class Merchants
 {
-    static function getDescription($mcc_code) {
+    static function getDescription($mcc_code, $throw_exception=true) {
         $mcc_code = intval($mcc_code);
-        if(!isset(self::$MCC[$mcc_code]))
-            throw new Exception("Invalid MCC Code: " . $mcc_code);
+        if(!isset(self::$MCC[$mcc_code])) {
+            if($throw_exception)
+                throw new \Exception("Invalid MCC Code: " . $mcc_code);
+            return 'N/A';
+        }
 
         return self::$MCC[$mcc_code];
     }

@@ -69,7 +69,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant MCC</td>
-                            <td><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC()); ?></td>
+                            <td><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC(), false); ?></td>
                         </tr>
 
                         <tr>
