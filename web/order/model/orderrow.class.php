@@ -246,6 +246,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
             $split = explode('|', $this->order_fields);
             foreach($split as $pair) {
                 $pair = explode(':', $pair);
+                if(sizeof($pair) < 2)
+                    continue;
                 $arr[$pair[0]] = $pair[1];
             }
             $this->order_fields = $arr;

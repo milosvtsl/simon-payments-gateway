@@ -30,10 +30,10 @@ class MerchantRow
     const SORT_BY_ID                = 'm.id';
 
     public static $FRAUD_FLAG_DESCRIPTIONS = array(
-        self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves on the Same Day",
-        self::FRAUD_FLAG_DUPLICATE_CARD_10MINUTE => "Duplicate Approves within 10 minutes",
-        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY => "Duplicate Declines on the Same Day",
-        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE => "Duplicate Declines within 10 minutes",
+        self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves (Same Day)",
+        self::FRAUD_FLAG_DUPLICATE_CARD_10MINUTE => "Duplicate Approves (10 minutes)",
+        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY => "Duplicate Declines (Same Day)",
+        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE => "Duplicate Declines (10 minutes)",
     );
 
     const SORT_BY_NAME              = 'm.name';

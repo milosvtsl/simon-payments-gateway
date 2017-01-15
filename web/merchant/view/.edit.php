@@ -230,15 +230,15 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <th colspan="2">Fraud Scrubbing</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Transaction High Limit (USD)</td>
+                            <td class="name">Transaction High Limit</td>
                             <td><input type="text" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit() ?: ''; ?>" placeholder="Maximum Transaction Amount"  /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Transaction Low Limit (USD)</td>
+                            <td class="name">Transaction Low Limit</td>
                             <td><input type="text" name="fraud_low_limit" value="<?php echo $Merchant->getFraudLowLimit() ?: ''; ?>" placeholder="Minimum Transaction Amount" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Transaction High Monthly Limit (USD)</td>
+                            <td class="name">Transaction High Monthly Limit</td>
                             <td><input type="text" name="fraud_high_monthly_limit" value="<?php echo $Merchant->getFraudHighMonthlyLimit() ?: ''; ?>" placeholder="Monthly Transaction Limit" /></td>
                         </tr>
                         <?php
