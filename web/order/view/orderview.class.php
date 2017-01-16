@@ -182,19 +182,33 @@ class OrderView extends AbstractView
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-                <div class="page-buttons order-page-buttons hide-on-print">
-                    <button onclick="window.print(); return false;" class="page-button page-button-print">
-                        <div class="app-button large app-button-print" ></div>
-                    </button>
-                    <a href="<?php echo $action_url_pdf; ?>">
-                        <button class="page-button page-button-download">
-                            <div class="app-button large app-button-download" ></div>
-                        </button>
-                    </a>
-                </div>
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
                     <fieldset>
+
+
+                        <div class="page-buttons order-page-buttons hide-on-print">
+                            <a onclick="window.print(); return false;" href="#" class="page-button page-button-print">
+                                <button class="">
+                                    <div class="app-button large app-button-print" ></div>
+                                </button>
+                            </a>
+                            <a href="<?php echo $action_url_pdf; ?>" class="page-button page-button-download">
+                                <button>
+                                    <div class="app-button large app-button-download" ></div>
+                                </button>
+                            </a>
+                            <a onclick="window.void(); return false;" href="#" class="page-button page-button-void">
+                                <button>
+                                    <div class="app-button large app-button-void" ></div>
+                                </button>
+                            </a>
+                            <a onclick="window.refund(); return false;" href="#" class="page-button page-button-refund">
+                                <button>
+                                    <div class="app-button large app-button-refund" ></div>
+                                </button>
+                            </a>
+                        </div>
 
                         <table class="table-transaction-info themed small" style="width: 47%; float: left;">
                             <tbody>
@@ -351,7 +365,6 @@ class OrderView extends AbstractView
                             <?php $odd = true; ?>
 
                                 <!-- Merchant Location Information -->
-
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">Address</td>
                                     <td class="value"><?php echo $Merchant->getAddress(), $Merchant->getAddress2(); ?></td>
@@ -375,7 +388,6 @@ class OrderView extends AbstractView
 
 
                                 <!-- Date and Time -->
-
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">Date</td>
                                     <td class="value"><?php echo date("F jS, Y", strtotime($Order->getDate()) + $offset); ?></td>

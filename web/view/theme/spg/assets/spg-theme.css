@@ -518,10 +518,10 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .page-buttons {
     padding: 1em 2em;
-    /* text-align: center; */
+    text-align: center;
 }
 
-.page-buttons .page-button {padding: 1em 3em;margin: 0 1em;border-radius: 0.8em;border: 1px outset;cursor: pointer;}
+.page-buttons .page-button {padding: 7px;margin: 5px;border-radius: 0.8em 0.8em 0 0;border: 1px outset;cursor: pointer;width: 20%;min-width: 4em;display: inline-block;background-color: lightblue;}
 
 
 /** Messages **/
