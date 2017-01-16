@@ -545,7 +545,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     cursor: not-allowed;
 }
 
-.page-buttons .page-button:hover {
+.page-buttons .page-button:not(.disabled):hover {
     opacity: 1;
     background-color: #b7d0d3;
     box-shadow: 1px 1px 16px #448;
