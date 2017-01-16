@@ -7,6 +7,8 @@
  */
 namespace Merchant\Model;
 
+use Order\Forms\DefaultOrderForm;
+use Order\Model\OrderRow;
 use System\Config\DBConfig;
 use User\Model\UserRow;
 
@@ -130,7 +132,7 @@ FROM merchant_form mf
         $list = $this->getFieldList();
         return @$list[$fieldName]['name'] ?: $defaultName ?: @self::$AVAILABLE_FIELDS[$fieldName] ?: self::$BUILD_IN_FIELDS[$fieldName];
     }
-    
+
 //    public function setMerchantID($id)  { $this->merchant_id = $id; }
 
     public function getAllCustomFields($including_built_in_fields=false)
@@ -198,6 +200,22 @@ FROM merchant_form mf
         return $EditQuery->rowCount();
     }
 
+    public function getOrderFormTemplate() {
+        $Template = new DefaultOrderForm();
+        return $Template;        
+    }
+
+    public function renderHTML(MerchantRow $Merchant, Array $params) {
+        $Template = $this->getOrderFormTemplate();
+        $Template->renderHTML($this, $Merchant, $params);
+    }
+
+    public function processFormRequest(OrderRow $Order, Array $post) {
+        $Template = $this->getOrderFormTemplate();
+        $Template->processFormRequest($this, $Order, $post);
+    }
+
+
     // Static
 
     public static function getAvailableFields($include_built_in_fields=false) {
@@ -206,7 +224,6 @@ FROM merchant_form mf
         return self::$AVAILABLE_FIELDS;
     }
 
-    
     public static function fetchByID($id) {
         return self::fetchByField('id', $id);
     }
@@ -274,7 +291,7 @@ FROM merchant_form mf
         $MerchantFormQuery->execute(array($userID));
         return $MerchantFormQuery;
     }
-    
+
     /**
      * @return MerchantFormRow[] | \PDOStatement
      * @throws \Exception

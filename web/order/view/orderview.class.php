@@ -430,15 +430,19 @@ class OrderView extends AbstractView
                                             case 'Authorized':
                                                 if($Order->getStatus() === 'Authorized') {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "<input name='action' type='submit' value='Void'{$disabled} onclick='return confirmOrderViewAction(\"Void\", event);'/>";
+                                                    echo <<<HTML
+                                        <input name='action' type='submit' value='Void'`{$disabled} onclick='return confirmOrderViewAction("Void", event);'/>
+HTML;
                                                 }
                                                 break;
 
                                             case 'Settled':
                                                 if($Order->getStatus() === 'Settled' && !$Order->getTotalReturnedAmount()) {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "\n\t\t\t<input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction(\"Return\", event);'/>";
-                                                    echo "\n\t\t\t<input name='partial_return_amount' type='hidden' />";
+                                                    echo <<<HTML
+                                        <input name='partial_return_amount' size="10" placeholder="Return Amount" />
+                                        <input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction("Return", event);'/>
+HTML;
                                                 }
                                                 break;
                                         }
