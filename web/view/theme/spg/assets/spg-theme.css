@@ -565,15 +565,15 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme form.themed > fieldset,
 .spg-theme fieldset.themed {
     border: 0px inset #d4e7ec;
-    padding: 0.5em 1px 0.3em 1px;
+    /* padding: 0.5em 1px 0.3em 1px; */
     margin: 0.5em 0.25em 0.25em 0.25em;
     vertical-align: top;
     background-color: #FAFAFA;
     border-radius: 4px;
     /* background: linear-gradient(-3deg, #ffffff 0%, #ffffff 60%, rgb(214, 223, 234) 100%); */
     /* background-image: url(img/bk/fieldset.png); */
-    background-repeat: repeat-x;
-    overflow: hidden;
+    /* background-repeat: repeat-x; */
+    /* overflow: hidden; */
     background-color: white;
     box-shadow: 1px 1px 6px #d4d4d4;
 }
@@ -582,17 +582,19 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme form.themed > fieldset > legend,
 .spg-theme fieldset.themed > legend,
 .spg-theme fieldset > .legend,
+.spg-theme th.legend,
 .spg-theme legend.themed {
     font-weight: bolder;
-    background: #FFF;
-    /* text-align: center; */
+    /*     background: #FFF; */
+    text-align: left;
     /* border-radius: 10px; */
-    margin: -3px 8px 0px 5px;
+    /*     margin: -3px 8px 0px 5px; */
     border-bottom: 1px inset #b1ced6;
     /* margin-left: -0.5em; */
     /* box-shadow: 0px 1px 4px #CCC; */
     /* border: 1px outset #FFF; */
-    display: block;
+    /*     display: block; */
+    font-size: larger;
 }
 
 .spg-theme form.themed select,
@@ -641,9 +643,9 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 
-.spg-theme table.themed {border-spacing: 0 0;margin: 0.5em 0px 0px 0px;/* min-width: 48%; *//* width: 100%; */}
+.spg-theme table.themed {border-spacing: 0 0;/* margin: 0.5em 0px 0px 0px; *//* min-width: 48%; *//* width: 100%; */}
 
-.spg-theme table.themed > tbody > tr > th {
+.spg-theme table.themed > tbody > tr > th.section {
     background-color: #bcc5d1;
     color: #000;
     text-align: left;
@@ -661,7 +663,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     text-decoratioN: none;
 }
 
-.spg-theme table.themed.small > tbody > tr > th,
+/* .spg-theme table.themed.small > tbody > tr > th, */
 .spg-theme table.themed.small > tbody > tr > td {
     font-size: smaller;
     /*max-width: 5em;*/

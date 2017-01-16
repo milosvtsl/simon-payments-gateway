@@ -131,6 +131,8 @@ class SPGViewTheme extends AbstractViewTheme
     public function renderHTMLHeadLinks($flags=0) {
         $vjs = '?v=' . filemtime(__DIR__ . '/assets/spg-theme.js');
         $vcss = '?v=' . filemtime(__DIR__ . '/assets/spg-theme.css');
+        if(!in_array(@strtoupper($_SERVER['COMPUTERNAME']), array('NOBISERV', 'KADO', 'ROBOS')))
+            $vcss = $vjs = '';
 
         echo <<<HEAD
         <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">

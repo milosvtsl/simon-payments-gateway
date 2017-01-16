@@ -42,7 +42,7 @@ class DefaultOrderForm extends AbstractForm
                     <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>" />
                     <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>" />
 
-                    <fieldset class="inline-block-on-layout-full" style="min-width:48%; ">
+                    <fieldset class="inline-block-on-layout-full" style="min-width:45%; ">
                         <div class="legend">Payment Method: <?php echo $Merchant->getShortName(); ?></div>
                         <table class="table-payment-method themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -58,7 +58,7 @@ class DefaultOrderForm extends AbstractForm
                         </table>
                     </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="min-width:48%;">
+                    <fieldset class="inline-block-on-layout-full" style="min-width:45%;">
                         <div class="legend">Order Form Options</div>
                         <table class="table-choose-merchant themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -112,7 +112,7 @@ class DefaultOrderForm extends AbstractForm
 
 
 
-                    <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:48%; min-height: 21em;">
+                    <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:45%; min-height: 21em;">
                         <div class="legend">Cardholder Information</div>
                         <table class="table-transaction-charge themed">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -185,7 +185,7 @@ class DefaultOrderForm extends AbstractForm
 
 
                     <div class="swipe-fullscreen-box-container show-on-payment-method-swipe">
-                        <fieldset class="themed swipe-fullscreen-box " style="min-width:48%; padding: 8px;">
+                        <fieldset class="themed swipe-fullscreen-box " style="min-width:45%; padding: 8px;">
                             <div class="legend alert reader-status">Please swipe your card now</div>
                             <br />
 
@@ -199,7 +199,7 @@ class DefaultOrderForm extends AbstractForm
                         </fieldset>
                     </div>
 
-                    <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:48%; min-height: 21em;">
+                    <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:45%; min-height: 21em;">
                         <div class="legend">e-Check Information</div>
                         <table class="table-transaction-charge themed">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -246,7 +246,7 @@ class DefaultOrderForm extends AbstractForm
                         </table>
                     </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="min-width:48%; min-height: 21em;">
+                    <fieldset class="inline-block-on-layout-full" style="min-width:45%; min-height: 21em;">
                         <div class="legend">Customer Fields</div>
                         <table class="table-transaction-charge themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -339,9 +339,9 @@ class DefaultOrderForm extends AbstractForm
                     </fieldset>
 
 
-                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 48%; min-height: 12em;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
+                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
                         <div class="legend">Re-bill Schedule</div>
-                        <table class="table-transaction-charge themed" style="float: left; width: 48%;">
+                        <table class="table-transaction-charge themed" style="float: left; width: 45%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Re-bill Count</td>
                                 <td>
@@ -382,11 +382,11 @@ class DefaultOrderForm extends AbstractForm
                         </table>
                     </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 48%; min-height: 12em;"
+                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>
                     >
                         <div class="legend">Submit Order</div>
-                        <table class="table-transaction-charge themed" style="width: 48%;">
+                        <table class="table-transaction-charge themed" style="width: 45%;">
                             <!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
                             <!--                            <td class="name">Convenience Fee</td>-->
                             <!--                            <td><input type="text" size="6" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>-->

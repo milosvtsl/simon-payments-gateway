@@ -468,7 +468,7 @@ SQL;
         if(!empty($post['order_id'])) {
             $OrderRow = $OrderRow::fetchByID($post['order_id']);
         } else {
-            $OrderRow->uid = strtolower(self::generateGUID());
+            $OrderRow->uid = strtolower(self::generateGUID($OrderRow));
             $OrderRow->version = 10;
             $OrderRow->status = "Pending";
         }
@@ -564,8 +564,9 @@ SQL;
         }
     }
 
-    public static function generateGUID() {
-        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    public static function generateGUID(OrderRow $Row) {
+        $type = strtoupper(substr($Row->getEntryMode(), 0, 1));
+        return $type . substr(sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479)), 1);
     }
 
     public static function sanitizeNumber($number, $lastDigits=4, $char='X') {
