@@ -519,9 +519,10 @@ body.layout-vertical.spg-theme nav.page-menu {
 .page-buttons {
     padding: 1em 2em;
     text-align: center;
+    white-space: nowrap;
 }
 
-.page-buttons .page-button {padding: 7px;margin: 5px;border-radius: 0.8em 0.8em 0 0;border: 1px outset;cursor: pointer;width: 20%;min-width: 4em;display: inline-block;background-color: lightblue;}
+.page-buttons .page-button {padding: 7px;margin: 5px;border-radius: 0.8em 0.8em 0 0;border: 1px outset;cursor: pointer;width: 17%;min-width: 4em;display: inline-block;background-color: lightblue;}
 
 
 /** Messages **/
@@ -644,7 +645,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 
-.spg-theme table.themed {border-spacing: 0 0;/* margin: 0.5em 0px 0px 0px; *//* min-width: 48%; *//* width: 100%; */}
+.spg-theme table.themed {border-spacing: 0 0;margin: 0 0px 1em 0px;/* min-width: 48%; *//* width: 100%; */}
 
 .spg-theme table.themed > tbody > tr > th.section {
     background-color: #bcc5d1;
