@@ -547,7 +547,8 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .page-buttons .page-button:hover {
     opacity: 1;
-    background-color: #a7c0c3;
+    background-color: #b7d0d3;
+    box-shadow: 1px 1px 16px #448;
 }
 
 
