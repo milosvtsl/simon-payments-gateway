@@ -68,14 +68,24 @@ class ChargeView extends AbstractView
             $Theme->printHTMLMenu('order-charge');
         }
 
-        if($this->hasMessage()) 
+        ?>
+        <article class="themed">
+            <section class="content">
+        <?php
+        if($this->hasMessage())
             echo "<h5>", $this->getMessage(), "</h5>";
 
         // Render Order Form
         $MerchantForm->renderHTML($Merchant, $params);
-        
+
+        ?>
+            </section>
+        </article>
+        <?php
+
         if(!@$params['iframe'])
             $Theme->renderHTMLBodyFooter();
+
     }
 
     public function processFormRequest(Array $post) {
@@ -144,13 +154,18 @@ class ChargeView extends AbstractView
 
     protected function renderHTMLHeadLinks() {
         parent::renderHTMLHeadLinks();
-        echo <<<HEAD
-        <script src="order/view/assets/charge.js"></script>
-        <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
-        <link href='order/view/assets/charge.css' type='text/css' rel='stylesheet' />
-        <link href='order/view/assets/template/full.charge.css' type='text/css' rel='stylesheet' />
-        <link href='order/view/assets/template/simple.charge.css' type='text/css' rel='stylesheet' />
-HEAD;
+//        echo <<<HEAD
+//        <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
+//        <script src="order/view/assets/charge.js"></script>
+//        <link href='order/view/assets/charge.css' type='text/css' rel='stylesheet' />
+//        <link href='order/view/assets/template/full.charge.css' type='text/css' rel='stylesheet' />
+//        <link href='order/view/assets/template/simple.charge.css' type='text/css' rel='stylesheet' />
+//HEAD;
+
+        $MerchantForm = $this->form;
+
+        // Render Head Content
+        $MerchantForm->renderHTMLHeadLinks();
 
     }
 

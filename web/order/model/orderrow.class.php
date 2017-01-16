@@ -101,6 +101,7 @@ class OrderRow
     protected $payee_zipcode;
     protected $payee_city;
     protected $payee_state;
+    protected $payee_state_full;
 
     protected $status;
     protected $total_returned_amount;
@@ -150,12 +151,15 @@ i.name integration_name,
   CONCAT_WS(':', of.field_name, of.field_value) SEPARATOR '|') 
   FROM order_field of 
   WHERE oi.id = of.order_id 
-) as order_fields
+) as order_fields,
+st.name as payee_state_full
+
 
 FROM order_item oi
 LEFT JOIN subscription s on oi.id = s.order_item_id
 LEFT JOIN merchant m on oi.merchant_id = m.id
 LEFT JOIN integration i on oi.integration_id = i.id
+LEFT JOIN state st on st.short_code = oi.payee_state
 ";
     const SQL_GROUP_BY = "\nGROUP BY oi.id";
     const SQL_ORDER_BY = "\nORDER BY oi.id ASC";
@@ -182,7 +186,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
     public function getPayeeCity()          { return $this->payee_city; }
-    public function getPayeeState()         { return $this->payee_state; }
+    public function getPayeeStateShort()    { return $this->payee_state; }
+    public function getPayeeState()         { return $this->payee_state_full; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }

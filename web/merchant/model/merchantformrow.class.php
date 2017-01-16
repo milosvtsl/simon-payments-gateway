@@ -7,6 +7,7 @@
  */
 namespace Merchant\Model;
 
+use Order\Forms\AbstractForm;
 use Order\Forms\DefaultOrderForm;
 use Order\Model\OrderRow;
 use System\Config\DBConfig;
@@ -68,6 +69,7 @@ FROM merchant_form mf
     protected $uid;
     protected $merchant_id;
     protected $title;
+    protected $template;
     protected $classes;
     protected $fields;
     protected $flags;
@@ -88,6 +90,7 @@ FROM merchant_form mf
     public function getUID()            { return $this->uid; }
     public function getTitle()          { return $this->title; }
     public function getFormClasses()    { return $this->classes; }
+    public function getTemplatePath()   { return $this->template ?: DefaultOrderForm::_CLASS; }
 
     public function getMerchantID()     { return $this->merchant_id; }
 
@@ -200,8 +203,12 @@ FROM merchant_form mf
         return $EditQuery->rowCount();
     }
 
+    /**
+     * @return AbstractForm
+     */
     public function getOrderFormTemplate() {
-        $Template = new DefaultOrderForm();
+        $templateClass = $this->getTemplatePath();
+        $Template = new $templateClass;
         return $Template;        
     }
 
@@ -210,11 +217,16 @@ FROM merchant_form mf
         $Template->renderHTML($this, $Merchant, $params);
     }
 
+    public function renderHTMLHeadLinks() {
+        $Template = $this->getOrderFormTemplate();
+        $Template->renderHTMLHeadLinks();
+    }
+
+
     public function processFormRequest(OrderRow $Order, Array $post) {
         $Template = $this->getOrderFormTemplate();
         $Template->processFormRequest($this, $Order, $post);
     }
-
 
     // Static
 

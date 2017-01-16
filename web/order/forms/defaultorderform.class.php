@@ -15,6 +15,18 @@ use User\Session\SessionManager;
 
 class DefaultOrderForm extends AbstractForm
 {
+    const _CLASS = __CLASS__;
+
+    /**
+     * Render HTML Head content
+     */
+    function renderHTMLHeadLinks() {
+        echo <<<HEAD
+        <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
+        <script src="order/view/assets/charge.js"></script>
+        <link href='order/forms/assets/default-order-form.css' type='text/css' rel='stylesheet' />
+HEAD;
+    }
 
     function renderHTML(MerchantFormRow $MerchantForm, MerchantRow $Merchant, Array $params)
     {
@@ -29,11 +41,8 @@ class DefaultOrderForm extends AbstractForm
             $LASTPOST = $_SESSION[__FILE__];
 
         ?>
-        <article class="themed">
-            <section class="content">
-
                 <form name="form-transaction-charge"
-                      class="<?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
+                      class="default-order-form <?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
                       method="POST"
                 >
                     <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>" />
@@ -44,7 +53,7 @@ class DefaultOrderForm extends AbstractForm
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:45%; ">
                         <div class="legend">Payment Method: <?php echo $Merchant->getShortName(); ?></div>
-                        <table class="table-payment-method themed" style="float: left;">
+                        <table class="table-payment-method" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
                                     <select name="entry_mode" class="" required autofocus title="Choose an entry method">
@@ -60,7 +69,7 @@ class DefaultOrderForm extends AbstractForm
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:45%;">
                         <div class="legend">Order Form Options</div>
-                        <table class="table-choose-merchant themed" style="float: left;">
+                        <table class="table-choose-merchant" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
                                     <?php if(sizeof($SessionUser->getMerchantList()) > 1) { ?>
@@ -433,9 +442,6 @@ class DefaultOrderForm extends AbstractForm
                     </fieldset>
 
                 </form>
-            </section>
-        </article>
-
         <?php
         if(sizeof($LASTPOST) > 0) {
             $json = json_encode($LASTPOST);

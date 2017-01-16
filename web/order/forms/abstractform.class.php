@@ -24,6 +24,12 @@ abstract class AbstractForm
      */
     abstract function renderHTML(MerchantFormRow $MerchantForm, MerchantRow $Merchant, Array $params);
 
+
+    /**
+     * Render HTML Head content
+     */
+    abstract function renderHTMLHeadLinks();
+    
     /**
      * Process form submission
      * @param MerchantFormRow $MerchantForm
