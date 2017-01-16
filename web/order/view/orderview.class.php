@@ -355,7 +355,7 @@ class OrderView extends AbstractView
                         </table>
 
 
-                        <table class="table-transaction-info themed small" style="min-width: 48%;">
+                        <table class="table-transaction-info themed small" style="width: 48%; float: right;">
                             <tbody>
                                 <tr>
                                     <td colspan="2" class="legend">
