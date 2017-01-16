@@ -211,7 +211,7 @@ class OrderView extends AbstractView
                         </div>
 
                         <div style="text-align: center; ">
-                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 47%; display: block; vertical-align: top;">
+                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 47%; display: block; vertical-align: top; text-align: left;">
                                 <tbody>
                                 <tr>
                                     <td colspan="2" class="legend">
@@ -356,7 +356,7 @@ class OrderView extends AbstractView
                             </table>
 
 
-                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 48%; display: block; vertical-align: top;">
+                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 48%; display: block; vertical-align: top; text-align: left;">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="legend">
