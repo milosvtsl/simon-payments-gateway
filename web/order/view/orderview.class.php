@@ -199,9 +199,9 @@ class OrderView extends AbstractView
                         <table class="table-transaction-info themed small" style="width: 47%; float: left;">
                             <tbody>
                             <tr>
-                                <th colspan="2" class="legend">
+                                <td colspan="2" class="legend">
                                     Customer: <?php echo $Order->getCustomerFullName(); ?>
-                                </th>
+                                </td>
                             </tr>
 
                             <!-- Customer Information -->
@@ -344,9 +344,9 @@ class OrderView extends AbstractView
                         <table class="table-transaction-info themed small" style="min-width: 48%;">
                             <tbody>
                                 <tr>
-                                    <th colspan="2" class="legend">
+                                    <td colspan="2" class="legend">
                                         Merchant: <?php echo $Merchant->getName(); ?>
-                                    </th>
+                                    </td>
                                 </tr>
                             <?php $odd = true; ?>
 
@@ -455,7 +455,7 @@ class OrderView extends AbstractView
                     </fieldset>
                     <?php } ?>
 
-                    <fieldset class="hide-on-print" style="width: 98%;">
+                    <fieldset class="hide-on-print">
                         <div class="legend">Transaction History</div>
                         <table class="table-results themed small cell-borders" style="width: 100%;">
                             <tr>

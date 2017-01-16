@@ -34,17 +34,17 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
                             <div class="app-button app-button-edit" style="display: inline-block;"></div>
                         </a>
-                        Merchant Information
+                        Merchant: <?php echo $Merchant->getName(); ?>
                     </div>
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
+                        <tr>
+                            <th colspan="2">Information</th>
+                        </tr>
+
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Name</td>
-                            <td><?php echo $Merchant->getName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Short Name</td>
