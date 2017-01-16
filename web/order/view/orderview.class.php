@@ -184,31 +184,29 @@ class OrderView extends AbstractView
 
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-                    <fieldset>
+                    <fieldset style="margin: 1em;">
 
 
                         <div class="page-buttons order-page-buttons hide-on-print">
-                            <a onclick="window.print(); return false;" href="#" class="page-button page-button-print">
-                                <button class="">
-                                    <div class="app-button large app-button-print" ></div>
-                                </button>
+                            <a onclick="window.print(); return false;" class="page-button page-button-print">
+                                <div class="app-button large app-button-print" ></div>
+                                Print
                             </a>
                             <a href="<?php echo $action_url_pdf; ?>" class="page-button page-button-download">
-                                <button>
-                                    <div class="app-button large app-button-download" ></div>
-                                </button>
+                                <div class="app-button large app-button-download" ></div>
+                                Download
                             </a>
-                            <a onclick="window.void(); return false;" href="#" class="page-button page-button-void">
-                                <button>
-                                    <div class="app-button large app-button-void" ></div>
-                                </button>
+                            <a onclick="window.void(); return false;" class="page-button page-button-void disabled">
+                                <div class="app-button large app-button-void" ></div>
+                                Void
                             </a>
-                            <a onclick="window.refund(); return false;" href="#" class="page-button page-button-refund">
-                                <button>
-                                    <div class="app-button large app-button-refund" ></div>
-                                </button>
+                            <a onclick="window.refund(); return false;" class="page-button page-button-refund disabled">
+                                <div class="app-button large app-button-refund" ></div>
+                                Return
                             </a>
                         </div>
+
+                        <hr/>
 
                         <div style="text-align: center; ">
                             <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 47%; display: block; vertical-align: top; text-align: left;">
@@ -308,13 +306,6 @@ class OrderView extends AbstractView
 
                                 <!-- Built-in Order Fields -->
 
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td colspan="2" class="name" style="width: 30%;">Reference Number</td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td colspan="2"><?php echo $Order->getReferenceNumber(); ?></td>
-                                </tr>
-
                                 <?php if($Order->getUsername()) { ?>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                         <td class="name" style="width: 30%;">User ID</td>
@@ -351,6 +342,15 @@ class OrderView extends AbstractView
                                     <?php
                                 }
                                 ?>
+
+
+                                <!-- Reference Number -->
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td colspan="2" class="name" style="width: 30%;">Reference Number</td>
+                                </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td colspan="2"><?php echo $Order->getReferenceNumber(); ?></td>
+                                </tr>
 
                                 </tbody>
                             </table>

@@ -328,6 +328,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     background-size: 4em 4em;
     font-size: 16px;
     text-decoration: none;
+    margin: 0 auto;
 }
 .spg-theme .app-button.large {
     font-size: 32px;
@@ -517,12 +518,38 @@ body.layout-vertical.spg-theme nav.page-menu {
 /** Page Buttons **/
 
 .page-buttons {
-    padding: 1em 2em;
+    padding: 5px 0 4px 0px;
     text-align: center;
     white-space: nowrap;
 }
 
-.page-buttons .page-button {padding: 7px;margin: 5px;border-radius: 0.8em 0.8em 0 0;border: 1px outset;cursor: pointer;width: 17%;min-width: 4em;display: inline-block;background-color: lightblue;}
+.page-buttons .page-button {
+    padding: 8px 0px 0 0;
+    margin: 0px 4px 0px 4px;
+    border-radius: 0.8em 0.8em 0 0;
+    border: 1px outset;
+    cursor: pointer;
+    width: 22%;
+    min-width: 4em;
+    display: inline-block;
+    background-color: #e7f0f3;
+    color: black;
+    line-height: 34px;
+    text-align: center;
+    font-weight:  bold;
+    transition: all 1s;
+}
+
+.page-buttons .page-button.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-buttons .page-button:hover {
+    opacity: 1;
+    background-color: #a7c0c3;
+}
+
 
 
 /** Messages **/
