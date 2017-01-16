@@ -259,12 +259,8 @@ class OrderView extends AbstractView
                                     <td class="value"><?php echo $Order->getCardType(); ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Status</td>
-                                    <td class="value"><?php echo $Order->getStatus(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Method</td>
-                                    <td class="value"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                                    <td class="name" style="width: 30%;">Card Exp</td>
+                                    <td class="value"><?php echo $Order->getCardExpMonth(), '/', $Order->getCardExpYear(); ?></td>
                                 </tr>
 
                     <?php } else  { ?>
@@ -356,6 +352,10 @@ class OrderView extends AbstractView
 
                                 <!-- Merchant Location Information -->
 
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Address</td>
+                                    <td class="value"><?php echo $Merchant->getAddress(), $Merchant->getAddress2(); ?></td>
+                                </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">City</td>
                                     <td class="value"><?php echo $Merchant->getCity(); ?></td>
