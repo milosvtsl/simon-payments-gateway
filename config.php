@@ -11,7 +11,7 @@ use System\Config\DBConfig;
 
 // Database Config
 DBConfig::$DB_HOST = 'localhost';
-DBConfig::$DB_NAME = 'spgdemo'; // 'paylogic';
+DBConfig::$DB_NAME = 'paylogic';
 DBConfig::$DB_USERNAME = 'paylogic2';
 DBConfig::$DB_PASSWORD = 'eVw{P7mphBn';
 
