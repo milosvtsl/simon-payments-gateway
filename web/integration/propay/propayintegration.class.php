@@ -22,11 +22,10 @@ use Order\Mail\ReceiptEmail;
 use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
-class PropayIntegration extends AbstractIntegration
+class ProPayIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
 
-    const POST_URL_TRANSACTION = "/express.asmx"; // https://certtransaction.propayexpress.com/express.asmx
 
     /**
      * @param MerchantRow $Merchant
@@ -34,7 +33,7 @@ class PropayIntegration extends AbstractIntegration
      * @return AbstractMerchantIdentity
      */
     public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new PropayMerchantIdentity($Merchant, $integrationRow);
+        return new ProPayMerchantIdentity($Merchant, $integrationRow);
     }
 
     /**
@@ -277,7 +276,7 @@ class PropayIntegration extends AbstractIntegration
         $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
         $Transaction->setServiceFee($service_fee);
 
-        /** @var PropayMerchantIdentity $MerchantIdentity */
+        /** @var ProPayMerchantIdentity $MerchantIdentity */
 
         $Subscription = null;
         if(!empty($post['recur_count']) && $post['recur_count'] > 0) {
@@ -376,7 +375,7 @@ class PropayIntegration extends AbstractIntegration
 
         // Create Transaction
         $ReverseTransaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-        /** @var PropayMerchantIdentity $MerchantIdentity */
+        /** @var ProPayMerchantIdentity $MerchantIdentity */
 
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
@@ -438,7 +437,7 @@ class PropayIntegration extends AbstractIntegration
 
     /**
      * Void an existing Transaction
-     * @param PropayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
      * @param UserRow $SessionUser
      * @param array $post
@@ -521,7 +520,7 @@ class PropayIntegration extends AbstractIntegration
 
     /**
      * Return an existing Transaction
-     * @param PropayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
      * @param UserRow $SessionUser
      * @param array $post
@@ -604,7 +603,7 @@ class PropayIntegration extends AbstractIntegration
 
     /**
      * Perform health check on remote api
-     * @param PropayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param UserRow $SessionUser
      * @param array $post
      * @return IntegrationRequestRow
@@ -637,7 +636,7 @@ class PropayIntegration extends AbstractIntegration
 
     /**
      * Perform transaction query on remote api
-     * @param PropayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
      * @param UserRow $SessionUser
      * @param Callable $callback

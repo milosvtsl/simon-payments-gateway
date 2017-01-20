@@ -7,17 +7,8 @@ ProPay does not warrant that the code will be uninterrupted or error free,
 nor does ProPay make any warranty as to the performance or any results that may be obtained by use of the code.
 */
 
-$Args = array(
-	'',
-	'', 
-	'', 
-	'', 
-	'', 
-	'');
 
-Create_Payer_With_Data($Args);
-
-function Create_Payer_With_Data($Arguments)
+function Create_Payer_With_Data($AuthToken, $BillerID, $Name, $EmailAddress=null, $ExternalID1=null, $ExternalID2=null)
 {
 	/*
 	*Required
@@ -33,13 +24,13 @@ function Create_Payer_With_Data($Arguments)
 
 	//Change this URL to point to Production by chaning it to https://api.propay.com/... instead of https://xmltestapi.propay.com/....
 	$url = "https://xmltestapi.propay.com/ProtectPay/Payers/";
-	$Auth_Header = "Basic " . base64_encode($Arguments[1] . ":" . $Arguments[0]);
+	$Auth_Header = "Basic " . base64_encode($BillerID . ":" . $AuthToken);
 	$HTTP_Verb = "PUT";
 	$Payload = json_encode(array(
-		"Name" => $Arguments[2], 
-		"EmailAddress" => $Arguments[3], 
-		"ExternalID1" => $Arguments[4], 
-		"ExternalID2" => $Arguments[5]));
+		"Name" => $Name,
+		"EmailAddress" => $EmailAddress,
+		"ExternalID1" => $ExternalID1,
+		"ExternalID2" => $ExternalID2));
 	Submit_Request($url, $HTTP_Verb, $Auth_Header, $Payload);
 }
 

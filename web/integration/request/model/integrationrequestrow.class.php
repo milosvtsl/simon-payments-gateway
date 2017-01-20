@@ -69,11 +69,13 @@ SELECT
     i.class_path integration_class_path,
     m.short_name as merchant_name,
     u.username as user_name,
-    u.uid as user_uid
+    u.uid as user_uid,
+    oi.uid as order_item_uid
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
 LEFT JOIN user u ON u.id = ir.user_id
+LEFT JOIN order_item oi ON oi.id = ir.order_item_id
 ";
 
 
@@ -116,6 +118,7 @@ LEFT JOIN user u ON u.id = ir.user_id
     protected $user_id;
     protected $merchant_id;
     protected $order_item_id;
+    protected $order_item_uid;
     protected $transaction_id;
 
     // Table: integration
@@ -163,6 +166,7 @@ LEFT JOIN user u ON u.id = ir.user_id
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantName()       { return $this->merchant_name; }
     public function getOrderItemID()        { return $this->order_item_id; }
+    public function getOrderItemUID()       { return $this->order_item_uid; }
     public function getTransactionID()      { return $this->transaction_id; }
 
     public function setDuration($ms)        { $this->duration = $ms; }

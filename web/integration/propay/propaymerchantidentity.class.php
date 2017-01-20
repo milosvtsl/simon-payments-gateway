@@ -15,7 +15,7 @@ use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
-class PropayMerchantIdentity extends AbstractMerchantIdentity
+class ProPayMerchantIdentity extends AbstractMerchantIdentity
 {
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;

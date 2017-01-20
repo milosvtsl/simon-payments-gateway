@@ -11,107 +11,52 @@ use Integration\Model\Ex\IntegrationException;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
-class PropayAPIUtil {
+class ProPayAPIUtil {
 
-    protected function prepareSOAPRequest(
-        PropayMerchantIdentity $MerchantIdentity,
-        $Action,
+    //Change this URL to point to Production by changing it to https://api.propay.com/... instead of https://xmltestapi.propay.com/....
+    const POST_URL_PAYERS = "/ProtectPay/Payers/"; // https://xmltestapi.propay.com
+
+    public function executeAPIRequest(
+        ProPayMerchantIdentity $MerchantIdentity,
+        $api_path,
         Array $args = array(),
         Array $post = array()
     ) {
-        $args['terminal'] += array(
-            'TerminalID' => $MerchantIdentity->getDefaultTerminalID(),
-            'TerminalType' => 'PointOfSale',                    // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-            'CardPresentCode' => 'UseDefault',                  // UseDefault or Unknown or Present or NotPresent;
-            'CardholderPresentCode' => 'UseDefault',            // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-            'CardInputCode' => 'MagstripeRead',                 // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
-            'CVVPresenceCode' => 'UseDefault',                  // UseDefault or NotProvided or Provided or Illegible or CustomerIllegible;
-            'TerminalCapabilityCode' => 'UseDefault',           // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-            'TerminalEnvironmentCode' => 'UseDefault',          // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
-            'MotoECICode' => 'NotUsed',                         // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
-            'CVVResponseType' => 'Regular',                     // Regular or Extended
-            'ConsentCode' => 'NotUsed',                         // NotUsed or FaceToFace or Phone or Internet
-            'TerminalSerialNumber' => '',
-            'TerminalEncryptionFormat' => 'Default',            // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7
-            'LaneNumber' => '',
-            'Model' => '',
-            'EMVKernelVersion' => '',
+
+        $url = "https://xmltestapi.propay.com/" . $api_path;
+        $Auth_Header = "Basic " . base64_encode($BillerID . ":" . $AuthToken);
+        $HTTP_Verb = "PUT";
+        $Payload = json_encode($args);
+
+        /* The HTTP header must include the SOAPAction */
+        $header = array(
+            "Content-type: application/json; charset=utf-8",
+            "Authorization: " . $Auth_Header,
         );
 
-        if(isset($args['terminal'])) {
-            if (@$args['card']['MagneprintData']) { // Card Present
-                $args['terminal']['CardholderPresentCode'] =    'Present'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-                $args['terminal']['CardInputCode'] =            'MagstripeRead'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
-                $args['terminal']['CardPresentCode'] =          'Present'; // UseDefault or Unknown or Present or NotPresent;
-                $args['terminal']['TerminalCapabilityCode'] =   'MagstripeReader'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-                $args['terminal']['TerminalEnvironmentCode'] =  'LocalAttended'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
-                $args['terminal']['TerminalType'] =             'PointOfSale'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-                $args['terminal']['MarketCode'] =               'Retail'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                $args['terminal']['CardNumber'] =               '';
-            } else {
-                $args['terminal']['CardholderPresentCode'] =    'ECommerce'; // UseDefault or Unknown or Present or NotPresent or MailOrder or PhoneOrder or StandingAuth or ECommerce;
-                $args['terminal']['CardInputCode'] =            'ManualKeyed'; // UseDefault or Unknown or MagstripeRead or ContactlessMagstripeRead or ManualKeyed or ManualKeyedMagstripeFailure or ChipRead or ContactlessChipRead or ManualKeyedChipReadFailure or MagstripeReadChipReadFailure;
-                $args['terminal']['CardPresentCode'] =          'NotPresent'; // UseDefault or Unknown or Present or NotPresent;
-                $args['terminal']['TerminalCapabilityCode'] =   'KeyEntered'; // UseDefault or Unknown or NoTerminal or MagstripeReader or ContactlessMagstripeReader or KeyEntered or ChipReader or ContactlessChipReader
-                $args['terminal']['TerminalEnvironmentCode'] =  'ECommerce'; // UseDefault or NoTerminal or LocalAttended or LocalUnattended or RemoteAttended or RemoteUnattended or ECommerce
-                $args['terminal']['TerminalType'] =             'ECommerce'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
-                $args['terminal']['MarketCode'] =               'ECommerce'; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                $args['terminal']['MagneprintData'] =           '';
-                $args['terminal']['MotoECICode'] =              'NonAuthenticatedSecureECommerceTransaction'; // UseDefault or NotUsed or Single or Recurring or Installment or SecureECommerce or NonAuthenticatedSecureTransaction or NonAuthenticatedSecureECommerceTransaction or NonSecureECommerceTransaction
-            }
-        }
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTP_Verb);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $Payload);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 
-        $args['credentials'] += array(
-            'AccountID' => $MerchantIdentity->getAccountID(),
-            'AccountToken' => $MerchantIdentity->getAccountToken(),
-            'AcceptorID' => $MerchantIdentity->getAcceptorID(),
-            'NewAccountToken' => $MerchantIdentity->getAccountToken(), // ?
-        );
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+        curl_close($ch);
 
-        if(!$args['credentials']['AccountID'])          throw new IntegrationException("Invalid AccountID");
-        if(!$args['credentials']['AccountToken'])       throw new IntegrationException("Invalid AccountToken");
-        if(!$args['credentials']['AcceptorID'])         throw new IntegrationException("Invalid AcceptorID");
-        if(!$args['credentials']['NewAccountToken'])    throw new IntegrationException("Invalid NewAccountToken");
+        /*Call Parse Function for the XML response*/
+        Parse_Results($response);
 
-        $args['application'] += array(
-            'ApplicationID' => $MerchantIdentity->getApplicationID(),
-            'ApplicationName' => 'SimonPaymentsGateway',
-            'ApplicationVersion' => '1',
-        );
-
-        $contentXML = '';
-        foreach($args as $section => $sectionArgs) {
-            $contentXML .= "\r\n      <{$section}>";
-            foreach($sectionArgs as $arg => $val)
-                $contentXML .= "\r\n        <{$arg}>{$val}</{$arg}>";
-            $contentXML .= "\r\n      </{$section}>";
-        }
-
-        $request = <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
-  <soap12:Body>
-    <{$Action} xmlns="https://transaction.propayexpress.com">{$contentXML}
-      <extendedParameters>
-        <ExtendedParameters>
-          <Key>string</Key>
-          <Value />
-        </ExtendedParameters>
-        <ExtendedParameters>
-          <Key>string</Key>
-          <Value />
-        </ExtendedParameters>
-      </extendedParameters>
-    </{$Action}>
-  </soap12:Body>
-</soap12:Envelope>
-XML;
-
-        return $request;
+        return $response;
     }
 
     public function prepareCreditCardSaleRequest(
-        PropayMerchantIdentity $MerchantIdentity,
+        ProPayMerchantIdentity $MerchantIdentity,
         TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
@@ -208,7 +153,7 @@ XML;
             ),
         );
 
-        $request = $this->prepareSOAPRequest(
+        $request = $this->prepareJSONRequest(
             $MerchantIdentity,
             $Action,
             $args,
@@ -218,7 +163,7 @@ XML;
         return $request;
     }
     public function prepareCreditCardReversalRequest(
-        PropayMerchantIdentity $MerchantIdentity,
+        ProPayMerchantIdentity $MerchantIdentity,
         TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
@@ -316,7 +261,7 @@ XML;
             ),
         );
 
-        $request = $this->prepareSOAPRequest(
+        $request = $this->prepareJSONRequest(
             $MerchantIdentity,
             $Action,
             $args,
@@ -326,7 +271,7 @@ XML;
     }
 
     public function prepareCreditCardReturnRequest(
-        PropayMerchantIdentity $MerchantIdentity,
+        ProPayMerchantIdentity $MerchantIdentity,
         OrderRow $OrderRow,
         TransactionRow $AuthorizedTransaction,
         TransactionRow $ReturnTransaction,
@@ -415,7 +360,7 @@ XML;
             $OrderRow->setTotalReturnedAmount($OrderRow->getAmount());
         }
 
-        $request = $this->prepareSOAPRequest(
+        $request = $this->prepareJSONRequest(
             $MerchantIdentity,
             $Action,
             $args,
@@ -427,7 +372,7 @@ XML;
 
 
     public function prepareCreditCardVoidRequest(
-        PropayMerchantIdentity $MerchantIdentity,
+        ProPayMerchantIdentity $MerchantIdentity,
         OrderRow $OrderRow,
         TransactionRow $AuthorizedTransaction,
         Array $post)
@@ -473,223 +418,7 @@ XML;
             ),
         );
 
-        $request = $this->prepareSOAPRequest(
-            $MerchantIdentity,
-            $Action,
-            $args,
-            $post
-        );
-        return $request;
-    }
-
-    public function prepareCheckSaleRequest(
-        PropayMerchantIdentity $MerchantIdentity,
-        TransactionRow $TransactionRow,
-        OrderRow $OrderRow,
-        Array $post
-    ) {
-        $Action = 'CheckSale';
-
-        $TransactionAmount = number_format($OrderRow->getAmount(), 2, '.', '');
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        if($ConvenienceFeeAmount) {
-            $TransactionAmount = number_format($OrderRow->getAmount() + $ConvenienceFeeAmount, 2, '.', '');
-            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
-        }
-
-        $args = array(
-            'credentials' => array(),
-            'application' => array(),
-            'terminal' => array(),
-            'demandDepositAccount' => array(
-                'DDAAccountType' => $OrderRow->getCheckAccountType(),
-                'AccountNumber' => $OrderRow->getCheckAccountNumber(),
-                'RoutingNumber' => $OrderRow->getCheckRoutingNumber(),
-                'CheckNumber' => $OrderRow->getCheckNumber(),
-                'CheckType' => $OrderRow->getCheckType(),
-                'TruncatedAccountNumber' => '',
-                'TruncatedRoutingNumber' => '',
-            ),
-            'transaction' => array(
-                'TransactionID' => '',                  // $TransactionRow->getTransactionID();
-                'ClerkNumber' => '',
-                'ShiftID' => '',
-                'TransactionAmount' => $TransactionAmount,
-                'OriginalAuthorizedAmount' => '',
-                'TotalAuthorizedAmount' => '',
-                'SalesTaxAmount' => '',
-                'TipAmount' => '',
-                'ReferenceNumber' => $OrderRow->getReferenceNumber(),
-                'TicketNumber' => substr(strtoupper($TransactionRow->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'System', // System or Full or Partial;
-                'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                'BillPaymentFlag' => 'False', // False or True
-                'DuplicateCheckDisableFlag' => 'False',
-                'DuplicateOverrideFlag' => 'False',
-                'RecurringFlag' => 'False',
-                'TransactionStatus' => '',
-                'TransactionStatusCode' => '',
-                'HostTransactionID' => '',
-                'PartialApprovedFlag' => 'False',
-                'ApprovedAmount' => '',
-                'ConvenienceFeeAmount' => $ConvenienceFeeAmount,
-                'EMVEncryptionFormat' => 'Default',
-                'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
-            ),
-            'identification' => array(
-                'TaxIDNumber' => '',
-                'DriversLicenseNumber' => '',
-                'DriversLicenseState' => '',
-                'BirthDate' => '',
-            ),
-            'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
-                'BillingAddress1' => $OrderRow->getPayeeAddress(),
-                'BillingAddress2' => $OrderRow->getPayeeAddress2(),
-                'BillingCity' => $OrderRow->getPayeeCity(),
-                'BillingState' => $OrderRow->getPayeeState(),
-                'BillingZipcode' => $OrderRow->getPayeeZipCode(),
-                'BillingEmail' => $OrderRow->getPayeeEmail(),
-                'BillingPhone' => $OrderRow->getPayeePhone(),
-
-                'ShippingName' => '', // $BillingName;
-                'ShippingAddress1' => '', // $BillingAddress1;
-                'ShippingAddress2' => '', // $BillingAddress2;
-                'ShippingCity' => '', // $BillingCity;
-                'ShippingState' => '', // $BillingState;
-                'ShippingZipcode' => '', // $BillingZipcode;
-                'ShippingEmail' => '', // $BillingEmail;
-                'ShippingPhone' => '', // $BillingPhone;
-            ),
-        );
-
-        $request = $this->prepareSOAPRequest(
-            $MerchantIdentity,
-            $Action,
-            $args,
-            $post
-        );
-
-        return $request;
-    }
-
-    public function prepareCheckVoidRequest(
-        PropayMerchantIdentity $MerchantIdentity,
-        OrderRow $OrderRow,
-        TransactionRow $AuthorizedTransaction,
-        Array $post)
-    {
-        $Action = 'CheckVoid';
-
-        $TransactionAmount = number_format($OrderRow->getAmount(), 2, '.', '');
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        if($ConvenienceFeeAmount) {
-            $TransactionAmount = number_format($OrderRow->getAmount() + $ConvenienceFeeAmount, 2, '.', '');
-            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
-        }
-
-        $args = array(
-            'credentials' => array(),
-            'application' => array(),
-            'terminal' => array(),
-            'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
-                'ClerkNumber' => '',
-                'ShiftID' => '',
-                'TransactionAmount' => $TransactionAmount,
-                'OriginalAuthorizedAmount' => '',
-                'TotalAuthorizedAmount' => '',
-                'SalesTaxAmount' => '',
-                'TipAmount' => '',
-                'ReferenceNumber' => $OrderRow->getReferenceNumber(),
-                'TicketNumber' => substr(strtoupper($AuthorizedTransaction->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'System', // System or Full or Partial;
-                'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                'BillPaymentFlag' => 'False', // False or True
-                'DuplicateCheckDisableFlag' => 'False',
-                'DuplicateOverrideFlag' => 'False',
-                'RecurringFlag' => 'False',
-                'TransactionStatus' => '',
-                'TransactionStatusCode' => '',
-                'HostTransactionID' => '',
-                'PartialApprovedFlag' => 'False',
-                'ApprovedAmount' => '',
-                'ConvenienceFeeAmount' => $ConvenienceFeeAmount,
-                'EMVEncryptionFormat' => 'Default',
-                'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
-            ),
-        );
-
-        $request = $this->prepareSOAPRequest(
-            $MerchantIdentity,
-            $Action,
-            $args,
-            $post
-        );
-        return $request;
-    }
-
-
-    public function prepareCheckReturnRequest(
-        PropayMerchantIdentity $MerchantIdentity,
-        OrderRow $OrderRow,
-        TransactionRow $AuthorizedTransaction,
-        TransactionRow $ReturnTransaction,
-        Array $post)
-    {
-        $Action = 'CheckReturn';
-
-        $TransactionAmount = number_format($OrderRow->getAmount(), 2, '.', '');
-        $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        if($ConvenienceFeeAmount) {
-            $TransactionAmount = number_format($OrderRow->getAmount() + $ConvenienceFeeAmount, 2, '.', '');
-            $ConvenienceFeeAmount = number_format($ConvenienceFeeAmount, 2, '.', '');
-        }
-
-        $args = array(
-            'credentials' => array(),
-            'application' => array(),
-            'terminal' => array(),
-            'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
-                'ClerkNumber' => '',
-                'ShiftID' => '',
-                'TransactionAmount' => $TransactionAmount,
-                'OriginalAuthorizedAmount' => '',
-                'TotalAuthorizedAmount' => '',
-                'SalesTaxAmount' => '',
-                'TipAmount' => '',
-                'ReferenceNumber' => $OrderRow->getReferenceNumber(),
-                'TicketNumber' => substr(strtoupper($AuthorizedTransaction->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'Full', // System or Full or Partial;
-                'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                'BillPaymentFlag' => 'False', // False or True
-                'DuplicateCheckDisableFlag' => 'False',
-                'DuplicateOverrideFlag' => 'False',
-                'RecurringFlag' => 'False',
-                'TransactionStatus' => '',
-                'TransactionStatusCode' => '',
-                'HostTransactionID' => '',
-                'PartialApprovedFlag' => 'False',
-                'ApprovedAmount' => '',
-                'ConvenienceFeeAmount' => $ConvenienceFeeAmount,
-                'EMVEncryptionFormat' => 'Default',
-                'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
-            ),
-        );
-
-        if(isset($post['partial_return_amount']) && ($post['partial_return_amount'] >= 0.01)) {
-            $partial_return_amount = $post['partial_return_amount'];
-            if($partial_return_amount > $OrderRow->getAmount())
-                throw new \InvalidArgumentException("Invalid Partial Return Amount");
-            $args['transaction']['ReversalType'] = 'Partial';
-            $args['transaction']['TransactionAmount'] = number_format($partial_return_amount, 2, '.', '');
-            $OrderRow->setTotalReturnedAmount($partial_return_amount);
-        } else {
-            $OrderRow->setTotalReturnedAmount($OrderRow->getAmount());
-        }
-
-        $request = $this->prepareSOAPRequest(
+        $request = $this->prepareJSONRequest(
             $MerchantIdentity,
             $Action,
             $args,
@@ -700,7 +429,7 @@ XML;
 
 
     function prepareHealthCheckRequest(
-        PropayMerchantIdentity $MerchantIdentity,
+        ProPayMerchantIdentity $MerchantIdentity,
         Array $post
     ) {
 
@@ -746,7 +475,7 @@ SOAP;
     }
 
     function prepareTransactionQueryRequest(
-        PropayMerchantIdentity $MerchantIdentity,
+        ProPayMerchantIdentity $MerchantIdentity,
         Array $post
     ) {
 
