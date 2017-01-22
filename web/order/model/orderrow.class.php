@@ -514,12 +514,9 @@ SQL;
             throw new IntegrationException("Invalid entry_mode");
         }
 
-        $OrderRow->customer_first_name = @$post['customer_first_name'];
-        $OrderRow->customer_last_name = @$post['customer_last_name'];
-        $OrderRow->customermi = @$post['customermi'];
-        $OrderRow->customer_id = @$post['customer_id'];
+        if(!empty($post['payee_full_name']))
+            list($post['payee_first_name'], $post['payee_last_name']) = explode(' ', $post['payee_full_name'], 2);
 
-        $OrderRow->invoice_number = @$post['invoice_number'];
 
         $OrderRow->payee_first_name = $post['payee_first_name'];
         $OrderRow->payee_last_name = $post['payee_last_name'];
@@ -530,6 +527,15 @@ SQL;
         $OrderRow->payee_zipcode = $post['payee_zipcode'];
         $OrderRow->payee_city = @$post['payee_city'];
         $OrderRow->payee_state = @$post['payee_state'];
+
+
+        $OrderRow->customer_first_name = @$post['customer_first_name'] ?: $OrderRow->payee_first_name;
+        $OrderRow->customer_last_name = @$post['customer_last_name'] ?: $OrderRow->payee_last_name;
+        $OrderRow->customermi = @$post['customermi'];
+        $OrderRow->customer_id = @$post['customer_id'];
+
+        $OrderRow->invoice_number = @$post['invoice_number'];
+
 
         if(isset($post['payee_reciept_email']))
             $OrderRow->payee_reciept_email = $post['payee_reciept_email'];

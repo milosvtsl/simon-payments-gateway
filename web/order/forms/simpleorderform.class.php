@@ -181,7 +181,7 @@ HEAD;
                                     </select>
                                 </label>
 
-                                <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
+                                <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <span>**CVV</span>
                                     <input type="text" name="card_cvv2" placeholder="xxxx" autocomplete="off" style="width: 4em;" />
                                 </label>
