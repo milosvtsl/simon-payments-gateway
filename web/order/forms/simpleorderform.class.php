@@ -51,20 +51,18 @@ HEAD;
                     <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>" />
                     <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>" />
 
-
-
-                    <fieldset class="" style="">
+                    <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Enter payment details</div>
                         <div style="float: left;">
 
                             <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <span>Customer Name</span>
-                                <input type="text" name="payee_full_name" placeholder="Customer Name" required />
+                                <input type="text" name="payee_full_name" placeholder="Customer Name" required autofocus/>
                             </label>
 
                             <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <span>Payment Amount</span>
-                                <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required autofocus/>
+                                <input type="text" name="amount" value=""  size="6" placeholder="x.xx" required />
                             </label>
 
                             <?php if($MerchantForm->hasField('payee_receipt_email')) { ?>
@@ -131,9 +129,7 @@ HEAD;
                     </fieldset>
 
 
-
-
-                    <fieldset class="" style="">
+                    <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Choose a Payment Method</div>
 
                         <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="display: none;">
@@ -284,7 +280,7 @@ HEAD;
 
 
 
-                    <fieldset class="" style="clear: both;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
+                    <fieldset class="" style="max-width: 45em; clear: both;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
                         <div class="legend">Re-bill Schedule</div>
 
 
@@ -324,7 +320,7 @@ HEAD;
                         </label>
                     </fieldset>
 
-                    <fieldset class="" style="clear: both;"
+                    <fieldset class="" style="clear: both; max-width: 45em;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>
                     >
                         <div class="legend">Submit Order</div>
@@ -359,7 +355,7 @@ HEAD;
                     </fieldset>
 
 
-                    <fieldset class="" style="min-width:45%; ">
+                    <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Form Options: <?php echo $Merchant->getShortName(); ?></div>
                         <?php if(sizeof($SessionUser->getMerchantList()) > 1) { ?>
                             <label class="">

@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.check_number.removeAttribute('disabled');
                 form.check_type.removeAttribute('disabled');
                 console.log("Switching to Entry mode: " + entry_mode);
-                form.entry_mode.value = entry_mode;
+//                 form.entry_mode.value = entry_mode;
                 break;
 
             case 'swipe':
@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.check_number.setAttribute('disabled', 'disabled');
                 form.check_type.setAttribute('disabled', 'disabled');
                 console.log("Switching to Entry mode: " + entry_mode);
-                form.entry_mode.value = entry_mode;
+//                 form.entry_mode.value = entry_mode;
                 break;
         }
 
