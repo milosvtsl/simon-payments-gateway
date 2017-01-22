@@ -148,7 +148,7 @@ HEAD;
 
                         <div class="entry-options">
                             <label class="entry-option entry-option-keyed">
-                                <input type="radio" name="entry_mode" value="Keyed">
+                                <input type="radio" name="entry_mode" value="Keyed" checked>
                                 Credit Card (Keyed)
                             </label>
                             <label class="entry-option entry-option-swipe">

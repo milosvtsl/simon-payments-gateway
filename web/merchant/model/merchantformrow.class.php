@@ -9,6 +9,7 @@ namespace Merchant\Model;
 
 use Order\Forms\AbstractForm;
 use Order\Forms\DefaultOrderForm;
+use Order\Forms\SimpleOrderForm;
 use Order\Model\OrderRow;
 use System\Config\DBConfig;
 use User\Model\UserRow;
@@ -90,7 +91,7 @@ FROM merchant_form mf
     public function getUID()            { return $this->uid; }
     public function getTitle()          { return $this->title; }
     public function getFormClasses()    { return $this->classes; }
-    public function getTemplatePath()   { return $this->template ?: DefaultOrderForm::_CLASS; }
+    public function getTemplatePath()   { return $this->template ?: SimpleOrderForm::_CLASS; }
 
     public function getMerchantID()     { return $this->merchant_id; }
 

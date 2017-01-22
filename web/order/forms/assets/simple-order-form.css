@@ -8,6 +8,7 @@
 .simple-order-form .field-row {
     display: block;
     font-size: smaller;
+    margin: 1px 0 0 0;
 }
 
 .simple-order-form .field-row > span {
@@ -17,6 +18,27 @@
     vertical-align: top;
     padding: 4px 4px;
 }
+
+
+
+.simple-order-form .field-row > span::after {
+    content: ':';
+    color: gray;
+}
+
+.simple-order-form .field-row.required > span::before {
+    content: '*';
+    color: red;
+}
+
+
+
+
+
+
+
+
+
 
 
 .simple-order-form .credit-image {

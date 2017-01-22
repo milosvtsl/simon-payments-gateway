@@ -628,6 +628,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     padding: 0.4em 0.6em;
     border-radius: 0.3em;
     border-width: 1px;
+    /* margin: 0px 0px 1px 0px; */
 }
 
 .spg-theme form.themed select.large,

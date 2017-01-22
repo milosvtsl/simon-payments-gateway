@@ -7,6 +7,7 @@
  */
 namespace User\Model;
 
+use Merchant\Model\MerchantFormRow;
 use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Merchant\Model\MerchantRow;
@@ -46,6 +47,7 @@ class UserRow
     protected $app_config;
     protected $timezone;
     protected $admin_id;
+    protected $merchant_form_id;
 
     // Table authority
     protected $merchant_list;
@@ -74,6 +76,7 @@ FROM user u
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
     public function getAppConfig()      { return $this->app_config; }
+    public function getMerchantFormID() { return $this->merchant_form_id; }
 
     public function getTimeZoneOffset($date='now') {
         $tz = new \DateTimeZone($this->getTimeZone());
@@ -173,6 +176,14 @@ FROM user u
         return static::update($this);
     }
 
+    public function setDefaultOrderForm(MerchantFormRow $OrderForm) {
+        if($this->merchant_form_id == $OrderForm->getID())
+            return false;
+        $this->merchant_form_id = $OrderForm->getID();
+        return static::update($this);
+    }
+
+
     public function updateFields($post) {
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid Email");
@@ -185,7 +196,6 @@ FROM user u
         $this->timezone = $time->getName();
         return static::update($this);
     }
-
 
     public function addAuthority($authority, $ignore_duplicate=true) {
         $Authority = AuthorityRow::fetchByName($authority);
@@ -265,10 +275,9 @@ SQL;
         return $stmt->rowCount() >= 1;
     }
 
+
+
     // Static
-
-
-
     public static function fetchByUID($uid)
     {
         $DB = DBConfig::getInstance();
@@ -281,6 +290,7 @@ SQL;
             throw new \InvalidArgumentException("User UID not found: " . $uid);
         return $Row;
     }
+
     /**
      * @param $id
      * @return UserRow
@@ -326,11 +336,11 @@ SQL;
         return static::fetchByField('username', $username);
     }
 
+
+
     public static function fetchByEmail($email) {
         return static::fetchByField('email', $email);
     }
-
-
 
     /**
      * @param $post
@@ -429,6 +439,7 @@ SQL;
         return $User;
     }
 
+
     /**
      * @param UserRow $User
      * @return UserRow
@@ -447,6 +458,7 @@ SQL;
             ':username' => $User->username,
             ':timezone' => $User->timezone,
             ':admin_id' => $User->admin_id,
+            ':merchant_form_id' => $User->merchant_form_id,
         );
         $SQL = '';
         foreach($values as $key=>$value)
@@ -463,11 +475,9 @@ SQL;
         return $stmt->rowCount();
     }
 
-
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
-
 
 
 }

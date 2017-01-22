@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function updateStyleSheetTheme(form) {
-        var entry_mode = form.entry_mode.value.toLowerCase();
+        var entry_mode = form.entry_mode.value.toLowerCase() || 'keyed';
 
         // Disable unused payment methods
         switch(entry_mode) {
@@ -215,6 +215,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.check_account_type.removeAttribute('disabled');
                 form.check_number.removeAttribute('disabled');
                 form.check_type.removeAttribute('disabled');
+                console.log("Switching to Entry mode: " + entry_mode);
+                form.entry_mode.value = entry_mode;
                 break;
 
             case 'swipe':
@@ -237,6 +239,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.check_account_type.setAttribute('disabled', 'disabled');
                 form.check_number.setAttribute('disabled', 'disabled');
                 form.check_type.setAttribute('disabled', 'disabled');
+                console.log("Switching to Entry mode: " + entry_mode);
+                form.entry_mode.value = entry_mode;
                 break;
         }
 

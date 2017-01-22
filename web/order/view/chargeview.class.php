@@ -27,15 +27,20 @@ class ChargeView extends AbstractView
     private $merchant;
 
     public function __construct($merchant_id, $formUID=null)    {
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
         if($formUID) {
             $OrderForm = MerchantFormRow::fetchByUID($formUID);
         } else {
-            $OrderForm = MerchantFormRow::fetchGlobalForm();
+            if($SessionUser->getMerchantFormID()) {
+                $OrderForm = MerchantFormRow::fetchByID($SessionUser->getMerchantFormID());
+            } else {
+                $OrderForm = MerchantFormRow::fetchGlobalForm();
+            }
         }
         $this->form = $OrderForm;
 
-        $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
 //        $merchant_id = $OrderForm->getMerchantID();
         if($merchant_id !== null) {
             if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
@@ -49,6 +54,9 @@ class ChargeView extends AbstractView
         }
 
         $this->merchant = MerchantRow::fetchByID($merchant_id);
+
+        $SessionUser->setDefaultOrderForm($OrderForm);
+
         parent::__construct($OrderForm->getTitle() . ' - ' . $this->merchant->getShortName());
     }
 
