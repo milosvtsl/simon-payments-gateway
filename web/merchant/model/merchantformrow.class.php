@@ -147,9 +147,11 @@ FROM merchant_form mf
     }
 
     public function updateFields($post) {
-        $sqlSet = "\n`title` = :title ";
+        $sqlSet = "\n`title` = :title,";
+        $sqlSet .= "\n`template` = :template";
         $params = array(
             ':title' => $post['title'],
+            ':template' => $post['template'],
         );
 
         // Set Flags

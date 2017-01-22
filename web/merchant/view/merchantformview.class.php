@@ -148,6 +148,15 @@ HEAD;
                                 <td><input type="text" name="title" value="<?php echo $Form->getTitle(); ?>" /></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">PHP Template</td>
+                                <td>
+                                    <select name="template" title="Choose PHP Template">
+                                        <option value="Order\Forms\DefaultOrderForm">Default</option>
+                                        <option value="Order\Forms\SimpleOrderForm">Simple</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">CSS Themes</td>
                                 <td>
                                     <select multiple="multiple" name="classes[]" title="Choose Charge Form Theme Options">
@@ -245,6 +254,13 @@ HEAD;
                         <iframe src="order/charge.php?form_uid=<?php echo $Form->getUID(); ?>&iframe=1&disabled=1" style="width: 99%; min-height: 56em; opacity: 0.5; transform: scale(0.8);"></iframe>
                     </fieldset>
                 </form>
+
+                <script>
+                    var form = document.getElementsByName('form-merchant-form-edit')[0];
+                    form.template.value = <?php echo json_encode($Form->getTemplatePath()); ?>;
+                    console.log("Filling Form ", form);
+                </script>
+
             </section>
         </article>
 
