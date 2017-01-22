@@ -1,26 +1,23 @@
-
-.simple-order-form.payment-method-selected .inline-on-payment-method-selected,
-.simple-order-form.merchant-selected .inline-on-merchant-selected {
-    /* display: inline-block !important; */
-    float: left;
-}
-
-.simple-order-form:not(.payment-method-selected) .show-on-payment-method-selected,
 .simple-order-form:not(.payment-method-swipe) .show-on-payment-method-swipe,
 .simple-order-form:not(.payment-method-keyed) .show-on-payment-method-keyed,
 .simple-order-form:not(.payment-method-card) .show-on-payment-method-card,
 .simple-order-form:not(.payment-method-check) .show-on-payment-method-check {
     display: none !important;
 }
-.simple-order-form.payment-method-swipe .show-on-payment-method-swipe,
-.simple-order-form.payment-method-keyed .show-on-payment-method-keyed,
-.simple-order-form.payment-method-check .show-on-payment-method-check {
-    /*display: block !important;*/
+
+.simple-order-form .field-row {
+    display: block;
+    font-size: smaller;
 }
 
-.simple-order-form:not(.merchant-selected) .show-on-merchant-selected {
-    display: none !important;
+.simple-order-form .field-row > span {
+    display: inline-block;
+    min-width: 10em;
+    /*     text-align: right; */
+    vertical-align: top;
+    padding: 4px 4px;
 }
+
 
 .simple-order-form .credit-image {
     background: url('img/credit-image.png') no-repeat;
@@ -38,6 +35,32 @@
     /* margin-top: 1em; */
 }
 
+
+.simple-order-form .entry-section {
+    background: #DDD;
+    padding: 8px;
+}
+.simple-order-form .entry-options {
+    font-size: smaller;
+    border-bottom: 0px #CCC solid;
+    padding: 0px 0px;
+}
+.simple-order-form .entry-options .entry-option {
+    display: inline-block;
+    background: #EEE;
+    border-radius: 8px 8px 0 0;
+    padding: 6px 10px 4px 4px;
+    margin: 0 3px 0 0px;
+}
+
+.simple-order-form.payment-method-swipe .entry-option-swipe,
+.simple-order-form.payment-method-keyed .entry-option-keyed,
+.simple-order-form.payment-method-card .entry-option-card,
+.simple-order-form.payment-method-check .entry-option-check,
+.simple-order-form .entry-options .entry-option.selected {
+    font-weight: bold;
+    background: #DDD;
+}
 
 /** Swipe Box **/
 

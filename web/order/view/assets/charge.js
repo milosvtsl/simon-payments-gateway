@@ -131,6 +131,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         updateStyleSheetTheme(form);
 
+        checkForSwipeData(form)
+    }
+
+    function checkForSwipeData(form) {
+
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
             //form.entry_method.value = 'Swipe';
@@ -188,36 +193,54 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     function updateStyleSheetTheme(form) {
-
         var entry_mode = form.entry_mode.value.toLowerCase();
 
-        // form.classList[form.merchant_id.value ? 'add' : 'remove']('merchant-selected');
-        form.classList[form.entry_mode.value ? 'add' : 'remove']('payment-method-selected');
-        form.classList.remove('payment-method-keyed', 'payment-method-swipe', 'payment-method-check', 'payment-method-card');
-        form.classList.add('payment-method-' + entry_mode);
-
-        switch(entry_mode) {
-            case 'keyed':
-            case 'swipe':
-                form.classList.add('payment-method-card');
-                break;
-        }
-
-
         // Disable unused payment methods
-        switch(form.entry_mode.value.toLowerCase()) {
+        switch(entry_mode) {
             case 'check':
-                form.getElementsByClassName('form-payment-method-check')[0].removeAttribute('disabled');
-                form.getElementsByClassName('form-payment-method-credit')[0].setAttribute('disabled', 'disabled');
+                form.classList.remove('payment-method-keyed');
+                form.classList.remove('payment-method-swipe');
+                form.classList.remove('payment-method-card');
+                form.classList.add('payment-method-check');
+
+                form.card_number.setAttribute('disabled', 'disabled');
+                form.card_type.setAttribute('disabled', 'disabled');
+                form.card_cvv2.setAttribute('disabled', 'disabled');
+                form.card_exp_month.setAttribute('disabled', 'disabled');
+                form.card_exp_year.setAttribute('disabled', 'disabled');
+
+                form.check_account_name.removeAttribute('disabled');
+                form.check_account_number.removeAttribute('disabled');
+                form.check_routing_number.removeAttribute('disabled');
+                form.check_account_type.removeAttribute('disabled');
+                form.check_number.removeAttribute('disabled');
+                form.check_type.removeAttribute('disabled');
                 break;
 
             case 'swipe':
             case 'keyed':
-                form.getElementsByClassName('form-payment-method-check')[0].setAttribute('disabled', 'disabled');
-                form.getElementsByClassName('form-payment-method-credit')[0].removeAttribute('disabled');
+                form.classList.remove('payment-method-keyed');
+                form.classList.remove('payment-method-swipe');
+                form.classList.add('payment-method-' + entry_mode);
+                form.classList.add('payment-method-card');
+                form.classList.remove('payment-method-check');
+
+                form.card_number.removeAttribute('disabled');
+                form.card_type.removeAttribute('disabled');
+                form.card_cvv2.removeAttribute('disabled');
+                form.card_exp_month.removeAttribute('disabled');
+                form.card_exp_year.removeAttribute('disabled');
+
+                form.check_account_name.setAttribute('disabled', 'disabled');
+                form.check_account_number.setAttribute('disabled', 'disabled');
+                form.check_routing_number.setAttribute('disabled', 'disabled');
+                form.check_account_type.setAttribute('disabled', 'disabled');
+                form.check_number.setAttribute('disabled', 'disabled');
+                form.check_type.setAttribute('disabled', 'disabled');
                 break;
         }
 
+        // Rebill UI
         if(form.recur_count.value > 0) {
             form.recur_next_date.removeAttribute('disabled');
             form.recur_amount.removeAttribute('disabled');
