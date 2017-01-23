@@ -28,5 +28,5 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 
 // Render View
-$View = new User\View\UserView($SessionManager->getSessionUser()->getID());
+$View = new User\View\UserView($SessionManager->getSessionUser()->getUID());
 $View->handleRequest();
