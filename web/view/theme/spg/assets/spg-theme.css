@@ -626,9 +626,12 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme form.themed button,
 .spg-theme form.themed input {
     padding: 0.4em 0.6em;
-    border-radius: 0.3em;
-    border-width: 1px;
+    /* border-radius: 0.3em; */
+    /* border-width: 1px; */
     /* margin: 0px 0px 1px 0px; */
+    border: 1px inset rgba(33, 69, 91, 0.22);
+    border-radius: 3px;
+    box-shadow: 0px 1px 5px rgba(51, 51, 51, 0.21);
 }
 
 .spg-theme form.themed select.large,
@@ -644,11 +647,11 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme input.button-submit {
     /* background: url('img/bk/input.button.png') repeat-x; */
     margin: 0.1em 0.1em;
-    min-width: 80px;
+    /* min-width: 80px; */
     border-radius: 5px;
     text-transform: capitalize;
     background-color: #3a7190;
-    background: linear-gradient(0deg, #3a7190 0%, #3a7190 50%, #3a7190 100%);
+    background: linear-gradient(0deg, #3a7190 0%, #3a7190 50%, #3a7190 79%);
     color: white;
     cursor: pointer;
     border: 1px solid #CCCCCC;
@@ -658,13 +661,15 @@ body.layout-vertical.spg-theme nav.page-menu {
     font-size: .9em;
     font-weight: normal;
     text-align: center;
+    padding: 7px 10px;
 }
 
 .spg-theme input[type=reset].themed:hover,
 .spg-theme input[type=submit].themed:hover,
 .spg-theme button.themed:hover,
 .spg-theme input.button-sumit:hover {
-    background: linear-gradient(0deg, #fff 0%, #a69de6 50%, #fff 100%);
+    background: linear-gradient(0deg, #3a7190 0%, #23465c 50%, #3a7190 100%);
+    box-shadow: 1px 1px 1px #008ee9;
 }
 
 
