@@ -8,6 +8,7 @@
 namespace Integration\Request\Model;
 
 use Integration\Model\AbstractMerchantIdentity;
+use Merchant\Model\MerchantRow;
 use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\IntegrationRow;
@@ -22,6 +23,7 @@ class IntegrationRequestRow
     const ENUM_TYPE_MERCHANT_PROVISION      = 'merchant-provision';
     const ENUM_TYPE_MERCHANT_PAYMENT        = 'merchant-payment';
     const ENUM_TYPE_TRANSACTION             = 'transaction';
+    const ENUM_TYPE_TRANSACTION_CREATE      = 'transaction-create';
     const ENUM_TYPE_TRANSACTION_VOID        = 'transaction-void';
     const ENUM_TYPE_TRANSACTION_RETURN      = 'transaction-return';
     const ENUM_TYPE_TRANSACTION_REVERSAL    = 'transaction-reversal';
@@ -207,10 +209,10 @@ LEFT JOIN user u ON u.id = ir.user_id
         return $Integration->isRequestSuccessful($this, $reason, $code);
     }
 
-    function printFormHTML() {
-        $Integration = $this->getIntegration();
-        $Integration->printFormHTML($this);
-    }
+//    function printFormHTML() {
+//        $Integration = $this->getIntegration();
+//        $Integration->printFormHTML($this);
+//    }
 
     function parseResponseData() {
         $Integration = $this->getIntegration();
@@ -218,13 +220,13 @@ LEFT JOIN user u ON u.id = ir.user_id
     }
 
     public function getRequestURL() {
-        // If URL was defined, return it
-        if($this->url)
-            return $this->url;
+        return $this->url;
 
         // If URL was not defined yet, generate it now
-        $Integration = $this->getIntegration();
-        return $Integration->getRequestURL($this);
+//        $Integration = $this->getIntegration();
+//        $MerchantRow = MerchantRow::fetchByID($this->getMerchantID());
+//        $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $APIData);
+//        return $Integration->getRequestURL($MerchantIdentity, $this);
     }
 
     // Static

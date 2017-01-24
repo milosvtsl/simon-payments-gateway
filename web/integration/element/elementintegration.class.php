@@ -155,14 +155,16 @@ class ElementIntegration extends AbstractIntegration
         }
     }
 
+
     /**
      * Return the API Request URL for this request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
      * @return string
      * @throws IntegrationException
      */
-    function getRequestURL(IntegrationRequestRow $Request) {
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+    function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
+        $APIData = $MerchantIdentity->getIntegrationRow();
         $url = $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH:
@@ -288,7 +290,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
-        $url = $this->getRequestURL($Request);
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
@@ -382,7 +385,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL
         );
-        $url = $this->getRequestURL($Request);
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
@@ -459,7 +463,10 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID
         );
-        $url = $this->getRequestURL($Request);
+
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
+
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
@@ -544,7 +551,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN
         );
-        $url = $this->getRequestURL($Request);
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
@@ -615,7 +623,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
         );
-        $url = $this->getRequestURL($Request);
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
@@ -650,7 +659,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH
         );
-        $url = $this->getRequestURL($Request);
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();

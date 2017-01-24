@@ -40,6 +40,7 @@ function Process_Payment_Method($Arguments)
 	*/
 
 	//Change this URL to point to Production by chaning it to https://api.propay.com/... instead of https://xmltestapi.propay.com/....
+//	$Arguments[3] = *Payer ID
 	$url = "https://xmltestapi.propay.com/ProtectPay/Payers/" . $Arguments[3] . "/PaymentMethods/ProcessedTransactions/";
 	$Auth_Header = "Basic " . base64_encode($Arguments[1] . ":" . $Arguments[0]);
 	$HTTP_Verb = "PUT";

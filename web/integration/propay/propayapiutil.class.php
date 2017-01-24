@@ -8,6 +8,8 @@
 namespace Integration\ProPay;
 
 use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
+use Integration\Request\Model\IntegrationRequestRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
@@ -17,41 +19,58 @@ class ProPayAPIUtil {
     const POST_URL_PAYERS = "/ProtectPay/Payers/"; // https://xmltestapi.propay.com
 
     public function executeAPIRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
-        $api_path,
-        Array $args = array(),
-        Array $post = array()
+        IntegrationRequestRow $Request
     ) {
 
-        $BillerID = $MerchantIdentity->getBillerID();
-        $AuthToken = $MerchantIdentity->getAuthToken();
+        /** @var IntegrationRow $APIData */
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
 
-
-        $url = "https://xmltestapi.propay.com/" . $api_path;
-        $Auth_Header = "Basic " . base64_encode($BillerID . ":" . $AuthToken);
-        $HTTP_Verb = "PUT";
-        $Payload = json_encode($args);
-
-        /* The HTTP header must include the SOAPAction */
-        $header = array(
+        $url = $Request->getRequestURL();
+        $userpass = $APIData->getAPIUsername() . ':' . $APIData->getAPIPassword();
+        $Auth_Header = "Basic " . base64_encode($userpass);
+        $headers = array(
+//            "Content-Type: application/soap+xml; charset=utf-8",
             "Content-type: application/json; charset=utf-8",
+            "Content-Length: ". strlen($Request->getRequest()),
             "Authorization: " . $Auth_Header,
         );
 
+        // Init curl
         $ch = curl_init();
+
+        // Disable SSL verification
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+        // Set CURL options
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $HTTP_Verb);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $Payload);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+//        curl_setopt($ch, CURLOPT_USERPWD, $userpass);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
+
+//        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
 
         $response = curl_exec($ch);
-        $err = curl_error($ch);
-        curl_close($ch);
+
+        $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+
+        if(!$response) {
+            $response = curl_error($ch);
+            if($response)
+                trigger_error($response);
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+        } else {
+
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $header = substr($response, 0, $header_size);
+            if($httpcode !== 200) {
+                throw new IntegrationException("Invalid Response: " . $header);
+            }
+            $body = substr($response, $header_size);
+            $response = $body;
+        }
 
         return $response;
     }

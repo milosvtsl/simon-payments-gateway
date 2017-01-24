@@ -311,13 +311,16 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
         $IntegrationRow = $this->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
-        $NewRequest = IntegrationRequestRow::prepareNew(
+        $Request = IntegrationRequestRow::prepareNew(
             $this,
             IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION
         );
-        $url = $Integration->getRequestURL($NewRequest);
+
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $Integration->getRequestURL($APIData, $Request);
+
         $url = str_replace(':IDENTITY_ID', $this->getRemoteID(), $url);
-        $NewRequest->setRequestURL($url);
+        $Request->setRequestURL($url);
 
 //        $M = $this->getMerchantRow();
         $POST = array(
@@ -327,8 +330,8 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         );
 
         $request = json_encode($POST, JSON_PRETTY_PRINT);
-        $NewRequest->setRequest($request);
-        return $NewRequest;
+        $Request->setRequest($request);
+        return $Request;
 
     }
 }

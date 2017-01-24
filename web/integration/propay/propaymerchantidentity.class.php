@@ -25,8 +25,8 @@ class ProPayMerchantIdentity extends AbstractMerchantIdentity
     protected $created_at;
     protected $updated_at;
 
-    protected $AuthToken;
-    protected $BillerID;
+//    protected $AuthToken;
+//    protected $BillerID;
 
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
@@ -40,8 +40,8 @@ class ProPayMerchantIdentity extends AbstractMerchantIdentity
     public function getUpdateDate()     { return $this->updated_at; }
 
 
-    public function getBillerID()       { return $this->BillerID; }
-    public function getAuthToken()       { return $this->AuthToken; }
+//    public function getBillerID()       { return $this->BillerID; }
+//    public function getAuthToken()       { return $this->AuthToken; }
 
     function isProfileComplete(&$message=null) {
         $message = "Complete";
