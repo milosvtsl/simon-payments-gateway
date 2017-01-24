@@ -16,7 +16,7 @@ class IntegrationListView extends AbstractListView {
 	public function renderHTMLBody(Array $params) {
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = IntegrationRow::SQL_WHERE;
 		$statsMessage = '';
 
 		// Handle authority

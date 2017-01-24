@@ -23,6 +23,10 @@ class ProPayAPIUtil {
         Array $post = array()
     ) {
 
+        $BillerID = $MerchantIdentity->getBillerID();
+        $AuthToken = $MerchantIdentity->getAuthToken();
+
+
         $url = "https://xmltestapi.propay.com/" . $api_path;
         $Auth_Header = "Basic " . base64_encode($BillerID . ":" . $AuthToken);
         $HTTP_Verb = "PUT";
@@ -48,9 +52,6 @@ class ProPayAPIUtil {
         $response = curl_exec($ch);
         $err = curl_error($ch);
         curl_close($ch);
-
-        /*Call Parse Function for the XML response*/
-        Parse_Results($response);
 
         return $response;
     }

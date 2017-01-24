@@ -30,14 +30,19 @@ class ChargeView extends AbstractView
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
-        if($formUID) {
-            $OrderForm = MerchantFormRow::fetchByUID($formUID);
-        } else {
-            if($SessionUser->getMerchantFormID()) {
-                $OrderForm = MerchantFormRow::fetchByID($SessionUser->getMerchantFormID());
+        try {
+            if($formUID) {
+                $OrderForm = MerchantFormRow::fetchByUID($formUID);
             } else {
-                $OrderForm = MerchantFormRow::fetchGlobalForm();
+                if($SessionUser->getMerchantFormID()) {
+                    $OrderForm = MerchantFormRow::fetchByID($SessionUser->getMerchantFormID());
+                } else {
+                    $OrderForm = MerchantFormRow::fetchGlobalForm();
+                }
             }
+        } catch (\Exception $ex) {
+            $this->setMessage($ex->getMessage());
+            $OrderForm = MerchantFormRow::fetchGlobalForm();
         }
         $this->form = $OrderForm;
 

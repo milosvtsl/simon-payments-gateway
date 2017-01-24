@@ -45,6 +45,7 @@ SELECT i.*,
   (SELECT count(*) FROM integration_request ir WHERE i.id = ir.integration_id) as request_total
 FROM integration i
 ";
+    const SQL_WHERE = "\nWHERE i.api_type != 'disabled'";
     const SQL_GROUP_BY = "\nGROUP BY i.id";
     const SQL_ORDER_BY = "\nORDER BY i.api_type='production' DESC";
 
@@ -167,7 +168,10 @@ FROM integration i
 
     public static function queryAll($order = 'i.id DESC') {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . "\nORDER BY " . $order);
+        $stmt = $DB->prepare(
+            static::SQL_SELECT
+            . static::SQL_WHERE
+            . "\nORDER BY " . $order);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute();
