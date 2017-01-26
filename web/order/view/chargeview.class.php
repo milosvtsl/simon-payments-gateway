@@ -81,20 +81,11 @@ class ChargeView extends AbstractView
             $Theme->printHTMLMenu('order-charge');
         }
 
-        ?>
-        <article class="themed">
-            <section class="content">
-        <?php
         if($this->hasMessage())
             echo "<h5>", $this->getMessage(), "</h5>";
 
         // Render Order Form
         $MerchantForm->renderHTML($Merchant, $params);
-
-        ?>
-            </section>
-        </article>
-        <?php
 
         if(!@$params['iframe'])
             $Theme->renderHTMLBodyFooter();

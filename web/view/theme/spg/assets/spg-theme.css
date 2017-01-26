@@ -617,6 +617,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     font-weight: bold;
     text-align: left;
     border-bottom: 1px inset #b1ced6;
+    border-radius: 3px 0px 8px 3px;
     margin: 2px 0 7px 0;
     padding: 4px 3px 2px 4px;
     font-size: larger !important;

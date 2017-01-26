@@ -41,7 +41,9 @@ HEAD;
             $LASTPOST = $_SESSION[__FILE__];
 
         ?>
-                <form name="form-transaction-charge"
+          <article class="themed">
+              <section class="content">
+                  <form name="form-transaction-charge"
                       class="default-order-form <?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
                       method="POST"
                 >
@@ -442,6 +444,8 @@ HEAD;
                     </fieldset>
 
                 </form>
+            </section>
+        </article>
         <?php
         if(sizeof($LASTPOST) > 0) {
             $json = json_encode($LASTPOST);

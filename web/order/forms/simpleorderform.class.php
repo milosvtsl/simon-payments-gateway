@@ -41,6 +41,8 @@ HEAD;
             $LASTPOST = $_SESSION[__FILE__];
 
         ?>
+        <article class="themed" style="text-align: center; clear: right;">
+            <section class="content" style="text-align: left; display: inline-block;">
                 <form name="form-transaction-charge"
                       class="simple-order-form <?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
                       method="POST"
@@ -52,7 +54,7 @@ HEAD;
                     <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>" />
 
                     <fieldset class="" style="max-width: 45em;">
-                        <div class="legend">Enter payment details</div>
+                        <div class="legend">Enter Payment Details</div>
                         <div style="float: left;">
 
                             <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -281,7 +283,7 @@ HEAD;
 
 
                     <fieldset class="" style="max-width: 45em; clear: both;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
-                        <div class="legend">Re-bill Schedule</div>
+                        <div class="legend">Recurring Payment</div>
 
 
 
@@ -397,6 +399,8 @@ HEAD;
                     </fieldset>
 
                 </form>
+            </section>
+        </article>
 
 
         <?php
