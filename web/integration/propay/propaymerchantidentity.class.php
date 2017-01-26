@@ -25,23 +25,23 @@ class ProPayMerchantIdentity extends AbstractMerchantIdentity
     protected $created_at;
     protected $updated_at;
 
-//    protected $AccountID;
-//    protected $AccountToken;
-//    protected $ApplicationID;
-//    protected $AcceptorID;
-//    protected $DefaultTerminalID;
+//    protected $AuthToken;
+//    protected $BillerID;
+
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
         parent::__construct($Merchant, $APIData);
     }
 
-//    public function getRemoteID()       { return $this->AcceptorID; }
+    public function getRemoteID()       { return $this->BillerID; }
     public function getEntityData()     { return $this->entity; }
     public function getTags()           { return $this->tags; }
     public function getCreateDate()     { return $this->created_at; }
     public function getUpdateDate()     { return $this->updated_at; }
 
 
+//    public function getBillerID()       { return $this->BillerID; }
+//    public function getAuthToken()       { return $this->AuthToken; }
 
     function isProfileComplete(&$message=null) {
         $message = "Complete";
@@ -77,6 +77,7 @@ class ProPayMerchantIdentity extends AbstractMerchantIdentity
     function settleRemote() {
         // TODO: Implement settleRemote() method.
     }
+
 
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {

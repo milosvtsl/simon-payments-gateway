@@ -354,7 +354,9 @@ LEFT JOIN state s on m.state_id = s.id
     public function getMerchantIdentities() {
         $DB = DBConfig::getInstance();
         $IntegrationQuery = $DB->prepare(
-            IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+            IntegrationRow::SQL_SELECT
+            . IntegrationRow::SQL_WHERE
+            . IntegrationRow::SQL_ORDER_BY);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
         $IntegrationQuery->execute();

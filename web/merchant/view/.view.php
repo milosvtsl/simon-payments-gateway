@@ -237,7 +237,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <?php
 
                         $DB = \System\Config\DBConfig::getInstance();
-                        $UserQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+                        $UserQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_WHERE . IntegrationRow::SQL_ORDER_BY);
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
                         $UserQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
                         $UserQuery->execute(array($this->getMerchant()->getID()));

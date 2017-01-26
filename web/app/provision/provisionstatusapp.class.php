@@ -40,7 +40,7 @@ class ProvisionStatusApp extends AbstractApp {
             foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
                 $reason = null;
                 $Integration = $MerchantIdentity->getIntegrationRow();
-                if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_DISABLED)
+                if($Integration->getAPIType() !== IntegrationRow::ENUM_API_TYPE_PRODUCTION)
                     continue;
                 if($Integration->getAPIType() === IntegrationRow::ENUM_API_TYPE_TESTING)
                     continue;

@@ -41,7 +41,7 @@ abstract class AbstractIntegration
      * @return void
      * @throws IntegrationException if the form failed to print
      */
-    abstract function printFormHTML(IntegrationRequestRow $Request);
+//    abstract function printFormHTML(IntegrationRequestRow $Request);
 
     /**
      * Parse the response data and return a data object
@@ -53,10 +53,11 @@ abstract class AbstractIntegration
 
     /**
      * Return the API Request URL for this request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
      * @return string
      */
-    abstract function getRequestURL(IntegrationRequestRow $Request);
+    abstract function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
 
     /**
      * Get or create a Merchant Identity
