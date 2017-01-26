@@ -13,10 +13,12 @@
 
 .simple-order-form .field-row > span {
     display: inline-block;
-    min-width: 10em;
-    /*     text-align: right; */
+    width: 10em;
+    text-align: right;
     vertical-align: top;
     padding: 4px 4px;
+    /* font-weight: bold; */
+    margin-right: 3px;
 }
 
 
