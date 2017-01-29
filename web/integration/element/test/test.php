@@ -49,8 +49,10 @@ $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
         'status' => 'Settled',
         'reverse' => 'True',
         'date_start' => date('Y-m-d H:i:s.v', time() - 24*60*60*1),
+        'date_end' => date('Y-m-d H:i:s.v', time()),
     ),
     function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
+        echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
         return NULL;
     }
 );
