@@ -668,7 +668,7 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException($message);
 
         if(empty($response['ReportingData']))
-            throw new IntegrationException("Invalid ReportingData");
+            throw new IntegrationException("Invalid ReportingData: " . print_r($response, true));
 
         $stats = array();
         $stats['total'] = 0;
