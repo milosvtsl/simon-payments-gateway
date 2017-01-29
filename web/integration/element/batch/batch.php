@@ -35,26 +35,38 @@ $SessionUser = new SystemUser();
 
 $MerchantQuery = MerchantRow::queryAll();
 foreach($MerchantQuery as $Merchant) {
-    /** @var MerchantRow $Merchant */
-    $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
-    if(!$MerchantIdentity->isProvisioned())
-        continue;
 
-    echo "\n\nMerchant: ", $Merchant->getName(), " MID=", $MerchantIdentity->getRemoteID();
+    try {
+        /** @var MerchantRow $Merchant */
+        $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
+        if(!$MerchantIdentity->isProvisioned())
+            continue;
 
-    $stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
-        function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $TransactionRow->getAction(), ' => ', $item['TransactionStatus'];
-            return true;
-        }
-    );
+        echo "\n\nMerchant: ", $Merchant->getName(), " MID=", $MerchantIdentity->getRemoteID();
 
-    echo "\nTotal Returned: ", $stats['total'];
-    echo "\nFound Locally: ", $stats['found'];
-    if($stats['not_found'] > 0)
-        echo "\n!! Not Found Locally: ", $stats['not_found'], '!!';
-    if($stats['updated'] > 0)
-       echo "\n!! Transactions Updated: ", $stats['updated'], '!!';
+        $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+            array(
+                'status' => 'Settled',
+                'reverse' => 'True',
+//                'date_start' => date('Y-m-d H:i:s.v', time() - 24*60*60*7),
+//                'date_end' => date('Y-m-d H:i:s.v', time()),
+            ),
+            function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
+                echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+                return true;
+            }
+        );
+
+        echo "\nTotal Returned: ", $stats['total'];
+        echo "\nFound Locally: ", $stats['found'];
+        if($stats['not_found'] > 0)
+            echo "\n!! Not Found Locally: ", $stats['not_found'], '!!';
+        if($stats['updated'] > 0)
+           echo "\n!! Transactions Updated: ", $stats['updated'], '!!';
+
+    } catch (\Exception $ex) {
+        echo $ex;
+    }
 }
 
 //// Don't run long tests on anything but dev
