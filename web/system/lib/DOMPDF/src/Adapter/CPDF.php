@@ -14,8 +14,8 @@ namespace Dompdf\Adapter;
 
 use Dompdf\Canvas;
 use Dompdf\Dompdf;
-use Dompdf\Helpers;
 use Dompdf\Exception;
+use Dompdf\Helpers;
 use Dompdf\Image\Cache;
 use Dompdf\PhpEvaluator;
 

@@ -1,9 +1,9 @@
 <?php
 namespace Subscription\View;
 
+use Merchant\Model\MerchantRow;
 use Subscription\Model\SubscriptionRow;
 use System\Config\DBConfig;
-use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
 use View\AbstractListView;
 

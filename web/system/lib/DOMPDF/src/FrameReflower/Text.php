@@ -8,9 +8,9 @@
  */
 namespace Dompdf\FrameReflower;
 
+use Dompdf\FontMetrics;
 use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 use Dompdf\FrameDecorator\Text as TextFrameDecorator;
-use Dompdf\FontMetrics;
 
 /**
  * Reflows text frames.

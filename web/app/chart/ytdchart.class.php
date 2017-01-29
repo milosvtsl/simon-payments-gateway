@@ -1,6 +1,5 @@
 <?php
 namespace App\Chart;
-use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
 

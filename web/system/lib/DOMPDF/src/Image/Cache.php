@@ -10,8 +10,8 @@
 namespace Dompdf\Image;
 
 use Dompdf\Dompdf;
-use Dompdf\Helpers;
 use Dompdf\Exception\ImageException;
+use Dompdf\Helpers;
 
 /**
  * Static class that resolves image urls and downloads and caches

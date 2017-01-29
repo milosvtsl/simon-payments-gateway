@@ -9,10 +9,6 @@ namespace Support\Model;
 
 use Support\Mail\TicketEmail;
 use System\Config\DBConfig;
-use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
-use Order\Model\OrderRow;
-use User\Model\UserRow;
 
 class SupportTicketRow
 {
@@ -148,6 +144,8 @@ LEFT JOIN merchant m on st.merchant_id = m.id
         $ret = $stmt->execute(array($SupportTicketRow->getID()));
         if(!$ret)
             throw new \PDOException("Failed to delete row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($SupportTicketRow, true));
     }
 
     /**

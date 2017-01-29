@@ -39,4 +39,6 @@ class SiteConfig
 //        }
     }
 }
+
+require_once 'dbconfig.class.php';
 include_once __DIR__ .'/../../../config.php';

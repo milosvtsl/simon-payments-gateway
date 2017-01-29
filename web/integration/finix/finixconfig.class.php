@@ -8,7 +8,6 @@
 namespace Integration\Finix;
 
 use Integration\Model;
-use Merchant\Model\MerchantRow;
 
 class FinixConfig
 {

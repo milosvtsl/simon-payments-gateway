@@ -9,8 +9,8 @@
 namespace Dompdf\FrameDecorator;
 
 use Dompdf\Dompdf;
-use Dompdf\Frame;
 use Dompdf\Exception;
+use Dompdf\Frame;
 
 /**
  * Decorates frames for inline layout

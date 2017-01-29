@@ -8,10 +8,8 @@
 namespace View\Error\Mail;
 
 
-use System\Config\SiteConfig;
 use PHPMailer;
-use User\Model\UserRow;
-use User\Session\SessionManager;
+use System\Config\SiteConfig;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/system/lib/PHPMailer/PHPMailerAutoload.php';
 

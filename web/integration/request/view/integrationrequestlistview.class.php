@@ -1,11 +1,10 @@
 <?php
 namespace Integration\Request\View;
 
-use System\Config\DBConfig;
 use Integration\Model\IntegrationRow;
-use Merchant\Model\MerchantRow;
-use Integration\Request\Model\IntegrationRequestRow;
 use Integration\Request\Model\IntegrationRequestQueryStats;
+use Integration\Request\Model\IntegrationRequestRow;
+use System\Config\DBConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 

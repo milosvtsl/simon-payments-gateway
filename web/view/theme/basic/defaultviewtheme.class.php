@@ -7,7 +7,6 @@
  */
 namespace View\Theme\Basic;
 
-use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\Theme\AbstractViewTheme;
 

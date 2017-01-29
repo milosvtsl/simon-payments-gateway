@@ -9,13 +9,12 @@
 namespace Integration\Element\Test;
 
 use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
-use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
-use User\Model\GuestUser;
+use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
-use User\Model\UserRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
@@ -44,7 +43,8 @@ $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
+$stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+    array('status' => 'Authorized'),
     function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
         return NULL;
     }
@@ -95,7 +95,7 @@ $data = array(
 
 $tests = array(
     // Keyed Tests
-//    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
+    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
 //    array('amount' => '2.05', 'entry_mode' => 'keyed', 'reversal' => true),
 //    array('amount' => '2.06', 'entry_mode' => 'keyed'),
 //    array('amount' => '23.05', 'entry_mode' => 'keyed'),
@@ -141,7 +141,7 @@ $tests = array(
 //    array('amount' => '2.13', 'entry_mode' => 'check'),
 
 //    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
-//    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
+    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev
@@ -150,14 +150,11 @@ if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
 
 $batch_id = null;
 
+$OrderForm = MerchantFormRow::fetchGlobalForm();
 
 foreach($tests as $testData) {
-    $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
-
-    if(!$batch_id) {
-        $batch_id = $Order->calculateCurrentBatchID();
-        echo "\nCalculating Current Batch ID: ", $batch_id;
-    }
+    $PaymentInfo = PaymentRow::createPaymentFromPost($testData+$data);
+    $Order = $MerchantIdentity->createNewOrder($PaymentInfo, $OrderForm, $testData+$data);
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);

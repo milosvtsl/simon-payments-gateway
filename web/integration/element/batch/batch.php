@@ -8,10 +8,8 @@
 
 namespace Integration\Element\Test;
 
-use System\Config\DBConfig;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
-use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 use User\Model\SystemUser;

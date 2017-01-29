@@ -10,12 +10,9 @@ namespace Integration\ProPay\Test;
 
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
-use Merchant\Test\TestMerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
-use User\Model\GuestUser;
 use User\Model\SystemUser;
-use User\Model\UserRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 

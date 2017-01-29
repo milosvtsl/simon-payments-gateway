@@ -1,8 +1,8 @@
 <?php
-use Merchant\Model\MerchantRow;
 use Integration\Model\IntegrationRow;
-use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+
 /**
  * @var \Merchant\View\MerchantView $this
  * @var PDOStatement $MerchantQuery

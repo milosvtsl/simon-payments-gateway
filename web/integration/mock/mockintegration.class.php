@@ -9,14 +9,16 @@ namespace Integration\Mock;
 
 use Integration\Model;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
-use Integration\Model\Ex\IntegrationException;
-use Integration\Request\Model\IntegrationRequestRow;
-use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
+use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
+use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
+use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
 class MockIntegration extends AbstractIntegration
@@ -77,11 +79,12 @@ class MockIntegration extends AbstractIntegration
 
     /**
      * Return the API Request URL for this request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
      * @return string
      * @throws IntegrationException
      */
-    function getRequestURL(IntegrationRequestRow $Request) {
+    function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         throw new IntegrationException("No API url for this request type");
     }
 
@@ -133,17 +136,19 @@ class MockIntegration extends AbstractIntegration
 
     }
 
+
     /**
-     * Create or resume an order item
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
      */
-    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+    function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
+        $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
     }
-
 
     /**
      * Void an existing Transaction

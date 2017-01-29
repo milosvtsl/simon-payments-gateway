@@ -1,6 +1,6 @@
 <?php
-use Order\Model\OrderRow;
 use Merchant\Model\MerchantRow;
+use Order\Model\OrderRow;
 
 /**
  * Created by PhpStorm.

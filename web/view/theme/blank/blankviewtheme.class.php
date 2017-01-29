@@ -7,8 +7,6 @@
  */
 namespace View\Theme\Blank;
 
-use System\Config\SiteConfig;
-use User\Session\SessionManager;
 use View\Theme\AbstractViewTheme;
 
 class BlankViewTheme extends AbstractViewTheme

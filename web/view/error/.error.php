@@ -1,7 +1,6 @@
 <?php
-use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
-use Order\Model\OrderRow;
+
 /** @var $this \View\Error\ErrorView */
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();

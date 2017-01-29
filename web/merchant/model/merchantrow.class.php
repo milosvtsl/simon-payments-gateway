@@ -7,15 +7,10 @@
  */
 namespace Merchant\Model;
 
-use Integration\Model\Ex\FraudException;
-use Integration\Model\Ex\IntegrationException;
-use Order\Model\OrderRow;
-use System\Config\DBConfig;
-use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
-use User\Model\UserRow;
+use System\Config\DBConfig;
 
 class MerchantRow
 {

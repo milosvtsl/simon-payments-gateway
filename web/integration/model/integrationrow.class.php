@@ -7,10 +7,8 @@
  */
 namespace Integration\Model;
 
-use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
-use Order\Model\OrderRow;
-use Order\Model\TransactionRow;
+use System\Config\DBConfig;
 
 class IntegrationRow
 {
@@ -69,6 +67,7 @@ FROM integration i
     protected $api_password;
     protected $api_app_id;
     protected $api_type;
+    protected $api_credentials;
     protected $notes;
 
     // Calculated

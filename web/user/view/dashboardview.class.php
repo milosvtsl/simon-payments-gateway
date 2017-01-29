@@ -1,9 +1,9 @@
 <?php
 namespace User\View;
 
+use App\AppManager;
 use User\Session\SessionManager;
 use View\AbstractView;
-use App\AppManager;
 
 
 class DashboardView extends AbstractView {

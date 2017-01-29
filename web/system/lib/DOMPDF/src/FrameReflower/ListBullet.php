@@ -7,8 +7,8 @@
  */
 namespace Dompdf\FrameReflower;
 
-use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 use Dompdf\FrameDecorator\AbstractFrameDecorator;
+use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 
 /**
  * Reflows list bullets

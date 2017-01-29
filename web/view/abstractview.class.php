@@ -9,7 +9,6 @@
 namespace View;
 
 
-use System\Config\DBConfig;
 use System\Config\SiteConfig;
 use View\Theme\AbstractViewTheme;
 

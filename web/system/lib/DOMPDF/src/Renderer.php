@@ -7,6 +7,7 @@
  */
 namespace Dompdf;
 
+use Dompdf\Frame;
 use Dompdf\Renderer\AbstractRenderer;
 use Dompdf\Renderer\Block;
 use Dompdf\Renderer\Image;
@@ -14,8 +15,6 @@ use Dompdf\Renderer\ListBullet;
 use Dompdf\Renderer\TableCell;
 use Dompdf\Renderer\TableRowGroup;
 use Dompdf\Renderer\Text;
-
-use Dompdf\Frame;
 
 /**
  * Concrete renderer

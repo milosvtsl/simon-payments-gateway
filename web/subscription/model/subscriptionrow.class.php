@@ -7,10 +7,9 @@
  */
 namespace Subscription\Model;
 
-use System\Config\DBConfig;
 use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
 use Order\Model\OrderRow;
+use System\Config\DBConfig;
 
 class SubscriptionRow
 {
@@ -162,6 +161,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $ret = $stmt->execute(array($SubscriptionRow->getID()));
         if(!$ret)
             throw new \PDOException("Failed to delete row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($SubscriptionRow, true));
     }
 
     public static function insert(SubscriptionRow $SubscriptionRow) {
@@ -246,13 +247,12 @@ LEFT JOIN integration i on oi.integration_id = i.id
      * @param OrderRow $OrderRow
      * @param array $post
      * @return SubscriptionRow
-     * @throws IntegrationException
      */
     public static function createSubscriptionFromPost(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
         if(empty($post['amount']))
-            throw new IntegrationException("Invalid Amount");
+            throw new \InvalidArgumentException("Invalid Amount");
         if(!$OrderRow->getID())
-            throw new IntegrationException("Order was not entered into database");
+            throw new \InvalidArgumentException("Order was not entered into database");
 
         $SubscriptionRow = new SubscriptionRow();
         $SubscriptionRow->uid = strtolower(self::generateGUID());

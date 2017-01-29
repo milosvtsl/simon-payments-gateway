@@ -1,5 +1,6 @@
 <?php
-use \User\Model\UserRow;
+use User\Model\UserRow;
+
 /**
  * @var \View\AbstractListView $this
  **/

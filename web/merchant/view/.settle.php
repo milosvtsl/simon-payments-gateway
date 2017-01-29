@@ -1,7 +1,6 @@
 <?php
-use Merchant\Model\MerchantRow;
 use Integration\Model\IntegrationRow;
-use Integration\Request\Model\IntegrationRequestRow;
+
 /**
  * @var \Merchant\View\MerchantView $this
  * @var PDOStatement $MerchantQuery

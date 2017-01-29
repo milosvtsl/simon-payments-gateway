@@ -1,9 +1,10 @@
 <?php
 use Merchant\Model\MerchantRow;
-use User\Model\UserRow;
 use User\Model\AuthorityRow;
 use User\Model\UserAuthorityRow;
+use User\Model\UserRow;
 use User\Session\SessionManager;
+
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery

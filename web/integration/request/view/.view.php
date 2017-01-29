@@ -1,5 +1,6 @@
 <?php
 use Integration\Request\View\IntegrationRequestView;
+
 /**
  * @var IntegrationRequestView $this
  **/

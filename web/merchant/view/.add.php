@@ -1,6 +1,6 @@
 <?php
-use System\Arrays\TimeZones;
 use Merchant\Model\MerchantRow;
+
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery

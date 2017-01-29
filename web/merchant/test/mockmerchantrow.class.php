@@ -9,7 +9,7 @@ namespace Merchant\Test;
 
 use Merchant\Model\MerchantRow;
 
-class TestMerchantRow extends MerchantRow
+class MockMerchantRow extends MerchantRow
 {
     public function __construct(Array $params = array()) {
         parent::__construct(array(

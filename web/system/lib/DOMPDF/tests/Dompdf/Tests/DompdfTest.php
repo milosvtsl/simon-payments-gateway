@@ -1,12 +1,12 @@
 <?php
 namespace Dompdf\Tests;
 
+use DOMDocument;
+use Dompdf\Css\Stylesheet;
+use Dompdf\Dompdf;
 use Dompdf\Frame\FrameTree;
 use Dompdf\Options;
 use PHPUnit_Framework_TestCase;
-use Dompdf\Dompdf;
-use Dompdf\Css\Stylesheet;
-use DOMDocument;
 
 class DompdfTest extends PHPUnit_Framework_TestCase
 {

@@ -10,16 +10,18 @@ namespace Integration\Element;
 use Dompdf\Exception;
 use Integration\Model;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
-use Integration\Model\Ex\IntegrationException;
-use Integration\Request\Model\IntegrationRequestRow;
-use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
+use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
+use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantRow;
+use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
+use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
-use Order\Mail\ReceiptEmail;
-use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class ElementIntegration extends AbstractIntegration
@@ -115,7 +117,7 @@ class ElementIntegration extends AbstractIntegration
             }
             $Request->setResponseMessage($reason);
             $Request->setResponseCode($code);
-        } catch (IntegrationException $ex) {
+        } catch (\Exception $ex) {
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         }
 
@@ -243,16 +245,21 @@ class ElementIntegration extends AbstractIntegration
         return $response;
     }
 
+
     /**
-     * Create or resume an order item
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
      */
-    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+    function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
+        $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
     }
+
+
 
     /**
      * Submit a new transaction
@@ -357,7 +364,6 @@ class ElementIntegration extends AbstractIntegration
 
         return $Transaction;
     }
-
 
     /**
      * Reverse an existing Transaction
@@ -526,6 +532,7 @@ class ElementIntegration extends AbstractIntegration
         return $VoidTransaction;
     }
 
+
     /**
      * Return an existing Transaction
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
@@ -609,7 +616,6 @@ class ElementIntegration extends AbstractIntegration
         return $ReturnTransaction;
     }
 
-
     /**
      * Perform health check on remote api
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
@@ -623,8 +629,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
         );
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
@@ -644,6 +650,7 @@ class ElementIntegration extends AbstractIntegration
         return $Request;
     }
 
+
     /**
      * Perform transaction query on remote api
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
@@ -659,8 +666,8 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH
         );
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
@@ -759,7 +766,6 @@ class ElementIntegration extends AbstractIntegration
         }
         return $updated;
     }
-
 
     /**
      * Cancel an active subscription

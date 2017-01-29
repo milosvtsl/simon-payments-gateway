@@ -13,7 +13,6 @@ use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Order\Model\TransactionRow;
 
 class FinixMerchantIdentity extends AbstractMerchantIdentity
 {

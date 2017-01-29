@@ -7,12 +7,8 @@
  */
 namespace Order\Model;
 
-use System\Config\DBConfig;
-use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
-use Integration\Request\Model\IntegrationRequestRow;
-use Order\Model\OrderRow;
+use System\Config\DBConfig;
 
 class TransactionRow
 {
@@ -219,6 +215,8 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $ret = $stmt->execute(array($TransactionRow->getID()));
         if(!$ret)
             throw new \PDOException("Failed to delete row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($TransactionRow, true));
     }
 
     public static function insert(TransactionRow $TransactionRow) {
@@ -311,11 +309,10 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
      * @param OrderRow $OrderRow
      * @param array $post
      * @return TransactionRow
-     * @throws IntegrationException
      */
     public static function createTransactionFromPost(AbstractMerchantIdentity $MerchantIdentity, OrderRow $OrderRow, Array $post) {
         if(empty($post['amount']))
-            throw new IntegrationException("Invalid Amount");
+            throw new \InvalidArgumentException("Invalid Amount");
 
         $TransactionRow = new TransactionRow();
 //        $TransactionRow->transaction_id = !empty($post['transaction_id'])
@@ -347,7 +344,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
 //        $TransactionRow->transaction_id;
 
         if(!$TransactionRow->order_item_id)
-            throw new IntegrationException("Order Item ID was not set");
+            throw new \InvalidArgumentException("Order Item ID was not set");
 
         return $TransactionRow;
     }

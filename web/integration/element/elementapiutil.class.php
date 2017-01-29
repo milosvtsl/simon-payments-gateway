@@ -7,7 +7,6 @@
  */
 namespace Integration\Element;
 
-use Integration\Model\Ex\IntegrationException;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
@@ -68,10 +67,10 @@ class ElementAPIUtil {
             'NewAccountToken' => $MerchantIdentity->getAccountToken(), // ?
         );
 
-        if(!$args['credentials']['AccountID'])          throw new IntegrationException("Invalid AccountID");
-        if(!$args['credentials']['AccountToken'])       throw new IntegrationException("Invalid AccountToken");
-        if(!$args['credentials']['AcceptorID'])         throw new IntegrationException("Invalid AcceptorID");
-        if(!$args['credentials']['NewAccountToken'])    throw new IntegrationException("Invalid NewAccountToken");
+        if(!$args['credentials']['AccountID'])          throw new \InvalidArgumentException("Invalid AccountID");
+        if(!$args['credentials']['AccountToken'])       throw new \InvalidArgumentException("Invalid AccountToken");
+        if(!$args['credentials']['AcceptorID'])         throw new \InvalidArgumentException("Invalid AcceptorID");
+        if(!$args['credentials']['NewAccountToken'])    throw new \InvalidArgumentException("Invalid NewAccountToken");
 
         $args['application'] += array(
             'ApplicationID' => $MerchantIdentity->getApplicationID(),
@@ -713,10 +712,10 @@ XML;
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
 
-        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
-        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
-        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
-        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
+        if(!$AccountID) throw new \InvalidArgumentException("Invalid AccountID");
+        if(!$AccountToken) throw new \InvalidArgumentException("Invalid AccountToken");
+        if(!$AcceptorID) throw new \InvalidArgumentException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new \InvalidArgumentException("Invalid NewAccountToken");
 
         $Action = 'HealthCheck';
 
@@ -761,7 +760,7 @@ SOAP;
 
         $TerminalType = 'Unknown'; // Unknown or PointOfSale or ECommerce or MOTO or FuelPump or ATM or Voice
         $LogTraceLevel = 'All'; // None or Fatal or Error or Warning or Information or Trace or Debug or All
-        $ReverseOrder = 'False';
+        $ReverseOrder = @$post['reverse'] ? 'True' : 'False';
 
         $TransactionID = @$post['transaction_id'];
         $TerminalID = $MerchantIdentity->getDefaultTerminalID();

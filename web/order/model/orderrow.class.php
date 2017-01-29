@@ -7,12 +7,14 @@
  */
 namespace Order\Model;
 
+use Integration\Mock\MockMerchantIdentity;
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\FraudException;
+use Merchant\Model\MerchantFormRow;
+use Payment\Model\PayeeRow;
+use Payment\Model\PaymentRow;
 use System\Config\DBConfig;
 use System\Config\SiteConfig;
-use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
-use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class OrderRow
@@ -103,6 +105,11 @@ class OrderRow
     protected $payee_state;
     protected $payee_state_full;
 
+    /** @var PaymentRow */
+    protected $payment;
+    protected $payment_id;
+
+
     protected $status;
     protected $total_returned_amount;
     protected $total_returned_service_fee;
@@ -164,24 +171,28 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     const SQL_GROUP_BY = "\nGROUP BY oi.id";
     const SQL_ORDER_BY = "\nORDER BY oi.id ASC";
 
-
     public function getID()                 { return $this->id; }
+
 
     public function getUID($truncated=false){
         if(!$truncated)
             return $this->uid;
         return '...' . strrchr($this->uid, '-');
     }
+
     public function getAmount()             { return $this->amount; }
     public function getTotalReturnedAmount()    { return $this->total_returned_amount; }
-
     public function getStatus()             { return $this->status; }
+
     public function getDate()               { return $this->date; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
     public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getPayeeFirstName()     { return $this->payee_first_name; }
+
+    public function getPayeeLastName()      { return $this->payee_last_name; }
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
@@ -194,28 +205,27 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getCardHolderFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
-
     public function getCardExpYear()        { return $this->card_exp_year; }
+
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
     public function getCardTrack()          { return $this->card_track; }
     public function getCheckAccountName()   { return $this->check_account_name; }
-
     public function getCheckAccountNumber() { return $this->check_account_number; }
+
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
     public function getCheckNumber()        { return $this->check_number; }
     public function getCheckType()          { return $this->check_type; }
-
     public function getMerchantID()         { return $this->merchant_id; }
+
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
     public function getFormID()             { return $this->form_id; }
-    public function setFormID($form_id)     { $this->form_id = $form_id; }
-
+//    public function setFormID($form_id)     { $this->form_id = $form_id; }
     public function getOrderItemID()        { return $this->order_item_id; }
-    public function getConvenienceFee()     { return $this->convenience_fee; }
 
+    public function getConvenienceFee()     { return $this->convenience_fee; }
     public function getEntryMode()          { return $this->entry_mode; }
 
     public function setStatus($status)      { $this->status = $status; }
@@ -225,6 +235,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function setTotalReturnedAmount($total_returned_amount) {
         $this->total_returned_amount = $total_returned_amount;
     }
+
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }
@@ -235,14 +246,13 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getSubscriptionAmount()     { return $this->subscription_recur_amount; }
     public function getSubscriptionCount()      { return $this->subscription_recur_count; }
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
-
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
 
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
+
     public function setSubscriptionID($order_item_id) {
         $this->subscription_id = $order_item_id;
     }
-
     public function getBatchID()            { return $this->batch_id; }
 
     public function getCustomFieldValues() {
@@ -261,7 +271,6 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     }
 
     public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
-
 
     public function calculateCurrentBatchID($time=null) {
         $DB = DBConfig::getInstance();
@@ -292,6 +301,7 @@ SQL;
 
         return $batch_id;
     }
+
 
     /**
      * Return the first authorized transaction for this order
@@ -324,10 +334,30 @@ SQL;
                 throw new FraudException("Order is below Low Limit ($amount < $min)");
 
     }
+
     public function insertCustomField($field, $value) {
         OrderFieldRow::insertOrUpdate($this, $field, $value);
     }
+    /**
+     * @return PaymentRow
+     */
+    public function getPaymentInformation() {
+        if($this->payment)
+            return $this->payment;
+
+        if($this->payment_id)
+            return $this->payment = PaymentRow::fetchByID($this->payment_id);
+
+        $post = array();
+        foreach($this as $key => $val)
+            $post[$key] = $val;
+        $this->payment = PaymentRow::createPaymentFromPost($post);
+        return $this->payment;
+    }
+
+
     // Static
+
     const STAT_AMOUNT_TOTAL = 'amount_total';
 
     const STAT_DAILY = 'daily';
@@ -347,13 +377,15 @@ SQL;
         $ret = $stmt->execute(array($OrderRow->getID()));
         if(!$ret)
             throw new \PDOException("Failed to delete row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($OrderRow, true));
     }
+
     public static function insert(OrderRow $OrderRow) {
         if($OrderRow->id)
             throw new \InvalidArgumentException("Order Row has already been inserted");
         self::insertOrUpdate($OrderRow);
     }
-
 
     public static function update(OrderRow $OrderRow) {
         if(!$OrderRow->id)
@@ -426,6 +458,7 @@ SQL;
             $OrderRow->id = $DB->lastInsertId();
     }
 
+
     /**
      * @param $field
      * @param $value
@@ -461,72 +494,69 @@ SQL;
     }
 
     /**
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
-     * @throws IntegrationException
      */
-    public static function createOrderFromPost(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Merchant = $MerchantIdentity->getMerchantRow();
+    static function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
 
         $OrderRow = new OrderRow();
-        if(!empty($post['order_id'])) {
-            $OrderRow = $OrderRow::fetchByID($post['order_id']);
-        } else {
-            $OrderRow->uid = strtolower(self::generateGUID($OrderRow));
-            $OrderRow->version = 10;
-            $OrderRow->status = "Pending";
-        }
-        $OrderRow->merchant_id = $Merchant->getID();
+        $OrderRow->version = 10;
+        $OrderRow->status = "Pending";
+
+        if($PaymentInfo->getID())
+            $OrderRow->payment_id = $PaymentInfo;
+
+        $OrderRow->form_id = $OrderForm->getID();
+        $OrderRow->merchant_id = $MerchantIdentity->getMerchantRow()->getID();
         $OrderRow->integration_id = $MerchantIdentity->getIntegrationRow()->getID();
-        if($post['merchant_id'] !== $Merchant->getID())
-            throw new IntegrationException("Merchant id mismatch");
 
         if(empty($post['amount']))
-            throw new IntegrationException("Invalid Amount");
+            throw new \InvalidArgumentException("Invalid Amount");
         if(!is_numeric($post['amount']))
-            throw new IntegrationException("Invalid Numeric Amount");
+            throw new \InvalidArgumentException("Invalid Numeric Amount");
         if($post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT)
-            throw new IntegrationException("Invalid Max Transaction Amount");
+            throw new \InvalidArgumentException("Invalid Max Transaction Amount");
 
-//        $OrderRow->date = ;
         $OrderRow->entry_mode = $post['entry_mode'];
         $OrderRow->amount = $post['amount'];
         $OrderRow->convenience_fee = $MerchantIdentity->calculateConvenienceFee($OrderRow);
         $OrderRow->order_item_id = rand(1999,9999); // TODO: fix?
 
         if(in_array(strtolower($post['entry_mode']), array('keyed', 'swipe'))) {
-            $OrderRow->card_track = trim($post['card_track']);
-            $OrderRow->card_exp_month = $post['card_exp_month'];
-            $OrderRow->card_exp_year = $post['card_exp_year'];
-            $OrderRow->card_type = self::getCCType($post['card_number']);
-            $OrderRow->card_number = $post['card_number'];
+            $OrderRow->card_track = trim(@$post['card_track']);
+            $OrderRow->card_exp_month = $post['card_exp_month'] ?: $PaymentInfo->getCardExpMonth();
+            $OrderRow->card_exp_year = $post['card_exp_year'] ?: $PaymentInfo->getCardExpYear();
+            $OrderRow->card_number = $post['card_number'] ?: $PaymentInfo->getCardNumber();
+            $OrderRow->card_type = self::getCCType($OrderRow->card_number);
 
         } else if(strtolower($post['entry_mode']) === 'check') {
-            $OrderRow->check_account_name = $post['check_account_name'];
-            $OrderRow->check_account_number = $post['check_account_number'];
-            $OrderRow->check_account_type = $post['check_account_type'];
-            $OrderRow->check_routing_number = $post['check_routing_number'];
-            $OrderRow->check_type = $post['check_type'];
-            $OrderRow->check_number = $post['check_number'];
+            $OrderRow->check_account_name = $post['check_account_name']  ?: $PaymentInfo->getCheckAccountName();
+            $OrderRow->check_account_number = $post['check_account_number'] ?: $PaymentInfo->getCheckAccountNumber();
+            $OrderRow->check_account_type = $post['check_account_type'] ?: $PaymentInfo->getCheckAccountType();
+            $OrderRow->check_routing_number = $post['check_routing_number'] ?: $PaymentInfo->getCheckRoutingNumber();
+            $OrderRow->check_type = $post['check_type'] ?: $PaymentInfo->getCheckType();
+            $OrderRow->check_number = $post['check_number'] ?: $PaymentInfo->getCheckNumber();
 
         } else {
-            throw new IntegrationException("Invalid entry_mode");
+            throw new \InvalidArgumentException("Invalid entry_mode");
         }
 
         if(!empty($post['payee_full_name']))
             list($post['payee_first_name'], $post['payee_last_name']) = explode(' ', $post['payee_full_name'], 2);
 
+        $OrderRow->payee_first_name = $post['payee_first_name'] ?: $PaymentInfo->getPayeeFirstName();
+        $OrderRow->payee_last_name = $post['payee_last_name'] ?: $PaymentInfo->getPayeeLastName();
+        $OrderRow->payee_phone_number = @$post['payee_phone_number'] ?: $PaymentInfo->getPayeePhone();
+        $OrderRow->payee_address = $post['payee_address'] ?: $PaymentInfo->getPayeeAddress();
+        $OrderRow->payee_address2 = $post['payee_address2'] ?: $PaymentInfo->getPayeeAddress2();
 
-        $OrderRow->payee_first_name = $post['payee_first_name'];
-        $OrderRow->payee_last_name = $post['payee_last_name'];
-        $OrderRow->payee_phone_number = @$post['payee_phone_number'];
-        $OrderRow->payee_address = $post['payee_address'];
-        $OrderRow->payee_address2 = $post['payee_address2'];
-
-        $OrderRow->payee_zipcode = $post['payee_zipcode'];
-        $OrderRow->payee_city = @$post['payee_city'];
-        $OrderRow->payee_state = @$post['payee_state'];
+        $OrderRow->payee_zipcode = $post['payee_zipcode'] ?: $PaymentInfo->getPayeeZipCode();
+        $OrderRow->payee_city = @$post['payee_city'] ?: $PaymentInfo->getPayeeCity();
+        $OrderRow->payee_state = @$post['payee_state'] ?: $PaymentInfo->getPayeeState();
 
 
         $OrderRow->customer_first_name = @$post['customer_first_name'] ?: $OrderRow->payee_first_name;
@@ -536,14 +566,17 @@ SQL;
 
         $OrderRow->invoice_number = @$post['invoice_number'];
 
-
         if(isset($post['payee_reciept_email']))
             $OrderRow->payee_reciept_email = $post['payee_reciept_email'];
         if(isset($post['username']))
             $OrderRow->username = $post['username'];
 
         if ($OrderRow->payee_reciept_email && !filter_var($OrderRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
-            throw new IntegrationException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid Email");
+
+
+        if(!$OrderRow->uid)
+            $OrderRow->uid = strtoupper(self::generateGUID($OrderRow));
 
         return $OrderRow;
     }
@@ -553,7 +586,7 @@ SQL;
 
         $len = strlen($cardNumber);
         if ($len < 15 || $len > 16) {
-            throw new IntegrationException("Invalid credit card number. Length does not match");
+            throw new \InvalidArgumentException("Invalid credit card number. Length does not match");
         } else {
             switch($cardNumber) {
                 case(preg_match ('/^4/', $cardNumber) >= 1):
@@ -569,7 +602,7 @@ SQL;
                 case(preg_match ('/^(?:2131|1800|35\d{3})/', $cardNumber) >= 1):
                     return 'JCB';
                 default:
-                    throw new IntegrationException("Could not determine the credit card type.");
+                    throw new \InvalidArgumentException("Could not determine the credit card type.");
                     break;
             }
         }
@@ -577,7 +610,7 @@ SQL;
 
     public static function generateGUID(OrderRow $Row) {
         $type = strtoupper(substr($Row->getEntryMode(), 0, 1));
-        return $type . substr(sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479)), 1);
+        return 'O' . $type . substr(sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479)), 2);
     }
 
     public static function sanitizeNumber($number, $lastDigits=4, $char='X') {
@@ -587,5 +620,72 @@ SQL;
         return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
 
+
+    /**
+     * Unit Test
+     * @throws \InvalidArgumentException
+     */
+    public static function unitTest() {
+        // Go up 2 directories
+        $cwd = getcwd();
+        chdir('../..');
+
+        // Enable class autoloader for this page instance
+        spl_autoload_extensions('.class.php');
+        spl_autoload_register();
+
+        $MockMerchantIdentity = new MockMerchantIdentity();
+
+        $post = array(
+            'amount' => 0.01,
+
+            'payee_first_name' => 'test',
+            'payee_last_name' => 'test',
+            'payee_phone_number' => '1234321',
+            'payee_reciept_email' => 'test@test.com',
+            'payee_address' => 'test 123',
+            'payee_address2' => '',
+            'payee_zipcode' => '21234',
+            'payee_city' => 'test',
+            'payee_state' => 'FL',
+        );
+        $post_cc = array(
+            'entry_mode' => 'Keyed',
+            'card_number' => '4111111111111111',
+            'card_type' => 'Visa',
+            'card_exp_month' => '12',
+            'card_exp_year' => '18',
+        );
+        $post_check = array(
+            'entry_mode' => 'Check',
+            'check_account_name' => 'test',
+            'check_account_number' => '123456789',
+            'check_account_type' => 'Savings',
+            'check_routing_number' => '123456789',
+            'check_type' => 'Personal',
+            'check_number' => '123',
+        );
+
+        $TestOrderRow = OrderRow::createOrderFromPost($MockMerchantIdentity, $post + $post_cc);
+        self::insert($TestOrderRow);
+        $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
+        OrderRow::delete($TestOrderRow);
+
+        $TestOrderRow = OrderRow::createOrderFromPost($MockMerchantIdentity, $post + $post_check);
+        self::insert($TestOrderRow);
+        $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
+        OrderRow::delete($TestOrderRow);
+
+        $TestPaymentInfo = $TestOrderRow->getPaymentInformation();
+        PaymentRow::insertOrUpdate($TestPaymentInfo);
+        $TestOrderRow->getPaymentInformation()->getID() > 0 || error_log(__FUNCTION__ . ": getPaymentInformation()->getID() failed");
+
+//        print_r($TestPaymentInfo);
+
+        chdir($cwd);
+    }
 }
+
+if(isset($argv) && @$argv[1] === 'test')
+    OrderRow::unitTest();
 

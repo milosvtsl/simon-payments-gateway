@@ -7,15 +7,7 @@
  */
 namespace Order\View;
 
-use Subscription\Model\SubscriptionRow;
-use System\Config\DBConfig;
 use Dompdf\Exception;
-use Integration\Model\IntegrationRow;
-use Merchant\Model\MerchantRow;
-use Order\Model\OrderRow;
-use Order\PDF\ReceiptPDF;
-use Order\Model\TransactionRow;
-use User\Session\SessionManager;
 use View\AbstractView;
 
 class BatchView extends AbstractView

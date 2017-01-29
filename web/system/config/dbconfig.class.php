@@ -37,4 +37,5 @@ class DBConfig
 
 }
 
+require_once 'siteconfig.class.php';
 include_once __DIR__ .'/../../../config.php';

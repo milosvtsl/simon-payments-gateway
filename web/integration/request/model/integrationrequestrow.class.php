@@ -7,11 +7,9 @@
  */
 namespace Integration\Request\Model;
 
-use Integration\Model\AbstractMerchantIdentity;
-use Merchant\Model\MerchantRow;
-use System\Config\DBConfig;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
+use Integration\Model\AbstractMerchantIdentity;
+use System\Config\DBConfig;
 use User\Model\UserRow;
 
 class IntegrationRequestRow

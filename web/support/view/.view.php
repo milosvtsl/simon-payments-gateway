@@ -1,5 +1,6 @@
 <?php
 use Support\View\SupportTicketView;
+
 /**
  * @var SupportTicketView $this
  **/

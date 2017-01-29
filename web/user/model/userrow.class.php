@@ -8,10 +8,8 @@
 namespace User\Model;
 
 use Merchant\Model\MerchantFormRow;
-use System\Config\DBConfig;
-use Integration\Model\Ex\IntegrationException;
 use Merchant\Model\MerchantRow;
-use User\Model\UserAuthorityRow;
+use System\Config\DBConfig;
 
 class UserRow
 {
@@ -400,6 +398,8 @@ SQL;
         $stmt = $DB->prepare($SQL);
         if(!$stmt->execute(array($User->getID())))
             throw new \PDOException("Failed to insert new row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($User, true));
     }
 
     /**

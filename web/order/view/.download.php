@@ -1,5 +1,6 @@
 <?php
-use \Merchant\Model\MerchantRow;
+use Merchant\Model\MerchantRow;
+
 /** @var \Order\View\OrderView $this*/
 
 $Order = $this->getOrder();

@@ -2,7 +2,6 @@
 namespace View\Error;
 
 use Dompdf\Exception;
-use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 

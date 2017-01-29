@@ -9,10 +9,12 @@ namespace Integration\Model;
 
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
+use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
 abstract class AbstractIntegration
@@ -74,7 +76,17 @@ abstract class AbstractIntegration
      * @param array $post
      * @return OrderRow
      */
-    abstract function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+    // abstract function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+
+    /**
+     * Create a new order, optionally set up a new payment entry with the remote integration
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
+     * @return OrderRow
+     */
+    abstract function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post);
 
 
     /**

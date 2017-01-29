@@ -1,6 +1,6 @@
 <?php
 use Order\Model\OrderRow;
-use Merchant\Model\MerchantRow;
+
 /**
  * @var \Order\Model\OrderQueryStats $Stats
  * @var \View\AbstractListView $this

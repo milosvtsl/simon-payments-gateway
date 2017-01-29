@@ -8,11 +8,9 @@
 namespace Merchant\Model;
 
 use Order\Forms\AbstractForm;
-use Order\Forms\DefaultOrderForm;
 use Order\Forms\SimpleOrderForm;
 use Order\Model\OrderRow;
 use System\Config\DBConfig;
-use User\Model\UserRow;
 
 class MerchantFormRow
 {

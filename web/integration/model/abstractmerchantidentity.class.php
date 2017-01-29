@@ -1,12 +1,14 @@
 <?php
 namespace Integration\Model;
-use Subscription\Model\SubscriptionRow;
-use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
+use Subscription\Model\SubscriptionRow;
+use System\Config\DBConfig;
 use User\Model\UserRow;
 
 /**
@@ -110,9 +112,17 @@ abstract class AbstractMerchantIdentity {
         return $Integration->submitNewTransaction($this, $Order, $SessionUser, $post);
     }
 
-    function createOrResumeOrder(Array $post) {
+
+    /**
+     * Create a new order, optionally set up a new payment entry with the remote integration
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
+     * @return OrderRow
+     */
+    function createNewOrder(PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
         $Integration = $this->integration->getIntegration();
-        return $Integration->createOrResumeOrder($this, $post);
+        return $Integration->createNewOrder($this, $PaymentInfo, $OrderForm, $post);
     }
 
 

@@ -6,7 +6,6 @@ use User\Model\UserQueryStats;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractListView;
-use View\AbstractView;
 
 
 class UserListView extends AbstractListView {

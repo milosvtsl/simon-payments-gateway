@@ -3,15 +3,16 @@ namespace App;
 use App\Chart\DailyChart;
 use App\Chart\MonthlyChart;
 use App\Chart\MTDChart;
-use App\Provision\ProvisionStatusApp;
 use App\Chart\WeeklyChart;
 use App\Chart\WTDChart;
 use App\Chart\YearlyChart;
 use App\Chart\YTDChart;
+use App\Provision\ProvisionStatusApp;
 use App\Ticket\CreateTicketApp;
 use App\Ticket\NewsApp;
 use App\Ticket\RecentTicketsApp;
 use User\Model\UserRow;
+
 /**
  * Created by PhpStorm.
  * User: ari

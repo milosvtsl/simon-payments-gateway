@@ -107,6 +107,7 @@ namespace {
 }
 
 namespace Order\PDF {
+
     use Dompdf\Dompdf;
     use Merchant\Model\MerchantRow;
     use Order\Model\OrderRow;

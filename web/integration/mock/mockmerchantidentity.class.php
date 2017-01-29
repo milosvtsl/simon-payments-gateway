@@ -12,8 +12,8 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
+use Merchant\Test\MockMerchantRow;
 use Order\Model\OrderRow;
-use Order\Model\TransactionRow;
 
 class MockMerchantIdentity extends AbstractMerchantIdentity
 {
@@ -26,8 +26,11 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
     protected $created_at;
     protected $updated_at;
 
-    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
-        parent::__construct($Merchant, $APIData);
+    public function __construct(MerchantRow $Merchant=null, IntegrationRow $APIData=null) {
+        parent::__construct(
+            $Merchant ?: new MockMerchantRow(),
+            $APIData ?: new MockIntegrationRow()
+        );
     }
 
 //    abstract function hasPaymentInstrument();

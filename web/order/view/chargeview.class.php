@@ -8,13 +8,13 @@
 namespace Order\View;
 
 use Dompdf\Exception;
-use Merchant\Model\MerchantFormRow;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
-use Order\Forms\DefaultOrderForm;
 use Order\Model\OrderRow;
-use System\Arrays\Locations;
+use Payment\Model\PayeeRow;
+use Payment\Model\PaymentRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 use View\Error\Mail\ErrorEmail;
@@ -109,14 +109,28 @@ class ChargeView extends AbstractView
 
             } else {
                 if(!$SessionUser->hasMerchant($Merchant->getID()))
-                    throw new IntegrationException("User does not have authority");
+                    throw new \Exception("User does not have authority");
             }
-            $OrderForm = $this->form;
-            $Order = $MerchantIdentity->createOrResumeOrder($post);
-            $Order->setFormID($OrderForm->getID());
-            $OrderForm->processFormRequest($Order, $post);
 
-//            $_SESSION['order/charge.php']['order_id'] = $Order->getID();
+            $OrderForm = $this->form;
+
+            // Get Payment info
+            if(!empty($post['payment_uid'])) {
+                $PaymentInfo = PaymentRow::fetchByUID($post['payment_uid']);
+
+            } else {
+                $PayeeInfo = PayeeRow::createPayerFromPost($post);
+                if(!empty($post['payment_save']))
+                    PayeeRow::insertOrUpdate($PayeeInfo);
+
+                $PaymentInfo = PaymentRow::createPaymentFromPost($post, $PayeeInfo);
+                if(!empty($post['payment_save']))
+                    PaymentRow::insertOrUpdate($PaymentInfo);
+            }
+
+            $Order = $MerchantIdentity->createNewOrder($PaymentInfo, $OrderForm, $post);
+
+            $OrderForm->processFormRequest($Order, $post);
 
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $post);
 

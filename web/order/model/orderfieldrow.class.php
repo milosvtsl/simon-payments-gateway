@@ -8,11 +8,6 @@
 namespace Order\Model;
 
 use System\Config\DBConfig;
-use Integration\Model\AbstractIntegration;
-use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
-use Integration\Request\Model\IntegrationRequestRow;
-use Order\Model\OrderRow;
 
 class OrderFieldRow
 {
@@ -37,6 +32,8 @@ class OrderFieldRow
         $ret = $stmt->execute(array($OrderRow->getID(), $field_name));
         if(!$ret)
             throw new \PDOException("Failed to delete order field");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete field row: " . print_r($OrderRow, true));
     }
 
     public static function insertOrUpdate(OrderRow $OrderRow, $field_name, $field_value) {

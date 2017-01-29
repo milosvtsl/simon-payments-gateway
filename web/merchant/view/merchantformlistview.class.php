@@ -1,10 +1,8 @@
 <?php
 namespace Merchant\View;
 
-use System\Config\DBConfig;
-use Merchant\Model\MerchantQueryStats;
 use Merchant\Model\MerchantFormRow;
-use User\Session\SessionManager;
+use System\Config\DBConfig;
 use View\AbstractListView;
 
 

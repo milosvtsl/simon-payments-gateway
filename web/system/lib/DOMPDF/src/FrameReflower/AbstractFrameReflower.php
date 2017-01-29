@@ -10,10 +10,10 @@ namespace Dompdf\FrameReflower;
 use Dompdf\Adapter\CPDF;
 use Dompdf\Css\Style;
 use Dompdf\Dompdf;
-use Dompdf\Helpers;
 use Dompdf\Frame;
-use Dompdf\FrameDecorator\Block;
 use Dompdf\Frame\Factory;
+use Dompdf\FrameDecorator\Block;
+use Dompdf\Helpers;
 
 /**
  * Base reflower class

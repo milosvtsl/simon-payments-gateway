@@ -10,16 +10,18 @@ namespace Integration\ProPay;
 use Dompdf\Exception;
 use Integration\Model;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
-use Integration\Model\Ex\IntegrationException;
-use Integration\Request\Model\IntegrationRequestRow;
-use Merchant\Model\MerchantRow;
 use Integration\Model\AbstractMerchantIdentity;
+use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
+use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantRow;
+use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
+use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
-use Order\Mail\ReceiptEmail;
-use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class ProPayIntegration extends AbstractIntegration
@@ -276,13 +278,15 @@ class ProPayIntegration extends AbstractIntegration
     }
 
     /**
-     * Create or resume an order item
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
      */
-    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+    function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
+        $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
     }
 
