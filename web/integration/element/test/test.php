@@ -44,7 +44,12 @@ $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
+$stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+    array(
+        'status' => 'Settled',
+        'reverse' => 'True',
+        'date_start' => date('Y-m-d H:i:s.v', time() - 24*60*60*1),
+    ),
     function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
         return NULL;
     }
