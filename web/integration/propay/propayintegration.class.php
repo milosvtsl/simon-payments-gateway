@@ -327,8 +327,7 @@ class ProPayIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
@@ -423,8 +422,7 @@ class ProPayIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 
         $Request->setRequestURL($url);
 
@@ -504,8 +502,7 @@ class ProPayIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
@@ -592,8 +589,7 @@ class ProPayIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 
         $Request->setRequestURL($url);
 
@@ -665,8 +661,7 @@ class ProPayIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 
         $Request->setRequestURL($url);
 
@@ -704,8 +699,7 @@ class ProPayIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-        $url = $this->getRequestURL($APIData, $Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 
         $Request->setRequestURL($url);
 

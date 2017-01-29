@@ -9,9 +9,11 @@
 namespace Integration\ProPay\Test;
 
 use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
@@ -24,33 +26,40 @@ chdir('../../..');
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-// Register Exception Handler
-//\System\Exception\ExceptionHandler::register();
-
 $SessionUser = new SystemUser();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
-$PropayAPITest = IntegrationRow::fetchByUID('t3caa82c-c423-428b-927b-15a796bbc0c7'); // Propay.io
-$PropayAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Propay.io
-//$Integration = new TestPropayIntegrationRow();
+$ProPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-4930-800a'); // ProPay.io
+//$Integration = new TestProPayIntegrationRow();
 
 // Real API Health Check
-$MerchantIdentity = $PropayAPI->getMerchantIdentity($Merchant);
+$MerchantIdentity = $ProPayAPITest->getMerchantIdentity($Merchant);
 
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
-    function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-        return NULL;
-    }
-);
-echo "\nSearch Returned: ", $stats['total'];
+try {
+    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+        array(
+            'status' => 'Settled',
+            'reverse' => 'True',
+            'date_start' => date('Y-m-d', time() - 24*60*60*1),
+            'date_end' => date('Y-m-d', time()),
+        ),
+        function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
+            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+            return NULL;
+        }
+    );
+    echo "\nSearch Returned: ", $stats['total'];
+} catch (\Exception $ex) {
+    echo $ex;
+}
 
 
 // Test API
-$MerchantIdentity = $PropayAPITest->getMerchantIdentity($Merchant);
+$MerchantIdentity = $ProPayAPITest->getMerchantIdentity($Merchant);
 if(!$MerchantIdentity->isProvisioned())
     $MerchantIdentity->provisionRemote();
 
@@ -92,53 +101,13 @@ $data = array(
 
 $tests = array(
     // Keyed Tests
-//    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
-//    array('amount' => '2.05', 'entry_mode' => 'keyed', 'reversal' => true),
-//    array('amount' => '2.06', 'entry_mode' => 'keyed'),
-//    array('amount' => '23.05', 'entry_mode' => 'keyed'),
-//    array('amount' => '23.06', 'entry_mode' => 'keyed', 'card_number' => '4003000123456781', 'card_exp_month' => 12, 'card_exp_year' => 19),
-//    array('amount' => '3.20', 'entry_mode' => 'keyed'),
-
-//    array('amount' => '3.20', 'entry_mode' => 'keyed', 'return' => true),
-//    array('amount' => '3.25', 'entry_mode' => 'keyed', 'return' => true),
-
-//    array('amount' => '5.09', 'entry_mode' => 'keyed', 'void' => true),
-//    array('amount' => '6.12', 'entry_mode' => 'keyed', 'reversal' => true),
-//    array('amount' => '6.13', 'entry_mode' => 'keyed', 'reversal' => true),
-
+    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
 
     // Swiped Tests
-//    array('amount' => '2.04', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.05', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.06', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.07', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.08', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.09', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.10', 'entry_mode' => 'swipe', 'reversal' => true),
-//    array('amount' => '2.11', 'entry_mode' => 'swipe'),
-//    array('amount' => '2.12', 'entry_mode' => 'swipe'),
-//    array('amount' => '23.05', 'entry_mode' => 'swipe'),
-//    array('amount' => '23.06', 'entry_mode' => 'swipe'),
-//
-//    array('amount' => '3.20', 'entry_mode' => 'swipe', 'return' => true),
-//    array('amount' => '3.25', 'entry_mode' => 'swipe', 'return' => true),
+    array('amount' => '2.04', 'entry_mode' => 'swipe', 'return' => true),
 
     // ACH Tests
-//    array('amount' => '2.01', 'entry_mode' => 'Check'),
-//    array('amount' => '2.02', 'entry_mode' => 'check'),
-//    array('amount' => '2.03', 'entry_mode' => 'check'),
-//    array('amount' => '2.04', 'entry_mode' => 'check'),
-//    array('amount' => '2.05', 'entry_mode' => 'check'),
-//    array('amount' => '2.06', 'entry_mode' => 'check'),
-//    array('amount' => '2.07', 'entry_mode' => 'check'),
-//    array('amount' => '2.09', 'entry_mode' => 'check'),
-//    array('amount' => '2.10', 'entry_mode' => 'check'),
-//    array('amount' => '2.11', 'entry_mode' => 'check'),
-//    array('amount' => '2.12', 'entry_mode' => 'check'),
-//    array('amount' => '2.13', 'entry_mode' => 'check'),
-
-//    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
-//    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
+    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev
@@ -147,14 +116,11 @@ if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
 
 $batch_id = null;
 
+$OrderForm = MerchantFormRow::fetchGlobalForm();
 
 foreach($tests as $testData) {
-    $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
-
-    if(!$batch_id) {
-        $batch_id = $Order->calculateCurrentBatchID();
-        echo "\nCalculating Current Batch ID: ", $batch_id;
-    }
+    $PaymentInfo = PaymentRow::createPaymentFromPost($testData+$data);
+    $Order = $MerchantIdentity->createNewOrder($PaymentInfo, $OrderForm, $testData+$data);
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
@@ -178,13 +144,7 @@ foreach($tests as $testData) {
         echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getTransactionID();
     }
 
-
-    // Delete tests
-//    TransactionRow::delete($ReturnTransaction);
-//    TransactionRow::delete($VoidTransaction);
-//    TransactionRow::delete($Transaction);
-//    OrderRow::delete($Order);
 }
 
-echo "\nPropay Integration Test finished";
+echo "\nProPay Integration Test finished";
 chdir($cwd1);

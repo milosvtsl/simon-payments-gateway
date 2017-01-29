@@ -22,23 +22,19 @@ echo "\nTesting ... ", __FILE__, PHP_EOL;
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
-//assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
-
-// TODO: Create Test User
-
-// TODO: Set Test User Password
-
-
-// TODO: Validate login
-
-//$TestUser = \User\Model\UserRow::fetchByUsername('testuser');
-
+// Test Finix Integration
 chdir('integration/finix/test');
 require ('test.php');
 chdir($cwd0);
 
 
+// Test Element Integration
 chdir('integration/element/test');
+require ('test.php');
+chdir($cwd0);
+
+// Test ProPay/ProtectPay Integration
+chdir('integration/propay/test');
 require ('test.php');
 chdir($cwd0);
 
