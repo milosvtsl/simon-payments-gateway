@@ -187,6 +187,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $fraud_low_limit;
     protected $fraud_high_monthly_limit;
     protected $fraud_flags;
+    protected $integration_default_id;
 
     // Table status
     protected $status_name;

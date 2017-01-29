@@ -101,6 +101,12 @@ class OrderRow
     protected $payee_zipcode;
     protected $payee_city;
     protected $payee_state;
+    protected $payee_state_full;
+
+    /** @var PaymentRow */
+    protected $payment;
+    protected $payment_id;
+
 
     protected $status;
     protected $total_returned_amount;
@@ -111,6 +117,7 @@ class OrderRow
     protected $integration_id;
     protected $subscription_id;
     protected $batch_id;
+    protected $form_id;
 
     // Table integration
     protected $integration_name;

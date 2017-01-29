@@ -68,6 +68,7 @@ FROM integration i
     protected $api_password;
     protected $api_app_id;
     protected $api_type;
+    protected $api_credentials;
     protected $notes;
 
     // Calculated
