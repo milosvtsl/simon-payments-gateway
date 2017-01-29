@@ -44,7 +44,11 @@ foreach($MerchantQuery as $Merchant) {
 
     echo "\n\nMerchant: ", $Merchant->getName(), " MID=", $MerchantIdentity->getRemoteID();
 
-    $stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
+    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+        array(
+            'status' => 'Settled',
+            'date_start' => date('Y-m-d H:i:s.v', time() - 24*60*60*7),
+        ),
         function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
             echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $TransactionRow->getAction(), ' => ', $item['TransactionStatus'];
             return true;
