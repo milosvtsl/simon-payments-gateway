@@ -50,8 +50,8 @@ foreach($MerchantQuery as $Merchant) {
             array(
                 'status' => 'Settled',
                 'reverse' => 'True',
-                'date_start' => date('Y-m-d H:i:s.v', time() - 24*60*60*7),
-                'date_end' => date('Y-m-d H:i:s.v', time()),
+//                'date_start' => date('Y-m-d H:i:s.v', time() - 24*60*60*7),
+//                'date_end' => date('Y-m-d H:i:s.v', time()),
             ),
             function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
                 echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
