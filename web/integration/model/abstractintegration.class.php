@@ -157,4 +157,9 @@ abstract class AbstractIntegration
      * @return
      */
     abstract function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message);
+
+    /**
+     * Render Charge Form Integration Headers
+     */
+    abstract function renderChargeFormHTMLHeadLinks();
 }

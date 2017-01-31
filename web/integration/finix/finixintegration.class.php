@@ -326,5 +326,12 @@ class FinixIntegration extends AbstractIntegration
                 error_log($CancelReceipt->ErrorInfo);
         }
     }
+
+    /**
+     * Render Charge Form Integration Headers
+     */
+    function renderChargeFormHTMLHeadLinks() {
+        // TODO: Implement renderChargeFormHTMLHeadLinks() method.
+    }
 }
 

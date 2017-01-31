@@ -215,5 +215,12 @@ class MockIntegration extends AbstractIntegration
     function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message) {
         $Subscription->cancel($message);
     }
+
+    /**
+     * Render Charge Form Integration Headers
+     */
+    function renderChargeFormHTMLHeadLinks() {
+        // TODO: Implement renderChargeFormHTMLHeadLinks() method.
+    }
 }
 

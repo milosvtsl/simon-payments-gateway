@@ -1,0 +1,852 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>SPI Submit Payment</title>
+    <style>
+        .PageContent {
+            width: 620px;
+            color: #000000;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: Verdana, Arial;
+            font-size: 14px;
+        }
+
+        .FieldSet {
+            border: 1px solid #D3D3D3;
+            padding: 10px 10px 20px 10px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            -moz-borderradius: 4px;
+            -webkit-border-radius: 4px;
+        }
+
+        .Legend {
+            padding-left: 7px;
+            padding-right: 7px;
+            color: #A3A3A3;
+        }
+
+        .FormLabel {
+            font-family: monospace, Verdana, Arial;
+            font-size: 14px;
+        }
+
+        .FormLeftColumn {
+            width: 240px;
+            display: inline-block;
+            white-space: nowrap;
+            text-align: right;
+            vertical-align: top;
+            marginright: 8px;
+            padding-top: 4px;
+        }
+
+        .FormRightColumn {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .FormRow {
+            margin: 5px;
+        }
+
+        .LabelColon {
+            padding-left: 3px;
+        }
+
+        .TextBox {
+            width: 289px;
+            height: 28px;
+            border: 1px solid #9B9B9B;
+            padding: 3px 3px 3px 6px;
+            font-family: monospace, Verdana, Arial;
+            font-size: 14px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+        }
+
+        .DropDown {
+            width: 300px;
+            height: 28px;
+            border: 1px solid #9B9B9B;
+            padding: 3px;
+            font-family: monospace, Verdana, Arial;
+            fontsize: 14px;
+            border-radius: 2px;
+            -moz-border-radius: 2px;
+            -webkit-border-radius: 2px;
+        }
+
+        .FormCardNumber {
+            width: 150px;
+        }
+
+        .FormCardType {
+            width: 150px;
+        }
+
+        .FormExpDate {
+            width: 75px;
+        }
+
+        .FormCvv {
+            width: 95px;
+        }
+
+        .FormZip {
+            width: 95px;
+        }
+
+        .SubmitButton {
+            float: right;
+        }
+
+        .RequiredField {
+            color: red;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+<div class="PageContent">
+    <h4>Payment Information</h4>
+
+    <form id="PaymentMethodForm" method="post" action="https://protectpaytest.propay.com/pmi/spr.aspx">
+        <fieldset class="FieldSet">
+            <legend class="Legend LegendIe">Credit Card Payment Information</legend>
+            <div id="CCType" class="">
+                <div class="FormRow">
+                    <span class="FormLeftColumn">
+                        <span class="FormLabel">Card Holder Name </span>
+                        <span class="LabelColon">:</span>
+                    </span>
+                    <span class="FormRightColumn">
+                    <input id="CardHolderName" class="TextBox" maxlength="50" name="CardHolderName"/>
+                    </span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Card Number </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="CardNumber" class="TextBox FormCardNumber" maxlength="16" autocomplete="off"
+       name="CardNumber"/>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Card Type </span>
+<span class="LabelColon">:</span>
+</span>
+<span>
+<select id="PaymentTypeId" class="DropDown FormCardType" name="PaymentTypeId">
+    <option value="Visa">Visa</option>
+    <option value="MasterCard">MasterCard</option>
+    <option value="AMEX">American Express</option>
+    <option value="Discover">Discover</option>
+    <option value="DinersClub">Diners Club</option>
+    <option value="JCB">JCB</option>
+</select>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Expiration Date </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<select id="ExpMonth" class="DropDown FormExpDate" name="ExpMonth">
+    <option value="01">Jan</option>
+    <option value="02">Feb</option>
+    <option value="03">Mar</option>
+    <option value="04">Apr</option>
+    <option value="05">May</option>
+    <option value="06">Jun</option>
+    <option value="07">Jul</option>
+    <option value="08">Aug</option>
+    <option value="09">Sep</option>
+    <option value="10">Oct</option>
+    <option value="11">Nov</option>
+    <option value="12">Dec</option>
+</select>
+&nbsp;/&nbsp;
+<select id="ExpYear" class="DropDown FormExpDate" name="ExpYear">
+    <option value="16">2016</option>
+    <option value="17">2017</option>
+    <option value="18">2018</option>
+    <option value="19">2019</option>
+    <option value="20">2020</option>
+    <option value="21">2021</option>
+    <option value="22">2022</option>
+    <option value="23">2023</option>
+    <option value="24">2024</option>
+    <option value="25">2025</option>
+    <option value="26">2026</option>
+</select>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">CVV</span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="CVV" class="TextBox FormCvv" maxlength="4" autocomplete="off" name="CVV"/>
+</span>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="FieldSet">
+            <legend class="Legend LegendIe">ACH Payment Information</legend>
+            <div id="ACHType" class="">
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Name on Account </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="NameOnBankAccount" class="TextBox" maxlength="50" name="NameOnBankAccount"/>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Financial Institution: </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="BankName" class="TextBox" maxlength="25" name="BankName"/>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Routing Number: </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="RoutingNumber" class="TextBox" maxlength="10" name="RoutingNumber"/>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Account Number: </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="AccountNumber" class="TextBox" maxlength="25" name="Bank AccountNumber"
+       autocomplete="off"/>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Account Type </span>
+<span class="LabelColon">:</span>
+</span>
+<span>
+<select id="BankAccountType" class="DropDown" name="BankAccountType">
+    <option value="Checking">Checking</option>
+    <option value="Savings">Savings</option>
+</select>
+</span>
+                </div>
+                <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="RequiredField">*</span>
+<span class="FormLabel">Account Country </span>
+<span class="LabelColon">:</span>
+</span>
+<span>
+<select id="BankCountryCode" class="DropDown" name="Bank CountryCode">
+    <option value="USA">United States</option>
+    <option value="CAN">Canada</option>
+    <option value="ASM">American Samoa</option>
+    <option value="AND">Andorra</option>
+    <option value="ARG">Argentina</option>
+    <option value="ABW">Aruba</option>
+    <option value="AUS">Australia</option>
+    <option value="AUT">Austria</option>
+    <option value="BHS">Bahamas</option>
+    <option value="BRB">Barbados</option>
+    <option value="BEL">Belgium</option>
+    <option value="BEN">Benin</option>
+    <option value="BMU">Bermuda</option>
+    <option value="BOL">Bolivia</option>
+    <option value="BRA">Brazil</option>
+    <option value="IOT">British Indian Ocean Territory</option>
+    <option value="BGR">Bulgaria</option>
+    <option value="CHL">Chile</option>
+    <option value="CHN">China</option>
+    <option value="COL">Colombia</option>
+    <option value="CRI">Costa Rica</option>
+    <option value="HRV">Croatia</option>
+    <option value="CYP">Cyprus</option>
+    <option value="CZE">Czech Republic</option>
+    <option value="DNK">Denmark</option>
+    <option value="DOM">Dominican Republic</option>
+    <option value="ECU">Ecuador</option>
+    <option value="EGY">Egypt</option>
+    <option value="SLV">El Salvador</option>
+    <option value="EST">Estonia</option>
+    <option value="FJI">Fiji</option>
+    <option value="FIN">Finland</option>
+    <option value="FRA">France</option>
+    <option value="GUF">French Guiana</option>
+    <option value="PYF">French Polynesia</option>
+    <option value="DEU">Germany</option>
+    <option value="GHA">Ghana</option>
+    <option value="GRC">Greece</option>
+    <option value="GRL">Greenland</option>
+    <option value="GUM">Guam</option>
+    <option value="GTM">Guatemala</option>
+    <option value="VAT">Holy See (Vatican City State)</option>
+    <option value="HND">Honduras</option>
+    <option value="HKG">Hong Kong</option>
+    <option value="HUN">Hungary</option>
+    <option value="ISL">Iceland</option>
+    <option value="IND">India</option>
+    <option value="IDN">Indonesia</option>
+    <option value="IRL">Ireland</option>
+    <option value="ISR">Israel</option>
+    <option value="ITA">Italy</option>
+    <option value="JPN">Japan</option>
+    <option value="KOR">Korea, Republic Of</option>
+    <option value="LVA">Latvia</option>
+    <option value="LIE">Liechtenstein</option>
+    <option value="LUX">Luxembourg</option>
+    <option value="MYS">Malaysia</option>
+    <option value="MHL">Marshall Islands</option>
+    <option value="MTQ">Martinique</option>
+    <option value="MEX">Mexico</option>
+    <option value="NLD">Netherlands</option>
+    <option value="ANT">Netherlands Antilles</option>
+    <option value="NZL">New Zealand</option>
+    <option value="NIC">Nicaragua</option>
+    <option value="NOR">Norway</option>
+    <option value="PAN">Panama</option>
+    <option value="PRY">Paraguay</option>
+    <option value="PER">Peru</option>
+    <option value="PHL">Philippines</option>
+    <option value="PCN">Pitcairn</option>
+    <option value="POL">Poland</option>
+    <option value="PRT">Portugal</option>
+    <option value="PRI">Puerto Rico</option>
+    <option value="ROU">Romania</option>
+    <option value="RUS">Russia</option>
+    <option value="WSM">Samoa</option>
+    <option value="SAU">Saudi Arabia</option>
+    <option value="SGP">Singapore</option>
+    <option value="SVK">Slovakia</option>
+    <option value="SVN">Slovenia</option>
+    <option value="SLB">Solomon Islands</option>
+    <option value="ZAF">South Africa</option>
+    <option value="ESP">Spain</option>
+    <option value="LKA">Sri Lanka</option>
+    <option value="SWZ">Swaziland</option>
+    <option value="SWE">Sweden</option>
+    <option value="CHE">Switzerland</option>
+    <option value="TWN">Taiwan</option>
+    <option value="THA">Thailand</option>
+    <option value="TON">Tonga</option>
+    <option value="TTO">Trinidad And Tobago</option>
+    <option value="TUR">Turkey</option>
+    <option value="UGA">Uganda</option>
+    <option value="UKR">Ukraine</option>
+    <option value="ARE">United Arab Emirates</option>
+    <option value="GBR">United Kingdom</option>
+    <option value="URY">Uruguay</option>
+    <option value="UMI">Us Minor Outlying Islands</option>
+    <option value="VEN">Venezuela</option>
+    <option value="VNM">Viet Nam</option>
+    <option value="VGB">Virgin Islands, British</option>
+    <option value="VIR">Virgin Islands, U.S.</option>
+</select>
+</span>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="FieldSet">
+            <legend class="Legend LegendIe">Billing Information</legend>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Address Line 1 </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="Address1" class="TextBox" maxlength="50" name="Address1"/>
+</span>
+            </div>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Address Line 2 </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="Address2" class="TextBox" maxlength="50" name="Address2"/>
+</span>
+            </div>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Address Line 3 </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="Address3" class="TextBox" maxlength="50" name="Address3"/>
+</span>
+            </div>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">City </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="City" class="TextBox" maxlength="25" name="City"/>
+</span>
+            </div>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">State </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<select id="State" class="DropDown" style="display: inline-block;" name="State">
+    <option value="AA">AA - Armed Forces Americas</option>
+    <option value="AE">AE - Armed Forces Europe</option>
+    <option value="AK">AK - Alaska</option>
+    <option value="AL">AL - Alabama</option>
+    <option value="AP">AP - Armed Forces Pacific</option>
+    <option value="AR">AR - Arkansas</option>
+    <option value="AS">AS - American Samoa</option>
+    <option value="AZ">AZ - Arizona</option>
+    <option value="CA">CA - California</option>
+    <option value="CO">CO - Colorado</option>
+    <option value="CT">CT - Connecticut</option>
+    <option value="DC">DC - District of Columbia</option>
+    <option value="DE">DE - Delaware</option>
+    <option value="FL">FL - Florida</option>
+    <option value="GA">GA - Georgia</option>
+    <option value="GU">GU - Guam</option>
+    <option value="HI">HI - Hawaii</option>
+    <option value="IA">IA - Iowa</option>
+    <option value="ID">ID - Idaho</option>
+    <option value="IL">IL - Illinois</option>
+    <option value="IN">IN - Indiana</option>
+    <option value="KS">KS - Kansas</option>
+    <option value="KY">KY - Kentucky</option>
+    <option value="LA">LA - Louisiana</option>
+    <option value="MA">MA - Massachusetts</option>
+    <option value="MD">MD - Maryland</option>
+    <option value="ME">ME - Maine</option>
+    <option value="MI">MI - Michigan</option>
+    <option value="MN">MN - Minnesota</option>
+    <option value="MO">MO - Missouri</option>
+    <option value="MS">MS - Mississippi</option>
+    <option value="MT">MT - Montana</option>
+    <option value="NC">NC - North Carolina</option>
+    <option value="ND">ND - North Dakota</option>
+    <option value="NE">NE - Nebraska</option>
+    <option value="NH">NH - New Hampshire</option>
+    <option value="NJ">NJ - New Jersey</option>
+    <option value="NM">NM - New Mexico</option>
+    <option value="NV">NV - Nevada</option>
+    <option value="NY">NY - New York</option>
+    <option value="OH">OH - Ohio</option>
+    <option value="OK">OK - Oklahoma</option>
+    <option value="OR">OR - Oregon</option>
+    <option value="PA">PA - Pennsylvania</option>
+    <option value="PR">PR - Puerto Rico</option>
+    <option value="RI">RI - Rhode Island</option>
+    <option value="SC">SC - South Carolina</option>
+    <option value="SD">SD - South Dakota</option>
+    <option value="TN">TN - Tennessee</option>
+    <option value="TX">TX - Texas</option>
+    <option value="UT">UT - Utah</option>
+    <option value="VA">VA - Virginia</option>
+    <option value="VT">VT - Vermont</option>
+    <option value="WA">WA - Washington</option>
+    <option value="WI">WI - Wisconsin</option>
+    <option value="WV">WV - West Virginia</option>
+    <option value="WY">WY - Wyoming</option>
+    <option value="VI">VI - Virgin Islands</option>
+</select>
+</span>
+            </div>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Postal Code </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<input id="PostalCode" class="TextBox FormZip" maxlength="10" name="PostalCode"/>
+</span>
+            </div>
+            <div class="FormRow">
+<span class="FormLeftColumn">
+<span class="FormLabel">Country </span>
+<span class="LabelColon">:</span>
+</span>
+<span class="FormRightColumn">
+<select id="Country" class="DropDown" name="Country">
+    <option value="USA">United States</option>
+    <option value="CAN">Canada</option>
+    <option value="ASM">American Samoa</option>
+    <option value="AND">Andorra</option>
+    <option value="ARG">Argentina</option>
+    <option value="ABW">Aruba</option>
+    <option value="AUS">Australia</option>
+    <option value="AUT">Austria</option>
+    <option value="BHS">Bahamas</option>
+    <option value="BRB">Barbados</option>
+    <option value="BEL">Belgium</option>
+    <option value="BEN">Benin</option>
+    <option value="BMU">Bermuda</option>
+    <option value="BOL">Bolivia</option>
+    <option value="BRA">Brazil</option>
+    <option value="IOT">British Indian Ocean Territory</option>
+    <option value="BGR">Bulgaria</option>
+    <option value="CHL">Chile</option>
+    <option value="CHN">China</option>
+    <option value="COL">Colombia</option>
+    <option value="CRI">Costa Rica</option>
+    <option value="HRV">Croatia</option>
+    <option value="CYP">Cyprus</option>
+    <option value="CZE">Czech Republic</option>
+    <option value="DNK">Denmark</option>
+    <option value="DOM">Dominican Republic</option>
+    <option value="ECU">Ecuador</option>
+    <option value="EGY">Egypt</option>
+    <option value="SLV">El Salvador</option>
+    <option value="EST">Estonia</option>
+    <option value="FJI">Fiji</option>
+    <option value="FIN">Finland</option>
+    <option value="FRA">France</option>
+    <option value="GUF">French Guiana</option>
+    <option value="PYF">French Polynesia</option>
+    <option value="DEU">Germany</option>
+    <option value="GHA">Ghana</option>
+    <option value="GRC">Greece</option>
+    <option value="GRL">Greenland</option>
+    <option value="GUM">Guam</option>
+    <option value="GTM">Guatemala</option>
+    <option value="VAT">Holy See (Vatican City State)</option>
+    <option value="HND">Honduras</option>
+    <option value="HKG">Hong Kong</option>
+    <option value="HUN">Hungary</option>
+    <option value="ISL">Iceland</option>
+    <option value="IND">India</option>
+    <option value="IDN">Indonesia</option>
+    <option value="IRL">Ireland</option>
+    <option value="ISR">Israel</option>
+    <option value="ITA">Italy</option>
+    <option value="JPN">Japan</option>
+    <option value="KOR">Korea, Republic Of</option>
+    <option value="LVA">Latvia</option>
+    <option value="LIE">Liechtenstein</option>
+    <option value="LUX">Luxembourg</option>
+    <option value="MYS">Malaysia</option>
+    <option value="MHL">Marshall Islands</option>
+    <option value="MTQ">Martinique</option>
+    <option value="MEX">Mexico</option>
+    <option value="NLD">Netherlands</option>
+    <option value="ANT">Netherlands Antilles</option>
+    <option value="NZL">New Zealand</option>
+    <option value="NIC">Nicaragua</option>
+    <option value="NOR">Norway</option>
+    <option value="PAN">Panama</option>
+    <option value="PRY">Paraguay</option>
+    <option value="PER">Peru</option>
+    <option value="PHL">Philippines</option>
+    <option value="PCN">Pitcairn</option>
+    <option value="POL">Poland</option>
+    <option value="PRT">Portugal</option>
+    <option value="PRI">Puerto Rico</option>
+    <option value="ROU">Romania</option>
+    <option value="RUS">Russia</option>
+    <option value="WSM">Samoa</option>
+    <option value="SAU">Saudi Arabia</option>
+    <option value="SGP">Singapore</option>
+    <option value="SVK">Slovakia</option>
+    <option value="SVN">Slovenia</option>
+    <option value="SLB">Solomon Islands</option>
+    <option value="ZAF">South Africa</option>
+    <option value="ESP">Spain</option>
+    <option value="LKA">Sri Lanka</option>
+    <option value="SWZ">Swaziland</option>
+    <option value="SWE">Sweden</option>
+    <option value="CHE">Switzerland</option>
+    <option value="TWN">Taiwan</option>
+    <option value="THA">Thailand</option>
+    <option value="TON">Tonga</option>
+    <option value="TTO">Trinidad And Tobago</option>
+    <option value="TUR">Turkey</option>
+    <option value="UGA">Uganda</option>
+    <option value="UKR">Ukraine</option>
+    <option value="ARE">United Arab Emirates</option>
+    <option value="GBR">United Kingdom</option>
+    <option value="URY">Uruguay</option>
+    <option value="UMI">Us Minor Outlying Islands</option>
+    <option value="VEN">Venezuela</option>
+    <option value="VNM">Viet Nam</option>
+    <option value="VGB">Virgin Islands, British</option>
+    <option value="VIR">Virgin Islands, U.S.</option>
+</select>
+</span>
+            </div>
+        </fieldset>
+        <input style="display: none;" id="CID" name="CID" value=""/>
+        <input style="display: none;" id="SettingsCipher" name="SettingsCipher" value=""/>
+    </form>
+    <input type="button" id="btnSubmit" name="btnSubmit" value="Submit Form" class="" onclick="formPost()"/>
+    <input type="button" id="btnSubmit" name="btnSubmit" value="Submit AJAX" class="SubmitButton"
+           onclick="AJAXRequest()"
+            />
+</div>
+<script>
+    function formPost() {
+//This function should be modified to meet the merchants needs and serves as a demonstration of pre-validation
+//The Type of Payment Method to process (CreditCard or ACH) is determined by the value set in the SettingsCipher
+//This sample validation function is designed specifically for the SampleCheckout.html
+//A Developer should only use the method that the SPI is set to process.
+        var PaymentForm = document.getElementById("PaymentMethodForm");
+        PaymentForm.action = 'https://il01addproc.propay.com/Return.aspx';
+        if (validateCC()) {
+            PaymentForm.submit();
+            return;
+        }
+        if (validateACH()) {
+            PaymentForm.submit();
+            return;
+        }
+//All Payment Method Details failed validation
+        alert("Payment Details Validation Failed Please Review and Re-Submit");
+    }
+    function AJAXRequest() {
+//This function should be modified to meet the merchants needs and serves as a demonstration of pre-validation prior
+//The Type of Payment Method to process (CreditCard or ACH) is determined by the value set in the SettingsCipher prior
+         var payload = 'CID=' + document.getElementById("CID").value
+                + '&SettingsCipher=' + encodeURIComponent(document.getElementById("SettingsCipher").value);
+        var ccPayload = '&CardHolderName=' + document.getElementById("CardHolderName").value
+                + '&CardNumber=' + document.getElementById("CardNumber").value
+                + '&PaymentTypeId=' + document.getElementById("PaymentTypeId").value
+                + '&ExpMonth=' + document.getElementById("ExpMonth").value
+                + '&ExpYear=' + document.getElementById("ExpYear").value
+                + '&CVV=' + document.getElementById("CVV").value
+        var achPayload = '&NameOnBankAccount=' + document.getElementById("NameOnBankAccount").value
+                + '&BankName=' + document.getElementById("BankName").value
+                + '&RoutingNumber=' + document.getElementById("RoutingNumber").value
+                + '&Bank AccountNumber=' + document.getElementById("AccountNumber").value
+                + '&ExBankAccountTypepYear=' + document.getElementById("BankAccountType").value
+                + '&Bank CountryCode=' + document.getElementById("BankCountryCode").value
+        var avsPayload = '&Address1=' + document.getElementById("Address1").value
+                + '&Address2=' + document.getElementById("Address2").value
+                + '&Address3=' + document.getElementById("Address3").value
+                + '&City=' + document.getElementById("City").value
+                + '&State=' + document.getElementById("State").value
+                + '&PostalCode=' + document.getElementById("PostalCode").value
+                + '&Country=' + document.getElementById("Country").value
+//This sample validation function is designed specifically for the SampleCheckout.html
+//A Developer should only use the method that the SPI is set to process.
+        if (validateCC()) {
+            payload += ccPayload;
+            payload += avsPayload;
+            submitAJAX(payload);
+            return;
+        }
+        if (validateACH()) {
+            payload += achPayload;
+            payload += avsPayload;
+            submitAJAX(payload);
+            return;
+        }
+//All Payment Method Details failed validation
+        alert("Payment Details Validation Failed Please Review and Re-Submit");
+    }
+    function submitAJAX(payload) {
+        var xhttp = new XMLHttpRequest();
+        if (xhttp != null) {
+            xhttp.open("POST", "https://protectpaytest.propay.com/pmi/spr.aspx", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState === 4) {
+                    var resp = xhttp.responseText;
+                    alert(resp);
+                }
+            }
+            xhttp.send(payload);
+        }
+    }
+    function validateCC() {
+//Credit Card Payment Method Type Required
+        var CardBrand = document.getElementById("PaymentTypeId").value;
+        var CCNum = document.getElementById("CardNumber").value;
+        var ExpMonth = document.getElementById("ExpMonth").value;
+        var ExpYear = document.getElementById("ExpYear").value;
+//Only optional field for Card Validation
+        var CVV = document.getElementById("CVV").value;
+        if (CCNum == "") {
+            alert("Card number not present");
+            return false;
+        }
+//Validate Card Number using Luhn Check
+        var nCheck = 0;
+        var nDigit = 0;
+        var bEven = false;
+        CCNum = CCNum.replace(/\D/g, "");
+        for (var n = CCNum.length - 1; n >= 0; n--) {
+            var cDigit = CCNum.charAt(n),
+                    nDigit = parseInt(cDigit, 10);
+            if (bEven) {
+                if ((nDigit *= 2) > 9) nDigit -= 9;
+            }
+            nCheck += nDigit;
+            bEven = !bEven;
+        }
+        if ((nCheck % 10) != 0) {
+            alert("Card number is not a valid card number");
+            return false;
+        }
+//Validate Card Expiration Date
+        var currentDate = new Date();
+        var cardExpirationDate = new Date((2000 + parseInt(ExpYear)), parseInt(ExpMonth), 0, 23, 59, 59);
+        if (cardExpirationDate < currentDate) {
+            alert("Card expiration date is invalid");
+            return false;
+        }
+//Validate Card Brand IIN and CVV length
+        var cardValidation = {
+            Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+            MasterCard: /^5[1-5][0-9]{14}$/,
+            AMEX: /^3[47][0-9]{13}$/,
+            Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
+            DinersClub: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+            JCB: /^(?:2131|1800|35\d{3})\d{11}$/
+        };
+//Validate IIN and CVV Length
+        var validBrandNumber;
+        switch (CardBrand) {
+            case "Visa":
+                if (!(cardValidation.Visa.test(CCNum))) {
+                    alert("Card number does not match Visa IIN");
+                    return false;
+                }
+                if (CVV != "" && CVV.length != 3) {
+                    alert("CVV does not match VISA CVV requirements");
+                    return false;
+                }
+                break;
+            case "MasterCard":
+                if (!(cardValidation.MasterCard.test(CCNum))) {
+                    alert("Card number does not match MasterCard IIN");
+                    return
+                    false;
+                }
+                if (CVV != "" && CVV.length != 3) {
+                    alert("CVV does not match MasterCard CVV requirements");
+                    return false;
+                }
+                break;
+            case "AMEX":
+                if (!(cardValidation.AMEX.test(CCNum))) {
+                    alert("Card number does not match AMEX IIN");
+                    return false;
+                }
+                if (CVV != "" && CVV.length != 4) {
+                    alert("CVV does not match AMEX CVV requirements");
+                    return false;
+                }
+                break;
+            case "Discover":
+                if (!(cardValidation.Discover.test(CCNum))) {
+                    alert("Card number does not match Discover IIN");
+                    return
+                    false;
+                }
+                if (CVV != "" && CVV.length != 3) {
+                    alert("CVV does not match Discover CVV requirements");
+                    return false;
+                }
+                break;
+            case "DinersClub":
+                if (!(cardValidation.DinersClub.test(CCNum))) {
+                    alert("Card number does not match DinersClub IIN");
+                    return
+                    false;
+                }
+                if (CVV != "" && CVV.length != 3) {
+                    alert("CVV does not match DinersClub CVV requirements");
+                    return false;
+                }
+                break;
+            case "JCB":
+                if (!(cardValidation.JCB.test(CCNum))) {
+                    alert("Card number does not match JCB IIN");
+                    return false;
+                }
+                if (CVV != "" && CVV.length != 3) {
+                    alert("CVV does not match JCB CVV requirements");
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+    function validateACH() {
+//ACH Payment Method Type Required
+        var RoutingNumber = document.getElementById("RoutingNumber").value;
+        var AccountNumber = document.getElementById("AccountNumber").value;
+        var AccountCountryCode = document.getElementById("BankCountryCode").value;
+//Must have both Routing and Account Number
+        if (RoutingNumber == "") {
+            alert("ACH routing number not present");
+            return false;
+        }
+        if (AccountNumber == "") {
+            alert("ACH account number not present");
+            return false;
+        }
+//Routing Number Validation
+        switch (AccountCountryCode) {
+            case "USA":
+//Routing Number is a Number
+                try {
+                    parseInt(RoutingNumber);
+                }
+                catch (err) {
+                    alert("ACH routing number is not Valid");
+                    return false;
+                }
+                if (RoutingNumber.length != 9 || RoutingNumber.charAt(0) == 5) {
+                    alert("ACH routing number is not Valid");
+                    return false;
+                }
+//First two digits are between 01-12, 21-32, 61-72, 80
+                var validStart = RoutingNumber.substring(0, 2);
+                var regexp = /0(?=[1-9])|1(?=[0-2])|2(?=[0-9])|3(?=[0-2])|6(?=[0-9])|7(?=[0-2])|80/
+                if (!validStart.match(regexp)) {
+                    alert("ACH routing number is not Valid");
+                    return false;
+                }
+//ABA Routing Number Checksum
+                var n = 0;
+                for (i = 0; i < RoutingNumber.length; i += 3) {
+                    n += parseInt(RoutingNumber.charAt(i), 10) * 3
+                            + parseInt(RoutingNumber.charAt(i + 1), 10) * 7
+                            + parseInt(RoutingNumber.charAt(i + 2), 10);
+                }
+                if (n == 0 || n % 10 != 0) {
+                    alert("ACH routing number is not Valid");
+                    return false;
+                }
+                break;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>

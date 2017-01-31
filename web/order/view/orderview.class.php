@@ -213,11 +213,16 @@ class OrderView extends AbstractView
                                 <tbody>
                                 <tr>
                                     <td colspan="2" class="legend">
-                                        Customer: <?php echo $Order->getCustomerFullName(); ?>
+                                        Customer: <?php echo $Order->getCustomerFullName() ?: $Order->getPayeeFullName(); ?>
                                     </td>
                                 </tr>
 
                                 <!-- Customer Information -->
+
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Payee Full Name</td>
+                                    <td class="value"><?php echo $Order->getPayeeFullName(); ?></td>
+                                </tr>
 
                                 <?php if($Order->getPayeeAddress()) { ?>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

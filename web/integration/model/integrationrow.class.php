@@ -132,6 +132,7 @@ FROM integration i
         return $Integration;
     }
 
+
     // Static
 
     /**
@@ -176,7 +177,6 @@ FROM integration i
         $stmt->execute();
         return $stmt;
     }
-
 
 
 }

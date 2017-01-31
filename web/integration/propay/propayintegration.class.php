@@ -839,5 +839,15 @@ class ProPayIntegration extends AbstractIntegration
                 break;
         }
     }
+
+    /**
+     * Render Charge Form Integration Headers
+     */
+    function renderChargeFormHTMLHeadLinks() {
+        echo <<<HEAD
+        <script src="integration/propay/view/assets/charge-form-integration.js"></script>
+HEAD;
+
+    }
 }
 

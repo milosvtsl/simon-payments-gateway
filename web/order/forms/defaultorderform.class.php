@@ -41,17 +41,25 @@ HEAD;
             $LASTPOST = $_SESSION[__FILE__];
 
         ?>
-          <article class="themed">
-              <section class="content">
-                  <form name="form-transaction-charge"
+        <article class="themed">
+            <section class="content">
+                <form name="form-transaction-charge"
                       class="default-order-form <?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
                       method="POST"
-                >
-                    <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>" />
-                    <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>" />
+                    >
+
+                    <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>"/>
+                    <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>"/>
+
+                    <input type="hidden" name="convenience_fee_flat"
+                           value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>"/>
+                    <input type="hidden" name="convenience_fee_limit"
+                           value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>"/>
                     <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getConvenienceFeeVariable(); ?>" />
-                    <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>" />
-                    <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>" />
+
+                    <?php if($Merchant->getFraudHighLimit() > 1) { ?>
+                        <input type="hidden" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit(); ?>" />
+                    <?php } ?>
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:45%; ">
                         <div class="legend">Payment Method: <?php echo $Merchant->getShortName(); ?></div>

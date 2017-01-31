@@ -45,15 +45,16 @@ class PaymentRow
     protected $card_exp_year;
 
     protected $check_account_name;
+    protected $check_account_bank_name;
     protected $check_account_number;
     protected $check_account_type;
     protected $check_routing_number;
     protected $check_type;
+
     protected $check_number;
-
     protected $integration_id;
-    protected $integration_remote_id;
 
+    protected $integration_remote_id;
     const SQL_SELECT = "
 SELECT pm.*,
 p.payee_first_name,
@@ -115,10 +116,12 @@ LEFT JOIN state st on st.short_code = p.payee_state
     public function getCheckAccountNumber() { return $this->check_account_number; }
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
+    public function getCheckAccountBank()   { return $this->check_account_bank_name; }
     public function getCheckNumber()        { return $this->check_number; }
-    public function getCheckType()          { return $this->check_type; }
 
+    public function getCheckType()          { return $this->check_type; }
     public function getIntegrationID()      { return $this->integration_id; }
+
     public function getIntegrationRemoteID(){ return $this->integration_remote_id; }
 
     public function setStatus($status)      { $this->status = $status; }
@@ -144,12 +147,12 @@ LEFT JOIN state st on st.short_code = p.payee_state
         self::insertOrUpdate($PaymentRow);
     }
 
+
     public static function update(PaymentRow $PaymentRow) {
         if(!$PaymentRow->id)
             throw new \InvalidArgumentException("Payment Row is missing an id");
         self::insertOrUpdate($PaymentRow);
     }
-
 
     public static function insertOrUpdate(PaymentRow $PaymentRow) {
         $values = array(

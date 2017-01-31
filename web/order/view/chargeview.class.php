@@ -142,6 +142,12 @@ class ChargeView extends AbstractView
                 }
             }
 
+
+            // TODO: If AJAX
+
+
+            // Else POST
+
             $this->setSessionMessage(
                 "<div class='info'>Success: " . $Transaction->getStatusMessage() . "</div>"
             );
@@ -184,7 +190,10 @@ class ChargeView extends AbstractView
 
         // Render Head Content
         $MerchantForm->renderHTMLHeadLinks();
-
+        $Merchant = $this->merchant;
+        $IntegrationRow = IntegrationRow::fetchByID($Merchant->getDefaultIntegrationID());
+        $Integration = $IntegrationRow->getIntegration();
+        $Integration->renderChargeFormHTMLHeadLinks();
     }
 
 }

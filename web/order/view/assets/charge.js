@@ -30,7 +30,35 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 if(!/^-?[0-9.]+$/.test(form.amount.value)) {
                     e.preventDefault();
+                    form.amount.focus();
+                } else if(form.fraud_high_limit && form.fraud_high_limit.value > 0.1 && form.fraud_high_limit.value < form.amount.value) {
+                    e.preventDefault();
+                    form.amount.focus();
+                    alert("Order amount must be below max value: " + form.fraud_high_limit.value);
+                } else {
+                    // Validation Success
                 }
+
+                var submitEvent = new CustomEvent('order:submit', {
+                    //detail: commandString,
+                    cancelable: true
+                });
+
+                form.dispatchEvent(submitEvent);
+                if(submitEvent.defaultPrevented) {
+                    console.info("Order Submit event was completed by custom handler");
+                    e.preventDefault();
+                    return;
+                }
+
+                if(
+                    form.getAttribute('method').toLowerCase() === 'ajax'
+                    || (form.ajax && form.ajax.value)
+                ) {
+                    throw new Error("TODO: Ajax");
+                }
+                // TODO check for ajax
+
             }
         }
     }
@@ -210,6 +238,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.card_exp_year.setAttribute('disabled', 'disabled');
 
                 form.check_account_name.removeAttribute('disabled');
+                form.check_account_bank_name.removeAttribute('disabled');
                 form.check_account_number.removeAttribute('disabled');
                 form.check_routing_number.removeAttribute('disabled');
                 form.check_account_type.removeAttribute('disabled');
@@ -234,6 +263,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.card_exp_year.removeAttribute('disabled');
 
                 form.check_account_name.setAttribute('disabled', 'disabled');
+                form.check_account_bank_name.setAttribute('disabled', 'disabled');
                 form.check_account_number.setAttribute('disabled', 'disabled');
                 form.check_routing_number.setAttribute('disabled', 'disabled');
                 form.check_account_type.setAttribute('disabled', 'disabled');

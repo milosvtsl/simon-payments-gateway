@@ -78,6 +78,7 @@ class OrderRow
     protected $card_track;
 
     protected $check_account_name;
+    protected $check_account_bank_name;
     protected $check_account_number;
     protected $check_account_type;
     protected $check_routing_number;
@@ -190,9 +191,10 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
     public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
-    public function getPayeeFirstName()     { return $this->payee_first_name; }
 
+    public function getPayeeFirstName()     { return $this->payee_first_name; }
     public function getPayeeLastName()      { return $this->payee_last_name; }
+    public function getPayeeFullName()      { return trim($this->payee_first_name . ' '. $this->payee_last_name); }
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
@@ -202,7 +204,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-    public function getCardHolderFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getCardHolderFullName() { return trim($this->customer_first_name . ' ' . $this->customer_last_name); }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
     public function getCardExpYear()        { return $this->card_exp_year; }
@@ -212,6 +214,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getCardTrack()          { return $this->card_track; }
     public function getCheckAccountName()   { return $this->check_account_name; }
     public function getCheckAccountNumber() { return $this->check_account_number; }
+    public function getCheckAccountBank()   { return $this->check_account_bank_name; }
 
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
@@ -409,6 +412,7 @@ SQL;
             ':card_number' => self::sanitizeNumber($OrderRow->card_number),
             ':card_type' => $OrderRow->card_type,
             ':check_account_name' => $OrderRow->check_account_name,
+            ':check_account_bank_name' => $OrderRow->check_account_bank_name,
             ':check_account_type' => $OrderRow->check_account_type,
             ':check_account_number' => self::sanitizeNumber($OrderRow->check_account_number),
             ':check_routing_number' => $OrderRow->check_routing_number,
@@ -535,6 +539,7 @@ SQL;
 
         } else if(strtolower($post['entry_mode']) === 'check') {
             $OrderRow->check_account_name = $post['check_account_name']  ?: $PaymentInfo->getCheckAccountName();
+            $OrderRow->check_account_bank_name = @$post['check_account_bank_name']  ?: $PaymentInfo->getCheckAccountBank();
             $OrderRow->check_account_number = $post['check_account_number'] ?: $PaymentInfo->getCheckAccountNumber();
             $OrderRow->check_account_type = $post['check_account_type'] ?: $PaymentInfo->getCheckAccountType();
             $OrderRow->check_routing_number = $post['check_routing_number'] ?: $PaymentInfo->getCheckRoutingNumber();
