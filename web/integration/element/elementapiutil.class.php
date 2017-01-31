@@ -139,7 +139,7 @@ XML;
                 'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
                 'ExpirationMonth' => $OrderRow->getCardExpMonth(),
                 'ExpirationYear' => $OrderRow->getCardExpYear(),
-                'CardholderName' => $OrderRow->getCardHolderFullName(),
+                'CardholderName' => $OrderRow->getPayeeFullName(),
                 'CVV' => @$post['card_cvv2'],
                 'CAVV' => '',
                 'XID' => '',
@@ -187,7 +187,7 @@ XML;
                 'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
             ),
             'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
+                'BillingName' => $OrderRow->getPayeeFullName(),
                 'BillingAddress1' => $OrderRow->getPayeeAddress(),
                 'BillingAddress2' => $OrderRow->getPayeeAddress2(),
                 'BillingCity' => $OrderRow->getPayeeCity(),
@@ -247,7 +247,7 @@ XML;
                 'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
                 'ExpirationMonth' => $OrderRow->getCardExpMonth(),
                 'ExpirationYear' => $OrderRow->getCardExpYear(),
-                'CardholderName' => $OrderRow->getCardHolderFullName(),
+                'CardholderName' => $OrderRow->getPayeeFullName(),
                 'CVV' => @$post['card_cvv2'],
                 'CAVV' => '',
                 'XID' => '',
@@ -295,7 +295,7 @@ XML;
                 'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
             ),
             'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
+                'BillingName' => $OrderRow->getPayeeFullName(),
                 'BillingAddress1' => $OrderRow->getPayeeAddress(),
                 'BillingAddress2' => $OrderRow->getPayeeAddress2(),
                 'BillingCity' => $OrderRow->getPayeeCity(),
@@ -353,7 +353,7 @@ XML;
 //                'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
 //                'ExpirationMonth' => $OrderRow->getCardExpMonth(),
 //                'ExpirationYear' => $OrderRow->getCardExpYear(),
-//                'CardholderName' => $OrderRow->getCardHolderFullName(),
+//                'CardholderName' => $OrderRow->getPayeeFullName(),
 //                'CVV' => @$post['card_cvv2'],
 //                'CAVV' => '',
 //                'XID' => '',
@@ -542,7 +542,7 @@ XML;
                 'BirthDate' => '',
             ),
             'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
+                'BillingName' => $OrderRow->getPayeeFullName(),
                 'BillingAddress1' => $OrderRow->getPayeeAddress(),
                 'BillingAddress2' => $OrderRow->getPayeeAddress2(),
                 'BillingCity' => $OrderRow->getPayeeCity(),

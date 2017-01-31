@@ -190,7 +190,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getCustomerID()         { return $this->customer_id; }
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
-    public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getCustomerFullName()   { return trim($this->customer_first_name . ' ' . $this->customer_last_name); }
 
     public function getPayeeFirstName()     { return $this->payee_first_name; }
     public function getPayeeLastName()      { return $this->payee_last_name; }
@@ -204,7 +204,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-    public function getCardHolderFullName() { return trim($this->customer_first_name . ' ' . $this->customer_last_name); }
+
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
     public function getCardExpYear()        { return $this->card_exp_year; }
@@ -212,20 +212,19 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
     public function getCardTrack()          { return $this->card_track; }
+
     public function getCheckAccountName()   { return $this->check_account_name; }
     public function getCheckAccountNumber() { return $this->check_account_number; }
     public function getCheckAccountBank()   { return $this->check_account_bank_name; }
-
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
     public function getCheckNumber()        { return $this->check_number; }
     public function getCheckType()          { return $this->check_type; }
-    public function getMerchantID()         { return $this->merchant_id; }
 
+    public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
     public function getFormID()             { return $this->form_id; }
-//    public function setFormID($form_id)     { $this->form_id = $form_id; }
     public function getOrderItemID()        { return $this->order_item_id; }
 
     public function getConvenienceFee()     { return $this->convenience_fee; }

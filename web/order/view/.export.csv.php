@@ -52,7 +52,7 @@ if(in_array(strtolower(@$params['action']), array('export', 'export-data'))) {
             ', ', $Order->getDate(),
             ', ', str_replace(',', ';', $Order->getInvoiceNumber()),
             ', ', str_replace(',', ';', $Order->getCustomerID()),
-            ', ', str_replace(',', ';', $Order->getCardHolderFullName()),
+            ', ', str_replace(',', ';', $Order->getPayeeFullName()),
             '';
     }
 }

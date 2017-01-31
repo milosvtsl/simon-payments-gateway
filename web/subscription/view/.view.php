@@ -133,7 +133,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                 <?php if ($Subscription->getCardNumber()) { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <div class="legend">Card Holder: <?php echo $Subscription->getCardHolderFullName(); ?></div>
+                        <div class="legend">Card Holder: <?php echo $Subscription->getPayeeFullName(); ?></div>
                         <table class="table-transaction-info themed cell-bsubscriptions small" style="width: 94%">
                             <tbody>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

@@ -35,9 +35,9 @@ class CancelEmail extends \PHPMailer
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
 
-        $this->addAddress($Order->getPayeeEmail(), $Order->getCardHolderFullName());
-        $this->addBCC($Merchant->getMainEmailID(), $Order->getCardHolderFullName());
-        $this->addBCC("ari@govpaynetwork.com", $Order->getCardHolderFullName());
+        $this->addAddress($Order->getPayeeEmail(), $Order->getPayeeFullName());
+        $this->addBCC($Merchant->getMainEmailID(), $Order->getPayeeFullName());
+        $this->addBCC("ari@govpaynetwork.com", $Order->getPayeeFullName());
 
         $this->Subject = "Subscription Canceled: " . $Merchant->getName();
 
@@ -83,7 +83,7 @@ HTML;
 
 
 Card Holder Information
-Full Name:      {$Order->getCardHolderFullName()}
+Full Name:      {$Order->getPayeeFullName()}
 Number:         {$Order->getCardNumber()}
 Type:           {$Order->getCardType()}
 

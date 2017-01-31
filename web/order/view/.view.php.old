@@ -124,7 +124,7 @@ $Theme->printHTMLMenu('order-view', $action_url);
                 <?php if ($Order->getCardNumber()) { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <div class="legend">Card Holder: <?php echo $Order->getCardHolderFullName(); ?></div>
+                        <div class="legend">Card Holder: <?php echo $Order->getPayeeFullName(); ?></div>
                         <table class="table-transaction-info themed cell-borders small" style="width: 94%">
                             <tbody>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

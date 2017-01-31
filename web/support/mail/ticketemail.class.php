@@ -39,7 +39,7 @@ class TicketEmail extends \PHPMailer
         if($SupportTicket->getOrderItemID()) {
             $Order = OrderRow::fetchByID($SupportTicket->getOrderItemID());
             $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
-            $this->addAddress($SupportTicket->getReplyToEmail(), $Order->getCardHolderFullName());
+            $this->addAddress($SupportTicket->getReplyToEmail(), $Order->getPayeeFullName());
             $this->addBCC($Merchant->getMainEmailID());
 
         } else {
