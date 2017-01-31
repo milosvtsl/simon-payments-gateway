@@ -192,7 +192,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-    public function getCardHolderFullName() { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getCardHolderFullName() { return $this->getCustomerFullName(); }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
 
