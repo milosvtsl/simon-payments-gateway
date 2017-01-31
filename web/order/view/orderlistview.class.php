@@ -322,7 +322,7 @@ class OrderListView extends AbstractListView {
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
 									<td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
 									<td ><?php echo date("M dS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
-									<td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
+									<td style="max-width: 8em;"><?php echo $Order->getPayeeFullName() ?: $Order->getPayeeFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                                     <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
                                     <td style=" font-weight: bold;"><?php echo number_format($Order->getAmount() - $Order->getTotalReturnedAmount(), 2); ?></td>
 									<td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>

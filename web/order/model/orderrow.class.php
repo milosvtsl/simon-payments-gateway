@@ -76,6 +76,7 @@ class OrderRow
     protected $card_track;
 
     protected $check_account_name;
+    protected $check_account_bank_name;
     protected $check_account_number;
     protected $check_account_type;
     protected $check_routing_number;
@@ -118,6 +119,9 @@ class OrderRow
     protected $subscription_id;
     protected $batch_id;
     protected $form_id;
+
+    // Table order_field
+    protected $order_fields;
 
     // Table integration
     protected $integration_name;
@@ -175,6 +179,11 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
     public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+
+    public function getPayeeFirstName()     { return $this->payee_first_name; }
+    public function getPayeeLastName()      { return $this->payee_last_name; }
+    public function getPayeeFullName()      { return trim($this->payee_first_name . ' '. $this->payee_last_name); }
+
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
