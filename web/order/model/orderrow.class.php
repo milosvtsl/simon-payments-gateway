@@ -178,7 +178,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCustomerID()         { return $this->customer_id; }
     public function getCustomerFirstName()  { return $this->customer_first_name; }
     public function getCustomerLastName()   { return $this->customer_last_name; }
-    public function getCustomerFullName()   { return $this->customer_first_name . ' ' . $this->customer_last_name; }
+    public function getCustomerFullName()   { return trim($this->customer_first_name . ' ' . $this->customer_last_name); }
 
     public function getPayeeFirstName()     { return $this->payee_first_name; }
     public function getPayeeLastName()      { return $this->payee_last_name; }
