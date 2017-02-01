@@ -7,14 +7,11 @@
  */
 namespace Order\View;
 
-use Subscription\Model\SubscriptionRow;
-use System\Config\DBConfig;
 use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Order\PDF\ReceiptPDF;
-use Order\Model\TransactionRow;
+use Subscription\Model\SubscriptionRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -101,7 +98,7 @@ class OrderView extends AbstractView
                     $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -113,7 +110,7 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -126,7 +123,7 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -138,7 +135,7 @@ class OrderView extends AbstractView
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
 
                     $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
+                        "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
                     die();
@@ -184,60 +181,141 @@ class OrderView extends AbstractView
 
                 <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
 
-                <div class="page-buttons order-page-buttons hide-on-print">
-                    <button onclick="window.print(); return false;" class="page-button page-button-print">
-                        <div class="app-button large app-button-print" ></div>
-                    </button>
-                    <a href="<?php echo $action_url_pdf; ?>">
-                        <button class="page-button page-button-download">
-                            <div class="app-button large app-button-download" ></div>
-                        </button>
-                    </a>
-                </div>
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-                    <fieldset class="inline-block-on-layout-full" style="min-width: 48%;">
-                        <div class="legend">Receipt</div>
-                        <table class="table-transaction-info themed small" style="width: 100%;">
-                            <tbody>
-                            <?php $odd = true; ?>
+                    <fieldset style="margin: 1em;">
 
-                            <?php if ($Order->getConvenienceFee()) { ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Subtotal</td>
-                                    <td class="value">$<?php echo $Order->getAmount(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Fee</td>
-                                    <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
-                                </tr>
-                            <?php } ?>
 
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Total</td>
-                                    <td class="value">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
-                                </tr>
+                        <div class="page-buttons order-page-buttons hide-on-print">
+                            <a onclick="window.print(); return false;" class="page-button page-button-print">
+                                <div class="app-button large app-button-print" ></div>
+                                Print
+                            </a>
+                            <a href="<?php echo $action_url_pdf; ?>" class="page-button page-button-download">
+                                <div class="app-button large app-button-download" ></div>
+                                Download
+                            </a>
+                            <a onclick="window.void(); return false;" class="page-button page-button-void disabled">
+                                <div class="app-button large app-button-void" ></div>
+                                Void
+                            </a>
+                            <a onclick="window.refund(); return false;" class="page-button page-button-refund disabled">
+                                <div class="app-button large app-button-refund" ></div>
+                                Return
+                            </a>
+                        </div>
 
-                            <?php if ($Order->getTotalReturnedAmount()) { ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Total Returned</td>
-                                    <td class="value" style="color: red;">$<?php echo $Order->getTotalReturnedAmount(); ?></td>
-                                </tr>
-                            <?php } ?>
+                        <hr/>
 
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Date</td>
-                                    <td class="value"><?php echo date("F jS Y", strtotime($Order->getDate()) + $offset); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Time</td>
-                                    <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate()) + $offset); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Time Zone</td>
-                                    <td class="value"><?php echo str_replace('_', '', $SessionUser->getTimeZone()); ?></td>
+                        <div style="text-align: center; ">
+                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 47%; display: block; vertical-align: top; text-align: left;">
+                                <tbody>
+                                <tr>
+                                    <td colspan="2" class="legend">
+                                        Customer: <?php echo $Order->getCustomerFullName() ?: $Order->getPayeeFullName(); ?>
+                                    </td>
                                 </tr>
 
+                                <!-- Customer Information -->
+
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Payee Full Name</td>
+                                    <td class="value"><?php echo $Order->getPayeeFullName(); ?></td>
+                                </tr>
+
+                                <?php if($Order->getPayeeAddress()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Address</td>
+                                        <td class="value"><?php echo $Order->getPayeeAddress(); ?></td>
+                                    </tr>
+                                <?php }  ?>
+
+                                <?php if($Order->getPayeeCity()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">City</td>
+                                        <td class="value"><?php echo $Order->getPayeeCity(); ?></td>
+                                    </tr>
+                                <?php }  ?>
+
+                                <?php if($Order->getPayeeState()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">State</td>
+                                        <td class="value"><?php echo $Order->getPayeeState(); ?></td>
+                                    </tr>
+                                <?php }  ?>
+
+                                <?php if($Order->getPayeeZipCode()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Zip Code</td>
+                                        <td class="value"><?php echo $Order->getPayeeZipCode(); ?></td>
+                                    </tr>
+                                <?php }  ?>
+
+                                <?php if($Order->getPayeePhone()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Phone</td>
+                                        <td class="value"><?php echo $Order->getPayeePhone(); ?></td>
+                                    </tr>
+                                <?php }  ?>
+
+                                <?php if($Order->getPayeeEmail()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Email</td>
+                                        <td class="value"><?php echo $Order->getPayeeEmail(); ?></td>
+                                    </tr>
+                                <?php }  ?>
+
+                                <?php if ($Order->getCardNumber()) { ?>
+
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Credit Card</td>
+                                        <td class="value"><?php echo $Order->getCardNumber() ? substr($Order->getCardNumber(), -16) : 'N/A'; ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Card Type</td>
+                                        <td class="value"><?php echo $Order->getCardType(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Card Exp</td>
+                                        <td class="value"><?php echo $Order->getCardExpMonth(), '/', $Order->getCardExpYear(); ?></td>
+                                    </tr>
+
+                                <?php } else  { ?>
+
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Type</td>
+                                        <td class="value"><?php echo $Order->getCheckType(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Account</td>
+                                        <td class="value"><?php echo $Order->getCheckAccountNumber(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Routing</td>
+                                        <td class="value"><?php echo $Order->getCheckRoutingNumber(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Account Type</td>
+                                        <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Check Num</td>
+                                        <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Method</td>
+                                        <td class="value"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                                    </tr>
+                                <?php } ?>
+
+                                <!-- Built-in Order Fields -->
+
+                                <?php if($Order->getUsername()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">User ID</td>
+                                        <td class="value"><?php echo $Order->getUsername(); ?></td>
+                                    </tr>
+                                <?php }  ?>
                                 <?php if($Order->getInvoiceNumber()) { ?>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                         <td class="name" style="width: 30%;">Invoice</td>
@@ -250,83 +328,34 @@ class OrderView extends AbstractView
                                         <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                                     </tr>
                                 <?php } ?>
-                                <?php if ($Order->getPayeeEmail()) { ?>
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Email</td>
-                                        <td class="value"><a href="mailto:<?php echo $Order->getPayeeEmail() ?>"><?php echo $Order->getPayeeEmail() ?></a></td>
-                                    </tr>
-                                <?php }  ?>
-                            </tbody>
-                        </table>
-                    </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="min-width: 48%;">
-                        <div class="legend">Customer: <?php echo $Order->getCustomerFullName(); ?></div>
-                        <table class="table-transaction-info themed small" style="width: 100%;">
-                            <tbody>
 
-                    <?php if ($Order->getCardNumber()) { ?>
 
-                                <?php if($Order->getUsername()) { ?>
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">User ID</td>
-                                        <td class="value"><?php echo $Order->getUsername(); ?></td>
-                                    </tr>
-                                <?php }  ?>
+                                <!-- Reference Number -->
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Credit Card</td>
-                                    <td class="value"><?php echo $Order->getCardNumber() ? substr($Order->getCardNumber(), -16) : 'N/A'; ?></td>
+                                    <td colspan="2" class="name" style="width: 30%;">Reference Number</td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Card Type</td>
-                                    <td class="value"><?php echo $Order->getCardType(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Status</td>
-                                    <td class="value"><?php echo $Order->getStatus(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Method</td>
-                                    <td class="value"><?php echo ucfirst($Order->getEntryMode()); ?></td>
+                                    <td colspan="2"><?php echo $Order->getReferenceNumber(); ?></td>
                                 </tr>
 
-                    <?php } else  { ?>
+                                </tbody>
+                            </table>
 
-                                <?php if($Order->getUsername()) { ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">User&nbsp;ID</td>
-                                    <td class="value"><?php echo $Order->getUsername(); ?></td>
-                                </tr>
-                                <?php }  ?>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Type</td>
-                                    <td class="value"><?php echo $Order->getCheckType(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Account</td>
-                                    <td class="value"><?php echo $Order->getCheckAccountNumber(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Routing</td>
-                                    <td class="value"><?php echo $Order->getCheckRoutingNumber(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Account Type</td>
-                                    <td class="value"><?php echo $Order->getCheckAccountType(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Check Num</td>
-                                    <td class="value"><?php echo $Order->getCheckNumber(); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Method</td>
-                                    <td class="value"><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                                </tr>
-                    <?php } ?>
 
+                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 48%; display: block; vertical-align: top; text-align: left;">
+                                <tbody>
+                                <tr>
+                                    <td colspan="2" class="legend">
+                                        Merchant: <?php echo $Merchant->getName(); ?>
+                                    </td>
+                                </tr>
+                                <?php $odd = true; ?>
+
+                                <!-- Merchant Location Information -->
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Merchant</td>
-                                    <td class="value"><?php echo $Merchant->getName(); ?></td>
+                                    <td class="name" style="width: 30%;">Address</td>
+                                    <td class="value"><?php echo $Merchant->getAddress(), $Merchant->getAddress2(); ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">City</td>
@@ -345,8 +374,51 @@ class OrderView extends AbstractView
                                     <td class="value"><?php echo $Merchant->getTelephone(); ?></td>
                                 </tr>
 
-                            </tbody>
-                        </table>
+
+                                <!-- Date and Time -->
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Date</td>
+                                    <td class="value"><?php echo date("F jS, Y", strtotime($Order->getDate()) + $offset); ?></td>
+                                </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Time</td>
+                                    <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate()) + $offset); ?></td>
+                                </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%;">Time Zone</td>
+                                    <td class="value"><?php echo str_replace('_', '', $SessionUser->getTimeZone()); ?></td>
+                                </tr>
+
+
+
+                                <!-- Totals and Fees -->
+                                <?php if ($Order->getConvenienceFee()) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Subtotal</td>
+                                        <td class="value">$<?php echo $Order->getAmount(); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Conv. Fee</td>
+                                        <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
+                                    </tr>
+                                <?php } ?>
+
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name" style="width: 30%; font-size: larger;">Total</td>
+                                    <td class="value" style="font-size: larger;">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
+                                </tr>
+
+                                <?php if ($Order->getTotalReturnedAmount() > 0) { ?>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Total Returned</td>
+                                        <td class="value" style="color: red;">$<?php echo $Order->getTotalReturnedAmount(); ?></td>
+                                    </tr>
+                                <?php } ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+
                     </fieldset>
 
                     <fieldset class="show-on-print" style="clear: both;">
@@ -358,33 +430,33 @@ class OrderView extends AbstractView
                     </fieldset>
 
                     <?php if ($Order->getSubscriptionCount() > 0) { ?>
-                    <fieldset class="hide-on-print">
-                        <div class="legend">Subscription Status</div>
-                        <table class="table-results themed small cell-borders">
-                            <tr>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Frequency</th>
-                                <th>Next Recurrence</th>
-                                <th>Perform</th>
-                            </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td>$<?php echo $Order->getSubscriptionAmount(), ' (', $Order->getSubscriptionCount(),')'; ?></td>
-                                <td><?php echo $Order->getSubscriptionStatus(), $Order->getSubscriptionMessage() ? ': ' : '', $Order->getSubscriptionMessage(); ?></td>
-                                <td><?php echo $Order->getSubscriptionFrequency(); ?></td>
-                                <td><?php echo date("Y M j g:i A", strtotime($Order->getSubscriptionNextDate()) + $offset); ?></td>
-                                <td>
-                                    <?php
-                                    $disabled = $Order->getSubscriptionStatus() == 'Active' ? '' : " disabled='disabled'";
-                                    echo "<input name='action' type='submit' value='Cancel'{$disabled}/>";
-                                    ?>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
+                        <fieldset class="hide-on-print">
+                            <div class="legend">Subscription Status</div>
+                            <table class="table-results themed small cell-borders">
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Frequency</th>
+                                    <th>Next Recurrence</th>
+                                    <th>Perform</th>
+                                </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td>$<?php echo $Order->getSubscriptionAmount(), ' (', $Order->getSubscriptionCount(),')'; ?></td>
+                                    <td><?php echo $Order->getSubscriptionStatus(), $Order->getSubscriptionMessage() ? ': ' : '', $Order->getSubscriptionMessage(); ?></td>
+                                    <td><?php echo $Order->getSubscriptionFrequency(); ?></td>
+                                    <td><?php echo date("Y M j g:i A", strtotime($Order->getSubscriptionNextDate()) + $offset); ?></td>
+                                    <td>
+                                        <?php
+                                        $disabled = $Order->getSubscriptionStatus() == 'Active' ? '' : " disabled='disabled'";
+                                        echo "<input name='action' type='submit' value='Cancel'{$disabled}/>";
+                                        ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
                     <?php } ?>
 
-                    <fieldset class="hide-on-print" style="width: 98%;">
+                    <fieldset class="hide-on-print">
                         <div class="legend">Transaction History</div>
                         <table class="table-results themed small cell-borders" style="width: 100%;">
                             <tr>
@@ -420,15 +492,19 @@ class OrderView extends AbstractView
                                             case 'Authorized':
                                                 if($Order->getStatus() === 'Authorized') {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "<input name='action' type='submit' value='Void'{$disabled} onclick='return confirmOrderViewAction(\"Void\", event);'/>";
+                                                    echo <<<HTML
+                                        <input name='action' type='submit' value='Void'`{$disabled} onclick='return confirmOrderViewAction("Void", event);'/>
+HTML;
                                                 }
                                                 break;
 
                                             case 'Settled':
                                                 if($Order->getStatus() === 'Settled' && !$Order->getTotalReturnedAmount()) {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo "\n\t\t\t<input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction(\"Return\", event);'/>";
-                                                    echo "\n\t\t\t<input name='partial_return_amount' type='hidden' />";
+                                                    echo <<<HTML
+                                        <input name='partial_return_amount' size="10" placeholder="Return Amount" />
+                                        <input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction("Return", event);'/>
+HTML;
                                                 }
                                                 break;
                                         }
@@ -457,7 +533,7 @@ class OrderView extends AbstractView
             function confirmOrderViewAction(action, e) {
                 switch(action.toLowerCase()) {
                     case 'return':
-                        e.target.form.partial_return_amount.value = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank for a FULL RETURN");
+                        e.target.form.partial_return_amount.value = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank to return the FULL AMOUNT");
                         break;
                 }
 

@@ -44,12 +44,23 @@ $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
 echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$stats = $MerchantIdentity->performTransactionQuery($SessionUser, array('status' => 'Settled'),
-    function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-        return NULL;
-    }
-);
-echo "\nSearch Returned: ", $stats['total'];
+try {
+    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+        array(
+            'status' => 'Settled',
+            'reverse' => 'True',
+            'date_start' => date('Y-m-d', time() - 24*60*60*1),
+            'date_end' => date('Y-m-d', time()),
+        ),
+        function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
+            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+            return NULL;
+        }
+    );
+    echo "\nSearch Returned: ", $stats['total'];
+} catch (\Exception $ex) {
+    echo $ex;
+}
 
 
 // Test API
