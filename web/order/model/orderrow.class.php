@@ -463,8 +463,8 @@ SQL;
             throw new IntegrationException("Invalid Amount");
         if(!is_numeric($post['amount']))
             throw new IntegrationException("Invalid Numeric Amount");
-        if($post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT)
-            throw new IntegrationException("Invalid Max Transaction Amount");
+        if((SiteConfig::$MAX_TRANSACTION_AMOUNT) > 1 && ($post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT))
+            throw new IntegrationException("Site Max Transaction Amount: " . SiteConfig::$MAX_TRANSACTION_AMOUNT);
 
 //        $OrderRow->date = ;
         $OrderRow->entry_mode = $post['entry_mode'];
