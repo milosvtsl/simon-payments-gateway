@@ -157,7 +157,9 @@ $tests = array(
 
 // Don't run long tests on anything but dev
 if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
-    $tests = array();
+    $tests = array(
+        array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
+    );
 
 $batch_id = null;
 
