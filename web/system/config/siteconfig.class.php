@@ -23,7 +23,7 @@ class SiteConfig
     static $EMAIL_USERNAME;
     static $EMAIL_PASSWORD;
     static $EMAIL_SERVER_PORT = 587;
-    static $EMAIL_FROM_ADDRESS = "admin@simonpayments.com";
+    static $EMAIL_FROM_ADDRESS = "support@simonpayments.com";
     static $EMAIL_FROM_TITLE = "Simon Payments Gateway";
     static $MAX_TRANSACTION_AMOUNT = 20000;
     static $EMAIL_SMTP_AUTH = false;
