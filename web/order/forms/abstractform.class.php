@@ -9,6 +9,7 @@
 namespace Order\Forms;
 
 
+use Integration\Model\AbstractMerchantIdentity;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
@@ -16,19 +17,21 @@ use Order\Model\OrderRow;
 abstract class AbstractForm
 {
     /**
-     * Render custom order form HTML 
+     * Render custom order form HTML
      * @param MerchantFormRow $MerchantForm
-     * @param MerchantRow $Merchant
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param array $params
      * @return mixed
      */
-    abstract function renderHTML(MerchantFormRow $MerchantForm, MerchantRow $Merchant, Array $params);
+    abstract function renderHTML(MerchantFormRow $MerchantForm, AbstractMerchantIdentity $MerchantIdentity, Array $params);
 
 
     /**
      * Render HTML Head content
+     * @param MerchantFormRow $MerchantForm
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    abstract function renderHTMLHeadLinks();
+    abstract function renderHTMLHeadLinks(MerchantFormRow $MerchantForm, AbstractMerchantIdentity $MerchantIdentity);
     
     /**
      * Process form submission

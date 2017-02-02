@@ -401,13 +401,13 @@ LEFT JOIN state st on st.short_code = p.payee_state
         PayeeRow::insert($TestPayeeRow);
         $TestPayeeRow = PayeeRow::fetchByUID($TestPayeeRow->getUID());
 
-        $TestPaymentRow = self::createPaymentFromPost($TestPayeeRow, $post_cc);
+        $TestPaymentRow = self::createPaymentFromPost($post_cc, $TestPayeeRow);
         self::insertOrUpdate($TestPaymentRow);
         $TestPaymentRow = PaymentRow::fetchByUID($TestPaymentRow->getUID());
         $TestPaymentRow->getType() === 'Visa' || error_log(__FUNCTION__ . ": getType failed");
         self::delete($TestPaymentRow);
 
-        $TestPaymentRow = self::createPaymentFromPost($TestPayeeRow, $post_check);
+        $TestPaymentRow = self::createPaymentFromPost($post_check, $TestPayeeRow);
         self::insertOrUpdate($TestPaymentRow);
         $TestPaymentRow = PaymentRow::fetchByUID($TestPaymentRow->getUID());
         $TestPaymentRow->getType() === 'Check' || error_log(__FUNCTION__ . ": getType failed");
@@ -417,6 +417,6 @@ LEFT JOIN state st on st.short_code = p.payee_state
     }
 }
 
-if(isset($argv) && @$argv[1] === 'test')
+if(isset($argv) && in_array(@$argv[1], array('test-payment', 'test-all')))
     PaymentRow::unitTest();
 

@@ -690,6 +690,6 @@ SQL;
     }
 }
 
-if(isset($argv) && @$argv[1] === 'test')
+if(isset($argv) && in_array(@$argv[1], array('test-order', 'test-all')))
     OrderRow::unitTest();
 

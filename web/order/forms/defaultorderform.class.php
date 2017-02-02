@@ -7,6 +7,7 @@
  */
 namespace Order\Forms;
 
+use Integration\Model\AbstractMerchantIdentity;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
@@ -19,17 +20,35 @@ class DefaultOrderForm extends AbstractForm
 
     /**
      * Render HTML Head content
+     * @param MerchantFormRow $MerchantForm
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    function renderHTMLHeadLinks() {
+    function renderHTMLHeadLinks(MerchantFormRow $MerchantForm, AbstractMerchantIdentity $MerchantIdentity)
+    {
+
         echo <<<HEAD
         <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
         <script src="order/view/assets/charge.js"></script>
         <link href='order/forms/assets/default-order-form.css' type='text/css' rel='stylesheet' />
 HEAD;
+        $IntegrationRow = $MerchantIdentity->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
+        $Integration->renderChargeFormHTMLHeadLinks();
+
     }
 
-    function renderHTML(MerchantFormRow $MerchantForm, MerchantRow $Merchant, Array $params)
+    /**
+     * Render custom order form HTML
+     * @param MerchantFormRow $MerchantForm
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $params
+     * @return mixed
+     */
+    function renderHTML(MerchantFormRow $MerchantForm, AbstractMerchantIdentity $MerchantIdentity, Array $params)
     {
+        $Merchant = $MerchantIdentity->getMerchantRow();
+        $IntegrationRow = $MerchantIdentity->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
         // Render Order Form
         
         $odd = false;
@@ -51,11 +70,10 @@ HEAD;
                     <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>"/>
                     <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>"/>
 
-                    <input type="hidden" name="convenience_fee_flat"
-                           value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>"/>
-                    <input type="hidden" name="convenience_fee_limit"
-                           value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>"/>
+                    <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>"/>
+                    <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>"/>
                     <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getConvenienceFeeVariable(); ?>" />
+                    <input type="hidden" name="integration_uid" value="<?php echo $IntegrationRow->getUID(); ?>" />
 
                     <?php if($Merchant->getFraudHighLimit() > 1) { ?>
                         <input type="hidden" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit(); ?>" />
@@ -221,9 +239,13 @@ HEAD;
                     <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:45%; min-height: 21em;">
                         <div class="legend">e-Check Information</div>
                         <table class="table-transaction-charge themed">
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                                <td class="name">Account Name</td>
-                                <td><input type="text" name="check_account_name" placeholder="" required /></td>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Name on Account</td>
+                                <td><input type="text" name="check_account_name" placeholder="" /></td>
+                            </tr>
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Bank Name</td>
+                                <td><input type="text" name="check_account_bank_name" placeholder="" /></td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">Account Type</td>

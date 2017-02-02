@@ -34,7 +34,7 @@ class ResetPasswordEmail extends \PHPMailer
 
 
         $this->addAddress($User->getEmail(), $User->getFullName());
-        $this->addBCC("ari@govpaynetwork.com", $User->getFullName());
+        $this->addBCC("support@simonpayments.com", $User->getFullName());
 
         $this->Subject = "Reset your password";
 

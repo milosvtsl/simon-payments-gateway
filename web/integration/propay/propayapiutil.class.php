@@ -60,6 +60,7 @@ class ProPayAPIUtil {
             $response = curl_error($ch);
             if($response)
                 trigger_error($response);
+
             $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
         } else {
 

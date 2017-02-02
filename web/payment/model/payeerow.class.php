@@ -236,6 +236,6 @@ LEFT JOIN state st on st.short_code = p.payee_state
     }
 }
 
-if(isset($argv) && @$argv[1] === 'test')
+if(isset($argv) && in_array(@$argv[1], array('test-payee', 'test-all')))
     PayeeRow::unitTest();
 

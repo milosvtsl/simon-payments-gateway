@@ -7,6 +7,7 @@
  */
 namespace Merchant\Model;
 
+use Integration\Model\AbstractMerchantIdentity;
 use Order\Forms\AbstractForm;
 use Order\Forms\SimpleOrderForm;
 use Order\Model\OrderRow;
@@ -213,14 +214,14 @@ FROM merchant_form mf
         return $Template;        
     }
 
-    public function renderHTML(MerchantRow $Merchant, Array $params) {
+    public function renderHTML(AbstractMerchantIdentity $Merchant, Array $params) {
         $Template = $this->getOrderFormTemplate();
         $Template->renderHTML($this, $Merchant, $params);
     }
 
-    public function renderHTMLHeadLinks() {
+    public function renderHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
         $Template = $this->getOrderFormTemplate();
-        $Template->renderHTMLHeadLinks();
+        $Template->renderHTMLHeadLinks($this, $MerchantIdentity);
     }
 
 
