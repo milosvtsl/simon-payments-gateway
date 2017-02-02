@@ -45,7 +45,7 @@ class TicketEmail extends \PHPMailer
         } else {
             $this->addAddress($SupportTicket->getReplyToEmail());
         }
-        $this->addBCC("ari@govpaynetwork.com");
+        $this->addBCC("support@simonpayments.com");
 
         $this->Subject = "Support Ticket: " . $SupportTicket->getSubject();
 

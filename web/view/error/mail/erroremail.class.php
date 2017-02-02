@@ -34,7 +34,7 @@ class ErrorEmail extends \PHPMailer
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
 
 
-        $this->addBCC("ari@govpaynetwork.com", "Debug User");
+        $this->addBCC("support@simonpayments.com", "Debug User");
 
         $this->Subject = "Error: " . $Ex->getMessage();
 
