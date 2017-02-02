@@ -24,6 +24,7 @@ session_start();
 
 $SessionManager = new \User\Session\SessionManager();
 //$SessionUser = $SessionManager->getSessionUser();
+
 if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die();

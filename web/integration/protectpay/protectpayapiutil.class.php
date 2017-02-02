@@ -5,7 +5,7 @@
  * Date: 9/21/2016
  * Time: 7:29 PM
  */
-namespace Integration\ProPay;
+namespace Integration\ProtectPay;
 
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
@@ -13,7 +13,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
-class ProPayAPIUtil {
+class ProtectPayAPIUtil {
 
     //Change this URL to point to Production by changing it to https://api.propay.com/... instead of https://xmltestapi.propay.com/....
     const POST_URL_PAYERS = "/ProtectPay/Payers/"; // https://xmltestapi.propay.com
@@ -76,8 +76,9 @@ class ProPayAPIUtil {
         return $response;
     }
 
-    public function prepareCreditCardSaleRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
+
+    public function prepareSaleRequest(
+        ProtectPayMerchantIdentity $MerchantIdentity,
         TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
@@ -85,6 +86,8 @@ class ProPayAPIUtil {
         $Action = 'CreditCardSale';
         if(@$post['pin'])
             $Action = 'DebitCardSale';
+
+        // todo: checks
 
         $TransactionAmount = number_format($OrderRow->getAmount(), 2, '.', '');
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
@@ -183,8 +186,9 @@ class ProPayAPIUtil {
 
         return $request;
     }
+
     public function prepareCreditCardReversalRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
+        ProtectPayMerchantIdentity $MerchantIdentity,
         TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
@@ -291,8 +295,9 @@ class ProPayAPIUtil {
         return $request;
     }
 
+
     public function prepareCreditCardReturnRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
+        ProtectPayMerchantIdentity $MerchantIdentity,
         OrderRow $OrderRow,
         TransactionRow $AuthorizedTransaction,
         TransactionRow $ReturnTransaction,
@@ -393,7 +398,7 @@ class ProPayAPIUtil {
 
 
     public function prepareCreditCardVoidRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
+        ProtectPayMerchantIdentity $MerchantIdentity,
         OrderRow $OrderRow,
         TransactionRow $AuthorizedTransaction,
         Array $post)
@@ -448,9 +453,8 @@ class ProPayAPIUtil {
         return $request;
     }
 
-
     function prepareHealthCheckRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
+        ProtectPayMerchantIdentity $MerchantIdentity,
         Array $post
     ) {
 
@@ -496,7 +500,7 @@ SOAP;
     }
 
     function prepareTransactionQueryRequest(
-        ProPayMerchantIdentity $MerchantIdentity,
+        ProtectPayMerchantIdentity $MerchantIdentity,
         Array $post
     ) {
 

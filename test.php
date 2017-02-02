@@ -6,6 +6,9 @@
  * Time: 10:47 PM
  */
 
+if(!isset($argv))
+    die("Console Only");
+
 chdir(__DIR__ . '/web');
 
 $cwd0 = getcwd().'';
@@ -34,7 +37,7 @@ require ('test.php');
 chdir($cwd0);
 
 // Test ProPay/ProtectPay Integration
-chdir('integration/propay/test');
+chdir('integration/protectpay/test');
 require ('test.php');
 chdir($cwd0);
 

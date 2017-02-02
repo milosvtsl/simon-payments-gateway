@@ -6,6 +6,9 @@
  * Time: 10:47 PM
  */
 
+if(!isset($argv))
+    die("Console Only");
+
 //chdir('web');
 // Enable class autoloader
 //spl_autoload_extensions('.class.php');

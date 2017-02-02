@@ -218,9 +218,19 @@ class MockIntegration extends AbstractIntegration
 
     /**
      * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    function renderChargeFormHTMLHeadLinks() {
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
         // TODO: Implement renderChargeFormHTMLHeadLinks() method.
     }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHiddenFields() method.
+    }
+
 }
 

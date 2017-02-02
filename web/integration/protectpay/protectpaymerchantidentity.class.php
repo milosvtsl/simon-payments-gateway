@@ -5,7 +5,7 @@
  * Date: 9/12/2016
  * Time: 6:00 PM
  */
-namespace Integration\ProPay;
+namespace Integration\ProtectPay;
 
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
@@ -14,7 +14,7 @@ use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 
-class ProPayMerchantIdentity extends AbstractMerchantIdentity
+class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
 {
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
@@ -24,19 +24,35 @@ class ProPayMerchantIdentity extends AbstractMerchantIdentity
     protected $created_at;
     protected $updated_at;
 
+    protected $AuthenticationToken;
+    protected $BillerAccountId;
+    protected $certStr;
+    protected $termId;
+
 //    protected $AuthToken;
 //    protected $BillerID;
 
 
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
+        $cred = json_decode($APIData->getAPICredentials(), false);
+        $this->AuthenticationToken = $cred->AuthenticationToken;
+        $this->BillerAccountId = $cred->BillerAccountId;
+        $this->certStr = $cred->certStr;
+        $this->termId = $cred->termId;
+
         parent::__construct($Merchant, $APIData);
     }
 
-    public function getRemoteID()       { return $this->BillerID; }
+    public function getRemoteID()       { return $this->BillerAccountId; }
     public function getEntityData()     { return $this->entity; }
     public function getTags()           { return $this->tags; }
     public function getCreateDate()     { return $this->created_at; }
     public function getUpdateDate()     { return $this->updated_at; }
+
+    public function getAuthenticationToken()    { return $this->AuthenticationToken; }
+    public function getBillerAccountId()        { return $this->BillerAccountId; }
+    public function getCertStr()                { return $this->certStr; }
+    public function getTermId()                 { return $this->termId; }
 
 
 //    public function getBillerID()       { return $this->BillerID; }
@@ -76,8 +92,6 @@ class ProPayMerchantIdentity extends AbstractMerchantIdentity
     function settleRemote() {
         // TODO: Implement settleRemote() method.
     }
-
-
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
         $response = $APIRequest->getResponse();

@@ -33,7 +33,7 @@ class SimpleOrderForm extends AbstractForm
 HEAD;
         $IntegrationRow = $MerchantIdentity->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
-        $Integration->renderChargeFormHTMLHeadLinks();
+        $Integration->renderChargeFormHTMLHeadLinks($MerchantIdentity);
     }
 
 
@@ -66,6 +66,7 @@ HEAD;
                       method="POST"
                 >
                     <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>" />
+                    <input type="hidden" name="merchant_uid" value="<?php echo $Merchant->getUID(); ?>" />
                     <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>" />
 
                     <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>" />
@@ -76,6 +77,8 @@ HEAD;
                     <?php if($Merchant->getFraudHighLimit() > 1) { ?>
                         <input type="hidden" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit(); ?>" />
                     <?php } ?>
+
+                    <?php $Integration->renderChargeFormHiddenFields($MerchantIdentity); ?>
 
                     <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Enter Payment Details</div>

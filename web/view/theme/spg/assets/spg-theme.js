@@ -33,13 +33,13 @@ document.addEventListener("DOMContentLoaded", function(e) {
             if(document.body.classList.contains('layout-narrow')) {
                 document.body.classList.remove('layout-narrow');
                 document.body.classList.add('layout-full');
-                console.log("Changing body class to: layout-full");
+                console.info("Changing body class to: layout-full");
             }
         } else {
             if(!document.body.classList.contains('layout-narrow')) {
                 document.body.classList.add('layout-narrow');
                 document.body.classList.remove('layout-full');
-                console.log("Changing body class to: layout-narrow");
+                console.info("Changing body class to: layout-narrow");
             }
         }
     }

@@ -10,6 +10,9 @@ namespace Integration\Mock\Test;
 
 use Merchant\Model\MerchantRow;
 
+if(!isset($argv))
+    die("Console Only");
+
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
 // Go to root directory

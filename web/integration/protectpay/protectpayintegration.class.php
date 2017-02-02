@@ -5,7 +5,7 @@
  * Date: 9/2/2016
  * Time: 11:13 AM
  */
-namespace Integration\ProPay;
+namespace Integration\ProtectPay;
 
 use Dompdf\Exception;
 use Integration\Model;
@@ -24,7 +24,7 @@ use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
-class ProPayIntegration extends AbstractIntegration
+class ProtectPayIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
 //    const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/Payers/";
@@ -32,10 +32,12 @@ class ProPayIntegration extends AbstractIntegration
     const POST_URL_TRANSACTION_CREATE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/";
     const POST_URL_TRANSACTION_AUTHORIZE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/AuthorizedTransactions/";
     const POST_URL_TRANSACTION_AUTHORIZE_AND_CAPTURE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/AuthorizedAndCapturedTransactions/";
+    const POST_URL_TRANSACTION_REFUND = "/ProtectPay/Payers/{PayerID}/PaymentMethods/RefundTransactions/";
     const POST_URL_TRANSACTION_CAPTURE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/CapturedTransactions/";
     const POST_URL_TRANSACTION_VOID = "/ProtectPay/Payers/{PayerID}/PaymentMethods/VoidedTransactions/";
-    const POST_URL_TRANSACTION_REFUND = "/ProtectPay/Payers/{PayerID}/PaymentMethods/RefundTransactions/";
     const POST_URL_TRANSACTION_SPLITPAY = "/ProtectPay/Payers/{PayerID}/PaymentMethods/ProcessedSplitPayTransactions/";
+
+    const POST_URL_TRANSACTION_TEMP_TOKEN = "/ProtectPay/TempTokens/?payerName={payerName}&durationSeconds={durationSeconds}";
 
 
     /**
@@ -44,7 +46,7 @@ class ProPayIntegration extends AbstractIntegration
      * @return AbstractMerchantIdentity
      */
     public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new ProPayMerchantIdentity($Merchant, $integrationRow);
+        return new ProtectPayMerchantIdentity($Merchant, $integrationRow);
     }
 
     /**
@@ -59,7 +61,7 @@ class ProPayIntegration extends AbstractIntegration
         if($Request->getResponse())
             throw new IntegrationException("This request instance already has a response");
 
-        $APIUtil = new ProPayAPIUtil();
+        $APIUtil = new ProtectPayAPIUtil();
 
         $duration = -microtime(true);
         $response = $APIUtil->executeAPIRequest($Request);
@@ -71,210 +73,6 @@ class ProPayIntegration extends AbstractIntegration
         // Save the response
         $Request->setResponse($response);
 
-        try {
-            // Try parsing the response
-            $Request->parseResponseData();
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful($reason, $code)) {
-                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-            }
-            $Request->setResponseMessage($reason);
-            $Request->setResponseCode($code);
-        } catch (IntegrationException $ex) {
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
-        }
-
-    }
-
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        $api_response = $Request->getResponse();
-        $response = json_decode($api_response);
-        if(isset($response->RequestResult->ResultCode))
-        {
-            $result_code = $response->RequestResult->ResultCode;
-            $result_value = $response->RequestResult->ResultValue;
-            if($result_code != '00' || $result_value == "FAILURE")
-            {
-                return false;
-//                $result_message = $response->RequestResult->ResultMessage;
-//                $result .= "\nResult Message: " . $result_message;
-//                $result .= "\n";
-//                print_r($result);
-            }
-            else
-            {
-                return true;
-//                $external_id = $response->ExternalAccountID;
-//                $result .= "\nTransaction Results:";
-//                $result .= "\nExternal ID: " . $external_id;
-//                $result .= "\n";
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Return the API Request URL for this request
-     * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param IntegrationRequestRow $Request
-     * @return string
-     * @throws IntegrationException
-     */
-    function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
-        $APIData = $MerchantIdentity->getIntegrationRow();
-        switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                return $APIData->getAPIURLBase() . self::POST_URL_MERCHANT_IDENTITY;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_CREATE:
-                return $APIData->getAPIURLBase() . str_replace('{PayerID}', $MerchantIdentity->getRemoteID(), self::POST_URL_TRANSACTION_CREATE);
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                return $APIData->getAPIURLBase() . str_replace('{PayerID}', $MerchantIdentity->getRemoteID(), self::POST_URL_TRANSACTION_SPLITPAY);
-//                $url = "https://xmltestapi.propay.com/ProtectPay/Payers/" . $Arguments[3] . "/PaymentMethods/ProcessedTransactions/";
-
-//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
-//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-//            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-        }
-        throw new IntegrationException("No API url for this request type");
-    }
-
-    /**
-     * Parse the response data and return a data object
-     * @param IntegrationRequestRow $Request
-     * @return mixed
-     * @throws IntegrationException if response failed to parse
-     */
-    function parseResponseData(IntegrationRequestRow $Request) {
-        $response = $Request->getResponse();
-        if(!$response)
-            throw new IntegrationException("Empty Request response");
-
-        $data = json_decode($response, true);
-        $result_code = $response['RequestResult']['ResultCode'];
-        $result_value = $response['RequestResult']['ResultValue'];
-
-
-        /*
-        if(isset($response->RequestResult->ResultCode))
-        {
-            $result_code = $response->RequestResult->ResultCode;
-            $result_value = $response->RequestResult->ResultValue;
-            $result = "Request Results:";
-            $result .= "\nResult Code: " . $result_code;
-            $result .= "\nResult Value: " . $result_value;
-            if($result_code != '00' || $result_value == "FAILURE")
-            {
-                $result_message = $response->RequestResult->ResultMessage;
-                $transaction_result_code = $response->Transaction->ResultCode->ResultCode;
-                $transaction_result_value = $response->Transaction->ResultCode->ResultValue;
-                $transaction_result_message = $response->Transaction->ResultCode->ResultMessage;
-                $result .= "\nResult Message: " . $result_message;
-                $result .= "\nTransaction Results: " ;
-                $result .= "\nTransaction Result Code: " . $transaction_result_code;
-                $result .= "\nTransaction Result Value: " . $transaction_result_value;
-                $result .= "\nTransaction Result Message: " . $transaction_result_message;
-                $result .= "\n";
-                print_r($result);
-            }
-            else
-            {
-                $authorization_code = $response->Transaction->AuthorizationCode;
-                $currency_conversion_rate = $response->Transaction->CurrencyConversionRate;
-                $currency_converted_amount = $response->Transaction->CurrencyConvertedAmount;
-                $currency_converted_currency_code =  $response->Transaction->CurrencyConvertedCurrencyCode;
-                $transaction_history_id = $response->Transaction->TransactionHistoryId;
-                $transaction_id = $response->Transaction->TransactionId;
-                $transaction_result = $response->Transaction->TransactionResult;
-                $transaction_result_code = $response->Transaction->ResultCode->ResultCode;
-                $transaction_result_value = $response->Transaction->ResultCode->ResultValue;
-                $result .= "\nTransaction Details:";
-                $result .= "\nAuthorization Code: " . $authorization_code;
-                $result .= "\nCurrency Conversion Rate: " . $currency_conversion_rate;
-                $result .= "\nCurrency Converted Amount: " . $currency_converted_amount;
-                $result .= "\nConverted Currency Code: " . $currency_converted_currency_code;
-                if(isset($response->Transaction->AVSCode))
-                {
-                    $AVS = $response->Transaction->AVSCode;
-                    $result .= "\nAVS Response Code: " . $AVS;
-                }
-                $result .= "\nTransaction Results: " ;
-                $result .= "\nTransaction Result Code: " . $transaction_result_code;
-                $result .= "\nTransaction Result Value: " . $transaction_result_value;
-                $result .= "\nTransaction History ID: " . $transaction_history_id;
-                $result .= "\nTransaction ID: " . $transaction_id;
-                $result .= "\nTransaction Result: " . $transaction_result ;
-                if(isset($response->Transaction->CVVResponseCode))
-                {
-                    $CVV2_resp = $response->Transaction->CVVResponseCode;
-                    $result .= "\nCVV Response Code: " . $CVV2_resp;
-                }
-                $result .= "\n";
-                print_r($result);
-            }
-        }
-        */
-
-
-
-
-
-
-
-        if(!$data)
-            throw new IntegrationException("Response failed to parse SOAP Response");
-        if(isset($data['soapFault']))
-            throw new IntegrationException($data['soapFault']['soapReason']['soapText']);
-
-        switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                $response =
-                    @$data['CreditCardSaleResponse']
-                    ?: @$data['DebitCardSaleResponse']
-                    ?: @$data['CheckSaleResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL:
-                $response =
-                    @$data['CreditCardReversalResponse']
-                        ?: @$data['CheckReversalResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN:
-                $response =
-                    @$data['CreditCardReturnResponse']
-                    ?: @$data['CheckReturnResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID:
-                $response =
-                    @$data['CreditCardVoidResponse']
-                    ?: @$data['CheckVoidResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK:
-                $response = $data['HealthCheckResponse'];
-                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH:
-                $response = $data['TransactionQueryResponse'];
-                break;
-
-            default:
-                throw new IntegrationException("Invalid integration type: " . $Request->getIntegrationType());
-        }
-        $response = $response['response'];
-        if(!$response)
-            throw new IntegrationException("Invalid response key");
-        return $response;
     }
 
     /**
@@ -288,6 +86,42 @@ class ProPayIntegration extends AbstractIntegration
     function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
         $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
+    }
+
+    public function requestTempToken(ProtectPayMerchantIdentity $MerchantIdentity, $Name=NULL) {
+        $Request = IntegrationRequestRow::prepareNew(
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_TEMP_TOKEN
+        );
+
+        $APIData = $MerchantIdentity->getIntegrationRow();
+        $url = $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION_TEMP_TOKEN;
+        $url = str_replace('{payerName}', $Name, $url);
+        $url = str_replace('{durationSeconds}', 600, $url);
+        $Request->setRequestURL($url);
+
+//        $APIUtil = new ProtectPayAPIUtil();
+        $request = null; // $APIUtil->prepareTempTokenRequest($MerchantIdentity, $PayerID, $Name);
+        $Request->setRequest($request);
+
+        $this->execute($Request);
+
+        // Try parsing the response
+        $data = json_decode($Request->getResponse(), true);
+        $Request->setResponseMessage($data['RequestResult']['ResultValue']);
+        $Request->setResponseCode($data['RequestResult']['ResultCode']);
+
+        if($Request->getResponseCode() !== '00')
+            throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
+
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+
+//        $TempToken = $data['TempToken'];
+//        $PayerId = $data['PayerId'];
+//        $CredentialId = $data['CredentialId'];
+
+//        $data['Request'] = $Request;
+        return $data;
     }
 
     /**
@@ -315,7 +149,7 @@ class ProPayIntegration extends AbstractIntegration
         $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
         $Transaction->setServiceFee($service_fee);
 
-        /** @var ProPayMerchantIdentity $MerchantIdentity */
+        /** @var ProtectPayMerchantIdentity $MerchantIdentity */
 
         $Subscription = null;
         if(!empty($post['recur_count']) && $post['recur_count'] > 0) {
@@ -332,11 +166,11 @@ class ProPayIntegration extends AbstractIntegration
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
-        $APIUtil = new PropayAPIUtil();
+        $APIUtil = new ProtectPayAPIUtil();
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $request = $APIUtil->prepareCheckSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
         else
-            $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
+            $request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
         $Request->setRequest($request);
 
         $this->execute($Request);
@@ -395,6 +229,7 @@ class ProPayIntegration extends AbstractIntegration
         return $Transaction;
     }
 
+
     /**
      * Reverse an existing Transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
@@ -415,7 +250,7 @@ class ProPayIntegration extends AbstractIntegration
 
         // Create Transaction
         $ReverseTransaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-        /** @var ProPayMerchantIdentity $MerchantIdentity */
+        /** @var ProtectPayMerchantIdentity $MerchantIdentity */
 
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
@@ -426,7 +261,7 @@ class ProPayIntegration extends AbstractIntegration
 
         $Request->setRequestURL($url);
 
-        $APIUtil = new PropayAPIUtil();
+        $APIUtil = new ProtectPayAPIUtil();
         $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $ReverseTransaction, $Order, $post);
         $Request->setRequest($request);
 
@@ -477,10 +312,9 @@ class ProPayIntegration extends AbstractIntegration
         return $ReverseTransaction;
     }
 
-
     /**
      * Void an existing Transaction
-     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProtectPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
      * @param UserRow $SessionUser
      * @param array $post
@@ -507,7 +341,7 @@ class ProPayIntegration extends AbstractIntegration
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
-        $APIUtil = new PropayAPIUtil();
+        $APIUtil = new ProtectPayAPIUtil();
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $request = $APIUtil->prepareCheckVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         else
@@ -565,7 +399,7 @@ class ProPayIntegration extends AbstractIntegration
 
     /**
      * Return an existing Transaction
-     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProtectPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param OrderRow $Order
      * @param UserRow $SessionUser
      * @param array $post
@@ -593,7 +427,7 @@ class ProPayIntegration extends AbstractIntegration
 
         $Request->setRequestURL($url);
 
-        $APIUtil = new PropayAPIUtil();
+        $APIUtil = new ProtectPayAPIUtil();
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $request = $APIUtil->prepareCheckReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $ReturnTransaction, $post);
         else
@@ -647,45 +481,22 @@ class ProPayIntegration extends AbstractIntegration
         return $ReturnTransaction;
     }
 
+
     /**
      * Perform health check on remote api
-     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProtectPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param UserRow $SessionUser
      * @param array $post
      * @return IntegrationRequestRow
      * @throws IntegrationException
      */
     function performHealthCheck(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post) {
-        $Request = IntegrationRequestRow::prepareNew(
-            $MerchantIdentity,
-            IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
-        );
-
-        $url = $this->getRequestURL($MerchantIdentity, $Request);
-
-        $Request->setRequestURL($url);
-
-        $APIUtil = new PropayAPIUtil();
-        $request = $APIUtil->prepareHealthCheckRequest($MerchantIdentity, $post);
-        $Request->setRequest($request);
-
-        $this->execute($Request);
-        $response = $this->parseResponseData($Request);
-        $code = $response['ExpressResponseCode'];
-        $message = $response['ExpressResponseMessage'];
-        if(!$response) //  || !$code || !$message)
-            throw new IntegrationException("Invalid response data");
-
-        if($code === '101')
-            throw new IntegrationException($message);
-
-        return $Request;
+        throw new IntegrationException("ProPay does not provide a health check API call");
     }
-
 
     /**
      * Perform transaction query on remote api
-     * @param ProPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param ProtectPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
      * @param array $post
      * @param UserRow $SessionUser
      * @param Callable $callback
@@ -703,7 +514,7 @@ class ProPayIntegration extends AbstractIntegration
 
         $Request->setRequestURL($url);
 
-        $APIUtil = new PropayAPIUtil();
+        $APIUtil = new ProtectPayAPIUtil();
         $request = $APIUtil->prepareTransactionQueryRequest($MerchantIdentity, $post);
         $Request->setRequest($request);
 
@@ -762,6 +573,7 @@ class ProPayIntegration extends AbstractIntegration
         return $stats;
     }
 
+
     protected function updateTransactionStatus(
         OrderRow $OrderRow,
         TransactionRow $TransactionRow,
@@ -799,7 +611,6 @@ class ProPayIntegration extends AbstractIntegration
         return $updated;
     }
 
-
     /**
      * Cancel an active subscription
      * @param AbstractMerchantIdentity $MerchantIdentity
@@ -820,34 +631,31 @@ class ProPayIntegration extends AbstractIntegration
         }
     }
 
-
-    /**
-     * Print an HTML form containing the request fields
-     * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the form failed to print
-     */
-    function printFormHTML(IntegrationRequestRow $Request) {
-        switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                break;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
-                break;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
-                break;
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                break;
-        }
-    }
-
     /**
      * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    function renderChargeFormHTMLHeadLinks() {
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
         echo <<<HEAD
-        <script src="integration/propay/view/assets/charge-form-integration.js"></script>
+        <script src="integration/protectpay/view/assets/charge-form-integration.js"></script>
 HEAD;
 
     }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+
+//        $CID = '';
+//        $SettingsCipher = '';
+//
+//        echo <<<HEAD
+//        <input type='hidden' name='CID' value='$CID' />
+//        <input type='hidden' name='SettingsCipher' value='$SettingsCipher' />
+//HEAD;
+    }
+
 }
 

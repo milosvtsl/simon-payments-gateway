@@ -6,7 +6,7 @@
  * Time: 10:47 PM
  */
 
-namespace Integration\ProPay\Test;
+namespace Integration\ProtectPay\Test;
 
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantFormRow;
@@ -15,6 +15,9 @@ use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
+
+if(!isset($argv))
+    die("Console Only");
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
@@ -33,35 +36,32 @@ $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); /
 $ProPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-4930-800a'); // ProPay.io
 //$Integration = new TestProPayIntegrationRow();
 
-// Real API Health Check
-$MerchantIdentity = $ProPayAPITest->getMerchantIdentity($Merchant);
+//$HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
+//echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
 
-$HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
-echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
-
-try {
-    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
-        array(
-            'status' => 'Settled',
-            'reverse' => 'True',
-            'date_start' => date('Y-m-d', time() - 24*60*60*1),
-            'date_end' => date('Y-m-d', time()),
-        ),
-        function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
-            return NULL;
-        }
-    );
-    echo "\nSearch Returned: ", $stats['total'];
-} catch (\Exception $ex) {
-    echo $ex;
-}
+//try {
+//    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+//        array(
+//            'status' => 'Settled',
+//            'reverse' => 'True',
+//            'date_start' => date('Y-m-d', time() - 24*60*60*1),
+//            'date_end' => date('Y-m-d', time()),
+//        ),
+//        function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
+//            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+//            return NULL;
+//        }
+//    );
+//    echo "\nSearch Returned: ", $stats['total'];
+//} catch (\Exception $ex) {
+//    echo $ex;
+//}
 
 
 // Test API
 $MerchantIdentity = $ProPayAPITest->getMerchantIdentity($Merchant);
-if(!$MerchantIdentity->isProvisioned())
-    $MerchantIdentity->provisionRemote();
+//if(!$MerchantIdentity->isProvisioned())
+//    $MerchantIdentity->provisionRemote();
 
 
 
@@ -92,6 +92,7 @@ $data = array(
 
     // Check
     'check_account_name' => 'Test Checker',
+    'check_account_bank_name' => 'Test Bank',
     'check_account_number' => 11111111,
     'check_routing_number' => 122187238,
     'check_account_type' => 'Checking',
