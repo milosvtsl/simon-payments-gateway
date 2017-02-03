@@ -90,18 +90,12 @@ class ProtectPayIntegration extends AbstractIntegration
 
     /**
      * @param ProtectPayMerchantIdentity $MerchantIdentity
+     * @param MerchantFormRow $OrderForm
      * @param array $post
      * @return Array
      * @throws IntegrationException
-     *
-     * Encryption Process
-     * Encrypt the Key-Value Pair using the following method:
-     * 1. UTF-8 encode the TempToken string and generate an MD5 hash of it.
-     * 2. UTF-8 encode the Key-Value Pair string and encrypt using AES-128 encryption using Cipher Block Chaining (CBC) mode.
-     *      a. Set both the key and initialization vector (IV) equal to result from step 1.
-     * 3. Base64 encode the result of 2
      */
-    public function requestTempToken(ProtectPayMerchantIdentity $MerchantIdentity, Array $post) {
+    public function requestTempToken(ProtectPayMerchantIdentity $MerchantIdentity, MerchantFormRow $OrderForm, Array $post) {
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_TEMP_TOKEN
@@ -168,6 +162,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $data['SettingsCipher'] = $SettingsCipher;
         $data['merchant_uid'] = $MerchantIdentity->getMerchantRow()->getUID();
         $data['integration_uid'] = $MerchantIdentity->getIntegrationRow()->getUID();
+        $data['form_uid'] = $OrderForm->getUID();
 
         // New PayerId created. Store in session until transaction completes
         if(empty($_SESSION[__FILE__]))
@@ -196,11 +191,15 @@ class ProtectPayIntegration extends AbstractIntegration
     static function processResponseCipher($CID, $ResponseCipher) {
         $data = self::getSessionTempToken($CID);
 
+        // TODO: store integration request
+
         $merchant_uid = $data['merchant_uid'];
         $MerchantRow = MerchantRow::fetchByUID($merchant_uid);
 
         $integration_uid = $data['integration_uid'];
         $IntegrationRow = IntegrationRow::fetchByUID($integration_uid);
+
+        $OrderForm = MerchantFormRow::fetchByUID($data['form_uid']);
 
         /** @var ProtectPayIntegration $Integration */
         $Integration = $IntegrationRow->getIntegration();
@@ -221,10 +220,36 @@ class ProtectPayIntegration extends AbstractIntegration
         $res = array();
         parse_str($KeyValuePairString, $res);
 
+        $Action = @$res['Action'];
+        $ErrMsg = @$res['StoreMsg'] ?: @$res['ProcErrMsg'] ?: @$res['ErrMsg'];
+        $ErrCode = @$res['StoreCode'] ?: @$res['ProcErrCode'] ?: @$res['ErrCode'];
 
         $post = array(
-            'amount' => $res['Action'],
+            'amount' => $res['Amount'],
+            'payee_full_name' => @$res['CardholderName'],
+            'payee_phone_number' => @$res[''],
+            'payee_reciept_email' => @$res[''],
+            'payee_address' => @$res['Address1'],
+            'payee_address2' => @$res['Address2'],
+            'payee_zipcode' => @$res['PostalCode'],
+            'payee_city' => @$res['City'],
+            'payee_state' => @$res['State'],
+
+            'card_number' => @$res['ObfuscatedAccountNumber'],
+            'card_type' => @$res[''],
+            'card_exp_month' => @$res['ExpireDate'] ? substr(@$res['ExpireDate'], 0, 2) : '',
+            'card_exp_year' => @$res['ExpireDate'] ? substr(@$res['ExpireDate'], -2) : '',
+
+            'check_account_name' => @$res[''],
+            'check_account_bank_name' => @$res[''],
+            'check_account_number' => @$res[''],
+            'check_account_type' => @$res[''],
+            'check_routing_number' => @$res[''],
+            'check_type' => @$res[''],
         );
+
+        $PaymentInfo = PaymentRow::createPaymentFromPost($post);
+        $OrderRow = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
 
         //    Action=Complete
         //    Echo=echotest
@@ -306,7 +331,7 @@ class ProtectPayIntegration extends AbstractIntegration
 
         foreach($OrderForm->getAllCustomFields(false) as $customField) {
             if(!empty($post[$customField])) {
-                $Order->insertCustomField($customField, $post[$customField]);
+                $OrderRow->insertCustomField($customField, $post[$customField]);
             }
         }
 

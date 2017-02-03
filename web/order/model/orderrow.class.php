@@ -11,6 +11,7 @@ use Integration\Mock\MockMerchantIdentity;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\FraudException;
 use Merchant\Model\MerchantFormRow;
+use Order\Forms\DefaultOrderForm;
 use Payment\Model\PayeeRow;
 use Payment\Model\PaymentRow;
 use System\Config\DBConfig;
@@ -670,12 +671,13 @@ SQL;
             'check_number' => '123',
         );
 
-        $TestOrderRow = OrderRow::createOrderFromPost($MockMerchantIdentity, $post + $post_cc);
+
+        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $post + $post_cc);
         self::insert($TestOrderRow);
         $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
         OrderRow::delete($TestOrderRow);
 
-        $TestOrderRow = OrderRow::createOrderFromPost($MockMerchantIdentity, $post + $post_check);
+        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $post + $post_check);
         self::insert($TestOrderRow);
         $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
         OrderRow::delete($TestOrderRow);

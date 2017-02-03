@@ -7,6 +7,7 @@
  */
 namespace Integration\ProtectPay;
 use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use User\Session\SessionManager;
 
@@ -24,6 +25,9 @@ if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
     die("Session has ended");
 }
+
+$form_uid = $_POST['form_uid'];
+$OrderForm = MerchantFormRow::fetchByUID($form_uid);
 
 $merchant_uid = $_POST['merchant_uid'];
 $MerchantRow = MerchantRow::fetchByUID($merchant_uid);
@@ -48,7 +52,7 @@ $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $Integration
 
 $Name = $_POST['payee_full_name'];
 $PayerID = null;
-$data = $Integration->requestTempToken($MerchantIdentity, $Name);
+$data = $Integration->requestTempToken($MerchantIdentity, $OrderForm, $_POST);
 
 $CID = $data['CID'];
 $SettingsCipher = $data['SettingsCipher'];
