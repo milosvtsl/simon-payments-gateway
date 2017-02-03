@@ -88,11 +88,26 @@ class ProtectPayIntegration extends AbstractIntegration
         return $Order;
     }
 
-    public function requestTempToken(ProtectPayMerchantIdentity $MerchantIdentity, $Name=NULL) {
+    /**
+     * @param ProtectPayMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return Array
+     * @throws IntegrationException
+     *
+     * Encryption Process
+     * Encrypt the Key-Value Pair using the following method:
+     * 1. UTF-8 encode the TempToken string and generate an MD5 hash of it.
+     * 2. UTF-8 encode the Key-Value Pair string and encrypt using AES-128 encryption using Cipher Block Chaining (CBC) mode.
+     *      a. Set both the key and initialization vector (IV) equal to result from step 1.
+     * 3. Base64 encode the result of 2
+     */
+    public function requestTempToken(ProtectPayMerchantIdentity $MerchantIdentity, Array $post) {
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_TEMP_TOKEN
         );
+
+        $Name = $post['payee_full_name'];
 
         $APIData = $MerchantIdentity->getIntegrationRow();
         $url = $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION_TEMP_TOKEN;
@@ -116,11 +131,205 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
-//        $TempToken = $data['TempToken'];
-//        $PayerId = $data['PayerId'];
-//        $CredentialId = $data['CredentialId'];
+        $TempToken = $data['TempToken'];
+        $TempTokenMD5 = md5($TempToken);
+//        $data['TempTokenMD5'] = $TempTokenMD5;
 
-//        $data['Request'] = $Request;
+        $PayerId = $data['PayerId'];
+        $CID = $data['CredentialId'];
+        $data['CID'] = $CID;
+
+        $KeyValuePairs = array(
+            'AuthToken'=> $MerchantIdentity->getAuthenticationToken(), // '1f25d31c-e8fe-4d68-be73-f7b439bfa0a329e90de6-4e93-4374-8633-22cef77467f5',
+            'PayerID' => $PayerId, // '2833955147881261',
+            'Amount' => @$post['amount'],
+            'CurrencyCode' => 'USD',
+            'ProcessMethod' => 'Capture',
+            'PaymentMethodStorageOption' => 'None',
+            'InvoiceNumber' => @$post['invoice_number'],
+            'Comment1' => @$post['notes'],
+            'Comment2' => '',
+//            'echo' => 'echotest',
+            'ReturnURL' => 'https://access.simonpayments.com/integration/protectpay/return.php',
+            'ProfileId' => '3351',
+            'PaymentProcessType' => 'CreditCard',
+            'StandardEntryClassCode' => 'WEB',
+            'DisplayMessage' => 'True',
+            'Protected' => 'False',
+        );
+
+        $KeyValuePairString = http_build_query($KeyValuePairs);
+        $iv = $TempTokenMD5; // '12345678';
+        $passphrase = $TempTokenMD5; // '8chrsLng';
+
+        $enc = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $KeyValuePairString, MCRYPT_MODE_CBC, $iv);
+        $SettingsCipher = base64_encode($enc);
+
+        $data['SettingsCipher'] = $SettingsCipher;
+        $data['merchant_uid'] = $MerchantIdentity->getMerchantRow()->getUID();
+        $data['integration_uid'] = $MerchantIdentity->getIntegrationRow()->getUID();
+
+        // New PayerId created. Store in session until transaction completes
+        if(empty($_SESSION[__FILE__]))
+            $_SESSION[__FILE__] = array();
+        $_SESSION[__FILE__][$CID] = $data;
+
+        return $data;
+    }
+
+    /**
+     * Process the remote order and return the result
+     * @param $CID
+     * @param $ResponseCipher
+     * @return OrderRow
+     * @throws IntegrationException
+     * @throws \Exception
+     *
+     * Decryption Process
+     * The ‘ResponseCipher’ is encrypted using the same process and TempToken used to encrypt the ‘SettingsCipher’.
+     * 1. Base64 decode the response cipher.
+     * 2. UTF-8 encode the same TempToken used to encrypt and generate an MD5 hash of it.
+     * 3. Decrypt the result of step 1 using AES-128 decryption using Cipher Block Chaining (CBC) mode.
+     * a. Set both the Key and Initialization Vector (IV) equal to result from step 2.
+     * ? The decrypted response will be in the form of Key-Value Pairs and contain the response of the requested transaction.
+     */
+    static function processResponseCipher($CID, $ResponseCipher) {
+        $data = self::getSessionTempToken($CID);
+
+        $merchant_uid = $data['merchant_uid'];
+        $MerchantRow = MerchantRow::fetchByUID($merchant_uid);
+
+        $integration_uid = $data['integration_uid'];
+        $IntegrationRow = IntegrationRow::fetchByUID($integration_uid);
+
+        /** @var ProtectPayIntegration $Integration */
+        $Integration = $IntegrationRow->getIntegration();
+        if(! $Integration instanceof ProtectPayIntegration)
+            throw new \Exception("Not a protectpay integration: " . $integration_uid);
+
+        /** @var ProtectPayMerchantIdentity $MerchantIdentity */
+        $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
+
+        $TempToken = $data['TempToken'];
+        $TempTokenMD5 = md5($TempToken);
+        $passphrase = $TempTokenMD5;
+        $iv = $TempTokenMD5;
+        $SettingsCipher = $data['SettingsCipher'];
+        $SettingsCipher = base64_decode($SettingsCipher);
+
+        $KeyValuePairString = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $SettingsCipher, MCRYPT_MODE_CBC, $iv);
+        $res = array();
+        parse_str($KeyValuePairString, $res);
+
+
+        $post = array(
+            'amount' => $res['Action'],
+        );
+
+        //    Action=Complete
+        //    Echo=echotest
+        //    PayerID=6192936083671743
+        //    ObfuscatedAccountNumber=474747******4747
+        //    ExpireDate=1215
+        //    CardholderName=John Q Test
+        //    Address1=123 A St.,
+        //    Address2=
+        //    Address3=
+        //    City=Orem
+        //    State=UT
+        //    PostalCode=84058
+        //    Country=USA
+        //    PaymentMethodId=bb466e8d-0cdb-44db-8ef4-939207c204b3
+        //    ProcessResult=Success
+        //    ProcessResultAuthorizationCode=A11111
+        //    ProcessResultAVSCode=T
+        //    ProcessResultResultCode=00
+        //    ProcessResultResultMessage=
+        //    ProcessResultTransactionHistoryID=7909962
+        //    ProcessResultTransactionId=524
+        //    Amount=10.00
+        //    GrossAmt=10.00
+        //    NetAmt=9.32
+        //    PerTransFee=0.35
+        //    Rate=3.25
+        //    GrossAmtLessNetAmt=0.68
+        //    Example of a decrypted response for successful tokenization, but declined card transaction:
+        //    Action=Complete
+        //    &Echo=echotest
+        //    &PayerID=2833955147881261
+        //    &ObfuscatedAccountNumber=474747******4747
+        //    &ExpireDate=1212
+        //    &CardholderName=John Q Test
+        //    &Address1=123 A St.,
+        //    &Address2=
+        //    &Address3=
+        //    &City=Orem
+        //    &State=UT
+        //    &PostalCode=84058
+        //    &Country=USA
+        //    &PaymentMethodId=58bff1ed-e8a7-44e2-bce3-71a389e86eec
+        //    &ProcErrCode=51
+        //    &ProcErrMsg=Insufficient funds/over credit limit
+        //    Example of a decrypted response of a storage error:
+        //    Action=Complete
+        //    &Echo=echotest
+        //    &PayerID=7588958043622683
+        //    &ExpireDate=1212
+        //    &CardholderName=John Q Test
+        //    &Address1=123 A St.,
+        //    &Address2=
+        //    &Address3=
+        //    &City=Orem
+        //    &State=UT
+        //    &PostalCode=84058
+        //    &Country=USA
+        //    &StoreErrCode=308
+        //    &StoreErrMsg=CreditCard number is invalid for specified type
+        //                                          Example of a decrypted response with an error with the SPI request:
+        //    ErrCode=301
+        //    &ErrMsg=Invalid Settings Cipher
+        //    Example of a decrypted response with multiple SPI request error codes:
+        //    Action=Err
+        //    &ErrCode0=301
+        //    &ErrMsg0=Invalid Bank AccountNumber
+        //    &ErrCode1=301
+        //    &ErrMsg1=Invalid RoutingNumber
+        //    &ErrCode2=301
+        //    &ErrMsg2=Invalid BankAccountType
+        //    &ErrCode3
+
+
+
+
+
+        // Insert custom order fields
+
+        foreach($OrderForm->getAllCustomFields(false) as $customField) {
+            if(!empty($post[$customField])) {
+                $Order->insertCustomField($customField, $post[$customField]);
+            }
+        }
+
+
+
+    }
+
+    /**
+     * @param $CID
+     * @param bool $remove
+     * @return Array
+     * @throws IntegrationException
+     */
+    public static function getSessionTempToken($CID, $remove=true) {
+        if(empty($_SESSION[__FILE__]))
+            throw new IntegrationException("No temp tokens were created for this session");
+
+        if(empty($_SESSION[__FILE__][$CID]))
+            throw new IntegrationException("Temp Token was not found: " . $CID);
+
+        $data = $_SESSION[__FILE__][$CID];
+        if($remove)
+            unset($_SESSION[__FILE__][$CID]);
         return $data;
     }
 

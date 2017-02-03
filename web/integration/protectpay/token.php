@@ -50,26 +50,8 @@ $Name = $_POST['payee_full_name'];
 $PayerID = null;
 $data = $Integration->requestTempToken($MerchantIdentity, $Name);
 
-// New PayerId created. Store in session until transaction completes
-$TempToken = $data['TempToken'];
-$PayerId = $data['PayerId'];
-$CredentialId = $data['CredentialId'];
-
-
-$string = 'Some Secret thing I want to encrypt';
-$iv = '12345678';
-$passphrase = '8chrsLng';
-
-//$encryptedString = encryptString($string, $passphrase, $iv);
-// Expect: 7DjnpOXG+FrUaOuc8x6vyrkk3atSiAf425ly5KpG7lOYgwouw2UATw==
-
-$enc = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $string, MCRYPT_MODE_CBC, $iv);
-$encryptedString = base64_encode($enc);
-
-
-
-$CID = $CredentialId;
-$SettingsCipher = $encryptedString;
+$CID = $data['CID'];
+$SettingsCipher = $data['SettingsCipher'];
 
 
 echo <<<JSON
