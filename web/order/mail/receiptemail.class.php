@@ -83,7 +83,7 @@ HTML;
 
 Card Holder Information
 Full Name:          {$Order->getCardHolderFullName()}
-Number:             {$Order->getCardNumber()}
+Number:             {$Order->getCardNumberTruncated()}
 Type:               {$Order->getCardType()}
 HTML;
 

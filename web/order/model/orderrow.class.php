@@ -199,6 +199,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
+    public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
     public function getCardTrack()          { return $this->card_track; }
     public function getCheckAccountName()   { return $this->check_account_name; }
 
