@@ -201,8 +201,8 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getCardNumber()         { return $this->card_number; }
     public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
     public function getCardTrack()          { return $this->card_track; }
-    public function getCheckAccountName()   { return $this->check_account_name; }
 
+    public function getCheckAccountName()   { return $this->check_account_name; }
     public function getCheckAccountNumber() { return $this->check_account_number; }
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
