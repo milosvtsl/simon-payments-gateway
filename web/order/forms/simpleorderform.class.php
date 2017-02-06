@@ -239,6 +239,7 @@ HEAD;
                             </div>
                             <div style="display: inline-block; margin: 0 1em;">
                                 <div class="credit-image"></div>
+                                <div class="cvv2-image"></div>
                                 <span style="font-size: x-small; color: grey">
                                     **The CVV Number ("Card Verification Value") on your credit card <br/>
                                     or debit card is a 3-4 digit number on credit and debit cards.
