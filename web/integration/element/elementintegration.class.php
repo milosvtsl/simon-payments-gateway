@@ -41,11 +41,11 @@ class ElementIntegration extends AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         if(!$Request->getRequest())
             throw new IntegrationException("Request content is empty");
         if($Request->getResponse())
@@ -309,7 +309,7 @@ class ElementIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         IntegrationRequestRow::insert($Request);
 
         $response = $this->parseResponseData($Request);
@@ -399,7 +399,7 @@ class ElementIntegration extends AbstractIntegration
         $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $ReverseTransaction, $Order, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
 
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
@@ -482,7 +482,7 @@ class ElementIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -567,7 +567,7 @@ class ElementIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $ReturnTransaction, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -635,7 +635,7 @@ class ElementIntegration extends AbstractIntegration
         $request = $APIUtil->prepareHealthCheckRequest($MerchantIdentity, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -672,7 +672,7 @@ class ElementIntegration extends AbstractIntegration
         $request = $APIUtil->prepareTransactionQueryRequest($MerchantIdentity, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -784,12 +784,20 @@ class ElementIntegration extends AbstractIntegration
                 error_log($CancelReceipt->ErrorInfo);
         }
     }
-
     /**
      * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    function renderChargeFormHTMLHeadLinks() {
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
         // TODO: Implement renderChargeFormHTMLHeadLinks() method.
+    }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHiddenFields() method.
     }
 }
 

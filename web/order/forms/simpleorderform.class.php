@@ -7,6 +7,7 @@
  */
 namespace Order\Forms;
 
+use Integration\Model\AbstractMerchantIdentity;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
@@ -19,19 +20,36 @@ class SimpleOrderForm extends AbstractForm
 
     /**
      * Render HTML Head content
+     * @param MerchantFormRow $MerchantForm
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    function renderHTMLHeadLinks() {
+    function renderHTMLHeadLinks(MerchantFormRow $MerchantForm, AbstractMerchantIdentity $MerchantIdentity)
+    {
+
         echo <<<HEAD
         <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
         <script src="order/view/assets/charge.js"></script>
         <link href='order/forms/assets/simple-order-form.css' type='text/css' rel='stylesheet' />
 HEAD;
+        $IntegrationRow = $MerchantIdentity->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
+        $Integration->renderChargeFormHTMLHeadLinks($MerchantIdentity);
     }
 
-    function renderHTML(MerchantFormRow $MerchantForm, MerchantRow $Merchant, Array $params)
+
+    /**
+     * Render custom order form HTML
+     * @param MerchantFormRow $MerchantForm
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param array $params
+     * @return mixed
+     */
+    function renderHTML(MerchantFormRow $MerchantForm, AbstractMerchantIdentity $MerchantIdentity, Array $params)
     {
-        // Render Order Form
-        
+        $Merchant = $MerchantIdentity->getMerchantRow();
+        $IntegrationRow = $MerchantIdentity->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();        // Render Order Form
+
         $odd = false;
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
@@ -48,15 +66,19 @@ HEAD;
                       method="POST"
                 >
                     <input type="hidden" name="merchant_id" value="<?php echo $Merchant->getID(); ?>" />
+                    <input type="hidden" name="merchant_uid" value="<?php echo $Merchant->getUID(); ?>" />
                     <input type="hidden" name="form_uid" value="<?php echo $MerchantForm->getUID(); ?>" />
 
                     <input type="hidden" name="convenience_fee_flat" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>" />
                     <input type="hidden" name="convenience_fee_limit" value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>" />
                     <input type="hidden" name="convenience_fee_variable_rate" value="<?php echo $Merchant->getConvenienceFeeVariable(); ?>" />
+                    <input type="hidden" name="integration_uid" value="<?php echo $IntegrationRow->getUID(); ?>" />
 
                     <?php if($Merchant->getFraudHighLimit() > 1) { ?>
                         <input type="hidden" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit(); ?>" />
                     <?php } ?>
+
+                    <?php $Integration->renderChargeFormHiddenFields($MerchantIdentity); ?>
 
                     <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Enter Payment Details</div>
@@ -226,9 +248,14 @@ HEAD;
 
                         <div class="show-on-payment-method-check entry-section">
                             <div style="display: inline-block;">
-                                <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                                    <span>Account Name</span>
-                                    <input type="text" name="check_account_name" placeholder="" required />
+                                <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <span>Name on Account</span>
+                                    <input type="text" name="check_account_name" placeholder="" />
+                                </label>
+
+                                <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <span>Bank Name</span>
+                                    <input type="text" name="check_account_bank_name" placeholder="" />
                                 </label>
 
                                 <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">

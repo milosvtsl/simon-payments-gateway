@@ -37,11 +37,11 @@ class MockIntegration extends AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         if(!$Request->getRequest())
             throw new IntegrationException("Request content is empty");
 //        if($Request->getResponse())
@@ -218,9 +218,19 @@ class MockIntegration extends AbstractIntegration
 
     /**
      * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
      */
-    function renderChargeFormHTMLHeadLinks() {
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
         // TODO: Implement renderChargeFormHTMLHeadLinks() method.
     }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHiddenFields() method.
+    }
+
 }
 

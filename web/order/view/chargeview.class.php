@@ -21,6 +21,7 @@ use View\Error\Mail\ErrorEmail;
 
 class ChargeView extends AbstractView
 {
+    protected $integration;
     /** @var MerchantFormRow */
     private $form;
     /** @var MerchantRow */
@@ -58,17 +59,34 @@ class ChargeView extends AbstractView
             $merchant_id = $MerchantQuery->fetch()->getID();
         }
 
-        $this->merchant = MerchantRow::fetchByID($merchant_id);
+        $Merchant = MerchantRow::fetchByID($merchant_id);
 
         $SessionUser->setDefaultOrderForm($OrderForm);
 
-        parent::__construct($OrderForm->getTitle() . ' - ' . $this->merchant->getShortName());
+
+        $IntegrationRow = IntegrationRow::fetchByID($Merchant->getDefaultIntegrationID());
+        $Integration = $IntegrationRow->getIntegration();
+        $this->integration = $IntegrationRow;
+
+        $MerchantIdentity = $Integration->getMerchantIdentity($Merchant, $IntegrationRow);
+        $this->merchant = $MerchantIdentity;
+
+        parent::__construct($OrderForm->getTitle() . ' - ' . $Merchant->getShortName());
     }
 
+    /**
+     * @param array $params
+     */
     public function renderHTMLBody(Array $params) {
-        $Merchant = $this->merchant;
+        $MerchantIdentity = $this->merchant;
+        $Merchant = $MerchantIdentity->getMerchantRow();
+
         /** @var MerchantFormRow $MerchantForm */
         $MerchantForm = $this->form;
+
+//        $IntegrationRow = $this->integration;
+//        $Integration = $IntegrationRow->getIntegration();
+
 
         $Theme = $this->getTheme();
         $Theme->addPathURL('/merchant?uid='.$Merchant->getUID(), $Merchant->getName());
@@ -85,7 +103,7 @@ class ChargeView extends AbstractView
             echo "<h5>", $this->getMessage(), "</h5>";
 
         // Render Order Form
-        $MerchantForm->renderHTML($Merchant, $params);
+        $MerchantForm->renderHTML($MerchantIdentity, $params);
 
         if(!@$params['iframe'])
             $Theme->renderHTMLBodyFooter();
@@ -178,22 +196,14 @@ class ChargeView extends AbstractView
 
     protected function renderHTMLHeadLinks() {
         parent::renderHTMLHeadLinks();
-//        echo <<<HEAD
-//        <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
-//        <script src="order/view/assets/charge.js"></script>
-//        <link href='order/view/assets/charge.css' type='text/css' rel='stylesheet' />
-//        <link href='order/view/assets/template/full.charge.css' type='text/css' rel='stylesheet' />
-//        <link href='order/view/assets/template/simple.charge.css' type='text/css' rel='stylesheet' />
-//HEAD;
 
         $MerchantForm = $this->form;
+        $MerchantIdentity = $this->merchant;
 
         // Render Head Content
-        $MerchantForm->renderHTMLHeadLinks();
-        $Merchant = $this->merchant;
-        $IntegrationRow = IntegrationRow::fetchByID($Merchant->getDefaultIntegrationID());
-        $Integration = $IntegrationRow->getIntegration();
-        $Integration->renderChargeFormHTMLHeadLinks();
+        $MerchantForm->renderHTMLHeadLinks($MerchantIdentity);
+
+
     }
 
 }

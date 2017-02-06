@@ -26,6 +26,7 @@ class IntegrationRequestRow
     const ENUM_TYPE_TRANSACTION_RETURN      = 'transaction-return';
     const ENUM_TYPE_TRANSACTION_REVERSAL    = 'transaction-reversal';
     const ENUM_TYPE_TRANSACTION_SEARCH      = 'transaction-search';
+    const ENUM_TYPE_TRANSACTION_TEMP_TOKEN  = 'transaction-temp-token';
     const ENUM_TYPE_HEALTH_CHECK            = 'health-check';
 
     const ENUM_RESULT_SUCCESS               = 'success';
@@ -202,20 +203,20 @@ LEFT JOIN user u ON u.id = ir.user_id
 //        $Integration->execute($this);
 //    }
 
-    function isRequestSuccessful(&$reason=null, &$code=null) {
-        $Integration = $this->getIntegration();
-        return $Integration->isRequestSuccessful($this, $reason, $code);
-    }
+//    function isRequestSuccessful(&$reason=null, &$code=null) {
+//        $Integration = $this->getIntegration();
+//        return $Integration->isRequestSuccessful($this, $reason, $code);
+//    }
 
 //    function printFormHTML() {
 //        $Integration = $this->getIntegration();
 //        $Integration->printFormHTML($this);
 //    }
 
-    function parseResponseData() {
-        $Integration = $this->getIntegration();
-        return $Integration->parseResponseData($this);
-    }
+//    function parseResponseData() {
+//        $Integration = $this->getIntegration();
+//        return $Integration->parseResponseData($this);
+//    }
 
     public function getRequestURL() {
         return $this->url;

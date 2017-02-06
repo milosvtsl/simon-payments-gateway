@@ -41,7 +41,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 var submitEvent = new CustomEvent('order:submit', {
                     //detail: commandString,
-                    cancelable: true
+                    cancelable: true,
+                    bubbles: true
                 });
 
                 form.dispatchEvent(submitEvent);
@@ -212,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     if(option.innerHTML === newType) {
                         //form.card_type.value = newType;
                         form.card_type.selectedIndex = i;
-                        console.log("Updating card type to: " + newType, form.card_type.value);
+                        console.log("Updating card type to: " + newType, " from ", form.card_type.value);
                     }
                 }
             }
@@ -244,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.check_account_type.removeAttribute('disabled');
                 form.check_number.removeAttribute('disabled');
                 form.check_type.removeAttribute('disabled');
-                console.log("Switching to Entry mode: " + entry_mode);
+                console.info("Switching to Entry mode: " + entry_mode);
 //                 form.entry_mode.value = entry_mode;
                 break;
 
@@ -269,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 form.check_account_type.setAttribute('disabled', 'disabled');
                 form.check_number.setAttribute('disabled', 'disabled');
                 form.check_type.setAttribute('disabled', 'disabled');
-                console.log("Switching to Entry mode: " + entry_mode);
+                console.info("Switching to Entry mode: " + entry_mode);
 //                 form.entry_mode.value = entry_mode;
                 break;
         }

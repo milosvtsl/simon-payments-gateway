@@ -37,7 +37,7 @@ class CancelEmail extends \PHPMailer
 
         $this->addAddress($Order->getPayeeEmail(), $Order->getPayeeFullName());
         $this->addBCC($Merchant->getMainEmailID(), $Order->getPayeeFullName());
-        $this->addBCC("ari@govpaynetwork.com", $Order->getPayeeFullName());
+        $this->addBCC("support@simonpayments.com", $Order->getPayeeFullName());
 
         $this->Subject = "Subscription Canceled: " . $Merchant->getName();
 

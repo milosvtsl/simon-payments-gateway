@@ -22,11 +22,10 @@ abstract class AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
      */
-    abstract function execute(IntegrationRequestRow $Request);
+    abstract function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
 
     /**
      * Was this request successful?
@@ -35,7 +34,7 @@ abstract class AbstractIntegration
      * @param null $code
      * @return bool
      */
-    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null);
+//    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null);
 
     /**
      * Print an HTML form containing the request fields
@@ -51,7 +50,7 @@ abstract class AbstractIntegration
      * @return mixed
      * @throws IntegrationException if response failed to parse
      */
-    abstract function parseResponseData(IntegrationRequestRow $Request);
+//    abstract function parseResponseData(IntegrationRequestRow $Request);
 
     /**
      * Return the API Request URL for this request
@@ -59,7 +58,7 @@ abstract class AbstractIntegration
      * @param IntegrationRequestRow $Request
      * @return string
      */
-    abstract function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
+//    abstract function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
 
     /**
      * Get or create a Merchant Identity
@@ -160,6 +159,15 @@ abstract class AbstractIntegration
 
     /**
      * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @return
      */
-    abstract function renderChargeFormHTMLHeadLinks();
+    abstract function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity);
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @return
+     */
+    abstract function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity);
 }

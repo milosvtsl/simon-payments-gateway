@@ -89,6 +89,10 @@ FROM integration i
     public function getAPIType()        { return $this->api_type; }
     public function getNotes()          { return $this->notes; }
 
+    public function getAPICredentials() {
+        return $this->api_credentials;
+    }
+
     public function getSuccessCount()   { return $this->request_success; }
     public function getFailCount()      { return $this->request_fail; }
     public function getTotalCount()     { return $this->request_total; }

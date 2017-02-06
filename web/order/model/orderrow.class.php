@@ -11,6 +11,7 @@ use Integration\Mock\MockMerchantIdentity;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\FraudException;
 use Merchant\Model\MerchantFormRow;
+use Order\Forms\DefaultOrderForm;
 use Payment\Model\PayeeRow;
 use Payment\Model\PaymentRow;
 use System\Config\DBConfig;
@@ -195,22 +196,23 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeeFirstName()     { return $this->payee_first_name; }
     public function getPayeeLastName()      { return $this->payee_last_name; }
     public function getPayeeFullName()      { return trim($this->payee_first_name . ' '. $this->payee_last_name); }
+
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
     public function getPayeeCity()          { return $this->payee_city; }
-    public function getPayeeStateShort()    { return $this->payee_state; }
-    public function getPayeeState()         { return $this->payee_state_full; }
+    public function getPayeeState()         { return $this->payee_state; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-
+    public function getCardHolderFullName() { return $this->getPayeeFullName() ?: $this->getCustomerFullName(); }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
-    public function getCardExpYear()        { return $this->card_exp_year; }
 
+    public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
+    public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
     public function getCardTrack()          { return $this->card_track; }
 
     public function getCheckAccountName()   { return $this->check_account_name; }
@@ -670,12 +672,13 @@ SQL;
             'check_number' => '123',
         );
 
-        $TestOrderRow = OrderRow::createOrderFromPost($MockMerchantIdentity, $post + $post_cc);
+
+        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $post + $post_cc);
         self::insert($TestOrderRow);
         $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
         OrderRow::delete($TestOrderRow);
 
-        $TestOrderRow = OrderRow::createOrderFromPost($MockMerchantIdentity, $post + $post_check);
+        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $post + $post_check);
         self::insert($TestOrderRow);
         $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
         OrderRow::delete($TestOrderRow);
@@ -690,6 +693,6 @@ SQL;
     }
 }
 
-if(isset($argv) && @$argv[1] === 'test')
+if(isset($argv) && in_array(@$argv[1], array('test-order', 'test-all')))
     OrderRow::unitTest();
 

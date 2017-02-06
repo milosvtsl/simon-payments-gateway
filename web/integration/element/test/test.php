@@ -16,6 +16,9 @@ use Order\Model\TransactionRow;
 use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
 
+if(!isset($argv))
+    die("Console Only");
+
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
 // Go to root directory
@@ -62,8 +65,7 @@ try {
 }
 
 
-// Test API
-$MerchantIdentity = $ElementAPITest->getMerchantIdentity($Merchant);
+// Test Provision
 if(!$MerchantIdentity->isProvisioned())
     $MerchantIdentity->provisionRemote();
 
@@ -96,6 +98,7 @@ $data = array(
 
     // Check
     'check_account_name' => 'Test Checker',
+    'check_account_bank_name' => 'Test Bank',
     'check_account_number' => 11111111,
     'check_routing_number' => 122187238,
     'check_account_type' => 'Checking',

@@ -8,6 +8,9 @@
 
 chdir(__DIR__ . '/web');
 
+if(!isset($argv))
+    die("Console Only");
+
 $cwd0 = getcwd().'';
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
@@ -23,12 +26,12 @@ $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 $Order = \Order\Model\OrderRow::fetchByID(8603);
-$Order->setPayeeEmail('ari@govpaynetwork.com');
+$Order->setPayeeEmail('support@simonpayments.com');
 $Merchant = \Merchant\Model\MerchantRow::fetchByID($Order->getMerchantID());
 
 
 $Email = new \Order\Mail\ReceiptEmail($Order, $Merchant);
-$Email->addCC('ari@govpaynetwork.com', 'Tester');
+$Email->addCC('support@simonpayments.com', 'Tester');
 echo "\nSending Receipt Email...";
 if(!$Email->send())
     error_log("Test Receipt Email Failed: " . $Email->ErrorInfo);
@@ -36,14 +39,14 @@ if(!$Email->send())
 
 
 $Email = new \Subscription\Mail\CancelEmail($Order, $Merchant);
-$Email->addCC('ari@govpaynetwork.com', 'Tester');
+$Email->addCC('support@simonpayments.com', 'Tester');
 echo "\nSending Cancel Email...";
 if(!$Email->send())
     error_log("Test Cancel Email Failed: " . $Email->ErrorInfo);
 
 
 $Email = new \User\Mail\ResetPasswordEmail($SessionUser);
-$Email->addCC('ari@govpaynetwork.com', 'Tester');
+$Email->addCC('support@simonpayments.com', 'Tester');
 echo "\nSending Reset Email...";
 if(!$Email->send())
     error_log("Test Reset Email Failed: " . $Email->ErrorInfo);
