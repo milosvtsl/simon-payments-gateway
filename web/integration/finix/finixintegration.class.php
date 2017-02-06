@@ -43,11 +43,11 @@ class FinixIntegration extends AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         if(!$Request->getRequest())
             throw new IntegrationException("Request content is empty");
         if($Request->getResponse())

@@ -14,54 +14,61 @@ use User\Session\SessionManager;
 // Go to root directory
 chdir('../..');
 
-// Enable class autoloader
+// Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-$SessionManager = new SessionManager();
-$SessionUser = $SessionManager->getSessionUser();
+// Register Exception Handler
+\System\Exception\ExceptionHandler::register();
 
+// Start or resume the session
+session_start();
+
+$SessionManager = new \User\Session\SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
-    die("Session has ended");
+    die();
 }
 
-$form_uid = $_POST['form_uid'];
-$OrderForm = MerchantFormRow::fetchByUID($form_uid);
+$JSON = array();
+$JSON['err'] = null;
+try {
 
-$merchant_uid = $_POST['merchant_uid'];
-$MerchantRow = MerchantRow::fetchByUID($merchant_uid);
+    $form_uid = $_POST['form_uid'];
+    $OrderForm = MerchantFormRow::fetchByUID($form_uid);
 
-if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-    if(!in_array($MerchantRow->getID(), $SessionUser->getMerchantList()))
-        throw new \Exception("Invalid authorization to merchant: " . $MerchantRow->getUID());
+    $merchant_uid = $_POST['merchant_uid'];
+    $MerchantRow = MerchantRow::fetchByUID($merchant_uid);
+
+    if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!in_array($MerchantRow->getID(), $SessionUser->getMerchantList()))
+            throw new \Exception("Invalid authorization to merchant: " . $MerchantRow->getUID());
+    }
+
+
+    $integration_uid = $_POST['integration_uid'];
+    $IntegrationRow = IntegrationRow::fetchByUID($integration_uid);
+
+    /** @var ProtectPayIntegration $Integration */
+    $Integration = $IntegrationRow->getIntegration();
+    if(! $Integration instanceof ProtectPayIntegration)
+        throw new \Exception("Not a protectpay integration: " . $integration_uid);
+
+    /** @var ProtectPayMerchantIdentity $MerchantIdentity */
+    $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
+
+
+    $PayerID = null;
+    $data = $Integration->requestTempToken($MerchantIdentity, $OrderForm, $_POST);
+
+    $JSON['Name'] = $_POST['payee_full_name'];
+    $JSON['CID'] = $data['CID'];
+    $JSON['SettingsCipher'] = $data['SettingsCipher'];
+
+} catch (\Exception $ex) {
+    $JSON['err'] = $ex->getMessage();
+
 }
 
-
-$integration_uid = $_POST['integration_uid'];
-$IntegrationRow = IntegrationRow::fetchByUID($integration_uid);
-
-/** @var ProtectPayIntegration $Integration */
-$Integration = $IntegrationRow->getIntegration();
-if(! $Integration instanceof ProtectPayIntegration)
-    throw new \Exception("Not a protectpay integration: " . $integration_uid);
-
-/** @var ProtectPayMerchantIdentity $MerchantIdentity */
-$MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
-
-
-$Name = $_POST['payee_full_name'];
-$PayerID = null;
-$data = $Integration->requestTempToken($MerchantIdentity, $OrderForm, $_POST);
-
-$CID = $data['CID'];
-$SettingsCipher = $data['SettingsCipher'];
-
-
-echo <<<JSON
-{
-    "Name": "{$Name}",
-    "CID": "{$CID}",
-    "SettingsCipher": "{$SettingsCipher}",
-}
-JSON;
+echo json_encode($JSON, JSON_PRETTY_PRINT);

@@ -196,22 +196,23 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeeFirstName()     { return $this->payee_first_name; }
     public function getPayeeLastName()      { return $this->payee_last_name; }
     public function getPayeeFullName()      { return trim($this->payee_first_name . ' '. $this->payee_last_name); }
+
     public function getPayeeAddress()       { return $this->payee_address; }
     public function getPayeeAddress2()      { return $this->payee_address2; }
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
     public function getPayeeCity()          { return $this->payee_city; }
-    public function getPayeeStateShort()    { return $this->payee_state; }
-    public function getPayeeState()         { return $this->payee_state_full; }
+    public function getPayeeState()         { return $this->payee_state; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
-
+    public function getCardHolderFullName() { return $this->getPayeeFullName() ?: $this->getCustomerFullName(); }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
-    public function getCardExpYear()        { return $this->card_exp_year; }
 
+    public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
+    public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
     public function getCardTrack()          { return $this->card_track; }
 
     public function getCheckAccountName()   { return $this->check_account_name; }

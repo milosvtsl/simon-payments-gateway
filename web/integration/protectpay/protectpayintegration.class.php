@@ -51,20 +51,21 @@ class ProtectPayIntegration extends AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
-        if(!$Request->getRequest())
-            throw new IntegrationException("Request content is empty");
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
+        // Propay has empty requests
+//        if(!$Request->getRequest())
+//            throw new IntegrationException("Request content is empty");
         if($Request->getResponse())
             throw new IntegrationException("This request instance already has a response");
 
         $APIUtil = new ProtectPayAPIUtil();
 
         $duration = -microtime(true);
-        $response = $APIUtil->executeAPIRequest($Request);
+        $response = $APIUtil->executeAPIRequest($MerchantIdentity, $Request);
 
         // Set duration
         $duration += microtime(true);
@@ -74,6 +75,20 @@ class ProtectPayIntegration extends AbstractIntegration
         $Request->setResponse($response);
 
     }
+
+    /**
+     * Submit a new transaction
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param OrderRow $Order
+     * @param UserRow $SessionUser
+     * @param array $post
+     * @return TransactionRow
+     * @throws IntegrationException
+     */
+    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
+        throw new IntegrationException("API Capture not available");
+    }
+
 
     /**
      * Create a new order, optionally set up a new payment entry with the remote integration
@@ -105,7 +120,7 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $APIData = $MerchantIdentity->getIntegrationRow();
         $url = $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION_TEMP_TOKEN;
-        $url = str_replace('{payerName}', $Name, $url);
+        $url = str_replace('{payerName}', urlencode($Name), $url);
         $url = str_replace('{durationSeconds}', 600, $url);
         $Request->setRequestURL($url);
 
@@ -113,11 +128,11 @@ class ProtectPayIntegration extends AbstractIntegration
         $request = null; // $APIUtil->prepareTempTokenRequest($MerchantIdentity, $PayerID, $Name);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
 
         // Try parsing the response
         $data = json_decode($Request->getResponse(), true);
-        $Request->setResponseMessage($data['RequestResult']['ResultValue']);
+        $Request->setResponseMessage($data['RequestResult']['ResultMessage']);
         $Request->setResponseCode($data['RequestResult']['ResultCode']);
 
         if($Request->getResponseCode() !== '00')
@@ -126,12 +141,14 @@ class ProtectPayIntegration extends AbstractIntegration
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         $TempToken = $data['TempToken'];
-        $TempTokenMD5 = md5($TempToken);
+        $EncodedTempToken = utf8_encode($TempToken);
+        $TempTokenMD5 = md5($EncodedTempToken);
 //        $data['TempTokenMD5'] = $TempTokenMD5;
 
         $PayerId = $data['PayerId'];
         $CID = $data['CredentialId'];
         $data['CID'] = $CID;
+        unset($data['CredentialId']);
 
         $KeyValuePairs = array(
             'AuthToken'=> $MerchantIdentity->getAuthenticationToken(), // '1f25d31c-e8fe-4d68-be73-f7b439bfa0a329e90de6-4e93-4374-8633-22cef77467f5',
@@ -144,8 +161,8 @@ class ProtectPayIntegration extends AbstractIntegration
             'Comment1' => @$post['notes'],
             'Comment2' => '',
 //            'echo' => 'echotest',
-            'ReturnURL' => 'https://access.simonpayments.com/integration/protectpay/return.php',
-            'ProfileId' => '3351',
+            'ReturnURL' => 'https://access.simonpayments.com/integration/protectpay/response.php',
+            'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
             'PaymentProcessType' => 'CreditCard',
             'StandardEntryClassCode' => 'WEB',
             'DisplayMessage' => 'True',
@@ -154,10 +171,14 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $KeyValuePairString = http_build_query($KeyValuePairs);
         $iv = $TempTokenMD5; // '12345678';
+//        $iv = substr($iv, 0, 8);
         $passphrase = $TempTokenMD5; // '8chrsLng';
 
         $enc = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $KeyValuePairString, MCRYPT_MODE_CBC, $iv);
         $SettingsCipher = base64_encode($enc);
+
+        if(!$SettingsCipher)
+            throw new IntegrationException("Failed to create SettingsCipher");
 
         $data['SettingsCipher'] = $SettingsCipher;
         $data['merchant_uid'] = $MerchantIdentity->getMerchantRow()->getUID();
@@ -165,7 +186,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $data['form_uid'] = $OrderForm->getUID();
 
         // New PayerId created. Store in session until transaction completes
-        if(empty($_SESSION[__FILE__]))
+        if(empty($_SESSION[__FILE__]) || sizeof($_SESSION[__FILE__]) > 10)
             $_SESSION[__FILE__] = array();
         $_SESSION[__FILE__][$CID] = $data;
 
@@ -358,111 +379,6 @@ class ProtectPayIntegration extends AbstractIntegration
         return $data;
     }
 
-    /**
-     * Submit a new transaction
-     * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param OrderRow $Order
-     * @param UserRow $SessionUser
-     * @param array $post
-     * @return TransactionRow
-     * @throws IntegrationException
-     * @throws \Exception
-     * @throws \phpmailerException
-     */
-    function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
-
-        // Perform Fraud Scrubbing
-        $Order->performFraudScrubbing($MerchantIdentity, $SessionUser, $post);
-
-        OrderRow::insertOrUpdate($Order);
-        if(!$Order->getID())
-            throw new \InvalidArgumentException("Order must exist in the database");
-
-        // Create Transaction
-        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
-        $Transaction->setServiceFee($service_fee);
-
-        /** @var ProtectPayMerchantIdentity $MerchantIdentity */
-
-        $Subscription = null;
-        if(!empty($post['recur_count']) && $post['recur_count'] > 0) {
-            $Subscription = SubscriptionRow::createSubscriptionFromPost($MerchantIdentity, $Order, $post);
-        }
-
-        $Request = IntegrationRequestRow::prepareNew(
-            $MerchantIdentity,
-            IntegrationRequestRow::ENUM_TYPE_TRANSACTION
-        );
-
-        $url = $this->getRequestURL($MerchantIdentity, $Request);
-
-//        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
-        $Request->setRequestURL($url);
-
-        $APIUtil = new ProtectPayAPIUtil();
-        if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
-            $request = $APIUtil->prepareCheckSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
-        else
-            $request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
-        $Request->setRequest($request);
-
-        $this->execute($Request);
-        IntegrationRequestRow::insert($Request);
-
-        $response = $this->parseResponseData($Request);
-        if(!$response) //  || !$code || !$message)
-            throw new IntegrationException("Invalid response data");
-
-        $code = $response['ExpressResponseCode'];
-        $message = $response['ExpressResponseMessage'];
-        if($code !== "0")
-            throw new IntegrationException($message);
-
-        $Transaction->setAction("Authorized");
-        $Order->setStatus("Authorized");
-//                throw new IntegrationException($message);
-
-        $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
-        $transactionID = $response['Transaction']['TransactionID'];
-
-        $Transaction->setAuthCodeOrBatchID($code);
-        $Transaction->setTransactionID($transactionID);
-        $Transaction->setStatus($code, $message);
-        // Store Transaction Result
-        $Transaction->setTransactionDate($date);
-
-
-        // Insert Transaction
-        TransactionRow::insert($Transaction);
-
-        // Insert Subscription
-        if($Subscription) {
-            SubscriptionRow::insert($Subscription);
-            $Order->setSubscriptionID($Subscription->getID());
-        }
-
-        // Update Order
-        OrderRow::update($Order);
-
-        // Insert Request
-        $Request->setType('transaction');
-        $Request->setTypeID($Transaction->getID());
-        $Request->setOrderItemID($Order->getID());
-        $Request->setTransactionID($Transaction->getID());
-        if($SessionUser)
-            $Request->setUserID($SessionUser->getID());
-        IntegrationRequestRow::update($Request);
-
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            if(!$EmailReceipt->send())
-                error_log($EmailReceipt->ErrorInfo);
-        }
-
-        return $Transaction;
-    }
-
 
     /**
      * Reverse an existing Transaction
@@ -499,7 +415,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $ReverseTransaction, $Order, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
 
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
@@ -582,7 +498,7 @@ class ProtectPayIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -668,7 +584,7 @@ class ProtectPayIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $ReturnTransaction, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -752,7 +668,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $request = $APIUtil->prepareTransactionQueryRequest($MerchantIdentity, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -873,7 +789,6 @@ class ProtectPayIntegration extends AbstractIntegration
         echo <<<HEAD
         <script src="integration/protectpay/view/assets/charge-form-integration.js"></script>
 HEAD;
-
     }
 
     /**

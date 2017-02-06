@@ -7,6 +7,7 @@
  */
 namespace Integration\ProtectPay;
 
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
@@ -18,15 +19,19 @@ class ProtectPayAPIUtil {
     //Change this URL to point to Production by changing it to https://api.propay.com/... instead of https://xmltestapi.propay.com/....
     const POST_URL_PAYERS = "/ProtectPay/Payers/"; // https://xmltestapi.propay.com
 
+    /**
+     * @param ProtectPayMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
+     * @param IntegrationRequestRow $Request
+     * @return mixed|string
+     * @throws IntegrationException
+     */
     public function executeAPIRequest(
+        ProtectPayMerchantIdentity $MerchantIdentity,
         IntegrationRequestRow $Request
     ) {
 
-        /** @var IntegrationRow $APIData */
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
-
         $url = $Request->getRequestURL();
-        $userpass = $APIData->getAPIUsername() . ':' . $APIData->getAPIPassword();
+        $userpass = $MerchantIdentity->getBillerAccountId() . ':' . $MerchantIdentity->getAuthenticationToken();
         $Auth_Header = "Basic " . base64_encode($userpass);
         $headers = array(
 //            "Content-Type: application/soap+xml; charset=utf-8",
@@ -47,7 +52,8 @@ class ProtectPayAPIUtil {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 //        curl_setopt($ch, CURLOPT_USERPWD, $userpass);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
+        if($Request->getRequest())
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
 
 //        curl_setopt($ch, CURLOPT_VERBOSE, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);

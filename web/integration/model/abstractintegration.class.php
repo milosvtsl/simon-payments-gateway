@@ -22,11 +22,10 @@ abstract class AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
      */
-    abstract function execute(IntegrationRequestRow $Request);
+    abstract function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
 
     /**
      * Was this request successful?

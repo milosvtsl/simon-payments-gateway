@@ -89,7 +89,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             $IdentityRequest = $this->prepareMerchantIdentityRequest();
 
             // Execute Identity Request
-            $Integration->execute($IdentityRequest);
+            $Integration->execute($MerchantIdentity, $IdentityRequest);
             $this->parseRequest($IdentityRequest);
             if (!$this->id)
                 throw new IntegrationException("Identity Request failed to return id");
@@ -101,7 +101,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             $PaymentRequest = $this->prepareMerchantPaymentInstrumentRequest();
 
             // Execute Request
-            $Integration->execute($PaymentRequest);
+            $Integration->execute($MerchantIdentity, $PaymentRequest);
             $this->parseRequest($PaymentRequest);
             if (!$this->payment_instrument_id)
                 throw new IntegrationException("Payment Instrument Request failed to return id");
@@ -112,7 +112,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $ProvisionRequest = $this->prepareMerchantProvisionRequest();
 
         // Execute Request
-        $Integration->execute($ProvisionRequest);
+        $Integration->execute($MerchantIdentity, $ProvisionRequest);
         $this->parseRequest($ProvisionRequest);
         if(!$this->id)
             throw new IntegrationException("Payment Instrument Request failed to return id");

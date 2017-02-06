@@ -14,17 +14,23 @@ use User\Session\SessionManager;
 // Go to root directory
 chdir('../..');
 
-// Enable class autoloader
+// Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
-$SessionManager = new SessionManager();
-$SessionUser = $SessionManager->getSessionUser();
+// Register Exception Handler
+\System\Exception\ExceptionHandler::register();
 
+// Start or resume the session
+session_start();
+
+$SessionManager = new \User\Session\SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
     header('Location: /login.php?message=session has ended');
-    die("Session has ended");
+    die();
 }
+
 
 $CID = $_POST['CID'];
 $ResponseCipher = $_POST['ResponseCipher'];

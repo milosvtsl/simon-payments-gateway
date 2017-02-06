@@ -54,6 +54,7 @@ class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
     public function getCertStr()                { return $this->certStr; }
     public function getTermId()                 { return $this->termId; }
 
+    public function getProfileId()              { return $this->getBillerAccountId(); }
 
 //    public function getBillerID()       { return $this->BillerID; }
 //    public function getAuthToken()       { return $this->AuthToken; }
