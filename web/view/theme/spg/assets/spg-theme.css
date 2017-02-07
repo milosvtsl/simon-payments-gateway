@@ -757,6 +757,28 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 
 
+/** Payment **/
+
+.spg-theme .credit-image {
+    background: url('img/payment/credit-image.png') no-repeat;
+    width: 270px;
+    height: 44px;
+}
+
+.spg-theme .check-image {
+    background: url('img/payment/check-image.png') no-repeat;
+    width: 300px;
+    height: 137px;
+}
+
+.spg-theme .cvv2-image {
+    background: url('img/payment/cvv2-image.png') no-repeat;
+    width: 108px;
+    height: 76px;
+    display: inline-block;
+}
+
+
 
 
 

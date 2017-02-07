@@ -303,7 +303,7 @@ $Theme->printHTMLMenu('order-charge');
                 </fieldset>
 
 
-                <fieldset class="inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-selected" style="clear: both; min-width: 97.7%;">
+                <fieldset class="inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-selected" style="clear: both; min-width: 95.3%;">
                     <div class="legend">Submit Payment</div>
 
 
