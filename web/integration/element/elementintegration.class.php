@@ -283,7 +283,9 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
+
         $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+
         $url = $this->getRequestURL($MerchantIdentity, $Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
@@ -630,6 +632,8 @@ class ElementIntegration extends AbstractIntegration
 
         if($code === '101')
             throw new IntegrationException($message);
+
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         return $Request;
     }
