@@ -33,7 +33,7 @@ $Theme->printHTMLMenu('order-charge');
                 <input type="hidden" name="convenience_fee_limit" value="" />
                 <input type="hidden" name="convenience_fee_variable_rate" value="" />
 
-                <fieldset class="inline-block-on-layout-full" style="min-width:48%;">
+                <fieldset class="inline-block-on-layout-full" style="min-width:46%;">
 <!--                    <legend>Choose a Merchant</legend>-->
                     <div class="legend">Choose a Merchant</div>
                     <table class="table-choose-merchant themed" style="float: left;">
@@ -84,7 +84,7 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="show-on-merchant-selected inline-block-on-layout-full" style="min-width:48%; ">
+                <fieldset class="show-on-merchant-selected inline-block-on-layout-full" style="min-width:46%; ">
                     <div class="legend">Choose a Payment Method</div>
                     <table class="table-payment-method themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -100,7 +100,7 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="show-on-merchant-selected inline-block-on-layout-full" style="min-width:48%; height: 26em;">
+                <fieldset class="show-on-merchant-selected inline-block-on-layout-full" style="min-width:46%; height: 26em;">
                     <div class="legend">Customer Fields</div>
                     <table class="table-transaction-charge themed" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -167,7 +167,7 @@ $Theme->printHTMLMenu('order-charge');
                     </table>
                 </fieldset>
 
-                <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-card" style="min-width:48%; height: 26em;">
+                <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-card" style="min-width:46%; height: 26em;">
                     <div class="legend">Cardholder Information</div>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -241,7 +241,7 @@ $Theme->printHTMLMenu('order-charge');
 
 
                 <div class="swipe-fullscreen-box-container show-on-payment-method-swipe show-on-merchant-selected">
-                    <fieldset class="themed swipe-fullscreen-box " style="min-width:48%; padding: 8px;">
+                    <fieldset class="themed swipe-fullscreen-box " style="min-width:46%; padding: 8px;">
                         <div class="legend alert reader-status">Please swipe your card now</div>
                         <br />
 
@@ -255,7 +255,7 @@ $Theme->printHTMLMenu('order-charge');
                     </fieldset>
                 </div>
 
-                <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:48%; height: 26em;">
+                <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:46%; height: 26em;">
                     <div class="legend">e-Check Information</div>
                     <table class="table-transaction-charge themed">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -307,7 +307,7 @@ $Theme->printHTMLMenu('order-charge');
                     <div class="legend">Submit Payment</div>
 
 
-                    <table class="table-transaction-charge themed" style="float: left; width: 48%;">
+                    <table class="table-transaction-charge themed" style="float: left; width: 46%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Recur Count</td>
                             <td>
@@ -347,7 +347,7 @@ $Theme->printHTMLMenu('order-charge');
                         </tr>
                     </table>
 
-                    <table class="table-transaction-charge themed" style="width: 48%;">
+                    <table class="table-transaction-charge themed" style="width: 46%;">
 <!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
 <!--                            <td class="name">Convenience Fee</td>-->
 <!--                            <td><input type="text" size="6" name="convenience_fee_total" value="$0.00" disabled="disabled" /></td>-->
