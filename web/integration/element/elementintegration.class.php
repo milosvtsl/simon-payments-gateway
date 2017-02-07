@@ -108,35 +108,21 @@ class ElementIntegration extends AbstractIntegration
         // Save the response
         $Request->setResponse($response);
 
-        try {
-            // Try parsing the response
-            $Request->parseResponseData();
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful($reason, $code)) {
-                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-            }
-            $Request->setResponseMessage($reason);
-            $Request->setResponseCode($code);
-        } catch (\Exception $ex) {
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
-        }
+//        try {
+//             Try parsing the response
+//            $Request->parseResponseData();
+//            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
+//            if($Request->isRequestSuccessful($reason, $code)) {
+//                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+//            }
+//            $Request->setResponseMessage($reason);
+//            $Request->setResponseCode($code);
+//        } catch (\Exception $ex) {
+//            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+//        }
 
     }
 
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        $response = $Request->parseResponseData();
-        $code = $response['ExpressResponseCode'];
-        $reason = $response['ExpressResponseMessage'];
-
-        return $code === '0';
-    }
 
     /**
      * Print an HTML form containing the request fields

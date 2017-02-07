@@ -44,7 +44,7 @@ $ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7')
 $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
 
 $HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
-echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
+echo "\nHealth Check: ", $HealthCheckRequest->getResult();
 
 try {
     $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
