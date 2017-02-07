@@ -169,7 +169,7 @@ $Theme->printHTMLMenu('order-charge');
 
                 <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-merchant-selected show-on-payment-method-card" style="min-width:46%; height: 26em;">
                     <div class="legend">Cardholder Information</div>
-                    <table class="table-transaction-charge themed">
+                    <table class="table-transaction-charge themed" style="display: inline-block;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <td class="name">First Name</td>
                             <td><input type="text" name="payee_first_name" value="<?php // echo @$LASTPOST['payee_first_name']; ?>" placeholder="First Name" required /></td>
@@ -224,19 +224,18 @@ $Theme->printHTMLMenu('order-charge');
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="2">
-                                <div class="credit-image"></div>
-
-                                <span style="font-size: x-small; color: grey">
-                                    **The CVV Number ("Card Verification Value") on your<br/>
-                                    credit card or debit card is a 3-4 digit number on <br />
-                                    credit and debit cards.
-                                </span>
-                            </td>
-                        </tr>
-
                     </table>
+
+
+
+                    <div style="font-size: x-small; color: grey; padding: 0em 1em; vertical-align: top;" class="inline-block-on-layout-narrow">
+                        <div class="credit-image"></div>
+                        <div class="cvv2-image" style="display: inline-block; float: left;"></div>
+                        <div style="padding: 2em; max-width: 224px;">
+                            **The CVV Number ("Card Verification Value") on your credit card
+                            or debit card is a 3-4 digit number on credit and debit cards.
+                        </div>
+                    </div>
                 </fieldset>
 
 

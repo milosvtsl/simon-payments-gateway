@@ -19,6 +19,9 @@
 .spg-theme.layout-full .inline-block-on-layout-full {
     display: inline-block !important;
 }
+.spg-theme.layout-narrow .inline-block-on-layout-narrow {
+    display: inline-block !important;
+}
 
 body.layout-guest.spg-theme .hide-on-layout-guest,
 body.layout-narrow.spg-theme .hide-on-layout-narrow,
