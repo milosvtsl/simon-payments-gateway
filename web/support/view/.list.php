@@ -18,7 +18,7 @@ $Theme->printHTMLMenu('support-ticket-list');
 
         <section class="content">
 
-            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-support-ticket-search themed">
                 <fieldset class="search-fields">

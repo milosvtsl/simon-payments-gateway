@@ -88,7 +88,7 @@ class SubscriptionListView extends AbstractListView {
 			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 
             if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
-				$this->setMessage(
+				$SessionManager->setMessage(
 					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
 				);
 				$whereSQL .= "\nAND 0=1";
@@ -148,8 +148,8 @@ class SubscriptionListView extends AbstractListView {
 		$statsMessage = $this->getRowCount() . " subscriptions found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
         $statsMessage .= " (GMT " . $offset/(60*60) . ")";
 
-		if(!$this->getMessage())
-			$this->setMessage($statsMessage);
+		if(!$SessionManager->hasMessage())
+			$SessionManager->setMessage($statsMessage);
 
 		if(in_array(strtolower(@$params['action']),
 			array('export', 'export-stats', 'export-data'))) {
@@ -164,12 +164,13 @@ class SubscriptionListView extends AbstractListView {
 	}
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

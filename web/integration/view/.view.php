@@ -27,7 +27,7 @@ $Theme->printHTMLMenu('integration-view',    $action_url);
         <section class="content">
 
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-view-integration themed" onsubmit="return false;">
                 <fieldset>

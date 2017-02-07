@@ -33,6 +33,7 @@ class DashboardView extends AbstractView {
 		<article class="themed">
 			<section class="content dashboard-section">
 				<?php
+				if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>";
 				$AppManager->renderAppHTMLContent();
 				?>
 			</section>
@@ -42,12 +43,13 @@ class DashboardView extends AbstractView {
 	}
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
 			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

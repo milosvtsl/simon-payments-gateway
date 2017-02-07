@@ -97,13 +97,13 @@ class UserView extends AbstractView
 
                     // Set message and redirect
                     $updates > 0
-                        ? $this->setSessionMessage("<div class='info'>" . $updates . " user fields updated successfully: " . $User->getUID() . '</div>')
-                        : $this->setSessionMessage("<div class='info'>No changes detected: " . $User->getUID() . '</div>');
+                        ? $SessionManager->setMessage("<div class='info'>" . $updates . " user fields updated successfully: " . $User->getUID() . '</div>')
+                        : $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUID() . '</div>');
                     header('Location: /user?uid=' . $User->getUID());
                     die();
 
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+                    $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
 //                    $this->renderHTML(array(
 //                        'action' => 'edit'
 //                    ));
@@ -123,23 +123,23 @@ class UserView extends AbstractView
                         throw new \Exception("Cannot delete self");
 
                     UserRow::delete($User);
-                    $this->setSessionMessage("Successfully deleted user: " . $User->getUsername());
+                    $SessionManager->setMessage("Successfully deleted user: " . $User->getUsername());
                     header('Location: /user');
                     die();
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $SessionManager->setMessage($ex->getMessage());
                     header('Location: /user?uid=' . $User->getUID() . '&action=delete&message=' . $ex->getMessage());
                     die();
                 }
 
             case 'login':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
-                    $this->setSessionMessage("Could not log in as user. Permission required: ROLE_ADMIN");
+                    $SessionManager->setMessage("Could not log in as user. Permission required: ROLE_ADMIN");
                     header('Location: /user?uid=' . $User->getUID());
                     die();
                 }
                 $SessionManager->adminLoginAsUser($User);
-                $this->setSessionMessage("Admin Login as: " . $User->getUsername());
+                $SessionManager->setMessage("Admin Login as: " . $User->getUsername());
                 header('Location: /user?uid=' . $User->getUID());
                 die();
 
@@ -157,7 +157,7 @@ class UserView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
-                $this->setSessionMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
+                $SessionManager->setMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
 
                 header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');
                 die();

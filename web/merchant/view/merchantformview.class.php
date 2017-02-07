@@ -45,19 +45,20 @@ class MerchantFormView extends AbstractView
         /** @var MerchantFormRow $Form */
         $Form = $this->form;
 
+        $SessionManager = new SessionManager();
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             $merchant_id = $Form->getMerchantID();
             if(!$merchant_id) {
                 // Only admins may edit default templates
-                $this->setSessionMessage("Only admins may edit default templates. Permission required: ROLE_ADMIN");
+                $SessionManager->setMessage("Only admins may edit default templates. Permission required: ROLE_ADMIN");
                 header('Location: /merchant/form.php');
                 die();
             }
             $list = $SessionUser->getMerchantList();
             if(!in_array($merchant_id, $list)) {
                 // Invalid Access
-                $this->setSessionMessage("Merchant not assigned to user");
+                $SessionManager->setMessage("Merchant not assigned to user");
                 header('Location: /merchant/form.php');
                 die();
             }
@@ -70,16 +71,18 @@ class MerchantFormView extends AbstractView
 
         $this->handleAuthority();
 
+        $SessionManager = new SessionManager();
+
             // Render Page
         switch($this->action) {
             case 'edit':
                 try {
                     $Form->updateFields($post)
-                        ? $this->setSessionMessage("<div class='info'>Template Updated Successfully: " . $Form->getTitle() . "</div>")
-                        : $this->setSessionMessage("<div class='info'>No changes detected: " . $Form->getTitle() . "</div>");
+                        ? $SessionManager->setMessage("<div class='info'>Template Updated Successfully: " . $Form->getTitle() . "</div>")
+                        : $SessionManager->setMessage("<div class='info'>No changes detected: " . $Form->getTitle() . "</div>");
 
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $SessionManager->setMessage($ex->getMessage());
                 }
                 header('Location: /merchant/form.php?uid=' . $Form->getUID());
                 break;
@@ -119,7 +122,7 @@ HEAD;
 ?>
         <article class="themed">
             <section class="content">
-                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
                 <form name="form-merchant-form-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                     <input type="hidden" name="id" value="<?php echo $Form->getID(); ?>" />
                     <input type="hidden" name="action" value="edit" />

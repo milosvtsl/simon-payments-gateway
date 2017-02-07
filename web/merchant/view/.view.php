@@ -26,7 +26,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
     <article class="themed">
 
         <section class="content" >
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-view-merchant themed " method="GET">
                 <fieldset style="position: relative;">

@@ -1,5 +1,6 @@
 <?php
 use User\Model\UserRow;
+use User\Session\SessionManager;
 
 /**
  * @var \View\AbstractListView $this
@@ -11,12 +12,15 @@ $Theme->addPathURL('user',             'Users');
 $Theme->addPathURL('user/list.php',    'Search');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('user-list');
+
+$SessionManager = new SessionManager();
+
 ?>
     <article class="themed">
 
         <section class="content">
 
-             <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-user-search themed">
                 <fieldset class="search-fields">

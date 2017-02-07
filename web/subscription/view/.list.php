@@ -21,8 +21,7 @@ $Theme->printHTMLMenu('order-subscription-list');
 
         <section class="content">
 
-
-            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-subscription-search" class="themed">
 

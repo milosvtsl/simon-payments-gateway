@@ -64,12 +64,13 @@ class ErrorView extends AbstractView {
 	}
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
 			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

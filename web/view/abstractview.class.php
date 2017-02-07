@@ -40,7 +40,9 @@ abstract class AbstractView
     public function setException(\Exception $ex)       {
         $this->_exception = $ex;
     }
-    /** @return String */
+    /** @return String
+     * @deprecated
+     */
     public function getMessage() {
         if ($this->_exception)
             return $this->_exception->getMessage();
@@ -60,12 +62,18 @@ abstract class AbstractView
         return false;
     }
 
-    public function setMessage($message)    { $this->_message = $message; }
 
+
+    /**
+     * @deprecated
+     */
     public function setSessionMessage($message) {
         $_SESSION[static::SESSION_MESSAGE_KEY] = $message;
     }
 
+    /**
+     * @deprecated
+     */
     public function hasSessionMessage() {
         return isset($_SESSION, $_SESSION[static::SESSION_MESSAGE_KEY]);
     }

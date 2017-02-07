@@ -102,13 +102,13 @@ $data = array(
 
 $tests = array(
     // Keyed Tests
-    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
+//    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
 
     // Swiped Tests
-    array('amount' => '2.04', 'entry_mode' => 'swipe', 'return' => true),
+//    array('amount' => '2.04', 'entry_mode' => 'swipe', 'return' => true),
 
     // ACH Tests
-    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
+//    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev

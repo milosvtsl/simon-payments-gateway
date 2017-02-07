@@ -31,10 +31,12 @@ class IntegrationView extends AbstractView
     public function getIntegration() { return $this->_integration; }
 
     public function renderHTMLBody(Array $params) {
-        $SessionUser = SessionManager::get()->getSessionUser();
+
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view integrations
-            $this->setSessionMessage("Unable to view integration. Permission required: ROLE_ADMIN");
+            $SessionManager->setMessage("Unable to view integration. Permission required: ROLE_ADMIN");
             header('Location: /integration?id=' . $this->getIntegration()->getID() . '&action=edit&message=Unable to manage integration: Admin required');
             die();
         }
@@ -53,10 +55,12 @@ class IntegrationView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
-        $SessionUser = SessionManager::get()->getSessionUser();
+
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             // Only admins may edit/view integrations
-            $this->setSessionMessage("Unable to view/edit integration. Permission required: ROLE_ADMIN");
+            $SessionManager->setMessage("Unable to view/edit integration. Permission required: ROLE_ADMIN");
             header('Location: /integration?id=' . $this->getIntegration()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
@@ -67,8 +71,8 @@ class IntegrationView extends AbstractView
                 case 'edit':
                     $EditIntegration = $this->getIntegration();
                     $EditIntegration->updateFields($post)
-                        ? $this->setSessionMessage("Integration Updated Successfully: " . $EditIntegration->getName())
-                        : $this->setSessionMessage("No changes detected: " . $EditIntegration->getName());
+                        ? $SessionManager->setMessage("Integration Updated Successfully: " . $EditIntegration->getName())
+                        : $SessionManager->setMessage("No changes detected: " . $EditIntegration->getName());
                     header('Location: integration?id=' . $EditIntegration->getID());
                     die();
 
@@ -82,7 +86,7 @@ class IntegrationView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage($ex->getMessage());
+            $SessionManager->setMessage($ex->getMessage());
             header('Location: /integration?id=' . $this->getIntegration()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
@@ -109,7 +113,7 @@ class IntegrationView extends AbstractView
             <section class="content">
 
 
-                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-view-integration themed" onsubmit="return false;">
                     <fieldset>

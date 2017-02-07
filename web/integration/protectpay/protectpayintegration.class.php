@@ -141,8 +141,6 @@ class ProtectPayIntegration extends AbstractIntegration
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         $TempToken = $data['TempToken'];
-        $EncodedTempToken = utf8_encode($TempToken);
-        $TempTokenMD5 = md5($EncodedTempToken);
 //        $data['TempTokenMD5'] = $TempTokenMD5;
 
         $PayerId = $data['PayerId'];
@@ -170,12 +168,13 @@ class ProtectPayIntegration extends AbstractIntegration
         );
 
         $KeyValuePairString = http_build_query($KeyValuePairs);
-        $iv = $TempTokenMD5; // '12345678';
-//        $iv = substr($iv, 0, 8);
-        $passphrase = $TempTokenMD5; // '8chrsLng';
+        $padding = 16 - (strlen($KeyValuePairString) % 16);
+        $KeyValuePairString .= str_repeat(chr($padding), $padding);
 
-        $enc = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $KeyValuePairString, MCRYPT_MODE_CBC, $iv);
-        $SettingsCipher = base64_encode($enc);
+        $key = hash('MD5', utf8_encode($TempToken), true);
+        $iv = $key;
+        $SettingsCipher = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, padData($KeyValuePairString), MCRYPT_MODE_CBC, $iv);
+        $SettingsCipher = base64_encode($SettingsCipher);
 
         if(!$SettingsCipher)
             throw new IntegrationException("Failed to create SettingsCipher");

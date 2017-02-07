@@ -116,7 +116,7 @@ class IntegrationRequestListView extends AbstractListView {
         $time += microtime(true);
 
         $statsMessage = $this->getRowCount() . " requests found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $this->setMessage($statsMessage);
+        $SessionManager->setMessage($statsMessage);
 
 		// Render Page
         $Theme = $this->getTheme();
@@ -131,7 +131,7 @@ class IntegrationRequestListView extends AbstractListView {
 
             <section class="content">
 
-                <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-search themed">
                     <fieldset class="search-fields">
@@ -238,12 +238,13 @@ class IntegrationRequestListView extends AbstractListView {
 	}
 
 	public function processFormRequest(Array $post) {
+        $SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
 			header("Location: /integration/request");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

@@ -15,7 +15,7 @@ $SessionUser = $SessionManager->getSessionUser();
 $User = $this->getUser();
 
 $odd = false;
-$action_url = '/user/index.php?id=' . $User->getID() . '&action=';
+$action_url = '/user/index.php?uid=' . $User->getUID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'user-edit';
 
 $Theme = $this->getTheme();
@@ -30,7 +30,7 @@ $Theme->printHTMLMenu($category,    $action_url);
             <section class="content">
 
 
-                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />

@@ -62,6 +62,7 @@ HEAD;
         ?>
         <article class="themed">
             <section class="content">
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
                 <form name="form-transaction-charge"
                       class="default-order-form <?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
                       method="POST"
@@ -154,7 +155,7 @@ HEAD;
 
                     <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:45%; min-height: 21em;">
                         <div class="legend">Cardholder Information</div>
-                        <table class="table-transaction-charge themed">
+                        <table class="table-transaction-charge themed" style="display: inline-block;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">First Name</td>
                                 <td><input type="text" name="payee_first_name" placeholder="First Name" required /></td>
@@ -211,16 +212,19 @@ HEAD;
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <div class="credit-image"></div>
 
-                                        <span style="font-size: x-small; color: grey">
-                                            **The CVV Number ("Card Verification Value") on your credit card <br/>
-                                            or debit card is a 3-4 digit number on credit and debit cards.
-                                        </span>
                                 </td>
                             </tr>
 
                         </table>
+                        <div style="font-size: x-small; color: grey; padding: 0em 1em; vertical-align: top;" class="inline-block-on-layout-narrow">
+                            <div class="credit-image"></div>
+                            <div class="cvv2-image" style="display: inline-block; float: left;"></div>
+                            <div style="padding: 2em; max-width: 224px;">
+                                **The CVV Number ("Card Verification Value") on your credit card
+                                or debit card is a 3-4 digit number on credit and debit cards.
+                            </div>
+                        </div>
                     </fieldset>
 
 

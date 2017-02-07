@@ -41,7 +41,7 @@ HEAD;
 ?>
         <article class="themed">
             <section class="content">
-                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
                 <form name="form-merchant-form-add" class="themed" method="POST">
                     <fieldset>
                         <div class="legend">Create new customized order page</div>
@@ -98,7 +98,8 @@ HEAD;
     public function processFormRequest(Array $post) {
         $Form = MerchantFormRow::createNewMerchantForm($post);
 
-        $this->setSessionMessage("Custom Form created successfully: " . $Form->getUID());
+        $SessionManager = new SessionManager();
+        $SessionManager->setMessage("Custom Form created successfully: " . $Form->getUID());
         header('Location: /merchant/form.php?uid=' . $Form->getUID() . '&action=edit');
         die();
 

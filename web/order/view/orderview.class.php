@@ -98,7 +98,7 @@ class OrderView extends AbstractView
                     $Subscription = SubscriptionRow::fetchByID($Order->getSubscriptionID());
                     $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
-                    $this->setSessionMessage(
+                    $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
@@ -110,7 +110,7 @@ class OrderView extends AbstractView
 
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
 
-                    $this->setSessionMessage(
+                    $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
@@ -123,7 +123,7 @@ class OrderView extends AbstractView
 //                    $partial_return_amount = $post['partial_return_amount'];
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
 
-                    $this->setSessionMessage(
+                    $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
@@ -135,7 +135,7 @@ class OrderView extends AbstractView
 
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
 
-                    $this->setSessionMessage(
+                    $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
                     header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
@@ -146,7 +146,7 @@ class OrderView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage(
+            $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
             header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
@@ -180,7 +180,7 @@ class OrderView extends AbstractView
 
             <section class="content">
 
-                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">

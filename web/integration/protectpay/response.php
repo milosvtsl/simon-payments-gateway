@@ -41,7 +41,7 @@ error_log("Response Cipher: " . print_r($_POST, true));
 $OrderRow = ProtectPayIntegration::processResponseCipher($CID, $ResponseCipher);
 
 $ReceiptView = new OrderView($OrderRow->getID());
-$ReceiptView->setSessionMessage(
+$SessionManager->setMessage(
     "<div class='info'>Success: " . $OrderRow->getStatus() . "</div>"
 );
 header('Location: /order/receipt.php?uid=' . $OrderRow->getUID(false));

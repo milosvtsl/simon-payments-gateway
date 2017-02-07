@@ -95,7 +95,7 @@ class SubscriptionView extends AbstractView
                     $message = "Canceled by " . $SessionUser->getUsername();
                     $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
-                    $this->setSessionMessage(
+                    $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
                     header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
@@ -107,7 +107,7 @@ class SubscriptionView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage(
+            $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
             header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
