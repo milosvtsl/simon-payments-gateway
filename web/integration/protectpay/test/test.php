@@ -33,7 +33,7 @@ $SessionUser = new SystemUser();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
-$ProPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-4930-800a'); // ProPay.io
+$ProtectPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-4930-800a'); // ProPay.io
 //$Integration = new TestProPayIntegrationRow();
 
 //$HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
@@ -59,7 +59,7 @@ $ProPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-4930-8
 
 
 // Test API
-$MerchantIdentity = $ProPayAPITest->getMerchantIdentity($Merchant);
+$MerchantIdentity = $ProtectPayAPITest->getMerchantIdentity($Merchant);
 //if(!$MerchantIdentity->isProvisioned())
 //    $MerchantIdentity->provisionRemote();
 
