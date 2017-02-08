@@ -6,6 +6,7 @@
  * Time: 8:46 PM
  */
 namespace Integration\ProtectPay;
+use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\View\OrderView;
@@ -33,9 +34,23 @@ if(!$SessionManager->isLoggedIn()) {
 
 
 $CID = $_POST['CID'];
-$ResponseCipher = $_POST['ResponseCipher'];
 
-error_log("Response Cipher: " . print_r($_POST, true));
+$spi_response = $_POST['spi_response'];
+$DOM = new \DOMDocument();
+$DOM->loadHTML($spi_response);
+
+$Elm = $DOM->getElementById("ResponseCipher");
+if(!$Elm)
+    throw new IntegrationException("Could not find ResponseCipher input field");
+
+$ResponseCipher = $Elm->getAttribute('value');
+if(!$ResponseCipher)
+    throw new IntegrationException("Could not find ResponseCipher input value");
+
+
+//$ResponseCipher = $_POST['ResponseCipher'];
+
+error_log("Response Cipher: " . $spi_response);
 
 // Process $ResponseCipher
 $OrderRow = ProtectPayIntegration::processResponseCipher($CID, $ResponseCipher);

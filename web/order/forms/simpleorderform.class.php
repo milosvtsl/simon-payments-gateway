@@ -231,7 +231,7 @@ HEAD;
                                     </select>
                                     <select name='card_exp_year' id='expireYY' required title="Choose an expiration year">
                                         <option value=''>Year</option>
-                                        <?php for($i=16; $i<64; $i++) { ?>
+                                        <?php for($i=date('y'); $i<64; $i++) { ?>
                                             <option value='<?php echo $i; ?>'>20<?php echo $i; ?></option>
                                         <?php } ?>
                                     </select>

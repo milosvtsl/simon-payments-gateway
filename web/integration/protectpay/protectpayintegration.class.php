@@ -159,7 +159,7 @@ class ProtectPayIntegration extends AbstractIntegration
             'Comment1' => @$post['notes'],
             'Comment2' => '',
 //            'echo' => 'echotest',
-            'ReturnURL' => 'https://access.simonpayments.com/integration/protectpay/response.php',
+            'ReturnURL' => '/integration/protectpay/response.php',
             'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
             'PaymentProcessType' => 'CreditCard',
             'StandardEntryClassCode' => 'WEB',
@@ -173,7 +173,7 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $key = hash('MD5', utf8_encode($TempToken), true);
         $iv = $key;
-        $SettingsCipher = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, padData($KeyValuePairString), MCRYPT_MODE_CBC, $iv);
+        $SettingsCipher = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $KeyValuePairString, MCRYPT_MODE_CBC, $iv);
         $SettingsCipher = base64_encode($SettingsCipher);
 
         if(!$SettingsCipher)
@@ -201,7 +201,7 @@ class ProtectPayIntegration extends AbstractIntegration
      * @throws \Exception
      *
      * Decryption Process
-     * The ‘ResponseCipher’ is encrypted using the same process and TempToken used to encrypt the ‘SettingsCipher’.
+     * The ï¿½ResponseCipherï¿½ is encrypted using the same process and TempToken used to encrypt the ï¿½SettingsCipherï¿½.
      * 1. Base64 decode the response cipher.
      * 2. UTF-8 encode the same TempToken used to encrypt and generate an MD5 hash of it.
      * 3. Decrypt the result of step 1 using AES-128 decryption using Cipher Block Chaining (CBC) mode.
@@ -209,7 +209,14 @@ class ProtectPayIntegration extends AbstractIntegration
      * ? The decrypted response will be in the form of Key-Value Pairs and contain the response of the requested transaction.
      */
     static function processResponseCipher($CID, $ResponseCipher) {
-        $data = self::getSessionTempToken($CID);
+        if(empty($_SESSION[__FILE__]))
+            throw new IntegrationException("No temp tokens were created for this session");
+
+        if(empty($_SESSION[__FILE__][$CID]))
+            throw new IntegrationException("Temp Token was not found: " . $CID);
+
+        $data = $_SESSION[__FILE__][$CID];
+
 
         // TODO: store integration request
 
@@ -231,12 +238,15 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $TempToken = $data['TempToken'];
         $TempTokenMD5 = md5($TempToken);
-        $passphrase = $TempTokenMD5;
-        $iv = $TempTokenMD5;
-        $SettingsCipher = $data['SettingsCipher'];
-        $SettingsCipher = base64_decode($SettingsCipher);
 
-        $KeyValuePairString = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $SettingsCipher, MCRYPT_MODE_CBC, $iv);
+
+        $key = hash('MD5', utf8_encode($TempToken), true);
+        $iv = $key;
+        $KeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($ResponseCipher), MCRYPT_MODE_CBC, $iv);
+
+        $padding = ord($KeyValuePairString[strlen($KeyValuePairString) - 1]);
+        $KeyValuePairString = substr($KeyValuePairString, 0, -$padding);
+        // Action=Complete&Echo=&PayerID=6105194103232727&ExpireDate=0319&CardholderName=Ari Asulin&Address1=611 W 6th Ave, sdf, sdf, sdf, sdf, sdf, sdf&Address2=sdf&Address3=&City=Mesa&State=AZ&PostalCode=85210&Country=USA
         $res = array();
         parse_str($KeyValuePairString, $res);
 
@@ -356,27 +366,10 @@ class ProtectPayIntegration extends AbstractIntegration
         }
 
 
-
+        // Clear session data
+        unset($_SESSION[__FILE__]);
     }
 
-    /**
-     * @param $CID
-     * @param bool $remove
-     * @return Array
-     * @throws IntegrationException
-     */
-    public static function getSessionTempToken($CID, $remove=true) {
-        if(empty($_SESSION[__FILE__]))
-            throw new IntegrationException("No temp tokens were created for this session");
-
-        if(empty($_SESSION[__FILE__][$CID]))
-            throw new IntegrationException("Temp Token was not found: " . $CID);
-
-        $data = $_SESSION[__FILE__][$CID];
-        if($remove)
-            unset($_SESSION[__FILE__][$CID]);
-        return $data;
-    }
 
 
     /**
@@ -799,10 +792,10 @@ HEAD;
 //        $CID = '';
 //        $SettingsCipher = '';
 //
-//        echo <<<HEAD
-//        <input type='hidden' name='CID' value='$CID' />
-//        <input type='hidden' name='SettingsCipher' value='$SettingsCipher' />
-//HEAD;
+        echo <<<HEAD
+        <input type='hidden' name='CID' value='' />
+        <input type='hidden' name='SettingsCipher' value='' />
+HEAD;
     }
 
 }
