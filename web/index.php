@@ -5,14 +5,6 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
-switch(strtolower($_SERVER["HTTP_HOST"])) {
-    case "1admin.paylogicnetwork.com":
-        Header( "HTTP/1.1 301 Moved Permanently" );
-        header("location: https://admin.paylogicnetwork.com:8443/");
-        die;
-
-}
-
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -21,10 +13,6 @@ ini_set('display_errors', 1);
 spl_autoload_extensions('.class.php');
 spl_autoload_register(function ($class) {
     $path = __DIR__ . '/' . strtolower(str_replace('\\', '/', $class)) . '.class.php';
-//    var_dump(getcwd());
-//    var_dump(__FILE__);
-//    var_dump(file_exists($path));
-//    var_dump($path);
     require $path;
 });
 

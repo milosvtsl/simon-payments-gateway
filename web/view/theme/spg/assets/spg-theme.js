@@ -54,9 +54,10 @@ document.addEventListener("DOMContentLoaded", function(e) {
         case 'localhost':
             break;
 
-        case 'access.simonpayments.com:81':
         case 'access.simonpayments.com':
-            // Force SSL
+        case 'dev.simonpayments.com':
+        case 'demo.simonpayments.com':
+            // If no SSL, force SSL
             if (location.protocol != 'https:')
                 location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
             break;
