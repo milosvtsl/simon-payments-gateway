@@ -69,4 +69,9 @@ class SupportTicketView extends AbstractView
             die();
         }
     }
+
+    public function processFormRequest(Array $post) {
+        throw new \Exception("Not implemented");
+        // TODO: Implement processFormRequest() method.
+    }
 }

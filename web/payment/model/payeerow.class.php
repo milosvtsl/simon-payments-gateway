@@ -216,7 +216,7 @@ LEFT JOIN state st on st.short_code = p.payee_state
      * @throws \Exception
      */
     public static function unitTest() {
-        require_once '../../system/config/dbconfig.class.php';
+        require_once __DIR__ . '/../../system/config/dbconfig.class.php';
 
         $post = array(
             'payee_first_name' => 'test',

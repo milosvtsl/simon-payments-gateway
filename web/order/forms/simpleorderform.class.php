@@ -237,15 +237,15 @@ HEAD;
                                     </select>
                                 </label>
 
-                            </div>
-
-                            <div style="font-size: x-small; color: grey; padding: 0em 1em; vertical-align: top; display: inline-block;">
-                                <div class="credit-image"></div>
-                                <div class="cvv2-image" style="display: inline-block; float: left;"></div>
-                                <div style="padding: 2em; max-width: 224px;">
+                                <div class="credit-image small" style="margin: 7px 0 0 5px;"></div>
+                                <div style="font-size: x-small; color: grey; padding: 1em; max-width: 300px;">
                                     **The CVV Number ("Card Verification Value") on your credit card
                                     or debit card is a 3-4 digit number on credit and debit cards.
                                 </div>
+                            </div>
+
+                            <div style="margin: 10px 5px; vertical-align: top; display: inline-block;">
+                                <div class="cvv2-image" style="display: inline-block; float: left;"></div>
                             </div>
                         </div>
 

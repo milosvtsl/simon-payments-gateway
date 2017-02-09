@@ -284,7 +284,7 @@ class ElementIntegration extends AbstractIntegration
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
 
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
 
         $url = $this->getRequestURL($MerchantIdentity, $Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);

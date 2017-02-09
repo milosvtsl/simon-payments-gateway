@@ -149,12 +149,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var amount_timeout = null;
     function updateChargeForm(e, form) {
+        var url;
         if(form.change_form_url && form.change_form_url.value) {
-            document.location.href = document.location.href.split('?')[0] + form.change_form_url.value;
+            url = form.change_form_url.value;
+            form.change_form_url.value = null;
+            document.location.href = document.location.href.split('?')[0] + url;
             return false;
         }
         if(form.change_merchant_url && form.change_merchant_url.value) {
-            document.location.href = document.location.href.split('?')[0] + form.change_merchant_url.value;
+            url = form.change_merchant_url.value;
+            form.change_merchant_url.value = null;
+            document.location.href = document.location.href.split('?')[0] + url;
             return false;
         }
 
