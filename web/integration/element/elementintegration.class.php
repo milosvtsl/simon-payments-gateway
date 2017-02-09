@@ -307,7 +307,7 @@ class ElementIntegration extends AbstractIntegration
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if($code !== "0")
-            throw new IntegrationException($message);
+            throw new IntegrationException($code . ' : ' . $message);
 
         $Transaction->setAction("Authorized");
         $Order->setStatus("Authorized");

@@ -237,12 +237,20 @@ class ProtectPayIntegration extends AbstractIntegration
         $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
 
         $TempToken = $data['TempToken'];
-        $TempTokenMD5 = md5($TempToken);
+        $SettingsCipher = $data['SettingsCipher'];
 
 
         $key = hash('MD5', utf8_encode($TempToken), true);
         $iv = $key;
         $KeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($ResponseCipher), MCRYPT_MODE_CBC, $iv);
+
+        $SettingsCipher = base64_decode($SettingsCipher);
+        $SettingsKeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $SettingsCipher, MCRYPT_MODE_CBC, $iv);
+        $sres = array();
+        parse_str($SettingsKeyValuePairString, $sres);
+
+
+
 
         $padding = ord($KeyValuePairString[strlen($KeyValuePairString) - 1]);
         $KeyValuePairString = substr($KeyValuePairString, 0, -$padding);
