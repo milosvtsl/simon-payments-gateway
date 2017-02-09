@@ -69,7 +69,7 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
                     <?php
 
                     $DB = \System\Config\DBConfig::getInstance();
-                    $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_ORDER_BY);
+                    $IntegrationQuery = $DB->prepare(IntegrationRow::SQL_SELECT . IntegrationRow::SQL_WHERE . IntegrationRow::SQL_ORDER_BY);
                     /** @noinspection PhpMethodParametersCountMismatchInspection */
                     $IntegrationQuery->setFetchMode(\PDO::FETCH_CLASS, IntegrationRow::_CLASS);
                     $IntegrationQuery->execute(array($this->getMerchant()->getID()));
