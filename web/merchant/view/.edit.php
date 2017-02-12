@@ -299,7 +299,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Routing Number</td>
-                            <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutBankCode(); ?>" placeholder="Routing Number" /></td>
+                            <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutRoutingNumber(); ?>" placeholder="Routing Number" /></td>
                         </tr>
 
                         <tr>

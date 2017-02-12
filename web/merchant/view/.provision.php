@@ -131,11 +131,11 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td>Created</td>
-                                    <td colspan="2"><?php echo $MerchantIdentity->getCreateDate() ?: 'N/A'; ?></td>
+                                    <td colspan="2"><?php // echo $MerchantIdentity->getCreateDate() ?: 'N/A'; ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td>Updated</td>
-                                    <td colspan="2"><?php echo $MerchantIdentity->getUpdateDate() ?: 'N/A'; ?></td>
+                                    <td colspan="2"><?php // echo $MerchantIdentity->getUpdateDate() ?: 'N/A'; ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td colspan="3">

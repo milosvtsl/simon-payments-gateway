@@ -15,6 +15,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
@@ -27,6 +28,13 @@ use User\Model\UserRow;
 class ProtectPayIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
+
+    const REST_DOMAIN_PROPAY    = 'https://xml.propay.com/API/PropayAPI.aspx';
+    const REST_DOMAIN_PROPAY_TEST    = 'https://xmltest.propay.com/API/PropayAPI.aspx';
+
+    const REST_DOMAIN_PROTECTPAY = "https://xmlapi.propay.com";
+    const REST_DOMAIN_PROTECTPAY_TEST = "https://xmltestapi.propay.com";
+
 //    const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/Payers/";
     const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/MerchantProfiles/";
     const POST_URL_TRANSACTION_CREATE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/";
@@ -41,12 +49,13 @@ class ProtectPayIntegration extends AbstractIntegration
 
 
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new ProtectPayMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new ProtectPayMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**
@@ -151,19 +160,19 @@ class ProtectPayIntegration extends AbstractIntegration
         $KeyValuePairs = array(
             'AuthToken'=> $MerchantIdentity->getAuthenticationToken(), // '1f25d31c-e8fe-4d68-be73-f7b439bfa0a329e90de6-4e93-4374-8633-22cef77467f5',
             'PayerID' => $PayerId, // '2833955147881261',
-            'Amount' => @$post['amount'],
-            'CurrencyCode' => 'USD',
+            'PaymentProcessType' => 'CreditCard',
             'ProcessMethod' => 'Capture',
             'PaymentMethodStorageOption' => 'None',
+            'CurrencyCode' => 'USD',
+            'Amount' => @$post['amount'],
+            'StandardEntryClassCode' => 'WEB',
             'InvoiceNumber' => @$post['invoice_number'],
+            'ReturnURL' => '/integration/protectpay/response.php',
+//            'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
+            'DisplayMessage' => 'True',
             'Comment1' => @$post['notes'],
             'Comment2' => '',
-//            'echo' => 'echotest',
-            'ReturnURL' => '/integration/protectpay/response.php',
-            'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
-            'PaymentProcessType' => 'CreditCard',
-            'StandardEntryClassCode' => 'WEB',
-            'DisplayMessage' => 'True',
+            'Echo' => 'echotest',
             'Protected' => 'False',
         );
 

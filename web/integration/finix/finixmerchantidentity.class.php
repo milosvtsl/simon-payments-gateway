@@ -11,6 +11,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 
@@ -34,7 +35,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     protected $verification;
     protected $identity;
 
-    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
+    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
         parent::__construct($Merchant, $APIData);
     }
 
@@ -74,10 +75,14 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         return false;
     }
 
+
     /**
      * Remove provision a merchant
+     * @param array $post
+     * @return mixed
+     * @throws IntegrationException
      */
-    function provisionRemote() {
+    function provisionRemote(Array $post=array()) {
         if($this->isProvisioned())
             throw new IntegrationException("Merchant is already provisioned");
 
@@ -294,7 +299,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
                 "Bank Account" => "Company Account"
             ),
             "country" => "USA",
-            "bank_code" => $M->getPayoutBankCode(),
+            "bank_code" => $M->getPayoutRoutingNumber(),
             "account_number" => $M->getPayoutAccountNumber(),
             "type" => $M->getPayoutType(),
             "identity" => $this->getRemoteID()

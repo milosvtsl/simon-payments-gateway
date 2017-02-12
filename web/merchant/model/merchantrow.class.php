@@ -252,7 +252,7 @@ LEFT JOIN state s on m.state_id = s.id
     public function getPayoutAccountName()  { return $this->payout_account_name; }
     public function getPayoutAccountType()  { return $this->payout_account_type; }
     public function getPayoutAccountNumber(){ return $this->payout_account_number; }
-    public function getPayoutBankCode()     { return $this->payout_bank_code; }
+    public function getPayoutRoutingNumber(){ return $this->payout_bank_code; }
 
     public function getFraudHighLimit()     { return $this->fraud_high_limit; }
     public function getFraudLowLimit()      { return $this->fraud_low_limit; }

@@ -14,6 +14,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
@@ -31,14 +32,14 @@ class FinixIntegration extends AbstractIntegration
     const POST_URL_PAYMENT_INSTRUMENT = "/payment_instruments/";
     const POST_URL_MERCHANT_PROVISION = "/identities/:IDENTITY_ID/merchants/";
 
-
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new FinixMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new FinixMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**

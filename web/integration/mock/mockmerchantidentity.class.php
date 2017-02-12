@@ -71,12 +71,14 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
         return self::$mock_merchant_id == $this->getMerchantRow()->getID();
     }
 
+
     /**
      * Remove provision a merchant
+     * @param array $post
      * @return mixed
      */
-    function provisionRemote() {
-        // TODO: Implement provisionRemote() method.
+    function provisionRemote(Array $post=array()) {
+            // TODO: Implement provisionRemote() method.
     }
 
     /**

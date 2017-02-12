@@ -60,8 +60,8 @@ $ProtectPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-49
 
 // Test API
 $MerchantIdentity = $ProtectPayAPITest->getMerchantIdentity($Merchant);
-//if(!$MerchantIdentity->isProvisioned())
-//    $MerchantIdentity->provisionRemote();
+if(!$MerchantIdentity->isProvisioned())
+    $MerchantIdentity->provisionRemote();
 
 
 

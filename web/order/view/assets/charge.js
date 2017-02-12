@@ -175,14 +175,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //form.entry_method.value = 'Swipe';
             form.entry_mode.value = 'Swipe';
             form.card_number.value = lastParseData.card_number;
-            form.payee_first_name.value = lastParseData.payee_first_name;
-            form.payee_last_name.value = lastParseData.payee_last_name;
+            if(form.payee_full_name) form.payee_full_name.value = (lastParseData.payee_first_name + ' ' + lastParseData.payee_last_name).trim();
+            if(form.payee_first_name) form.payee_first_name.value = lastParseData.payee_first_name;
+            if(form.payee_last_name) form.payee_last_name.value = lastParseData.payee_last_name;
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
 
-            if(!form.customer_first_name.value)
+            if(form.customer_first_name && !form.customer_first_name.value)
                 form.customer_first_name.value = lastParseData.payee_first_name;
-            if(!form.customer_last_name.value)
+            if(form.customer_last_name && !form.customer_last_name.value)
                 form.customer_last_name.value = lastParseData.payee_last_name;
         }
 

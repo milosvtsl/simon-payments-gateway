@@ -11,6 +11,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 
@@ -19,45 +20,44 @@ class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
 
-    protected $entity;
-    protected $tags;
-    protected $created_at;
-    protected $updated_at;
+    protected $creds = array(
+        'MerchantProfileId' => null,
+        'propayAccountNum' => null,
+        'propayPassword' => null,
+    );
 
-    protected $AuthenticationToken;
-    protected $BillerAccountId;
-    protected $certStr;
-    protected $termId;
-
-//    protected $AuthToken;
-//    protected $BillerID;
-
-
-    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
-        $cred = json_decode($APIData->getAPICredentials(), false);
-        $this->AuthenticationToken = $cred->AuthenticationToken;
-        $this->BillerAccountId = $cred->BillerAccountId;
-        $this->certStr = $cred->certStr;
-        $this->termId = $cred->termId;
-
+    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
         parent::__construct($Merchant, $APIData);
+        if($MerchantIntegration)
+            $this->creds = $MerchantIntegration->getCredentials() ?: $this->creds;
     }
 
-    public function getRemoteID()       { return $this->BillerAccountId; }
-    public function getEntityData()     { return $this->entity; }
-    public function getTags()           { return $this->tags; }
-    public function getCreateDate()     { return $this->created_at; }
-    public function getUpdateDate()     { return $this->updated_at; }
+    /**
+     * Return an array of remote credentials
+     * @return Array
+     */
+    function getCredentials() {
+        return $this->creds;
+    }
 
-    public function getAuthenticationToken()    { return $this->AuthenticationToken; }
-    public function getBillerAccountId()        { return $this->BillerAccountId; }
-    public function getCertStr()                { return $this->certStr; }
-    public function getTermId()                 { return $this->termId; }
+
+    public function getRemoteID()               { return $this->getMerchantProfileId(); }
+
+    public function getMerchantProfileId()      { return $this->creds['MerchantProfileId']; }
+    public function getProPayAccountNum()       { return $this->creds['propayAccountNum']; }
+    public function getProPayPassword()         { return $this->creds['propayPassword']; }
+
+    public function getProcessorCredentials($param) {
+        $APIData = $this->getIntegrationRow();
+        $cred = json_decode($APIData->getAPICredentialString(), true);
+        return $cred[$param];
+    }
+    public function getAuthenticationToken()    { return $this->getProcessorCredentials('AuthenticationToken'); }
+    public function getBillerAccountId()        { return $this->getProcessorCredentials('BillerAccountId'); }
+    public function getCertStr()                { return $this->getProcessorCredentials('certStr'); }
+    public function getTermId()                 { return $this->getProcessorCredentials('termId'); }
 
     public function getProfileId()              { return $this->getBillerAccountId(); }
-
-//    public function getBillerID()       { return $this->BillerID; }
-//    public function getAuthToken()       { return $this->AuthToken; }
 
     function isProfileComplete(&$message=null) {
         $message = "Complete";
@@ -65,10 +65,10 @@ class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
     }
 
     function isProvisioned(&$message=null) {
-//        if($this->AccountID) {
-//            $message = "Yes";
-//            return true;
-//        }
+        if($this->creds['MerchantProfileId']) {
+            $message = "Yes";
+            return true;
+        }
         $message = "No";
         return false;
     }
@@ -80,50 +80,77 @@ class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
 
     /**
      * Remove provision a merchant
+     * @param array $post
      * @return mixed
+     * @throws IntegrationException
      */
-    function provisionRemote() {
-        // TODO: Implement provisionRemote() method.
+    function provisionRemote(Array $post=array()) {
+        $APIUtil = new ProtectPayAPIUtil();
+        $IntegrationRow = $this->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
+
+        $this->creds['propayAccountNum'] = '123456';
+        if(!$this->creds['propayAccountNum']) {
+            $Request = $APIUtil->prepareProPayMerchantProvisionRequest($this, $post);
+
+            $Integration->execute($this, $Request);
+
+            // Try parsing the response
+            $data = $APIUtil->decodeXMLResponse($Request->getResponse());
+            $Request->setResponseCode($data['XMLTrans']['status']);
+
+            if ($Request->getResponseCode() !== '00')
+                throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponse());
+
+            $this->creds['propayAccountNum'] = $data['XMLTrans']['accntNum'];
+            $this->creds['propayPassword'] = $data['XMLTrans']['password'];
+            MerchantIntegrationRow::writeMerchantIdentity($this);
+
+            $Request->setResponseMessage("Success");
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+
+            IntegrationRequestRow::insert($Request);
+        }
+
+        if(!$this->creds['MerchantProfileId']) {
+            $Request = $APIUtil->prepareProtectPayMerchantProvisionRequest($this, $post);
+
+            $Integration->execute($this, $Request);
+
+            // Try parsing the response
+            $data = json_decode($Request->getResponse(), true);
+            $Request->setResponseCode($data['RequestResult']['ResultCode']);
+
+            if ($Request->getResponseCode() !== '00')
+                throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
+
+            $this->creds['MerchantProfileId'] = $data['ProfileId'];
+            MerchantIntegrationRow::writeMerchantIdentity($this);
+
+            $Request->setResponseMessage(@$data['RequestResult']['ResultMessage'] ?: $data['RequestResult']['ResultValue']);
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+
+            IntegrationRequestRow::insert($Request);
+        }
+
+        if(!$this->isProvisioned())
+            throw new IntegrationException("Merchant Failed to Provision");
     }
+
 
     /**
      * Settle funds to a merchant
      * @return mixed
+     * @throws IntegrationException
      */
     function settleRemote() {
-        // TODO: Implement settleRemote() method.
+        throw new IntegrationException("Not implemented");
     }
+
 
     protected function parseRequest(IntegrationRequestRow $APIRequest) {
-        $response = $APIRequest->getResponse();
-        $data = json_decode($response, true);
-        if(!$data)
-            throw new IntegrationException("Response failed to parse JSON");
-
-        if($APIRequest->getResult() !== IntegrationRequestRow::ENUM_RESULT_SUCCESS)
-            throw new IntegrationException("Only successful responses may be parsed");
-
-        switch($APIRequest->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                $this->AccountID = $data['AccountID'];
-                $this->AccountToken = $data['AccountToken'];
-                $this->ApplicationID = $data['ApplicationID'];
-                $this->AcceptorID = $data['AcceptorID'];
-                $this->DefaultTerminalID = @$data['DefaultTerminalID'];
-                $this->created_at = $APIRequest->getDate();
-                $this->updated_at = $APIRequest->getDate();
-                break;
-
-//            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
-//                $this->payment_instrument_id = $data['id'];
-//                $this->payment_instrument_fingerprint = $data['fingerprint'];
-//                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                break;
-        }
+        throw new IntegrationException("Not implemented");
     }
-
 
     /**
      * Calculate Transaction Service Fee
@@ -156,7 +183,5 @@ class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
         }
     }
 
-
     // Static
-
 }

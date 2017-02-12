@@ -15,6 +15,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
@@ -31,12 +32,13 @@ class ElementIntegration extends AbstractIntegration
     const POST_URL_TRANSACTION = "/express.asmx"; // https://certtransaction.elementexpress.com/express.asmx
 
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new ElementMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new ElementMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**
