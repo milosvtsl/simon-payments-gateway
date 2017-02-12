@@ -92,10 +92,23 @@ class DefaultViewTheme extends AbstractViewTheme
     }
 
     public function printHTMLMenu($category, $action_url=null) {
+        throw new \Exception("Not implemented");
         // TODO: Implement printHTMLMenu() method.
     }
 
     public function printBreadCrumbs($getFullName, $string) {
+        throw new \Exception("Not implemented");
         // TODO: Implement printBreadCrumbs() method.
+    }
+
+    /**
+     * Add a path (bread crumb) url
+     * @param $name
+     * @param $url
+     * @return mixed
+     */
+    public function addPathURL($url, $name) {
+        throw new \Exception("Not implemented");
+        // TODO: Implement addPathURL() method.
     }
 }

@@ -15,6 +15,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
@@ -27,6 +28,13 @@ use User\Model\UserRow;
 class ProtectPayIntegration extends AbstractIntegration
 {
     const _CLASS = __CLASS__;
+
+    const REST_DOMAIN_PROPAY    = 'https://xml.propay.com/API/PropayAPI.aspx';
+    const REST_DOMAIN_PROPAY_TEST    = 'https://xmltest.propay.com/API/PropayAPI.aspx';
+
+    const REST_DOMAIN_PROTECTPAY = "https://xmlapi.propay.com";
+    const REST_DOMAIN_PROTECTPAY_TEST = "https://xmltestapi.propay.com";
+
 //    const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/Payers/";
     const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/MerchantProfiles/";
     const POST_URL_TRANSACTION_CREATE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/";
@@ -41,12 +49,13 @@ class ProtectPayIntegration extends AbstractIntegration
 
 
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new ProtectPayMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new ProtectPayMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**
@@ -141,8 +150,6 @@ class ProtectPayIntegration extends AbstractIntegration
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         $TempToken = $data['TempToken'];
-        $EncodedTempToken = utf8_encode($TempToken);
-        $TempTokenMD5 = md5($EncodedTempToken);
 //        $data['TempTokenMD5'] = $TempTokenMD5;
 
         $PayerId = $data['PayerId'];
@@ -153,29 +160,30 @@ class ProtectPayIntegration extends AbstractIntegration
         $KeyValuePairs = array(
             'AuthToken'=> $MerchantIdentity->getAuthenticationToken(), // '1f25d31c-e8fe-4d68-be73-f7b439bfa0a329e90de6-4e93-4374-8633-22cef77467f5',
             'PayerID' => $PayerId, // '2833955147881261',
-            'Amount' => @$post['amount'],
-            'CurrencyCode' => 'USD',
+            'PaymentProcessType' => 'CreditCard',
             'ProcessMethod' => 'Capture',
             'PaymentMethodStorageOption' => 'None',
+            'CurrencyCode' => 'USD',
+            'Amount' => @$post['amount'],
+            'StandardEntryClassCode' => 'WEB',
             'InvoiceNumber' => @$post['invoice_number'],
+            'ReturnURL' => '/integration/protectpay/response.php',
+//            'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
+            'DisplayMessage' => 'True',
             'Comment1' => @$post['notes'],
             'Comment2' => '',
-//            'echo' => 'echotest',
-            'ReturnURL' => 'https://access.simonpayments.com/integration/protectpay/response.php',
-            'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
-            'PaymentProcessType' => 'CreditCard',
-            'StandardEntryClassCode' => 'WEB',
-            'DisplayMessage' => 'True',
+            'Echo' => 'echotest',
             'Protected' => 'False',
         );
 
         $KeyValuePairString = http_build_query($KeyValuePairs);
-        $iv = $TempTokenMD5; // '12345678';
-//        $iv = substr($iv, 0, 8);
-        $passphrase = $TempTokenMD5; // '8chrsLng';
+        $padding = 16 - (strlen($KeyValuePairString) % 16);
+        $KeyValuePairString .= str_repeat(chr($padding), $padding);
 
-        $enc = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $KeyValuePairString, MCRYPT_MODE_CBC, $iv);
-        $SettingsCipher = base64_encode($enc);
+        $key = hash('MD5', utf8_encode($TempToken), true);
+        $iv = $key;
+        $SettingsCipher = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $KeyValuePairString, MCRYPT_MODE_CBC, $iv);
+        $SettingsCipher = base64_encode($SettingsCipher);
 
         if(!$SettingsCipher)
             throw new IntegrationException("Failed to create SettingsCipher");
@@ -202,7 +210,7 @@ class ProtectPayIntegration extends AbstractIntegration
      * @throws \Exception
      *
      * Decryption Process
-     * The ‘ResponseCipher’ is encrypted using the same process and TempToken used to encrypt the ‘SettingsCipher’.
+     * The ï¿½ResponseCipherï¿½ is encrypted using the same process and TempToken used to encrypt the ï¿½SettingsCipherï¿½.
      * 1. Base64 decode the response cipher.
      * 2. UTF-8 encode the same TempToken used to encrypt and generate an MD5 hash of it.
      * 3. Decrypt the result of step 1 using AES-128 decryption using Cipher Block Chaining (CBC) mode.
@@ -210,7 +218,14 @@ class ProtectPayIntegration extends AbstractIntegration
      * ? The decrypted response will be in the form of Key-Value Pairs and contain the response of the requested transaction.
      */
     static function processResponseCipher($CID, $ResponseCipher) {
-        $data = self::getSessionTempToken($CID);
+        if(empty($_SESSION[__FILE__]))
+            throw new IntegrationException("No temp tokens were created for this session");
+
+        if(empty($_SESSION[__FILE__][$CID]))
+            throw new IntegrationException("Temp Token was not found: " . $CID);
+
+        $data = $_SESSION[__FILE__][$CID];
+
 
         // TODO: store integration request
 
@@ -231,13 +246,24 @@ class ProtectPayIntegration extends AbstractIntegration
         $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
 
         $TempToken = $data['TempToken'];
-        $TempTokenMD5 = md5($TempToken);
-        $passphrase = $TempTokenMD5;
-        $iv = $TempTokenMD5;
         $SettingsCipher = $data['SettingsCipher'];
-        $SettingsCipher = base64_decode($SettingsCipher);
 
-        $KeyValuePairString = mcrypt_encrypt(MCRYPT_BLOWFISH, $passphrase, $SettingsCipher, MCRYPT_MODE_CBC, $iv);
+
+        $key = hash('MD5', utf8_encode($TempToken), true);
+        $iv = $key;
+        $KeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($ResponseCipher), MCRYPT_MODE_CBC, $iv);
+
+        $SettingsCipher = base64_decode($SettingsCipher);
+        $SettingsKeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $SettingsCipher, MCRYPT_MODE_CBC, $iv);
+        $sres = array();
+        parse_str($SettingsKeyValuePairString, $sres);
+
+
+
+
+        $padding = ord($KeyValuePairString[strlen($KeyValuePairString) - 1]);
+        $KeyValuePairString = substr($KeyValuePairString, 0, -$padding);
+        // Action=Complete&Echo=&PayerID=6105194103232727&ExpireDate=0319&CardholderName=Ari Asulin&Address1=611 W 6th Ave, sdf, sdf, sdf, sdf, sdf, sdf&Address2=sdf&Address3=&City=Mesa&State=AZ&PostalCode=85210&Country=USA
         $res = array();
         parse_str($KeyValuePairString, $res);
 
@@ -357,27 +383,10 @@ class ProtectPayIntegration extends AbstractIntegration
         }
 
 
-
+        // Clear session data
+        unset($_SESSION[__FILE__]);
     }
 
-    /**
-     * @param $CID
-     * @param bool $remove
-     * @return Array
-     * @throws IntegrationException
-     */
-    public static function getSessionTempToken($CID, $remove=true) {
-        if(empty($_SESSION[__FILE__]))
-            throw new IntegrationException("No temp tokens were created for this session");
-
-        if(empty($_SESSION[__FILE__][$CID]))
-            throw new IntegrationException("Temp Token was not found: " . $CID);
-
-        $data = $_SESSION[__FILE__][$CID];
-        if($remove)
-            unset($_SESSION[__FILE__][$CID]);
-        return $data;
-    }
 
 
     /**
@@ -800,10 +809,10 @@ HEAD;
 //        $CID = '';
 //        $SettingsCipher = '';
 //
-//        echo <<<HEAD
-//        <input type='hidden' name='CID' value='$CID' />
-//        <input type='hidden' name='SettingsCipher' value='$SettingsCipher' />
-//HEAD;
+        echo <<<HEAD
+        <input type='hidden' name='CID' value='' />
+        <input type='hidden' name='SettingsCipher' value='' />
+HEAD;
     }
 
 }

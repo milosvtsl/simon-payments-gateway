@@ -11,6 +11,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
@@ -52,9 +53,10 @@ class ProtectPayAPIUtil {
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 //        curl_setopt($ch, CURLOPT_USERPWD, $userpass);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        if($Request->getRequest())
+        if($Request->getRequest()) {
             curl_setopt($ch, CURLOPT_POSTFIELDS, $Request->getRequest());
-
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        }
 //        curl_setopt($ch, CURLOPT_VERBOSE, 1);
         curl_setopt($ch, CURLOPT_HEADER, 1);
 
@@ -82,6 +84,118 @@ class ProtectPayAPIUtil {
         return $response;
     }
 
+
+    /**
+     * @param ProtectPayMerchantIdentity $MerchantIdentity
+     * @param array $post
+     * @return IntegrationRequestRow
+     */
+    public function prepareProPayMerchantProvisionRequest(
+        ProtectPayMerchantIdentity $MerchantIdentity,
+        Array $post
+    ) {
+        $Merchant = $MerchantIdentity->getMerchantRow();
+        $IntegrationRow = $MerchantIdentity->getIntegrationRow();
+
+        $Request = IntegrationRequestRow::prepareNew(
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY
+        );
+
+        $MCCCode = $Merchant->getMerchantMCC();
+        $url = ProtectPayIntegration::REST_DOMAIN_PROPAY; //  . ProtectPayIntegration::POST_URL_MERCHANT_IDENTITY;
+        if($IntegrationRow->getAPIType() == IntegrationRow::ENUM_API_TYPE_TESTING) {
+            $url = ProtectPayIntegration::REST_DOMAIN_PROPAY_TEST;
+            $MCCCode = 5499;
+        }
+
+        $Request->setRequestURL($url);
+
+
+        $params = array(
+            "transType" => '01',
+            "AccountCountryCode" => $Merchant->getCountryCode(),
+            "accountName" => $Merchant->getPayoutAccountName(),
+            "AccountNumber" => $Merchant->getPayoutAccountNumber(),
+            "AccountOwnershipType" => $Merchant->getPayoutAccountType() ?: 'Personal',
+            "accountType" => 'C',
+            "BusinessAddress" => $Merchant->getAddress(),
+            "BusinessAddress2" => $Merchant->getAddress2(),
+            "BusinessCity" => $Merchant->getCity(),
+            "BusinessCountry" => $Merchant->getCountryCode(),
+            "BusinessLegalName" => $Merchant->getName(),
+            "BusinessState" => $Merchant->getState(),
+            "BusinessZip" => $Merchant->getZipCode(),
+            "dayPhone" => $Merchant->getTelephone(),
+            "DoingBusinessAs" => @$post['billing_descriptor'] ?: $Merchant->getShortName(),
+            "EIN" => $Merchant->getBusinessTaxID(),
+            "MCCCode" => $MCCCode,
+            "RoutingNumber" => $Merchant->getPayoutRoutingNumber(),
+            "sourceEmail" => $Merchant->getMainEmailID()
+        );
+
+        $XMLParams = '';
+        foreach($params as $name => $value)
+            $XMLParams .= "\n\t<{$name}>" . htmlentities($value) . "</{$name}>";
+
+        $MyCertStr = $MerchantIdentity->getCertStr();
+        $XML = <<<XML
+<?xml version='1.0'?>
+<!DOCTYPE Request.dtd>
+<XMLRequest>
+    <certStr>{$MyCertStr}</certStr>
+    <class>partner</class>
+    <XMLTrans>{$XMLParams}
+    </XMLTrans>
+</XMLRequest>
+XML;
+
+        $Request->setRequest($XML);
+        return $Request;
+    }
+
+    public function prepareProtectPayMerchantProvisionRequest(
+        ProtectPayMerchantIdentity $MerchantIdentity,
+        Array $post
+    ) {
+        $Merchant = $MerchantIdentity->getMerchantRow();
+        $APIData = $MerchantIdentity->getIntegrationRow();
+
+        $Request = IntegrationRequestRow::prepareNew(
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY
+        );
+
+        $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY;
+        if($APIData->getAPIType() == IntegrationRow::ENUM_API_TYPE_TESTING) {
+            $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY_TEST;
+        }
+        $url .= ProtectPayIntegration::POST_URL_MERCHANT_IDENTITY;
+        $Request->setRequestURL($url);
+
+        $params = array(
+            "ProfileName" => @$post['profile_name'] ?: $Merchant->getName(),
+            "PaymentProcessor" => "LegacyProPay",
+            "ProcessorData" => array(
+                array(
+                    "ProcessorField" => "certStr",
+                    "Value" => $MerchantIdentity->getCertStr(),
+                ),
+                array(
+                    "ProcessorField" => "accountNum",
+                    "Value" => $MerchantIdentity->getProPayAccountNum(),
+                ),
+                array(
+                    "ProcessorField" => "termId",
+                    "Value" => $MerchantIdentity->getTermId(),
+                )
+            )
+        );
+
+        $JSON = json_encode($params, JSON_PRETTY_PRINT);
+        $Request->setRequest($JSON);
+        return $Request;
+    }
 
     public function prepareSaleRequest(
         ProtectPayMerchantIdentity $MerchantIdentity,
@@ -192,6 +306,7 @@ class ProtectPayAPIUtil {
 
         return $request;
     }
+
 
     public function prepareCreditCardReversalRequest(
         ProtectPayMerchantIdentity $MerchantIdentity,
@@ -401,7 +516,6 @@ class ProtectPayAPIUtil {
 
         return $request;
     }
-
 
     public function prepareCreditCardVoidRequest(
         ProtectPayMerchantIdentity $MerchantIdentity,
@@ -615,6 +729,13 @@ SOAP;
 SOAP;
 
         return $request;
+    }
+
+    public function decodeXMLResponse($response) {
+        $response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $response);
+        $xml = new \SimpleXMLElement($response);
+        $data = json_decode(json_encode((array)$xml), TRUE);
+        return $data;
     }
 
 }

@@ -17,6 +17,7 @@ use Payment\Model\PaymentRow;
 use System\Config\DBConfig;
 use System\Config\SiteConfig;
 use User\Model\UserRow;
+use User\Session\SessionManager;
 
 class OrderRow
 {
@@ -634,7 +635,7 @@ SQL;
     public static function unitTest() {
         // Go up 2 directories
         $cwd = getcwd();
-        chdir('../..');
+        chdir(__DIR__ . '/../..');
 
         // Enable class autoloader for this page instance
         spl_autoload_extensions('.class.php');
@@ -672,13 +673,16 @@ SQL;
             'check_number' => '123',
         );
 
+        $TestPaymentInfo = PaymentRow::createPaymentFromPost($post + $post_cc);
 
-        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $post + $post_cc);
+        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $TestPaymentInfo, $TestForm, $post + $post_cc);
         self::insert($TestOrderRow);
         $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
         OrderRow::delete($TestOrderRow);
 
-        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $post + $post_check);
+        $TestPaymentInfo = PaymentRow::createPaymentFromPost($post + $post_check);
+
+        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $TestPaymentInfo, $TestForm, $post + $post_check);
         self::insert($TestOrderRow);
         $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
         OrderRow::delete($TestOrderRow);
@@ -693,6 +697,6 @@ SQL;
     }
 }
 
-if(isset($argv) && in_array(@$argv[1], array('test-order', 'test-all')))
-    OrderRow::unitTest();
+//if(isset($argv) && in_array(@$argv[1], array('test-order', 'test-all')))
+//    OrderRow::unitTest();
 

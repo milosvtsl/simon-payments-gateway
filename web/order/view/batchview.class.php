@@ -8,6 +8,7 @@
 namespace Order\View;
 
 use Dompdf\Exception;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 class BatchView extends AbstractView
@@ -39,6 +40,7 @@ class BatchView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $SessionManager = new SessionManager();
         try {
             // Render Page
             switch($this->action) {
@@ -63,7 +65,7 @@ class BatchView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage(
+            $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
             header('Location: /order/batch.php?batch_id=' . $this->batch_id . '&merchant_id='.$this->merchant_id.'&message=' . $ex->getMessage()  . '');

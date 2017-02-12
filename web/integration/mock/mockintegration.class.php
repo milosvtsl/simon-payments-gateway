@@ -56,56 +56,6 @@ class MockIntegration extends AbstractIntegration
 
     }
 
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        return true;
-    }
-
-    /**
-     * Print an HTML form containing the request fields
-     * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the form failed to print
-     */
-    function printFormHTML(IntegrationRequestRow $Request) {
-
-    }
-
-    /**
-     * Return the API Request URL for this request
-     * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param IntegrationRequestRow $Request
-     * @return string
-     * @throws IntegrationException
-     */
-    function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
-        throw new IntegrationException("No API url for this request type");
-    }
-
-    /**
-     * Parse the response data and return a data object
-     * @param IntegrationRequestRow $Request
-     * @return mixed
-     * @throws IntegrationException if response failed to parse
-     */
-    function parseResponseData(IntegrationRequestRow $Request) {
-        $response = $Request->getResponse();
-        if(!$response)
-            throw new IntegrationException("Empty Request response");
-        $data = json_decode($response, true);
-        if(!$data)
-            throw new IntegrationException("Response failed to parse JSON");
-
-        if(empty($data['entity']))
-            throw new IntegrationException("Missing response key: 'entity'");
-        return $data;
-    }
 
     /**
      * Submit a new transaction

@@ -9,7 +9,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
     <section class="not-content login-section">
 
-        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+        <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
         <?php if(!empty($_GET['key']) && !empty($_GET['email'])) { ?>
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>

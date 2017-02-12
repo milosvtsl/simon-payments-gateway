@@ -3,6 +3,7 @@ namespace Integration\Model;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
@@ -24,8 +25,6 @@ abstract class AbstractMerchantIdentity {
     private $integration;
 
     abstract function getRemoteID();
-    abstract function getCreateDate();
-    abstract function getUpdateDate();
 
     abstract function isProfileComplete(&$message=null);
     abstract function isProvisioned(&$reason=null);
@@ -35,10 +34,17 @@ abstract class AbstractMerchantIdentity {
 
 
     /**
+     * Return an array of remote credentials
+     * @return Array
+     */
+    abstract function getCredentials();
+
+    /**
      * Remove provision a merchant
+     * @param array $post
      * @return mixed
      */
-    abstract function provisionRemote();
+    abstract function provisionRemote(Array $post=array());
 
     /**
      * Settle funds to a merchant
@@ -72,33 +78,40 @@ abstract class AbstractMerchantIdentity {
      * Construct a new Merchant Identity
      * @param MerchantRow $Merchant
      * @param IntegrationRow $APIData
+     * @param bool $queryIntegrationRequests
      * @throws IntegrationException
      * @throws \Exception
      */
-    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
+    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, $queryIntegrationRequests=false) {
         $this->merchant = $Merchant;
         $this->integration = $APIData;
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(IntegrationRequestRow::SQL_SELECT
-            . "WHERE ir.type LIKE :type"
-            . "\n\tAND ir.type_id = :type_id"
-            . "\n\tAND ir.integration_id = :integration_id");
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, IntegrationRequestRow::_CLASS);
-        $stmt->execute(array(
-            ':type' => "merchant%",
-            ':type_id' => $Merchant->getID(),
-            ':integration_id' => $APIData->getID(),
-        ));
+        if($queryIntegrationRequests) {
+            $DB = DBConfig::getInstance();
+            $stmt = $DB->prepare(IntegrationRequestRow::SQL_SELECT
+                . "WHERE ir.type LIKE :type"
+                . "\n\tAND ir.type_id = :type_id"
+                . "\n\tAND ir.integration_id = :integration_id");
+            /** @noinspection PhpMethodParametersCountMismatchInspection */
+            $stmt->setFetchMode(\PDO::FETCH_CLASS, IntegrationRequestRow::_CLASS);
+            $stmt->execute(array(
+                ':type' => "merchant%",
+                ':type_id' => $Merchant->getID(),
+                ':integration_id' => $APIData->getID(),
+            ));
 
-        foreach($stmt as $Request) {
-            /** @var IntegrationRequestRow $Request */
-            if(!$Request->getResponse())
-                throw new IntegrationException("Empty response");
-            if($Request->getResult() === IntegrationRequestRow::ENUM_RESULT_SUCCESS)
-                $this->parseRequest($Request);
+            foreach ($stmt as $Request) {
+                /** @var IntegrationRequestRow $Request */
+                if (!$Request->getResponse())
+                    throw new IntegrationException("Empty response");
+                if ($Request->getResult() === IntegrationRequestRow::ENUM_RESULT_SUCCESS)
+                    $this->parseRequest($Request);
+            }
         }
+
     }
+
+
+
 
     /**
      * Submit a new transaction
@@ -217,6 +230,7 @@ abstract class AbstractMerchantIdentity {
     public function getMarketCode() {
         return "Retail"; // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
     }
+
 
 
 

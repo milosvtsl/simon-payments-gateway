@@ -15,10 +15,11 @@ class AddUserView extends AbstractView
 {
 
     public function renderHTMLBody(Array $params) {
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add other users
-            $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
+            $SessionManager->setMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
             header('Location: /user?action=add&message=Unable to manage integration: Admin required');
             die();
         }
@@ -28,22 +29,23 @@ class AddUserView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add users
-            $this->setSessionMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
+            $SessionManager->setMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
                 header('Location: /user?action=add&message=Unable to manage integration: Admin required');
                 die();
         }
 
         try {
             $User = UserRow::createNewUser($post, $SessionUser);
-            $this->setSessionMessage("User created successfully: " . $User->getUID());
+            $SessionManager->setMessage("User created successfully: " . $User->getUID());
             header('Location: /user?uid=' . $User->getUID());
             die();
 
         } catch (\InvalidArgumentException $ex) {
-            $this->setSessionMessage("User creation failed: " . $ex->getMessage());
+            $SessionManager->setMessage("User creation failed: " . $ex->getMessage());
             header('Location: /user/add.php');
             die();
         }

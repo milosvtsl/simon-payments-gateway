@@ -1,5 +1,6 @@
 <?php
 use Integration\Request\View\IntegrationRequestView;
+use User\Session\SessionManager;
 
 /**
  * @var IntegrationRequestView $this
@@ -13,12 +14,15 @@ $Theme->addPathURL('integration/request',           'Requests');
 $Theme->addPathURL($action_url,                     $Request->getID());
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('integration-request-view',    $action_url);
+
+$SessionManager = new SessionManager();
+
 ?>
     <article class="themed">
 
         <section class="content">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-view-integration-request themed" onsubmit="return false;">
                 <fieldset>
@@ -60,6 +64,8 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
                             <td>Merchant</td>
                             <td><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
                         </tr>
+
+                        <?php if($Request->getOrderItemUID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Order</td>
                             <td><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
@@ -68,6 +74,7 @@ $Theme->printHTMLMenu('integration-request-view',    $action_url);
                             <td>Transaction</td>
                             <td><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
                         </tr>
+                        <?php } ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>User</td>
                             <td class="hide-on-layout-narrow"><a href='user?uid=<?php echo $Request->getUserUID(); ?>'><?php echo $Request->getUserID(); ?></a></td>

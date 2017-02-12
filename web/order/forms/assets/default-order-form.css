@@ -22,22 +22,6 @@
     display: none !important;
 }
 
-.default-order-form .credit-image {
-    background: url('img/credit-image.png') no-repeat;
-    width: 270px;
-    height: 44px;
-    /* border: 1px outset; */
-    /* margin-top: 0.8em; */
-}
-
-.default-order-form .check-image {
-    background: url('img/check-image.png') no-repeat;
-    width: 300px;
-    height: 137px;
-    /* border: 1px outset; */
-    /* margin-top: 1em; */
-}
-
 
 /** Swipe Box **/
 

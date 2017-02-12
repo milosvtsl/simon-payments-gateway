@@ -25,11 +25,21 @@ echo "\nTesting ... ", __FILE__, PHP_EOL;
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
+// Includes & Class Unit Tests
+$Directory = new RecursiveDirectoryIterator(__DIR__);
+$Iterator = new RecursiveIteratorIterator($Directory);
+$Regex = new RegexIterator($Iterator, '/^.+\.class\.php$/i', RecursiveRegexIterator::GET_MATCH);
+foreach($Regex as $classFile) {
+    $path = $classFile[0];
+    echo "\nClass " . $path;
+    include_once $classFile[0];
+}
+
+
 // Test Finix Integration
 chdir('integration/finix/test');
 require ('test.php');
 chdir($cwd0);
-
 
 // Test Element Integration
 chdir('integration/element/test');

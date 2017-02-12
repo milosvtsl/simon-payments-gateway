@@ -23,7 +23,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
         <section class="content">
 
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
@@ -299,7 +299,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Routing Number</td>
-                            <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutBankCode(); ?>" placeholder="Routing Number" /></td>
+                            <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutRoutingNumber(); ?>" placeholder="Routing Number" /></td>
                         </tr>
 
                         <tr>

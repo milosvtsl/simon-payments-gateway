@@ -89,7 +89,7 @@ FROM integration i
     public function getAPIType()        { return $this->api_type; }
     public function getNotes()          { return $this->notes; }
 
-    public function getAPICredentials() {
+    public function getAPICredentialString() {
         return $this->api_credentials;
     }
 
@@ -167,7 +167,10 @@ FROM integration i
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($uid));
-        return $stmt->fetch();
+        $Integration = $stmt->fetch();
+        if(!$Integration)
+            throw new \InvalidArgumentException("Integration not found: " . $uid);
+        return $Integration;
     }
 
     public static function queryAll($order = 'i.id DESC') {

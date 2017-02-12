@@ -92,7 +92,7 @@ class OrderListView extends AbstractListView {
 			$whereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
             if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
-				$this->setMessage(
+				$SessionManager->setMessage(
 					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
 				);
 				$whereSQL .= "\nAND 0=1";
@@ -171,8 +171,8 @@ class OrderListView extends AbstractListView {
 		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
         $statsMessage .= " (GMT " . $offset/(60*60) . ")";
 
-		if(!$this->getMessage())
-			$this->setMessage($statsMessage);
+//		if(!$SessionManager->hasMessage())
+//			$SessionManager->setMessage($statsMessage);
 
         $action_url = 'order/list.php?' . http_build_query($_GET);
 
@@ -236,9 +236,7 @@ class OrderListView extends AbstractListView {
 		<article class="themed">
 
 			<section class="content">
-
-
-				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 				<form name="form-order-search" class="themed">
 
@@ -375,7 +373,7 @@ class OrderListView extends AbstractListView {
                             <tr>
                                 <td colspan="6" style="text-align: right">
                                     <span style="font-size: 0.7em; color: grey; float: left;">
-                                        <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+										<?php echo $statsMessage; ?>
                                     </span>
                                 </td>
                             </tr>
@@ -392,12 +390,14 @@ class OrderListView extends AbstractListView {
 	}
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
+
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

@@ -89,7 +89,7 @@ class OrderReportView extends AbstractListView {
 			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 
             if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
-				$this->setMessage(
+				$SessionManager->setMessage(
 					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
 				);
 				$whereSQL .= "\nAND 0=1";
@@ -191,8 +191,7 @@ class OrderReportView extends AbstractListView {
 
 			<section class="content">
 
-
-				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 				<form name="form-order-search" class="themed">
 
@@ -315,12 +314,13 @@ class OrderReportView extends AbstractListView {
 	}
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

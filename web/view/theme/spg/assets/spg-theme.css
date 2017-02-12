@@ -19,6 +19,9 @@
 .spg-theme.layout-full .inline-block-on-layout-full {
     display: inline-block !important;
 }
+.spg-theme.layout-narrow .inline-block-on-layout-narrow {
+    display: inline-block !important;
+}
 
 body.layout-guest.spg-theme .hide-on-layout-guest,
 body.layout-narrow.spg-theme .hide-on-layout-narrow,
@@ -765,16 +768,28 @@ body.layout-vertical.spg-theme nav.page-menu {
     height: 44px;
 }
 
+.spg-theme .credit-image.small {
+    background: url('img/payment/credit-image-small.png') no-repeat;
+    width: 192px;
+    height: 32px;
+}
+
 .spg-theme .check-image {
     background: url('img/payment/check-image.png') no-repeat;
     width: 300px;
-    height: 137px;
+    height: 162px;
 }
 
 .spg-theme .cvv2-image {
     background: url('img/payment/cvv2-image.png') no-repeat;
-    width: 108px;
-    height: 76px;
+    width: 225px;
+    height: 170px;
+    display: inline-block;
+}
+
+.spg-theme .cvv2-image.small {
+    transform: scale(0.8);
+    margin: 12px -26px;
 }
 
 

@@ -42,7 +42,7 @@ class ChargeView extends AbstractView
                 }
             }
         } catch (\Exception $ex) {
-            $this->setMessage($ex->getMessage());
+            $SessionManager->setMessage($ex->getMessage());
             $OrderForm = MerchantFormRow::fetchGlobalForm();
         }
         $this->form = $OrderForm;
@@ -99,8 +99,8 @@ class ChargeView extends AbstractView
             $Theme->printHTMLMenu('order-charge');
         }
 
-        if($this->hasMessage())
-            echo "<h5>", $this->getMessage(), "</h5>";
+//        if($this->hasMessage())
+//            echo "<h5>", $this->getMessage(), "</h5>";
 
         // Render Order Form
         $MerchantForm->renderHTML($MerchantIdentity, $params);
@@ -166,7 +166,7 @@ class ChargeView extends AbstractView
 
             // Else POST
 
-            $this->setSessionMessage(
+            $SessionManager->setMessage(
                 "<div class='info'>Success: " . $Transaction->getStatusMessage() . "</div>"
             );
             header('Location: /order/receipt.php?uid=' . $Order->getUID(false));
@@ -174,7 +174,7 @@ class ChargeView extends AbstractView
             die();
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage(
+            $SessionManager->setMessage(
                 "<div class='error'>Error: " . $ex->getMessage() . "</div>"
             );
             header('Location: /order/charge.php');

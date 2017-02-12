@@ -62,6 +62,7 @@ HEAD;
         ?>
         <article class="themed">
             <section class="content">
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
                 <form name="form-transaction-charge"
                       class="default-order-form <?php echo $MerchantForm->getFormClasses(); ?> payment-method-keyed payment-method-card themed"
                       method="POST"
@@ -154,7 +155,7 @@ HEAD;
 
                     <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:45%; min-height: 21em;">
                         <div class="legend">Cardholder Information</div>
-                        <table class="table-transaction-charge themed">
+                        <table class="table-transaction-charge themed" style="display: inline-block;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">First Name</td>
                                 <td><input type="text" name="payee_first_name" placeholder="First Name" required /></td>
@@ -203,24 +204,31 @@ HEAD;
                                     </select>
                                     <select name='card_exp_year' id='expireYY' required title="Choose an expiration year">
                                         <option value=''>Year</option>
-                                        <?php for($i=16; $i<64; $i++) { ?>
+                                        <?php for($i=date('y'); $i<64; $i++) { ?>
                                             <option value='<?php echo $i; ?>'>20<?php echo $i; ?></option>
                                         <?php } ?>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2">
-                                    <div class="credit-image"></div>
+                                <td colspan="2" style="white-space: normal;">
 
-                                        <span style="font-size: x-small; color: grey">
-                                            **The CVV Number ("Card Verification Value") on your credit card <br/>
-                                            or debit card is a 3-4 digit number on credit and debit cards.
-                                        </span>
+
+                                    <div class="credit-image small" style="margin: 7px 0 0 5px;"></div>
+                                    <div style="font-size: x-small; color: grey; padding: 1em; max-width: 300px;">
+                                        **The CVV Number ("Card Verification Value") on your credit card
+                                        or debit card is a 3-4 digit number on credit and debit cards.
+                                    </div>
+
+
                                 </td>
                             </tr>
 
                         </table>
+
+                        <div style="margin: 0px 5px; vertical-align: top; display: inline-block;">
+                            <div class="cvv2-image small" style="display: inline-block; float: left; "></div>
+                        </div>
                     </fieldset>
 
 

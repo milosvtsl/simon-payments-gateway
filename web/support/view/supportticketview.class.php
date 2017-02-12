@@ -8,6 +8,7 @@
 namespace Support\View;
 
 use Support\Model\SupportTicketRow;
+use User\Session\SessionManager;
 use View\AbstractView;
 
 class SupportTicketView extends AbstractView
@@ -45,6 +46,7 @@ class SupportTicketView extends AbstractView
     }
 
     public function processFormTicket(Array $post) {
+        $SessionManager = new SessionManager();
         try {
             // Render Page
             switch($this->action) {
@@ -61,10 +63,15 @@ class SupportTicketView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage($ex->getMessage());
+            $SessionManager->setMessage($ex->getMessage());
             header('Location: /support/ticket?id=' . $this->getTicket()->getID() . '&action=edit&message=Unable to manage batch: ' . $ex->getMessage());
 
             die();
         }
+    }
+
+    public function processFormRequest(Array $post) {
+        throw new \Exception("Not implemented");
+        // TODO: Implement processFormRequest() method.
     }
 }

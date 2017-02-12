@@ -1,8 +1,12 @@
 <?php /** @var \User\View\LoginView $this  **/
+use User\Session\SessionManager;
+
 $odd = true;
 // Render Header
 /** @var \View\AbstractView $this */
 $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
+
+$SessionManager = new SessionManager();
 ?>
 
 <article>
@@ -13,7 +17,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
         <form name="form-login" class="themed" action='login.php?action=login' method='POST' id='form-login'>
             <img src="view/theme/spg/assets/img/logo_full.png" alt="Simon Payments Gateway" style="display: block; margin: auto; padding: 0.5em; width: 18em;">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <fieldset style=" padding: 0.5em; margin: 0.3em; text-align: left;">
 

@@ -11,6 +11,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 
@@ -30,8 +31,8 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     protected $AcceptorID;
     protected $DefaultTerminalID;
 
-    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
-        parent::__construct($Merchant, $APIData);
+    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
+        parent::__construct($Merchant, $APIData, true);
     }
 
     public function getRemoteID()       { return $this->AcceptorID; }
@@ -74,9 +75,10 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
 
     /**
      * Remove provision a merchant
+     * @param array $post
      * @return mixed
      */
-    function provisionRemote() {
+    function provisionRemote(Array $post=array()) {
         // TODO: Implement provisionRemote() method.
     }
 

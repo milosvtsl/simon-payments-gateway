@@ -15,6 +15,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
@@ -31,12 +32,13 @@ class ElementIntegration extends AbstractIntegration
     const POST_URL_TRANSACTION = "/express.asmx"; // https://certtransaction.elementexpress.com/express.asmx
 
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new ElementMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new ElementMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**
@@ -108,35 +110,21 @@ class ElementIntegration extends AbstractIntegration
         // Save the response
         $Request->setResponse($response);
 
-        try {
-            // Try parsing the response
-            $Request->parseResponseData();
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful($reason, $code)) {
-                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-            }
-            $Request->setResponseMessage($reason);
-            $Request->setResponseCode($code);
-        } catch (\Exception $ex) {
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
-        }
+//        try {
+//             Try parsing the response
+//            $Request->parseResponseData();
+//            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
+//            if($Request->isRequestSuccessful($reason, $code)) {
+//                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+//            }
+//            $Request->setResponseMessage($reason);
+//            $Request->setResponseCode($code);
+//        } catch (\Exception $ex) {
+//            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+//        }
 
     }
 
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        $response = $Request->parseResponseData();
-        $code = $response['ExpressResponseCode'];
-        $reason = $response['ExpressResponseMessage'];
-
-        return $code === '0';
-    }
 
     /**
      * Print an HTML form containing the request fields
@@ -297,7 +285,9 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+
         $url = $this->getRequestURL($MerchantIdentity, $Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
@@ -319,7 +309,7 @@ class ElementIntegration extends AbstractIntegration
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if($code !== "0")
-            throw new IntegrationException($message);
+            throw new IntegrationException($code . ' : ' . $message);
 
         $Transaction->setAction("Authorized");
         $Order->setStatus("Authorized");
@@ -644,6 +634,8 @@ class ElementIntegration extends AbstractIntegration
 
         if($code === '101')
             throw new IntegrationException($message);
+
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         return $Request;
     }

@@ -111,7 +111,7 @@ class MerchantListView extends AbstractListView {
 
 			<section class="content">
 
-				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 				<form class="form-search themed">
 					<fieldset class="search-fields">
@@ -174,7 +174,7 @@ class MerchantListView extends AbstractListView {
 						<div class="legend">Page</div>
 						<?php $this->printPagination('merchant?'); ?>
 
-						<?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+						<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 					</fieldset>
 				</form>
@@ -186,12 +186,13 @@ class MerchantListView extends AbstractListView {
 
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

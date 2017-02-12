@@ -30,10 +30,11 @@ class MerchantView extends AbstractView
     public function getMerchant() { return $this->_merchant; }
 
     public function renderHTMLBody(Array $params) {
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may edit/view merchants
-            $this->setSessionMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
+            $SessionManager->setMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
             header('Location: /merchant?id=' . $this->getMerchant()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
@@ -62,11 +63,11 @@ class MerchantView extends AbstractView
 
     public function processFormRequest(Array $post) {
         $Merchant = $this->getMerchant();
-
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may edit/view merchants
-            $this->setSessionMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
+            $SessionManager->setMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
             header('Location: /merchant?id=' . $Merchant->getID());
             die();
         }
@@ -74,7 +75,7 @@ class MerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
             if(!in_array($Merchant->getID(), $SessionUser->getMerchantList())) {
                 // Only admins may edit/view merchants
-                $this->setSessionMessage("Unable to view/edit merchant. This account does not have permission.");
+                $SessionManager->setMessage("Unable to view/edit merchant. This account does not have permission.");
                 header('Location: /merchant?id=' . $Merchant->getID());
                 die();
             }
@@ -85,11 +86,11 @@ class MerchantView extends AbstractView
             case 'edit':
                 try {
                     $Merchant->updateFields($post)
-                        ? $this->setSessionMessage("<div class='info'>Merchant Updated Successfully: " . $Merchant->getName() . "</div>")
-                        : $this->setSessionMessage("<div class='info'>No changes detected: " . $Merchant->getName() . "</div>");
+                        ? $SessionManager->setMessage("<div class='info'>Merchant Updated Successfully: " . $Merchant->getName() . "</div>")
+                        : $SessionManager->setMessage("<div class='info'>No changes detected: " . $Merchant->getName() . "</div>");
 
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $SessionManager->setMessage($ex->getMessage());
                 }
                 header('Location: /merchant?id=' . $Merchant->getID());
                 die();
@@ -99,16 +100,16 @@ class MerchantView extends AbstractView
                 $IntegrationRow = IntegrationRow::fetchByID($_GET['integration_id']);
                 $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
                 if($MerchantIdentity->isProvisioned()) {
-                    $this->setSessionMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
+                    $SessionManager->setMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
                     header('Location: /merchant?id=' . $this->getMerchant()->getID());
                     die();
                 }
 
                 try {
                     $MerchantIdentity->provisionRemote();
-                    $this->setSessionMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
+                    $SessionManager->setMessage("Merchant provisioned successfully: " . $this->getMerchant()->getName());
                 } catch (IntegrationException $ex) {
-                    $this->setSessionMessage("Merchant failed to provision: " . $ex->getMessage());
+                    $SessionManager->setMessage("Merchant failed to provision: " . $ex->getMessage());
                 }
                 header('Location: /merchant?id=' . $this->getMerchant()->getID());
                 die();

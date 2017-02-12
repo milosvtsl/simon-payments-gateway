@@ -59,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 var CID = objJSON.CID;
                 var SettingsCipher = objJSON.SettingsCipher;
+                form.CID.value = CID;
+                form.SettingsCipher.value = SettingsCipher;
                 if(!CID || !SettingsCipher) {
                     alert("Invalid CID/SettingsCipher: " + response);
                     throw new Error("Invalid CID/SettingsCipher: " + response);
@@ -125,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (xhttp.readyState === 4) {
                 var resp = xhttp.responseText;
                 console.log("Processor Response: ", resp);
-                processSPIResponse(resp, form, CID, SettingsCipher);
+                processSPIResponse(resp, form);
             }
         };
         xhttp.send(payload);

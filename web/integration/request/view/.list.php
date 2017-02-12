@@ -1,12 +1,14 @@
 <?php
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use User\Session\SessionManager;
 
 /**
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/
 
+$SessionManager = new SessionManager();
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('integration',                   'Integration');
@@ -20,7 +22,7 @@ $Theme->printHTMLMenu('integration-request-list');
 
         <section class="content">
 
-            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset class="search-fields">

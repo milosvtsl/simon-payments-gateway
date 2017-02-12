@@ -35,7 +35,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
 
         <section class="content">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-subscription-view" id="form-subscription-view" class="themed" method="POST">
                 <fieldset style="">

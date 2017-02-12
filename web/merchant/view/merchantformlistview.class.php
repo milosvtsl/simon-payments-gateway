@@ -4,7 +4,7 @@ namespace Merchant\View;
 use Merchant\Model\MerchantFormRow;
 use System\Config\DBConfig;
 use View\AbstractListView;
-
+use User\Session\SessionManager;
 
 class MerchantFormListView extends AbstractListView {
 
@@ -76,10 +76,12 @@ class MerchantFormListView extends AbstractListView {
 		$Theme->addPathURL('merchant/form.php',    'Forms');
 		$Theme->renderHTMLBodyHeader();
 		$Theme->printHTMLMenu('merchant-form-list');
+
+		$SessionManager = new SessionManager();
 ?>
 		<article class="themed">
 			<section class="content">
-				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 				<form class="form-search themed">
 					<fieldset class="search-fields">
 						<div class="legend">Search Merchant Forms</div>
@@ -134,7 +136,7 @@ class MerchantFormListView extends AbstractListView {
 						<div class="legend">Page</div>
 						<?php $this->printPagination('merchant/form.php?'); ?>
 
-						<?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+						<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 					</fieldset>
 				</form>
@@ -146,13 +148,14 @@ class MerchantFormListView extends AbstractListView {
 
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: /");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
-			header("Location: login.php");
+			$SessionManager->setMessage($ex->getMessage());
+			header("Location: /login.php");
 		}
 	}
 }

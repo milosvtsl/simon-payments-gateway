@@ -36,18 +36,19 @@ $SessionUser = new SystemUser();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
-$ElementAPITest = IntegrationRow::fetchByUID('t3caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
-$ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
+$ElementAPI = IntegrationRow::fetchByUID('t3caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
+$ElementAPILive = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
 //$Integration = new TestElementIntegrationRow();
 
 // Real API Health Check
 $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
+$MerchantIdentityLive = $ElementAPILive->getMerchantIdentity($Merchant);
 
-$HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
-echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
+$HealthCheckRequest = $MerchantIdentityLive->performHealthCheck($SessionUser, array());
+echo "\nHealth Check: ", $HealthCheckRequest->getResult();
 
 try {
-    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+    $stats = $MerchantIdentityLive->performTransactionQuery($SessionUser,
         array(
             'status' => 'Settled',
             'reverse' => 'True',

@@ -149,12 +149,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var amount_timeout = null;
     function updateChargeForm(e, form) {
+        var url;
         if(form.change_form_url && form.change_form_url.value) {
-            document.location.href = document.location.href.split('?')[0] + form.change_form_url.value;
+            url = form.change_form_url.value;
+            form.change_form_url.value = null;
+            document.location.href = document.location.href.split('?')[0] + url;
             return false;
         }
         if(form.change_merchant_url && form.change_merchant_url.value) {
-            document.location.href = document.location.href.split('?')[0] + form.change_merchant_url.value;
+            url = form.change_merchant_url.value;
+            form.change_merchant_url.value = null;
+            document.location.href = document.location.href.split('?')[0] + url;
             return false;
         }
 
@@ -170,14 +175,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
             //form.entry_method.value = 'Swipe';
             form.entry_mode.value = 'Swipe';
             form.card_number.value = lastParseData.card_number;
-            form.payee_first_name.value = lastParseData.payee_first_name;
-            form.payee_last_name.value = lastParseData.payee_last_name;
+            if(form.payee_full_name) form.payee_full_name.value = (lastParseData.payee_first_name + ' ' + lastParseData.payee_last_name).trim();
+            if(form.payee_first_name) form.payee_first_name.value = lastParseData.payee_first_name;
+            if(form.payee_last_name) form.payee_last_name.value = lastParseData.payee_last_name;
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
 
-            if(!form.customer_first_name.value)
+            if(form.customer_first_name && !form.customer_first_name.value)
                 form.customer_first_name.value = lastParseData.payee_first_name;
-            if(!form.customer_last_name.value)
+            if(form.customer_last_name && !form.customer_last_name.value)
                 form.customer_last_name.value = lastParseData.payee_last_name;
         }
 
@@ -212,8 +218,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var option = form.card_type.options[i];
                     if(option.innerHTML === newType) {
                         //form.card_type.value = newType;
-                        form.card_type.selectedIndex = i;
-                        console.log("Updating card type to: " + newType, " from ", form.card_type.value);
+                        if(form.card_type.selectedIndex != i) {
+                            form.card_type.selectedIndex = i;
+                            console.log("Updating card type to: " + newType, " from ", form.card_type.value);
+                        }
                     }
                 }
             }
@@ -221,58 +229,63 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    var lastEntryMode = null;
     function updateStyleSheetTheme(form) {
         var entry_mode = form.entry_mode.value.toLowerCase() || 'keyed';
 
-        // Disable unused payment methods
-        switch(entry_mode) {
-            case 'check':
-                form.classList.remove('payment-method-keyed');
-                form.classList.remove('payment-method-swipe');
-                form.classList.remove('payment-method-card');
-                form.classList.add('payment-method-check');
+        if(entry_mode !== lastEntryMode) {
+            lastEntryMode = entry_mode;
 
-                form.card_number.setAttribute('disabled', 'disabled');
-                form.card_type.setAttribute('disabled', 'disabled');
-                form.card_cvv2.setAttribute('disabled', 'disabled');
-                form.card_exp_month.setAttribute('disabled', 'disabled');
-                form.card_exp_year.setAttribute('disabled', 'disabled');
+            // Disable unused payment methods
+            switch(entry_mode) {
+                case 'check':
+                    form.classList.remove('payment-method-keyed');
+                    form.classList.remove('payment-method-swipe');
+                    form.classList.remove('payment-method-card');
+                    form.classList.add('payment-method-check');
 
-                form.check_account_name.removeAttribute('disabled');
-                form.check_account_bank_name.removeAttribute('disabled');
-                form.check_account_number.removeAttribute('disabled');
-                form.check_routing_number.removeAttribute('disabled');
-                form.check_account_type.removeAttribute('disabled');
-                form.check_number.removeAttribute('disabled');
-                form.check_type.removeAttribute('disabled');
-                console.info("Switching to Entry mode: " + entry_mode);
-//                 form.entry_mode.value = entry_mode;
-                break;
+                    form.card_number.setAttribute('disabled', 'disabled');
+                    form.card_type.setAttribute('disabled', 'disabled');
+                    form.card_cvv2.setAttribute('disabled', 'disabled');
+                    form.card_exp_month.setAttribute('disabled', 'disabled');
+                    form.card_exp_year.setAttribute('disabled', 'disabled');
 
-            case 'swipe':
-            case 'keyed':
-                form.classList.remove('payment-method-keyed');
-                form.classList.remove('payment-method-swipe');
-                form.classList.add('payment-method-' + entry_mode);
-                form.classList.add('payment-method-card');
-                form.classList.remove('payment-method-check');
+                    form.check_account_name.removeAttribute('disabled');
+                    form.check_account_bank_name.removeAttribute('disabled');
+                    form.check_account_number.removeAttribute('disabled');
+                    form.check_routing_number.removeAttribute('disabled');
+                    form.check_account_type.removeAttribute('disabled');
+                    form.check_number.removeAttribute('disabled');
+                    form.check_type.removeAttribute('disabled');
+                    console.info("Switching to Entry mode: " + entry_mode);
+    //                 form.entry_mode.value = entry_mode;
+                    break;
 
-                form.card_number.removeAttribute('disabled');
-                form.card_type.removeAttribute('disabled');
-                form.card_cvv2.removeAttribute('disabled');
-                form.card_exp_month.removeAttribute('disabled');
-                form.card_exp_year.removeAttribute('disabled');
+                case 'swipe':
+                case 'keyed':
+                    form.classList.remove('payment-method-keyed');
+                    form.classList.remove('payment-method-swipe');
+                    form.classList.add('payment-method-' + entry_mode);
+                    form.classList.add('payment-method-card');
+                    form.classList.remove('payment-method-check');
 
-                form.check_account_name.setAttribute('disabled', 'disabled');
-                form.check_account_bank_name.setAttribute('disabled', 'disabled');
-                form.check_account_number.setAttribute('disabled', 'disabled');
-                form.check_routing_number.setAttribute('disabled', 'disabled');
-                form.check_account_type.setAttribute('disabled', 'disabled');
-                form.check_number.setAttribute('disabled', 'disabled');
-                form.check_type.setAttribute('disabled', 'disabled');
-                console.info("Switching to Entry mode: " + entry_mode);
-//                 form.entry_mode.value = entry_mode;
-                break;
+                    form.card_number.removeAttribute('disabled');
+                    form.card_type.removeAttribute('disabled');
+                    form.card_cvv2.removeAttribute('disabled');
+                    form.card_exp_month.removeAttribute('disabled');
+                    form.card_exp_year.removeAttribute('disabled');
+
+                    form.check_account_name.setAttribute('disabled', 'disabled');
+                    form.check_account_bank_name.setAttribute('disabled', 'disabled');
+                    form.check_account_number.setAttribute('disabled', 'disabled');
+                    form.check_routing_number.setAttribute('disabled', 'disabled');
+                    form.check_account_type.setAttribute('disabled', 'disabled');
+                    form.check_number.setAttribute('disabled', 'disabled');
+                    form.check_type.setAttribute('disabled', 'disabled');
+                    console.info("Switching to Entry mode: " + entry_mode);
+    //                 form.entry_mode.value = entry_mode;
+                    break;
+            }
         }
 
         // Rebill UI

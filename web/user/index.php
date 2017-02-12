@@ -29,11 +29,13 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
+// Check for User UID parameter
 if(isset($_GET['uid'])) {
     if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
         $View = new \User\View\UserView($_GET['uid']);
         $View->handleRequest();
     } else {
+        $SessionManager->setMessage("Invalid authority to view user");
         $View = new \User\View\UserView($SessionUser->getUID());
         $View->handleRequest();
     }

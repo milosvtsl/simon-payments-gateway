@@ -22,7 +22,7 @@ $Theme->printHTMLMenu('merchant-add');
 
         <section class="content">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-add-merchant themed" method="POST">
                 <input type="hidden" name="action" value="add" />
