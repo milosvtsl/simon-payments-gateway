@@ -89,7 +89,6 @@ class ProtectPayMerchantIdentity extends AbstractMerchantIdentity
         $IntegrationRow = $this->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
 
-        $this->creds['propayAccountNum'] = '123456';
         if(!$this->creds['propayAccountNum']) {
             $Request = $APIUtil->prepareProPayMerchantProvisionRequest($this, $post);
 

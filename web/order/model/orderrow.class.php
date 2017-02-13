@@ -203,34 +203,36 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeeZipCode()       { return $this->payee_zipcode; }
     public function getPayeeCity()          { return $this->payee_city; }
     public function getPayeeState()         { return $this->payee_state; }
+    public function getPayeeCountry()       { return "USA"; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
     public function getCardHolderFullName() { return $this->getPayeeFullName() ?: $this->getCustomerFullName(); }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
-    public function getCardExpMonth()       { return $this->card_exp_month; }
 
+    public function getCardExpMonth()       { return $this->card_exp_month; }
     public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
     public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
-    public function getCardTrack()          { return $this->card_track; }
 
+    public function getCardTrack()          { return $this->card_track; }
     public function getCheckAccountName()   { return $this->check_account_name; }
     public function getCheckAccountNumber() { return $this->check_account_number; }
     public function getCheckAccountBank()   { return $this->check_account_bank_name; }
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
     public function getCheckNumber()        { return $this->check_number; }
-    public function getCheckType()          { return $this->check_type; }
 
+    public function getCheckType()          { return $this->check_type; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
     public function getFormID()             { return $this->form_id; }
-    public function getOrderItemID()        { return $this->order_item_id; }
 
+    public function getOrderItemID()        { return $this->order_item_id; }
     public function getConvenienceFee()     { return $this->convenience_fee; }
+
     public function getEntryMode()          { return $this->entry_mode; }
 
     public function setStatus($status)      { $this->status = $status; }
@@ -240,7 +242,6 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function setTotalReturnedAmount($total_returned_amount) {
         $this->total_returned_amount = $total_returned_amount;
     }
-
     public function getReferenceNumber() {
         return strtoupper($this->uid);
     }
@@ -251,13 +252,14 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getSubscriptionAmount()     { return $this->subscription_recur_amount; }
     public function getSubscriptionCount()      { return $this->subscription_recur_count; }
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
+
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
 
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
-
     public function setSubscriptionID($order_item_id) {
         $this->subscription_id = $order_item_id;
     }
+
     public function getBatchID()            { return $this->batch_id; }
 
     public function getCustomFieldValues() {
@@ -276,6 +278,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     }
 
     public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
+
 
     public function calculateCurrentBatchID($time=null) {
         $DB = DBConfig::getInstance();
@@ -306,7 +309,6 @@ SQL;
 
         return $batch_id;
     }
-
 
     /**
      * Return the first authorized transaction for this order
@@ -339,10 +341,11 @@ SQL;
                 throw new FraudException("Order is below Low Limit ($amount < $min)");
 
     }
-
     public function insertCustomField($field, $value) {
         OrderFieldRow::insertOrUpdate($this, $field, $value);
     }
+
+
     /**
      * @return PaymentRow
      */
@@ -359,7 +362,6 @@ SQL;
         $this->payment = PaymentRow::createPaymentFromPost($post);
         return $this->payment;
     }
-
 
     // Static
 
@@ -391,6 +393,7 @@ SQL;
             throw new \InvalidArgumentException("Order Row has already been inserted");
         self::insertOrUpdate($OrderRow);
     }
+
 
     public static function update(OrderRow $OrderRow) {
         if(!$OrderRow->id)
@@ -463,7 +466,6 @@ SQL;
         if($DB->lastInsertId())
             $OrderRow->id = $DB->lastInsertId();
     }
-
 
     /**
      * @param $field
@@ -620,13 +622,13 @@ SQL;
         return 'O' . $type . substr(sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479)), 2);
     }
 
+
     public static function sanitizeNumber($number, $lastDigits=4, $char='X') {
         if(!$number)
             return $number;
         $l = strlen($number);
         return str_repeat($char, $l-$lastDigits) . substr($number, -$lastDigits);
     }
-
 
     /**
      * Unit Test

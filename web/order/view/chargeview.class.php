@@ -150,6 +150,10 @@ class ChargeView extends AbstractView
 
             $OrderForm->processFormRequest($Order, $post);
 
+            // Perform Fraud Scrubbing
+            $Order->performFraudScrubbing($MerchantIdentity, $SessionUser, $post);
+
+            // Submit Transaction
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $post);
 
             // Insert custom order fields

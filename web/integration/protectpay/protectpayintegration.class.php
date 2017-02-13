@@ -95,7 +95,42 @@ class ProtectPayIntegration extends AbstractIntegration
      * @throws IntegrationException
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
-        throw new IntegrationException("API Capture not available");
+
+        OrderRow::insertOrUpdate($Order);
+        if(!$Order->getID())
+            throw new \InvalidArgumentException("Order must exist in the database");
+
+        // Create Transaction
+        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
+        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
+        $Transaction->setServiceFee($service_fee);
+
+
+
+        $APIUtil = new ProtectPayAPIUtil();
+        $IntegrationRow = $MerchantIdentity->getIntegrationRow();
+        $Integration = $IntegrationRow->getIntegration();
+        /** @var ProtectPayMerchantIdentity $MerchantIdentity **/
+
+        $Request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
+
+        $Integration->execute($MerchantIdentity, $Request);
+
+        // Try parsing the response
+        $data = $APIUtil->decodeXMLResponse($Request->getResponse());
+        $Request->setResponseCode($data['XMLTrans']['status']);
+
+        if ($Request->getResponseCode() !== '00')
+            throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponse());
+
+        $this->creds['propayAccountNum'] = $data['XMLTrans']['accntNum'];
+        $this->creds['propayPassword'] = $data['XMLTrans']['password'];
+        MerchantIntegrationRow::writeMerchantIdentity($this);
+
+        $Request->setResponseMessage("Success");
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+
+        IntegrationRequestRow::insert($Request);
     }
 
 

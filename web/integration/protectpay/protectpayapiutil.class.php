@@ -197,17 +197,17 @@ XML;
         return $Request;
     }
 
+    // ProtectPay API 4.5.3
     public function prepareSaleRequest(
         ProtectPayMerchantIdentity $MerchantIdentity,
         TransactionRow $TransactionRow,
         OrderRow $OrderRow,
         Array $post
     ) {
-        $Action = 'CreditCardSale';
-        if(@$post['pin'])
-            $Action = 'DebitCardSale';
-
-        // todo: checks
+        $Request = IntegrationRequestRow::prepareNew(
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION
+        );
 
         $TransactionAmount = number_format($OrderRow->getAmount(), 2, '.', '');
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
@@ -217,94 +217,46 @@ XML;
         }
 
         $args = array(
-            'credentials' => array(),
-            'application' => array(),
-            'terminal' => array(),
-            'card' => array(
-                'Track1Data' => '',
-                'Track2Data' => '',
-                'Track3Data' => '',
-                'MagneprintData' => $OrderRow->getCardTrack(),
-                'CardNumber' => $OrderRow->getCardNumber(),
-                'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
-                'ExpirationMonth' => $OrderRow->getCardExpMonth(),
-                'ExpirationYear' => $OrderRow->getCardExpYear(),
-                'CardholderName' => $OrderRow->getPayeeFullName(),
-                'CVV' => @$post['card_cvv2'],
-                'CAVV' => '',
-                'XID' => '',
-                'PINBLOCK' => @$post['pin'],
-                'KeySerialNumber' => '',
-                'EncryptedFormat' =>            'Default', // Default or Format1 or Format2 or Format3 or Format4 or Format5 or Format6 or Format7;
-                'EncryptedTrack1Data' => '',
-                'EncryptedTrack2Data' => '',
-                'EncryptedCardData' => '',
-                'CardDataKeySerialNumber' => '',
-                'AVSResponseCode' => '',
-                'CVVResponseCode' => '',
-                'CAVVResponseCode' => '',
-                'CardLogo' => '',
-                'GiftCardSecurityCode' => '',
-                'AlternateCardNumber1' => '',
-                'AlternateCardNumber2' => '',
-                'AlternateCardNumber3' => '',
-                'SecondaryCardNumber' => '',
-            ),
-            'transaction' => array(
-                'TransactionID' => '',                  // $TransactionRow->getTransactionID();
-                'ClerkNumber' => '',
-                'ShiftID' => '',
-                'TransactionAmount' => $TransactionAmount,
-                'OriginalAuthorizedAmount' => '',
-                'TotalAuthorizedAmount' => '',
-                'SalesTaxAmount' => '',
-                'TipAmount' => '',
-                'ReferenceNumber' => $OrderRow->getReferenceNumber(),
-                'TicketNumber' => substr(strtoupper($TransactionRow->getReferenceNumber()), 0, 6),
-                'ReversalType' => 'System', // System or Full or Partial;
-                'MarketCode' => $MerchantIdentity->getMarketCode(), // Default or AutoRental or DirectMarketing or ECommerce or FoodRestaurant or HotelLodging or Petroleum or Retail or QSR;
-                'BillPaymentFlag' => 'False', // False or True
-                'DuplicateCheckDisableFlag' => 'False',
-                'DuplicateOverrideFlag' => 'False',
-                'RecurringFlag' => 'False',
-                'TransactionStatus' => '',
-                'TransactionStatusCode' => '',
-                'HostTransactionID' => '',
-                'PartialApprovedFlag' => 'False',
-                'ApprovedAmount' => '',
-                'ConvenienceFeeAmount' => $ConvenienceFeeAmount,
-                'EMVEncryptionFormat' => 'Default',
-                'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
-            ),
-            'address' => array(
-                'BillingName' => $OrderRow->getPayeeFullName(),
-                'BillingAddress1' => $OrderRow->getPayeeAddress(),
-                'BillingAddress2' => $OrderRow->getPayeeAddress2(),
-                'BillingCity' => $OrderRow->getPayeeCity(),
-                'BillingState' => $OrderRow->getPayeeState(),
-                'BillingZipcode' => $OrderRow->getPayeeZipCode(),
-                'BillingEmail' => $OrderRow->getPayeeEmail(),
-                'BillingPhone' => $OrderRow->getPayeePhone(),
+            'AuthenticationToken' => $MerchantIdentity->getAuthenticationToken(),           // String 100 Authorization Valid value is a GUID. Value supplied by ProPay. Used to access the API
+            'BillerAccountId' => $MerchantIdentity->getBillerAccountId(),                   // String 16 Authorization Value supplied by ProPay. Used to identify the correct collection of tokens.
 
-                'ShippingName' => '', // $BillingName;
-                'ShippingAddress1' => '', // $BillingAddress1;
-                'ShippingAddress2' => '', // $BillingAddress2;
-                'ShippingCity' => '', // $BillingCity;
-                'ShippingState' => '', // $BillingState;
-                'ShippingZipcode' => '', // $BillingZipcode;
-                'ShippingEmail' => '', // $BillingEmail;
-                'ShippingPhone' => '', // $BillingPhone;
-            ),
+            'AccountName' => $OrderRow->getCardHolderFullName(),                            // String 50 Optional Cardholder name. Will be passed on to gateway if gateway accepts it.
+            'Address1' => $OrderRow->getPayeeAddress(),                                     // String 50 Optional Cardholder address
+            'Address2' => $OrderRow->getPayeeAddress2(),                                    // String 50 Optional Cardholder address
+            'City' => $OrderRow->getPayeeCity(),                                            // String 25 Optional Cardholder address
+            'Country' => $OrderRow->getPayeeCountry(),                                      // String 3 Optional Cardholder address. *Must be ISO 3166 standard 3 character country code.
+            'Description' => $OrderRow->getCardHolderFullName(),                            // String 25 Required Description for the new stored payment method.
+            'Email' => $OrderRow->getPayeeEmail(),                                          // String 100 Optional Email address for payment method
+            'State' => $OrderRow->getPayeeState(),                                          // String 3 Optional Cardholder address
+            'TelephoneNumber' => $OrderRow->getPayeePhone(),                                // String 20* Optional The phone number for the payment method. *10 digits for US numbers.
+            'ZipCode' => $OrderRow->getPayeeZipCode(),                                      // String 10 Optional Cardholder address
+            'ShouldCapture' => 'true',                                                      // Boolean Required Valid values are: ? true ? false // Set this value to false for Authorization Only
+            'ShouldCreatePaymentMethod' => 'true',                                          // Boolean Required True or False; Determines if the data should be stored as a PaymentMethodId after processing it.
+            'CreatePaymentMethodDuplicateAction' => 'SaveNew',                              // String - Determines action to take in the event that a new payment method duplicates an existing payment method. Valid values are: ? SaveNew -default if not specified ? Error -return error if duplicate found ? ReturnDup -causes payment method id to be returned when duplicate found
+//            'EncryptedTrackData' => array(                                                //  Object - Required
+                'EncryptedTrackData.DeviceType' => 'MagTekDynamag',                         // String Required Valid Values are:  ? MagTekM20 ? MagTekFlash ? IdTechUniMag ? Manual ? MagTekADynamo ? MagTekDynamag ? RoamData
+                'EncryptedTrackData.KeySerialNumber' => $KeySerialNumber,                   // Base64 String Required This value will be obtained from the ProPay supported device.
+                'EncryptedTrackData.EncryptedTrackData' => $OrderRow->getCardTrack(),       // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
+                'EncryptedTrackData.EncryptedTrack2Data' => null,                           // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
+//            ),
+//            'Transaction' => array(                                                       // Object - Required Contains Transaction Information *REST passes the transaction values directly and not nested.
+                'Transaction.Amount' => floor(100*$OrderRow->getAmount()),                  // Integer Required The value representing the number of pennies in USD, or the number of [currency] without decimals.
+                'Transaction.Comment1' => null,                                             // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
+                'Transaction.Comment2' => null,                                             // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
+                'Transaction.CurrencyCode' => null,                                         // String 3 Required ISO 4217 standard 3 character currency code.
+                'Transaction.Invoice' => $OrderRow->getInvoiceNumber(),                     // String 50 Optional Recommended. Transaction descriptor-only passed if supported by the gateway. *ProPay gateway rejects duplicates for same invoice #, card # and amount in 1 minute. Transaction .MerchantProfileId Integer Required The MerchantProfileId that was created using the supplied credentials for the supplied Gateway that is used to process against this particular gateway
+                'Transaction.PayerAccountId' => $PayerAccountId,                            // String 16 Required This is the ProtectPay ID for the Payer Created and belongs to the BillerID that created it
+                'Transaction.IsDebtRepayment' => 'False',                                   // Boolean - Optional Valid Values are: ? True ? False Only applicable for LegacyProPay and LegacyProPayCan gateways Defaults to False if not submitted
+//            ),
+//            'Transaction.Frauddetectors' => array(                                        // Object - Optional Please See ProtectPay Appendix C for details concerning the
+            //         FrauddetectorsObject
+                'Frauddetectors.FrauddetectorProviderName' => '',                           // String Required* If using Frauddetectors Object this attribute is required.
         );
 
-        $request = $this->prepareJSONRequest(
-            $MerchantIdentity,
-            $Action,
-            $args,
-            $post
-        );
+        $request = json_encode($args, JSON_PRETTY_PRINT);
 
-        return $request;
+        $Request->setRequest($request);
+        return $Request;
     }
 
 

@@ -20,38 +20,55 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     const DEFAULT_MAX_TRANSACTION_AMOUNT = 12000;
     const DEFAULT_ANNUAL_CARD_VOLUME = 12000000;
 
-    protected $entity;
-    protected $tags;
-    protected $created_at;
-    protected $updated_at;
+    protected $creds = array(
+        'AcceptorID' => null,
+        'AccountID' => null,
+        'AccountToken' => null,
+        'ApplicationID' => null,
+    );
 
-    protected $AccountID;
-    protected $AccountToken;
-    protected $ApplicationID;
-    protected $AcceptorID;
-    protected $DefaultTerminalID;
+//    protected $entity;
 
+//    protected $tags;
+//    protected $created_at;
+//    protected $updated_at;
+//    protected $AccountID;
+
+//    protected $AccountToken;
+//    protected $ApplicationID;
+//    protected $AcceptorID;
+//    protected $DefaultTerminalID;
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
         parent::__construct($Merchant, $APIData, true);
+        if($MerchantIntegration)
+            $this->creds = $MerchantIntegration->getCredentials() ?: $this->creds;
     }
 
-    public function getRemoteID()       { return $this->AcceptorID; }
-    public function getEntityData()     { return $this->entity; }
-    public function getTags()           { return $this->tags; }
-    public function getCreateDate()     { return $this->created_at; }
-    public function getUpdateDate()     { return $this->updated_at; }
+    /**
+     * Return an array of remote credentials
+     * @return Array
+     */
+    function getCredentials() {
+        return $this->creds;
+    }
+
+    public function getRemoteID()       { return $this->creds['AcceptorID']; }
+//    public function getEntityData()     { return $this->creds['entity']; }
+//    public function getTags()           { return $this->creds['tags']; }
+//    public function getCreateDate()     { return $this->creds['created_at']; }
+//    public function getUpdateDate()     { return $this->creds['updated_at']; }
 
 
-    public function getAccountID()      { return $this->AccountID; }
+    public function getAccountID()      { return $this->creds['AccountID']; }
 
-    public function getAccountToken()   { return $this->AccountToken; }
+    public function getAccountToken()   { return $this->creds['AccountToken']; }
 
     public function getDefaultTerminalID() {
-        return $this->DefaultTerminalID ?: '0001';
+        return @$this->creds['DefaultTerminalID'] ?: '0001';
     }
 
-    public function getAcceptorID()     { return $this->AcceptorID; }
-    public function getApplicationID()  { return $this->ApplicationID; }
+    public function getAcceptorID()     { return $this->creds['AcceptorID']; }
+    public function getApplicationID()  { return $this->creds['ApplicationID']; }
 
 
     function isProfileComplete(&$message=null) {
@@ -60,7 +77,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
     }
 
     function isProvisioned(&$message=null) {
-        if($this->AccountID) {
+        if($this->creds['AccountID']) {
             $message = "Yes";
             return true;
         }
@@ -100,25 +117,6 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
         if($APIRequest->getResult() !== IntegrationRequestRow::ENUM_RESULT_SUCCESS)
             throw new IntegrationException("Only successful responses may be parsed");
 
-        switch($APIRequest->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                $this->AccountID = $data['AccountID'];
-                $this->AccountToken = $data['AccountToken'];
-                $this->ApplicationID = $data['ApplicationID'];
-                $this->AcceptorID = $data['AcceptorID'];
-                $this->DefaultTerminalID = @$data['DefaultTerminalID'];
-                $this->created_at = $APIRequest->getDate();
-                $this->updated_at = $APIRequest->getDate();
-                break;
-
-//            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
-//                $this->payment_instrument_id = $data['id'];
-//                $this->payment_instrument_fingerprint = $data['fingerprint'];
-//                break;
-
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                break;
-        }
     }
 
 

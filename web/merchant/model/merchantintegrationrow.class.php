@@ -73,8 +73,7 @@ FROM merchant_integration mi
     /**
      * @param $merchant_id
      * @param $integration_id
-     * @return MerchantIntegrationRow
-     * @throws \Exception
+     * @return MerchantIntegrationRow|NULL
      */
     public static function fetch($merchant_id, $integration_id) {
         $DB = DBConfig::getInstance();
@@ -86,7 +85,7 @@ FROM merchant_integration mi
             ':integration_id' => $integration_id,
             ':merchant_id' => $merchant_id,
         ));
-        return $stmt->fetch();
+        return $stmt->fetch()?:NULL;
     }
 
     /**
