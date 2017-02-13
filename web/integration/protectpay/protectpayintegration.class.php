@@ -363,11 +363,16 @@ class ProtectPayIntegration extends AbstractIntegration
         $res = array();
         parse_str($ResponseKeyValuePairString, $res);
 
-        $Action = @$res['Action'];
-        $ErrMsg = @$res['StoreMsg'] ?: @$res['ProcErrMsg'] ?: @$res['ErrMsg'];
-        $ErrCode = @$res['StoreCode'] ?: @$res['ProcErrCode'] ?: @$res['ErrCode'];
+        $message = @$res['StoreMsg'] ?: @$res['ProcErrMsg'] ?: @$res['ErrMsg'] ?: @$res['ProcessResultResultMessage'] ?: @$res['ProcessResult'];
+        $code = @$res['StoreCode'] ?: @$res['ProcErrCode'] ?: @$res['ErrCode'] ?: @$res['ProcessResultResultCode'];
 
-        $post = array(
+        if($code !== '00')
+            throw new IntegrationException($code . ':' . $message);
+
+        $transactionID = @$res['ProcessResultTransactionId'];
+//        $Action = @$res['Action'];
+
+        $post = $_POST + array(
             'amount' => $res['Amount'],
             'payee_full_name' => @$res['CardholderName'],
             'payee_phone_number' => @$res[''],
@@ -393,82 +398,9 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $PaymentInfo = PaymentRow::createPaymentFromPost($post);
         $OrderRow = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
-
-        //    Action=Complete
-        //    Echo=echotest
-        //    PayerID=6192936083671743
-        //    ObfuscatedAccountNumber=474747******4747
-        //    ExpireDate=1215
-        //    CardholderName=John Q Test
-        //    Address1=123 A St.,
-        //    Address2=
-        //    Address3=
-        //    City=Orem
-        //    State=UT
-        //    PostalCode=84058
-        //    Country=USA
-        //    PaymentMethodId=bb466e8d-0cdb-44db-8ef4-939207c204b3
-        //    ProcessResult=Success
-        //    ProcessResultAuthorizationCode=A11111
-        //    ProcessResultAVSCode=T
-        //    ProcessResultResultCode=00
-        //    ProcessResultResultMessage=
-        //    ProcessResultTransactionHistoryID=7909962
-        //    ProcessResultTransactionId=524
-        //    Amount=10.00
-        //    GrossAmt=10.00
-        //    NetAmt=9.32
-        //    PerTransFee=0.35
-        //    Rate=3.25
-        //    GrossAmtLessNetAmt=0.68
-        //    Example of a decrypted response for successful tokenization, but declined card transaction:
-        //    Action=Complete
-        //    &Echo=echotest
-        //    &PayerID=2833955147881261
-        //    &ObfuscatedAccountNumber=474747******4747
-        //    &ExpireDate=1212
-        //    &CardholderName=John Q Test
-        //    &Address1=123 A St.,
-        //    &Address2=
-        //    &Address3=
-        //    &City=Orem
-        //    &State=UT
-        //    &PostalCode=84058
-        //    &Country=USA
-        //    &PaymentMethodId=58bff1ed-e8a7-44e2-bce3-71a389e86eec
-        //    &ProcErrCode=51
-        //    &ProcErrMsg=Insufficient funds/over credit limit
-        //    Example of a decrypted response of a storage error:
-        //    Action=Complete
-        //    &Echo=echotest
-        //    &PayerID=7588958043622683
-        //    &ExpireDate=1212
-        //    &CardholderName=John Q Test
-        //    &Address1=123 A St.,
-        //    &Address2=
-        //    &Address3=
-        //    &City=Orem
-        //    &State=UT
-        //    &PostalCode=84058
-        //    &Country=USA
-        //    &StoreErrCode=308
-        //    &StoreErrMsg=CreditCard number is invalid for specified type
-        //                                          Example of a decrypted response with an error with the SPI request:
-        //    ErrCode=301
-        //    &ErrMsg=Invalid Settings Cipher
-        //    Example of a decrypted response with multiple SPI request error codes:
-        //    Action=Err
-        //    &ErrCode0=301
-        //    &ErrMsg0=Invalid Bank AccountNumber
-        //    &ErrCode1=301
-        //    &ErrMsg1=Invalid RoutingNumber
-        //    &ErrCode2=301
-        //    &ErrMsg2=Invalid BankAccountType
-        //    &ErrCode3
-
-
-
-
+        $OrderRow->setIntegrationRemoteID($ResponseKeyValuePairString);
+        $OrderRow->setStatus("Authorized");
+        OrderRow::insertOrUpdate($OrderRow);
 
         // Insert custom order fields
 
@@ -478,9 +410,30 @@ class ProtectPayIntegration extends AbstractIntegration
             }
         }
 
+        // Create Transaction
+        $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $OrderRow, $post);
+        $service_fee = $MerchantIdentity->calculateServiceFee($OrderRow, 'Authorized');
+        $Transaction->setServiceFee($service_fee);
+        $Transaction->setAction("Authorized");
+        $Transaction->setTransactionID($transactionID);
+        $Transaction->setAuthCodeOrBatchID($code);
+        $Transaction->setStatus($code, $message);
+        // Store Transaction Result
+        TransactionRow::insert($Transaction);
+
+        // Update Order
+        OrderRow::update($OrderRow);
+
+        if($OrderRow->getPayeeEmail()) {
+            $EmailReceipt = new ReceiptEmail($OrderRow, $MerchantIdentity->getMerchantRow());
+            if(!$EmailReceipt->send())
+                error_log($EmailReceipt->ErrorInfo);
+        }
 
         // Clear session data
         unset($_SESSION[__FILE__]);
+
+        return $OrderRow;
     }
 
 

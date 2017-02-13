@@ -152,10 +152,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         form.setAttribute("action", URL_PROCESS_RESPONSE);
 
         // sanitize sensitive data
-        form.card_number.value = '';
-        form.card_cvv2.value = '';
-        form.card_exp_month.value = '';
-        form.card_exp_year.value = '';
+        //form.card_number.value = '';
+        //form.card_cvv2.value = '';
+        //form.card_exp_month.value = '';
+        //form.card_exp_year.value = '';
 
         var hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");

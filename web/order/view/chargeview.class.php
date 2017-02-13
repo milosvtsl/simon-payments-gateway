@@ -113,6 +113,9 @@ class ChargeView extends AbstractView
 
     public function processFormRequest(Array $post) {
         $Order = null;
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
         try {
 //            if(isset($_SESSION['order/charge.php']['order_id']))
 //                $post['order_id'] = $_SESSION['order/charge.php']['order_id'];
@@ -122,8 +125,6 @@ class ChargeView extends AbstractView
             $Merchant = $MerchantIdentity->getMerchantRow();
 //            $Integration = $MerchantIdentity->getIntegrationRow();
 
-            $SessionManager = new SessionManager();
-            $SessionUser = $SessionManager->getSessionUser();
             if($SessionUser->hasAuthority('ROLE_ADMIN')) {
 
             } else {

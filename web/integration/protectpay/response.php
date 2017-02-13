@@ -52,11 +52,18 @@ if(!$ResponseCipher)
 
 error_log("Response Cipher: " . $spi_response);
 
-// Process $ResponseCipher
-$OrderRow = ProtectPayIntegration::processResponseCipher($CID, $ResponseCipher);
+try {
+    // Process $ResponseCipher
+    $OrderRow = ProtectPayIntegration::processResponseCipher($CID, $ResponseCipher);
 
-$ReceiptView = new OrderView($OrderRow->getID());
-$SessionManager->setMessage(
-    "<div class='info'>Success: " . $OrderRow->getStatus() . "</div>"
-);
-header('Location: /order/receipt.php?uid=' . $OrderRow->getUID(false));
+    $SessionManager->setMessage(
+        "<div class='info'>Success: " . $OrderRow->getStatus() . "</div>"
+    );
+    header('Location: /order/receipt.php?uid=' . $OrderRow->getUID(false));
+
+} catch (\Exception $ex) {
+    $SessionManager->setMessage(
+        "<div class='error'>Error: " . $ex->getMessage() . "</div>"
+    );
+    header('Location: /order/charge.php');
+}
