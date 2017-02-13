@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="564d69ed-3d17-489d-b3ba-8ea9391969fb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/support/DOMPDF" afterPath="$PROJECT_DIR$/web/system/support/DOMPDF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/forms/defaultorderform.class.php" afterPath="$PROJECT_DIR$/web/order/forms/defaultorderform.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php" />
     </list>
     <ignored path="spg.iws" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="protectpayintegration.class.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4169675">
-              <caret line="124" column="140" selection-start-line="124" selection-start-column="140" selection-end-line="124" selection-end-column="140" />
+            <state vertical-scroll-proportion="0.69917744">
+              <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -561,7 +560,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3281768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3281768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34254143" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -593,17 +592,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>240</line>
+          <line>243</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>281</line>
+          <line>284</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>362</line>
+          <line>365</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -618,12 +617,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>159</line>
+          <line>162</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>154</line>
+          <line>157</line>
           <option name="timeStamp" value="43" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -1054,8 +1053,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4169675">
-          <caret line="124" column="140" selection-start-line="124" selection-start-column="140" selection-end-line="124" selection-end-column="140" />
+        <state vertical-scroll-proportion="0.69917744">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
           <folding />
         </state>
       </provider>

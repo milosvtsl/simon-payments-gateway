@@ -123,8 +123,11 @@ class ProtectPayIntegration extends AbstractIntegration
         $data = json_decode($Request->getResponse(), true);
         $Request->setResponseCode($data['RequestResult']['ResultCode'] ?: "-1");
         $Request->setResponseMessage(@$data['RequestResult']['ResultMessage'] ?: @$data['RequestResult']['ResultValue'] ?: 'No Error Message');
-        if ($Request->getResponseCode() !== '00')
+        if ($Request->getResponseCode() !== '00') {
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
+            IntegrationRequestRow::insert($Request);
             throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
+        }
 
         $PayerAccountId = $data['ExternalAccountID'];
         if(!$PayerAccountId)
