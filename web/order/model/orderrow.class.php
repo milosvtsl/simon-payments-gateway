@@ -116,6 +116,7 @@ class OrderRow
     protected $username;
     protected $merchant_id;
     protected $integration_id;
+    protected $integration_remote_id;
     protected $subscription_id;
     protected $batch_id;
     protected $form_id;
