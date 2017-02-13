@@ -197,11 +197,41 @@ XML;
         return $Request;
     }
 
+    // ProtectPay API
+    public function preparePayerIdRequest(
+        ProtectPayMerchantIdentity $MerchantIdentity,
+        TransactionRow $TransactionRow,
+        OrderRow $OrderRow,
+        $PayerAccountId,
+        Array $post
+    ) {
+        $Request = IntegrationRequestRow::prepareNew(
+            $MerchantIdentity,
+            IntegrationRequestRow::ENUM_TYPE_TRANSACTION_PAYER
+        );
+
+        $args = array(
+            'AuthenticationToken' => $MerchantIdentity->getAuthenticationToken(),           // String 100 Authorization Valid value is a GUID. Value supplied by ProPay. Used to access the API
+            'BillerAccountId' => $MerchantIdentity->getBillerAccountId(),                   // String 16 Authorization Value supplied by ProPay. Used to identify the correct collection of tokens.
+
+            'EmailAddress' => $OrderRow->getPayeeEmail(),                                   // String 100 Optional Used to identify a payer.
+            'ExternalId1' => $OrderRow->getUID(),                                           // String 50 Optional Used to identify a payer. This is a custom identifier rather than ProtectPay’s. *If more than 50 characters are supplied the value will be truncated to 50
+            'ExternalId2' => null,                                                          // String 50 Optional Used to identify a payer. This is a custom identifier rather than ProtectPay’s. *If more than 50 characters are supplied the value will be truncated to 50
+            'Name' => $OrderRow->getCardHolderFullName(),                                   // String 50 Required Used to identify a payer.
+        );
+
+        $request = json_encode($args, JSON_PRETTY_PRINT);
+
+        $Request->setRequest($request);
+        return $Request;
+    }
+
     // ProtectPay API 4.5.3
     public function prepareSaleRequest(
         ProtectPayMerchantIdentity $MerchantIdentity,
         TransactionRow $TransactionRow,
         OrderRow $OrderRow,
+        $PayerAccountId,
         Array $post
     ) {
         $Request = IntegrationRequestRow::prepareNew(
@@ -240,7 +270,7 @@ XML;
                 'EncryptedTrackData.EncryptedTrack2Data' => null,                           // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
 //            ),
 //            'Transaction' => array(                                                       // Object - Required Contains Transaction Information *REST passes the transaction values directly and not nested.
-                'Transaction.Amount' => floor(100*$OrderRow->getAmount()),                  // Integer Required The value representing the number of pennies in USD, or the number of [currency] without decimals.
+                'Transaction.Amount' => floor(100*$TransactionAmount),                      // Integer Required The value representing the number of pennies in USD, or the number of [currency] without decimals.
                 'Transaction.Comment1' => null,                                             // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
                 'Transaction.Comment2' => null,                                             // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
                 'Transaction.CurrencyCode' => null,                                         // String 3 Required ISO 4217 standard 3 character currency code.

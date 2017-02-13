@@ -27,6 +27,8 @@ class IntegrationRequestRow
     const ENUM_TYPE_TRANSACTION_REVERSAL    = 'transaction-reversal';
     const ENUM_TYPE_TRANSACTION_SEARCH      = 'transaction-search';
     const ENUM_TYPE_TRANSACTION_TEMP_TOKEN  = 'transaction-temp-token';
+    const ENUM_TYPE_TRANSACTION_PAYER       = 'transaction-payer';
+
     const ENUM_TYPE_HEALTH_CHECK            = 'health-check';
 
     const ENUM_RESULT_SUCCESS               = 'success';
