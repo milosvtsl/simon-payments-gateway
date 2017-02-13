@@ -37,6 +37,7 @@ class ProtectPayIntegration extends AbstractIntegration
 
 //    const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/Payers/";
     const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/MerchantProfiles/";
+    const POST_URL_TRANSACTION_PAYER = "/ProtectPay/Payers/";
     const POST_URL_TRANSACTION_CREATE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/";
     const POST_URL_TRANSACTION_AUTHORIZE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/AuthorizedTransactions/";
     const POST_URL_TRANSACTION_AUTHORIZE_AND_CAPTURE = "/ProtectPay/Payers/{PayerID}/PaymentMethods/AuthorizedAndCapturedTransactions/";
@@ -112,25 +113,85 @@ class ProtectPayIntegration extends AbstractIntegration
         $Integration = $IntegrationRow->getIntegration();
         /** @var ProtectPayMerchantIdentity $MerchantIdentity **/
 
-        $Request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
+        // Create Payer Account ID
+        $Request = $APIUtil->preparePayerAccountIdRequest($MerchantIdentity, $Transaction, $Order, $post);
 
+        // Execute
         $Integration->execute($MerchantIdentity, $Request);
 
         // Try parsing the response
-        $data = $APIUtil->decodeXMLResponse($Request->getResponse());
-        $Request->setResponseCode($data['XMLTrans']['status']);
-
+        $data = json_decode($Request->getResponse(), true);
+        $Request->setResponseCode($data['RequestResult']['ResultCode']);
+        $Request->setResponseMessage(@$data['RequestResult']['ResultMessage'] ?: @$data['RequestResult']['ResultValue']);
         if ($Request->getResponseCode() !== '00')
-            throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponse());
+            throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
 
-        $this->creds['propayAccountNum'] = $data['XMLTrans']['accntNum'];
-        $this->creds['propayPassword'] = $data['XMLTrans']['password'];
-        MerchantIntegrationRow::writeMerchantIdentity($this);
+        $PayerAccountId = $data['ExternalAccountID"'];
+        if(!$PayerAccountId)
+            throw new IntegrationException("Failed to create PayerAccountId");
 
+
+        // Process Transaction
+        $Request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $PayerAccountId, $post);
+
+        // Execute
+        $Integration->execute($MerchantIdentity, $Request);
+
+        // Try parsing the response
+        $data = json_decode($Request->getResponse(), true);
+        $transaction = $data['AuthorizeResult']['Transaction'];
+        $result = $data['AuthorizeResult']['RequestResult'];
+        $code = $result['ResultCode'];
+        $message = @$result['ResultMessage'] ?: @$transaction['TransactionResult'] ?: @$transaction['ResultCode']['ResultMessage'] ?: @$transaction['ResultCode']['ResultValue'];
+        $Request->setResponseCode($code);
+        $Request->setResponseMessage($message);
+        if ($Request->getResponseCode() !== '00')
+            throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
+
+        $transactionID = $transaction['TransactionResult'];
         $Request->setResponseMessage("Success");
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         IntegrationRequestRow::insert($Request);
+
+        $Transaction->setAction("Authorized");
+        $Order->setStatus("Authorized");
+
+        $Transaction->setAuthCodeOrBatchID($code);
+        $Transaction->setTransactionID($transactionID);
+        $Transaction->setStatus($code, $message);
+        // Store Transaction Result
+//        $Transaction->setTransactionDate($date);
+
+
+        // Insert Transaction
+        TransactionRow::insert($Transaction);
+
+        // Insert Subscription
+//        if($Subscription) {
+//            SubscriptionRow::insert($Subscription);
+//            $Order->setSubscriptionID($Subscription->getID());
+//        }
+
+        // Update Order
+        OrderRow::update($Order);
+
+        // Insert Request
+        $Request->setType('transaction');
+        $Request->setTypeID($Transaction->getID());
+        $Request->setOrderItemID($Order->getID());
+        $Request->setTransactionID($Transaction->getID());
+        if($SessionUser)
+            $Request->setUserID($SessionUser->getID());
+        IntegrationRequestRow::update($Request);
+
+        if($Order->getPayeeEmail()) {
+            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+            if(!$EmailReceipt->send())
+                error_log($EmailReceipt->ErrorInfo);
+        }
+
+
     }
 
 

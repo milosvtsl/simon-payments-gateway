@@ -120,21 +120,22 @@ class OrderRow
     protected $username;
     protected $merchant_id;
     protected $integration_id;
+    protected $integration_remote_id;
     protected $subscription_id;
     protected $batch_id;
+
     protected $form_id;
-
     // Table order_field
+
     protected $order_fields;
-
     // Table integration
-    protected $integration_name;
 
+    protected $integration_name;
     // Table merchant
+
     protected $merchant_short_name;
 
     // Table subscription
-
     protected $subscription_uid;
     protected $subscription_status;
     protected $subscription_status_message;
@@ -142,8 +143,8 @@ class OrderRow
     protected $subscription_recur_count;
     protected $subscription_recur_next_date;
     protected $subscription_recur_cancel_date;
-    protected $subscription_recur_frequency;
 
+    protected $subscription_recur_frequency;
     const SQL_SELECT = "
 SELECT oi.*,
 s.id as subscription_id,
@@ -158,9 +159,9 @@ s.recur_frequency as subscription_recur_frequency,
 m.short_name as merchant_short_name,
 i.name integration_name,
 (SELECT GROUP_CONCAT(
-  CONCAT_WS(':', of.field_name, of.field_value) SEPARATOR '|') 
-  FROM order_field of 
-  WHERE oi.id = of.order_id 
+  CONCAT_WS(':', of.field_name, of.field_value) SEPARATOR '|')
+  FROM order_field of
+  WHERE oi.id = of.order_id
 ) as order_fields,
 st.name as payee_state_full
 
@@ -260,6 +261,14 @@ LEFT JOIN state st on st.short_code = oi.payee_state
         $this->subscription_id = $order_item_id;
     }
 
+    public function setIntegrationRemoteID($remoteID) {
+        $this->integration_remote_id = $remoteID;
+    }
+
+    public function getIntegrationRemoteID() {
+        return $this->integration_remote_id;
+    }
+
     public function getBatchID()            { return $this->batch_id; }
 
     public function getCustomFieldValues() {
@@ -277,8 +286,8 @@ LEFT JOIN state st on st.short_code = oi.payee_state
         return $this->order_fields;
     }
 
-    public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
 
+    public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
 
     public function calculateCurrentBatchID($time=null) {
         $DB = DBConfig::getInstance();
@@ -324,7 +333,6 @@ SQL;
         $AuthorizedTransaction = $stmt->fetch();
         return $AuthorizedTransaction;
     }
-
     public function performFraudScrubbing(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post)
     {
         $Merchant = $MerchantIdentity->getMerchantRow();
@@ -341,10 +349,11 @@ SQL;
                 throw new FraudException("Order is below Low Limit ($amount < $min)");
 
     }
+
+
     public function insertCustomField($field, $value) {
         OrderFieldRow::insertOrUpdate($this, $field, $value);
     }
-
 
     /**
      * @return PaymentRow
@@ -388,6 +397,7 @@ SQL;
             error_log("Failed to delete row: " . print_r($OrderRow, true));
     }
 
+
     public static function insert(OrderRow $OrderRow) {
         if($OrderRow->id)
             throw new \InvalidArgumentException("Order Row has already been inserted");
@@ -400,7 +410,6 @@ SQL;
             throw new \InvalidArgumentException("Order Row is missing an id");
         self::insertOrUpdate($OrderRow);
     }
-
 
     public static function insertOrUpdate(OrderRow $OrderRow) {
         $values = array(
@@ -617,11 +626,11 @@ SQL;
         }
     }
 
+
     public static function generateGUID(OrderRow $Row) {
         $type = strtoupper(substr($Row->getEntryMode(), 0, 1));
         return 'O' . $type . substr(sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479)), 2);
     }
-
 
     public static function sanitizeNumber($number, $lastDigits=4, $char='X') {
         if(!$number)

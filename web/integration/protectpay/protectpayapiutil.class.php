@@ -167,9 +167,8 @@ XML;
         );
 
         $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY;
-        if($APIData->getAPIType() == IntegrationRow::ENUM_API_TYPE_TESTING) {
+        if($APIData->getAPIType() == IntegrationRow::ENUM_API_TYPE_TESTING)
             $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY_TEST;
-        }
         $url .= ProtectPayIntegration::POST_URL_MERCHANT_IDENTITY;
         $Request->setRequestURL($url);
 
@@ -198,17 +197,23 @@ XML;
     }
 
     // ProtectPay API
-    public function preparePayerIdRequest(
+    public function preparePayerAccountIdRequest(
         ProtectPayMerchantIdentity $MerchantIdentity,
-        TransactionRow $TransactionRow,
         OrderRow $OrderRow,
-        $PayerAccountId,
         Array $post
     ) {
+        $APIData = $MerchantIdentity->getIntegrationRow();
+
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_PAYER
         );
+
+        $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY;
+        if($APIData->getAPIType() == IntegrationRow::ENUM_API_TYPE_TESTING)
+            $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY_TEST;
+        $url .= ProtectPayIntegration::POST_URL_TRANSACTION_PAYER;
+        $Request->setRequestURL($url);
 
         $args = array(
             'AuthenticationToken' => $MerchantIdentity->getAuthenticationToken(),           // String 100 Authorization Valid value is a GUID. Value supplied by ProPay. Used to access the API
@@ -234,10 +239,26 @@ XML;
         $PayerAccountId,
         Array $post
     ) {
+        $APIData = $MerchantIdentity->getIntegrationRow();
+        $json = json_decode($OrderRow->getIntegrationRemoteID());
+        $PayerAccountId = $json['PayerAccountId'];
+        if(!$PayerAccountId)
+            throw new IntegrationException("Invalid PayerAccountId");
+
         $Request = IntegrationRequestRow::prepareNew(
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
+
+
+
+        $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY;
+        if($APIData->getAPIType() == IntegrationRow::ENUM_API_TYPE_TESTING)
+            $url = ProtectPayIntegration::REST_DOMAIN_PROTECTPAY_TEST;
+        $url .= ProtectPayIntegration::POST_URL_TRANSACTION_AUTHORIZE_AND_CAPTURE;
+        $url = str_replace('{payerName}', urlencode($PayerAccountId), $url);
+
+        $Request->setRequestURL($url);
 
         $TransactionAmount = number_format($OrderRow->getAmount(), 2, '.', '');
         $ConvenienceFeeAmount = $MerchantIdentity->calculateConvenienceFee($OrderRow);
