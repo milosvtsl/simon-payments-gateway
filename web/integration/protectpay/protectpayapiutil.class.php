@@ -238,6 +238,10 @@ XML;
         OrderRow $OrderRow,
         Array $post
     ) {
+
+        $KeySerialNumber = null;
+
+
         $APIData = $MerchantIdentity->getIntegrationRow();
         $json = json_decode($OrderRow->getIntegrationRemoteID(), true);
         $PayerAccountId = $json['PayerAccountId'];

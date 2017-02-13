@@ -35,8 +35,19 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     protected $verification;
     protected $identity;
 
+    protected $creds = array(
+    );
+
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
         parent::__construct($Merchant, $APIData);
+    }
+
+    /**
+     * Return an array of remote credentials
+     * @return Array
+     */
+    function getCredentials() {
+        return $this->creds;
     }
 
 //    abstract function hasPaymentInstrument();
@@ -338,6 +349,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         return $Request;
 
     }
+
 }
 
 //{

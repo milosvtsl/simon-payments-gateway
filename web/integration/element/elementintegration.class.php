@@ -629,7 +629,7 @@ class ElementIntegration extends AbstractIntegration
         if(!$response) //  || !$code || !$message)
             throw new IntegrationException("Invalid response data");
 
-        if($code === '101')
+        if($code !== '0')
             throw new IntegrationException($message);
 
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);

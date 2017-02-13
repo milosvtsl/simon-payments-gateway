@@ -26,11 +26,22 @@ class MockMerchantIdentity extends AbstractMerchantIdentity
     protected $created_at;
     protected $updated_at;
 
+    protected $creds = array(
+    );
+
     public function __construct(MerchantRow $Merchant=null, IntegrationRow $APIData=null) {
         parent::__construct(
             $Merchant ?: new MockMerchantRow(),
             $APIData ?: new MockIntegrationRow()
         );
+    }
+
+    /**
+     * Return an array of remote credentials
+     * @return Array
+     */
+    function getCredentials() {
+        return $this->creds;
     }
 
 //    abstract function hasPaymentInstrument();
