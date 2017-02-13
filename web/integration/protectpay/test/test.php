@@ -113,8 +113,8 @@ $tests = array(
 );
 
 // Don't run long tests on anything but dev
-if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
-    $tests = array();
+//if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
+//    $tests = array();
 
 $batch_id = null;
 
