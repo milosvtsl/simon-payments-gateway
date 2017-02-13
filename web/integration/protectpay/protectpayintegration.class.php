@@ -32,7 +32,7 @@ class ProtectPayIntegration extends AbstractIntegration
     const REST_DOMAIN_PROPAY    = 'https://xml.propay.com/API/PropayAPI.aspx';
     const REST_DOMAIN_PROPAY_TEST    = 'https://xmltest.propay.com/API/PropayAPI.aspx';
 
-    const REST_DOMAIN_PROTECTPAY = "https://xmlapi.propay.com";
+    const REST_DOMAIN_PROTECTPAY = "https://xmltestapi.propay.com";
     const REST_DOMAIN_PROTECTPAY_TEST = "https://xmltestapi.propay.com";
 
 //    const POST_URL_MERCHANT_IDENTITY = "/ProtectPay/Payers/";
