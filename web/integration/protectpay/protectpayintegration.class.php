@@ -121,8 +121,8 @@ class ProtectPayIntegration extends AbstractIntegration
 
         // Try parsing the response
         $data = json_decode($Request->getResponse(), true);
-        $Request->setResponseCode($data['RequestResult']['ResultCode']);
-        $Request->setResponseMessage(@$data['RequestResult']['ResultMessage'] ?: @$data['RequestResult']['ResultValue']);
+        $Request->setResponseCode($data['RequestResult']['ResultCode'] ?: "-1");
+        $Request->setResponseMessage(@$data['RequestResult']['ResultMessage'] ?: @$data['RequestResult']['ResultValue'] ?: 'No Error Message');
         if ($Request->getResponseCode() !== '00')
             throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
 
@@ -234,8 +234,8 @@ class ProtectPayIntegration extends AbstractIntegration
 
         // Try parsing the response
         $data = json_decode($Request->getResponse(), true);
-        $Request->setResponseMessage($data['RequestResult']['ResultMessage']);
-        $Request->setResponseCode($data['RequestResult']['ResultCode']);
+        $Request->setResponseMessage($data['RequestResult']['ResultMessage'] ?: "No Message");
+        $Request->setResponseCode($data['RequestResult']['ResultCode'] ?: '-1');
 
         if($Request->getResponseCode() !== '00')
             throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());

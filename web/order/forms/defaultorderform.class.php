@@ -28,7 +28,7 @@ class DefaultOrderForm extends AbstractForm
 
         echo <<<HEAD
         <script src="https://clevertree.github.io/zip-lookup/zip-lookup.min.js" type="text/javascript" ></script>
-        <script src="order/view/assets/charge.js"></script>
+        <script src="order/view/assets/charge.js?v=1"></script>
         <link href='order/forms/assets/default-order-form.css' type='text/css' rel='stylesheet' />
 HEAD;
         $IntegrationRow = $MerchantIdentity->getIntegrationRow();
