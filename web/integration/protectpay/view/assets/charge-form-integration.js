@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function onOrderFormSubmit(e) {
         var form = e.target.form || e.target;
+
+        if(form.card_track && form.card_track.value) {
+            console.info("Card Track Detected. Skipping SPI Integration...");
+            return;
+        }
+
         e.preventDefault();
 
         console.info("Requesting Temp Token...");

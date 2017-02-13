@@ -3,9 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="564d69ed-3d17-489d-b3ba-8ea9391969fb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/support/DOMPDF" afterPath="$PROJECT_DIR$/web/system/support/DOMPDF" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/view/assets/charge-form-integration.js" afterPath="$PROJECT_DIR$/web/integration/protectpay/view/assets/charge-form-integration.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/view/chargeview.class.php" afterPath="$PROJECT_DIR$/web/order/view/chargeview.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/merchant/model/merchantrow.class.php" afterPath="$PROJECT_DIR$/web/merchant/model/merchantrow.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/model/orderrow.class.php" afterPath="$PROJECT_DIR$/web/order/model/orderrow.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/spg/assets/spg-theme.css" afterPath="$PROJECT_DIR$/web/view/theme/spg/assets/spg-theme.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/test/test.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/test/test.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/token.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/token.php" />
     </list>
     <ignored path="spg.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,52 +34,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="protectpayintegration.class.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="protectpayintegration.class.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.076923">
-              <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.124236256">
+              <caret line="356" column="48" selection-start-line="356" selection-start-column="48" selection-end-line="356" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="elementintegration.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/integration/element/elementintegration.class.php">
+      <file leaf-file-name="protectpaymerchantidentity.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-26.192308">
-              <caret line="350" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.269231">
+              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="protectpayapiutil.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php">
+      <file leaf-file-name="token.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/integration/protectpay/token.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5">
-              <caret line="242" column="39" selection-start-line="242" selection-start-column="39" selection-end-line="242" selection-end-column="39" />
+            <state vertical-scroll-proportion="-8.423077">
+              <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="charge-form-integration.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/integration/protectpay/view/assets/charge-form-integration.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chargeview.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/order/view/chargeview.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.269231">
+              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="merchantrow.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/merchant/model/merchantrow.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-10.884615">
+              <caret line="373" column="0" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
               <folding>
-                <marker date="1486960928021" expanded="true" signature="5298:5418" placeholder="..." />
-                <marker date="1486960928021" expanded="true" signature="5376:5404" placeholder="..." />
+                <marker date="1486964299932" expanded="true" signature="1187:1656" placeholder="SELECT m.*, ..merchant..." />
+                <marker date="1486964299932" expanded="true" signature="1202:1266" placeholder="SELECT ms.na..merchant_status..." />
+                <marker date="1486964299932" expanded="true" signature="1287:1383" placeholder="SELECT GROUP..user_merchants..." />
+                <marker date="1486964299932" expanded="true" signature="1402:1511" placeholder="SELECT GROUP..merchant_integration..." />
+                <marker date="1486964299932" expanded="true" signature="16657:16741" placeholder="INSERT INTO ..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orderrow.class.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web/order/model/orderrow.class.php">
+      <file leaf-file-name="integrationrow.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/integration/model/integrationrow.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.06137184">
-              <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+            <state vertical-scroll-proportion="-6.6153846">
+              <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
               <folding>
-                <marker date="1486961036724" expanded="true" signature="4343:5148" placeholder="SELECT oi.*,..order_item..." />
-                <marker date="1486961036724" expanded="true" signature="4744:4846" placeholder="SELECT GROUP..order_field..." />
-                <marker date="1486961036724" expanded="true" signature="11267:11359" placeholder="SELECT MAX(o..order_item..." />
-                <marker date="1486961036724" expanded="true" signature="11560:11636" placeholder="SELECT MAX(o..order_item..." />
-                <marker date="1486961036724" expanded="true" signature="14068:14103" placeholder="DELETE FROM ..." />
-                <marker date="1486961036724" expanded="true" signature="17770:17814" placeholder="INSERT INTO ..." />
+                <marker date="1486961200774" expanded="true" signature="825:1191" placeholder="SELECT i.*, ..integration..." />
+                <marker date="1486961200774" expanded="true" signature="840:938" placeholder="SELECT count..integration_request..." />
+                <marker date="1486961200774" expanded="true" signature="963:1058" placeholder="SELECT count..integration_request..." />
+                <marker date="1486961200774" expanded="true" signature="1080:1154" placeholder="SELECT count..integration_request..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="exceptionhandler.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/system/exception/exceptionhandler.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-6.6153846">
+              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -80,8 +128,8 @@
       <file leaf-file-name="abstractmerchantidentity.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/integration/model/abstractmerchantidentity.class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.423077">
-              <caret line="225" column="20" selection-start-line="225" selection-start-column="20" selection-end-line="225" selection-end-column="20" />
+            <state vertical-scroll-proportion="-6.6153846">
+              <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -117,10 +165,8 @@
         <option value="$PROJECT_DIR$/web/order/mail/receiptemail.class.php" />
         <option value="$PROJECT_DIR$/web/integration/model/abstractintegration.class.php" />
         <option value="$PROJECT_DIR$/web/integration/mock/mockintegration.class.php" />
-        <option value="$PROJECT_DIR$/web/integration/protectpay/token.php" />
         <option value="$PROJECT_DIR$/web/integration/protectpay/return.php" />
         <option value="$PROJECT_DIR$/docs/integration/propay/examples/settingscipher.php" />
-        <option value="$PROJECT_DIR$/web/integration/protectpay/view/assets/charge-form-integration.js" />
         <option value="$PROJECT_DIR$/web/integration/protectpay/response.php" />
         <option value="$PROJECT_DIR$/web/index.php" />
         <option value="$PROJECT_DIR$/web/view/theme/spg/assets/spg-theme.js" />
@@ -137,22 +183,24 @@
         <option value="$PROJECT_DIR$/web/integration/element/test/test.php" />
         <option value="$PROJECT_DIR$/web/integration/propay/propayintegration.class.php" />
         <option value="$PROJECT_DIR$/web/merchant/view/.edit.php" />
-        <option value="$PROJECT_DIR$/web/merchant/model/merchantrow.class.php" />
         <option value="$PROJECT_DIR$/web/merchant/view/.provision.php" />
         <option value="$PROJECT_DIR$/web/merchant/view/.settle.php" />
         <option value="$PROJECT_DIR$/web/integration/model/abstractmerchantidentity.class.php" />
         <option value="$PROJECT_DIR$/web/integration/finix/finixintegration.class.php" />
         <option value="$PROJECT_DIR$/web/integration/finix/finixmerchantidentity.class.php" />
         <option value="$PROJECT_DIR$/web/integration/element/elementmerchantidentity.class.php" />
-        <option value="$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php" />
-        <option value="$PROJECT_DIR$/web/integration/protectpay/test/test.php" />
-        <option value="$PROJECT_DIR$/web/order/view/chargeview.class.php" />
         <option value="$PROJECT_DIR$/web/integration/element/elementintegration.class.php" />
         <option value="$PROJECT_DIR$/web/merchant/model/merchantintegrationrow.class.php" />
         <option value="$PROJECT_DIR$/web/integration/request/model/integrationrequestrow.class.php" />
-        <option value="$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php" />
+        <option value="$PROJECT_DIR$/web/integration/protectpay/test/test.php" />
         <option value="$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php" />
         <option value="$PROJECT_DIR$/web/order/model/orderrow.class.php" />
+        <option value="$PROJECT_DIR$/web/integration/protectpay/view/assets/charge-form-integration.js" />
+        <option value="$PROJECT_DIR$/web/merchant/model/merchantrow.class.php" />
+        <option value="$PROJECT_DIR$/web/order/view/chargeview.class.php" />
+        <option value="$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php" />
+        <option value="$PROJECT_DIR$/web/integration/protectpay/token.php" />
+        <option value="$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php" />
       </list>
     </option>
   </component>
@@ -202,8 +250,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -338,66 +384,18 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
+              <option name="myItemId" value="view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="integration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="docs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="integration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="propay" />
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -554,20 +552,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1014" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2359375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3281768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3281768" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34254143" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928178" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39779004" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39779004" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -593,17 +591,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>243</line>
+          <line>240</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>284</line>
+          <line>281</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
-          <line>365</line>
+          <line>362</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -611,26 +609,37 @@
           <line>69</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php</url>
+          <line>244</line>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
+          <line>159</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php</url>
+          <line>154</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/web/integration/protectpay/token.php</url>
+          <line>61</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/web/integration/protectpay/token.php</url>
+          <line>64</line>
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="36" />
+      <option name="time" value="51" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/subscription/view/subscriptionlistview.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="101" column="22" selection-start-line="101" selection-start-column="22" selection-end-line="101" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.0">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/com/jetbrains/php/lang/psi/stubs/data/standard_2.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-11.769231">
@@ -684,13 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/system/exception/exceptionhandler.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.1923075">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -771,7 +773,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -787,7 +788,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="38" column="23" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -803,7 +803,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="37" column="70" selection-start-line="37" selection-start-column="70" selection-end-line="37" selection-end-column="70" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -811,7 +810,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="196" column="16" selection-start-line="196" selection-start-column="16" selection-end-line="196" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -852,19 +850,6 @@
         <state vertical-scroll-proportion="-7.076923">
           <caret line="301" column="104" selection-start-line="301" selection-start-column="104" selection-end-line="301" selection-end-column="104" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/merchant/model/merchantrow.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769">
-          <caret line="254" column="44" selection-start-line="254" selection-start-column="44" selection-end-line="254" selection-end-column="44" />
-          <folding>
-            <marker date="1486871035411" expanded="true" signature="-1:-1" placeholder="SELECT m.*, ..merchant..." />
-            <marker date="1486871035411" expanded="true" signature="-1:-1" placeholder="SELECT ms.na..merchant_status..." />
-            <marker date="1486871035411" expanded="true" signature="-1:-1" placeholder="SELECT GROUP..user_merchants..." />
-            <marker date="1486871035411" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -916,31 +901,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/model/integrationrow.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.076923">
-          <caret line="124" column="4" selection-start-line="124" selection-start-column="4" selection-end-line="124" selection-end-column="4" />
-          <folding>
-            <marker date="1486880696714" expanded="true" signature="-1:-1" placeholder="SELECT i.*, ..integration..." />
-            <marker date="1486880696714" expanded="true" signature="-1:-1" placeholder="SELECT count..integration_request..." />
-            <marker date="1486880696714" expanded="true" signature="-1:-1" placeholder="SELECT count..integration_request..." />
-            <marker date="1486880696714" expanded="true" signature="-1:-1" placeholder="SELECT count..integration_request..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/integration/element/elementmerchantidentity.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-31.423077">
           <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/test/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.8076923">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -952,88 +916,144 @@
           <folding>
             <element signature="e#6#91#0#PHP" expanded="true" />
             <element signature="e#119#166#0#PHP" expanded="true" />
-            <marker date="1486953256742" expanded="true" signature="-1:-1" placeholder="SELECT mi.* ..merchant_integration..." />
-            <marker date="1486953256742" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1486953256742" expanded="true" signature="-1:-1" placeholder="UPDATE crede..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/order/view/chargeview.class.php">
+    <entry file="file://$PROJECT_DIR$/web/integration/element/elementintegration.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.8461537">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="350" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/test/test.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.3076923">
+          <caret line="72" column="492" selection-start-line="72" selection-start-column="492" selection-end-line="72" selection-end-column="492" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/integration/request/model/integrationrequestrow.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.730769">
-          <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
+        <state vertical-scroll-proportion="-6.6153846">
+          <caret line="164" column="20" selection-start-line="164" selection-start-column="20" selection-end-line="164" selection-end-column="20" />
           <folding>
-            <marker date="1486954102709" expanded="true" signature="-1:-1" placeholder="SELECT ir.id..integration_request..." />
-            <marker date="1486954102709" expanded="true" signature="-1:-1" placeholder="SELECT ir.*,..integration_request..." />
-            <marker date="1486954102709" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
+            <marker date="1486961200893" expanded="true" signature="-1:-1" placeholder="SELECT ir.id..integration_request..." />
+            <marker date="1486961200893" expanded="true" signature="-1:-1" placeholder="SELECT ir.*,..integration_request..." />
+            <marker date="1486961200893" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8846154">
-          <caret line="128" column="51" selection-start-line="128" selection-start-column="51" selection-end-line="128" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/element/elementintegration.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-26.192308">
-          <caret line="350" column="0" selection-start-line="309" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.076923">
-          <caret line="227" column="0" selection-start-line="227" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/model/abstractmerchantidentity.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.423077">
-          <caret line="225" column="20" selection-start-line="225" selection-start-column="20" selection-end-line="225" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5">
-          <caret line="242" column="39" selection-start-line="242" selection-start-column="39" selection-end-line="242" selection-end-column="39" />
+        <state vertical-scroll-proportion="-12.346154">
+          <caret line="290" column="17" selection-start-line="290" selection-start-column="17" selection-end-line="290" selection-end-column="17" />
           <folding>
-            <marker date="1486960928021" expanded="true" signature="5298:5418" placeholder="..." />
-            <marker date="1486960928021" expanded="true" signature="5376:5404" placeholder="..." />
+            <marker date="1486962502426" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1486962502426" expanded="true" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/order/model/orderrow.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.06137184">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+        <state vertical-scroll-proportion="-13.461538">
+          <caret line="418" column="35" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
           <folding>
-            <marker date="1486961036724" expanded="true" signature="4343:5148" placeholder="SELECT oi.*,..order_item..." />
-            <marker date="1486961036724" expanded="true" signature="4744:4846" placeholder="SELECT GROUP..order_field..." />
-            <marker date="1486961036724" expanded="true" signature="11267:11359" placeholder="SELECT MAX(o..order_item..." />
-            <marker date="1486961036724" expanded="true" signature="11560:11636" placeholder="SELECT MAX(o..order_item..." />
-            <marker date="1486961036724" expanded="true" signature="14068:14103" placeholder="DELETE FROM ..." />
-            <marker date="1486961036724" expanded="true" signature="17770:17814" placeholder="INSERT INTO ..." />
+            <marker date="1486962870072" expanded="true" signature="-1:-1" placeholder="SELECT oi.*,..order_item..." />
+            <marker date="1486962870072" expanded="true" signature="-1:-1" placeholder="SELECT GROUP..order_field..." />
+            <marker date="1486962870072" expanded="true" signature="-1:-1" placeholder="SELECT MAX(o..order_item..." />
+            <marker date="1486962870072" expanded="true" signature="-1:-1" placeholder="SELECT MAX(o..order_item..." />
+            <marker date="1486962870072" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
+            <marker date="1486962870072" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/view/assets/charge-form-integration.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="19" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/system/exception/exceptionhandler.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.6153846">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/model/abstractmerchantidentity.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.6153846">
+          <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/model/integrationrow.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.6153846">
+          <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+          <folding>
+            <marker date="1486961200774" expanded="true" signature="825:1191" placeholder="SELECT i.*, ..integration..." />
+            <marker date="1486961200774" expanded="true" signature="840:938" placeholder="SELECT count..integration_request..." />
+            <marker date="1486961200774" expanded="true" signature="963:1058" placeholder="SELECT count..integration_request..." />
+            <marker date="1486961200774" expanded="true" signature="1080:1154" placeholder="SELECT count..integration_request..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/merchant/model/merchantrow.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.884615">
+          <caret line="373" column="0" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
+          <folding>
+            <marker date="1486964299932" expanded="true" signature="1187:1656" placeholder="SELECT m.*, ..merchant..." />
+            <marker date="1486964299932" expanded="true" signature="1202:1266" placeholder="SELECT ms.na..merchant_status..." />
+            <marker date="1486964299932" expanded="true" signature="1287:1383" placeholder="SELECT GROUP..user_merchants..." />
+            <marker date="1486964299932" expanded="true" signature="1402:1511" placeholder="SELECT GROUP..merchant_integration..." />
+            <marker date="1486964299932" expanded="true" signature="16657:16741" placeholder="INSERT INTO ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/order/view/chargeview.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.269231">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpaymerchantidentity.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.269231">
+          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/token.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.423077">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/integration/protectpay/protectpayintegration.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.124236256">
+          <caret line="356" column="48" selection-start-line="356" selection-start-column="48" selection-end-line="356" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -114,7 +114,7 @@ class ProtectPayIntegration extends AbstractIntegration
         /** @var ProtectPayMerchantIdentity $MerchantIdentity **/
 
         // Create Payer Account ID
-        $Request = $APIUtil->preparePayerAccountIdRequest($MerchantIdentity, $Transaction, $Order, $post);
+        $Request = $APIUtil->preparePayerAccountIdRequest($MerchantIdentity, $Order, $post);
 
         // Execute
         $Integration->execute($MerchantIdentity, $Request);
@@ -126,13 +126,17 @@ class ProtectPayIntegration extends AbstractIntegration
         if ($Request->getResponseCode() !== '00')
             throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
 
-        $PayerAccountId = $data['ExternalAccountID"'];
+        $PayerAccountId = $data['ExternalAccountID'];
         if(!$PayerAccountId)
             throw new IntegrationException("Failed to create PayerAccountId");
 
+        $remoteID = array();
+        $remoteID['PayerAccountId'] = $PayerAccountId;
+        $Order->setIntegrationRemoteID(json_encode($remoteID));
+
 
         // Process Transaction
-        $Request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $PayerAccountId, $post);
+        $Request = $APIUtil->prepareSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
 
         // Execute
         $Integration->execute($MerchantIdentity, $Request);
@@ -140,38 +144,31 @@ class ProtectPayIntegration extends AbstractIntegration
         // Try parsing the response
         $data = json_decode($Request->getResponse(), true);
         $transaction = $data['AuthorizeResult']['Transaction'];
-        $result = $data['AuthorizeResult']['RequestResult'];
+        $result = @$data['AuthorizeResult']['RequestResult'] ?: $data['Result'];
         $code = $result['ResultCode'];
         $message = @$result['ResultMessage'] ?: @$transaction['TransactionResult'] ?: @$transaction['ResultCode']['ResultMessage'] ?: @$transaction['ResultCode']['ResultValue'];
         $Request->setResponseCode($code);
         $Request->setResponseMessage($message);
-        if ($Request->getResponseCode() !== '00')
+        if ($Request->getResponseCode() !== '00') {
+            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
+            IntegrationRequestRow::insert($Request);
             throw new IntegrationException($Request->getResponseCode() . ' : ' . $Request->getResponseMessage());
+        }
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+        IntegrationRequestRow::insert($Request);
 
         $transactionID = $transaction['TransactionResult'];
-        $Request->setResponseMessage("Success");
-        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-
-        IntegrationRequestRow::insert($Request);
+        if(!$transactionID)
+            throw new IntegrationException("Success response did not return a transaction ID");
+        $Transaction->setTransactionID($transactionID);
 
         $Transaction->setAction("Authorized");
         $Order->setStatus("Authorized");
 
         $Transaction->setAuthCodeOrBatchID($code);
-        $Transaction->setTransactionID($transactionID);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
-//        $Transaction->setTransactionDate($date);
-
-
-        // Insert Transaction
         TransactionRow::insert($Transaction);
-
-        // Insert Subscription
-//        if($Subscription) {
-//            SubscriptionRow::insert($Subscription);
-//            $Order->setSubscriptionID($Subscription->getID());
-//        }
 
         // Update Order
         OrderRow::update($Order);
@@ -264,7 +261,7 @@ class ProtectPayIntegration extends AbstractIntegration
             'StandardEntryClassCode' => 'WEB',
             'InvoiceNumber' => @$post['invoice_number'],
             'ReturnURL' => '/integration/protectpay/response.php',
-//            'ProfileId' => $MerchantIdentity->getProfileId(), // '3351',
+            'ProfileId' => $MerchantIdentity->getMerchantProfileId(), // '3351',
             'DisplayMessage' => 'True',
             'Comment1' => @$post['notes'],
             'Comment2' => '',
@@ -347,7 +344,7 @@ class ProtectPayIntegration extends AbstractIntegration
 
         $key = hash('MD5', utf8_encode($TempToken), true);
         $iv = $key;
-        $KeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($ResponseCipher), MCRYPT_MODE_CBC, $iv);
+        $ResponseKeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, base64_decode($ResponseCipher), MCRYPT_MODE_CBC, $iv);
 
         $SettingsCipher = base64_decode($SettingsCipher);
         $SettingsKeyValuePairString = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $SettingsCipher, MCRYPT_MODE_CBC, $iv);
@@ -357,11 +354,11 @@ class ProtectPayIntegration extends AbstractIntegration
 
 
 
-        $padding = ord($KeyValuePairString[strlen($KeyValuePairString) - 1]);
-        $KeyValuePairString = substr($KeyValuePairString, 0, -$padding);
+        $padding = ord($ResponseKeyValuePairString[strlen($ResponseKeyValuePairString) - 1]);
+        $ResponseKeyValuePairString = substr($ResponseKeyValuePairString, 0, -$padding);
         // Action=Complete&Echo=&PayerID=6105194103232727&ExpireDate=0319&CardholderName=Ari Asulin&Address1=611 W 6th Ave, sdf, sdf, sdf, sdf, sdf, sdf&Address2=sdf&Address3=&City=Mesa&State=AZ&PostalCode=85210&Country=USA
         $res = array();
-        parse_str($KeyValuePairString, $res);
+        parse_str($ResponseKeyValuePairString, $res);
 
         $Action = @$res['Action'];
         $ErrMsg = @$res['StoreMsg'] ?: @$res['ProcErrMsg'] ?: @$res['ErrMsg'];

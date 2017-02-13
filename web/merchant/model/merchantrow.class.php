@@ -38,6 +38,7 @@ class MerchantRow
 SELECT m.*,
   (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
   (SELECT GROUP_CONCAT(um.id_user SEPARATOR ';') FROM user_merchants um WHERE um.id_merchant = m.id) as user_list,
+  (SELECT GROUP_CONCAT(mi.integration_id SEPARATOR ';') FROM merchant_integration mi WHERE mi.merchant_id = m.id) as integration_provisioned_ids,
   s.name as state_name, s.short_code as state_short_code
 FROM merchant m
 LEFT JOIN state s on m.state_id = s.id
@@ -185,6 +186,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $fraud_high_monthly_limit;
     protected $fraud_flags;
     protected $integration_default_id;
+    protected $integration_provisioned_ids;
 
     // Table status
     protected $status_name;
@@ -366,8 +368,15 @@ LEFT JOIN state s on m.state_id = s.id
         return $Identities;
     }
 
+    public function getProvisionedIntegrationIDs() {
+        return explode(";", $this->integration_provisioned_ids);
+    }
+
     public function getDefaultIntegrationID() {
-        return $this->integration_default_id;
+        if($this->integration_default_id)
+            return $this->integration_default_id;
+        $ids = $this->getProvisionedIntegrationIDs();
+        return $ids[0];
     }
 
 

@@ -416,6 +416,7 @@ SQL;
             ':uid' => $OrderRow->uid,
             ':merchant_id' => $OrderRow->merchant_id,
             ':integration_id' => $OrderRow->integration_id,
+            ':integration_remote_id' => $OrderRow->integration_remote_id,
             ':subscription_id' => $OrderRow->subscription_id,
             ':batch_id' => $OrderRow->batch_id,
             ':form_id' => $OrderRow->form_id,

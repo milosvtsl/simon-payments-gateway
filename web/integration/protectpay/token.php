@@ -58,8 +58,10 @@ try {
     /** @var ProtectPayMerchantIdentity $MerchantIdentity */
     $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
 
+    // Provision Merchant if not yet provisioned
+    if(!$MerchantIdentity->isProvisioned())
+        $MerchantIdentity->provisionRemote();
 
-    $PayerID = null;
     $data = $Integration->requestTempToken($MerchantIdentity, $OrderForm, $_POST);
 
     $JSON['Name'] = $_POST['payee_full_name'];

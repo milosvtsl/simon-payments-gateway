@@ -25,7 +25,7 @@ class ChargeView extends AbstractView
     /** @var MerchantFormRow */
     private $form;
     /** @var MerchantRow */
-    private $merchant;
+    private $merchantIdentity;
 
     public function __construct($merchant_id, $formUID=null)    {
         $SessionManager = new SessionManager();
@@ -63,13 +63,14 @@ class ChargeView extends AbstractView
 
         $SessionUser->setDefaultOrderForm($OrderForm);
 
-
-        $IntegrationRow = IntegrationRow::fetchByID($Merchant->getDefaultIntegrationID());
+        $integrationIDs = $Merchant->getProvisionedIntegrationIDs();
+        $selectedIntegrationID = $Merchant->getDefaultIntegrationID() ?: $integrationIDs[0];
+        $IntegrationRow = IntegrationRow::fetchByID($selectedIntegrationID);
         $Integration = $IntegrationRow->getIntegration();
         $this->integration = $IntegrationRow;
 
         $MerchantIdentity = $Integration->getMerchantIdentity($Merchant, $IntegrationRow);
-        $this->merchant = $MerchantIdentity;
+        $this->merchantIdentity = $MerchantIdentity;
 
         parent::__construct($OrderForm->getTitle() . ' - ' . $Merchant->getShortName());
     }
@@ -78,7 +79,7 @@ class ChargeView extends AbstractView
      * @param array $params
      */
     public function renderHTMLBody(Array $params) {
-        $MerchantIdentity = $this->merchant;
+        $MerchantIdentity = $this->merchantIdentity;
         $Merchant = $MerchantIdentity->getMerchantRow();
 
         /** @var MerchantFormRow $MerchantForm */
@@ -117,9 +118,9 @@ class ChargeView extends AbstractView
 //                $post['order_id'] = $_SESSION['order/charge.php']['order_id'];
 
             // $_SESSION['order/charge.php'] = $post;
-            $Merchant = $this->merchant; // MerchantRow::fetchByID($post['merchant_id']);
-            $Integration = IntegrationRow::fetchByID($Merchant->getDefaultIntegrationID());
-            $MerchantIdentity = $Integration->getMerchantIdentity($Merchant);
+            $MerchantIdentity = $this->merchantIdentity;
+            $Merchant = $MerchantIdentity->getMerchantRow();
+//            $Integration = $MerchantIdentity->getIntegrationRow();
 
             $SessionManager = new SessionManager();
             $SessionUser = $SessionManager->getSessionUser();
@@ -202,7 +203,7 @@ class ChargeView extends AbstractView
         parent::renderHTMLHeadLinks();
 
         $MerchantForm = $this->form;
-        $MerchantIdentity = $this->merchant;
+        $MerchantIdentity = $this->merchantIdentity;
 
         // Render Head Content
         $MerchantForm->renderHTMLHeadLinks($MerchantIdentity);
