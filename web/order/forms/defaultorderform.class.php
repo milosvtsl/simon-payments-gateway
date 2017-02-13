@@ -437,7 +437,7 @@ HEAD;
                     <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>
                     >
-                        <div class="legend">Submit Order</div>
+                        <div class="legend">Submit Payment</div>
                         <table class="table-transaction-charge themed" style="width: 45%;">
                             <!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
                             <!--                            <td class="name">Convenience Fee</td>-->

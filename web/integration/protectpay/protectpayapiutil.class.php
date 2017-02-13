@@ -285,20 +285,20 @@ XML;
             'ShouldCapture' => 'true',                                                      // Boolean Required Valid values are: ? true ? false // Set this value to false for Authorization Only
             'ShouldCreatePaymentMethod' => 'true',                                          // Boolean Required True or False; Determines if the data should be stored as a PaymentMethodId after processing it.
             'CreatePaymentMethodDuplicateAction' => 'SaveNew',                              // String - Determines action to take in the event that a new payment method duplicates an existing payment method. Valid values are: ? SaveNew -default if not specified ? Error -return error if duplicate found ? ReturnDup -causes payment method id to be returned when duplicate found
-            'EncryptedTrackData' => array(                                                //  Object - Required
-                'DeviceType' => 'MagTekDynamag',                         // String Required Valid Values are:  ? MagTekM20 ? MagTekFlash ? IdTechUniMag ? Manual ? MagTekADynamo ? MagTekDynamag ? RoamData
-                'KeySerialNumber' => $KeySerialNumber,                   // Base64 String Required This value will be obtained from the ProPay supported device.
-                'EncryptedTrackData' => $OrderRow->getCardTrack(),       // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
-                'EncryptedTrack2Data' => null,                           // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
+            'EncryptedTrackData' => array(                                                  //  Object - Required
+                'DeviceType' => 'MagTekDynamag',                                            // String Required Valid Values are:  ? MagTekM20 ? MagTekFlash ? IdTechUniMag ? Manual ? MagTekADynamo ? MagTekDynamag ? RoamData
+                'KeySerialNumber' => $KeySerialNumber,                                      // Base64 String Required This value will be obtained from the ProPay supported device.
+                'EncryptedTrackData' => $OrderRow->getCardTrack(),                          // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
+                'EncryptedTrack2Data' => null,                                              // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
             ),
-            'Transaction' => array(                                                       // Object - Required Contains Transaction Information *REST passes the transaction values directly and not nested.
-                'Amount' => floor(100*$TransactionAmount),                      // Integer Required The value representing the number of pennies in USD, or the number of [currency] without decimals.
-                'Comment1' => null,                                             // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
-                'Comment2' => null,                                             // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
-                'CurrencyCode' => null,                                         // String 3 Required ISO 4217 standard 3 character currency code.
-                'Invoice' => $OrderRow->getInvoiceNumber(),                     // String 50 Optional Recommended. Transaction descriptor-only passed if supported by the gateway. *ProPay gateway rejects duplicates for same invoice #, card # and amount in 1 minute. Transaction .MerchantProfileId Integer Required The MerchantProfileId that was created using the supplied credentials for the supplied Gateway that is used to process against this particular gateway
-                'PayerAccountId' => $PayerAccountId,                            // String 16 Required This is the ProtectPay ID for the Payer Created and belongs to the BillerID that created it
-                'IsDebtRepayment' => 'False',                                   // Boolean - Optional Valid Values are: ? True ? False Only applicable for LegacyProPay and LegacyProPayCan gateways Defaults to False if not submitted
+            'Transaction' => array(                                                         // Object - Required Contains Transaction Information *REST passes the transaction values directly and not nested.
+                'Amount' => floor(100*$TransactionAmount),                                  // Integer Required The value representing the number of pennies in USD, or the number of [currency] without decimals.
+                'Comment1' => null,                                                         // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
+                'Comment2' => null,                                                         // String 128 Optional Transaction descriptor. Only passed if supported by the gateway.
+                'CurrencyCode' => null,                                                     // String 3 Required ISO 4217 standard 3 character currency code.
+                'Invoice' => $OrderRow->getInvoiceNumber(),                                 // String 50 Optional Recommended. Transaction descriptor-only passed if supported by the gateway. *ProPay gateway rejects duplicates for same invoice #, card # and amount in 1 minute. Transaction .MerchantProfileId Integer Required The MerchantProfileId that was created using the supplied credentials for the supplied Gateway that is used to process against this particular gateway
+                'PayerAccountId' => $PayerAccountId,                                        // String 16 Required This is the ProtectPay ID for the Payer Created and belongs to the BillerID that created it
+                'IsDebtRepayment' => 'False',                                               // Boolean - Optional Valid Values are: ? True ? False Only applicable for LegacyProPay and LegacyProPayCan gateways Defaults to False if not submitted
             ),
 //            'Transaction.Frauddetectors' => array(                                        // Object - Optional Please See ProtectPay Appendix C for details concerning the
             //         FrauddetectorsObject

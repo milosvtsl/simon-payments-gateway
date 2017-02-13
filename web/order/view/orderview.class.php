@@ -517,7 +517,7 @@ HTML;
                                                 break;
 
                                             case 'Settled':
-                                                if($Order->getStatus() === 'Settled' && !$Order->getTotalReturnedAmount()) {
+                                                if($Order->getStatus() === 'Settled' && !floatval($Order->getTotalReturnedAmount())) {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
                                                     echo <<<HTML
                                         <input name='partial_return_amount' size="10" placeholder="Return Amount" />
