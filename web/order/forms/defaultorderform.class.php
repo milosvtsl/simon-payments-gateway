@@ -13,6 +13,7 @@ use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use System\Arrays\Locations;
 use User\Session\SessionManager;
+use System\Config\SiteConfig;
 
 class DefaultOrderForm extends AbstractForm
 {
@@ -58,6 +59,8 @@ HEAD;
         $LASTPOST = array();
         if(isset($_SESSION[__FILE__]))
             $LASTPOST = $_SESSION[__FILE__];
+
+        $SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
 
         ?>
         <article class="themed">
@@ -299,7 +302,7 @@ HEAD;
                     </fieldset>
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:45%; min-height: 21em;">
-                        <div class="legend">Customer Fields</div>
+                        <div class="legend"><?php echo $SITE_CUSTOMER_NAME; ?> Fields</div>
                         <table class="table-transaction-charge themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td class="name">Payment Amount</td>
@@ -308,7 +311,7 @@ HEAD;
                                 </td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Customer Name</td>
+                                <td class="name"><?php echo $SITE_CUSTOMER_NAME; ?> Name</td>
                                 <td>
                                     <input type="text" name="customer_first_name" placeholder="First Name" size="12" />
                                     <input type="text" name="customermi" placeholder="MI" size="1" /> <br/>
@@ -360,7 +363,7 @@ HEAD;
 
                             <?php if($MerchantForm->hasField('customer_id')) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name">Customer&nbsp;ID#</td>
+                                    <td class="name"><?php echo $SITE_CUSTOMER_NAME; ?>&nbsp;ID#</td>
                                     <td><input type="text" name="customer_id" placeholder="Customer ID" <?php echo $MerchantForm->isFieldRequired('customer_id') ? 'required ' : ''; ?>/></td>
                                 </tr>
                             <?php } ?>
@@ -391,6 +394,7 @@ HEAD;
                     </fieldset>
 
 
+                    <?php if($MerchantForm->isRecurAvailable()) { ?>
                     <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
                         <div class="legend">Re-bill Schedule</div>
                         <table class="table-transaction-charge themed" style="float: left; width: 45%;">
@@ -433,6 +437,7 @@ HEAD;
                             </tr>
                         </table>
                     </fieldset>
+                    <?php } ?>
 
                     <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>

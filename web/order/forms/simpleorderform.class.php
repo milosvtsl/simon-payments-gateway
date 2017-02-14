@@ -13,6 +13,7 @@ use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use System\Arrays\Locations;
 use User\Session\SessionManager;
+use System\Config\SiteConfig;
 
 class SimpleOrderForm extends AbstractForm
 {
@@ -58,6 +59,8 @@ HEAD;
         if(isset($_SESSION[__FILE__]))
             $LASTPOST = $_SESSION[__FILE__];
 
+        $SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
+
         ?>
         <article class="themed" style="text-align: center; clear: right;">
             <section class="content" style="text-align: left; display: inline-block;">
@@ -86,7 +89,7 @@ HEAD;
                        <div style="float: left;">
 
                             <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                                <span>Customer Name</span>
+                                <span><?php echo $SITE_CUSTOMER_NAME; ?> Name</span>
                                 <input type="text" name="payee_full_name" placeholder="Customer Name" required autofocus/>
                             </label>
 
@@ -316,11 +319,9 @@ HEAD;
                     </div>
 
 
-
+                    <?php if($MerchantForm->isRecurAvailable()) { ?>
                     <fieldset class="" style="max-width: 45em; clear: both;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
                         <div class="legend">Recurring Payment</div>
-
-
 
                         <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <span>Re-bill Count</span>
@@ -356,6 +357,7 @@ HEAD;
                             <input type="date" name="recur_next_date" required="required" style="max-width: 10em;"/>
                         </label>
                     </fieldset>
+                    <?php } ?>
 
                     <fieldset class="" style="clear: both; max-width: 45em;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>

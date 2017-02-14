@@ -5,6 +5,7 @@ use Merchant\Model\MerchantRow;
 use Order\Model\OrderQueryStats;
 use Order\Model\OrderRow;
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 
@@ -175,6 +176,7 @@ class OrderListView extends AbstractListView {
 //			$SessionManager->setMessage($statsMessage);
 
         $action_url = 'order/list.php?' . http_build_query($_GET);
+		$SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
 
 		if(strtolower(substr(@$params['action'], 0, 6)) == 'export') {
 			// Export Data
@@ -299,7 +301,7 @@ class OrderListView extends AbstractListView {
 							<tr>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
-								<th>Customer/ID</th>
+								<th><?php echo $SITE_CUSTOMER_NAME; ?>/ID</th>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
                                 <th>Amount</th>
 								<th class="hide-on-layout-narrow">Mode</th>

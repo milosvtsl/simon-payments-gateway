@@ -1,5 +1,6 @@
 <?php
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 
 /** @var \Order\View\OrderView $this*/
 
@@ -15,8 +16,7 @@ $SessionUser = $SessionManager->getSessionUser();
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
 
-
-
+$SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
 ?>
 
 <article class="themed">
@@ -40,13 +40,13 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Customer</td>
+                        <td class="name"><?php echo $SITE_CUSTOMER_NAME; ?></td>
                         <td class="value"><?php echo $Order->getCustomerFullName() ?></td>
                     </tr>
 
                     <?php if($Order->getCustomerID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Customer</td>
+                            <td class="name"><?php echo $SITE_CUSTOMER_NAME; ?></td>
                             <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                         </tr>
                     <?php } ?>
@@ -185,7 +185,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 <br/>
                 <br/>
                 <hr style="height: 2px;">
-                Customer Signature
+                <?php echo $SITE_CUSTOMER_NAME; ?> Signature
             </div>
 
 

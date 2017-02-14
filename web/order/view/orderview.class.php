@@ -13,6 +13,7 @@ use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Subscription\Model\SubscriptionRow;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -174,6 +175,7 @@ class OrderView extends AbstractView
         $Theme->addPathURL($action_url,    $Order->getUID(true));
         $Theme->renderHTMLBodyHeader();
         $Theme->printHTMLMenu('order-view', $action_url);
+        $SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
         ?>
 
         <article class="themed">
@@ -213,7 +215,7 @@ class OrderView extends AbstractView
                                 <tbody>
                                 <tr>
                                     <td colspan="2" class="legend">
-                                        Customer: <?php echo $Order->getCustomerFullName() ?: $Order->getPayeeFullName(); ?>
+                                        <?php echo $SITE_CUSTOMER_NAME; ?>: <?php echo $Order->getCustomerFullName() ?: $Order->getPayeeFullName(); ?>
                                     </td>
                                 </tr>
 
@@ -325,7 +327,7 @@ class OrderView extends AbstractView
                                 <?php } ?>
                                 <?php if($Order->getCustomerID()) { ?>
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Customer</td>
+                                        <td class="name" style="width: 30%;"><?php echo $SITE_CUSTOMER_NAME; ?></td>
                                         <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                                     </tr>
                                 <?php } ?>
@@ -444,7 +446,7 @@ class OrderView extends AbstractView
                         <br/>
                         <br/>
                         <hr style="height: 2px;">
-                        Customer Signature
+                        <?php echo $SITE_CUSTOMER_NAME; ?> Signature
                     </fieldset>
 
                     <?php if ($Order->getSubscriptionCount() > 0) { ?>

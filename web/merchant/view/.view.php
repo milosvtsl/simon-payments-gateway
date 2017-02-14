@@ -2,6 +2,7 @@
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+use \System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
@@ -312,7 +313,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <tr>
                             <th>ID</th>
                             <th>Amount</th>
-                            <th>Customer</th>
+                            <th><?php echo SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME; ?></th>
                             <th>Mode</th>
                             <th>Date</th>
                             <th>Status</th>

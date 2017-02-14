@@ -289,57 +289,58 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
 
         // Rebill UI
-        if(form.recur_count.value > 0) {
-            form.recur_next_date.removeAttribute('disabled');
-            form.recur_amount.removeAttribute('disabled');
-            form.recur_frequency.removeAttribute('disabled');
+        if(form.recur_count) {
+            if(form.recur_count.value > 0) {
+                form.recur_next_date.removeAttribute('disabled');
+                form.recur_amount.removeAttribute('disabled');
+                form.recur_frequency.removeAttribute('disabled');
 
-            if(form.recur_amount.value <= 0) {
-                form.recur_amount.value = form.amount.value;
+                if(form.recur_amount.value <= 0) {
+                    form.recur_amount.value = form.amount.value;
+                }
+
+            } else {
+                form.recur_next_date.setAttribute('disabled', 'disabled');
+                form.recur_amount.setAttribute('disabled', 'disabled');
+                form.recur_frequency.setAttribute('disabled', 'disabled');
             }
 
-        } else {
-            form.recur_next_date.setAttribute('disabled', 'disabled');
-            form.recur_amount.setAttribute('disabled', 'disabled');
-            form.recur_frequency.setAttribute('disabled', 'disabled');
-        }
+            if(typeof form.recur_frequency.last_value == 'undefined'
+                || form.recur_frequency.last_value !== form.recur_frequency.value) {
+                var newdate = new Date();
+                var now = new Date();
+                switch(form.recur_frequency.value) {
+                    case 'Weekly':
+                        newdate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'BiWeekly':
+                        newdate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+                        break;
+                    default:
+                    case 'OneTimeFuture':
+                    case 'Monthly':
+                        if (now.getMonth() == 11)   newdate = new Date(now.getFullYear() + 1, 0, 1);
+                        else                        newdate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                        break;
+                    case 'BiMonthly':
+                        newdate = new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000);
+                        break;
 
-        if(typeof form.recur_frequency.last_value == 'undefined'
-            || form.recur_frequency.last_value !== form.recur_frequency.value) {
-            var newdate = new Date();
-            var now = new Date();
-            switch(form.recur_frequency.value) {
-                case 'Weekly':
-                    newdate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-                    break;
-                case 'BiWeekly':
-                    newdate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-                    break;
-                default:
-                case 'OneTimeFuture':
-                case 'Monthly':
-                    if (now.getMonth() == 11)   newdate = new Date(now.getFullYear() + 1, 0, 1);
-                    else                        newdate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-                    break;
-                case 'BiMonthly':
-                    newdate = new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000);
-                    break;
-
-                case 'Quarterly':
-                    newdate = new Date(now.getTime() + 91 * 24 * 60 * 60 * 1000);
-                    break;
-                case 'SemiAnnually':
-                    newdate = new Date(now.getTime() + 182 * 24 * 60 * 60 * 1000);
-                    break;
-                case 'Annually':
-                    newdate = new Date(now.getFullYear() + 1, 0, 1);
-                    break;
+                    case 'Quarterly':
+                        newdate = new Date(now.getTime() + 91 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'SemiAnnually':
+                        newdate = new Date(now.getTime() + 182 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'Annually':
+                        newdate = new Date(now.getFullYear() + 1, 0, 1);
+                        break;
+                }
+                var datestring = formatDateYYYYMMDD(newdate);
+                form.recur_next_date.value = datestring;
+                form.recur_next_date.last_value = form.recur_frequency.value;
             }
-            var datestring = formatDateYYYYMMDD(newdate);
-            form.recur_next_date.value = datestring;
-            form.recur_next_date.last_value = form.recur_frequency.value;
         }
-
     }
 
     // Utilities

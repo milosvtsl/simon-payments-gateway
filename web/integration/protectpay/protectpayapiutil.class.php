@@ -239,7 +239,7 @@ XML;
         Array $post
     ) {
 
-        $KeySerialNumber = null;
+        $KeySerialNumber = $post['swipe_key_serial_number'];
 
 
         $APIData = $MerchantIdentity->getIntegrationRow();
@@ -269,8 +269,8 @@ XML;
         }
 
         $args = array(
-            'AuthenticationToken' => $MerchantIdentity->getAuthenticationToken(),           // String 100 Authorization Valid value is a GUID. Value supplied by ProPay. Used to access the API
-            'BillerAccountId' => $MerchantIdentity->getBillerAccountId(),                   // String 16 Authorization Value supplied by ProPay. Used to identify the correct collection of tokens.
+//            'AuthenticationToken' => $MerchantIdentity->getAuthenticationToken(),           // String 100 Authorization Valid value is a GUID. Value supplied by ProPay. Used to access the API
+//            'BillerAccountId' => $MerchantIdentity->getBillerAccountId(),                   // String 16 Authorization Value supplied by ProPay. Used to identify the correct collection of tokens.
 
             'AccountName' => $OrderRow->getCardHolderFullName(),                            // String 50 Optional Cardholder name. Will be passed on to gateway if gateway accepts it.
             'Address1' => $OrderRow->getPayeeAddress(),                                     // String 50 Optional Cardholder address
@@ -287,8 +287,8 @@ XML;
             'CreatePaymentMethodDuplicateAction' => 'SaveNew',                              // String - Determines action to take in the event that a new payment method duplicates an existing payment method. Valid values are: ? SaveNew -default if not specified ? Error -return error if duplicate found ? ReturnDup -causes payment method id to be returned when duplicate found
             'EncryptedTrackData' => array(                                                  //  Object - Required
                 'DeviceType' => 'MagTekDynamag',                                            // String Required Valid Values are:  ? MagTekM20 ? MagTekFlash ? IdTechUniMag ? Manual ? MagTekADynamo ? MagTekDynamag ? RoamData
-                'KeySerialNumber' => $KeySerialNumber,                                      // Base64 String Required This value will be obtained from the ProPay supported device.
-                'EncryptedTrackData' => $OrderRow->getCardTrack(),                          // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
+                'KeySerialNumber' => base64_encode($KeySerialNumber),                       // Base64 String Required This value will be obtained from the ProPay supported device.
+                'EncryptedTrackData' => base64_encode($OrderRow->getCardTrack()),           // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
                 'EncryptedTrack2Data' => null,                                              // Base64 String ** Encrypted data as pulled from the ProPay approved encrypted swipe device.
             ),
             'Transaction' => array(                                                         // Object - Required Contains Transaction Information *REST passes the transaction values directly and not nested.
@@ -302,7 +302,7 @@ XML;
             ),
 //            'Transaction.Frauddetectors' => array(                                        // Object - Optional Please See ProtectPay Appendix C for details concerning the
             //         FrauddetectorsObject
-                'Frauddetectors.FrauddetectorProviderName' => '',                           // String Required* If using Frauddetectors Object this attribute is required.
+//                'Frauddetectors.FrauddetectorProviderName' => '',                           // String Required* If using Frauddetectors Object this attribute is required.
         );
 
         $request = json_encode($args, JSON_PRETTY_PRINT);

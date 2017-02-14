@@ -536,8 +536,8 @@ SQL;
             throw new \InvalidArgumentException("Invalid Amount");
         if(!is_numeric($post['amount']))
             throw new \InvalidArgumentException("Invalid Numeric Amount");
-        if($post['amount'] > SiteConfig::$MAX_TRANSACTION_AMOUNT)
-            throw new \InvalidArgumentException("Invalid Max Transaction Amount");
+        if(SiteConfig::$SITE_MAX_TRANSACTION_AMOUNT>100 && $post['amount'] > SiteConfig::$SITE_MAX_TRANSACTION_AMOUNT)
+            throw new \InvalidArgumentException("Invalid Max Transaction Amount: " . SiteConfig::$SITE_MAX_TRANSACTION_AMOUNT);
 
         $OrderRow->entry_mode = $post['entry_mode'];
         $OrderRow->amount = $post['amount'];

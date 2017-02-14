@@ -26,3 +26,29 @@ SiteConfig::$EMAIL_SMTP_AUTH = false; // true;
 SiteConfig::$EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
 SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
+
+// Per Domain Config
+switch(strtolower(@$_SERVER['HTTP_HOST'])) {
+    default:
+    case 'access.simonpayments.com':
+    case 'dev.simonpayments.com':
+    case 'demo.simonpayments.com':
+        break;
+
+    case 'localhost':
+    case 'courtpay.org':
+        SiteConfig::$SITE_NAME = "CourtPay.org";
+        SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
+        SiteConfig::$SITE_URL = "https://CourtPay.org";
+        SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
+        SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
+        break;
+
+    case 'utilitypay.org':
+        SiteConfig::$SITE_NAME = "UtilityPay.org";
+        SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
+        SiteConfig::$SITE_URL = "https://UtilityPay.org";
+        SiteConfig::$DEFAULT_THEME = 'View\Theme\UtilityPay\UtilityPayViewTheme';
+        SiteConfig::$EMAIL_FROM_ADDRESS = 'support@utilitypay.org';
+        break;
+}
