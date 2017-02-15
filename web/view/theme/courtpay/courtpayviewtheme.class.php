@@ -222,6 +222,7 @@ HEAD;
                 </li>
             <?php } ?>
 
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
                     <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
                         <span>Merchants</span> </a>
@@ -264,7 +265,7 @@ HEAD;
 
                     </ul>
                 </li>
-
+            <?php } ?>
 
             <li class="menu-submenu menu-submenu-user">
                 <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
