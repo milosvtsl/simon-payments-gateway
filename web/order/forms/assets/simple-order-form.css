@@ -35,7 +35,7 @@
 
 
 .simple-order-form .entry-section {
-    background: #e7f0f3;
+    background: #dce9f2;
     padding: 8px;
     border-radius: 0 8px 8px 8px;
 }
@@ -46,7 +46,7 @@
 }
 .simple-order-form .entry-options .entry-option {
     display: inline-block;
-    background: #d0e0e6;
+    background: #b3cddf;
     border-radius: 8px 8px 0 0;
     padding: 6px 10px 4px 4px;
     margin: 0 3px 0 0px;
@@ -58,7 +58,7 @@
 .simple-order-form.payment-method-check .entry-option-check,
 .simple-order-form .entry-options .entry-option.selected {
     font-weight: bold;
-    background: #e8f1f4;
+    background: #dce9f2;
 }
 
 /** Swipe Box **/
