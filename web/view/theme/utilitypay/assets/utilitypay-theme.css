@@ -212,7 +212,7 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 }
 
 .utilitypay-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-.utilitypay-theme ul.page-menu .menu-submenu-order        { background-color: #f0f4f6; }
+.utilitypay-theme ul.page-menu .menu-submenu-order        {background-color: #ecf5f1;}
 .utilitypay-theme ul.page-menu .menu-submenu-merchant     { background-color: #f0f4f6; }
 .utilitypay-theme ul.page-menu .menu-submenu-user         { background-color: #f0f4f6; }
 .utilitypay-theme ul.page-menu .menu-submenu-integration  { background-color: #f0f4f6; }
@@ -449,14 +449,14 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 
 .utilitypay-theme a.button:hover {
     background-color: #f0f4f6;
-    background: linear-gradient(90deg, #f0f4f6 0%, #ffffff 100%);
+    background: linear-gradient(90deg, #d8e8e0 0%, #ffffff 100%);
     /* color: #ffffff; */
     font-weight: bold;
 }
 .utilitypay-theme a.button.current {
     font-weight: bold;
-    color: #4296bb;
-    background: linear-gradient(90deg, #e2eef1 0%, #ffffff 100%);
+    color: #78b68e;
+    background: linear-gradient(90deg, #ecf5f1 0%, #ffffff 100%);
 }
 
 .utilitypay-theme a.button[disabled] {
@@ -487,7 +487,7 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
     border-bottom: 1px solid #8fa2ad;
     border-top: 1px solid #b3c5d0;
     /* padding: 0.8em 0.5em 0.4em 0.9em; */
-    background-color: #e7f0f3;
+    background-color: #d8e8e0;
     /* position: relative; */
     /* min-height: 38px; */
     /* display: block; */
@@ -503,7 +503,7 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 
 .utilitypay-theme .bread-crumbs > a {
     text-decoration: none;
-    color: #21455b;
+    color: #1c4a35;
     font-size: 0.9em;
     /*text-transform: lowercase;*/
     display: inline-block;
@@ -513,7 +513,7 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 }
 
 .utilitypay-theme .bread-crumbs > a:hover {
-    background-color: #b6ccda;
+    background-color: #d2eade;
     font-weight: bold;
 }
 
@@ -624,7 +624,7 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
     margin: 2px 0 7px 0;
     padding: 4px 3px 2px 4px;
     font-size: larger !important;
-    background: linear-gradient(90deg, #e7f0f3 40%, #ffffff 90%);
+    background: linear-gradient(90deg, #ecf5f1 40%, #ffffff 90%);
 }
 
 .utilitypay-theme form.themed select, .utilitypay-theme form.themed textarea, .utilitypay-theme form.themed button, .utilitypay-theme form.themed input[type=text] {
@@ -653,8 +653,8 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
     /* min-width: 80px; */
     border-radius: 5px;
     text-transform: capitalize;
-    background-color: #3a7190;
-    background: linear-gradient(0deg, #3a7190 0%, #3a7190 50%, #3a7190 79%);
+    background-color: #457752;
+    background: linear-gradient(0deg, #457752 0%, #447551 50%, #395e43 79%);
     color: white;
     cursor: pointer;
     border: 1px solid #CCCCCC;
@@ -671,8 +671,8 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 .utilitypay-theme input[type=submit].themed:hover,
 .utilitypay-theme button.themed:hover,
 .utilitypay-theme input.button-sumit:hover {
-    background: linear-gradient(0deg, #3a7190 0%, #23465c 50%, #3a7190 100%);
-    box-shadow: 1px 1px 1px #008ee9;
+    background: linear-gradient(0deg, #416f4d 0%, #293f30 50%, #2e4936 100%);
+    box-shadow: 1px 1px 1px #56c874;
 }
 
 
