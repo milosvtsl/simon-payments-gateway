@@ -53,7 +53,7 @@ abstract class AbstractTotalsApp extends AbstractApp
         if(!$this->stats) {
             $this->stats = $this->fetchStats();
             $this->stats['timestamp'] = time();
-            $_SESSION[$sessionKey] = $this->stats;
+//            $_SESSION[$sessionKey] = $this->stats;
         }
 
         return $this->stats;

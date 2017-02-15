@@ -45,6 +45,7 @@ switch(strtolower(@$_SERVER['HTTP_HOST'])) {
 
     case 'localhost':
     case 'utilitypay.org':
+    case 'localhost':
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
         SiteConfig::$SITE_URL = "https://UtilityPay.org";
