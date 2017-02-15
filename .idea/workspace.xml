@@ -2,75 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="564d69ed-3d17-489d-b3ba-8ea9391969fb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/bk/a.button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/bk/a.button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/bar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/bar.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/btn_icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/btn_icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/icons/btn_search.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/icons/btn_search.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/check-image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/check-image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/credit-image-cvv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/credit-image-cvv.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/credit-image-small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/credit-image-small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/credit-image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/credit-image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/cvv2-image-old.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/cvv2-image-old.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/cvv2-image-small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/cvv2-image-small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/payment/cvv2-image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/payment/cvv2-image.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/favicon.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/favicon.ico" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/bk/fieldset.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/bk/fieldset.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/bk/form.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/bk/form.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/graph_overlay_big.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/graph_overlay_big.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/graph_overlay_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/graph_overlay_small.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/bk/header.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/bk/header.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/bk/input.button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/bk/input.button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/logo-icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/logo-icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/logo.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/logo_full.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/logo_full.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/nav_icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/nav_icons.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/nav_iconsnocircle.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/nav_iconsnocircle.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/img/icons/search.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/icons/search.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/courtpayviewtheme.class.php" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/utilitypay-theme.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/utilitypay-theme.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/utilitypayviewtheme.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/support/DOMPDF" afterPath="$PROJECT_DIR$/web/system/support/DOMPDF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/view/.download.php" afterPath="$PROJECT_DIR$/web/order/view/.download.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/merchant/view/.view.php" afterPath="$PROJECT_DIR$/web/merchant/view/.view.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/app/appmanager.class.php" afterPath="$PROJECT_DIR$/web/app/appmanager.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/view/assets/charge.js" afterPath="$PROJECT_DIR$/web/order/view/assets/charge.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/app/chart/abstracttotalsapp.class.php" afterPath="$PROJECT_DIR$/web/app/chart/abstracttotalsapp.class.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.php" afterPath="$PROJECT_DIR$/config.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/forms/defaultorderform.class.php" afterPath="$PROJECT_DIR$/web/order/forms/defaultorderform.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/view/orderlistview.class.php" afterPath="$PROJECT_DIR$/web/order/view/orderlistview.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/model/orderrow.class.php" afterPath="$PROJECT_DIR$/web/order/model/orderrow.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/view/orderview.class.php" afterPath="$PROJECT_DIR$/web/order/view/orderview.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/forms/simpleorderform.class.php" afterPath="$PROJECT_DIR$/web/order/forms/simpleorderform.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/config/siteconfig.class.php" afterPath="$PROJECT_DIR$/web/system/config/siteconfig.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/integration/protectpay/test/test.php" afterPath="$PROJECT_DIR$/web/integration/protectpay/test/test.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="spg.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -124,38 +58,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orderrow.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/order/model/orderrow.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.115385">
-              <caret line="539" column="125" selection-start-line="539" selection-start-column="125" selection-end-line="539" selection-end-column="125" />
-              <folding>
-                <marker date="1487051235711" expanded="true" signature="4343:5148" placeholder="SELECT oi.*,..order_item..." />
-                <marker date="1487051235711" expanded="true" signature="4744:4846" placeholder="SELECT GROUP..order_field..." />
-                <marker date="1487051235711" expanded="true" signature="11267:11359" placeholder="SELECT MAX(o..order_item..." />
-                <marker date="1487051235711" expanded="true" signature="11560:11636" placeholder="SELECT MAX(o..order_item..." />
-                <marker date="1487051235711" expanded="true" signature="14068:14103" placeholder="DELETE FROM ..." />
-                <marker date="1487051235711" expanded="true" signature="17844:17888" placeholder="INSERT INTO ..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utilitypayviewtheme.class.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/view/theme/utilitypay/utilitypayviewtheme.class.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.4615383">
-              <caret line="55" column="88" selection-start-line="55" selection-start-column="88" selection-end-line="55" selection-end-column="88" />
-              <folding>
-                <element signature="e#6#86#0#PHP" expanded="true" />
-                <element signature="e#121#153#0#PHP" expanded="true" />
-                <element signature="e#4145#4166#0#HTML" expanded="true" />
-                <element signature="e#5105#5149#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="orderlistview.class.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/order/view/orderlistview.class.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -184,11 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9126712">
-              <caret line="48" column="59" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
+            <state vertical-scroll-proportion="-4.576923">
+              <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -199,6 +101,35 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-9.807693">
               <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dailychart.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/app/chart/dailychart.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-30.73077">
+              <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
+              <folding>
+                <marker date="1487027989761" expanded="true" signature="1045:2710" placeholder="..." />
+                <marker date="1487027989761" expanded="true" signature="1087:1430" placeholder="..." />
+                <marker date="1487027989761" expanded="false" signature="1148:1167" placeholder="..." />
+                <marker date="1487027989761" expanded="true" signature="1168:1373" placeholder="..." />
+                <marker date="1487027989761" expanded="true" signature="1284:1350" placeholder="..." />
+                <marker date="1487027989761" expanded="true" signature="1540:1585" placeholder="..." />
+                <marker date="1487027989761" expanded="true" signature="1661:2695" placeholder="..." />
+                <marker date="1487027989761" expanded="true" signature="1699:2676" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="abstracttotalsapp.class.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/web/app/chart/abstracttotalsapp.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.739726">
+              <caret line="55" column="24" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -231,7 +162,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/web/subscription/mail/cancelemail.class.php" />
         <option value="$PROJECT_DIR$/web/order/mail/receiptemail.class.php" />
         <option value="$PROJECT_DIR$/web/integration/model/abstractintegration.class.php" />
         <option value="$PROJECT_DIR$/web/integration/mock/mockintegration.class.php" />
@@ -282,6 +212,7 @@
         <option value="$PROJECT_DIR$/web/order/view/orderlistview.class.php" />
         <option value="$PROJECT_DIR$/web/order/view/orderview.class.php" />
         <option value="$PROJECT_DIR$/config.php" />
+        <option value="$PROJECT_DIR$/web/app/chart/abstracttotalsapp.class.php" />
       </list>
     </option>
   </component>
@@ -494,6 +425,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spg" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spg" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spg" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spg" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="chart" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -669,14 +640,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-124" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2359375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32629356" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32629356" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32629356" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -762,20 +733,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/web/order/view/assets/charge.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="196" column="16" selection-start-line="196" selection-start-column="16" selection-end-line="196" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/integration/mock/test/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.153846">
-          <caret line="39" column="40" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/integration/element/test/test.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-7.076923">
@@ -1101,12 +1058,12 @@
         <state vertical-scroll-proportion="-8.115385">
           <caret line="539" column="125" selection-start-line="539" selection-start-column="125" selection-end-line="539" selection-end-column="125" />
           <folding>
-            <marker date="1487051235711" expanded="true" signature="4343:5148" placeholder="SELECT oi.*,..order_item..." />
-            <marker date="1487051235711" expanded="true" signature="4744:4846" placeholder="SELECT GROUP..order_field..." />
-            <marker date="1487051235711" expanded="true" signature="11267:11359" placeholder="SELECT MAX(o..order_item..." />
-            <marker date="1487051235711" expanded="true" signature="11560:11636" placeholder="SELECT MAX(o..order_item..." />
-            <marker date="1487051235711" expanded="true" signature="14068:14103" placeholder="DELETE FROM ..." />
-            <marker date="1487051235711" expanded="true" signature="17844:17888" placeholder="INSERT INTO ..." />
+            <marker date="1487051235711" expanded="true" signature="-1:-1" placeholder="SELECT oi.*,..order_item..." />
+            <marker date="1487051235711" expanded="true" signature="-1:-1" placeholder="SELECT GROUP..order_field..." />
+            <marker date="1487051235711" expanded="true" signature="-1:-1" placeholder="SELECT MAX(o..order_item..." />
+            <marker date="1487051235711" expanded="true" signature="-1:-1" placeholder="SELECT MAX(o..order_item..." />
+            <marker date="1487051235711" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
+            <marker date="1487051235711" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
           </folding>
         </state>
       </provider>
@@ -1171,6 +1128,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.576923">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/web/system/config/siteconfig.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-9.807693">
@@ -1179,10 +1144,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.php">
+    <entry file="file://$PROJECT_DIR$/web/app/chart/dailychart.class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9126712">
-          <caret line="48" column="59" selection-start-line="48" selection-start-column="59" selection-end-line="48" selection-end-column="59" />
+        <state vertical-scroll-proportion="-30.73077">
+          <caret line="54" column="10" selection-start-line="54" selection-start-column="10" selection-end-line="54" selection-end-column="10" />
+          <folding>
+            <marker date="1487027989761" expanded="true" signature="1045:2710" placeholder="..." />
+            <marker date="1487027989761" expanded="true" signature="1087:1430" placeholder="..." />
+            <marker date="1487027989761" expanded="false" signature="1148:1167" placeholder="..." />
+            <marker date="1487027989761" expanded="true" signature="1168:1373" placeholder="..." />
+            <marker date="1487027989761" expanded="true" signature="1284:1350" placeholder="..." />
+            <marker date="1487027989761" expanded="true" signature="1540:1585" placeholder="..." />
+            <marker date="1487027989761" expanded="true" signature="1661:2695" placeholder="..." />
+            <marker date="1487027989761" expanded="true" signature="1699:2676" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/app/chart/abstracttotalsapp.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.739726">
+          <caret line="55" column="24" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="24" />
           <folding />
         </state>
       </provider>

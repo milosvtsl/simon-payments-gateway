@@ -35,7 +35,6 @@ switch(strtolower(@$_SERVER['HTTP_HOST'])) {
     case 'demo.simonpayments.com':
         break;
 
-    case 'localhost':
     case 'courtpay.org':
         SiteConfig::$SITE_NAME = "CourtPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
@@ -45,6 +44,7 @@ switch(strtolower(@$_SERVER['HTTP_HOST'])) {
         break;
 
     case 'utilitypay.org':
+    case 'localhost':
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
         SiteConfig::$SITE_URL = "https://UtilityPay.org";
