@@ -43,9 +43,8 @@ switch(strtolower(@$_SERVER['HTTP_HOST'])) {
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
         break;
 
-    case 'localhost':
+//    case 'localhost':
     case 'utilitypay.org':
-    case 'localhost':
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
         SiteConfig::$SITE_URL = "https://UtilityPay.org";

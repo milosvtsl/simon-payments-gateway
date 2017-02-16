@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="564d69ed-3d17-489d-b3ba-8ea9391969fb" name="Default" comment="">
+      <change type="DELETED" beforePath="D:\Dev\spg\web\view\theme\spg\assets\img\payment\cvv2-image-green.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/btn_icons.png" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/btn_icons.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/nav_icons.png" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/img/nav_icons.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.php" afterPath="$PROJECT_DIR$/config.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/forms/assets/simple-order-form.css" afterPath="$PROJECT_DIR$/web/order/forms/assets/simple-order-form.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/spg/assets/spg-theme.css" afterPath="$PROJECT_DIR$/web/view/theme/spg/assets/spg-theme.css" />
     </list>
     <ignored path="spg.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -102,8 +107,8 @@
       <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6737044">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6084453">
+              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -1006,8 +1011,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6737044">
-          <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6084453">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
           <folding />
         </state>
       </provider>
