@@ -4,8 +4,8 @@
     color: #000000;
     font-family: arial, serif;
     margin: 0 auto;
-    /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
-    background-color: #ffffff;
+    background: #F0F4F8 linear-gradient(90deg, #e7f0f3 0%, #ffffff 85%, #e7f0f3 100%);
+    /* background-color: #ffffff; */
 }
 
 .spg-theme header.themed {
@@ -65,13 +65,14 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 }
 .spg-theme a {
     text-decoration: none;
+    color: #3997b9;
 }
 
 .spg-theme .menu-search {
     /* float: right; */
-    padding: 8px 16px 8px 28px;
-    margin: 3px 3px 3px 3px;
-    border-radius: 8px;
+    padding: 7px 24px 3px 31px;
+    margin: 7px 3px 3px 4px;
+    border-radius: 6px;
     border: 1px inset;
     opacity: 0.7;
     transition: opacity 1s, max-width 1.4s ease-out;
@@ -97,8 +98,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 .spg-theme > article.themed {
      /*margin-top: 0.5em;*/
 }
-.spg-theme > article.themed > section.content {
-}
+.spg-theme > article.themed > section.content {/* background: #f0f4f6 linear-gradient(90deg, #ffffff 0%, #dae6ea 70%, #dae6ea 90%, #ffffff 100%); */}
 
 /** Footer **/
 
@@ -213,7 +213,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-.spg-theme ul.page-menu .menu-submenu-order        { background-color: #f0f4f6; }
+.spg-theme ul.page-menu .menu-submenu-order        {background-color: #f0f4f6;background: linear-gradient(90deg, #ffffff 0%, #f1f6f8 100%);}
 .spg-theme ul.page-menu .menu-submenu-merchant     { background-color: #f0f4f6; }
 .spg-theme ul.page-menu .menu-submenu-user         { background-color: #f0f4f6; }
 .spg-theme ul.page-menu .menu-submenu-integration  { background-color: #f0f4f6; }
@@ -438,26 +438,26 @@ body.layout-vertical.spg-theme nav.page-menu {
     display: block;
     color: #666;
     white-space: nowrap;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(238, 245, 247);
 }
 .spg-theme a.button > * {
     vertical-align: middle;
 }
 
 .spg-theme li.menu-submenu > a.button {
-    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(255, 255, 255); */
 }
 
 .spg-theme a.button:hover {
-    background-color: #f0f4f6;
-    background: linear-gradient(90deg, #f0f4f6 0%, #ffffff 100%);
+    /* background-color: #f0f4f6; */
+    background: linear-gradient(90deg, #ffffff 60%, #eef8fb 100%);
     /* color: #ffffff; */
     font-weight: bold;
 }
 .spg-theme a.button.current {
     font-weight: bold;
-    color: #4296bb;
-    background: linear-gradient(90deg, #e2eef1 0%, #ffffff 100%);
+    color: #3997b9;
+    background: linear-gradient(90deg, #ffffff 0%, #f1f6f8 100%);
 }
 
 .spg-theme a.button[disabled] {
@@ -488,7 +488,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     border-bottom: 1px solid #8fa2ad;
     border-top: 1px solid #b3c5d0;
     /* padding: 0.8em 0.5em 0.4em 0.9em; */
-    background-color: #e7f0f3;
+    background-color: #dae6ea;
     /* position: relative; */
     /* min-height: 38px; */
     /* display: block; */
@@ -514,7 +514,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme .bread-crumbs > a:hover {
-    background-color: #b6ccda;
+    background-color: #d6e5ea;
     font-weight: bold;
 }
 
@@ -608,7 +608,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* background-repeat: repeat-x; */
     /* overflow: hidden; */
     background-color: white;
-    box-shadow: 1px 1px 6px #d4d4d4;
+    box-shadow: 0px 6px 6px #d4d4d4;
 }
 
 
@@ -625,7 +625,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     margin: 2px 0 7px 0;
     padding: 4px 3px 2px 4px;
     font-size: larger !important;
-    background: linear-gradient(90deg, #e7f0f3 40%, #ffffff 90%);
+    background: linear-gradient(90deg, #eef5f7 40%, #ffffff 90%);
 }
 
 .spg-theme form.themed select, .spg-theme form.themed textarea, .spg-theme form.themed button, .spg-theme form.themed input[type=text] {
@@ -813,7 +813,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     display: inline-block;
     text-align: center;
     border-radius: 0.2em;
-    background-color: #f0f4f6;
+    background-color: #eef5f7;
     font-weight: bold;
 }
 
@@ -824,7 +824,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .pagination a.current {
-    background-color: #bcc5d1;
+    background-color: #dae6ea;
 }
 
 
