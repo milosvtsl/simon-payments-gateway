@@ -36,6 +36,9 @@ switch(strtolower(@$_SERVER['HTTP_HOST'])) {
         break;
 
     case 'courtpay.org':
+    case 'access.courtpay.org':
+    case 'dev.courtpay.org':
+    case 'demo.courtpay.org':
         SiteConfig::$SITE_NAME = "CourtPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
         SiteConfig::$SITE_URL = "https://CourtPay.org";
@@ -43,8 +46,10 @@ switch(strtolower(@$_SERVER['HTTP_HOST'])) {
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
         break;
 
-    case 'localhost':
     case 'utilitypay.org':
+    case 'access.utilitypay.org':
+    case 'dev.utilitypay.org':
+    case 'demo.utilitypay.org':
     case 'localhost':
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
