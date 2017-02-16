@@ -25,7 +25,6 @@ class LoginView extends AbstractView {
 
     protected function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();
-
         if(!empty($params['message']))
             $this->setException(new \Exception($params['message']));
 
