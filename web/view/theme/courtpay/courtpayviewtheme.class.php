@@ -53,7 +53,7 @@ class CourtPayViewTheme extends AbstractViewTheme
 
         <header class="themed hide-on-print hide-on-layout-vertical">
             <a href="/" class="logo">
-                <img src="view/theme/CourtPay/assets/img/logo.png" alt="CourtPay.org" style="">
+                <img src="view/theme/courtpay/assets/img/logo.png" alt="CourtPay.org" style="">
             </a>
         </header>
 
@@ -137,9 +137,9 @@ class CourtPayViewTheme extends AbstractViewTheme
         echo <<<HEAD
         <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
-        <link href='view/theme/CourtPay/assets/courtpay-theme.css{$vcss}' type='text/css' rel='stylesheet'>
-        <script src="view/theme/CourtPay/assets/courtpay-theme.js{$vjs}"></script>
-        <link rel="icon" href="view/theme/CourtPay/assets/img/favicon.ico">
+        <link href='view/theme/courtpay/assets/courtpay-theme.css{$vcss}' type='text/css' rel='stylesheet'>
+        <script src="view/theme/courtpay/assets/courtpay-theme.js{$vjs}"></script>
+        <link rel="icon" href="view/theme/courtpay/assets/img/favicon.ico">
 HEAD;
     }
 
