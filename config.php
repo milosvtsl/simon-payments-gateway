@@ -28,7 +28,10 @@ SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
 
 // Per Domain Config
-switch(strtolower(@$_SERVER['HTTP_HOST'])) {
+$domain = parse_url('omg.wut.ohok:8080');
+$host = strtolower($domain['host']);
+
+switch($host) {
     default:
     case 'access.simonpayments.com':
     case 'dev.simonpayments.com':
