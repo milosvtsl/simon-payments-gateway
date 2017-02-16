@@ -15,6 +15,7 @@ namespace System\Config;
  */
 class SiteConfig
 {
+    static $SITE_LIVE = FALSE;
     static $SITE_NAME = 'Simon Payments Gateway';
     static $SITE_URL = 'https://access.simonpayments.com';
     static $SITE_MAX_TRANSACTION_AMOUNT = 20000;

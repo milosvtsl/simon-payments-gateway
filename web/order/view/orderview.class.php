@@ -7,7 +7,6 @@
  */
 namespace Order\View;
 
-use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
@@ -95,6 +94,9 @@ class OrderView extends AbstractView
                     die();
 
                 case 'cancel':
+                    if(!SiteConfig::$SITE_LIVE)
+                        throw new \Exception("Live Transaction Functions are disabled");
+
                     $message = "Canceled by " . $SessionUser->getUsername();
                     $Subscription = SubscriptionRow::fetchByID($Order->getSubscriptionID());
                     $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
@@ -106,8 +108,11 @@ class OrderView extends AbstractView
                     die();
 
                 case 'void':
+                    if(!SiteConfig::$SITE_LIVE)
+                        throw new \Exception("Live Transaction Functions are disabled");
+
                     if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Void Charges");
+                        throw new \Exception("Invalid Authority to Void Charges");
 
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
 
@@ -118,8 +123,11 @@ class OrderView extends AbstractView
                     die();
 
                 case 'return':
+                    if(!SiteConfig::$SITE_LIVE)
+                        throw new \Exception("Live Transaction Functions are disabled");
+
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Return Charges");
+                        throw new \Exception("Invalid Authority to Return Charges");
 
 //                    $partial_return_amount = $post['partial_return_amount'];
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
@@ -132,7 +140,7 @@ class OrderView extends AbstractView
 
                 case 'reverse':
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Return Charges");
+                        throw new \Exception("Invalid Authority to Return Charges");
 
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
 

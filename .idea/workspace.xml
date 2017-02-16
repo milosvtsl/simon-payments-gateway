@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="564d69ed-3d17-489d-b3ba-8ea9391969fb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/support/DOMPDF" afterPath="$PROJECT_DIR$/web/system/support/DOMPDF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/user/view/.reset.php" afterPath="$PROJECT_DIR$/web/user/view/.reset.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.php" afterPath="$PROJECT_DIR$/config.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/order/view/orderview.class.php" afterPath="$PROJECT_DIR$/web/order/view/orderview.class.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/config/siteconfig.class.php" afterPath="$PROJECT_DIR$/web/system/config/siteconfig.class.php" />
     </list>
     <ignored path="spg.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,10 +37,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".reset.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".reset.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/user/view/.reset.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.61130136">
+            <state vertical-scroll-proportion="-13.730769">
               <caret line="65" column="54" selection-start-line="65" selection-start-column="54" selection-end-line="65" selection-end-column="54" />
               <folding>
                 <element signature="n#style#0;n#div#1;n#fieldset#0;n#form#1;n#section#0;n#article#0;n#!!top" expanded="true" />
@@ -54,6 +55,42 @@
             <state vertical-scroll-proportion="-11.115385">
               <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.57110864">
+              <caret line="37" column="14" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="siteconfig.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/system/config/siteconfig.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-7.8461537">
+              <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="orderview.class.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/order/view/orderview.class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.65384614">
+              <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
+              <folding>
+                <element signature="e#110#147#0#PHP" expanded="true" />
+                <marker date="1487223414082" expanded="true" signature="30563:31256" placeholder="..." />
+                <marker date="1487223414082" expanded="true" signature="30620:31239" placeholder="{...}" />
+                <marker date="1487223414082" expanded="true" signature="30667:30910" placeholder="{...}" />
+                <marker date="1487223414082" expanded="true" signature="31085:31208" placeholder="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,23 +144,23 @@
         <option value="$PROJECT_DIR$/web/integration/protectpay/protectpayapiutil.class.php" />
         <option value="$PROJECT_DIR$/web/app/appmanager.class.php" />
         <option value="$PROJECT_DIR$/web/order/model/orderrow.class.php" />
-        <option value="$PROJECT_DIR$/web/system/config/siteconfig.class.php" />
         <option value="$PROJECT_DIR$/web/merchant/view/.view.php" />
         <option value="$PROJECT_DIR$/web/order/forms/defaultorderform.class.php" />
         <option value="$PROJECT_DIR$/web/order/forms/simpleorderform.class.php" />
         <option value="$PROJECT_DIR$/web/order/view/.download.php" />
         <option value="$PROJECT_DIR$/web/order/view/orderlistview.class.php" />
-        <option value="$PROJECT_DIR$/web/order/view/orderview.class.php" />
         <option value="$PROJECT_DIR$/web/user/view/.login.php" />
         <option value="$PROJECT_DIR$/web/view/theme/utilitypay/utilitypayviewtheme.class.php" />
         <option value="$PROJECT_DIR$/web/view/theme/utilitypay/assets/utilitypay-theme.css" />
         <option value="$PROJECT_DIR$/web/view/theme/courtpay/courtpayviewtheme.class.php" />
         <option value="$PROJECT_DIR$/web/view/theme/spg/spgviewtheme.class.php" />
-        <option value="$PROJECT_DIR$/config.php" />
         <option value="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" />
         <option value="$PROJECT_DIR$/web/user/view/loginview.class.php" />
         <option value="$PROJECT_DIR$/web/user/logout.php" />
         <option value="$PROJECT_DIR$/web/user/view/.reset.php" />
+        <option value="$PROJECT_DIR$/web/system/config/siteconfig.class.php" />
+        <option value="$PROJECT_DIR$/config.php" />
+        <option value="$PROJECT_DIR$/web/order/view/orderview.class.php" />
       </list>
     </option>
   </component>
@@ -190,60 +227,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="user" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="spg" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="user" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -403,7 +386,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32629356" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32629356" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946146" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3252376" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -547,6 +530,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.6153846">
           <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -554,6 +538,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.884615">
           <caret line="373" column="0" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -716,6 +701,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="539" column="125" selection-start-line="539" selection-start-column="125" selection-end-line="539" selection-end-column="125" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -738,7 +724,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
-            <element signature="e#6#37#0#PHP" expanded="true" />
+            <element signature="e#6#37#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -747,22 +733,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="178" column="0" selection-start-line="178" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/order/view/orderview.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="448" column="58" selection-start-line="448" selection-start-column="58" selection-end-line="448" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/system/config/siteconfig.class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="50" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
           <folding />
         </state>
       </provider>
@@ -800,14 +770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="0" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -854,11 +816,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/user/view/.reset.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61130136">
+        <state vertical-scroll-proportion="-13.730769">
           <caret line="65" column="54" selection-start-line="65" selection-start-column="54" selection-end-line="65" selection-end-column="54" />
           <folding>
             <element signature="n#style#0;n#div#1;n#fieldset#0;n#form#1;n#section#0;n#article#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/system/config/siteconfig.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.8461537">
+          <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/order/view/orderview.class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.65384614">
+          <caret line="101" column="44" selection-start-line="101" selection-start-column="44" selection-end-line="101" selection-end-column="44" />
+          <folding>
+            <element signature="e#110#147#0#PHP" expanded="true" />
+            <marker date="1487223414082" expanded="true" signature="30563:31256" placeholder="..." />
+            <marker date="1487223414082" expanded="true" signature="30620:31239" placeholder="{...}" />
+            <marker date="1487223414082" expanded="true" signature="30667:30910" placeholder="{...}" />
+            <marker date="1487223414082" expanded="true" signature="31085:31208" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.57110864">
+          <caret line="37" column="14" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>

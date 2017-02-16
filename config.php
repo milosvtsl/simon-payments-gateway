@@ -34,6 +34,9 @@ $host = strtolower(@$domain['host'] ?: $_SERVER['HTTP_HOST']);
 switch($host) {
     default:
     case 'access.simonpayments.com':
+        SiteConfig::$SITE_LIVE = TRUE;
+        break;
+
     case 'dev.simonpayments.com':
     case 'demo.simonpayments.com':
         break;
