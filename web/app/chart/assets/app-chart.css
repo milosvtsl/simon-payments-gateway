@@ -10,8 +10,6 @@
     display: inline-block;
     /*text-align: center;*/
     /* cursor: pointer; */
-    box-shadow: 2px 2px 4px #CCC;
-    transition: box-shadow 0.5s ease;
     background: linear-gradient(to bottom, #d4e7ec 0%, #f0f4f6 100%);
     vertical-align: top;
     position: relative;
@@ -19,7 +17,7 @@
 }
 
 .app-chart a {
-    color: white !important;
+    color: white;
 }
 
 .app-chart:hover {

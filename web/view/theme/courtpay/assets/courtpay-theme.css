@@ -326,6 +326,16 @@ body.layout-vertical.courtpay-theme nav.page-menu {
 
 /** Dashboard Apps **/
 
+.courtpay-theme .app-chart {
+    box-shadow: 2px 2px 8px #20323e;
+    transition: box-shadow 0.5s ease;
+}
+
+.courtpay-theme .app-chart a {
+    color: white;
+}
+
+
 /** App Menu Icons **/
 
 
@@ -497,7 +507,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
     /* position: relative; */
     /* min-height: 38px; */
     /* display: block; */
-    box-shadow: 0px 2px 2px #fefefe;
+    box-shadow: 0px 2px 2px #20323e;
 }
 
 .courtpay-theme .sub-header > * {
@@ -557,7 +567,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
 .page-buttons .page-button:not(.disabled):hover {
     opacity: 1;
     background-color: #b7d0d3;
-    box-shadow: 1px 1px 16px #448;
+    box-shadow: 1px 1px 16px #20323e;
 }
 
 
@@ -613,7 +623,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
     /* background-repeat: repeat-x; */
     /* overflow: hidden; */
     background-color: white;
-    box-shadow: 1px 1px 6px #d4d4d4;
+    box-shadow: 1px 1px 6px #20323e;
 }
 
 
@@ -678,7 +688,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
 .courtpay-theme button.themed:hover,
 .courtpay-theme input.button-sumit:hover {
     background: linear-gradient(0deg, #3a7190 0%, #23465c 50%, #3a7190 100%);
-    box-shadow: 1px 1px 1px #008ee9;
+    box-shadow: 1px 1px 1px #20323e;
 }
 
 
