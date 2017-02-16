@@ -5,7 +5,7 @@
     font-family: arial, serif;
     margin: 0 auto;
     /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
     background: linear-gradient(to right,  rgba(36,53,42,1) 0%,rgba(69,119,82,1) 15%,rgba(69,119,82,1) 85%,rgba(36,53,42,1) 101%);
 }
 
@@ -41,13 +41,19 @@ body.layout-horizontal.utilitypay-theme .float-right-on-layout-horizontal {
 
 /** Header **/
 
-.utilitypay-theme > header > a.logo {
-    display: inline-block;
+.utilitypay-theme div.logo {
+    background-image: url('img/logo.png');
+    width: 248px;
+    height: 88px;
+    margin: 6px;
+    /* margin: 17px auto; */
 }
-.utilitypay-theme > header > a.logo > img {
-    /* width: 12em; */
-    margin: 5px 1px -1px 5px;
+.utilitypay-theme div.logo-full {
+    background-image: url('img/logo_full.png');
+    width: 496px;
+    height: 175px;
 }
+
 .utilitypay-theme header hr.themed {
     border: 1px solid #d8e9ed;
     margin-bottom: 0;

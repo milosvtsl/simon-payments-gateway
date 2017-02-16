@@ -52,8 +52,8 @@ class UtilityPayViewTheme extends AbstractViewTheme
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/" class="logo">
-                <img src="view/theme/utilitypay/assets/img/logo.png" alt="UtilityPay.org" style="">
+            <a href="/">
+                <div class="logo"></div>
             </a>
         </header>
 

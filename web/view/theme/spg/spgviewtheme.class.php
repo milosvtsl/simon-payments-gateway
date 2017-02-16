@@ -52,8 +52,8 @@ class SPGViewTheme extends AbstractViewTheme
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/" class="logo">
-                <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="">
+            <a href="/">
+                <div class="logo"></div>
             </a>
         </header>
 

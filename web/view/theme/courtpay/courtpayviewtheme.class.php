@@ -52,8 +52,8 @@ class CourtPayViewTheme extends AbstractViewTheme
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/" class="logo">
-                <img src="view/theme/courtpay/assets/img/logo.png" alt="CourtPay.org" style="">
+            <a href="/">
+                <div class="logo"></div>
             </a>
         </header>
 

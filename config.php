@@ -38,6 +38,7 @@ switch($host) {
     case 'demo.simonpayments.com':
         break;
 
+    case 'localhost':
     case 'courtpay.org':
     case 'access.courtpay.org':
     case 'dev.courtpay.org':
@@ -53,7 +54,6 @@ switch($host) {
     case 'access.utilitypay.org':
     case 'dev.utilitypay.org':
     case 'demo.utilitypay.org':
-    case 'localhost':
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
         SiteConfig::$SITE_URL = "https://UtilityPay.org";
