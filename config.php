@@ -28,7 +28,7 @@ SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
 
 // Per Domain Config
-$domain = parse_url('omg.wut.ohok:8080');
+$domain = parse_url($_SERVER['HTTP_HOST']);
 $host = strtolower($domain['host']);
 
 switch($host) {
