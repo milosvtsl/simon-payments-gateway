@@ -586,7 +586,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
     margin: 10px 2.5em;
     overflow-x: auto;
     display: inline-block;
-    width: 80%;
+    max-width: 80%;
 }
 
 .courtpay-theme .info {

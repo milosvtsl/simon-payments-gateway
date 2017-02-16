@@ -58,13 +58,12 @@ $SessionManager = new SessionManager();
 
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
             <div class="logo" style="margin: 17px auto;"></div>
-            <img src="view/theme/spg/assets/img/" alt="Simon Payments Gateway" style="display: block; margin: auto; padding: 0.5em; width: 18em;">
 
             <input type="hidden" name="action" value="reset" />
             <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
                 <div class="legend">Password Reset</div>
 
-                <span class="info">Please enter your email address to receive a password reset link</span>
+                <div class="info" style="width: 300px;">Please enter your email address to receive a password reset link</div>
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
