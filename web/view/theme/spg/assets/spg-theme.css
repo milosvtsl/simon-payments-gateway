@@ -40,15 +40,20 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 
 /** Header **/
 
-.spg-theme > header > a.logo {
+
+.spg-theme div.logo {
+    background-image: url('img/logo.png');
+    width: 341px;
+    height: 54px;
+    margin: 3px;
     display: inline-block;
 }
-.spg-theme > header > a.logo > img {
-    width: 12em;
-    margin: -40px 0px 12px 30px;
-    /* float: left; */
-    transform: scale(1.5);
+.spg-theme div.logo-full {
+    background-image: url('img/logo_full.png');
+    width: 496px;
+    height: 175px;
 }
+
 .spg-theme header hr.themed {
     border: 1px solid #d8e9ed;
     margin-bottom: 0;
