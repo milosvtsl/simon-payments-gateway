@@ -13,7 +13,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
 
         <?php if(!empty($_GET['key']) && !empty($_GET['email'])) { ?>
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
-            <img src="view/theme/spg/assets/img/logo_full.png" alt="Simon Payments Gateway" style="display: block; margin: auto; padding: 0.5em; width: 18em;">
+            <div class="logo" style="margin: 17px auto;"></div>
 
             <input type="hidden" name="action" value="reset" />
             <input type="hidden" name="key" value="<?php echo $_GET['key']; ?>" />
