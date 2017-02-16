@@ -1,8 +1,12 @@
 <?php /** @var \User\View\LoginView $this  **/
+use User\Session\SessionManager;
+
 $odd = true;
 // Render Header
 /** @var \View\AbstractView $this */
 $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
+
+$SessionManager = new SessionManager();
 ?>
 
 <article>
