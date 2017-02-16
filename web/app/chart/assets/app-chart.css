@@ -18,6 +18,9 @@
     color: white;
 }
 
+.app-chart a {
+    color: white !important;
+}
 
 .app-chart:hover {
     box-shadow: 0px 0px 3em #8adeff;
