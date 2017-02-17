@@ -54,7 +54,6 @@ Order Information
 Amount:             \${$Order->getAmount()}
 Merchant:           {$Merchant->getName()}
 Date:               {$date}
-Status:             {$Order->getStatus()}
 HTML;
         if($Order->getSubscriptionID())
             $content .= <<<HTML
