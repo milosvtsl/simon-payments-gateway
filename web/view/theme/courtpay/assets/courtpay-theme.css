@@ -12,6 +12,8 @@
 .courtpay-theme header.themed {
     /* background-color: #FFF; */
     min-height: 45px;
+    width: 800px;
+    margin: 0 auto;
 }
 
 
@@ -133,6 +135,8 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
     /* min-height: 38px; */
     /* display: block; */
     box-shadow: 0px 2px 2px #20323e;
+    width: 800px;
+    margin: 0 auto;
 }
 
 .courtpay-theme ul.page-menu > li > ul {
@@ -529,6 +533,8 @@ body.layout-vertical.courtpay-theme nav.page-menu {
     /* min-height: 38px; */
     /* display: block; */
     box-shadow: 0px 2px 2px #20323e;
+    width: 800px;
+    margin: 0 auto;
 }
 
 .courtpay-theme .sub-header > * {
