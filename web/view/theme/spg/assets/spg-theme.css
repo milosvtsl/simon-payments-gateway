@@ -213,10 +213,10 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-.spg-theme ul.page-menu .menu-submenu-order        { background-color: #f0f4f6; }
-.spg-theme ul.page-menu .menu-submenu-merchant     { background-color: #f0f4f6; }
-.spg-theme ul.page-menu .menu-submenu-user         { background-color: #f0f4f6; }
-.spg-theme ul.page-menu .menu-submenu-integration  { background-color: #f0f4f6; }
+.spg-theme ul.page-menu .menu-submenu-order        { background-color: lightblue; }
+.spg-theme ul.page-menu .menu-submenu-merchant     { background-color: tan; }
+.spg-theme ul.page-menu .menu-submenu-user         { background-color: lightgreen; }
+.spg-theme ul.page-menu .menu-submenu-integration  { background-color: lightgray; }
 
 
 
