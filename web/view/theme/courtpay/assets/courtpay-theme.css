@@ -116,6 +116,9 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
     text-align: center;
     padding: 3em;
     clear: both;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000033;
+    text-transform: uppercase;
 }
 
 

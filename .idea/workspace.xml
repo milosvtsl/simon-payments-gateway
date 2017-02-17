@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="564d69ed-3d17-489d-b3ba-8ea9391969fb" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\Dev\projects\paylogic\spg\web\app\chart\assets\img\app-chart-graph-overlay-small.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/system/support/DOMPDF" afterPath="$PROJECT_DIR$/web/system/support/DOMPDF" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/app/chart/assets/app-chart.css" afterPath="$PROJECT_DIR$/web/app/chart/assets/app-chart.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" afterPath="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/utilitypay-theme.css" afterPath="$PROJECT_DIR$/web/view/theme/utilitypay/assets/utilitypay-theme.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\Dev\projects\paylogic\spg\web\app\chart\assets\app-chart-graph-overlay-big.png" afterPath="$PROJECT_DIR$/web/app/chart/assets/img/app-chart-graph-overlay-big.png" />
     </list>
     <ignored path="spg.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -33,10 +31,10 @@
         <entry file="file://$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="146" column="19" selection-start-line="146" selection-start-column="19" selection-end-line="146" selection-end-column="19" />
+              <caret line="149" column="19" selection-start-line="149" selection-start-column="19" selection-end-line="149" selection-end-column="19" />
               <folding>
-                <marker date="1487295474266" expanded="true" signature="397:455" placeholder="{...}" />
-                <marker date="1487295474266" expanded="true" signature="13952:13955" placeholder="{...}" />
+                <marker date="1487297323059" expanded="true" signature="397:455" placeholder="{...}" />
+                <marker date="1487297323059" expanded="true" signature="14038:14041" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -72,20 +70,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/config.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.115385">
+            <state vertical-scroll-proportion="0.36068377">
               <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app-chart.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="app-chart.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/app/chart/assets/app-chart.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7774141">
+            <state vertical-scroll-proportion="0.0">
               <caret line="61" column="58" selection-start-line="61" selection-start-column="58" selection-end-line="61" selection-end-column="58" />
               <folding />
             </state>
@@ -156,8 +154,8 @@
         <option value="$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css" />
         <option value="$PROJECT_DIR$/web/view/theme/courtpay/courtpayviewtheme.class.php" />
         <option value="$PROJECT_DIR$/web/view/theme/spg/assets/spg-theme.css" />
-        <option value="$PROJECT_DIR$/config.php" />
         <option value="$PROJECT_DIR$/web/app/chart/assets/app-chart.css" />
+        <option value="$PROJECT_DIR$/config.php" />
       </list>
     </option>
   </component>
@@ -542,7 +540,7 @@
     <frame x="-1928" y="-124" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2359375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2359375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -960,10 +958,10 @@
     <entry file="file://$PROJECT_DIR$/web/view/theme/courtpay/assets/courtpay-theme.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="146" column="19" selection-start-line="146" selection-start-column="19" selection-end-line="146" selection-end-column="19" />
+          <caret line="149" column="19" selection-start-line="149" selection-start-column="19" selection-end-line="149" selection-end-column="19" />
           <folding>
-            <marker date="1487295474266" expanded="true" signature="397:455" placeholder="{...}" />
-            <marker date="1487295474266" expanded="true" signature="13952:13955" placeholder="{...}" />
+            <marker date="1487297323059" expanded="true" signature="397:455" placeholder="{...}" />
+            <marker date="1487297323059" expanded="true" signature="14038:14041" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -984,18 +982,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.php">
+    <entry file="file://$PROJECT_DIR$/web/app/chart/assets/app-chart.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.115385">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="61" column="58" selection-start-line="61" selection-start-column="58" selection-end-line="61" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/app/chart/assets/app-chart.css">
+    <entry file="file://$PROJECT_DIR$/config.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7774141">
-          <caret line="61" column="58" selection-start-line="61" selection-start-column="58" selection-end-line="61" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.36068377">
+          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding />
         </state>
       </provider>
