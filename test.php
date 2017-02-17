@@ -47,8 +47,8 @@ require ('test.php');
 chdir($cwd0);
 
 // Test ProPay/ProtectPay Integration
-chdir('integration/protectpay/test');
-require ('test.php');
-chdir($cwd0);
+//chdir('integration/protectpay/test');
+//require ('test.php');
+//chdir($cwd0);
 
 echo "\nAll Tests successful";
