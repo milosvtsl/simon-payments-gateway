@@ -42,7 +42,7 @@ body.layout-horizontal.utilitypay-theme .float-right-on-layout-horizontal {
 /** Header **/
 
 .utilitypay-theme div.logo {
-    background-image: url('img/logo.png');
+    background: url('img/logo.png') no-repeat center;
     width: 248px;
     height: 88px;
     margin: 4px 0px 0px 3px;

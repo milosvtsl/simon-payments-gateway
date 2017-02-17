@@ -57,49 +57,6 @@ class CourtPayViewTheme extends AbstractViewTheme
             </a>
         </header>
 
-        <aside class="sub-header hide-on-print">
-
-            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
-                <div class="menu-icon menu-icon-toggle"></div>
-            </a>
-            <span class="bread-crumbs">
-            <?php
-            foreach($this->breadcrumbs as $i => $breadcrumb) {
-                list($url, $name) = $breadcrumb;
-                if($i > 0)
-                    echo ' | ';
-                echo "\n\t\t\t<a class='breadcrumb' href='", $url, "'>", $name, "</a>";
-            }
-            ?>
-            </span>
-
-
-            <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
-                <div class="menu-icon menu-icon-sub-menu"></div>
-                <ul class="menu-sub-menu">
-                    <li>
-                        <a href="user/account.php" class="button">
-                            <div class="menu-icon menu-icon-account"></div>
-                            <span>My Account</span></a>
-                    </li>
-                    <li>
-                        <a href="user/account.php?action=edit" class="button">
-                            <div class="menu-icon menu-icon-edit"></div>
-                            <span>Edit Account</span></a>
-                    </li>
-                    <li>
-                        <a href="user/logout.php" class="button">
-                            <div class="menu-icon menu-icon-logout"></div>
-                            <span>Log out</span></a>
-                    </li>
-                </ul>
-            </a>
-
-            <form action="order" style="display: inline-block; float: right;">
-                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
-            </form>
-        </aside>
-
     <?php } ?>
         <?php
     }
@@ -166,7 +123,7 @@ HEAD;
         ?>
 
         <ul class="page-menu hide-on-print">
-            <li>
+            <li class="menu-submenu menu-submenu-order">
                 <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
                     <span>Dashboard</span></a>
             </li>
@@ -331,6 +288,50 @@ HEAD;
             <?php } ?>
 
         </ul>
+
+
+        <aside class="sub-header hide-on-print">
+
+            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
+                <div class="menu-icon menu-icon-toggle"></div>
+            </a>
+            <span class="bread-crumbs">
+            <?php
+            foreach($this->breadcrumbs as $i => $breadcrumb) {
+                list($url, $name) = $breadcrumb;
+                if($i > 0)
+                    echo ' | ';
+                echo "\n\t\t\t<a class='breadcrumb' href='", $url, "'>", $name, "</a>";
+            }
+            ?>
+            </span>
+
+
+            <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
+                <div class="menu-icon menu-icon-sub-menu"></div>
+                <ul class="menu-sub-menu">
+                    <li>
+                        <a href="user/account.php" class="button">
+                            <div class="menu-icon menu-icon-account"></div>
+                            <span>My Account</span></a>
+                    </li>
+                    <li>
+                        <a href="user/account.php?action=edit" class="button">
+                            <div class="menu-icon menu-icon-edit"></div>
+                            <span>Edit Account</span></a>
+                    </li>
+                    <li>
+                        <a href="user/logout.php" class="button">
+                            <div class="menu-icon menu-icon-logout"></div>
+                            <span>Log out</span></a>
+                    </li>
+                </ul>
+            </a>
+
+            <form action="order" style="display: inline-block; float: right;">
+                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
+            </form>
+        </aside>
 
         <?php
     }
