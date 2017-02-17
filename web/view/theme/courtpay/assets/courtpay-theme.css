@@ -103,6 +103,8 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
 
 .courtpay-theme > article.themed {
      /*margin-top: 0.5em;*/
+     width: 800px;
+     margin: 0 auto;
 }
 .courtpay-theme > article.themed > section.content {
 }
@@ -149,6 +151,7 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
     font-size: smaller;
     /* transition-delay: .8s; */
     position: absolute;
+    z-index: 9999;
     background: #e7f0f3;
 }
 
