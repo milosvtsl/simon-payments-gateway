@@ -108,10 +108,13 @@ body.layout-horizontal.utilitypay-theme .float-right-on-layout-horizontal {
 /** Footer **/
 
 .utilitypay-theme > footer {
-    font-size: small;
     text-align: center;
     padding: 3em;
     clear: both;
+    font-size: 0.8em;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000033;
+    text-transform: uppercase;
 }
 
 

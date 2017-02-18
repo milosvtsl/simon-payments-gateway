@@ -49,22 +49,24 @@ class CourtPayViewTheme extends AbstractViewTheme
 
         ?>
     <body class="courtpay-theme <?php echo $body_class; ?>">
-        <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
+        <div class="body-container">
+            <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
-        <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/">
-                <div class="logo"></div>
-            </a>
-        </header>
+            <header class="themed hide-on-print hide-on-layout-vertical">
+                <a href="/">
+                    <div class="logo"></div>
+                </a>
+            </header>
 
-    <?php } ?>
+            <?php } ?>
         <?php
     }
 
     public function renderHTMLBodyFooter($flags=0)
     {
 //        </article>
-        ?>
+            ?>
+        </div>
         <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
         <footer class="hide-on-print">
             <span>&copy; <?php echo date('Y'); ?> CourtPay, LLC. All rights reserved.</span>
