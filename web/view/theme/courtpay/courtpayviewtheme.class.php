@@ -94,7 +94,7 @@ class CourtPayViewTheme extends AbstractViewTheme
             $vcss = $vjs = '';
 
         echo <<<HEAD
-        <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
+        <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=2, user-scalable=1">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         <link href='view/theme/courtpay/assets/courtpay-theme.css{$vcss}' type='text/css' rel='stylesheet'>
         <script src="view/theme/courtpay/assets/courtpay-theme.js{$vjs}"></script>
