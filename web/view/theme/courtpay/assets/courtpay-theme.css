@@ -501,7 +501,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
 
 .courtpay-theme a.button:hover {
     background-color: #f0f4f6;
-    background: linear-gradient(90deg, #f0f4f6 0%, #ffffff 100%);
+    background: linear-gradient(90deg, #eef5f7 0%, #e2f1f9 100%);
     /* color: #ffffff; */
     font-weight: bold;
 }
