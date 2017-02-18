@@ -4,7 +4,8 @@ use User\Session\SessionManager;
 $odd = true;
 // Render Header
 /** @var \View\AbstractView $this */
-$this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
+$Theme = $this->getTheme();
+$Theme->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
 
 $SessionManager = new SessionManager();
 ?>
@@ -58,5 +59,5 @@ $SessionManager = new SessionManager();
 
 <?php
 /** @var \View\AbstractView $this */
-$this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_FOOTER_MINIMAL);
+$Theme->renderHTMLBodyFooter();
 ?>
