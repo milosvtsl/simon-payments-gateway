@@ -194,7 +194,7 @@ class OrderView extends AbstractView
 
 
                 <form name="form-order-view" id="form-order-view" class="themed" method="POST">
-                    <fieldset style="margin: 1em;">
+                    <fieldset style="padding: 1em;">
 
 
                         <div class="page-buttons order-page-buttons hide-on-print">
@@ -219,7 +219,7 @@ class OrderView extends AbstractView
                         <hr/>
 
                         <div style="text-align: center; ">
-                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 47%; display: block; vertical-align: top; text-align: left;">
+                            <table class="table-transaction-info themed small inline-block-on-layout-full striped-rows" style="width: 47%; display: block; vertical-align: top; text-align: left;">
                                 <tbody>
                                 <tr>
                                     <td colspan="2" class="legend">
@@ -371,7 +371,7 @@ class OrderView extends AbstractView
                             </table>
 
 
-                            <table class="table-transaction-info themed small inline-block-on-layout-full" style="width: 48%; display: block; vertical-align: top; text-align: left;">
+                            <table class="table-transaction-info themed small inline-block-on-layout-full striped-rows" style="width: 48%; display: block; vertical-align: top; text-align: left;">
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="legend">
@@ -460,7 +460,7 @@ class OrderView extends AbstractView
                     <?php if ($Order->getSubscriptionCount() > 0) { ?>
                     <fieldset class="hide-on-print">
                         <div class="legend">Subscription Status</div>
-                        <table class="table-results themed small cell-borders">
+                        <table class="table-results themed small cell-borders striped-rows">
                             <tr>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -486,7 +486,7 @@ class OrderView extends AbstractView
 
                     <fieldset class="hide-on-print">
                         <div class="legend">Transaction History</div>
-                        <table class="table-results themed small cell-borders" style="width: 100%;">
+                        <table class="table-results themed small cell-borders striped-rows" style="width: 100%;">
                             <tr>
                                 <th class="hide-on-layout-narrow">TID</th>
                                 <th>Date</th>

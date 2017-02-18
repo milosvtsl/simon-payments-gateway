@@ -29,6 +29,21 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
 
                 <fieldset class="themed">
                     <div class="legend">Merchant Information</div>
+
+                    <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
+                            <div class="app-button large app-button-view" ></div>
+                            View
+                        </a>
+                        <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
+                            <div class="app-button large app-button-edit" ></div>
+                            Edit
+                        </a>
+                    </div>
+
+                    <hr/>
+
+
                     <table class="table-merchant-info themed striped-rows" style="float: left;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>

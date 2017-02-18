@@ -37,6 +37,22 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </a>
                         Merchant: <?php echo $Merchant->getName(); ?>
                     </div>
+
+
+                    <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
+                            <div class="app-button large app-button-edit" ></div>
+                            Edit
+                        </a>
+                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
+                            <div class="app-button large app-button-provision" ></div>
+                            Provision
+                        </a>
+                    </div>
+
+                    <hr/>
+
+
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
                         <tr>
@@ -70,7 +86,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant MCC</td>
-                            <td><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC(), false); ?></td>
+                            <td style="max-width: 200px;"><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC(), false); ?></td>
                         </tr>
 
                         <tr>

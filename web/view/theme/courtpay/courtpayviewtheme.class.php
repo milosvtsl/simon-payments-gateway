@@ -130,153 +130,69 @@ HEAD;
                     <span>Dashboard</span></a>
             </li>
 
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+                <li class="menu-submenu menu-submenu-charge">
+                    <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>
+                        <span>Charge</span> </a>
+                </li>
+            <?php } ?>
+
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
-                <li class="menu-submenu menu-submenu-order">
-                    <a href="order" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>
-                        <span>Transactions</span></a>
-                    <ul>
-
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
-                            <li>
-                                <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>
-                                    <span>Charge</span> </a>
-                            </li>
-                        <?php } ?>
-
-                        <?php if(in_array($category, array('order-view', 'order-edit', 'order-delete'))) { ?>
-                            <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['order-view']; ?>"><div class="menu-icon menu-icon-receipt"></div>
-                                    <span>View Receipt</span></a>
-                            </li>
-                            <li>
-                                <a href="javascript:window.print();" class="button<?php echo @$mc['order-print']; ?>"><div class="menu-icon menu-icon-print"></div>
-                                    <span>Print</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo str_replace('receipt.php', 'pdf.php', $action_url); ?>view" class="button<?php echo @$mc['order-download']; ?>"><div class="menu-icon menu-icon-download"></div>
-                                    <span>Download</span></a>
-                        </li>
-                        <?php } ?>
-
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
-                            <li>
-                                <a href="order/list.php?date_from=<?php echo date('Y-m-d', time() - 60*60*4); ?>" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                    <span>Search</span> </a>
-                            </li>
-                            <li>
-                                <a href="order/report.php?date_from=<?php echo date('Y-m-01', time() - 60*60*4); ?>" class="button<?php echo @$mc['order-report']; ?>"><div class="menu-icon menu-icon-report"></div>
-                                    <span>Report</span> </a>
-                            </li>
-<!--                            <li>-->
-<!--                                <a href="order/batch.php" class="button--><?php //echo @$mc['order-batch-list']; ?><!--"><div class="menu-icon menu-icon-batch"></div>-->
-<!--                                    <span>Batch Report</span> </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="subscription" class="button--><?php //echo @$mc['order-subscription-list']; ?><!--"><div class="menu-icon menu-icon-subscription"></div>-->
-<!--                                    <span>Client Profiles</span> </a>-->
-<!--                            </li>-->
-                        <?php } ?>
-
-                    </ul>
+                <li class="menu-submenu menu-submenu-search">
+                    <a href="order/list.php?date_from=<?php echo date('Y-m-d', time() - 60*60*4); ?>" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                        <span>Search</span> </a>
                 </li>
             <?php } ?>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
-                    <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
+                    <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
                         <span>Merchants</span> </a>
-                    <ul>
-
-                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-
-                    <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
-                        <li>
-                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                <span>View Merchant</span></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                <span>Edit Merchant</span></a>
-                        </li>
-<!--                        <li>-->
-<!--                            <a href="--><?php //echo $action_url; ?><!--provision" class="button--><?php //echo @$mc['merchant-provision']; ?><!--"><div class="menu-icon menu-icon-provision"></div>-->
-<!--                                <span>Provision</span></a>-->
-<!--                        </li>-->
-                    <?php } ?>
-
-                        <li>
-                            <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>Search</span> </a>
-                        </li>
-                        <li>
-                            <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>"><div class="menu-icon menu-icon-add"></div>
-                                <span>Add</span> </a>
-                        </li>
-                        <li>
-                            <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form-list']; ?>"><div class="menu-icon menu-icon-customize"></div>
-                                <span>Order Forms</span> </a>
-                        </li>
-                        <li>
-                            <a href="merchant/addform.php" class="button<?php echo @$mc['merchant-form-add']; ?>"><div class="menu-icon menu-icon-add"></div>
-                                <span>Create Form</span> </a>
-                        </li>
-                        <?php } ?>
-
-                    </ul>
                 </li>
             <?php } ?>
 
-            <li class="menu-submenu menu-submenu-user">
-                <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
-                    <span>Users</span> </a>
-                <ul>
-                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                        <li>
-                            <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>List Users</span></a>
-                        </li>
-                        <li>
-                            <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>"> <div class="menu-icon menu-icon-add"></div>
-                                <span>Add User</span></a>
-                        </li>
-                    <?php } ?>
 
-                    <?php if(in_array($category, array('user-view', 'user-edit', 'user-delete'))) { ?>
-                        <li>
-                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                <span>View User</span></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                <span>Edit User</span></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>"><div class="menu-icon menu-icon-delete"></div>
-                                <span>Delete User</span></a>
-                        </li>
-                    <?php } else { ?>
-                        <li>
-                            <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
-                                <span>My Account</span></a>
-                        </li>
-                        <li>
-                            <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>
-                                <span>Edit Account</span></a>
-                        </li>
-                    <?php } ?>
-
-                    <li>
-                        <a href="user/logout.php" class="button<?php echo @$mc['user-logout']; ?>"><div class="menu-icon menu-icon-logout"></div>
-                            <span>Log out</span></a>
-                    </li>
-                </ul>
-            </li>
-
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { // TODO: merge with merchant ?>
                 <li class="menu-submenu menu-submenu-integration">
                     <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>
-                        <span>Integration</span></a>
+                        <span>Admin</span></a>
                     <ul>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <li>
+                                <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                                    <span>List Users</span></a>
+                            </li>
+                            <li>
+                                <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>"> <div class="menu-icon menu-icon-add"></div>
+                                    <span>Add User</span></a>
+                            </li>
+                        <?php } ?>
+
+                        <?php if(in_array($category, array('user-view', 'user-edit', 'user-delete'))) { ?>
+                            <li>
+                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>"><div class="menu-icon menu-icon-view"></div>
+                                    <span>View User</span></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
+                                    <span>Edit User</span></a>
+                            </li>
+                            <li>
+                                <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>"><div class="menu-icon menu-icon-delete"></div>
+                                    <span>Delete User</span></a>
+                            </li>
+                        <?php } else { ?>
+                            <li>
+                                <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
+                                    <span>My Account</span></a>
+                            </li>
+                            <li>
+                                <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>
+                                    <span>Edit Account</span></a>
+                            </li>
+                        <?php } ?>
+
+
                         <li>
                             <a href="integration" class="button<?php echo @$mc['integration']; ?>"><div class="menu-icon menu-icon-list"></div>
                                 <span>API Endpoints</span></a>
@@ -285,18 +201,43 @@ HEAD;
                             <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>
                                 <span>API Requests</span></a>
                         </li>
+
+                        <li>
+                            <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form-list']; ?>"><div class="menu-icon menu-icon-customize"></div>
+                                <span>Custom Order Forms</span> </a>
+                        </li>
                     </ul>
                 </li>
             <?php } ?>
 
+            <li class="menu-submenu " style="float: right ;">
+                <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest">
+                    <div class="menu-icon menu-icon-sub-menu"></div>
+                    <ul class="menu-sub-menu">
+                        <li>
+                            <a href="user/account.php" class="button">
+                                <div class="menu-icon menu-icon-account"></div>
+                                <span>My Account</span></a>
+                        </li>
+                        <li>
+                            <a href="user/account.php?action=edit" class="button">
+                                <div class="menu-icon menu-icon-edit"></div>
+                                <span>Edit Account</span></a>
+                        </li>
+                        <li>
+                            <a href="user/logout.php" class="button">
+                                <div class="menu-icon menu-icon-logout"></div>
+                                <span>Log out</span></a>
+                        </li>
+                    </ul>
+                </a>
+
+            </li>
         </ul>
 
 
         <aside class="sub-header hide-on-print">
 
-            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
-                <div class="menu-icon menu-icon-toggle"></div>
-            </a>
             <span class="bread-crumbs">
             <?php
             foreach($this->breadcrumbs as $i => $breadcrumb) {
@@ -309,26 +250,6 @@ HEAD;
             </span>
 
 
-            <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
-                <div class="menu-icon menu-icon-sub-menu"></div>
-                <ul class="menu-sub-menu">
-                    <li>
-                        <a href="user/account.php" class="button">
-                            <div class="menu-icon menu-icon-account"></div>
-                            <span>My Account</span></a>
-                    </li>
-                    <li>
-                        <a href="user/account.php?action=edit" class="button">
-                            <div class="menu-icon menu-icon-edit"></div>
-                            <span>Edit Account</span></a>
-                    </li>
-                    <li>
-                        <a href="user/logout.php" class="button">
-                            <div class="menu-icon menu-icon-logout"></div>
-                            <span>Log out</span></a>
-                    </li>
-                </ul>
-            </a>
 
             <form action="order" style="display: inline-block; float: right;">
                 <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />

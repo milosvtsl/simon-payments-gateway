@@ -30,6 +30,21 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                 <input type="hidden" name="action" value="edit" />
                 <fieldset>
                     <div class="legend">Edit Merchant #<?php echo $Merchant->getID(); ?></div>
+
+                    <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
+                            <div class="app-button large app-button-view" ></div>
+                            View
+                        </a>
+                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
+                            <div class="app-button large app-button-provision" ></div>
+                            Provision
+                        </a>
+                    </div>
+
+                    <hr/>
+
+
                     <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
                         <tr>
                             <th colspan="2">Information</th>
