@@ -45,7 +45,7 @@ $SessionManager = new SessionManager();
                 </fieldset>
                 <fieldset>
                     <div class="legend">Search Results</div>
-                    <table class="table-results themed striped-rows small">
+                    <table class="table-results themed striped-rows small" style="width: 100%;">
                         <tr>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_ID); ?>">ID</a></th>
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_LNAME); ?>">Name</a></th>

@@ -183,7 +183,7 @@ class OrderReportView extends AbstractListView {
 
 			$Theme = $this->getTheme();
 			$Theme->addPathURL('order',             'Transactions');
-			$Theme->addPathURL('order/list.php',    'Search');
+			$Theme->addPathURL('order/report.php',  'Report');
 			$Theme->renderHTMLBodyHeader();
 			$Theme->printHTMLMenu('order-report');
 			?>

@@ -145,7 +145,7 @@ class MerchantListView extends AbstractListView {
 
 					<fieldset>
 						<div class="legend">Search Results</div>
-						<table class="table-results themed small striped-rows">
+						<table class="table-results themed small striped-rows" style="width: 100%;">
 							<tr>
 								<th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_ID); ?>">ID</a></th>
 								<th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>
@@ -173,9 +173,10 @@ class MerchantListView extends AbstractListView {
 					<fieldset class="pagination">
 						<div class="legend">Page</div>
 						<?php $this->printPagination('merchant?'); ?>
-
-						<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
-
+						<br/>
+						<span style="font-size: 0.7em; color: grey; float: left;">
+							<?php echo $statsMessage; ?>
+						</span>
 					</fieldset>
 				</form>
 			</section>

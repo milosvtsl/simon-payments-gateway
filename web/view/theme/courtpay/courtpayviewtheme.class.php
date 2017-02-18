@@ -171,10 +171,10 @@ HEAD;
 <!--                                <a href="order/batch.php" class="button--><?php //echo @$mc['order-batch-list']; ?><!--"><div class="menu-icon menu-icon-batch"></div>-->
 <!--                                    <span>Batch Report</span> </a>-->
 <!--                            </li>-->
-                            <li>
-                                <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>
-                                    <span>Client Profiles</span> </a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a href="subscription" class="button--><?php //echo @$mc['order-subscription-list']; ?><!--"><div class="menu-icon menu-icon-subscription"></div>-->
+<!--                                    <span>Client Profiles</span> </a>-->
+<!--                            </li>-->
                         <?php } ?>
 
                     </ul>
@@ -198,10 +198,10 @@ HEAD;
                             <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
                                 <span>Edit Merchant</span></a>
                         </li>
-                        <li>
-                            <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
-                                <span>Provision</span></a>
-                        </li>
+<!--                        <li>-->
+<!--                            <a href="--><?php //echo $action_url; ?><!--provision" class="button--><?php //echo @$mc['merchant-provision']; ?><!--"><div class="menu-icon menu-icon-provision"></div>-->
+<!--                                <span>Provision</span></a>-->
+<!--                        </li>-->
                     <?php } ?>
 
                         <li>
