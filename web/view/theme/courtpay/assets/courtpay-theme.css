@@ -12,10 +12,19 @@
 .courtpay-theme header.themed {
     /* background-color: #FFF; */
     min-height: 45px;
-    width: 800px;
-    margin: 0 auto;
 }
 
+
+/** Page Body Container **/
+
+.body-container {
+    background-color: white;
+    max-width: 970px;
+    border-radius: 7px;
+    margin: 10px auto 0px auto;
+    padding: 0 0 8px 0px;
+    border: 1px solid #8FA2BF;
+}
 
 /** Vertical and Horizontal layout options **/
 
@@ -46,9 +55,9 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
 
 .courtpay-theme div.logo {
     background: url('img/logo.png') no-repeat center;
-    width: 248px;
-    height: 80px;
-    margin: 3px 6px 0px 3px;
+    width: 202px;
+    height: 84px;
+    margin: 0px 6px 0px 12px;
     /* margin: 17px auto; */
 }
 .courtpay-theme div.logo-full {
@@ -103,15 +112,13 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
 
 .courtpay-theme > article.themed {
      /*margin-top: 0.5em;*/
-     width: 800px;
-     margin: 0 auto;
 }
 .courtpay-theme > article.themed > section.content {
 }
 
 /** Footer **/
 
-.courtpay-theme > footer {
+.courtpay-theme footer {
     font-size: small;
     text-align: center;
     padding: 3em;
@@ -140,8 +147,6 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
     /* min-height: 38px; */
     /* display: block; */
     box-shadow: 0px 2px 2px #20323e;
-    width: 800px;
-    margin: 0 auto;
 }
 
 .courtpay-theme ul.page-menu > li > ul {
@@ -538,9 +543,7 @@ body.layout-vertical.courtpay-theme nav.page-menu {
     /* position: relative; */
     /* min-height: 38px; */
     /* display: block; */
-    box-shadow: 0px 2px 2px #20323e;
-    width: 800px;
-    margin: 0 auto;
+    /* box-shadow: 0px 2px 2px #20323e; */
 }
 
 .courtpay-theme .sub-header > * {
