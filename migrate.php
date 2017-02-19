@@ -35,8 +35,10 @@ $sql = "SELECT * FROM court.merchants";
 $StatsQuery = $DB->prepare($sql);
 $StatsQuery->execute($params);
 
-foreach($StatsQuery as $M) {
+while($M = $StatsQuery->fetch(PDO::FETCH_ASSOC)) {
     echo "\nMigrating " . $M['name_short'];
+
+
     print_r($M);
     die();
 }
