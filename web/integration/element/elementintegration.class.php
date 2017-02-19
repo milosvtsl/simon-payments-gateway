@@ -315,7 +315,7 @@ class ElementIntegration extends AbstractIntegration
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $Transaction->setAuthCodeOrBatchID($code);
+//        $Transaction->setAuthCodeOrBatchID($code);
         $Transaction->setTransactionID($transactionID);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
@@ -406,7 +406,7 @@ class ElementIntegration extends AbstractIntegration
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $ReverseTransaction->setAuthCodeOrBatchID($code);
+//        $ReverseTransaction->setAuthCodeOrBatchID($code);
         $ReverseTransaction->setTransactionID($transactionID);
         $ReverseTransaction->setStatus($code, $message);
         // Store Transaction Result
@@ -492,7 +492,7 @@ class ElementIntegration extends AbstractIntegration
         // Store Transaction Result
         $VoidTransaction->setAction($action);
         $VoidTransaction->setStatus($code, $message);
-        $VoidTransaction->setAuthCodeOrBatchID($code);
+//        $VoidTransaction->setAuthCodeOrBatchID($code);
         $VoidTransaction->setTransactionID($transactionID);
         $VoidTransaction->setTransactionDate($date);
 
@@ -575,7 +575,7 @@ class ElementIntegration extends AbstractIntegration
         // Store Transaction Result
         $ReturnTransaction->setAction($action);
         $ReturnTransaction->setStatus($code, $message);
-        $ReturnTransaction->setAuthCodeOrBatchID($code);
+//        $ReturnTransaction->setAuthCodeOrBatchID($code);
         $ReturnTransaction->setTransactionID($transactionID);
         $ReturnTransaction->setTransactionDate($date);
 

@@ -43,23 +43,24 @@ class TransactionRow
     protected $version;
     protected $action;
     protected $amount;
-    protected $auth_code_or_batch_id;
-    protected $capture_to;
+//    protected $auth_code_or_batch_id;
+//    protected $capture_to;
     protected $date;
     protected $transaction_date;
     protected $order_date;
-    protected $entry_method;
-    protected $is_reviewed;
-    protected $return_type;
-    protected $returned_amount;
-    protected $reviewed_by;
-    protected $reviewed_date_time;
+//    protected $entry_method;
+//    protected $is_reviewed;
+//    protected $return_type;
+//    protected $returned_amount;
+//    protected $reviewed_by;
+//    protected $reviewed_date_time;
     protected $service_fee;
     protected $status_code;
     protected $status_message;
     protected $transaction_id;
     protected $batch_item_id;
     protected $order_item_id;
+    protected $merchant_id;
 
     // Table order_item
     protected $card_exp_month;
@@ -81,7 +82,7 @@ class TransactionRow
     protected $total_returned_amount;
     protected $total_returned_service_fee;
     protected $username;
-    protected $merchant_id;
+    protected $order_merchant_id;
 
     protected $order_status;
 
@@ -98,6 +99,7 @@ SELECT oi.*, t.*,
 t.date as transaction_date,
 oi.date as order_date,
 oi.status as order_status,
+oi.merchant_id as order_merchant_id,
 m.short_name as merchant_short_name,
 i.id integration_id,
 i.name integration_name,
@@ -128,8 +130,9 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }
     public function getTransactionID()      { return $this->transaction_id; }
-    public function getAuthCodeOrBatchID()  { return $this->auth_code_or_batch_id; }
+//    public function getAuthCodeOrBatchID()  { return $this->auth_code_or_batch_id; }
     public function getMerchantID()         { return $this->merchant_id; }
+    public function getOrderMerchantID()    { return $this->merchant_id; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
@@ -147,9 +150,6 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function setStatus($code, $message) {
         $this->status_code = $code;
         $this->status_message = $message;
-    }
-    public function setAuthCodeOrBatchID($id) {
-        $this->auth_code_or_batch_id = $id;
     }
     public function setTransactionID($id) {
         $this->transaction_id = $id;
@@ -175,7 +175,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $VoidTransaction->id = null;
         $VoidTransaction->uid = strtolower(self::generateGUID());
         $VoidTransaction->date = date('Y-m-d G:i:s');
-        $VoidTransaction->is_reviewed = 0;
+//        $VoidTransaction->is_reviewed = 0;
         return $VoidTransaction;
     }
 
@@ -188,7 +188,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $ReturnTransaction->id = null;
         $ReturnTransaction->uid = strtolower(self::generateGUID());
         $ReturnTransaction->date = date('Y-m-d G:i:s');
-        $ReturnTransaction->is_reviewed = 0;
+//        $ReturnTransaction->is_reviewed = 0;
         return $ReturnTransaction;
     }
 
@@ -202,7 +202,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $SettledTransaction->id = null;
         $SettledTransaction->uid = strtolower(self::generateGUID());
         $SettledTransaction->date = date('Y-m-d G:i:s');
-        $SettledTransaction->is_reviewed = 0;
+//        $SettledTransaction->is_reviewed = 0;
         return $SettledTransaction;
     }
 
@@ -229,11 +229,11 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
             ':version' => $TransactionRow->version,
             ':action' => $TransactionRow->action,
             ':amount' => $TransactionRow->amount,
-            ':auth_code_or_batch_id' => $TransactionRow->auth_code_or_batch_id,
-            ':capture_to' => $TransactionRow->capture_to ?: 0,
-            ':entry_method' => $TransactionRow->entry_method ?: 0,
-            ':is_reviewed' => $TransactionRow->is_reviewed ?: 0,
-            ':return_type' => $TransactionRow->return_type ?: 0,
+//            ':auth_code_or_batch_id' => $TransactionRow->auth_code_or_batch_id,
+//            ':capture_to' => $TransactionRow->capture_to ?: 0,
+//            ':entry_method' => $TransactionRow->entry_method ?: 0,
+//            ':is_reviewed' => $TransactionRow->is_reviewed ?: 0,
+//            ':return_type' => $TransactionRow->return_type ?: 0,
             ':returned_amount' => $TransactionRow->returned_amount ?: 0,
 //            ':reviewed_by' => $TransactionRow->reviewed_by,
 //            ':reviewed_date_time' => $TransactionRow->reviewed_date_time,
@@ -324,9 +324,9 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
 //        $TransactionRow->batch_item_id;
         $TransactionRow->amount = $post['amount'];
         $TransactionRow->version = 10;
-        $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
-        $TransactionRow->is_reviewed = 0;
-        $TransactionRow->return_type = 'Both';
+//        $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
+//        $TransactionRow->is_reviewed = 0;
+//        $TransactionRow->return_type = 'Both';
 
 
         if(!empty($post['username']))

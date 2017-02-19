@@ -178,13 +178,13 @@ class FinixIntegration extends AbstractIntegration
         try {
             // Store Transaction Result
             $Transaction->setAction("Authorized");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
+//            $Transaction->setAuthCodeOrBatchID("Authorized");
             $Transaction->setStatus("Success", "Mock Transaction Approved");
 
         } catch (IntegrationException $Ex) {
             // Catch Integration Exception
             $Transaction->setAction("Error");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
+//            $Transaction->setAuthCodeOrBatchID("Authorized");
             $Transaction->setStatus("Error", $Ex->getMessage());
 
         }

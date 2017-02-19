@@ -168,7 +168,6 @@ class ProtectPayIntegration extends AbstractIntegration
         $Transaction->setAction("Authorized");
         $Order->setStatus("Authorized");
 
-        $Transaction->setAuthCodeOrBatchID($code);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
         TransactionRow::insert($Transaction);
@@ -416,7 +415,6 @@ class ProtectPayIntegration extends AbstractIntegration
         $Transaction->setServiceFee($service_fee);
         $Transaction->setAction("Authorized");
         $Transaction->setTransactionID($transactionID);
-        $Transaction->setAuthCodeOrBatchID($code);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
         TransactionRow::insert($Transaction);
@@ -493,7 +491,6 @@ class ProtectPayIntegration extends AbstractIntegration
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $ReverseTransaction->setAuthCodeOrBatchID($code);
         $ReverseTransaction->setTransactionID($transactionID);
         $ReverseTransaction->setStatus($code, $message);
         // Store Transaction Result
@@ -579,7 +576,6 @@ class ProtectPayIntegration extends AbstractIntegration
         // Store Transaction Result
         $VoidTransaction->setAction($action);
         $VoidTransaction->setStatus($code, $message);
-        $VoidTransaction->setAuthCodeOrBatchID($code);
         $VoidTransaction->setTransactionID($transactionID);
         $VoidTransaction->setTransactionDate($date);
 
@@ -663,7 +659,6 @@ class ProtectPayIntegration extends AbstractIntegration
         // Store Transaction Result
         $ReturnTransaction->setAction($action);
         $ReturnTransaction->setStatus($code, $message);
-        $ReturnTransaction->setAuthCodeOrBatchID($code);
         $ReturnTransaction->setTransactionID($transactionID);
         $ReturnTransaction->setTransactionDate($date);
 

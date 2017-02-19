@@ -76,7 +76,7 @@ class MockIntegration extends AbstractIntegration
 
         // Store Transaction Result
         $Transaction->setAction("Mock Authorized");
-        $Transaction->setAuthCodeOrBatchID("Authorized");
+//        $Transaction->setAuthCodeOrBatchID("Authorized");
         $Transaction->setStatus("Success", "Mock Transaction Approved");
 
         $Order->setStatus("Mock Authorized");

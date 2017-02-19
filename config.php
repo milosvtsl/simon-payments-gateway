@@ -46,6 +46,7 @@ switch($host) {
     case 'access.courtpay.org':
     case 'dev.courtpay.org':
     case 'demo.courtpay.org':
+        SiteConfig::$SITE_UID_PREFIX = "CP";
         SiteConfig::$SITE_NAME = "CourtPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
         SiteConfig::$SITE_URL = "https://CourtPay.org";
@@ -57,6 +58,7 @@ switch($host) {
     case 'access.utilitypay.org':
     case 'dev.utilitypay.org':
     case 'demo.utilitypay.org':
+        SiteConfig::$SITE_UID_PREFIX = "UP";
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
         SiteConfig::$SITE_URL = "https://UtilityPay.org";

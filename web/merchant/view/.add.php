@@ -29,6 +29,10 @@ $Theme->printHTMLMenu('merchant-add');
                 <fieldset>
                     <div class="legend">New Merchant Fields</div>
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
+
+                        <tr>
+                            <th colspan="2">Contact Info</th>
+                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name" style="width: 20%;">Name</td>
                             <td><input type="text" name="name" value="" required /></td>
@@ -51,7 +55,7 @@ $Theme->printHTMLMenu('merchant-add');
                             <td><input type="text" name="url" value="" required/></td>
                         </tr>
                         <tr>
-                            <th colspan="2">Business</th>
+                            <th colspan="2">Business Info</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Business Type</td>
@@ -121,7 +125,7 @@ $Theme->printHTMLMenu('merchant-add');
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Create Merchant</td>
-                            <td><input type="submit" value="Create" class="themed" /></td>
+                            <td><input type="submit" value="Create Merchant" class="themed" /></td>
                         </tr>
                     </table>
                 </fieldset>

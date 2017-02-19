@@ -34,6 +34,7 @@ class SiteConfig
     static $EMAIL_SMTP_AUTH = false;
     static $EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
     static $EMAIL_TIMEOUT = 10;
+    static $SITE_UID_PREFIX = 'SP';
 
 
     public static function getDefaultViewTheme() {

@@ -5,8 +5,9 @@
     font-family: arial, serif;
     margin: 0 auto;
     /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
-    background-color: #ffffff;
-    background: linear-gradient(to right,  rgba(36,53,63,1) 0%,rgba(70,101,122,1) 15%,rgba(70,101,122,1) 85%,rgba(36,53,63,1) 100%);
+    background-color: #a2bcd7;
+    background-image: linear-gradient(180deg, #06253a 0%,#46657a 35%,#a2bcd7 100%);
+    background-repeat-y: no-repeat;
 }
 
 .courtpay-theme header.themed {
@@ -854,9 +855,11 @@ body.layout-vertical.courtpay-theme nav.page-menu {
 .courtpay-theme h4,
 .courtpay-theme h5,
 .courtpay-theme h6 {
-    margin: 0.1em 0 0.1em 0;
+    margin: 0.5em 0 0.1em 0;
     font-style: italic;
     font-size: 1.2em;
+    text-align: left;
+    padding-left: 1em;
 }
 
 /** Pagination **/

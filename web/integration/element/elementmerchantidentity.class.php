@@ -39,7 +39,7 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
 //    protected $AcceptorID;
 //    protected $DefaultTerminalID;
     public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
-        parent::__construct($Merchant, $APIData, true);
+        parent::__construct($Merchant, $APIData, false);
         if($MerchantIntegration)
             $this->creds = $MerchantIntegration->getCredentials() ?: $this->creds;
     }

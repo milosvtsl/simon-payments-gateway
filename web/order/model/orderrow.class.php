@@ -628,9 +628,10 @@ SQL;
     }
 
 
-    public static function generateGUID(OrderRow $Row) {
-        $type = strtoupper(substr($Row->getEntryMode(), 0, 1));
-        return 'O' . $type . substr(sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479)), 2);
+    public static function generateGUID(OrderRow $Row=null) {
+        $site_type = SiteConfig::$SITE_UID_PREFIX;
+        $type = $Row ? strtoupper(substr($Row->getEntryMode(), 0, 1)) : 'E';
+        return $site_type . $type . 'O-' . sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479));
     }
 
     public static function sanitizeNumber($number, $lastDigits=4, $char='X') {

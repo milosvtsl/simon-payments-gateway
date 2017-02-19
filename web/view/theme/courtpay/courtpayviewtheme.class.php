@@ -170,30 +170,12 @@ HEAD;
                             </li>
                         <?php } ?>
 
-                        <?php if(in_array($category, array('user-view', 'user-edit', 'user-delete'))) { ?>
-                            <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                    <span>View User</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                    <span>Edit User</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>"><div class="menu-icon menu-icon-delete"></div>
-                                    <span>Delete User</span></a>
-                            </li>
-                        <?php } else { ?>
-                            <li>
-                                <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
-                                    <span>My Account</span></a>
-                            </li>
-                            <li>
-                                <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>
-                                    <span>Edit Account</span></a>
-                            </li>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                        <li>
+                            <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>"><div class="menu-icon menu-icon-add"></div>
+                                <span>Add Merchant</span> </a>
+                        </li>
                         <?php } ?>
-
 
                         <li>
                             <a href="integration" class="button<?php echo @$mc['integration']; ?>"><div class="menu-icon menu-icon-list"></div>
