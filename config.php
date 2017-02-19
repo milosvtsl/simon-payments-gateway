@@ -52,6 +52,7 @@ switch($host) {
         SiteConfig::$SITE_URL = "https://CourtPay.org";
         SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
+        DBConfig::$DB_NAME = 'courtpay';
         break;
 
     case 'utilitypay.org':
@@ -64,5 +65,6 @@ switch($host) {
         SiteConfig::$SITE_URL = "https://UtilityPay.org";
         SiteConfig::$DEFAULT_THEME = 'View\Theme\UtilityPay\UtilityPayViewTheme';
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@utilitypay.org';
+        DBConfig::$DB_NAME = 'utilitypay';
         break;
 }

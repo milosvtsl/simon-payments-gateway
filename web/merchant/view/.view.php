@@ -327,7 +327,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                 <fieldset>
                     <div class="legend">
-                        Orders: <?php echo $Merchant->getShortName(); ?>
+                        Recent Orders: <?php echo $Merchant->getShortName(); ?>
                     </div>
                     <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>
@@ -346,7 +346,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
                             . "\nWHERE oi.merchant_id = ?"
                             . OrderRow::SQL_ORDER_BY
-                            . "\nLIMIT 10");
+                            . "\nLIMIT 5");
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
                         $OrderQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
                         $OrderQuery->execute(array($this->getMerchant()->getID()));

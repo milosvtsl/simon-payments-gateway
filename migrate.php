@@ -8,6 +8,7 @@
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 use System\Config\DBConfig;
+use Merchant\Model\MerchantRow;
 
 if(!isset($argv))
     die("Console Only");
@@ -43,14 +44,14 @@ foreach(array('court' => 'courtpay', 'utility_live' => 'utilitypay') as $old_sch
         insertMerchant($M, $schema);
     }
 
-//    $params = array();
-//    $sql = "SELECT * FROM {$old_schema}.orders ORDER BY ID DESC LIMIT {$limit}";
-//    $StatsQuery = $DB->prepare($sql);
-//    $StatsQuery->execute($params);
-//
-//    while ($O = $StatsQuery->fetch(PDO::FETCH_ASSOC)) try {
-//        insertOrder($O, $schema);
-//    } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
+    $params = array();
+    $sql = "SELECT * FROM {$old_schema}.orders ORDER BY ID DESC LIMIT {$limit}";
+    $StatsQuery = $DB->prepare($sql);
+    $StatsQuery->execute($params);
+
+    while ($O = $StatsQuery->fetch(PDO::FETCH_ASSOC)) try {
+        insertOrder($O, $schema);
+    } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
 
     $params = array();
     $sql = "SELECT * FROM {$old_schema}.transactions ORDER BY ID DESC LIMIT {$limit}";
@@ -78,11 +79,13 @@ function insertMerchant(Array $M, $schema) {
 
     $params = array(
         ':id' => $M['id'],
+        ':uid' => 'id_gateway',
         ':short_name' => $M['name_short'],
         ':name' => $M['name_full'],
         ':telephone' => $M['phone_num'],
         ':main_email_id' => $M['email'],
         ':state_id' => $M['state'],
+        ':status_id' => 1,
 //        'name' => $M['id_gateway'],
 //        'name' => $M['gateway_token'],
 //        'name' => $M['conv_fee_acct'],
@@ -99,7 +102,7 @@ function insertMerchant(Array $M, $schema) {
     foreach($params as $key=>$value)
         $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
 
-    $SQL = "INSERT IGNORE INTO {$schema}.merchant\nSET " . $SQL;
+    $SQL = "REPLACE INTO {$schema}.merchant\nSET " . $SQL;
 
     $DB = DBConfig::getInstance();
     $stmt = $DB->prepare($SQL);
