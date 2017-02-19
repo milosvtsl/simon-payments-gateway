@@ -173,6 +173,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
 LEFT JOIN state st on st.short_code = oi.payee_state
 ";
     const SQL_GROUP_BY = "\nGROUP BY oi.id";
+    const SQL_WHERE = "\nWHERE 1";
     const SQL_ORDER_BY = "\nORDER BY oi.id ASC";
 
     public function getID()                 { return $this->id; }

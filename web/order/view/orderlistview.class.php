@@ -34,7 +34,7 @@ class OrderListView extends AbstractListView {
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = OrderRow::SQL_WHERE;
 		$statsMessage = '';
 
 		$action = strtolower(@$params['action'] ?: 'view');
