@@ -129,7 +129,6 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getUsername()           { return $this->username; }
-    public function getTransactionID()      { return $this->transaction_id; }
 //    public function getAuthCodeOrBatchID()  { return $this->auth_code_or_batch_id; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getOrderMerchantID()    { return $this->merchant_id; }
@@ -151,7 +150,8 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $this->status_code = $code;
         $this->status_message = $message;
     }
-    public function setTransactionID($id) {
+    public function getIntegrationRemoteID()      { return $this->transaction_id; }
+    public function setIntegrationRemoteID($id) {
         $this->transaction_id = $id;
     }
     public function setTransactionDate($date) {

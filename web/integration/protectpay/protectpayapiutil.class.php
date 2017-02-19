@@ -220,8 +220,8 @@ XML;
             'BillerAccountId' => $MerchantIdentity->getBillerAccountId(),                   // String 16 Authorization Value supplied by ProPay. Used to identify the correct collection of tokens.
 
             'EmailAddress' => $OrderRow->getPayeeEmail(),                                   // String 100 Optional Used to identify a payer.
-            'ExternalId1' => $OrderRow->getUID(),                                           // String 50 Optional Used to identify a payer. This is a custom identifier rather than ProtectPay’s. *If more than 50 characters are supplied the value will be truncated to 50
-            'ExternalId2' => null,                                                          // String 50 Optional Used to identify a payer. This is a custom identifier rather than ProtectPay’s. *If more than 50 characters are supplied the value will be truncated to 50
+            'ExternalId1' => $OrderRow->getUID(),                                           // String 50 Optional Used to identify a payer. This is a custom identifier rather than ProtectPayï¿½s. *If more than 50 characters are supplied the value will be truncated to 50
+            'ExternalId2' => null,                                                          // String 50 Optional Used to identify a payer. This is a custom identifier rather than ProtectPayï¿½s. *If more than 50 characters are supplied the value will be truncated to 50
             'Name' => $OrderRow->getCardHolderFullName(),                                   // String 50 Required Used to identify a payer.
         );
 
@@ -472,7 +472,7 @@ XML;
 //                'SecondaryCardNumber' => '',
 //            ),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -541,7 +541,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,

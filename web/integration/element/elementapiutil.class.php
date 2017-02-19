@@ -375,7 +375,7 @@ XML;
 //                'SecondaryCardNumber' => '',
 //            ),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -445,7 +445,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -592,7 +592,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -650,7 +650,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,

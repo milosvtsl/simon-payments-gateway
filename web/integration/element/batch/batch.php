@@ -52,7 +52,7 @@ foreach($MerchantQuery as $Merchant) {
 //                'date_end' => date('Y-m-d H:i:s.v', time()),
             ),
             function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-                echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+                echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getIntegrationRemoteID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
                 return true;
             }
         );

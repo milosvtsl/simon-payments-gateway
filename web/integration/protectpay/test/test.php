@@ -127,7 +127,7 @@ foreach($tests as $testData) {
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
-    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getTransactionID();
+    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getIntegrationRemoteID();
 
     // Void transaction
     if(!empty($testData['void'])) {

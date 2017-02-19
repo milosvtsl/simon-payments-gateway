@@ -5,10 +5,9 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
-use System\Config\DBConfig;
-use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use System\Config\DBConfig;
 
 if(!isset($argv))
     die("Console Only");
@@ -27,7 +26,7 @@ spl_autoload_register();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
-$limit = 10000;
+$limit = 1000000000;
 
 // Query Statistics
 $DB = DBConfig::getInstance();
@@ -49,18 +48,18 @@ foreach(array('court' => 'courtpay', 'utility_live' => 'utilitypay') as $old_sch
     $StatsQuery = $DB->prepare($sql);
     $StatsQuery->execute($params);
 
-    while ($O = $StatsQuery->fetch(PDO::FETCH_ASSOC)) {
+    while ($O = $StatsQuery->fetch(PDO::FETCH_ASSOC)) try {
         insertOrder($O, $schema);
-    }
+    } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
 
     $params = array();
     $sql = "SELECT * FROM {$old_schema}.transactions ORDER BY ID DESC LIMIT {$limit}";
     $StatsQuery = $DB->prepare($sql);
     $StatsQuery->execute($params);
 
-    while ($T = $StatsQuery->fetch(PDO::FETCH_ASSOC)) {
+    while ($T = $StatsQuery->fetch(PDO::FETCH_ASSOC)) try {
         insertTransaction($T, $schema);
-    }
+    } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
 
 }
 echo "\nMigration successful";
@@ -119,6 +118,8 @@ function insertOrder(Array $O, $schema) {
         ':merchant_id' => $O['id_merchant'],
         ':integration_id' => 99,
         ':amount' => -1,
+        ':date' => '0000/00/00 00:00:00',
+        ':entry_mode' => 'None',
         ':customer_first_name' => $O['first_name'],
         ':customer_last_name' => $O['last_name'],
         ':payee_phone_number' => $O['phone'],
@@ -128,7 +129,6 @@ function insertOrder(Array $O, $schema) {
         ':payee_city' => $O['city'],
         ':payee_state' => $O['state'],
     );
-
     $SQL = '';
     foreach($params as $key=>$value)
         $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
@@ -152,6 +152,10 @@ function insertTransaction(Array $T, $schema) {
         ':order_item_id' => $T['id_order'],
         ':amount' => $T['amount'],
         ':action' => $T['status'],
+        ':transaction_id' => $T['id'],
+        ':status_code' => '00',
+        ':status_message' => '*',
+        ':type' => $T['pay_type'] == '1' ? 'convenience-fee' : '',
         ':date' => date('Y-m-d H:i:s', $T['datetime']),
     );
 
@@ -167,14 +171,16 @@ function insertTransaction(Array $T, $schema) {
 
     echo $DB->lastInsertId() ?: "Skipped";
 
-    list($card_exp_month, $card_exp_year) = explode('/', 2);
+    list($card_exp_month, $card_exp_year) = explode('/', $T['credit_card_expiration'], 2);
     $params = array(
+        ':id' => $T['id'],
+        ':amount' => $T['charge_total'],
         ':card_exp_month' => $card_exp_month,
         ':card_exp_year' => $card_exp_year,
         ':card_number' => $T['credit_card_masked'],
         ':card_type' => OrderRow::getCCType(str_replace('*', '0', $T['credit_card_masked'])),
     );
-    $SQL = "UPDATE {$schema}.order_item SET card_exp_month=:card_exp_month, card_exp_year=:card_exp_year, card_number=:card_number, card_type=:card_type WHERE id = :id";
+    $SQL = "UPDATE {$schema}.order_item SET amount=:amount, card_exp_month=:card_exp_month, card_exp_year=:card_exp_year, card_number=:card_number, card_type=:card_type WHERE id = :id";
 
     $stmt = $DB->prepare($SQL);
     $ret = $stmt->execute($params);

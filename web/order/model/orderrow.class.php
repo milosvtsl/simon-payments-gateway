@@ -95,7 +95,7 @@ class OrderRow
     protected $entry_mode;
 
     protected $invoice_number;
-    protected $order_item_id;
+//    protected $order_item_id;
 
     protected $payee_first_name;
     protected $payee_last_name;
@@ -229,7 +229,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getIntegrationName()    { return $this->integration_name; }
     public function getFormID()             { return $this->form_id; }
 
-    public function getOrderItemID()        { return $this->order_item_id; }
+//    public function getOrderItemID()        { return $this->order_item_id; }
     public function getConvenienceFee()     { return $this->convenience_fee; }
 
     public function getEntryMode()          { return $this->entry_mode; }
@@ -255,8 +255,8 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
 
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
-    public function setSubscriptionID($order_item_id) {
-        $this->subscription_id = $order_item_id;
+    public function setSubscriptionID($subscription_id) {
+        $this->subscription_id = $subscription_id;
     }
 
     public function setIntegrationRemoteID($remoteID) {
@@ -436,7 +436,7 @@ SQL;
             ':customermi' => $OrderRow->customermi,
             ':entry_mode' => $OrderRow->entry_mode,
             ':invoice_number' => $OrderRow->invoice_number,
-            ':order_item_id' => $OrderRow->order_item_id,
+//            ':order_item_id' => $OrderRow->order_item_id,
             ':payee_first_name' => $OrderRow->payee_first_name,
             ':payee_last_name' => $OrderRow->payee_last_name,
             ':payee_phone_number' => $OrderRow->payee_phone_number,
@@ -540,7 +540,7 @@ SQL;
         $OrderRow->entry_mode = $post['entry_mode'];
         $OrderRow->amount = $post['amount'];
         $OrderRow->convenience_fee = $MerchantIdentity->calculateConvenienceFee($OrderRow);
-        $OrderRow->order_item_id = rand(1999,9999); // TODO: fix?
+//        $OrderRow->order_item_id = rand(1999,9999); // TODO: fix?
 
         if(in_array(strtolower($post['entry_mode']), array('keyed', 'swipe'))) {
             $OrderRow->card_track = trim(@$post['card_track']);

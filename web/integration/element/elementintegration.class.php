@@ -316,7 +316,7 @@ class ElementIntegration extends AbstractIntegration
         $transactionID = $response['Transaction']['TransactionID'];
 
 //        $Transaction->setAuthCodeOrBatchID($code);
-        $Transaction->setTransactionID($transactionID);
+        $Transaction->setIntegrationRemoteID($transactionID);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
         $Transaction->setTransactionDate($date);
@@ -407,7 +407,7 @@ class ElementIntegration extends AbstractIntegration
         $transactionID = $response['Transaction']['TransactionID'];
 
 //        $ReverseTransaction->setAuthCodeOrBatchID($code);
-        $ReverseTransaction->setTransactionID($transactionID);
+        $ReverseTransaction->setIntegrationRemoteID($transactionID);
         $ReverseTransaction->setStatus($code, $message);
         // Store Transaction Result
         $ReverseTransaction->setTransactionDate($date);
@@ -493,7 +493,7 @@ class ElementIntegration extends AbstractIntegration
         $VoidTransaction->setAction($action);
         $VoidTransaction->setStatus($code, $message);
 //        $VoidTransaction->setAuthCodeOrBatchID($code);
-        $VoidTransaction->setTransactionID($transactionID);
+        $VoidTransaction->setIntegrationRemoteID($transactionID);
         $VoidTransaction->setTransactionDate($date);
 
         TransactionRow::insert($VoidTransaction);
@@ -576,7 +576,7 @@ class ElementIntegration extends AbstractIntegration
         $ReturnTransaction->setAction($action);
         $ReturnTransaction->setStatus($code, $message);
 //        $ReturnTransaction->setAuthCodeOrBatchID($code);
-        $ReturnTransaction->setTransactionID($transactionID);
+        $ReturnTransaction->setIntegrationRemoteID($transactionID);
         $ReturnTransaction->setTransactionDate($date);
 
         TransactionRow::insert($ReturnTransaction);

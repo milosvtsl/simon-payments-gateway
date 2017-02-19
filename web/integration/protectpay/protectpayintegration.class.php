@@ -163,7 +163,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $transactionID = $transaction['TransactionResult'];
         if(!$transactionID)
             throw new IntegrationException("Success response did not return a transaction ID");
-        $Transaction->setTransactionID($transactionID);
+        $Transaction->setIntegrationRemoteID($transactionID);
 
         $Transaction->setAction("Authorized");
         $Order->setStatus("Authorized");
@@ -414,7 +414,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $service_fee = $MerchantIdentity->calculateServiceFee($OrderRow, 'Authorized');
         $Transaction->setServiceFee($service_fee);
         $Transaction->setAction("Authorized");
-        $Transaction->setTransactionID($transactionID);
+        $Transaction->setIntegrationRemoteID($transactionID);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
         TransactionRow::insert($Transaction);
@@ -491,7 +491,7 @@ class ProtectPayIntegration extends AbstractIntegration
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $ReverseTransaction->setTransactionID($transactionID);
+        $ReverseTransaction->setIntegrationRemoteID($transactionID);
         $ReverseTransaction->setStatus($code, $message);
         // Store Transaction Result
         $ReverseTransaction->setTransactionDate($date);
@@ -576,7 +576,7 @@ class ProtectPayIntegration extends AbstractIntegration
         // Store Transaction Result
         $VoidTransaction->setAction($action);
         $VoidTransaction->setStatus($code, $message);
-        $VoidTransaction->setTransactionID($transactionID);
+        $VoidTransaction->setIntegrationRemoteID($transactionID);
         $VoidTransaction->setTransactionDate($date);
 
         TransactionRow::insert($VoidTransaction);
@@ -659,7 +659,7 @@ class ProtectPayIntegration extends AbstractIntegration
         // Store Transaction Result
         $ReturnTransaction->setAction($action);
         $ReturnTransaction->setStatus($code, $message);
-        $ReturnTransaction->setTransactionID($transactionID);
+        $ReturnTransaction->setIntegrationRemoteID($transactionID);
         $ReturnTransaction->setTransactionDate($date);
 
         TransactionRow::insert($ReturnTransaction);

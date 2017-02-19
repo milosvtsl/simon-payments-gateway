@@ -56,7 +56,7 @@ try {
             'date_end' => date('Y-m-d', time()),
         ),
         function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getIntegrationRemoteID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
             return NULL;
         }
     );
@@ -174,7 +174,7 @@ foreach($tests as $testData) {
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
-    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getTransactionID();
+    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getIntegrationRemoteID();
 
     // Void transaction
     if(!empty($testData['void'])) {
