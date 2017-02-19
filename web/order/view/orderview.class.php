@@ -104,7 +104,7 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'void':
@@ -119,7 +119,7 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'return':
@@ -135,7 +135,7 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'reverse':
@@ -147,7 +147,7 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '');
+                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 default:
@@ -158,7 +158,7 @@ class OrderView extends AbstractView
             $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
-            header('Location: /order/receipt.php?uid=' . $Order->getUID(false) . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
+            header('Location: /order/receipt.php?uid=' . $Order->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }
@@ -166,11 +166,11 @@ class OrderView extends AbstractView
     private function renderViewHTMLBody($params)
     {
         $Order = $this->getOrder();
-        $Transaction = $Order->fetchAuthorizedTransaction();
+//        $Transaction = $Order->fetchAuthorizedTransaction();
         $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
         $odd = true;
-        $action_url = 'order/receipt.php?uid=' . $Order->getUID(false) . '&action=';
-        $action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID(false);
+        $action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
+        $action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID();
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
@@ -180,7 +180,7 @@ class OrderView extends AbstractView
 
         $Theme = $this->getTheme();
         $Theme->addPathURL('order',        'Transactions');
-        $Theme->addPathURL($action_url,    $Order->getUID(true));
+        $Theme->addPathURL($action_url,    strtoupper($Order->getUID()));
         $Theme->renderHTMLBodyHeader();
         $Theme->printHTMLMenu('order-view', $action_url);
         $SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
@@ -505,7 +505,7 @@ class OrderView extends AbstractView
                             $odd = false;
                             foreach($TransactionQuery as $Transaction) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="hide-on-layout-narrow"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
+                                    <td class="hide-on-layout-narrow"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
                                     <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                     <td>$<?php echo $Transaction->getAmount(); ?></td>
                                     <td>$<?php echo $Transaction->getServiceFee(); ?></td>

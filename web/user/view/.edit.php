@@ -37,6 +37,22 @@ $Theme->printHTMLMenu($category,    $action_url);
                     <input type="hidden" name="action" value="edit" />
                     <fieldset>
                         <div class="legend">Edit User Fields</div>
+
+
+                        <div class="page-buttons order-page-buttons hide-on-print">
+                            <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
+                                <div class="app-button large app-button-view" ></div>
+                                View
+                            </a>
+                            <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
+                                <div class="app-button large app-button-edit" ></div>
+                                Edit
+                            </a>
+                        </div>
+
+                        <hr/>
+
+
                         <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>

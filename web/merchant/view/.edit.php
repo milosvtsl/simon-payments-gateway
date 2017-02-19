@@ -36,6 +36,10 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <div class="app-button large app-button-view" ></div>
                             View
                         </a>
+                        <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
+                            <div class="app-button large app-button-edit" ></div>
+                            Edit
+                        </a>
                         <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
                             <div class="app-button large app-button-provision" ></div>
                             Provision

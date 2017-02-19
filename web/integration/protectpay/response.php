@@ -59,7 +59,7 @@ try {
     $SessionManager->setMessage(
         "<div class='info'>Success: " . $OrderRow->getStatus() . "</div>"
     );
-    header('Location: /order/receipt.php?uid=' . $OrderRow->getUID(false));
+    header('Location: /order/receipt.php?uid=' . $OrderRow->getUID());
 
 } catch (\Exception $ex) {
     $SessionManager->setMessage(

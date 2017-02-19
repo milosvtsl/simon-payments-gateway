@@ -40,6 +40,10 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
 
                     <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>view" class="page-button page-button-view disabled">
+                            <div class="app-button large app-button-view" ></div>
+                            View
+                        </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
                             <div class="app-button large app-button-edit" ></div>
                             Edit
@@ -350,7 +354,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         $odd = false;
                         foreach($OrderQuery as $Order) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
+                                <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
                                 <td>$<?php echo $Order->getAmount(); ?></td>
                                 <td><?php echo $Order->getPayeeFullName(); ?></td>
                                 <td><?php echo ucfirst($Order->getEntryMode()); ?></td>

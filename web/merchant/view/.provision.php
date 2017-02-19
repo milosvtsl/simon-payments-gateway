@@ -39,12 +39,16 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                             <div class="app-button large app-button-edit" ></div>
                             Edit
                         </a>
+                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
+                            <div class="app-button large app-button-provision" ></div>
+                            Provision
+                        </a>
                     </div>
 
                     <hr/>
 
 
-                    <table class="table-merchant-info themed striped-rows" style="float: left;">
+                    <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
@@ -104,7 +108,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                                 <?php echo $IntegrationRow->getName(); ?>
                                 (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)
                             </div>
-                            <table class="table-merchant-info themed striped-rows" style="float: left; min-width: 27em; min-height: 22em;">
+                            <table class="table-merchant-info themed striped-rows" style="min-width: 27em; min-height: 22em; width: 100%">
                                 <tr>
                                     <th>Field</th>
                                     <th>Value</th>
@@ -175,7 +179,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                     ?>
 
                     <div class="legend">Provision Now: <?php echo $IntegrationRow->getName(); ?></div>
-                    <table class="table-merchant-info themed" style="float: left; min-width: 27em;">
+                    <table class="table-merchant-info themed" style="min-width: 27em; width: 100%">
                         <tr>
                             <th>Action</th>
                             <th>Notes</th>

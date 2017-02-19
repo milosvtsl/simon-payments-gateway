@@ -178,10 +178,8 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getID()                 { return $this->id; }
 
 
-    public function getUID($truncated=false){
-        if(!$truncated)
-            return $this->uid;
-        return '...' . strrchr($this->uid, '-');
+    public function getUID(){
+        return $this->uid;
     }
 
     public function getAmount()             { return $this->amount; }
