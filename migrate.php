@@ -171,16 +171,22 @@ function insertTransaction(Array $T, $schema) {
 
     echo $DB->lastInsertId() ?: "Skipped";
 
-    list($card_exp_month, $card_exp_year) = explode('/', $T['credit_card_expiration'], 2);
+    list($card_exp_month, $card_exp_year) = explode('/', $T['credit_card_expiration']?:'/', 2);
     $params = array(
-        ':id' => $T['id'],
+        ':id' => $T['id_order'],
         ':amount' => $T['charge_total'],
         ':card_exp_month' => $card_exp_month,
         ':card_exp_year' => $card_exp_year,
         ':card_number' => $T['credit_card_masked'],
-        ':card_type' => OrderRow::getCCType(str_replace('*', '0', $T['credit_card_masked'])),
+        ':card_type' => OrderRow::getCCType(str_replace('*', '0', $T['credit_card_masked']), false),
     );
-    $SQL = "UPDATE {$schema}.order_item SET amount=:amount, card_exp_month=:card_exp_month, card_exp_year=:card_exp_year, card_number=:card_number, card_type=:card_type WHERE id = :id";
+    if($T['pay_type'] == '1')
+        $params['convenience_fee'] = $T['amount'];
+    $SQL = '';
+    foreach($params as $key=>$value)
+        $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
+
+    $SQL = "UPDATE {$schema}.order_item SET $SQL WHERE id = " . $T['id'];
 
     $stmt = $DB->prepare($SQL);
     $ret = $stmt->execute($params);

@@ -598,12 +598,14 @@ SQL;
         return $OrderRow;
     }
 
-    static function getCCType($cardNumber) {
+    static function getCCType($cardNumber, $throwException=true) {
         $cardNumber = preg_replace('/\D/', '', $cardNumber);
 
         $len = strlen($cardNumber);
         if ($len < 15 || $len > 16) {
-            throw new \InvalidArgumentException("Invalid credit card number. Length does not match");
+            if($throwException)
+                throw new \InvalidArgumentException("Invalid credit card number. Length does not match");
+            return null;
         } else {
             switch($cardNumber) {
                 case(preg_match ('/^4/', $cardNumber) >= 1):
@@ -619,8 +621,9 @@ SQL;
                 case(preg_match ('/^(?:2131|1800|35\d{3})/', $cardNumber) >= 1):
                     return 'JCB';
                 default:
-                    throw new \InvalidArgumentException("Could not determine the credit card type.");
-                    break;
+                    if($throwException)
+                        throw new \InvalidArgumentException("Could not determine the credit card type.");
+                    return null;
             }
         }
     }
