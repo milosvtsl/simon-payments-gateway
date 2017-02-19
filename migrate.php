@@ -43,14 +43,14 @@ foreach(array('court' => 'courtpay', 'utility_live' => 'utilitypay') as $old_sch
         insertMerchant($M, $schema);
     }
 
-    $params = array();
-    $sql = "SELECT * FROM {$old_schema}.orders ORDER BY ID DESC LIMIT {$limit}";
-    $StatsQuery = $DB->prepare($sql);
-    $StatsQuery->execute($params);
-
-    while ($O = $StatsQuery->fetch(PDO::FETCH_ASSOC)) try {
-        insertOrder($O, $schema);
-    } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
+//    $params = array();
+//    $sql = "SELECT * FROM {$old_schema}.orders ORDER BY ID DESC LIMIT {$limit}";
+//    $StatsQuery = $DB->prepare($sql);
+//    $StatsQuery->execute($params);
+//
+//    while ($O = $StatsQuery->fetch(PDO::FETCH_ASSOC)) try {
+//        insertOrder($O, $schema);
+//    } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
 
     $params = array();
     $sql = "SELECT * FROM {$old_schema}.transactions ORDER BY ID DESC LIMIT {$limit}";
@@ -191,5 +191,5 @@ function insertTransaction(Array $T, $schema) {
     $stmt = $DB->prepare($SQL);
     $ret = $stmt->execute($params);
 
-    echo $ret ? "..cc updated!" : "..failed to update cc";
+    echo $stmt->rowCount() ? "..cc updated!" : "..failed to update cc";
 }
