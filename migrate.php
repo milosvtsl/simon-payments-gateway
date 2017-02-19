@@ -26,7 +26,7 @@ spl_autoload_register();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
-$limit = 1000000000;
+$limit = 100000000;
 
 // Query Statistics
 $DB = DBConfig::getInstance();
@@ -173,7 +173,7 @@ function insertTransaction(Array $T, $schema) {
 
     list($card_exp_month, $card_exp_year) = explode('/', $T['credit_card_expiration']?:'/', 2);
     $params = array(
-        ':id' => $T['id_order'],
+        ':date' => date('Y-m-d H:i:s', $T['datetime']),
         ':amount' => $T['charge_total'],
         ':card_exp_month' => $card_exp_month,
         ':card_exp_year' => $card_exp_year,
@@ -181,7 +181,7 @@ function insertTransaction(Array $T, $schema) {
         ':card_type' => OrderRow::getCCType(str_replace('*', '0', $T['credit_card_masked']), false),
     );
     if($T['pay_type'] == '1')
-        $params['convenience_fee'] = $T['amount'];
+        $params[':convenience_fee'] = $T['amount'];
     $SQL = '';
     foreach($params as $key=>$value)
         $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
