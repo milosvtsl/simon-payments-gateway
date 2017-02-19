@@ -180,13 +180,13 @@ function insertTransaction(Array $T, $schema) {
         ':card_number' => $T['credit_card_masked'],
         ':card_type' => OrderRow::getCCType(str_replace('*', '0', $T['credit_card_masked']), false),
     );
-    if($T['pay_type'] == '1')
+    if($T['pay_type'] == '0')
         $params[':convenience_fee'] = $T['amount'];
     $SQL = '';
     foreach($params as $key=>$value)
         $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
 
-    $SQL = "UPDATE {$schema}.order_item SET $SQL WHERE id = " . $T['id'];
+    $SQL = "UPDATE {$schema}.order_item SET $SQL WHERE id = " . $T['id_order'];
 
     $stmt = $DB->prepare($SQL);
     $ret = $stmt->execute($params);
