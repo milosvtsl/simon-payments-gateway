@@ -79,7 +79,7 @@ function insertMerchant(Array $M, $schema) {
 
     $params = array(
         ':id' => $M['id'],
-        ':uid' => 'id_gateway',
+        ':uid' => $M['id_gateway'],
         ':short_name' => $M['name_short'],
         ':name' => $M['name_full'],
         ':telephone' => $M['phone_num'],
@@ -102,7 +102,7 @@ function insertMerchant(Array $M, $schema) {
     foreach($params as $key=>$value)
         $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
 
-    $SQL = "REPLACE INTO {$schema}.merchant\nSET " . $SQL;
+    $SQL = "INSERT IGNORE INTO {$schema}.merchant\nSET " . $SQL;
 
     $DB = DBConfig::getInstance();
     $stmt = $DB->prepare($SQL);
