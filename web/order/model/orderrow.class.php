@@ -71,7 +71,7 @@ class OrderRow
     protected $uid;
     protected $amount;
     protected $date;
-    protected $version;
+//    protected $version;
 
     protected $card_exp_month;
     protected $card_exp_year;
@@ -420,7 +420,7 @@ SQL;
             ':subscription_id' => $OrderRow->subscription_id,
             ':batch_id' => $OrderRow->batch_id,
             ':form_id' => $OrderRow->form_id,
-            ':version' => $OrderRow->version,
+//            ':version' => $OrderRow->version,
             ':amount' => $OrderRow->amount,
             ':card_exp_month' => $OrderRow->card_exp_month,
             ':card_exp_year' => $OrderRow->card_exp_year,
@@ -522,7 +522,7 @@ SQL;
     static function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
 
         $OrderRow = new OrderRow();
-        $OrderRow->version = 10;
+//        $OrderRow->version = 10;
         $OrderRow->status = "Pending";
 
         if($PaymentInfo->getID())

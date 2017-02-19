@@ -40,7 +40,7 @@ class TransactionRow
     // Table transaction
     protected $id;
     protected $uid;
-    protected $version;
+//    protected $version;
     protected $action;
     protected $amount;
 //    protected $auth_code_or_batch_id;
@@ -226,7 +226,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
             throw new \InvalidArgumentException("Invalid Order Item ID");
         $values = array(
             ':uid' => $TransactionRow->uid,
-            ':version' => $TransactionRow->version,
+//            ':version' => $TransactionRow->version,
             ':action' => $TransactionRow->action,
             ':amount' => $TransactionRow->amount,
 //            ':auth_code_or_batch_id' => $TransactionRow->auth_code_or_batch_id,
@@ -323,7 +323,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $TransactionRow->order_item_id = $OrderRow->getID();
 //        $TransactionRow->batch_item_id;
         $TransactionRow->amount = $post['amount'];
-        $TransactionRow->version = 10;
+//        $TransactionRow->version = 10;
 //        $TransactionRow->entry_method = @$post['entry_method'] ?: "Default";
 //        $TransactionRow->is_reviewed = 0;
 //        $TransactionRow->return_type = 'Both';
