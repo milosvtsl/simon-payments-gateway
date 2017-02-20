@@ -1,6 +1,5 @@
 <?php
 namespace App\Chart;
-use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
 
@@ -10,7 +9,7 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class YTDChart extends AbstractTotalsApp {
+class YtdChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
@@ -36,72 +35,166 @@ class YTDChart extends AbstractTotalsApp {
      * @return mixed
      */
     function renderAppHTML(Array $params = array()) {
-        $stats = $this->getStats();
-
-        $amount = number_format($stats['year_to_date'], 2);
-        $count = number_format($stats['year_to_date_count']);
 
         $appClassName = 'app-chart-ytd';
         echo <<<HTML
         <div class="app-chart {$appClassName}">
-            <div class="app-section-top">
-                <div class="app-section-text-large" style="text-align: center;">
-                    <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-count {$appClassName}-count">
-                        This year ({$count})
-                    </a>
-                </div>
-                <hr />
-            </div>
-            <a href="order?date_from={$stats['time_year_to_date']}" class="app-chart-amount {$appClassName}-amount">
-                \${$amount}
-            </a> 
-            </a>
-            <div class="app-button app-button-config app-button-top-right">
-                <ul class="app-menu">
-                    <li><div class='app-button app-button-top'></div><a href="#" onclick="appChartAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><div class='app-button app-button-up'></div><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><div class='app-button app-button-down'></div><a href="#" onclick="appChartAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><div class='app-button app-button-bottom'></div><a href="#" onclick="appChartAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appChartAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><div class='app-button app-button-remove'></div><a href="#" onclick="appChartAction('remove', '{$appClassName}');">Remove</a></li>
-                </ul>
-            </div>
+            <canvas class="app-chart-canvas app-chart-canvas-ytd" ></canvas>
         </div>
 HTML;
+
     }
 
-    public function fetchStats() {
-        $offset = 0;
+    public function renderHTMLHeadContent()
+    {
+        parent::renderHTMLHeadContent();
 
-        $year_to_date = date('Y-01-01');
+
+        $stats = $this->getStats();
+
+        $amount = number_format($stats['ytd'], 2);
+        $count = number_format($stats['ytd_count']);
+        $barChartData = $this->fetchBarData();
+
+        $barChartData = json_encode($barChartData);
+
+        echo <<<HTML
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function(e) {
+                var barChartData = {$barChartData};
+                    var canvasElms = document.getElementsByClassName('app-chart-canvas-ytd');
+                    for(var i=0; i<canvasElms.length; i++) {
+                    var canvasElm = canvasElms[i];
+                    canvasElm.bar = new Chart(canvasElm, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: {
+                            title:{
+                                display:true,
+                                text:"Year To Date Sales \${$amount} ({$count})"
+                            },
+                            tooltips: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            responsive: true,
+                            scales: {
+                                xAxes: [{
+                                    stacked: true
+                                }],
+                                yAxes: [{
+                                    stacked: true
+                                }]
+                            }
+                        }
+                    });
+                     
+                    canvasElm.addEventListener('click', function(e) {
+                         document.location.href = 'order?date_from={$stats['time_ytd']}';
+                    });
+                 }
+            });
+        </script>
+
+HTML;
+
+    }
+
+
+    public function fetchStats() {
+        $SessionUser = $this->getSessionUser();
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+        $ytd  = date('Y-01-01', time());
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount - total_returned_amount) as year_to_date,
-	COUNT(amount) as year_to_date_count
+	SUM(amount - total_returned_amount) as ytd,
+	COUNT(*) as ytd_count
  FROM order_item oi
 
 WHERE
-    date>='{$year_to_date}'
+    date>='{$ytd}'
     AND status in ('Settled', 'Authorized')
 SQL;
 
         $SessionUser = $this->getSessionUser();
-        $ids = $SessionUser->getMerchantList() ?: array(-1);
-        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-//            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
+//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
 
-        $duration = -microtime(true);
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
+//        $duration = -microtime(true);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
         $stmt->execute();
         $stats = $stmt->fetch();
-        $duration += microtime(true);
-        $stats['duration'] = $duration;
-        $stats['time_year_to_date'] = $year_to_date;
+//        $duration += microtime(true);
+//        $stats['duration'] = $duration;
+        $stats['time_ytd'] = $ytd;
 
         return $stats;
     }
+
+
+    public function fetchBarData() {
+        $SessionUser = $this->getSessionUser();
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+        $ytd  = date('Y-01-01', time() + $offset);
+
+        $SQL = <<<SQL
+SELECT
+  DATE_FORMAT(oi.date, '%m') as month,
+  count(*) as count,
+  sum(oi.amount) as amount,
+  sum(oi.total_returned_amount) as returned
+FROM order_item oi
+
+WHERE
+    date>='{$ytd}'
+    AND status in ('Settled', 'Authorized')
+GROUP BY DATE_FORMAT(oi.date, '%Y%m')
+LIMIT 32
+SQL;
+
+//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
+
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $stmt->execute();
+
+        $chartData = array(
+            'labels' => array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
+            'datasets' => array(
+                array(
+                    'label' => "Amount",
+                    'backgroundColor' => "#20465c",
+                    'data' => array_pad(array(), 12, 0)
+                ),
+                array(
+                    'label' => "Returned",
+                    'backgroundColor' => "#d27171",
+                    'data' => array_pad(array(), 12, 0)
+                ),
+                array(
+                    'label' => "Count",
+                    'backgroundColor' => "#71d271",
+                    'data' => array_pad(array(), 12, 0)
+                )
+            )
+        );
+        while($order = $stmt->fetch()) {
+            $chartData['datasets'][0]['data'][intval($order['month'])-1] = intval($order['amount']);
+            $chartData['datasets'][1]['data'][intval($order['month'])-1] = intval($order['returned']);
+            $chartData['datasets'][2]['data'][intval($order['month'])-1] = intval($order['count']);
+        }
+
+        return $chartData;
+    }
+
 
 }
 

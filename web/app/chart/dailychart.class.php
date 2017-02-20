@@ -1,6 +1,5 @@
 <?php
 namespace App\Chart;
-use App\AbstractApp;
 use System\Config\DBConfig;
 use User\Model\UserRow;
 
@@ -36,43 +35,77 @@ class DailyChart extends AbstractTotalsApp {
      * @return mixed
      */
     function renderAppHTML(Array $params = array()) {
-        $stats = $this->getStats();
-
-        $amount = number_format($stats['today'], 2);
-        $count = number_format($stats['today_count']);
 
         $appClassName = 'app-chart-today';
         echo <<<HTML
         <div class="app-chart {$appClassName}">
-            <div class="app-section-top">
-                <div class="app-section-text-large" style="text-align: center;">
-                    <a href="order?date_from={$stats['time_today']}" class="app-chart-count {$appClassName}-count">
-                        Today ({$count})
-                    </a>
-                </div>
-                <hr class="themed" />
-            </div>
-            <a href="order?date_from={$stats['time_today']}" class="app-chart-amount {$appClassName}-amount">
-                \${$amount}
-            </a>
-            <div class="app-button app-button-config app-button-top-right">
-                <ul class="app-menu">
-                    <li><div class='app-button app-button-up'></div><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><div class='app-button app-button-down'></div><a href="#" onclick="appChartAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><div class='app-button app-button-top'></div><a href="#" onclick="appChartAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><div class='app-button app-button-bottom'></div><a href="#" onclick="appChartAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appChartAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><div class='app-button app-button-remove'></div><a href="#" onclick="appChartAction('remove', '{$appClassName}');">Remove</a></li>
-                </ul>
-            </div>
+            <canvas class="app-chart-canvas app-chart-canvas-daily" ></canvas>
         </div>
 HTML;
 
     }
 
+    public function renderHTMLHeadContent()
+    {
+        parent::renderHTMLHeadContent();
+
+
+        $stats = $this->getStats();
+
+        $amount = number_format($stats['today'], 2);
+        $count = number_format($stats['today_count']);
+        $barChartData = $this->fetchBarData();
+
+        $barChartData = json_encode($barChartData);
+
+        echo <<<HTML
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function(e) {
+                var barChartData = {$barChartData};
+                    var canvasElms = document.getElementsByClassName('app-chart-canvas-daily');
+                    for(var i=0; i<canvasElms.length; i++) {
+                    var canvasElm = canvasElms[i];
+                    canvasElm.bar = new Chart(canvasElm, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: {
+                            title:{
+                                display:true,
+                                text:"Today's Sales \${$amount} ({$count})"
+                            },
+                            tooltips: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            responsive: true,
+                            scales: {
+                                xAxes: [{
+                                    stacked: true
+                                }],
+                                yAxes: [{
+                                    stacked: true
+                                }]
+                            }
+                        }
+                    });
+                     
+                    canvasElm.parentNode.addEventListener('click', function(e) {
+                         document.location.href = 'order?date_from={$stats['time_today']}';
+                    });
+                 }
+            });
+        </script>
+
+HTML;
+
+    }
+
+
     public function fetchStats() {
-        $offset = 0;
-        $today = date('Y-m-d', time() + $offset);
+        $SessionUser = $this->getSessionUser();
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+        $today = date('Y-m-d G:i:s', time() + $offset);
 
         $SQL = <<<SQL
 SELECT
@@ -86,21 +119,85 @@ WHERE
 SQL;
 
         $SessionUser = $this->getSessionUser();
-        $ids = $SessionUser->getMerchantList() ?: array(-1);
-        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-//            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . intval($userID) . " AND um.id_merchant = oi.merchant_id)";
+//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
 
-        $duration = -microtime(true);
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
+//        $duration = -microtime(true);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
         $stmt->execute();
         $stats = $stmt->fetch();
-        $duration += microtime(true);
-        $stats['duration'] = $duration;
+//        $duration += microtime(true);
+//        $stats['duration'] = $duration;
         $stats['time_today'] = $today;
 
         return $stats;
     }
+
+
+    public function fetchBarData() {
+        $SessionUser = $this->getSessionUser();
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+        $today = date('Y-m-d G:i:s', time() + $offset);
+
+        $SQL = <<<SQL
+SELECT
+  DATE_FORMAT(oi.date, '%H') as hour,
+  count(*) as count,
+  sum(oi.amount) as amount,
+  sum(oi.total_returned_amount) as returned
+FROM order_item oi
+
+WHERE
+    date>='{$today}'
+    AND status in ('Settled', 'Authorized')
+GROUP BY DATE_FORMAT(oi.date, '%Y%m%d%H')
+LIMIT 24
+SQL;
+
+//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
+
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $stmt->execute();
+
+        $chartData = array(
+            'labels' => array(),
+            'datasets' => array(
+                array(
+                    'label' => "Amount",
+                    'backgroundColor' => "#20465c",
+                    'data' => array_pad(array(), 24, 0)
+                ),
+                array(
+                    'label' => "Returned",
+                    'backgroundColor' => "#d27171",
+                    'data' => array_pad(array(), 24, 0)
+                ),
+                array(
+                    'label' => "Count",
+                    'backgroundColor' => "#71d271",
+                    'data' => array_pad(array(), 24, 0)
+                )
+            )
+        );
+        for($i=1; $i<24; $i++) {
+            $chartData['labels'][] = $i % 4 === 0 ? $i : '';
+        }
+        while($order = $stmt->fetch()) {
+            $chartData['datasets'][0]['data'][intval($order['hour'])] = intval($order['amount']);
+            $chartData['datasets'][1]['data'][intval($order['hour'])] = intval($order['returned']);
+            $chartData['datasets'][2]['data'][intval($order['hour'])] = intval($order['count']);
+        }
+
+        return $chartData;
+    }
+
 
 }
 
