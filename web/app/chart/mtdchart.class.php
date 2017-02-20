@@ -176,17 +176,17 @@ SQL;
                 array(
                     'label' => "Amount",
                     'backgroundColor' => "#20465c",
-                    'data' => array_pad(array(), 24, 0)
+                    'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Returned",
                     'backgroundColor' => "#d27171",
-                    'data' => array_pad(array(), 24, 0)
+                    'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Count",
                     'backgroundColor' => "#71d271",
-                    'data' => array_pad(array(), 12, 0)
+                    'data' => array_pad(array(), 32, 0)
                 )
 
             )
