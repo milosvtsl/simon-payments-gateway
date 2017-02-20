@@ -7,10 +7,6 @@
  */
 namespace Integration\ProtectPay;
 use Integration\Model\Ex\IntegrationException;
-use Integration\Model\IntegrationRow;
-use Merchant\Model\MerchantRow;
-use Order\View\OrderView;
-use User\Session\SessionManager;
 
 // Go to root directory
 chdir('../..');

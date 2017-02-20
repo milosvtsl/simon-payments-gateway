@@ -7,7 +7,6 @@
  */
 namespace Dompdf;
 
-use Dompdf\Frame;
 use Dompdf\Renderer\AbstractRenderer;
 use Dompdf\Renderer\Block;
 use Dompdf\Renderer\Image;

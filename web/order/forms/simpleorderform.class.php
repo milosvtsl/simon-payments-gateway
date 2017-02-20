@@ -12,8 +12,8 @@ use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use System\Arrays\Locations;
-use User\Session\SessionManager;
 use System\Config\SiteConfig;
+use User\Session\SessionManager;
 
 class SimpleOrderForm extends AbstractForm
 {

@@ -9,7 +9,6 @@
 namespace Dompdf\FrameDecorator;
 
 use Dompdf\Dompdf;
-use Dompdf\FontMetrics;
 use Dompdf\Frame;
 use Dompdf\Image\Cache;
 

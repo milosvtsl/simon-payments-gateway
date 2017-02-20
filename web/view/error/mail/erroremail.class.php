@@ -8,7 +8,6 @@
 namespace View\Error\Mail;
 
 
-use PHPMailer;
 use System\Config\SiteConfig;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/system/lib/PHPMailer/PHPMailerAutoload.php';

@@ -8,7 +8,6 @@
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 use System\Config\DBConfig;
-use Merchant\Model\MerchantRow;
 
 if(!isset($argv))
     die("Console Only");

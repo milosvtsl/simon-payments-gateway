@@ -11,13 +11,10 @@ use Integration\Mock\MockMerchantIdentity;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\FraudException;
 use Merchant\Model\MerchantFormRow;
-use Order\Forms\DefaultOrderForm;
-use Payment\Model\PayeeRow;
 use Payment\Model\PaymentRow;
 use System\Config\DBConfig;
 use System\Config\SiteConfig;
 use User\Model\UserRow;
-use User\Session\SessionManager;
 
 class OrderRow
 {

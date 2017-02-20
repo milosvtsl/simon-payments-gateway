@@ -8,7 +8,6 @@
 namespace Merchant\Model;
 
 use Integration\Model\AbstractMerchantIdentity;
-use Order\Model\OrderRow;
 use System\Config\DBConfig;
 
 class MerchantIntegrationRow

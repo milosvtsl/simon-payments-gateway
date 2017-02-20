@@ -8,7 +8,6 @@
  */
 namespace Dompdf\Renderer;
 
-use Dompdf\FontMetrics;
 use Dompdf\Frame;
 use Dompdf\FrameDecorator\ListBullet as ListBulletFrameDecorator;
 use Dompdf\Helpers;

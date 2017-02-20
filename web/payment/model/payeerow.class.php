@@ -7,7 +7,6 @@
  */
 namespace Payment\Model;
 
-use Order\Model\OrderRow;
 use System\Config\DBConfig;
 
 class PayeeRow

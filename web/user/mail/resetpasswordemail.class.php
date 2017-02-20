@@ -8,7 +8,6 @@
 namespace User\Mail;
 
 
-use PHPMailer;
 use System\Config\SiteConfig;
 use User\Model\UserRow;
 

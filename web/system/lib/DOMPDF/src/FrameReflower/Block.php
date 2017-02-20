@@ -9,7 +9,6 @@
 namespace Dompdf\FrameReflower;
 
 use Dompdf\Exception;
-use Dompdf\FontMetrics;
 use Dompdf\Frame;
 use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 use Dompdf\FrameDecorator\Text as TextFrameDecorator;

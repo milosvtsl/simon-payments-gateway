@@ -8,9 +8,6 @@
 
 namespace Integration\Finix\Test;
 
-use Integration\Model\IntegrationRow;
-use Merchant\Model\MerchantRow;
-
 if(!isset($argv))
     die("Console Only");
 

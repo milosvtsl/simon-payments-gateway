@@ -6,7 +6,6 @@ use DOMDocument;
 use DOMNode;
 use Dompdf\Exception;
 use Dompdf\Frame;
-use Dompdf\FrameDecorator\Page;
 use DOMXPath;
 
 /**

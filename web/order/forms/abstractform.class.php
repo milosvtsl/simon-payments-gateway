@@ -11,7 +11,6 @@ namespace Order\Forms;
 
 use Integration\Model\AbstractMerchantIdentity;
 use Merchant\Model\MerchantFormRow;
-use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 
 abstract class AbstractForm

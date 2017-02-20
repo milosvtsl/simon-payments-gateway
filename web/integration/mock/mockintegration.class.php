@@ -7,7 +7,6 @@
  */
 namespace Integration\Mock;
 
-use Integration\Model;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;

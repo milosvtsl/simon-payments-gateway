@@ -3,8 +3,8 @@ namespace Merchant\View;
 
 use Merchant\Model\MerchantFormRow;
 use System\Config\DBConfig;
-use View\AbstractListView;
 use User\Session\SessionManager;
+use View\AbstractListView;
 
 class MerchantFormListView extends AbstractListView {
 

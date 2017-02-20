@@ -8,7 +8,6 @@
 namespace Integration\Mock\Test;
 
 use Integration\Mock\MockIntegration;
-use Integration\Model;
 use Integration\Model\IntegrationRow;
 
 class TestMockIntegrationRow extends IntegrationRow

@@ -11,8 +11,6 @@ namespace Integration\ProtectPay\Test;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
-use Order\Model\OrderRow;
-use Order\Model\TransactionRow;
 use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
 

@@ -10,7 +10,6 @@ namespace Order\Mail;
 
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use PHPMailer;
 use System\Config\SiteConfig;
 
 @define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');

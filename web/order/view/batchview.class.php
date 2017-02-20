@@ -7,7 +7,6 @@
  */
 namespace Order\View;
 
-use Dompdf\Exception;
 use User\Session\SessionManager;
 use View\AbstractView;
 

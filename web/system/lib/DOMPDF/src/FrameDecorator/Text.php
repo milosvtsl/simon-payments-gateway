@@ -11,7 +11,6 @@ namespace Dompdf\FrameDecorator;
 
 use Dompdf\Dompdf;
 use Dompdf\Exception;
-use Dompdf\FontMetrics;
 use Dompdf\Frame;
 
 /**

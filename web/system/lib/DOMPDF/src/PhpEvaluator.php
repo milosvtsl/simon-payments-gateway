@@ -7,8 +7,6 @@
  */
 namespace Dompdf;
 
-use Dompdf\Frame;
-
 /**
  * Executes inline PHP code during the rendering process
  *

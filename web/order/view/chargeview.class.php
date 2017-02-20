@@ -7,8 +7,6 @@
  */
 namespace Order\View;
 
-use Dompdf\Exception;
-use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;

@@ -10,7 +10,6 @@ namespace Support\Mail;
 
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use PHPMailer;
 use Support\Model\SupportTicketRow;
 use System\Config\SiteConfig;
 

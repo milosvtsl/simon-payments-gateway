@@ -7,7 +7,6 @@
  */
 namespace Subscription\View;
 
-use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Subscription\Model\SubscriptionRow;

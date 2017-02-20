@@ -2,7 +2,7 @@
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use \System\Config\SiteConfig;
+use System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
