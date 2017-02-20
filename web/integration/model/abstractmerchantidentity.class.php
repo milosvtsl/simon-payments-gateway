@@ -155,7 +155,7 @@ abstract class AbstractMerchantIdentity {
      * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
-     * @return mixed
+     * @return TransactionRow
      */
     function voidTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
@@ -167,7 +167,7 @@ abstract class AbstractMerchantIdentity {
      * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
-     * @return mixed
+     * @return TransactionRow
      */
     function returnTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();
@@ -179,7 +179,7 @@ abstract class AbstractMerchantIdentity {
      * @param UserRow $SessionUser
      * @param OrderRow $Order
      * @param array $post
-     * @return mixed
+     * @return TransactionRow
      */
     function reverseTransaction(OrderRow $Order, UserRow $SessionUser, Array $post) {
         $Integration = $this->integration->getIntegration();

@@ -179,19 +179,19 @@ foreach($tests as $testData) {
     // Void transaction
     if(!empty($testData['void'])) {
         $VoidTransaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, array());
-        echo "\nVoided: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getTransactionID();
+        echo "\nVoided: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getIntegrationRemoteID();
     }
 
     // Return transaction
     if(!empty($testData['return'])) {
         $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, array());
-        echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' ' . $ReturnTransaction->getAction(), ' #' . $ReturnTransaction->getTransactionID();
+        echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' ' . $ReturnTransaction->getAction(), ' #' . $ReturnTransaction->getIntegrationRemoteID();
     }
 
     // Reverse transaction
     if(!empty($testData['reversal'])) {
         $ReverseTransaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, array());
-        echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getTransactionID();
+        echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getIntegrationRemoteID();
     }
 
 
