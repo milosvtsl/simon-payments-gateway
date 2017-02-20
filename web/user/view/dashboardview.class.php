@@ -19,9 +19,28 @@ class DashboardView extends AbstractView {
     }
 
 	public function renderHTMLBody(Array $params) {
-		// Render Page
-		include ('.dashboard.php');
-	}
+        // Render Page
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
+        $AppManager = new AppManager($SessionUser);
+
+        $Theme = $this->getTheme();
+        $Theme->addPathURL('/', $SessionUser->getFullName());
+        $Theme->renderHTMLBodyHeader();
+        $Theme->printHTMLMenu('dashboard');
+        ?>
+        <article class="themed">
+            <section class="content dashboard-section">
+                <?php
+//                if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>";
+                $AppManager->renderAppHTMLContent();
+                ?>
+            </section>
+        </article>
+        <?php
+        $Theme->renderHTMLBodyFooter();
+    }
 
 	public function processFormRequest(Array $post) {
 		try {
