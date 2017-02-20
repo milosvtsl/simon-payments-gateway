@@ -45,7 +45,7 @@ foreach(array('court' => 'courtpay', 'utility_live' => 'utilitypay') as $old_sch
     }
 
     $params = array();
-    $sql = "SELECT * FROM {$old_schema}.orders ORDER BY ID DESC LIMIT {$limit}";
+    $sql = "SELECT * FROM {$old_schema}.orders o WHERE EXISTS (SELECT * FROM {$old_schema}.merchants m WHERE m.id = o.id_merchant) ORDER BY ID DESC LIMIT {$limit}";
     $StatsQuery = $DB->prepare($sql);
     $StatsQuery->execute($params);
 
@@ -54,7 +54,7 @@ foreach(array('court' => 'courtpay', 'utility_live' => 'utilitypay') as $old_sch
     } catch (Exception $ex) { echo "\n", $ex->getMessage(); }
 
     $params = array();
-    $sql = "SELECT * FROM {$old_schema}.transactions ORDER BY ID DESC LIMIT {$limit}";
+    $sql = "SELECT * FROM {$old_schema}.transactions t WHERE EXISTS (SELECT * FROM {$old_schema}.merchants m WHERE m.id = t.merchant_id) ORDER BY ID DESC LIMIT {$limit}";
     $StatsQuery = $DB->prepare($sql);
     $StatsQuery->execute($params);
 
