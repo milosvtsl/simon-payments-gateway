@@ -7,11 +7,7 @@
  */
 namespace Support\Model;
 
-use Support\Mail\TicketEmail;
 use System\Config\DBConfig;
-use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
-use Order\Model\OrderRow;
 use User\Model\UserRow;
 
 class SupportTicketReplyRow

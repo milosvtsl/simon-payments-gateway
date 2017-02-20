@@ -7,12 +7,10 @@
  */
 namespace Order\View;
 
-use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Order\Model\TransactionRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 use View\Error\Mail\ErrorEmail;

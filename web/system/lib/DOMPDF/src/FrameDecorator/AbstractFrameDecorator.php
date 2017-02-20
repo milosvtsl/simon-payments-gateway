@@ -4,16 +4,16 @@ namespace Dompdf\FrameDecorator;
 
 use DOMElement;
 use DOMNode;
-use DOMText;
-use Dompdf\Helpers;
-use Dompdf\Dompdf;
-use Dompdf\Frame;
-use Dompdf\Frame\FrameTreeList;
-use Dompdf\Frame\Factory;
-use Dompdf\FrameReflower\AbstractFrameReflower;
 use Dompdf\Css\Style;
-use Dompdf\Positioner\AbstractPositioner;
+use Dompdf\Dompdf;
 use Dompdf\Exception;
+use Dompdf\Frame;
+use Dompdf\Frame\Factory;
+use Dompdf\Frame\FrameTreeList;
+use Dompdf\FrameReflower\AbstractFrameReflower;
+use Dompdf\Helpers;
+use Dompdf\Positioner\AbstractPositioner;
+use DOMText;
 
 /**
  * @package dompdf

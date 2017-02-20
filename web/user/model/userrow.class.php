@@ -7,10 +7,8 @@
  */
 namespace User\Model;
 
-use System\Config\DBConfig;
-use Integration\Model\Ex\IntegrationException;
 use Merchant\Model\MerchantRow;
-use User\Model\UserAuthorityRow;
+use System\Config\DBConfig;
 
 class UserRow
 {

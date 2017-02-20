@@ -8,9 +8,9 @@
  */
 namespace Dompdf\FrameReflower;
 
-use Dompdf\Helpers;
 use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 use Dompdf\FrameDecorator\Image as ImageFrameDecorator;
+use Dompdf\Helpers;
 
 /**
  * Image reflower class

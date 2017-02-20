@@ -1,7 +1,6 @@
 <?php
 namespace View\Error;
 
-use Dompdf\Exception;
 use View\AbstractView;
 
 
@@ -10,7 +9,7 @@ class ErrorView extends AbstractView {
 	private $ex;
 
 	/**
-	 * @param Exception $ex
+	 * @param \Exception $ex
 	 */
 	public function __construct($ex) {
 		parent::__construct("Error: " . $ex->getMessage());
@@ -18,7 +17,7 @@ class ErrorView extends AbstractView {
 	}
 
 	/**
-	 * @return Exception
+	 * @return \Exception
 	 */
 	public function getException() {
 		return $this->ex;

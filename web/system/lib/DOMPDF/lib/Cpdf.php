@@ -15,8 +15,8 @@
  * @license Public Domain http://creativecommons.org/licenses/publicdomain/
  * @package Cpdf
  */
-use FontLib\Font;
 use FontLib\BinaryStream;
+use FontLib\Font;
 
 
 class Cpdf

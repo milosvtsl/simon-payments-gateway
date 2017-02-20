@@ -1,5 +1,6 @@
 <?php
 use Merchant\Model\MerchantRow;
+
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery

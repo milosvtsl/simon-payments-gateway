@@ -8,11 +8,10 @@
  */
 namespace Dompdf\FrameReflower;
 
-use Dompdf\FontMetrics;
+use Dompdf\Exception;
 use Dompdf\Frame;
 use Dompdf\FrameDecorator\Block as BlockFrameDecorator;
 use Dompdf\FrameDecorator\Text as TextFrameDecorator;
-use Dompdf\Exception;
 
 /**
  * Reflows block frames

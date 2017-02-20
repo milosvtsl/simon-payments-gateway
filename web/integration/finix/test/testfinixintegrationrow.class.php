@@ -8,7 +8,6 @@
 namespace Integration\Finix\Test;
 
 use Integration\Finix\FinixIntegration;
-use Integration\Model;
 use Integration\Model\IntegrationRow;
 
 class TestFinixIntegrationRow extends IntegrationRow

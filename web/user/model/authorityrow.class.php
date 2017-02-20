@@ -8,7 +8,6 @@
 namespace User\Model;
 
 use System\Config\DBConfig;
-use User\Model\UserRow;
 
 class AuthorityRow
 {

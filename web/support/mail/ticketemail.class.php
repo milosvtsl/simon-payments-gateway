@@ -8,11 +8,10 @@
 namespace Support\Mail;
 
 
-use Support\Model\SupportTicketRow;
-use System\Config\SiteConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use PHPMailer;
+use Support\Model\SupportTicketRow;
+use System\Config\SiteConfig;
 
 @define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';

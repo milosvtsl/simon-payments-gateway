@@ -7,16 +7,15 @@
  */
 namespace Integration\Mock;
 
-use Integration\Model;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
-use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
-use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
 class MockIntegration extends AbstractIntegration

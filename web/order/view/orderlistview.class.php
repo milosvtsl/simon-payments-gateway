@@ -1,10 +1,10 @@
 <?php
 namespace Order\View;
 
-use System\Config\DBConfig;
 use Merchant\Model\MerchantRow;
-use Order\Model\OrderRow;
 use Order\Model\OrderQueryStats;
+use Order\Model\OrderRow;
+use System\Config\DBConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 

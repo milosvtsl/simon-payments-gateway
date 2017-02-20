@@ -7,14 +7,9 @@
  */
 namespace Subscription\View;
 
-use Subscription\Model\SubscriptionRow;
-use System\Config\DBConfig;
-use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
-use Order\Model\OrderRow;
-use Order\PDF\ReceiptPDF;
-use Order\Model\TransactionRow;
+use Subscription\Model\SubscriptionRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -108,7 +103,7 @@ class SubscriptionView extends AbstractView
 
                 case 'void':
                     if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Void Charges");
+                        throw new \Exception("Invalid Authority to Void Charges");
 
                     $Transaction = $MerchantIdentity->voidTransaction($Subscription, $post);
 
@@ -120,7 +115,7 @@ class SubscriptionView extends AbstractView
 
                 case 'return':
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Return Charges");
+                        throw new \Exception("Invalid Authority to Return Charges");
 
                     $Transaction = $MerchantIdentity->returnTransaction($Subscription, $post);
 
@@ -132,7 +127,7 @@ class SubscriptionView extends AbstractView
 
                 case 'reverse':
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Return Charges");
+                        throw new \Exception("Invalid Authority to Return Charges");
 
                     $Transaction = $MerchantIdentity->reverseTransaction($Subscription, $post);
 

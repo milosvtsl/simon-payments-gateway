@@ -1,5 +1,6 @@
 <?php
 use Integration\View\IntegrationView;
+
 /**
  * @var IntegrationView $this
  **/

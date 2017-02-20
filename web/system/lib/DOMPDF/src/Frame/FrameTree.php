@@ -4,11 +4,9 @@ namespace Dompdf\Frame;
 
 use DOMDocument;
 use DOMNode;
-use DOMXPath;
-
 use Dompdf\Exception;
 use Dompdf\Frame;
-use Dompdf\FrameDecorator\Page;
+use DOMXPath;
 
 /**
  * @package dompdf

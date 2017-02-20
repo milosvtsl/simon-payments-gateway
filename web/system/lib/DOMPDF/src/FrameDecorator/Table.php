@@ -7,8 +7,8 @@
  */
 namespace Dompdf\FrameDecorator;
 
-use Dompdf\Cellmap;
 use DOMNode;
+use Dompdf\Cellmap;
 use Dompdf\Dompdf;
 use Dompdf\Frame;
 use Dompdf\Frame\Factory;

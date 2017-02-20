@@ -8,12 +8,9 @@
 namespace Order\Mail;
 
 
-use System\Config\SiteConfig;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use PHPMailer;
-use Order\Model\TransactionRow;
-use User\Model\UserRow;
+use System\Config\SiteConfig;
 
 @define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';

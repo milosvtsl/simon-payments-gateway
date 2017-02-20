@@ -11,9 +11,9 @@ namespace Dompdf\Css;
 
 use Dompdf\Adapter\CPDF;
 use Dompdf\Exception;
-use Dompdf\Helpers;
 use Dompdf\FontMetrics;
 use Dompdf\Frame;
+use Dompdf\Helpers;
 
 /**
  * Represents CSS properties.

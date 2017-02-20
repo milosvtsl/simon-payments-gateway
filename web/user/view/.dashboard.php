@@ -1,5 +1,6 @@
 <?php
 use User\Session\SessionManager;
+
 /** @var $this \View\AbstractView*/
 $SessionManager = new SessionManager();
 $SessionUser = $SessionManager->getSessionUser();

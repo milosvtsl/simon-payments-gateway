@@ -11,16 +11,14 @@ namespace Dompdf;
 use DOMDocument;
 use DOMNode;
 use Dompdf\Adapter\CPDF;
-use DOMXPath;
-use Dompdf\Frame;
+use Dompdf\Css\Stylesheet;
 use Dompdf\Frame\Factory;
 use Dompdf\Frame\FrameTree;
-use HTML5_Tokenizer;
-use HTML5_TreeBuilder;
 use Dompdf\Image\Cache;
 use Dompdf\Renderer\ListBullet;
-use Dompdf\Renderer;
-use Dompdf\Css\Stylesheet;
+use DOMXPath;
+use HTML5_Tokenizer;
+use HTML5_TreeBuilder;
 
 /**
  * Dompdf - PHP5 HTML to PDF renderer

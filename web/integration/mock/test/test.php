@@ -9,7 +9,6 @@
 namespace Integration\Mock\Test;
 
 use Merchant\Model\MerchantRow;
-use Merchant\Test\TestMerchantRow;
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 

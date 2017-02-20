@@ -1,7 +1,8 @@
 <?php
-use Subscription\Model\SubscriptionRow;
 use Merchant\Model\MerchantRow;
+use Subscription\Model\SubscriptionRow;
 use View\AbstractListView;
+
 /**
  * @var PDOStatement $ReportQuery
  * @var AbstractListView $this

@@ -7,7 +7,6 @@
  */
 namespace Integration\View;
 
-use System\Config\DBConfig;
 use Integration\Model\IntegrationRow;
 use User\Session\SessionManager;
 use View\AbstractView;

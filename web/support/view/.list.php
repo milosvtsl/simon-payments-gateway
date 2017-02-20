@@ -1,5 +1,6 @@
 <?php
 use Support\Model\SupportTicketRow;
+
 /**
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query

@@ -8,11 +8,10 @@
  */
 namespace Dompdf\Renderer;
 
-use Dompdf\Helpers;
-use Dompdf\FontMetrics;
 use Dompdf\Frame;
-use Dompdf\Image\Cache;
 use Dompdf\FrameDecorator\ListBullet as ListBulletFrameDecorator;
+use Dompdf\Helpers;
+use Dompdf\Image\Cache;
 
 /**
  * Renders list bullets

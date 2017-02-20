@@ -7,12 +7,9 @@
  */
 namespace Order\Model;
 
-use System\Config\DBConfig;
-use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
-use Integration\Request\Model\IntegrationRequestRow;
-use Order\Model\OrderRow;
+use System\Config\DBConfig;
 
 class TransactionRow
 {

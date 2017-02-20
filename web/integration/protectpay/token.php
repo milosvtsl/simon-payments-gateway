@@ -9,7 +9,6 @@ namespace Integration\ProtectPay;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
-use User\Session\SessionManager;
 
 // Go to root directory
 chdir('../..');

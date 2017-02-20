@@ -8,7 +8,6 @@
 namespace Integration\Element\Test;
 
 use Integration\Element\ElementIntegration;
-use Integration\Model;
 use Integration\Model\IntegrationRow;
 
 class TestElementIntegrationRow extends IntegrationRow

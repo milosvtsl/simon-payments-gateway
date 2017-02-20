@@ -12,9 +12,9 @@ use Dompdf\Dompdf;
 use Dompdf\Exception;
 use Dompdf\Frame;
 use Dompdf\FrameDecorator\AbstractFrameDecorator;
-use DOMXPath;
 use Dompdf\FrameDecorator\Page as PageFrameDecorator;
 use Dompdf\FrameReflower\Page as PageFrameReflower;
+use DOMXPath;
 
 /**
  * Contains frame decorating logic

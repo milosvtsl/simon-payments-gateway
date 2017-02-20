@@ -7,8 +7,6 @@
  */
 namespace User\Model;
 
-use User\Model\UserRow;
-
 class GuestUser extends UserRow
 {
     protected $id = -1;

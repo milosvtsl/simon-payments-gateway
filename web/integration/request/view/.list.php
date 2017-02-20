@@ -1,6 +1,7 @@
 <?php
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+
 /**
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query

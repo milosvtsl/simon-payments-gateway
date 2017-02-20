@@ -7,7 +7,6 @@
  */
 namespace System\Exception;
 
-use Dompdf\Exception;
 use View\Error\ErrorView;
 use View\Error\Mail\ErrorEmail;
 
@@ -19,7 +18,7 @@ class ExceptionHandler
         $ErrorView = new ErrorView($ex);
         $ErrorView->renderHTML();
 
-        if(!$ex instanceof Exception)
+        if(!$ex instanceof \Exception)
             $ex = new \Exception($ex);
         $ErrorEmail = new ErrorEmail($ex);
         $ErrorEmail->send();

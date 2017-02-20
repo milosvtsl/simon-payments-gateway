@@ -7,10 +7,10 @@
  */
 namespace Subscription\Model;
 
-use System\Config\DBConfig;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Order\Model\OrderRow;
+use System\Config\DBConfig;
 
 class SubscriptionRow
 {

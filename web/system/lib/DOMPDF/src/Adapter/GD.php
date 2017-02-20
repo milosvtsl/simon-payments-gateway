@@ -10,8 +10,8 @@ namespace Dompdf\Adapter;
 
 use Dompdf\Canvas;
 use Dompdf\Dompdf;
-use Dompdf\Image\Cache;
 use Dompdf\Helpers;
+use Dompdf\Image\Cache;
 
 /**
  * Image rendering interface

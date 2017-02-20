@@ -1,5 +1,6 @@
 <?php
-use \Merchant\Model\MerchantRow;
+use Merchant\Model\MerchantRow;
+
 /** @var \Subscription\View\SubscriptionView $this*/
 // Render Header
 $this->getTheme()->renderHTMLBodyHeader();

@@ -7,17 +7,16 @@
  */
 namespace Integration\Finix;
 
-use Integration\Model;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
-use Integration\Model\AbstractMerchantIdentity;
 use Order\Model\OrderRow;
+use Order\Model\TransactionRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
-use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 // https://finix-payments.github.io/simonpay-docs/?shell#step-1-create-an-identity-for-a-merchant

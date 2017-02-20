@@ -9,7 +9,6 @@ namespace User\Mail;
 
 
 use System\Config\SiteConfig;
-use PHPMailer;
 use User\Model\UserRow;
 
 require_once dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/PHPMailerAutoload.php';

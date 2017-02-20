@@ -6,10 +6,7 @@
  * Time: 8:46 PM
  */
 namespace Integration\ProtectPay;
-use Integration\Model\IntegrationRow;
-use Merchant\Model\MerchantRow;
 use Order\View\OrderView;
-use User\Session\SessionManager;
 
 // Go to root directory
 chdir('../..');

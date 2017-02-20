@@ -13,8 +13,8 @@ use Dompdf\Adapter\CPDF;
 use Dompdf\Css\Color;
 use Dompdf\Css\Style;
 use Dompdf\Dompdf;
-use Dompdf\Helpers;
 use Dompdf\Frame;
+use Dompdf\Helpers;
 use Dompdf\Image\Cache;
 
 /**

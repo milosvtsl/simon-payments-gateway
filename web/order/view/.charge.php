@@ -1,8 +1,9 @@
 <?php
 use Integration\Model\IntegrationRow;
-use User\Session\SessionManager;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+use User\Session\SessionManager;
+
 /**
  * @var \Order\View\ChargeView $this
  **/

@@ -11,8 +11,8 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
-use Subscription\Model\SubscriptionRow;
 use Order\Model\TransactionRow;
+use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
 abstract class AbstractIntegration

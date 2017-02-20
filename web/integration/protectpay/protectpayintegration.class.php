@@ -7,8 +7,6 @@
  */
 namespace Integration\ProtectPay;
 
-use Dompdf\Exception;
-use Integration\Model;
 use Integration\Model\AbstractIntegration;
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
@@ -201,7 +199,7 @@ class ProtectPayIntegration extends AbstractIntegration
      * @throws \Exception
      *
      * Decryption Process
-     * The ‘ResponseCipher’ is encrypted using the same process and TempToken used to encrypt the ‘SettingsCipher’.
+     * The ï¿½ResponseCipherï¿½ is encrypted using the same process and TempToken used to encrypt the ï¿½SettingsCipherï¿½.
      * 1. Base64 decode the response cipher.
      * 2. UTF-8 encode the same TempToken used to encrypt and generate an MD5 hash of it.
      * 3. Decrypt the result of step 1 using AES-128 decryption using Cipher Block Chaining (CBC) mode.

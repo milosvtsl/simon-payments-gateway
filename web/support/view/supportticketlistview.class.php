@@ -2,8 +2,8 @@
 namespace Support\View;
 
 use Support\Model\SupportTicketQueryStats;
-use System\Config\DBConfig;
 use Support\Model\SupportTicketRow;
+use System\Config\DBConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 

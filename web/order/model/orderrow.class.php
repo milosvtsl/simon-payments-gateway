@@ -7,12 +7,11 @@
  */
 namespace Order\Model;
 
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\FraudException;
+use Integration\Model\Ex\IntegrationException;
 use System\Config\DBConfig;
 use System\Config\SiteConfig;
-use Integration\Model\AbstractMerchantIdentity;
-use Integration\Model\Ex\IntegrationException;
-use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class OrderRow

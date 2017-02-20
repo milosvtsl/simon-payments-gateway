@@ -9,12 +9,12 @@
  */
 namespace Dompdf\Css;
 
-use DOMXPath;
 use Dompdf\Dompdf;
-use Dompdf\Helpers;
 use Dompdf\Exception;
 use Dompdf\FontMetrics;
 use Dompdf\Frame\FrameTree;
+use Dompdf\Helpers;
+use DOMXPath;
 
 /**
  * The master stylesheet class

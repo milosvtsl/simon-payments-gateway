@@ -1,12 +1,12 @@
 <?php
 namespace Integration\Model;
-use Subscription\Model\SubscriptionRow;
-use System\Config\DBConfig;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Subscription\Model\SubscriptionRow;
+use System\Config\DBConfig;
 use User\Model\UserRow;
 
 /**

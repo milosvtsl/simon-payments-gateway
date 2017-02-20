@@ -7,19 +7,17 @@
  */
 namespace Integration\Element;
 
-use Dompdf\Exception;
-use Integration\Model;
 use Integration\Model\AbstractIntegration;
-use Integration\Model\IntegrationRow;
+use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
+use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantRow;
-use Integration\Model\AbstractMerchantIdentity;
+use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
+use Order\Model\TransactionRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
-use Order\Mail\ReceiptEmail;
-use Order\Model\TransactionRow;
 use User\Model\UserRow;
 
 class ElementIntegration extends AbstractIntegration

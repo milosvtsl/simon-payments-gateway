@@ -9,7 +9,6 @@ namespace Integration\ProtectPay;
 
 use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
-use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;

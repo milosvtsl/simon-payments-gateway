@@ -7,8 +7,6 @@
  */
 namespace Dompdf;
 
-use Dompdf\Frame;
-
 /**
  * Embeds Javascript into the PDF document
  *

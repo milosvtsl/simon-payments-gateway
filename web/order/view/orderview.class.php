@@ -7,7 +7,6 @@
  */
 namespace Order\View;
 
-use Dompdf\Exception;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
@@ -105,7 +104,7 @@ class OrderView extends AbstractView
 
                 case 'void':
                     if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Void Charges");
+                        throw new \Exception("Invalid Authority to Void Charges");
 
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
 
@@ -117,7 +116,7 @@ class OrderView extends AbstractView
 
                 case 'return':
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Return Charges");
+                        throw new \Exception("Invalid Authority to Return Charges");
 
 //                    $partial_return_amount = $post['partial_return_amount'];
                     $Transaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, $post);
@@ -130,7 +129,7 @@ class OrderView extends AbstractView
 
                 case 'reverse':
                     if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
-                        throw new Exception("Invalid Authority to Return Charges");
+                        throw new \Exception("Invalid Authority to Return Charges");
 
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
 

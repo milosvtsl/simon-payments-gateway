@@ -6,8 +6,8 @@
  * Time: 1:26 PM
  */
 
-use System\Config\SiteConfig;
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 
 // Database Config
 DBConfig::$DB_HOST = 'localhost';
