@@ -11,6 +11,8 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+// TODO: base href best practice?
+
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');

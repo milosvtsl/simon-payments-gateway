@@ -12,9 +12,10 @@ use View\AbstractListView;
 class OrderListView extends AbstractListView {
 
 //Need to be able to pull information by batch, day, card #, amount, MID, TID ect.
+
 // TODO batch id
 
-	public function renderHTML($params=null) {
+    public function renderHTML($params=null) {
 		if(in_array(strtolower(@$params['action']), array('export', 'export-stats', 'export-data'))) {
 			$this->renderHTMLBody($params);
 			return;
@@ -22,7 +23,7 @@ class OrderListView extends AbstractListView {
 		parent::renderHTML($params);
 	}
 
-	/**
+    /**
 	 * @param array $params
      */
 	public function renderHTMLBody(Array $params) {
@@ -64,11 +65,11 @@ class OrderListView extends AbstractListView {
 				'startswith' => $params['search'].'%',
 				'endswith' => '%'.$params['search'],
 			);
-		}
+            $offset = 0;
+        }
 
         // Get Timezone diff
         $offset = $SessionUser->getTimeZoneOffset('now');
-        $offset = 0;
 
         // Set up Date conditions
 		if(!empty($params['date_from'])) {
@@ -390,7 +391,7 @@ class OrderListView extends AbstractListView {
 
 	}
 
-	public function processFormRequest(Array $post) {
+    public function processFormRequest(Array $post) {
 		try {
 			$this->setSessionMessage("Unhandled Form Post");
 			header("Location: home.php");
@@ -401,7 +402,7 @@ class OrderListView extends AbstractListView {
 		}
 	}
 
-	protected function renderHTMLHeadScripts() {
+    protected function renderHTMLHeadScripts() {
 		echo <<<HEAD
         <script src="order/view/assets/order.js"></script>
 HEAD;
