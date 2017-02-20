@@ -67,7 +67,11 @@ class AppManager {
     public function renderHTMLHeadContent() {
         $this->forEachApp(
             function(AbstractApp $App) {
-                $App->renderHTMLHeadContent();
+                try {
+                    $App->renderHTMLHeadContent();
+                } catch (\Exception $ex) {
+                    error_log($ex->getMessage());
+                }
             }
         );
     }
@@ -75,7 +79,11 @@ class AppManager {
     public function renderAppHTMLContent() {
         $this->forEachApp(
             function(AbstractApp $App) {
+                try {
                 $App->renderAppHTML();
+                } catch (\Exception $ex) {
+                    error_log($ex->getMessage());
+                }
             }
         );
     }
