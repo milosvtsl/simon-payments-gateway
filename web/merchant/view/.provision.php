@@ -83,7 +83,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
 
                 <?php if(empty($_GET['integration_id'])) { ?>
 
-                <fieldset class="themed" style="max-width: 59em;">
+                <fieldset class="themed">
                     <div class="legend">Choose Integration</div>
                     <?php
 
@@ -170,7 +170,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
 
                 <?php } else { ?>
 
-                <fieldset class="themed" style="max-width: 59em;">
+                <fieldset class="themed">
                     <?php
                     $integration_id = $_GET['integration_id'];
                     $IntegrationRow = IntegrationRow::fetchByID($integration_id);

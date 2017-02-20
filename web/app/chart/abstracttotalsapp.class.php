@@ -75,6 +75,7 @@ abstract class AbstractTotalsApp extends AbstractApp
             return;
         self::$render_once = true;
 
+        echo "\t\t<script src='app/chart/assets/Chart.bundle.js'></script>\n";
         echo "\t\t<script src='app/chart/assets/app-chart.js'></script>\n";
         echo "\t\t<link href='app/chart/assets/app-chart.css' type='text/css' rel='stylesheet' />\n";
     }

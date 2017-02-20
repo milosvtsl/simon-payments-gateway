@@ -661,8 +661,8 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme input[type=reset].themed,
 .spg-theme input[type=submit].themed,
-.spg-theme button.themed,
-.spg-theme input.button-submit {
+.spg-theme input[type=button].themed,
+.spg-theme button.themed {
     /* background: url('img/bk/input.button.png') repeat-x; */
     margin: 0.1em 0.1em;
     /* min-width: 80px; */
@@ -684,8 +684,8 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme input[type=reset].themed:hover,
 .spg-theme input[type=submit].themed:hover,
-.spg-theme button.themed:hover,
-.spg-theme input.button-sumit:hover {
+.spg-theme input[type=button].themed:hover,
+.spg-theme button.themed:hover {
     background: linear-gradient(0deg, #3a7190 0%, #23465c 50%, #3a7190 100%);
     box-shadow: 1px 1px 1px #008ee9;
 }

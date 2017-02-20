@@ -10,11 +10,10 @@
     border-radius: 0.3em;
     display: inline-block;
     /*text-align: center;*/
-    /* cursor: pointer; */
+    cursor: pointer;
     vertical-align: top;
     position: relative;
     color: white;
-    background: url('img/app-chart-graph-overlay-small.png') no-repeat center;
 }
 
 
@@ -24,7 +23,7 @@
 
 .app-chart:hover {
     box-shadow: 0px 0px 3em #8adeff;
-    background: linear-gradient(to bottom, #ccd7e6 0%, rgba(174, 62, 145, 0.07) 100%);
+    /* background: linear-gradient(to bottom, #ccd7e6 0%, rgba(174, 62, 145, 0.07) 100%); */
 }
 
 .app-chart-amount {
@@ -50,15 +49,28 @@
 
 .app-chart-daily,
 .app-chart-today {
-    background: url('img/app-chart-graph-overlay-small-today.png') no-repeat center, linear-gradient(to bottom, #d4e7ec 0%, #f0f4f6 100%);
+    background: linear-gradient(to bottom, #b9c4e2 0%, #FFF 100%);
 }
 .app-chart-wtd {
-    background: url('img/app-chart-graph-overlay-small-wtd.png') no-repeat center, linear-gradient(to bottom, #ff5b99 0%, #ae3e3e 100%);
+    background: linear-gradient(to bottom, #daa2b7 0%, #FFF 100%);
 }
 .app-chart-mtd {
-    background: url('img/app-chart-graph-overlay-small-mtd.png') no-repeat center, linear-gradient(to bottom, #fef97b 0%, #d57d10 100%);
+    background: linear-gradient(to bottom, #e8b473 0%, #FFF 100%);
 }
 .app-chart-ytd {
-    background: url('img/app-chart-graph-overlay-small-ytd.png') no-repeat center, linear-gradient(to bottom, #69d0fe 0%, #3b7593 100%);
+    background: linear-gradient(to bottom, #84b585 0%, #FFF 100%);
 }
 
+
+
+/** Chart Canvas **/
+
+.app-chart-canvas {
+    /* position: absolute; */
+    /* left: 0; */
+    /* top: 0; */
+    width: 450px;
+    height: 240px;
+    z-index: 19;
+    /* user-select: none; */
+}

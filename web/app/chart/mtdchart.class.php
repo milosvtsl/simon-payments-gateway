@@ -9,7 +9,7 @@ use User\Model\UserRow;
  * Date: 11/14/2016
  * Time: 4:11 PM
  */
-class MTDChart extends AbstractTotalsApp {
+class MtdChart extends AbstractTotalsApp {
     const SESSION_KEY = __FILE__;
 
     const TIMEOUT = 60;
@@ -35,69 +35,172 @@ class MTDChart extends AbstractTotalsApp {
      * @return mixed
      */
     function renderAppHTML(Array $params = array()) {
-        $stats = $this->getStats();
-
-        $amount = number_format($stats['month_to_date'], 2);
-        $count = number_format($stats['month_to_date_count']);
 
         $appClassName = 'app-chart-mtd';
         echo <<<HTML
         <div class="app-chart {$appClassName}">
-            <div class="app-section-top">
-                <div class="app-section-text-large" style="text-align: center;">
-                    <a href="order?date_from={$stats['time_month_to_date']}" class="app-chart-count {$appClassName}-count">
-                        This month ({$count})
-                    </a>
-                </div>
-                <hr />
-            </div>
-            <a href="order?date_from={$stats['time_month_to_date']}" class="app-chart-amount {$appClassName}-amount">
-                  \${$amount}
-            </a>
-            <div class="app-button app-button-config app-button-top-right">
-                <ul class="app-menu">
-                    <li><div class='app-button app-button-top'></div><a href="#" onclick="appChartAction('move-top', '{$appClassName}');">Move to top</a></li>
-                    <li><div class='app-button app-button-up'></div><a href="#" onclick="appChartAction('move-up', '{$appClassName}');">Move up</a></li>
-                    <li><div class='app-button app-button-down'></div><a href="#" onclick="appChartAction('move-down', '{$appClassName}');">Move down</a></li>
-                    <li><div class='app-button app-button-bottom'></div><a href="#" onclick="appChartAction('move-bottom', '{$appClassName}');">Move to bottom</a></li>
-                    <li><div class='app-button app-button-config'></div><a href="#" onclick="appChartAction('config', '{$appClassName}');">Configure...</a></li>
-                    <li><div class='app-button app-button-remove'></div><a href="#" onclick="appChartAction('remove', '{$appClassName}');">Remove</a></li>
-                </ul>
-            </div>
+            <canvas class="app-chart-canvas app-chart-canvas-mtd" ></canvas>
         </div>
 HTML;
+
     }
 
+    public function renderHTMLHeadContent()
+    {
+        parent::renderHTMLHeadContent();
+
+
+        $stats = $this->getStats();
+
+        $amount = number_format($stats['mtd'], 2);
+        $count = number_format($stats['mtd_count']);
+        $barChartData = $this->fetchBarData();
+
+        $barChartData = json_encode($barChartData);
+
+        echo <<<HTML
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function(e) {
+                var barChartData = {$barChartData};
+                var canvasElms = document.getElementsByClassName('app-chart-canvas-mtd');
+                
+                for(var i=0; i<canvasElms.length; i++) {
+                    var canvasElm = canvasElms[i];
+                    var ctx = canvasElm.getContext("2d");
+                    canvasElm.bar = new Chart(ctx, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: {
+                            title:{
+                                display:true,
+                                text:"Month To Date \${$amount} ({$count})"
+                            },
+                            tooltips: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            responsive: true,
+                            scales: {
+                                xAxes: [{
+                                    stacked: true
+                                }],
+                                yAxes: [{
+                                    stacked: true
+                                }]
+                            }
+                        }
+                    });
+                     
+                    canvasElm.parentNode.addEventListener('click', function(e) {
+                         document.location.href = 'order?date_from={$stats['time_mtd']}';
+                    });
+                 }
+            });
+        </script>
+
+HTML;
+
+    }
+
+
     public function fetchStats() {
-        $offset = 0;
-        $month_to_date = date('Y-m-01');
+        $SessionUser = $this->getSessionUser();
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+        $mtd  = date('Y-m-01', time() + $offset);
 
         $SQL = <<<SQL
 SELECT
-	SUM(amount - total_returned_amount) as month_to_date,
-	COUNT(*) as month_to_date_count
+	SUM(amount - total_returned_amount) as mtd,
+	COUNT(*) as mtd_count
  FROM order_item oi
 
-WHERE 
-    date>='{$month_to_date}'
+WHERE
+    date>='{$mtd}'
     AND status in ('Settled', 'Authorized')
 SQL;
 
         $SessionUser = $this->getSessionUser();
+//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
+
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
             $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
-        $duration = -microtime(true);
+//        $duration = -microtime(true);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
         $stmt->execute();
         $stats = $stmt->fetch();
-        $duration += microtime(true);
-        $stats['duration'] = $duration;
-        $stats['time_month_to_date'] = $month_to_date;
+//        $duration += microtime(true);
+//        $stats['duration'] = $duration;
+        $stats['time_mtd'] = $mtd;
 
         return $stats;
     }
+
+
+    public function fetchBarData() {
+        $SessionUser = $this->getSessionUser();
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+        $mtd  = date('Y-m-01', time() + $offset);
+
+        $SQL = <<<SQL
+SELECT
+  DATE_FORMAT(oi.date, '%d') as day,
+  count(*) as count,
+  sum(oi.amount) as amount,
+  sum(oi.total_returned_amount) as returned
+FROM order_item oi
+
+WHERE
+    date>='{$mtd}'
+    AND status in ('Settled', 'Authorized')
+GROUP BY DATE_FORMAT(oi.date, '%Y%m%d')
+LIMIT 32
+SQL;
+
+//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
+
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $stmt->execute();
+
+        $chartData = array(
+            'labels' => array(),
+            'datasets' => array(
+                array(
+                    'label' => "Amount",
+                    'backgroundColor' => "#20465c",
+                    'data' => array_pad(array(), 24, 0)
+                ),
+                array(
+                    'label' => "Returned",
+                    'backgroundColor' => "#d27171",
+                    'data' => array_pad(array(), 24, 0)
+                ),
+                array(
+                    'label' => "Count",
+                    'backgroundColor' => "#71d271",
+                    'data' => array_pad(array(), 12, 0)
+                )
+
+            )
+        );
+        for($i=1; $i<32; $i++) {
+            $chartData['labels'][] = $i % 3 === 0 ? $i : '';
+        }
+        while($order = $stmt->fetch()) {
+            $chartData['datasets'][0]['data'][intval($order['day'])-1] = intval($order['amount']);
+            $chartData['datasets'][1]['data'][intval($order['day'])-1] = intval($order['returned']);
+            $chartData['datasets'][2]['data'][intval($order['day'])-1] = intval($order['count']);
+        }
+
+        return $chartData;
+    }
+
 
 }
 

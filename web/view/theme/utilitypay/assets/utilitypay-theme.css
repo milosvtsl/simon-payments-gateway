@@ -664,8 +664,8 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 
 .utilitypay-theme input[type=reset].themed,
 .utilitypay-theme input[type=submit].themed,
-.utilitypay-theme button.themed,
-.utilitypay-theme input.button-submit {
+.utilitypay-theme input[type=button].themed,
+.utilitypay-theme button.themed {
     /* background: url('img/bk/input.button.png') repeat-x; */
     margin: 0.1em 0.1em;
     /* min-width: 80px; */
@@ -687,8 +687,8 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 
 .utilitypay-theme input[type=reset].themed:hover,
 .utilitypay-theme input[type=submit].themed:hover,
-.utilitypay-theme button.themed:hover,
-.utilitypay-theme input.button-sumit:hover {
+.utilitypay-theme input[type=button].themed:hover,
+.utilitypay-theme button.themed:hover {
     background: linear-gradient(0deg, #416f4d 0%, #293f30 50%, #2e4936 100%);
     box-shadow: 2px 2px 7px #2a4131;
 }

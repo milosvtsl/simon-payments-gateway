@@ -309,9 +309,9 @@ HEAD;
                             <br />
 
                             <div>
-                                <textarea name="card_track" rows="12" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php // echo @$LASTPOST['card_track']; ?></textarea>
+                                <textarea name="card_track" rows="8" placeholder="[MagTrack Data will appear here]" style="font-size: 1.3em; width: 90%;" ><?php // echo @$LASTPOST['card_track']; ?></textarea>
                                 <br />
-                                <input type="button" class='submit-button themed' value="Close" onclick="this.form.classList.add('swipe-input-successful'); return false;" />
+                                <input type="button" class='themed' value="Close" onclick="this.form.classList.add('swipe-input-successful'); return false;" />
                             </div>
 
                             <br />
