@@ -142,6 +142,10 @@ SQL;
         $offset = -$SessionUser->getTimeZoneOffset('now');
         $wtd  = date('Y-m-d G:i:s', time() - 24*60*60*date('w') + $offset);
 
+        $WhereSQL = '';
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
         $SQL = <<<SQL
 SELECT
   DATE_FORMAT(oi.date, '%w') as day,
@@ -153,14 +157,12 @@ FROM order_item oi
 WHERE
     date>='{$wtd}'
     AND status in ('Settled', 'Authorized')
+    {$WhereSQL}
 GROUP BY DATE_FORMAT(oi.date, '%Y%m%d')
 LIMIT 7
 SQL;
 
 //        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
