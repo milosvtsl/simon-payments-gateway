@@ -471,7 +471,7 @@ SQL;
         if($OrderRow->id) {
             $SQL = "UPDATE order_item\nSET" . $SQL . "\nWHERE id = " . $OrderRow->id . "\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO order_item\nSET `date` = NOW(), " . $SQL;
+            $SQL = "INSERT INTO order_item\nSET `date` = NOW(), `date_utc` = UTC_TIMESTAMP(), " . $SQL;
         }
 
         $DB = DBConfig::getInstance();
