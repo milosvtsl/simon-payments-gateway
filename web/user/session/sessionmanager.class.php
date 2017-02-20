@@ -9,6 +9,7 @@
 namespace User\Session;
 
 
+use System\Config\DBConfig;
 use User\Model\GuestUser;
 use User\Model\UserRow;
 
@@ -80,6 +81,11 @@ class SessionManager
             throw new \InvalidArgumentException("Session ID User not found: " . $id);
 
         self::$_session_user = $User;
+
+        $DB = DBConfig::getInstance();
+        $tz = $User->getTimeZone();
+        $ret = $DB->exec("SET time_zone='{$tz}'");
+
         return $User;
     }
 

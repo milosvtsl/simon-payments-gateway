@@ -11,6 +11,7 @@ namespace Subscription\Mail;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use System\Config\SiteConfig;
+use User\Session\SessionManager;
 
 @define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
@@ -20,6 +21,9 @@ class CancelEmail extends \PHPMailer
 {
     public function __construct(OrderRow $Order, MerchantRow $Merchant) {
         parent::__construct();
+
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
 
         $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
         $this->Username = SiteConfig::$EMAIL_USERNAME;
@@ -44,7 +48,7 @@ class CancelEmail extends \PHPMailer
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID(false);
 
         $cancel_date = date('M dS Y G:i', strtotime($Order->getSubscriptionCancelDate()) ?: time());
-        $date = date('M dS Y G:i', strtotime($Order->getDate()) ?: time());
+        $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y g:i a");
         $next_date = $Order->getSubscriptionNextDate() ? date('M dS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
 
         $content = <<<HTML

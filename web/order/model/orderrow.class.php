@@ -66,6 +66,7 @@ class OrderRow
     protected $uid;
     protected $amount;
     protected $date;
+    protected $date_utc;
     protected $version;
 
     protected $card_exp_month;
@@ -172,8 +173,17 @@ LEFT JOIN integration i on oi.integration_id = i.id
     public function getAmount()             { return $this->amount; }
     public function getTotalReturnedAmount()    { return $this->total_returned_amount; }
 
+    /** @return \DateTime */
+    public function getDate($timezone=null) {
+        $dt = new \DateTime($this->date_utc, new \DateTimeZone('UTC'));
+        if($timezone) {
+            $tz = new \DateTimeZone($timezone);
+            $dt->setTimezone($tz);
+        }
+        return $dt;
+    }
+
     public function getStatus()             { return $this->status; }
-    public function getDate()               { return $this->date; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
     public function getCustomerID()         { return $this->customer_id; }
     public function getCustomerFirstName()  { return $this->customer_first_name; }

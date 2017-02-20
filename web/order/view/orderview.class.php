@@ -155,7 +155,7 @@ class OrderView extends AbstractView
     private function renderViewHTMLBody($params)
     {
         $Order = $this->getOrder();
-        $Transaction = $Order->fetchAuthorizedTransaction();
+//        $Transaction = $Order->fetchAuthorizedTransaction();
         $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
         $odd = true;
         $action_url = 'order/receipt.php?uid=' . $Order->getUID(false) . '&action=';
@@ -163,10 +163,9 @@ class OrderView extends AbstractView
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
-// Get Timezone diff
-        $offset = $SessionUser->getTimeZoneOffset('now');
-
-
+        // Get Timezone diff
+        $offset = 0; // $SessionUser->getTimeZoneOffset('America/Los_Angeles');
+//die($offset.'W');
         $Theme = $this->getTheme();
         $Theme->addPathURL('order',        'Transactions');
         $Theme->addPathURL($action_url,    $Order->getUID(true));
@@ -377,15 +376,15 @@ class OrderView extends AbstractView
                                 <!-- Date and Time -->
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">Date</td>
-                                    <td class="value"><?php echo date("F jS, Y", strtotime($Order->getDate()) + $offset); ?></td>
+                                    <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("F jS, Y"); ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">Time</td>
-                                    <td class="value"><?php echo date("g:i:s A", strtotime($Order->getDate()) + $offset); ?></td>
+                                    <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A"); ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name" style="width: 30%;">Time Zone</td>
-                                    <td class="value"><?php echo str_replace('_', '', $SessionUser->getTimeZone()); ?></td>
+                                    <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("e P"); ?></td>
                                 </tr>
 
 

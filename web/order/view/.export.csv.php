@@ -49,7 +49,7 @@ if(in_array(strtolower(@$params['action']), array('export', 'export-data'))) {
 //            ", $", $Order->getConvenienceFee() ?: 0,
             ', ', $Order->getStatus(),
             ', ', $Order->getEntryMode(),
-            ', ', $Order->getDate(),
+            ', ', $Order->getDate($SessionUser->getTimeZone())->format('M dS h:i A'),
             ', ', str_replace(',', ';', $Order->getInvoiceNumber()),
             ', ', str_replace(',', ';', $Order->getCustomerID()),
             ', ', str_replace(',', ';', $Order->getCardHolderFullName()),
