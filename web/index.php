@@ -16,6 +16,9 @@ spl_autoload_register(function ($class) {
     require $path;
 });
 
+// Register Exception Handler
+\System\Exception\ExceptionHandler::register();
+
 // Start or resume the session
 session_start();
 
