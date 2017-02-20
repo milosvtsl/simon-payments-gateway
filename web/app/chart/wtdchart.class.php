@@ -115,7 +115,7 @@ HTML;
 SELECT
 	SUM(amount - total_returned_amount) as wtd,
 	COUNT(*) as wtd_count
-FROM order_item oi
+ FROM order_item oi
 
 WHERE
     date>='{$wtd}'

@@ -1,77 +1,86 @@
 <?php
 namespace View\Error;
 
+use User\Model\AuthorityRow;
+use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
 
 class ErrorView extends AbstractView {
 
-	private $ex;
+    private $ex;
 
-	/**
-	 * @param \Exception $ex
-	 */
-	public function __construct($ex) {
-		parent::__construct("Error: " . $ex->getMessage());
-		$this->ex = $ex;
-	}
+    /**
+     * @param \Exception $ex
+     */
+    public function __construct($ex) {
+        parent::__construct("Error: " . $ex->getMessage());
+        $this->ex = $ex;
+    }
 
-	/**
-	 * @return \Exception
-	 */
-	public function getException() {
-		return $this->ex;
-	}
+    /**
+     * @return \Exception
+     */
+    public function getException() {
+        return $this->ex;
+    }
 
     protected function renderHTMLHeadLinks() {
-//        echo "\t\t<link href='view/error/assets/error.css' type='text/css' rel='stylesheet' />\n";
+        echo "\t\t<link href='view/error/assets/error.css' type='text/css' rel='stylesheet' />\n";
         parent::renderHTMLHeadLinks();
     }
 
-	public function renderHTMLBody(Array $params) {
-		// Render Header
-		$this->getTheme()->renderHTMLBodyHeader();
+    public function renderHTMLBody(Array $params) {
+        $Theme = $this->getTheme();
 
-		$SessionManager = new SessionManager();
-		$SessionUser = $SessionManager->getSessionUser();
+        // Render Header
+        $Theme->renderHTMLBodyHeader();
 
-		$Exception = $this->getException();
-		$this->getTheme()->printHTMLMenu('error');
-?>
-		<article class="themed">
-			<section class="content dashboard-section">
-                <div class="error">An unexpected error has occurred
-                    <br/>
-                    <?php
-                    if($SessionUser->hasAuthority('ROLE_DEBUG'))
-                        echo '<pre>', $Exception, '</pre>';
-                    else
-                        echo '<pre>', $Exception->getMessage(), '</pre>';
+        // Render Page
 
-                    ?>
-                    Support has been informed.<br/>
-                    Please try this function again soon.
-                    <button onclick="window.history.back()" class="themed" style="padding: 1em; float: right;">Go Back</button>
+        /** @var $this \View\Error\ErrorView */
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
+        $Exception = $this->getException();
+        $Theme->printHTMLMenu('error');
+
+        $message = $Exception->getMessage();
+        if($SessionUser->hasAuthority("ROLE_DEBUG"))
+            $message = $Exception;
+
+        ?>
+        <article class="themed">
+
+            <section class="content dashboard-section">
+
+                <div style="text-align: center;">
+                    <div class="error" style="white-space: pre-wrap; padding: 1em; display: inline-block; text-align: left;">An unexpected error has occurred:
+                        <?php echo $message; ?>
+
+
+                        Support has been informed.
+                        Please try this function again soon.
+                        <button onclick="window.history.back()" class="themed" style="padding: 1em; margin-top: 1em; float: right;">Go Back</button></div>
                 </div>
-			</section>
+            </section>
 
-		</article>
-<?php
-		// Render footer
-		$this->getTheme()->renderHTMLBodyFooter();
-	}
+        </article>
+        <?php
+        // Render footer
+        $Theme->renderHTMLBodyFooter();
+    }
 
-	public function processFormRequest(Array $post) {
-		$SessionManager = new SessionManager();
-		try {
-			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
-			header("Location: /");
+    public function processFormRequest(Array $post) {
+        try {
+            $this->setSessionMessage("Unhandled Form Post");
+            header("Location: /");
 
-		} catch (\Exception $ex) {
-			$SessionManager->setMessage($ex->getMessage());
-			header("Location: login.php");
-		}
-	}
+        } catch (\Exception $ex) {
+            $this->setSessionMessage($ex->getMessage());
+            header("Location: login.php");
+        }
+    }
 }
 

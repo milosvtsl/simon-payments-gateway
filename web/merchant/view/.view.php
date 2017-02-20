@@ -358,7 +358,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                                 <td>$<?php echo $Order->getAmount(); ?></td>
                                 <td><?php echo $Order->getPayeeFullName(); ?></td>
                                 <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
-                                <td><?php echo date("M dS Y G:i:s", strtotime($Order->getDate()) + $offset); ?></td>
+                                <td><?php echo $Order->getDate($SessionUser->getTimeZone())->format("M dS Y G:i:s"); ?></td>
                                 <td><?php echo $Order->getStatus(); ?></td>
                             </tr>
                         <?php } ?>

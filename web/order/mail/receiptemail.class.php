@@ -21,6 +21,9 @@ class ReceiptEmail extends \PHPMailer
     public function __construct(OrderRow $Order, MerchantRow $Merchant) {
         parent::__construct();
 
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
+
         $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
         $this->Username = SiteConfig::$EMAIL_USERNAME;
         $this->Password = SiteConfig::$EMAIL_PASSWORD;
@@ -42,8 +45,9 @@ class ReceiptEmail extends \PHPMailer
         $this->Subject = "Receipt: " . $Merchant->getName();
 
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
-        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID();
-        $date = date('M dS Y g:i a', strtotime($Order->getDate()) ?: time());
+        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID(false);
+        $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y g:i a");
+
         $next_date = $Order->getSubscriptionNextDate() ? date('M dS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
 
         $content = <<<HTML

@@ -105,7 +105,7 @@ HTML;
     public function fetchStats() {
         $SessionUser = $this->getSessionUser();
         $offset = -$SessionUser->getTimeZoneOffset('now');
-        $today = date('Y-m-d G:i:s', time() + $offset);
+        $today = date('Y-m-d', time() + $offset);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
@@ -139,7 +139,7 @@ SQL;
     public function fetchBarData() {
         $SessionUser = $this->getSessionUser();
         $offset = -$SessionUser->getTimeZoneOffset('now');
-        $today = date('Y-m-d G:i:s', time() + $offset);
+        $today = date('Y-m-d', time() + $offset);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
