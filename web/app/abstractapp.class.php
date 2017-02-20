@@ -1,5 +1,6 @@
 <?php
 namespace App;
+use User\Session\SessionManager;
 
 /**
  * Created by PhpStorm.

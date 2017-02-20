@@ -107,6 +107,10 @@ HTML;
         $offset = -$SessionUser->getTimeZoneOffset('now');
         $ytd  = date('Y-01-01', time());
 
+        $WhereSQL = '';
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
         $SQL = <<<SQL
 SELECT
 	SUM(amount - total_returned_amount) as ytd,
@@ -116,13 +120,9 @@ SELECT
 WHERE
     date>='{$ytd}'
     AND status in ('Settled', 'Authorized')
+    {$WhereSQL}
 SQL;
 
-        $SessionUser = $this->getSessionUser();
-//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
 //        $duration = -microtime(true);
         $DB = DBConfig::getInstance();

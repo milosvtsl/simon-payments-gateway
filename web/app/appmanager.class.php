@@ -3,16 +3,15 @@ namespace App;
 use App\Chart\DailyChart;
 use App\Chart\MonthlyChart;
 use App\Chart\MTDChart;
+use App\Provision\ProvisionStatusApp;
 use App\Chart\WeeklyChart;
 use App\Chart\WTDChart;
 use App\Chart\YearlyChart;
 use App\Chart\YTDChart;
-use App\Provision\ProvisionStatusApp;
 use App\Ticket\CreateTicketApp;
 use App\Ticket\NewsApp;
 use App\Ticket\RecentTicketsApp;
 use User\Model\UserRow;
-
 /**
  * Created by PhpStorm.
  * User: ari
@@ -23,7 +22,7 @@ use User\Model\UserRow;
 
 class AppManager {
 
-    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{}}'; // ,"app-provision-status":{},"app-ticket-view":{}}'; // ,"app-ticket-create":{}
+    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{}}'; // ,"app-ticket-create":{}
 //    const DEFAULT_CONFIG = '{"app-chart-daily":{},"app-chart-wtd":{},"app-chart-mtd":{},"app-chart-ytd":{},"app-provision-status":{}}';
 
     private $config;
@@ -68,7 +67,11 @@ class AppManager {
     public function renderHTMLHeadContent() {
         $this->forEachApp(
             function(AbstractApp $App) {
-                $App->renderHTMLHeadContent();
+                try {
+                    $App->renderHTMLHeadContent();
+                } catch (\Exception $ex) {
+                    error_log($ex->getMessage());
+                }
             }
         );
     }
@@ -76,7 +79,11 @@ class AppManager {
     public function renderAppHTMLContent() {
         $this->forEachApp(
             function(AbstractApp $App) {
+                try {
                 $App->renderAppHTML();
+                } catch (\Exception $ex) {
+                    error_log($ex->getMessage());
+                }
             }
         );
     }

@@ -109,6 +109,10 @@ HTML;
         $offset = -$SessionUser->getTimeZoneOffset('now');
         $mtd  = date('Y-m-01', time() + $offset);
 
+        $WhereSQL = '';
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
         $SQL = <<<SQL
 SELECT
 	SUM(amount - total_returned_amount) as mtd,
@@ -118,13 +122,9 @@ SELECT
 WHERE
     date>='{$mtd}'
     AND status in ('Settled', 'Authorized')
+    {$WhereSQL}
 SQL;
 
-        $SessionUser = $this->getSessionUser();
-//        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
 //        $duration = -microtime(true);
         $DB = DBConfig::getInstance();
@@ -144,6 +144,10 @@ SQL;
         $offset = -$SessionUser->getTimeZoneOffset('now');
         $mtd  = date('Y-m-01', time() + $offset);
 
+        $WhereSQL = '';
+        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+
         $SQL = <<<SQL
 SELECT
   DATE_FORMAT(oi.date, '%d') as day,
@@ -155,14 +159,12 @@ FROM order_item oi
 WHERE
     date>='{$mtd}'
     AND status in ('Settled', 'Authorized')
+    {$WhereSQL}
 GROUP BY DATE_FORMAT(oi.date, '%Y%m%d')
 LIMIT 32
 SQL;
 
 //        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
-
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $SQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);
@@ -174,17 +176,17 @@ SQL;
                 array(
                     'label' => "Amount",
                     'backgroundColor' => "#20465c",
-                    'data' => array_pad(array(), 24, 0)
+                    'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Returned",
                     'backgroundColor' => "#d27171",
-                    'data' => array_pad(array(), 24, 0)
+                    'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Count",
                     'backgroundColor' => "#71d271",
-                    'data' => array_pad(array(), 12, 0)
+                    'data' => array_pad(array(), 32, 0)
                 )
 
             )
