@@ -202,11 +202,7 @@ HEAD;
                             </li>
                             <li>
                                 <a href="order/report.php?date_from=<?php echo date('Y-m-01', time() - 60*60*4); ?>" class="button<?php echo @$mc['order-report']; ?>"><div class="menu-icon menu-icon-report"></div>
-                                    <span>Report</span> </a>
-                            </li>
-                            <li>
-                                <a href="order/batch.php" class="button<?php echo @$mc['order-batch-list']; ?>"><div class="menu-icon menu-icon-batch"></div>
-                                    <span>Batch Report</span> </a>
+                                    <span>Reports</span> </a>
                             </li>
                             <li>
                                 <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>
