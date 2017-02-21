@@ -214,19 +214,15 @@ HEAD;
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="white-space: normal;">
-
+                                <td colspan="2" style="white-space: normal; padding-left: 2em;">
                                     <div class="credit-image small" style="margin: 7px 0 0 5px;"></div>
                                     <div class="cvv2-image small" style="display: inline-block; "></div>
-                                    <div style="font-size: x-small; color: grey; padding: 1em; max-width: 250px;">
+                                    <div style="font-size: x-small; color: grey; padding: 1em; max-width: 200px;">
                                         **The CVV Number ("Card Verification Value") on your credit card
                                         or debit card is a 3-4 digit number on credit and debit cards.
                                     </div>
-
-
                                 </td>
                             </tr>
-
                         </table>
                     </fieldset>
 
