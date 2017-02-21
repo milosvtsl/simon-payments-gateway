@@ -206,11 +206,15 @@ class OrderView extends AbstractView
                                 <div class="app-button large app-button-download" ></div>
                                 Download
                             </a>
-                            <a onclick="window.void(); return false;" class="page-button page-button-void disabled">
+                            <a onclick='return confirmOrderViewAction("Void", event);' class="page-button page-button-void
+                            <?php if($Order->getStatus() !== 'Authorized') echo ' disabled'; ?>
+                                ">
                                 <div class="app-button large app-button-void" ></div>
                                 Void
                             </a>
-                            <a onclick="window.refund(); return false;" class="page-button page-button-refund disabled">
+                            <a onclick='return confirmOrderViewAction("Return", event);' class="page-button page-button-refund
+                            <?php if($Order->getStatus() !== 'Settled') echo ' disabled'; ?>
+                                ">
                                 <div class="app-button large app-button-refund" ></div>
                                 Return
                             </a>
@@ -403,19 +407,19 @@ class OrderView extends AbstractView
                                     </tr>
 
 
-                                <!-- Date and Time -->
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Date</td>
-                                    <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("F jS, Y"); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Time</td>
-                                    <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A"); ?></td>
-                                </tr>
-                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="name" style="width: 30%;">Time Zone</td>
-                                    <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("e P"); ?></td>
-                                </tr>
+                                    <!-- Date and Time -->
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Date</td>
+                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("F jS, Y"); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Time</td>
+                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A"); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Time Zone</td>
+                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("e P"); ?></td>
+                                    </tr>
 
 
 
@@ -521,7 +525,7 @@ class OrderView extends AbstractView
                                                 if($Order->getStatus() === 'Authorized') {
                                                     $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
                                                     echo <<<HTML
-                                        <input name='action' type='submit' value='Void'`{$disabled} onclick='return confirmOrderViewAction("Void", event);'/>
+                                        <input name='action' type='submit' value='Void'`{$disabled} onclick='return confirmOrderViewAction("Void", event);' class="themed"/>
 HTML;
                                                 }
                                                 break;
@@ -531,7 +535,7 @@ HTML;
                                                     $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
                                                     echo <<<HTML
                                         <input name='partial_return_amount' size="10" placeholder="Return Amount" />
-                                        <input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction("Return", event);'/>
+                                        <input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction("Return", event);' class="themed"/>
 HTML;
                                                 }
                                                 break;
@@ -559,10 +563,24 @@ HTML;
         echo <<<HTML
         <script>
             function confirmOrderViewAction(action, e) {
+                console.log(action, e);
+                var form = e.target.form || document.getElementsByName('form-order-view')[0];
                 switch(action.toLowerCase()) {
                     case 'return':
-                        e.target.form.partial_return_amount.value = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank to return the FULL AMOUNT");
+                        var returnAmount = prompt("Please enter a PARTIAL RETURN AMOUNT, or leave blank to return the FULL AMOUNT. \\nClick OK to continue or Cancel to cancel the action");
+                        if(returnAmount === null) {
+                            console.log("Return canceled by user");
+                            return;
+                        }
+                        console.log("Return Amount: " + returnAmount);
+                        form.partial_return_amount.value = returnAmount;
                         break;
+                        
+                    case 'void':
+                        break;
+                        
+                    default:
+                        console.error("Unknown action: " + action);    
                 }
 
                 var message = "Action: " + action + "\\nAre you sure you want to perform this action?";

@@ -17,7 +17,7 @@ class UserView extends AbstractView
     public function __construct($user_uid) {
         $this->user = UserRow::fetchByUID($user_uid);
         if(!$this->user)
-            throw new \InvalidArgumentException("Invalid User ID: " . $user_id);
+            throw new \InvalidArgumentException("Invalid User ID: " . $user_uid);
         parent::__construct();
     }
 

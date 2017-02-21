@@ -144,6 +144,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 
 .spg-theme ul.page-menu a.button > span {
     margin: 0px 0px 0px 5px;
+    /* position: absolute; */
 }
 
 

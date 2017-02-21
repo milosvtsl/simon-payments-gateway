@@ -10,6 +10,7 @@ namespace Merchant\View;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
+use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -83,6 +84,18 @@ class MerchantView extends AbstractView
 
             // Render Page
         switch($this->_action) {
+            case 'view':
+                $User = UserRow::fetchByUID($_POST['login_user_uid']);
+                if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
+                    $SessionManager->setMessage("Could not log in as user. Permission required: ROLE_ADMIN");
+                    header('Location: /user?uid=' . $User->getUID());
+                    die();
+                }
+                $SessionManager->adminLoginAsUser($User);
+                $SessionManager->setMessage("Admin Login as: " . $User->getUsername());
+                header('Location: /user?uid=' . $User->getUID());
+                die();
+
             case 'edit':
                 try {
                     $Merchant->updateFields($post)

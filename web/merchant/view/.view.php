@@ -29,7 +29,8 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
         <section class="content" >
             <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
-            <form class="form-view-merchant themed " method="GET">
+            <form class="form-view-merchant themed " method="POST">
+                <input type="hidden" name="uid" value="<?php echo $Merchant->getUID(); ?>" />
                 <fieldset style="position: relative;">
                     <div class="legend">
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
@@ -298,6 +299,9 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <th>Admin Login</th>
+                            <?php } ?>
                         </tr>
                         <?php
 
@@ -317,6 +321,13 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
                                 <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
+                                <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                                <td class="value">
+                                    <?php if($SessionUser->getID() !== $UserRow->getID()) { ?>
+                                    <button type="submit" class="themed" value="<?php echo $UserRow->getUID(); ?>" name="login_user_uid">Login</button>
+                                    <?php } ?>
+                                </td>
+                                <?php } ?>
                             </tr>
 
                         <?php } ?>
