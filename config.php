@@ -28,8 +28,7 @@ SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
 
 // Per Domain Config
-$domain = parse_url(@$_SERVER['HTTP_HOST'] ?: 'localhost');
-$host = strtolower(@$domain['host'] ?: 'localhost');
+$host = strtolower(@$_SERVER['HTTP_HOST'] ?: 'localhost');
 
 switch($host) {
     default:
