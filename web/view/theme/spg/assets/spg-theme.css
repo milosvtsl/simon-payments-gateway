@@ -219,10 +219,10 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
-.spg-theme ul.page-menu .menu-submenu-order        { background-color: lightblue; }
-.spg-theme ul.page-menu .menu-submenu-merchant     { background-color: tan; }
-.spg-theme ul.page-menu .menu-submenu-user         { background-color: lightgreen; }
-.spg-theme ul.page-menu .menu-submenu-integration  { background-color: lightgray; }
+.spg-theme ul.page-menu .menu-submenu-order        {background-color: #dae6ea;}
+.spg-theme ul.page-menu .menu-submenu-merchant     {background-color: #dae6ea;}
+.spg-theme ul.page-menu .menu-submenu-user         {background-color: #dae6ea;}
+.spg-theme ul.page-menu .menu-submenu-integration  {background-color: #dae6ea;}
 
 
 
@@ -328,7 +328,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 /** Dashboard Apps **/
 
 .spg-theme .app-chart {
-    box-shadow: 2px 2px 4px #CCC;
+    box-shadow: 0px 2px 2px #CCC;
     transition: box-shadow 0.5s ease;
 }
 
@@ -465,13 +465,13 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme a.button:hover {
     /* background-color: #f0f4f6; */
-    background: linear-gradient(90deg, #ffffff 60%, #eef8fb 100%);
+    background: linear-gradient(90deg, #e0f1f5 3%, #f4f8fb 60%, #eef8fb 100%);
     /* color: #ffffff; */
     font-weight: bold;
 }
 .spg-theme a.button.current {
     font-weight: bold;
-    color: #3997b9;
+    color: #4d97b2;
     background: linear-gradient(90deg, #ffffff 0%, #f1f6f8 100%);
 }
 
@@ -508,6 +508,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* min-height: 38px; */
     /* display: block; */
     /* box-shadow: 0px 2px 2px #20465c; */
+    background: linear-gradient(180deg, #dae6ea 15%, #dfeaed 50%,  #dae6ea 85%);
 }
 
 .spg-theme .sub-header > * {
