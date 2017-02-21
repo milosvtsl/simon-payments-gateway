@@ -11,7 +11,6 @@ namespace Subscription\Mail;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use System\Config\SiteConfig;
-use User\Session\SessionManager;
 
 @define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
@@ -38,14 +37,14 @@ class CancelEmail extends \PHPMailer
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
 
-        $this->addAddress($Order->getPayeeEmail(), $Order->getCardHolderFullName());
-        $this->addBCC($Merchant->getMainEmailID(), $Order->getCardHolderFullName());
-        $this->addBCC("support@simonpayments.com", $Order->getCardHolderFullName());
+        $this->addAddress($Order->getPayeeEmail(), $Order->getPayeeFullName());
+        $this->addBCC($Merchant->getMainEmailID(), $Order->getPayeeFullName());
+        $this->addBCC("support@simonpayments.com", $Order->getPayeeFullName());
 
         $this->Subject = "Subscription Canceled: " . $Merchant->getName();
 
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
-        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID(false);
+        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID();
 
         $cancel_date = date('M dS Y G:i', strtotime($Order->getSubscriptionCancelDate()) ?: time());
         $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y g:i a");
@@ -86,8 +85,8 @@ HTML;
 
 
 Card Holder Information
-Full Name:      {$Order->getCardHolderFullName()}
-Number:         ************{$Order->getCardNumberTruncated()}
+Full Name:      {$Order->getPayeeFullName()}
+Number:         {$Order->getCardNumber()}
 Type:           {$Order->getCardType()}
 
 HTML;

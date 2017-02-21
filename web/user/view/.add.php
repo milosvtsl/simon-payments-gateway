@@ -20,7 +20,7 @@ $Theme->printHTMLMenu('user-add');
         <section class="content">
 
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-add-user themed" method="POST" action="user/add.php">
                 <input type="hidden" name="action" value="add" />

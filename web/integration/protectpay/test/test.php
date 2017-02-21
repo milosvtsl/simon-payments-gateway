@@ -58,8 +58,8 @@ $ProtectPayAPITest = IntegrationRow::fetchByUID('propay-staging-e50f3219-79b7-49
 
 // Test API
 $MerchantIdentity = $ProtectPayAPITest->getMerchantIdentity($Merchant);
-//if(!$MerchantIdentity->isProvisioned())
-//    $MerchantIdentity->provisionRemote();
+if(!$MerchantIdentity->isProvisioned())
+    $MerchantIdentity->provisionRemote();
 
 
 
@@ -68,7 +68,9 @@ $data = array(
     'integration_id' => $MerchantIdentity->getIntegrationRow()->getID(),
     'merchant_id' => $MerchantIdentity->getMerchantRow()->getID(),
     'entry_mode' => 'Keyed',
-    'card_track' => '%B2223000010007612^TEST CARD/EMV BIN-2^19120000000000000000?;2223000010007612=19120000000000000000?|0600|3EC48BFC31CFE1D3224E2548FFDEA1524C4452032995077D2E37A8D78650BFBD16A775808680B158A460160CB8D97F3A8E903599C36334BDA9803575C91F915E|87FB879BFBAD0DDFBCF9DC6618F85B861EDFF43DF847DC2E03E8738BEC144884AA02FE5573D4DE38||61403000|EAA7FAE200CC593CF3145BD536B142741E13092346E874D6E5A909FBB22050E3CBAAFA92E819849CB39C9A1F36F1D7E833F18A1C161A4B70|B362DF8081616AA|23411017960749A4|9010190B362DF80000B0|4F1B||1000',
+//    'card_track' => '%B4895280002000006^TEST/VANTIV^251200000000000000?;4895280002000006=251200000000000?|0600|373A7D70C6253DA0E49B804D6E370A558AED065DEB86AD66717911DB4CD8157871F7C2FF782D921101B67F10B60E3846476434B040706645|E0B756965DB19E745CEFEE4E717CE7E8BE78E1EF7718B430DD6D6AF10A847F1BA7ED9CB856E27EAF||61401000|B2D67857E4111FE9FE8F0095EA66551C1ABAC9FE979D86A4825C1B648BA552F667DFACD060EACFE121CAF4F296513D80B3DCA46EEEFE6274|B2B4257022315AA|11A81A05E0E39220|9010010B2B4257000011|5C3F||1000',
+    'card_track' => '%B5102650005008881^TEST/INTEGRATION^19050000000000000?;5102650005008881=19050000000000000000?|0600|F1D0148B551047ECD0CCC342EAA6230AC9B6006BA9FC1F3B5594BCB15F9C2B0A94B79B1F50D50EA7946EA60A54AE8F79B2D87EAADDAD7205|1DA6921600AFAF6FD9F5BBB07DDC5AB3DB773682D401F2AA978A7F1FCED84E5CD16747F7BE68D1F3||61403000|FB30CBB95CCAF5976B899C97F1152991005E6EF53494434E2DBD92424263CD6FC8FCF92D04C7E4C994D22AA863157925B063945C8D83D46C|B2B4257022315AA|75F24F139CA4AA0C|9010010B2B4257000002|33BB||1000',
+    'swipe_key_serial_number' => '9010010B2B425700001D',
     'amount' => '23.05',
     'payee_reciept_email' => 'ari@asu.edu',
     'payee_phone_number' => '6025617789',
@@ -76,16 +78,16 @@ $data = array(
     'customer_last_name' => 'Guy',
     'customer_id' => '1234',
     'invoice_number' => '4321',
-    'payee_first_name' => 'EMV BIN-2',
-    'payee_last_name' => 'TEST CARD',
+    'payee_first_name' => 'Integration',
+    'payee_last_name' => 'Test',
     'payee_zipcode' => '90210',
     'payee_address' => '123 s. Street st',
     'payee_address2' => '#1234',
-    'card_number' => '2223000010007612',
+    'card_number' => '5102650005008881',
 //    'pin' => '7612', // TODO
     'card_type' => 'MasterCard',
-    'card_cvv2' => '532',
-    'card_exp_month' => '12',
+    'card_cvv2' => '890',
+    'card_exp_month' => '05',
     'card_exp_year' => '19',
 
     // Check
@@ -103,15 +105,15 @@ $tests = array(
 //    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
 
     // Swiped Tests
-//    array('amount' => '2.04', 'entry_mode' => 'swipe', 'return' => true),
+    array('amount' => '2.04', 'entry_mode' => 'swipe', 'return' => true),
 
     // ACH Tests
 //    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev
-if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
-    $tests = array();
+//if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
+//    $tests = array();
 
 $batch_id = null;
 
@@ -123,7 +125,7 @@ foreach($tests as $testData) {
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
-    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getTransactionID();
+    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getIntegrationRemoteID();
 
     // Void transaction
     if(!empty($testData['void'])) {

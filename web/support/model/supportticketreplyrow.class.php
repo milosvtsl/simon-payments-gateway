@@ -112,6 +112,8 @@ LEFT JOIN merchant m on st.merchant_id = m.id
         $ret = $stmt->execute(array($SupportTicketReplyRow->getID()));
         if(!$ret)
             throw new \PDOException("Failed to delete row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($SupportTicketReplyRow, true));
     }
 
     /**
@@ -145,7 +147,7 @@ LEFT JOIN merchant m on st.merchant_id = m.id
         foreach($values as $key=>$value)
             if($value !== null)
                 $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL = "INSERT INTO support_ticket_reply\nSET date = NOW()," . $SQL;
+        $SQL = "INSERT INTO support_ticket_reply\nSET date = UTC_TIMESTAMP()," . $SQL;
 
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);

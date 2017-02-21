@@ -1,5 +1,6 @@
 <?php
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 
 /** @var \Order\View\OrderView $this*/
 
@@ -7,16 +8,15 @@ $Order = $this->getOrder();
 $Transaction = $Order->fetchAuthorizedTransaction();
 $Merchant = MerchantRow::fetchByID($Order->getMerchantID());
 $odd = true;
-$action_url = 'order/receipt.php?uid=' . $Order->getUID(false) . '&action=';
-$action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID(false);
+$action_url = 'order/receipt.php?uid=' . $Order->getUID() . '&action=';
+$action_url_pdf = 'order/pdf.php?uid=' . $Order->getUID();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 // Get Timezone diff
 $offset = $SessionUser->getTimeZoneOffset('now');
 
-
-
+$SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
 ?>
 
 <article class="themed">
@@ -40,13 +40,13 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                     </tr>
 
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                        <td class="name">Customer</td>
+                        <td class="name"><?php echo $SITE_CUSTOMER_NAME; ?></td>
                         <td class="value"><?php echo $Order->getCustomerFullName() ?></td>
                     </tr>
 
                     <?php if($Order->getCustomerID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Customer</td>
+                            <td class="name"><?php echo $SITE_CUSTOMER_NAME; ?></td>
                             <td class="value"><?php echo $Order->getCustomerID() ?: 'N/A' ?></td>
                         </tr>
                     <?php } ?>
@@ -94,7 +94,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
             <?php if ($Order->getCardNumber()) { ?>
 
                 <fieldset>
-                    <legend>Card Holder: <?php echo $Order->getCardHolderFullName(); ?></legend>
+                    <legend>Card Holder: <?php echo $Order->getPayeeFullName(); ?></legend>
                     <table class="table-transaction-info themed cell-borders" style="width: 98%; text-align: left;">
                         <tbody>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>" style="font-weight: bold;">
@@ -188,7 +188,7 @@ $offset = $SessionUser->getTimeZoneOffset('now');
                 <br/>
                 <br/>
                 <hr style="height: 2px;">
-                Customer Signature
+                <?php echo $SITE_CUSTOMER_NAME; ?> Signature
             </div>
 
 

@@ -11,6 +11,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 
 class MerchantRow
 {
@@ -22,40 +23,43 @@ class MerchantRow
     const FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY = 0x04;
     const FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE = 0x08;
 
-    const SORT_BY_ID                = 'm.id';
+    const SORT_BY_ID = 'm.id';
 
     public static $FRAUD_FLAG_DESCRIPTIONS = array(
-        self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves on the Same Day",
-        self::FRAUD_FLAG_DUPLICATE_CARD_10MINUTE => "Duplicate Approves within 10 minutes",
-        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY => "Duplicate Declines on the Same Day",
-        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE => "Duplicate Declines within 10 minutes",
+        self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves (Same Day)",
+        self::FRAUD_FLAG_DUPLICATE_CARD_10MINUTE => "Duplicate Approves (10 minutes)",
+        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_DAILY => "Duplicate Declines (Same Day)",
+        self::FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE => "Duplicate Declines (10 minutes)",
     );
 
-    const SORT_BY_NAME              = 'm.name';
-    const SORT_BY_MAIN_EMAIL_ID     = 'm.main_email_id';
+    const SORT_BY_NAME = 'm.name';
+    const SORT_BY_MAIN_EMAIL_ID = 'm.main_email_id';
 
     const SQL_SELECT = "
 SELECT m.*,
   (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
   (SELECT GROUP_CONCAT(um.id_user SEPARATOR ';') FROM user_merchants um WHERE um.id_merchant = m.id) as user_list,
+  (SELECT GROUP_CONCAT(mi.integration_id SEPARATOR ';') FROM merchant_integration mi WHERE mi.merchant_id = m.id) as integration_provisioned_ids,
   s.name as state_name, s.short_code as state_short_code
 FROM merchant m
 LEFT JOIN state s on m.state_id = s.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY m.id";
     const SQL_ORDER_BY = "\nORDER BY m.id DESC";
-    const SQL_WHERE =    "\nWHERE m.status_id != 4";
+    const SQL_WHERE = "\nWHERE m.status_id != 4";
 
     public static $ENUM_BUSINESS_TYPE = array(
         'INDIVIDUAL_SOLE_PROPRIETORSHIP' => "Individual Sole Proprietorship",
-        'CORPORATION'                    => "Corporation",
-        'LIMITED_LIABILITY_COMPANY'      => "Limited Liability Company",
-        'PARTNERSHIP'                    => "Partnership",
-        'ASSOCIATION_ESTATE_TRUST'       => "Association Estate Trust",
-        'TAX_EXEMPT_ORGANIZATION'        => "Tax Exempt Organization",
-        'INTERNATIONAL_ORGANIZATION'     => "International Organization",
-        'GOVERNMENT_AGENCY'              => "Government Agency",
+        'CORPORATION' => "Corporation",
+        'LIMITED_LIABILITY_COMPANY' => "Limited Liability Company",
+        'PARTNERSHIP' => "Partnership",
+        'ASSOCIATION_ESTATE_TRUST' => "Association Estate Trust",
+        'TAX_EXEMPT_ORGANIZATION' => "Tax Exempt Organization",
+        'INTERNATIONAL_ORGANIZATION' => "International Organization",
+        'GOVERNMENT_AGENCY' => "Government Agency",
     );
+
+    const ENUM_STATUS_LIVE = 1;
 
     public static $ENUM_STATUS = array(
         1 => "Live",
@@ -80,9 +84,8 @@ LEFT JOIN state s on m.state_id = s.id
         'name',
         'short_name',
         'main_email_id',
-    //        'merchant_id',
+        //        'merchant_id',
         'sic',
-        'notes',
         'convenience_fee_flat',
         'convenience_fee_limit',
         'convenience_fee_variable_rate',
@@ -99,9 +102,7 @@ LEFT JOIN state s on m.state_id = s.id
         'telephone',
         'address1',
         'address2',
-        'agent_chain',
         'city',
-        'agent_chain',
         'state_id',
         'zipcode',
         'sale_rep',
@@ -183,6 +184,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $fraud_high_monthly_limit;
     protected $fraud_flags;
     protected $integration_default_id;
+    protected $integration_provisioned_ids;
 
     // Table status
     protected $status_name;
@@ -194,97 +196,227 @@ LEFT JOIN state s on m.state_id = s.id
     // Table users
     protected $user_list;
 
-    public function __construct(Array $params=array()) {
-        foreach($params as $key=>$param)
+    public function __construct(Array $params = array()) {
+        foreach ($params as $key => $param)
             $this->$key = $param;
     }
+
     public function __set($key, $value) {
         error_log("Property does not exist: " . $key);
     }
 
-    public function getID()             { return $this->id; }
-    public function getUID()            { return $this->uid; }
-    public function getName()           { return $this->name; }
-    public function getShortName()      { return $this->short_name ?: $this->name; }
+    public function getID() {
+        return $this->id;
+    }
+
+    public function getUID() {
+        return $this->uid;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getShortName() {
+        return $this->short_name ?: $this->name;
+    }
+
 //    public function getMerchantID()     { return $this->merchant_id; }
-    public function getMerchantSIC()    { return $this->sic; }
-    public function getMerchantMCC()    { return $this->mcc; }
+    public function getMerchantSIC() {
+        return $this->sic;
+    }
 
-    public function getConvenienceFeeLimit()       { return floatval($this->convenience_fee_limit); }
-    public function getConvenienceFeeFlat()        { return floatval($this->convenience_fee_flat); }
-    public function getConvenienceFeeVariable()    { return floatval($this->convenience_fee_variable_rate); }
+    public function getMerchantMCC() {
+        return $this->mcc;
+    }
 
-    public function getBatchTime()      { return $this->batch_capture_time; }
-    public function getBatchTimeZone()  { return $this->batch_capture_time_zone; }
+    public function getConvenienceFeeLimit() {
+        return floatval($this->convenience_fee_limit);
+    }
 
-    public function getOpenDate()       { return $this->open_date; }
-    public function getStatusID()       { return $this->status_id; }
-    public function getStatusName()     { return $this->status_name; }
-    public function getStoreID()        { return $this->store_id; }
+    public function getConvenienceFeeFlat() {
+        return floatval($this->convenience_fee_flat);
+    }
 
-    public function getCountryCode()    { return $this->country; }
-    public function getTitle()          { return $this->title; }
-    public function getTaxID()          { return $this->tax_id; }
-    public function getBusinessTaxID()  { return $this->business_tax_id; }
-    public function getBusinessType()   { return $this->business_type; }
-    public function getDOB()            { return $this->dob; }
+    public function getConvenienceFeeVariable() {
+        return floatval($this->convenience_fee_variable_rate);
+    }
 
-    public function getDiscoverExt()    { return $this->discover_external; }
-    public function getAmexExt()        { return $this->amex_external; }
+    public function getBatchTime() {
+        return $this->batch_capture_time;
+    }
 
-    public function getAgentChain()     { return $this->agent_chain; }
-    public function getMainContact()    { return $this->main_contact; }
-    public function getTelephone()      { return $this->telephone; }
-    public function getAddress()        { return $this->address1; }
-    public function getAddress2()       { return $this->address2; }
+    public function getBatchTimeZone() {
+        return $this->batch_capture_time_zone;
+    }
 
-    public function getCity()               { return $this->city; }
-    public function getState()              { return $this->state_name; }
-    public function getRegionCode()         { return $this->state_short_code; }
-    public function getZipCode()            { return $this->zipcode; }
+    public function getOpenDate() {
+        return $this->open_date;
+    }
 
-    public function getMainEmailID()        { return $this->main_email_id; }
-    public function getSaleRep()            { return $this->sale_rep; }
+    public function getStatusID() {
+        return $this->status_id;
+    }
 
-    public function getPayoutType()         { return $this->payout_type; }
-    public function getPayoutAccountName()  { return $this->payout_account_name; }
-    public function getPayoutAccountType()  { return $this->payout_account_type; }
-    public function getPayoutAccountNumber(){ return $this->payout_account_number; }
-    public function getPayoutBankCode()     { return $this->payout_bank_code; }
+    public function getStatusName() {
+        return $this->status_name;
+    }
 
-    public function getFraudHighLimit()     { return $this->fraud_high_limit; }
-    public function getFraudLowLimit()      { return $this->fraud_low_limit; }
-    public function getFraudHighMonthlyLimit()     { return $this->fraud_high_monthly_limit; }
-    public function getFraudFlags()         { return $this->fraud_flags; }
+    public function getStoreID() {
+        return $this->store_id;
+    }
+
+    public function getCountryCode() {
+        return $this->country;
+    }
+
+    public function getTitle() {
+        return $this->title;
+    }
+
+    public function getTaxID() {
+        return $this->tax_id;
+    }
+
+    public function getBusinessTaxID() {
+        return $this->business_tax_id;
+    }
+
+    public function getBusinessType() {
+        return $this->business_type;
+    }
+
+    public function getDOB() {
+        return $this->dob;
+    }
+
+    public function getDiscoverExt() {
+        return $this->discover_external;
+    }
+
+    public function getAmexExt() {
+        return $this->amex_external;
+    }
+
+    public function getAgentChain() {
+        return $this->agent_chain;
+    }
+
+    public function getMainContact() {
+        return $this->main_contact;
+    }
+
+    public function getTelephone() {
+        return $this->telephone;
+    }
+
+    public function getAddress() {
+        return $this->address1;
+    }
+
+    public function getAddress2() {
+        return $this->address2;
+    }
+
+    public function getCity() {
+        return $this->city;
+    }
+
+    public function getState() {
+        return $this->state_name;
+    }
+
+    public function getRegionCode() {
+        return $this->state_short_code;
+    }
+
+    public function getZipCode() {
+        return $this->zipcode;
+    }
+
+    public function getMainEmailID() {
+        return $this->main_email_id;
+    }
+
+    public function getSaleRep() {
+        return $this->sale_rep;
+    }
+
+    public function getPayoutType() {
+        return $this->payout_type;
+    }
+
+    public function getPayoutAccountName() {
+        return $this->payout_account_name;
+    }
+
+    public function getPayoutAccountType() {
+        return $this->payout_account_type;
+    }
+
+    public function getPayoutAccountNumber() {
+        return $this->payout_account_number;
+    }
+
+    public function getPayoutRoutingNumber() {
+        return $this->payout_bank_code;
+    }
+
+    public function getFraudHighLimit() {
+        return $this->fraud_high_limit;
+    }
+
+    public function getFraudLowLimit() {
+        return $this->fraud_low_limit;
+    }
+
+    public function getFraudHighMonthlyLimit() {
+        return $this->fraud_high_monthly_limit;
+    }
+
+    public function getFraudFlags() {
+        return $this->fraud_flags;
+    }
 
     public function hasFlag($type) {
         return (intval($type) & intval($this->fraud_flags));
     }
 
-    public function getNotes()              { return $this->notes; }
+    public function getNotes() {
+        return $this->notes;
+    }
 
-    public function getURL()                { return $this->url; }
+    public function getURL() {
+        return $this->url;
+    }
 
-    public function getUserList()           {
-        if(is_array($this->user_list))
+    public function getUserList() {
+        if (is_array($this->user_list))
             return $this->user_list;
-        if(!$this->user_list)
+        if (!$this->user_list)
             return $this->user_list = array();
         $this->user_list = explode(';', $this->user_list);
         return $this->user_list;
     }
 
-    public function getUserCount()          { return count($this->getUserList()); }
+    public function getUserCount() {
+        return count($this->getUserList());
+    }
 
-    public function getChargeFormClasses()  { return $this->charge_form_classes ?: 'default'; }
+    public function getChargeFormClasses() {
+        return $this->charge_form_classes ?: 'default';
+    }
 
 
-    public function getCheckFormClasses()   { return 'default'; }
+    public function getCheckFormClasses() {
+        return 'default';
+    }
 
     public function isConvenienceFeeEnabled() {
         return
             $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
     }
+
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $first;
@@ -299,21 +431,21 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function updateFields($post) {
         $flags = 0;
-        foreach($post['fraud_flags'] as $type => $value)
-            if($value)
+        foreach ($post['fraud_flags'] as $type => $value)
+            if ($value)
                 $flags |= intval($type);
         $post['fraud_flags'] = $flags;
 
         $sqlSet = "";
         $params = array();
-        foreach(self::$UPDATE_FIELDS as $field) {
-            if(!empty($post[$field])) {
-                $params[':'.$field] = $post[$field];
+        foreach (self::$UPDATE_FIELDS as $field) {
+            if (!empty($post[$field])) {
+                $params[':' . $field] = $post[$field];
                 $sqlSet .= ($sqlSet ? ",\n" : "\nSET ") . $field . '=:' . $field;
                 $this->$field = $post[$field];
             }
         }
-        if(!$sqlSet)
+        if (!$sqlSet)
             return 0;
         $sql = "UPDATE " . self::TABLE_NAME . $sqlSet . "\nWHERE id=:id";
         $params[':id'] = $this->getID();
@@ -355,7 +487,7 @@ LEFT JOIN state s on m.state_id = s.id
         $IntegrationQuery->execute();
 
         $Identities = array();
-        foreach($IntegrationQuery as $IntegrationRow) {
+        foreach ($IntegrationQuery as $IntegrationRow) {
             /** @var IntegrationRow $IntegrationRow */
             $Identity = $IntegrationRow->getMerchantIdentity($this);
             $Identities[] = $Identity;
@@ -364,15 +496,26 @@ LEFT JOIN state s on m.state_id = s.id
         return $Identities;
     }
 
-    // Static
+    public function getProvisionedIntegrationIDs() {
+        return explode(";", $this->integration_provisioned_ids);
+    }
 
+    public function getDefaultIntegrationID() {
+        if ($this->integration_default_id)
+            return $this->integration_default_id;
+        $ids = $this->getProvisionedIntegrationIDs();
+        return $ids[0];
+    }
+
+
+    // Static
 
     /**
      * @param $id
      * @return MerchantRow
      */
     public static function fetchByID($id) {
-        if(!is_numeric($id))
+        if (!is_numeric($id))
             throw new \InvalidArgumentException("ID is not numeric: " . $id);
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE m.id = ?");
@@ -395,7 +538,7 @@ LEFT JOIN state s on m.state_id = s.id
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute(array($value));
         $Row = $stmt->fetch();
-        if(!$Row)
+        if (!$Row)
             throw new \InvalidArgumentException("{$field} not found: " . $value);
         return $Row;
     }
@@ -424,12 +567,12 @@ LEFT JOIN state s on m.state_id = s.id
     public static function queryByUserID($id) {
         $sql = MerchantRow::SQL_SELECT
             . "\nLEFT JOIN user_merchants um on m.id = um.id_merchant "
-            . "\nWHERE um.id_user = ?";
+            . "\nWHERE m.status_id = ? AND um.id_user = ?";
         $DB = DBConfig::getInstance();
         $MerchantQuery = $DB->prepare($sql);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $MerchantQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $MerchantQuery->execute(array($id));
+        $MerchantQuery->execute(array(MerchantRow::ENUM_STATUS_LIVE, $id));
         return $MerchantQuery;
     }
 
@@ -438,11 +581,11 @@ LEFT JOIN state s on m.state_id = s.id
      * @return MerchantRow
      */
     public static function createNewMerchant($post) {
-        if(strlen($post['name']) < 5)
+        if (strlen($post['name']) < 5)
             throw new \InvalidArgumentException("Merchant Name must be at least 5 characters");
 
         if (!filter_var($post['main_email_id'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid Merchant Email");
 
         $params = array();
         $Merchant = new MerchantRow();
@@ -450,28 +593,102 @@ LEFT JOIN state s on m.state_id = s.id
         $params[':uid'] = $Merchant->uid;
 
         $sqlSet = "";
-        foreach(self::$UPDATE_FIELDS as $field) {
-            if(!empty($post[$field])) {
-                $params[':'.$field] = $post[$field];
+        foreach (self::$UPDATE_FIELDS as $field) {
+            if (!empty($post[$field])) {
+                $params[':' . $field] = $post[$field];
                 $sqlSet .= ($sqlSet ? ",\n" : "\nSET ") . $field . '=:' . $field;
                 $Merchant->$field = $post[$field];
             }
         }
-        if(!$sqlSet)
+        if (!$sqlSet)
             return 0;
         $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet
             . ", uid = :uid, version = 10";
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($sql);
         $ret = $stmt->execute($params);
-        if(!$ret || !$DB->lastInsertId())
+        if (!$ret || !$DB->lastInsertId())
             throw new \PDOException("Failed to insert new row");
         $Merchant->id = $DB->lastInsertId();
         return $Merchant;
     }
 
-    public static function generateGUID() {
-        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+
+    public static function delete(MerchantRow $MerchantRow) {
+        $SQL = "DELETE FROM merchant WHERE id = ?";
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare($SQL);
+        $ret = $stmt->execute(array($MerchantRow->getID()));
+        if(!$ret)
+            throw new \PDOException("Failed to delete row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($MerchantRow, true));
     }
+
+    public static function generateGUID() {
+        $site_type = SiteConfig::$SITE_UID_PREFIX;
+        return sprintf($site_type . 'M' . '-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+    }
+
+    /**
+     * Unit Test
+     * @throws \InvalidArgumentException
+     */
+    public static function unitTest() {
+        // Go up 2 directories
+        $cwd = getcwd();
+        chdir(__DIR__ . '/../..');
+
+        // Enable class autoloader for this page instance
+        spl_autoload_extensions('.class.php');
+        spl_autoload_register();
+
+        $post = array(
+            'id' => 27,
+            'uid' => '359ae330-e892-43ce-a3f2-3bae893df26381',
+            'version' => 1,
+            'address1' => 'Fake Address 123',
+            'address2' => '#101',
+            'agent_chain' => '0j0876',
+            'batch_capture_time' => '08:00 PM',
+            'batch_capture_time_zone' => 'EST',
+            'city' => 'Miami',
+            'convenience_fee_flat' => 0,
+            'convenience_fee_limit' => 0,
+            'convenience_fee_variable_rate' => 3.95,
+            'amex_external' => 1096643534,
+            'discover_external' => 601105011666431,
+            'gateway_id' => 4445018852749,
+            'gateway_token' => null,
+            'main_contact' => 'Sandra Test',
+            'main_email_id' => 'sandra@test.com',
+            'merchant_id' => 4445017451724,
+            'name' => 'Interamerica Data Florida',
+            'notes' => 'Test Notes',
+            'open_date' => '2015-03-04 00:00:00',
+            'profile_id' => 4445017451721,
+            'sale_rep' => 'Referral',
+            'short_name' => 'In Da Fl',
+            'sic' => 7549,
+            'store_id' => 0020,
+            'telephone' => '305 9828371',
+            'zipcode' => 33147,
+
+            'payout_type' => 'BANK_ACCOUNT',
+            'payout_account_name' => 'Fran Lemke',
+            'payout_account_type' => 'SAVINGS',
+            'payout_account_number' => '123123123',
+            'payout_bank_code' => '123123123',
+
+            'url' => 'http://paylogicnetwork.com',
+        );
+
+        $TestMerchant = self::createNewMerchant($post);
+        self::delete($TestMerchant);
+        echo "\nMerchant Unit Test Successful";
+    }
+
 }
 
+if(isset($argv) && in_array(@$argv[1], array('test-merchant', 'test-all')))
+    MerchantRow::unitTest();

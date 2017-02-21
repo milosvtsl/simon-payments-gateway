@@ -15,20 +15,27 @@ namespace System\Config;
  */
 class SiteConfig
 {
+    static $SITE_LIVE = FALSE;
     static $SITE_NAME = 'Simon Payments Gateway';
     static $SITE_URL = 'https://access.simonpayments.com';
+    static $SITE_MAX_TRANSACTION_AMOUNT = 20000;
+    static $SITE_DEFAULT_CUSTOMER_NAME = "Customer";
+
     static $DEFAULT_THEME = null;
+
     static $BASE_HREF = '/';
+
     static $EMAIL_SERVER_HOST = null;
     static $EMAIL_USERNAME;
     static $EMAIL_PASSWORD;
     static $EMAIL_SERVER_PORT = 587;
-    static $EMAIL_FROM_ADDRESS = "support@simonpayments.com";
-    static $EMAIL_FROM_TITLE = "Simon Payments Support";
-    static $MAX_TRANSACTION_AMOUNT = 20000;
+    static $EMAIL_FROM_ADDRESS = "admin@simonpayments.com";
+    static $EMAIL_FROM_TITLE = "Simon Payments Gateway";
     static $EMAIL_SMTP_AUTH = false;
     static $EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
     static $EMAIL_TIMEOUT = 10;
+    static $SITE_UID_PREFIX = 'SP';
+
 
     public static function getDefaultViewTheme() {
         static $default = null;
@@ -39,4 +46,6 @@ class SiteConfig
 //        }
     }
 }
+
+require_once 'dbconfig.class.php';
 include_once __DIR__ .'/../../../config.php';

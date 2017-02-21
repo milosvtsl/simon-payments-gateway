@@ -80,8 +80,8 @@ $this->getTheme()->printHTMLMenu('dashboard');
 <article class="themed">
     <!-- Bread Crumbs -->
     <aside class="bread-crumbs">
-        <a href="/" class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
-        <a href="/" class="nav_dashboard">Dashboard</a>
+        <a href="." class="nav_home"><?php echo $SessionUser->getFullName(); ?></a>
+        <a href="." class="nav_dashboard">Dashboard</a>
     </aside>
 
     <section class="content dashboard-section">
@@ -170,7 +170,7 @@ $this->getTheme()->printHTMLMenu('dashboard');
 
                     foreach($RecentTransactionQuery as $Order) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td style="max-width: 5em;"><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></a></td>
+                            <td style="max-width: 5em;"><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getPayeeFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></a></td>
                             <td style="max-width: 6em;"><?php echo date("M dS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td><?php echo $Order->getAmount(); ?></td>
                             <td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>

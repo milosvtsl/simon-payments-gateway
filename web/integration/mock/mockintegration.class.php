@@ -12,9 +12,11 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
@@ -34,11 +36,11 @@ class MockIntegration extends AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         if(!$Request->getRequest())
             throw new IntegrationException("Request content is empty");
 //        if($Request->getResponse())
@@ -53,55 +55,6 @@ class MockIntegration extends AbstractIntegration
 
     }
 
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        return true;
-    }
-
-    /**
-     * Print an HTML form containing the request fields
-     * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the form failed to print
-     */
-    function printFormHTML(IntegrationRequestRow $Request) {
-
-    }
-
-    /**
-     * Return the API Request URL for this request
-     * @param IntegrationRequestRow $Request
-     * @return string
-     * @throws IntegrationException
-     */
-    function getRequestURL(IntegrationRequestRow $Request) {
-        throw new IntegrationException("No API url for this request type");
-    }
-
-    /**
-     * Parse the response data and return a data object
-     * @param IntegrationRequestRow $Request
-     * @return mixed
-     * @throws IntegrationException if response failed to parse
-     */
-    function parseResponseData(IntegrationRequestRow $Request) {
-        $response = $Request->getResponse();
-        if(!$response)
-            throw new IntegrationException("Empty Request response");
-        $data = json_decode($response, true);
-        if(!$data)
-            throw new IntegrationException("Response failed to parse JSON");
-
-        if(empty($data['entity']))
-            throw new IntegrationException("Missing response key: 'entity'");
-        return $data;
-    }
 
     /**
      * Submit a new transaction
@@ -122,7 +75,7 @@ class MockIntegration extends AbstractIntegration
 
         // Store Transaction Result
         $Transaction->setAction("Mock Authorized");
-        $Transaction->setAuthCodeOrBatchID("Authorized");
+//        $Transaction->setAuthCodeOrBatchID("Authorized");
         $Transaction->setStatus("Success", "Mock Transaction Approved");
 
         $Order->setStatus("Mock Authorized");
@@ -132,17 +85,19 @@ class MockIntegration extends AbstractIntegration
 
     }
 
+
     /**
-     * Create or resume an order item
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
      */
-    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+    function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
+        $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
     }
-
 
     /**
      * Void an existing Transaction
@@ -209,5 +164,22 @@ class MockIntegration extends AbstractIntegration
     function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message) {
         $Subscription->cancel($message);
     }
+
+    /**
+     * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHTMLHeadLinks() method.
+    }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHiddenFields() method.
+    }
+
 }
 

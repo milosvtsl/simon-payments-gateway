@@ -2,6 +2,7 @@
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
+use System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
@@ -9,7 +10,7 @@ use Order\Model\OrderRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
@@ -26,25 +27,46 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
     <article class="themed">
 
         <section class="content" >
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
-            <form class="form-view-merchant themed " method="GET">
+            <form class="form-view-merchant themed " method="POST">
+                <input type="hidden" name="uid" value="<?php echo $Merchant->getUID(); ?>" />
                 <fieldset style="position: relative;">
                     <div class="legend">
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
                             <div class="app-button app-button-edit" style="display: inline-block;"></div>
                         </a>
-                        Merchant Information
+                        Merchant: <?php echo $Merchant->getName(); ?>
                     </div>
+
+
+                    <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>view" class="page-button page-button-view disabled">
+                            <div class="app-button large app-button-view" ></div>
+                            View
+                        </a>
+                        <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
+                            <div class="app-button large app-button-edit" ></div>
+                            Edit
+                        </a>
+                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
+                            <div class="app-button large app-button-provision" ></div>
+                            Provision
+                        </a>
+                    </div>
+
+                    <hr/>
+
+
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
+                        <tr>
+                            <th colspan="2">Information</th>
+                        </tr>
+
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Name</td>
-                            <td><?php echo $Merchant->getName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Short Name</td>
@@ -69,7 +91,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Merchant MCC</td>
-                            <td><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC()); ?></td>
+                            <td style="max-width: 200px;"><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC(), false); ?></td>
                         </tr>
 
                         <tr>
@@ -125,7 +147,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Location</td>
                             <td><?php echo $Merchant->getCity(), ' ' ,
-                                \System\Arrays\Locations::$STATES[$Merchant->getRegionCode()],
+                                @\System\Arrays\Locations::$STATES[$Merchant->getRegionCode()],
                                 ', ', $Merchant->getZipCode(),
                                 '<br/>', @\System\Arrays\Locations::$COUNTRIES[$Merchant->getCountryCode()]; ?>
                             </td>
@@ -277,6 +299,9 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <th>Admin Login</th>
+                            <?php } ?>
                         </tr>
                         <?php
 
@@ -294,8 +319,15 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         foreach($UserQuery as $UserRow) {
                             ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href="user?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
-                                <td><a href="user?id=<?php echo $UserRow->getID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
+                                <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
+                                <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
+                                <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                                <td class="value">
+                                    <?php if($SessionUser->getID() !== $UserRow->getID()) { ?>
+                                    <button type="submit" class="themed" value="<?php echo $UserRow->getUID(); ?>" name="login_user_uid">Login</button>
+                                    <?php } ?>
+                                </td>
+                                <?php } ?>
                             </tr>
 
                         <?php } ?>
@@ -306,13 +338,13 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                 <fieldset>
                     <div class="legend">
-                        Orders: <?php echo $Merchant->getShortName(); ?>
+                        Recent Orders: <?php echo $Merchant->getShortName(); ?>
                     </div>
                     <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
                             <th>Amount</th>
-                            <th>Customer</th>
+                            <th><?php echo SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME; ?></th>
                             <th>Mode</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -325,7 +357,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         $OrderQuery = $DB->prepare(OrderRow::SQL_SELECT
                             . "\nWHERE oi.merchant_id = ?"
                             . OrderRow::SQL_ORDER_BY
-                            . "\nLIMIT 10");
+                            . "\nLIMIT 5");
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
                         $OrderQuery->setFetchMode(\PDO::FETCH_CLASS, OrderRow::_CLASS);
                         $OrderQuery->execute(array($this->getMerchant()->getID()));
@@ -333,9 +365,9 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         $odd = false;
                         foreach($OrderQuery as $Order) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
+                                <td><a href='order?uid=<?php echo $Order->getUID(); ?>'><?php echo $Order->getID(); ?></a></td>
                                 <td>$<?php echo $Order->getAmount(); ?></td>
-                                <td><?php echo $Order->getCardHolderFullName(); ?></td>
+                                <td><?php echo $Order->getPayeeFullName(); ?></td>
                                 <td><?php echo ucfirst($Order->getEntryMode()); ?></td>
                                 <td><?php echo $Order->getDate($SessionUser->getTimeZone())->format("M dS Y G:i:s"); ?></td>
                                 <td><?php echo $Order->getStatus(); ?></td>
@@ -347,3 +379,5 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
             </form>
         </section>
     </article>
+
+<?php $this->getTheme()->renderHTMLBodyFooter(); ?>

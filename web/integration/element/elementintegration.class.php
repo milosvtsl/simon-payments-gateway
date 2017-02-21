@@ -12,10 +12,13 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
@@ -27,21 +30,22 @@ class ElementIntegration extends AbstractIntegration
     const POST_URL_TRANSACTION = "/express.asmx"; // https://certtransaction.elementexpress.com/express.asmx
 
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new ElementMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new ElementMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         if(!$Request->getRequest())
             throw new IntegrationException("Request content is empty");
         if($Request->getResponse())
@@ -104,35 +108,21 @@ class ElementIntegration extends AbstractIntegration
         // Save the response
         $Request->setResponse($response);
 
-        try {
-            // Try parsing the response
-            $Request->parseResponseData();
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful($reason, $code)) {
-                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-            }
-            $Request->setResponseMessage($reason);
-            $Request->setResponseCode($code);
-        } catch (IntegrationException $ex) {
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
-        }
+//        try {
+//             Try parsing the response
+//            $Request->parseResponseData();
+//            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
+//            if($Request->isRequestSuccessful($reason, $code)) {
+//                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+//            }
+//            $Request->setResponseMessage($reason);
+//            $Request->setResponseCode($code);
+//        } catch (\Exception $ex) {
+//            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
+//        }
 
     }
 
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        $response = $Request->parseResponseData();
-        $code = $response['ExpressResponseCode'];
-        $reason = $response['ExpressResponseMessage'];
-
-        return $code === '0';
-    }
 
     /**
      * Print an HTML form containing the request fields
@@ -153,14 +143,16 @@ class ElementIntegration extends AbstractIntegration
         }
     }
 
+
     /**
      * Return the API Request URL for this request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
      * @return string
      * @throws IntegrationException
      */
-    function getRequestURL(IntegrationRequestRow $Request) {
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+    function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
+        $APIData = $MerchantIdentity->getIntegrationRow();
         $url = $APIData->getAPIURLBase() . self::POST_URL_TRANSACTION;
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH:
@@ -239,16 +231,21 @@ class ElementIntegration extends AbstractIntegration
         return $response;
     }
 
+
     /**
-     * Create or resume an order item
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
      */
-    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+    function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
+        $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
     }
+
+
 
     /**
      * Submit a new transaction
@@ -262,9 +259,6 @@ class ElementIntegration extends AbstractIntegration
      * @throws \phpmailerException
      */
     function submitNewTransaction(AbstractMerchantIdentity $MerchantIdentity, OrderRow $Order, UserRow $SessionUser, Array $post) {
-
-        // Perform Fraud Scrubbing
-        $Order->performFraudScrubbing($MerchantIdentity, $SessionUser, $post);
 
         OrderRow::insertOrUpdate($Order);
         if(!$Order->getID())
@@ -286,7 +280,10 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION
         );
-        $url = $this->getRequestURL($Request);
+
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
@@ -297,7 +294,7 @@ class ElementIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardSaleRequest($MerchantIdentity, $Transaction, $Order, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         IntegrationRequestRow::insert($Request);
 
         $response = $this->parseResponseData($Request);
@@ -316,8 +313,8 @@ class ElementIntegration extends AbstractIntegration
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $Transaction->setAuthCodeOrBatchID($code);
-        $Transaction->setTransactionID($transactionID);
+//        $Transaction->setAuthCodeOrBatchID($code);
+        $Transaction->setIntegrationRemoteID($transactionID);
         $Transaction->setStatus($code, $message);
         // Store Transaction Result
         $Transaction->setTransactionDate($date);
@@ -353,7 +350,6 @@ class ElementIntegration extends AbstractIntegration
         return $Transaction;
     }
 
-
     /**
      * Reverse an existing Transaction
      * @param AbstractMerchantIdentity $MerchantIdentity
@@ -380,14 +376,15 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_REVERSAL
         );
-        $url = $this->getRequestURL($Request);
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($APIData, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
         $request = $APIUtil->prepareCreditCardReversalRequest($MerchantIdentity, $ReverseTransaction, $Order, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
 
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
@@ -407,8 +404,8 @@ class ElementIntegration extends AbstractIntegration
         $date = $response['ExpressTransactionDate'] . ' ' . $response['ExpressTransactionTime'];
         $transactionID = $response['Transaction']['TransactionID'];
 
-        $ReverseTransaction->setAuthCodeOrBatchID($code);
-        $ReverseTransaction->setTransactionID($transactionID);
+//        $ReverseTransaction->setAuthCodeOrBatchID($code);
+        $ReverseTransaction->setIntegrationRemoteID($transactionID);
         $ReverseTransaction->setStatus($code, $message);
         // Store Transaction Result
         $ReverseTransaction->setTransactionDate($date);
@@ -457,7 +454,9 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_VOID
         );
-        $url = $this->getRequestURL($Request);
+
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
+
 //        $url = str_replace(':IDENTITY_ID', $MerchantIdentity->getRemoteID(), $url);
         $Request->setRequestURL($url);
 
@@ -468,7 +467,7 @@ class ElementIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardVoidRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -491,8 +490,8 @@ class ElementIntegration extends AbstractIntegration
         // Store Transaction Result
         $VoidTransaction->setAction($action);
         $VoidTransaction->setStatus($code, $message);
-        $VoidTransaction->setAuthCodeOrBatchID($code);
-        $VoidTransaction->setTransactionID($transactionID);
+//        $VoidTransaction->setAuthCodeOrBatchID($code);
+        $VoidTransaction->setIntegrationRemoteID($transactionID);
         $VoidTransaction->setTransactionDate($date);
 
         TransactionRow::insert($VoidTransaction);
@@ -516,6 +515,7 @@ class ElementIntegration extends AbstractIntegration
 
         return $VoidTransaction;
     }
+
 
     /**
      * Return an existing Transaction
@@ -542,7 +542,7 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_RETURN
         );
-        $url = $this->getRequestURL($Request);
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
@@ -552,7 +552,7 @@ class ElementIntegration extends AbstractIntegration
             $request = $APIUtil->prepareCreditCardReturnRequest($MerchantIdentity, $Order, $AuthorizedTransaction, $ReturnTransaction, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -573,8 +573,8 @@ class ElementIntegration extends AbstractIntegration
         // Store Transaction Result
         $ReturnTransaction->setAction($action);
         $ReturnTransaction->setStatus($code, $message);
-        $ReturnTransaction->setAuthCodeOrBatchID($code);
-        $ReturnTransaction->setTransactionID($transactionID);
+//        $ReturnTransaction->setAuthCodeOrBatchID($code);
+        $ReturnTransaction->setIntegrationRemoteID($transactionID);
         $ReturnTransaction->setTransactionDate($date);
 
         TransactionRow::insert($ReturnTransaction);
@@ -599,7 +599,6 @@ class ElementIntegration extends AbstractIntegration
         return $ReturnTransaction;
     }
 
-
     /**
      * Perform health check on remote api
      * @param ElementMerchantIdentity|AbstractMerchantIdentity $MerchantIdentity
@@ -613,25 +612,29 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_HEALTH_CHECK
         );
-        $url = $this->getRequestURL($Request);
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
         $request = $APIUtil->prepareHealthCheckRequest($MerchantIdentity, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
         if(!$response) //  || !$code || !$message)
             throw new IntegrationException("Invalid response data");
 
-        if($code === '101')
+        if($code !== '0')
             throw new IntegrationException($message);
+
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
 
         return $Request;
     }
+
 
     /**
      * Perform transaction query on remote api
@@ -648,14 +651,15 @@ class ElementIntegration extends AbstractIntegration
             $MerchantIdentity,
             IntegrationRequestRow::ENUM_TYPE_TRANSACTION_SEARCH
         );
-        $url = $this->getRequestURL($Request);
+//        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $this->getRequestURL($MerchantIdentity, $Request);
         $Request->setRequestURL($url);
 
         $APIUtil = new ElementAPIUtil();
         $request = $APIUtil->prepareTransactionQueryRequest($MerchantIdentity, $post);
         $Request->setRequest($request);
 
-        $this->execute($Request);
+        $this->execute($MerchantIdentity, $Request);
         $response = $this->parseResponseData($Request);
         $code = $response['ExpressResponseCode'];
         $message = $response['ExpressResponseMessage'];
@@ -748,7 +752,6 @@ class ElementIntegration extends AbstractIntegration
         return $updated;
     }
 
-
     /**
      * Cancel an active subscription
      * @param AbstractMerchantIdentity $MerchantIdentity
@@ -767,6 +770,21 @@ class ElementIntegration extends AbstractIntegration
             if(!$CancelReceipt->send())
                 error_log($CancelReceipt->ErrorInfo);
         }
+    }
+    /**
+     * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHTMLHeadLinks() method.
+    }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHiddenFields() method.
     }
 }
 

@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -28,5 +29,5 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 
 // Render View
-$View = new User\View\UserView($SessionManager->getSessionUser()->getID());
+$View = new User\View\UserView($SessionManager->getSessionUser()->getUID());
 $View->handleRequest();

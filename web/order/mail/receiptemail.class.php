@@ -39,9 +39,9 @@ class ReceiptEmail extends \PHPMailer
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
             $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
 
-        $this->addAddress($Order->getPayeeEmail(), $Order->getCardHolderFullName());
-        $this->addBCC($Merchant->getMainEmailID(), $Order->getCardHolderFullName());
-        $this->addBCC("support@simonpayments.com", $Order->getCardHolderFullName());
+        $this->addAddress($Order->getPayeeEmail(), $Order->getPayeeFullName());
+        $this->addBCC($Merchant->getMainEmailID(), $Order->getPayeeFullName());
+        $this->addBCC("support@simonpayments.com", $Order->getPayeeFullName());
 
         $this->Subject = "Receipt: " . $Merchant->getName();
 
@@ -57,6 +57,8 @@ Amount:             \${$Order->getAmount()}
 Merchant:           {$Merchant->getName()}
 Date:               {$date}
 HTML;
+// Status:             {$Order->getStatus()}
+
         if($Order->getSubscriptionID())
             $content .= <<<HTML
 
@@ -83,8 +85,8 @@ HTML;
 
 
 Card Holder Information
-Full Name:          {$Order->getCardHolderFullName()}
-Number:             ************{$Order->getCardNumberTruncated()}
+Full Name:          {$Order->getPayeeFullName()}
+Number:             {$Order->getCardNumber()}
 Type:               {$Order->getCardType()}
 HTML;
 

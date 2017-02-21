@@ -9,9 +9,11 @@ namespace Integration\Model;
 
 use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
 
@@ -20,11 +22,10 @@ abstract class AbstractIntegration
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
      */
-    abstract function execute(IntegrationRequestRow $Request);
+    abstract function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
 
     /**
      * Was this request successful?
@@ -33,7 +34,7 @@ abstract class AbstractIntegration
      * @param null $code
      * @return bool
      */
-    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null);
+//    abstract function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null);
 
     /**
      * Print an HTML form containing the request fields
@@ -41,7 +42,7 @@ abstract class AbstractIntegration
      * @return void
      * @throws IntegrationException if the form failed to print
      */
-    abstract function printFormHTML(IntegrationRequestRow $Request);
+//    abstract function printFormHTML(IntegrationRequestRow $Request);
 
     /**
      * Parse the response data and return a data object
@@ -49,14 +50,15 @@ abstract class AbstractIntegration
      * @return mixed
      * @throws IntegrationException if response failed to parse
      */
-    abstract function parseResponseData(IntegrationRequestRow $Request);
+//    abstract function parseResponseData(IntegrationRequestRow $Request);
 
     /**
      * Return the API Request URL for this request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
      * @return string
      */
-    abstract function getRequestURL(IntegrationRequestRow $Request);
+//    abstract function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request);
 
     /**
      * Get or create a Merchant Identity
@@ -73,7 +75,17 @@ abstract class AbstractIntegration
      * @param array $post
      * @return OrderRow
      */
-    abstract function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+    // abstract function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post);
+
+    /**
+     * Create a new order, optionally set up a new payment entry with the remote integration
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
+     * @return OrderRow
+     */
+    abstract function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post);
 
 
     /**
@@ -144,4 +156,18 @@ abstract class AbstractIntegration
      * @return
      */
     abstract function cancelSubscription(AbstractMerchantIdentity $MerchantIdentity, SubscriptionRow $Subscription, UserRow $SessionUser, $message);
+
+    /**
+     * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @return
+     */
+    abstract function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity);
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     * @return
+     */
+    abstract function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity);
 }

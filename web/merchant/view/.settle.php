@@ -7,7 +7,7 @@ use Integration\Model\IntegrationRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
 ?>
 
@@ -20,7 +20,7 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
         </aside>
 
         <section class="content">
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
         <form class="form-view-merchant themed" method="POST">
 
@@ -132,11 +132,11 @@ $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td>Created</td>
-                                    <td colspan="2"><?php echo $MerchantIdentity->getCreateDate() ?: 'N/A'; ?></td>
+                                    <td colspan="2"><?php // echo $MerchantIdentity->getCreateDate() ?: 'N/A'; ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td>Updated</td>
-                                    <td colspan="2"><?php echo $MerchantIdentity->getUpdateDate() ?: 'N/A'; ?></td>
+                                    <td colspan="2"><?php // echo $MerchantIdentity->getUpdateDate() ?: 'N/A'; ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td colspan="3">

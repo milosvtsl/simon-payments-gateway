@@ -15,12 +15,13 @@ class AddMerchantView extends AbstractView
 {
 
     public function renderHTMLBody(Array $params) {
-
-        $SessionUser = SessionManager::get()->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add other merchants
-            $this->setSessionMessage("Unable to add merchant. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
-            header('Location: /merchant?action=add&message=Unable to manage integration: Admin required');
+            $SessionManager->setMessage("Unable to add merchant. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header("Location: {$baseHREF}merchant?action=add&message=Unable to manage integration: Admin required");
             die();
         }
 
@@ -29,19 +30,21 @@ class AddMerchantView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+        $SessionManager = new SessionManager();
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add merchants
-            $this->setSessionMessage("Unable to add merchant. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
-                header('Location: /merchant?action=add&message=Unable to manage integration: Admin required');
+            $SessionManager->setMessage("Unable to add merchant. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
+                header("Location: {$baseHREF}merchant?action=add&message=Unable to manage integration: Admin required");
                 die();
         }
 
         $Merchant = MerchantRow::createNewMerchant($post);
         $SessionUser->addMerchantID($Merchant->getID());
 
-        $this->setSessionMessage("Merchant created successfully: " . $Merchant->getUID());
-        header('Location: /merchant?id=' . $Merchant->getID() . '&action=edit');
+        $SessionManager->setMessage("Merchant created successfully: " . $Merchant->getUID());
+        header("Location: {$baseHREF}?uid=' . $Merchant->getUID() . '&action=edit");
         die();
 
     }

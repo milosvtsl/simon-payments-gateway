@@ -11,6 +11,7 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 
@@ -34,8 +35,19 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     protected $verification;
     protected $identity;
 
-    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData) {
+    protected $creds = array(
+    );
+
+    public function __construct(MerchantRow $Merchant, IntegrationRow $APIData, MerchantIntegrationRow $MerchantIntegration=null) {
         parent::__construct($Merchant, $APIData);
+    }
+
+    /**
+     * Return an array of remote credentials
+     * @return Array
+     */
+    function getCredentials() {
+        return $this->creds;
     }
 
 //    abstract function hasPaymentInstrument();
@@ -74,10 +86,14 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         return false;
     }
 
+
     /**
      * Remove provision a merchant
+     * @param array $post
+     * @return mixed
+     * @throws IntegrationException
      */
-    function provisionRemote() {
+    function provisionRemote(Array $post=array()) {
         if($this->isProvisioned())
             throw new IntegrationException("Merchant is already provisioned");
 
@@ -89,7 +105,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             $IdentityRequest = $this->prepareMerchantIdentityRequest();
 
             // Execute Identity Request
-            $Integration->execute($IdentityRequest);
+            $Integration->execute($MerchantIdentity, $IdentityRequest);
             $this->parseRequest($IdentityRequest);
             if (!$this->id)
                 throw new IntegrationException("Identity Request failed to return id");
@@ -101,7 +117,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
             $PaymentRequest = $this->prepareMerchantPaymentInstrumentRequest();
 
             // Execute Request
-            $Integration->execute($PaymentRequest);
+            $Integration->execute($MerchantIdentity, $PaymentRequest);
             $this->parseRequest($PaymentRequest);
             if (!$this->payment_instrument_id)
                 throw new IntegrationException("Payment Instrument Request failed to return id");
@@ -112,7 +128,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         $ProvisionRequest = $this->prepareMerchantProvisionRequest();
 
         // Execute Request
-        $Integration->execute($ProvisionRequest);
+        $Integration->execute($MerchantIdentity, $ProvisionRequest);
         $this->parseRequest($ProvisionRequest);
         if(!$this->id)
             throw new IntegrationException("Payment Instrument Request failed to return id");
@@ -294,7 +310,7 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
                 "Bank Account" => "Company Account"
             ),
             "country" => "USA",
-            "bank_code" => $M->getPayoutBankCode(),
+            "bank_code" => $M->getPayoutRoutingNumber(),
             "account_number" => $M->getPayoutAccountNumber(),
             "type" => $M->getPayoutType(),
             "identity" => $this->getRemoteID()
@@ -310,13 +326,16 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
 
         $IntegrationRow = $this->getIntegrationRow();
         $Integration = $IntegrationRow->getIntegration();
-        $NewRequest = IntegrationRequestRow::prepareNew(
+        $Request = IntegrationRequestRow::prepareNew(
             $this,
             IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION
         );
-        $url = $Integration->getRequestURL($NewRequest);
+
+        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+        $url = $Integration->getRequestURL($APIData, $Request);
+
         $url = str_replace(':IDENTITY_ID', $this->getRemoteID(), $url);
-        $NewRequest->setRequestURL($url);
+        $Request->setRequestURL($url);
 
 //        $M = $this->getMerchantRow();
         $POST = array(
@@ -326,10 +345,11 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
         );
 
         $request = json_encode($POST, JSON_PRETTY_PRINT);
-        $NewRequest->setRequest($request);
-        return $NewRequest;
+        $Request->setRequest($request);
+        return $Request;
 
     }
+
 }
 
 //{

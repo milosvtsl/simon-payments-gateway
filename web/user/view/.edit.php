@@ -3,14 +3,19 @@ use Merchant\Model\MerchantRow;
 use User\Model\AuthorityRow;
 use User\Model\UserAuthorityRow;
 use User\Model\UserRow;
+use User\Session\SessionManager;
 
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
- * @var UserRow $User
  **/
+
+$SessionManager = new SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
+$User = $this->getUser();
+
 $odd = false;
-$action_url = '/user/index.php?id=' . $User->getID() . '&action=';
+$action_url = 'user/index.php?uid=' . $User->getUID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'user-edit';
 
 $Theme = $this->getTheme();
@@ -25,13 +30,29 @@ $Theme->printHTMLMenu($category,    $action_url);
             <section class="content">
 
 
-                <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
                     <input type="hidden" name="action" value="edit" />
                     <fieldset>
                         <div class="legend">Edit User Fields</div>
+
+
+                        <div class="page-buttons order-page-buttons hide-on-print">
+                            <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
+                                <div class="app-button large app-button-view" ></div>
+                                View
+                            </a>
+                            <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
+                                <div class="app-button large app-button-edit" ></div>
+                                Edit
+                            </a>
+                        </div>
+
+                        <hr/>
+
+
                         <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>

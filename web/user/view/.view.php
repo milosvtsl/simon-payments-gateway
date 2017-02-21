@@ -1,13 +1,20 @@
 <?php
 use Merchant\Model\MerchantRow;
+use User\Session\SessionManager;
 
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
  * @var \User\Model\UserRow $User
  **/
+
+
+$SessionManager = new SessionManager();
+$SessionUser = $SessionManager->getSessionUser();
+$User = $this->getUser();
+
 $odd = false;
-$action_url = 'user?id=' . $User->getID() . '&action=';
+$action_url = 'user?uid=' . $User->getUID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account' : 'user-view';
 
 $Theme = $this->getTheme();
@@ -21,7 +28,7 @@ $Theme->printHTMLMenu($category,    $action_url);
 
             <section class="content">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-view-user themed" method="POST">
                     <input type="hidden" name="id" value="<?php echo $User->getID(); ?>" />
@@ -32,7 +39,22 @@ $Theme->printHTMLMenu($category,    $action_url);
                             </div>
                         </a>
 
-                        <div class="legend">User Information</div>
+                        <div class="legend">User Information: <?php echo $User->getFullName(); ?></div>
+
+                        <div class="page-buttons order-page-buttons hide-on-print">
+                            <a href="<?php echo $action_url; ?>view" class="page-button page-button-view disabled">
+                                <div class="app-button large app-button-view" ></div>
+                                View
+                            </a>
+                            <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
+                                <div class="app-button large app-button-edit" ></div>
+                                Edit
+                            </a>
+                        </div>
+
+                        <hr/>
+
+
                         <?php $odd = true; ?>
                         <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -90,12 +112,12 @@ $Theme->printHTMLMenu($category,    $action_url);
                                         </tr>
                                         <?php
                                         foreach($User->getAuthorityList() as $auth=>$name)
-                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button><a href='/user/account.php?action=edit'>X</a></button></td></th>";
+                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button><a href='user/account.php?action=edit'>X</a></button></td></th>";
                                         ?>
                                         </tbody>
                                     </table>
                                     <?php } else { ?>
-                                    <a href='/user/account.php?action=edit'>Add Roles...</a>
+                                    <a href='user/account.php?action=edit'>Add Roles...</a>
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -106,7 +128,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <?php
                                     try {
                                         $AdminUser = \User\Model\UserRow::fetchByID($User->getAdminID());
-                                        echo "<a href='/user?id=", $AdminUser->getID(), "'>", $AdminUser->getFullName(), "</a>";
+                                        echo "<a href='/user?uid=", $AdminUser->getUID(), "'>", $AdminUser->getFullName(), "</a>";
                                     } catch (InvalidArgumentException $ex) {
 
                                     }

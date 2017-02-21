@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function onOrderFormSubmit(e) {
         var form = e.target.form || e.target;
+
+        if(form.card_track && form.card_track.value) {
+            console.info("Card Track Detected. Skipping SPI Integration...");
+            return;
+        }
+
         e.preventDefault();
 
         console.info("Requesting Temp Token...");
@@ -59,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
                 var CID = objJSON.CID;
                 var SettingsCipher = objJSON.SettingsCipher;
+                form.CID.value = CID;
+                form.SettingsCipher.value = SettingsCipher;
                 if(!CID || !SettingsCipher) {
                     alert("Invalid CID/SettingsCipher: " + response);
                     throw new Error("Invalid CID/SettingsCipher: " + response);
@@ -125,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if (xhttp.readyState === 4) {
                 var resp = xhttp.responseText;
                 console.log("Processor Response: ", resp);
-                processSPIResponse(resp, form, CID, SettingsCipher);
+                processSPIResponse(resp, form);
             }
         };
         xhttp.send(payload);
@@ -144,10 +152,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
         form.setAttribute("action", URL_PROCESS_RESPONSE);
 
         // sanitize sensitive data
-        form.card_number.value = '';
-        form.card_cvv2.value = '';
-        form.card_exp_month.value = '';
-        form.card_exp_year.value = '';
+        //form.card_number.value = '';
+        //form.card_cvv2.value = '';
+        //form.card_exp_month.value = '';
+        //form.card_exp_year.value = '';
 
         var hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");

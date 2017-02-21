@@ -21,8 +21,7 @@ $Theme->printHTMLMenu('order-subscription-list');
 
         <section class="content">
 
-
-            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-subscription-search" class="themed">
 
@@ -116,7 +115,7 @@ $Theme->printHTMLMenu('order-subscription-list');
                             <td style="font-weight: bold;"><?php echo $Subscription->getRecurFrequency(); ?></td>
                             <td style="max-width: 8em;"><?php echo $Subscription->getCustomerFullName(); ?></td>
                             <td><?php echo $Subscription->getStatus(); ?></td>
-                            <td><?php echo date("M dS h:i A", strtotime($Subscription->getRecurNextDate()) + $offset); ?></td>
+                            <td><?php echo date("M dS g:i A", strtotime($Subscription->getRecurNextDate()) + $offset); ?></td>
                             <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
                             <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Subscription->getMerchantID(); ?>'><?php echo $Subscription->getMerchantShortName(); ?></a></td>
                             <?php } ?>

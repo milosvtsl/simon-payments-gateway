@@ -8,6 +8,9 @@
 
 chdir(__DIR__ . '/web');
 
+if(!isset($argv))
+    die("Console Only");
+
 $cwd0 = getcwd().'';
 // Enable class autoloader
 spl_autoload_extensions('.class.php');

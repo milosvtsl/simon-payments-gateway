@@ -18,6 +18,7 @@ class SessionManager
     const SESSION_ID = 'id';
     const SESSION_KEY = '_spg';
     const SESSION_OLD = '_old';
+    const SESSION_MESSAGE_KEY = __CLASS__;
 
     private static $_session_user = null;
 
@@ -41,7 +42,12 @@ class SessionManager
             throw new \InvalidArgumentException("Username not found: " . $username);
 
         $User->validatePassword($password);
+
         self::$_session_user = $User;
+
+        session_regenerate_id(true);
+        session_write_close();
+        session_start();
 
         // Reset login session data
         $_SESSION[static::SESSION_KEY] = array (
@@ -110,6 +116,22 @@ class SessionManager
 
         return $User;
     }
+
+
+    public function setMessage($message) {
+        $_SESSION[static::SESSION_MESSAGE_KEY] = $message;
+    }
+
+    public function hasMessage() {
+        return isset($_SESSION, $_SESSION[static::SESSION_MESSAGE_KEY]);
+    }
+
+    public function popMessage() {
+        $message = $_SESSION[static::SESSION_MESSAGE_KEY];
+        unset($_SESSION[static::SESSION_MESSAGE_KEY]);
+        return $message;
+    }
+
 
     // Static
 

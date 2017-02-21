@@ -21,10 +21,14 @@ class IntegrationRequestRow
     const ENUM_TYPE_MERCHANT_PROVISION      = 'merchant-provision';
     const ENUM_TYPE_MERCHANT_PAYMENT        = 'merchant-payment';
     const ENUM_TYPE_TRANSACTION             = 'transaction';
+    const ENUM_TYPE_TRANSACTION_CREATE      = 'transaction-create';
     const ENUM_TYPE_TRANSACTION_VOID        = 'transaction-void';
     const ENUM_TYPE_TRANSACTION_RETURN      = 'transaction-return';
     const ENUM_TYPE_TRANSACTION_REVERSAL    = 'transaction-reversal';
     const ENUM_TYPE_TRANSACTION_SEARCH      = 'transaction-search';
+    const ENUM_TYPE_TRANSACTION_TEMP_TOKEN  = 'transaction-temp-token';
+    const ENUM_TYPE_TRANSACTION_PAYER       = 'transaction-payer';
+
     const ENUM_TYPE_HEALTH_CHECK            = 'health-check';
 
     const ENUM_RESULT_SUCCESS               = 'success';
@@ -67,11 +71,14 @@ SELECT
     i.name integration_name,
     i.class_path integration_class_path,
     m.short_name as merchant_name,
-    u.username as user_name
+    u.username as user_name,
+    u.uid as user_uid,
+    oi.uid as order_item_uid
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
 LEFT JOIN user u ON u.id = ir.user_id
+LEFT JOIN order_item oi ON oi.id = ir.order_item_id
 ";
 
 
@@ -81,7 +88,8 @@ SELECT
     i.name integration_name,
     i.class_path integration_class_path,
     m.short_name as merchant_name,
-    u.username as user_name
+    u.username as user_name,
+    u.uid as user_uid
 FROM integration_request ir
 LEFT JOIN integration i ON i.id = ir.integration_id
 LEFT JOIN merchant m ON m.id = ir.merchant_id
@@ -113,6 +121,7 @@ LEFT JOIN user u ON u.id = ir.user_id
     protected $user_id;
     protected $merchant_id;
     protected $order_item_id;
+    protected $order_item_uid;
     protected $transaction_id;
 
     // Table: integration
@@ -127,7 +136,8 @@ LEFT JOIN user u ON u.id = ir.user_id
     // Table: user
 
     protected $user_name;
-
+    protected $user_uid;
+    
     /**
      * @return mixed
      */
@@ -154,10 +164,12 @@ LEFT JOIN user u ON u.id = ir.user_id
     public function getResponseCode()       { return $this->response_code; }
     public function getResponseMessage()    { return $this->response_message; }
     public function getUserID()             { return $this->user_id; }
+    public function getUserUID()            { return $this->user_uid; }
     public function getUserName()           { return $this->user_name; }
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantName()       { return $this->merchant_name; }
     public function getOrderItemID()        { return $this->order_item_id; }
+    public function getOrderItemUID()       { return $this->order_item_uid; }
     public function getTransactionID()      { return $this->transaction_id; }
 
     public function setDuration($ms)        { $this->duration = $ms; }
@@ -193,29 +205,29 @@ LEFT JOIN user u ON u.id = ir.user_id
 //        $Integration->execute($this);
 //    }
 
-    function isRequestSuccessful(&$reason=null, &$code=null) {
-        $Integration = $this->getIntegration();
-        return $Integration->isRequestSuccessful($this, $reason, $code);
-    }
+//    function isRequestSuccessful(&$reason=null, &$code=null) {
+//        $Integration = $this->getIntegration();
+//        return $Integration->isRequestSuccessful($this, $reason, $code);
+//    }
 
-    function printFormHTML() {
-        $Integration = $this->getIntegration();
-        $Integration->printFormHTML($this);
-    }
+//    function printFormHTML() {
+//        $Integration = $this->getIntegration();
+//        $Integration->printFormHTML($this);
+//    }
 
-    function parseResponseData() {
-        $Integration = $this->getIntegration();
-        return $Integration->parseResponseData($this);
-    }
+//    function parseResponseData() {
+//        $Integration = $this->getIntegration();
+//        return $Integration->parseResponseData($this);
+//    }
 
     public function getRequestURL() {
-        // If URL was defined, return it
-        if($this->url)
-            return $this->url;
+        return $this->url;
 
         // If URL was not defined yet, generate it now
-        $Integration = $this->getIntegration();
-        return $Integration->getRequestURL($this);
+//        $Integration = $this->getIntegration();
+//        $MerchantRow = MerchantRow::fetchByID($this->getMerchantID());
+//        $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $APIData);
+//        return $Integration->getRequestURL($MerchantIdentity, $this);
     }
 
     // Static
@@ -295,7 +307,7 @@ LEFT JOIN user u ON u.id = ir.user_id
             . "\n\t`merchant_id` = :merchant_id,"
             . "\n\t`transaction_id` = :transaction_id,"
             . "\n\t`order_item_id` = :order_item_id,"
-            . "\n\t`date` = NOW()");
+            . "\n\t`date` = UTC_TIMESTAMP()");
         $NewRow->date = date('Y-m-d G:i:s');
         $ret = $stmt->execute(array(
             ':type' => $NewRow->type,

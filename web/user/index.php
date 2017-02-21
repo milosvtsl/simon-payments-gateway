@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -25,16 +26,19 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
-if(isset($_GET['id'])) {
-    if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
-        $View = new \User\View\UserView($_GET['id']);
+// Check for User UID parameter
+if(isset($_GET['uid'])) {
+    if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')
+        || $_GET['uid'] === $SessionUser->getUID()) {
+        $View = new \User\View\UserView($_GET['uid']);
         $View->handleRequest();
     } else {
-        $View = new \User\View\UserView($SessionUser->getID());
+        $SessionManager->setMessage("Invalid authority to view user");
+        $View = new \User\View\UserView($SessionUser->getUID());
         $View->handleRequest();
     }
 

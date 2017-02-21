@@ -14,6 +14,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.php,.class.php');

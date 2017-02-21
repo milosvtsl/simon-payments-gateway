@@ -7,7 +7,7 @@ use Merchant\Model\MerchantRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant/index.php?id=' . $Merchant->getID() . '&action=';
 
 
 $Theme = $this->getTheme();
@@ -23,13 +23,32 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
         <section class="content">
 
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
                 <fieldset>
                     <div class="legend">Edit Merchant #<?php echo $Merchant->getID(); ?></div>
+
+                    <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
+                            <div class="app-button large app-button-view" ></div>
+                            View
+                        </a>
+                        <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
+                            <div class="app-button large app-button-edit" ></div>
+                            Edit
+                        </a>
+                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
+                            <div class="app-button large app-button-provision" ></div>
+                            Provision
+                        </a>
+                    </div>
+
+                    <hr/>
+
+
                     <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
                         <tr>
                             <th colspan="2">Information</th>
@@ -231,15 +250,15 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <th colspan="2">Fraud Scrubbing</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Transaction High Limit (USD)</td>
+                            <td class="name">Transaction High Limit</td>
                             <td><input type="text" name="fraud_high_limit" value="<?php echo $Merchant->getFraudHighLimit() ?: ''; ?>" placeholder="Maximum Transaction Amount"  /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Transaction Low Limit (USD)</td>
+                            <td class="name">Transaction Low Limit</td>
                             <td><input type="text" name="fraud_low_limit" value="<?php echo $Merchant->getFraudLowLimit() ?: ''; ?>" placeholder="Minimum Transaction Amount" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Transaction High Monthly Limit (USD)</td>
+                            <td class="name">Transaction High Monthly Limit</td>
                             <td><input type="text" name="fraud_high_monthly_limit" value="<?php echo $Merchant->getFraudHighMonthlyLimit() ?: ''; ?>" placeholder="Monthly Transaction Limit" /></td>
                         </tr>
                         <?php
@@ -299,7 +318,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Routing Number</td>
-                            <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutBankCode(); ?>" placeholder="Routing Number" /></td>
+                            <td><input type="text" name="payout_bank_code" value="<?php echo $Merchant->getPayoutRoutingNumber(); ?>" placeholder="Routing Number" /></td>
                         </tr>
 
                         <tr>
@@ -320,3 +339,5 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
             </form>
         </section>
     </article>
+
+<?php $this->getTheme()->renderHTMLBodyFooter(); ?>

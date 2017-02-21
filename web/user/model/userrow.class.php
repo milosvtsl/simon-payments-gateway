@@ -7,6 +7,7 @@
  */
 namespace User\Model;
 
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use System\Config\DBConfig;
 
@@ -44,6 +45,7 @@ class UserRow
     protected $app_config;
     protected $timezone;
     protected $admin_id;
+    protected $merchant_form_id;
 
     // Table authority
     protected $merchant_list;
@@ -59,6 +61,7 @@ FROM user u
     const SQL_ORDER_BY = "\nORDER BY u.id DESC";
 
 
+
     public function getID()             { return $this->id; }
     public function getUID()            { return $this->uid; }
     public function getUsername()       { return $this->username; }
@@ -71,6 +74,7 @@ FROM user u
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
     public function getAppConfig()      { return $this->app_config; }
+    public function getMerchantFormID() { return $this->merchant_form_id; }
 
     public function getTimeZoneOffset($date='now') {
         $tz = new \DateTimeZone($this->getTimeZone());
@@ -82,6 +86,11 @@ FROM user u
     public function getMerchantCount() {
         return sizeof($this->getMerchantList());
     }
+
+    /**
+     * @return array
+     * @deprecated 
+     */
     public function getMerchantList() {
         if(is_array($this->merchant_list))
             return $this->merchant_list;
@@ -165,9 +174,17 @@ FROM user u
         return static::update($this);
     }
 
+    public function setDefaultOrderForm(MerchantFormRow $OrderForm) {
+        if($this->merchant_form_id == $OrderForm->getID())
+            return false;
+        $this->merchant_form_id = $OrderForm->getID();
+        return static::update($this);
+    }
+
+
     public function updateFields($post) {
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid User Email");
 
         $this->fname = $post['fname'];
         $this->lname = $post['lname'];
@@ -177,7 +194,6 @@ FROM user u
         $this->timezone = $time->getName();
         return static::update($this);
     }
-
 
     public function addAuthority($authority, $ignore_duplicate=true) {
         $Authority = AuthorityRow::fetchByName($authority);
@@ -257,7 +273,21 @@ SQL;
         return $stmt->rowCount() >= 1;
     }
 
+
+
     // Static
+    public static function fetchByUID($uid)
+    {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.uid = ?");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
+        $stmt->execute(array($uid));
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("User UID not found: " . $uid);
+        return $Row;
+    }
 
     /**
      * @param $id
@@ -304,11 +334,11 @@ SQL;
         return static::fetchByField('username', $username);
     }
 
+
+
     public static function fetchByEmail($email) {
         return static::fetchByField('email', $email);
     }
-
-
 
     /**
      * @param $post
@@ -325,7 +355,7 @@ SQL;
             throw new \InvalidArgumentException("Password Mismatch");
 
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid User Email Format");
 
         $password = md5($post['password']);
 
@@ -368,6 +398,8 @@ SQL;
         $stmt = $DB->prepare($SQL);
         if(!$stmt->execute(array($User->getID())))
             throw new \PDOException("Failed to insert new row");
+        if($stmt->rowCount() === 0)
+            error_log("Failed to delete row: " . print_r($User, true));
     }
 
     /**
@@ -391,7 +423,7 @@ SQL;
         $SQL = '';
         foreach($values as $key=>$value)
             $SQL .= ($SQL?",\n":"") . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL .= ",\n\t`date` = NOW()";
+        $SQL .= ",\n\t`date` = UTC_TIMESTAMP()";
         $User->date = date('Y-m-d G:i:s');
 
         $SQL = "INSERT INTO user\nSET" . $SQL;
@@ -406,6 +438,7 @@ SQL;
 
         return $User;
     }
+
 
     /**
      * @param UserRow $User
@@ -425,6 +458,7 @@ SQL;
             ':username' => $User->username,
             ':timezone' => $User->timezone,
             ':admin_id' => $User->admin_id,
+            ':merchant_form_id' => $User->merchant_form_id,
         );
         $SQL = '';
         foreach($values as $key=>$value)
@@ -441,11 +475,9 @@ SQL;
         return $stmt->rowCount();
     }
 
-
     public static function generateGUID() {
         return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
-
 
 
 }

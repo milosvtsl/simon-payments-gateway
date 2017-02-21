@@ -167,7 +167,7 @@ $Theme->printHTMLMenu('order-list');
                             <td><a href='order?uid=<?php echo $Order->getUID(false); ?>'><?php echo $Order->getID(); ?></a></td>
                             <td ><?php echo date("M dS h:i A", strtotime($Order->getDate()) + $offset); ?></td>
                             <td style="font-weight: bold;"><?php echo $Order->getAmount(); ?></td>
-                            <td style="max-width: 8em;"><?php echo $Order->getCardHolderFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
+                            <td style="max-width: 8em;"><?php echo $Order->getPayeeFullName(), ($Order->getCustomerID() ? '/' . $Order->getCustomerID() : ''); ?></td>
                             <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
                             <td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>

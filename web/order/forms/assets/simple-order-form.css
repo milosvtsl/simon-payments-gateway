@@ -1,0 +1,112 @@
+.simple-order-form:not(.payment-method-swipe) .show-on-payment-method-swipe,
+.simple-order-form:not(.payment-method-keyed) .show-on-payment-method-keyed,
+.simple-order-form:not(.payment-method-card) .show-on-payment-method-card,
+.simple-order-form:not(.payment-method-check) .show-on-payment-method-check {
+    display: none !important;
+}
+
+.simple-order-form .field-row {
+    display: block;
+    font-size: smaller;
+    margin: 1px 0 0 0;
+}
+
+.simple-order-form .field-row > span {
+    display: inline-block;
+    width: 10em;
+    text-align: right;
+    vertical-align: top;
+    padding: 4px 4px;
+    /* font-weight: bold; */
+    margin-right: 3px;
+}
+
+
+
+.simple-order-form .field-row > span::after {
+    content: ':';
+    color: gray;
+}
+
+.simple-order-form .field-row.required > span::before {
+    content: '*';
+    color: red;
+}
+
+
+.simple-order-form .entry-section {
+    background: #eef5f7;
+    padding: 8px;
+    border-radius: 0 8px 8px 8px;
+}
+.simple-order-form .entry-options {
+    font-size: smaller;
+    border-bottom: 0px #CCC solid;
+    padding: 0px 0px;
+}
+.simple-order-form .entry-options .entry-option {
+    display: inline-block;
+    background: #dae6ea;
+    border-radius: 8px 8px 0 0;
+    padding: 6px 10px 4px 4px;
+    margin: 0 3px 0 0px;
+}
+
+.simple-order-form.payment-method-swipe .entry-option-swipe,
+.simple-order-form.payment-method-keyed .entry-option-keyed,
+.simple-order-form.payment-method-card .entry-option-card,
+.simple-order-form.payment-method-check .entry-option-check,
+.simple-order-form .entry-options .entry-option.selected {
+    font-weight: bold;
+    background: #eef5f7;
+}
+
+/** Swipe Box **/
+
+.simple-order-form.swipe-input-successful .swipe-fullscreen-box-container {
+    display: none !important;
+}
+
+.simple-order-form .swipe-fullscreen-box-container {
+    position: fixed;
+    z-index: 999;
+    width: 40%;
+    /* height: 37%; */
+    top: 27%;
+    margin: 0 auto;
+    background-color: #bcc5d1;
+    /* opacity: 0.9; */
+    border-radius: 1em;
+    padding: 0.6em 0.6em;
+    box-shadow: 0 0 1.5em #666;
+}
+
+.simple-order-form .swipe-fullscreen-box {
+
+}
+
+
+.simple-order-form .conv-fee-text {
+    font-size: 0.7em;
+    padding: 4px;
+}
+
+
+.simple-order-form .conv-fee-pop-up-box {
+    display: none;
+    position: absolute;
+    /* right: 13em; */
+    margin-left: 7em;
+    font-size: small;
+    /* font-weight: bold; */
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    color: #fff;
+    padding: 0.5em 1em;
+}
+
+
+.simple-order-form .conv-fee-text:hover + .conv-fee-pop-up-box {
+    display: block;
+}

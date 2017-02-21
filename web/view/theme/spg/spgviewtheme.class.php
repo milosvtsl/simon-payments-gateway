@@ -44,17 +44,17 @@ class SPGViewTheme extends AbstractViewTheme
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-
+        if(!$SessionManager->isLoggedIn())
+            $body_class .= ' layout-guest';
 
         ?>
     <body class="spg-theme <?php echo $body_class; ?>">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/" class="logo">
-                <img src="view/theme/spg/assets/img/logo.png" alt="Simon Payments Gateway" style="">
+            <a href=".">
+                <div class="logo"></div>
             </a>
-            <hr class="themed hide-on-print" style="clear: both;"/>
         </header>
 
         <aside class="sub-header hide-on-print">
@@ -74,7 +74,7 @@ class SPGViewTheme extends AbstractViewTheme
             </span>
 
 
-            <a href="#" onclick="return false;" class="menu-button-account" style="float: right;">
+            <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
                 <div class="menu-icon menu-icon-sub-menu"></div>
                 <ul class="menu-sub-menu">
                     <li>
@@ -110,7 +110,7 @@ class SPGViewTheme extends AbstractViewTheme
         ?>
         <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
         <footer class="hide-on-print">
-            <span>&copy; 2017 Simon Payments, LLC. All rights reserved.</span>
+            <span>&copy; <?php echo date('Y'); ?> Simon Payments, LLC. All rights reserved.</span>
         </footer>
         <?php } ?>
     </body>
@@ -129,16 +129,17 @@ class SPGViewTheme extends AbstractViewTheme
     }
 
     public function renderHTMLHeadLinks($flags=0) {
-        $v = '?v=4';
-        if(in_array(strtolower(@$_SERVER['SERVER_NAME']), array('localhost')))
-            $v = '';
+        $vjs = '?v=' . filemtime(__DIR__ . '/assets/spg-theme.js');
+        $vcss = '?v=' . filemtime(__DIR__ . '/assets/spg-theme.css');
+        if(!in_array(@strtoupper($_SERVER['COMPUTERNAME']), array('NOBISERV', 'KADO', 'ROBOS')))
+            $vcss = $vjs = '';
 
         echo <<<HEAD
         <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
-        <link href='view/theme/spg/assets/spg-theme.css{$v}' type='text/css' rel='stylesheet'>
-        <script src="view/theme/spg/assets/spg-theme.js{$v}"></script>
-        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico{$v}">
+        <link href='view/theme/spg/assets/spg-theme.css{$vcss}' type='text/css' rel='stylesheet'>
+        <script src="view/theme/spg/assets/spg-theme.js{$vjs}"></script>
+        <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
 HEAD;
     }
 
@@ -155,6 +156,9 @@ HEAD;
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
 
+        if(!$SessionManager->isLoggedIn())
+            return;
+
         list($main) = explode('-', $category, 2);
         $mc = array();
         $mc[@$main] = ' current';
@@ -163,7 +167,7 @@ HEAD;
 
         <ul class="page-menu hide-on-print">
             <li>
-                <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
+                <a href="." class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
                     <span>Dashboard</span></a>
             </li>
 
@@ -202,12 +206,16 @@ HEAD;
                             </li>
                             <li>
                                 <a href="order/report.php?date_from=<?php echo date('Y-m-01', time() - 60*60*4); ?>" class="button<?php echo @$mc['order-report']; ?>"><div class="menu-icon menu-icon-report"></div>
-                                    <span>Reports</span> </a>
+                                    <span>Report</span> </a>
                             </li>
-                            <li>
-                                <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>
-                                    <span>Client Profiles</span> </a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a href="order/batch.php" class="button--><?php //echo @$mc['order-batch-list']; ?><!--"><div class="menu-icon menu-icon-batch"></div>-->
+<!--                                    <span>Batch Report</span> </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="subscription" class="button--><?php //echo @$mc['order-subscription-list']; ?><!--"><div class="menu-icon menu-icon-subscription"></div>-->
+<!--                                    <span>Client Profiles</span> </a>-->
+<!--                            </li>-->
                         <?php } ?>
 
                     </ul>
@@ -219,6 +227,24 @@ HEAD;
                     <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
                         <span>Merchants</span> </a>
                     <ul>
+
+                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+
+                    <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
+                        <li>
+                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
+                                <span>View Merchant</span></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
+                                <span>Edit Merchant</span></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
+                                <span>Provision</span></a>
+                        </li>
+                    <?php } ?>
+
                         <li>
                             <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
                                 <span>Search</span> </a>
@@ -227,26 +253,19 @@ HEAD;
                             <a href="merchant/add.php" class="button<?php echo @$mc['merchant-add']; ?>"><div class="menu-icon menu-icon-add"></div>
                                 <span>Add</span> </a>
                         </li>
-
-                        <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
-                            <li>
-                                <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['merchant-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                    <span>View Merchant</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['merchant-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                    <span>Edit Merchant</span></a>
-                            </li>
-                            <li>
-                                <a href="<?php echo $action_url; ?>provision" class="button<?php echo @$mc['merchant-provision']; ?>"><div class="menu-icon menu-icon-provision"></div>
-                                    <span>Provision Merchant</span></a>
-                            </li>
+                        <li>
+                            <a href="merchant/form.php" class="button<?php echo @$mc['merchant-form-list']; ?>"><div class="menu-icon menu-icon-customize"></div>
+                                <span>Order Forms</span> </a>
+                        </li>
+                        <li>
+                            <a href="merchant/addform.php" class="button<?php echo @$mc['merchant-form-add']; ?>"><div class="menu-icon menu-icon-add"></div>
+                                <span>Create Form</span> </a>
+                        </li>
                         <?php } ?>
 
                     </ul>
                 </li>
             <?php } ?>
-
 
             <li class="menu-submenu menu-submenu-user">
                 <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>

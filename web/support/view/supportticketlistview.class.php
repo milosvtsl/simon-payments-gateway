@@ -103,19 +103,19 @@ class SupportTicketListView extends AbstractListView {
         $time += microtime(true);
 
         $statsMessage = $this->getRowCount() . " tickets found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $this->setMessage($statsMessage);
+        $SessionManager->setMessage($statsMessage);
 
 		// Render Page
 		include ('.list.php');
 	}
-
-	public function processFormTicket(Array $post) {
-		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: /support/ticket");
+    public function processFormRequest(Array $post) {
+        $SessionManager = new SessionManager();
+        try {
+            $SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+            header("Location: support/ticket");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+            $SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

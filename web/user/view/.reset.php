@@ -1,19 +1,23 @@
 <?php /** @var \User\View\LoginView $this  **/
+use User\Session\SessionManager;
+
 $odd = true;
 // Render Header
 /** @var \View\AbstractView $this */
 $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEADER_MINIMAL);
+
+$SessionManager = new SessionManager();
 ?>
 
 <article>
 
     <section class="not-content login-section">
 
-        <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+        <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
         <?php if(!empty($_GET['key']) && !empty($_GET['email'])) { ?>
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
-            <img src="view/theme/spg/assets/img/logo_full.png" alt="Simon Payments Gateway" style="display: block; margin: auto; padding: 0.5em; width: 18em;">
+            <div class="logo" style="margin: 17px auto;"></div>
 
             <input type="hidden" name="action" value="reset" />
             <input type="hidden" name="key" value="<?php echo $_GET['key']; ?>" />
@@ -42,7 +46,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="login-text">
-                            <a href="/">Back to Login</a>
+                            <a href=".">Back to Login</a>
                         </td>
                     </tr>
 
@@ -53,13 +57,13 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
         <?php } else { ?>
 
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
-            <img src="view/theme/spg/assets/img/logo_full.png" alt="Simon Payments Gateway" style="display: block; margin: auto; padding: 0.5em; width: 18em;">
+            <div class="logo" style="margin: 17px auto;"></div>
 
             <input type="hidden" name="action" value="reset" />
             <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
                 <div class="legend">Password Reset</div>
 
-                <span class="info">Please enter your email address to receive a password reset link</span>
+                <div class="info" style="width: 300px;">Please enter your email address to receive a password reset link</div>
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -74,7 +78,7 @@ $this->getTheme()->renderHTMLBodyHeader(\View\Theme\AbstractViewTheme::FLAG_HEAD
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="login-text">
-                            <a href="/">Back to Login</a>
+                            <a href=".">Back to Login</a>
                         </td>
                     </tr>
 

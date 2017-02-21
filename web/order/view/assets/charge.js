@@ -30,7 +30,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
                 if(!/^-?[0-9.]+$/.test(form.amount.value)) {
                     e.preventDefault();
+                    form.amount.focus();
+                } else if(form.fraud_high_limit && form.fraud_high_limit.value > 0.1 && form.fraud_high_limit.value < form.amount.value) {
+                    e.preventDefault();
+                    form.amount.focus();
+                    alert("Order amount must be below max value: " + form.fraud_high_limit.value);
+                } else {
+                    // Validation Success
                 }
+
+                var submitEvent = new CustomEvent('order:submit', {
+                    //detail: commandString,
+                    cancelable: true,
+                    bubbles: true
+                });
+
+                form.dispatchEvent(submitEvent);
+                if(submitEvent.defaultPrevented) {
+                    console.info("Order Submit event was completed by custom handler");
+                    e.preventDefault();
+                    return;
+                }
+
+                if(
+                    form.getAttribute('method').toLowerCase() === 'ajax'
+                    || (form.ajax && form.ajax.value)
+                ) {
+                    throw new Error("TODO: Ajax");
+                }
+                // TODO check for ajax
+
             }
         }
     }
@@ -120,19 +149,42 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var amount_timeout = null;
     function updateChargeForm(e, form) {
+        var url;
+        if(form.change_form_url && form.change_form_url.value) {
+            url = form.change_form_url.value;
+            form.change_form_url.value = null;
+            document.location.href = document.location.href.split('?')[0] + url;
+            return false;
+        }
+        if(form.change_merchant_url && form.change_merchant_url.value) {
+            url = form.change_merchant_url.value;
+            form.change_merchant_url.value = null;
+            document.location.href = document.location.href.split('?')[0] + url;
+            return false;
+        }
+
         updateStyleSheetTheme(form);
+
+        checkForSwipeData(form)
+    }
+
+    function checkForSwipeData(form) {
+
         // Enter in swiped data
         if(lastParseData && lastParseData.success) {
             //form.entry_method.value = 'Swipe';
             form.entry_mode.value = 'Swipe';
             form.card_number.value = lastParseData.card_number;
-            form.payee_first_name.value = lastParseData.payee_first_name;
-            form.payee_last_name.value = lastParseData.payee_last_name;
-            form.customer_first_name.value = lastParseData.payee_first_name;
-            form.customer_last_name.value = lastParseData.payee_last_name;
-
+            if(form.payee_full_name) form.payee_full_name.value = (lastParseData.payee_first_name + ' ' + lastParseData.payee_last_name).trim();
+            if(form.payee_first_name) form.payee_first_name.value = lastParseData.payee_first_name;
+            if(form.payee_last_name) form.payee_last_name.value = lastParseData.payee_last_name;
             form.card_exp_month.value = lastParseData.card_exp_month;
             form.card_exp_year.value = lastParseData.card_exp_year;
+
+            if(form.customer_first_name && !form.customer_first_name.value)
+                form.customer_first_name.value = lastParseData.payee_first_name;
+            if(form.customer_last_name && !form.customer_last_name.value)
+                form.customer_last_name.value = lastParseData.payee_last_name;
         }
 
         clearTimeout(amount_timeout);
@@ -166,8 +218,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     var option = form.card_type.options[i];
                     if(option.innerHTML === newType) {
                         //form.card_type.value = newType;
-                        form.card_type.selectedIndex = i;
-                        console.log("Updating card type to: " + newType, form.card_type.value);
+                        if(form.card_type.selectedIndex != i) {
+                            form.card_type.selectedIndex = i;
+                            console.log("Updating card type to: " + newType, " from ", form.card_type.value);
+                        }
                     }
                 }
             }
@@ -175,105 +229,118 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     }
 
+    var lastEntryMode = null;
     function updateStyleSheetTheme(form) {
+        var entry_mode = form.entry_mode.value.toLowerCase() || 'keyed';
 
-        var entry_mode = form.entry_mode.value.toLowerCase();
+        if(entry_mode !== lastEntryMode) {
+            lastEntryMode = entry_mode;
 
-        form.classList[form.merchant_id.value ? 'add' : 'remove']('merchant-selected');
-        form.classList[form.entry_mode.value ? 'add' : 'remove']('payment-method-selected');
-        form.classList.remove('payment-method-keyed', 'payment-method-swipe', 'payment-method-check', 'payment-method-card');
-        form.classList.add('payment-method-' + entry_mode);
+            // Disable unused payment methods
+            switch(entry_mode) {
+                case 'check':
+                    form.classList.remove('payment-method-keyed');
+                    form.classList.remove('payment-method-swipe');
+                    form.classList.remove('payment-method-card');
+                    form.classList.add('payment-method-check');
 
-        switch(entry_mode) {
-            case 'keyed':
-            case 'swipe':
-                form.classList.add('payment-method-card');
-                break;
-        }
+                    form.card_number.setAttribute('disabled', 'disabled');
+                    form.card_type.setAttribute('disabled', 'disabled');
+                    form.card_cvv2.setAttribute('disabled', 'disabled');
+                    form.card_exp_month.setAttribute('disabled', 'disabled');
+                    form.card_exp_year.setAttribute('disabled', 'disabled');
 
-        if(form.merchant_id && form.merchant_id.nodeName.toUpperCase() === 'SELECT') {
-            console.log("Merchant: ", form.merchant_id.selectedIndex);
-            if(form.merchant_id.selectedIndex === -1)
-                form.merchant_id.selectedIndex = 0;
-            var selectedOption = form.merchant_id.options[form.merchant_id.selectedIndex];
-            //formClasses += ' ' + selectedOption.getAttribute('data-form-class');
-            form.integration_id.value = selectedOption.getAttribute('data-integration-id') || 0;
-            form.convenience_fee_flat.value = selectedOption.getAttribute('data-convenience-fee-flat') || 0;
-            form.convenience_fee_limit.value = selectedOption.getAttribute('data-convenience-fee-limit') || 0;
-            form.convenience_fee_variable_rate.value = selectedOption.getAttribute('data-convenience-fee-variable-rate') || 0;
-
-//             console.log("Merchant: ", form.merchant_id.value, formClasses);
-
-        } else {
-
-        }
-        //form.setAttribute('class', formClasses);
-
-        // Disable unused payment methods
-        switch(form.entry_mode.value.toLowerCase()) {
-            case 'check':
-                form.getElementsByClassName('form-payment-method-check')[0].removeAttribute('disabled');
-                form.getElementsByClassName('form-payment-method-credit')[0].setAttribute('disabled', 'disabled');
-                break;
-
-            case 'swipe':
-            case 'keyed':
-                form.getElementsByClassName('form-payment-method-check')[0].setAttribute('disabled', 'disabled');
-                form.getElementsByClassName('form-payment-method-credit')[0].removeAttribute('disabled');
-                break;
-        }
-
-        if(form.recur_count.value > 0) {
-            form.recur_next_date.removeAttribute('disabled');
-            form.recur_amount.removeAttribute('disabled');
-            form.recur_frequency.removeAttribute('disabled');
-
-            if(form.recur_amount.value <= 0) {
-                form.recur_amount.value = form.amount.value;
-            }
-
-        } else {
-            form.recur_next_date.setAttribute('disabled', 'disabled');
-            form.recur_amount.setAttribute('disabled', 'disabled');
-            form.recur_frequency.setAttribute('disabled', 'disabled');
-        }
-
-        if(typeof form.recur_frequency.last_value == 'undefined'
-            || form.recur_frequency.last_value !== form.recur_frequency.value) {
-            var newdate = new Date();
-            var now = new Date();
-            switch(form.recur_frequency.value) {
-                case 'Weekly':
-                    newdate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-                    break;
-                case 'BiWeekly':
-                    newdate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-                    break;
-                default:
-                case 'OneTimeFuture':
-                case 'Monthly':
-                    if (now.getMonth() == 11)   newdate = new Date(now.getFullYear() + 1, 0, 1);
-                    else                        newdate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-                    break;
-                case 'BiMonthly':
-                    newdate = new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000);
+                    form.check_account_name.removeAttribute('disabled');
+                    form.check_account_bank_name.removeAttribute('disabled');
+                    form.check_account_number.removeAttribute('disabled');
+                    form.check_routing_number.removeAttribute('disabled');
+                    form.check_account_type.removeAttribute('disabled');
+                    form.check_number.removeAttribute('disabled');
+                    form.check_type.removeAttribute('disabled');
+                    console.info("Switching to Entry mode: " + entry_mode);
+    //                 form.entry_mode.value = entry_mode;
                     break;
 
-                case 'Quarterly':
-                    newdate = new Date(now.getTime() + 91 * 24 * 60 * 60 * 1000);
-                    break;
-                case 'SemiAnnually':
-                    newdate = new Date(now.getTime() + 182 * 24 * 60 * 60 * 1000);
-                    break;
-                case 'Annually':
-                    newdate = new Date(now.getFullYear() + 1, 0, 1);
+                case 'swipe':
+                case 'keyed':
+                    form.classList.remove('payment-method-keyed');
+                    form.classList.remove('payment-method-swipe');
+                    form.classList.add('payment-method-' + entry_mode);
+                    form.classList.add('payment-method-card');
+                    form.classList.remove('payment-method-check');
+
+                    form.card_number.removeAttribute('disabled');
+                    form.card_type.removeAttribute('disabled');
+                    form.card_cvv2.removeAttribute('disabled');
+                    form.card_exp_month.removeAttribute('disabled');
+                    form.card_exp_year.removeAttribute('disabled');
+
+                    form.check_account_name.setAttribute('disabled', 'disabled');
+                    form.check_account_bank_name.setAttribute('disabled', 'disabled');
+                    form.check_account_number.setAttribute('disabled', 'disabled');
+                    form.check_routing_number.setAttribute('disabled', 'disabled');
+                    form.check_account_type.setAttribute('disabled', 'disabled');
+                    form.check_number.setAttribute('disabled', 'disabled');
+                    form.check_type.setAttribute('disabled', 'disabled');
+                    console.info("Switching to Entry mode: " + entry_mode);
+    //                 form.entry_mode.value = entry_mode;
                     break;
             }
-            var datestring = formatDateYYYYMMDD(newdate);
-            form.recur_next_date.value = datestring;
-            form.recur_next_date.last_value = form.recur_frequency.value;
         }
 
+        // Rebill UI
+        if(form.recur_count) {
+            if(form.recur_count.value > 0) {
+                form.recur_next_date.removeAttribute('disabled');
+                form.recur_amount.removeAttribute('disabled');
+                form.recur_frequency.removeAttribute('disabled');
+
+                if(form.recur_amount.value <= 0) {
+                    form.recur_amount.value = form.amount.value;
+                }
+
+            } else {
+                form.recur_next_date.setAttribute('disabled', 'disabled');
+                form.recur_amount.setAttribute('disabled', 'disabled');
+                form.recur_frequency.setAttribute('disabled', 'disabled');
+            }
+
+            if(typeof form.recur_frequency.last_value == 'undefined'
+                || form.recur_frequency.last_value !== form.recur_frequency.value) {
+                var newdate = new Date();
+                var now = new Date();
+                switch(form.recur_frequency.value) {
+                    case 'Weekly':
+                        newdate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'BiWeekly':
+                        newdate = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+                        break;
+                    default:
+                    case 'OneTimeFuture':
+                    case 'Monthly':
+                        if (now.getMonth() == 11)   newdate = new Date(now.getFullYear() + 1, 0, 1);
+                        else                        newdate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                        break;
+                    case 'BiMonthly':
+                        newdate = new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000);
+                        break;
+
+                    case 'Quarterly':
+                        newdate = new Date(now.getTime() + 91 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'SemiAnnually':
+                        newdate = new Date(now.getTime() + 182 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'Annually':
+                        newdate = new Date(now.getFullYear() + 1, 0, 1);
+                        break;
+                }
+                var datestring = formatDateYYYYMMDD(newdate);
+                form.recur_next_date.value = datestring;
+                form.recur_next_date.last_value = form.recur_frequency.value;
+            }
+        }
     }
 
     // Utilities

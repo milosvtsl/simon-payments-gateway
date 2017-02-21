@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -28,13 +29,16 @@ if(!isset($_GET['uid']))
 try {
     $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
     $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action'] ?: 'receipt');
+    $View->handleRequest();
+
 } catch (InvalidArgumentException $ex) {
 //    $View = new \Order\View\OrderListView();
-    $View = new \User\View\LoginView();
-    $View->setSessionMessage(
-        "<span class='error'>" .
-        $ex->getMessage() .
-        "</span>"
-    );
+
+    $SessionManager = new \User\Session\SessionManager();
+    if(!$SessionManager->isLoggedIn()) {
+        header('Location: ' . BASE_HREF . 'login.php?message=' . $ex->getMessage());
+        die();
+    }
+
+    throw $ex;
 }
-$View->handleRequest();

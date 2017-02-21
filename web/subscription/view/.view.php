@@ -35,7 +35,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
 
         <section class="content">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-subscription-view" id="form-subscription-view" class="themed" method="POST">
                 <fieldset style="">
@@ -133,7 +133,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                 <?php if ($Subscription->getCardNumber()) { ?>
 
                     <fieldset style="max-width: 44em;">
-                        <div class="legend">Card Holder: <?php echo $Subscription->getCardHolderFullName(); ?></div>
+                        <div class="legend">Card Holder: <?php echo $Subscription->getPayeeFullName(); ?></div>
                         <table class="table-transaction-info themed cell-bsubscriptions small" style="width: 94%">
                             <tbody>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -153,7 +153,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                                     <td class="value"><?php echo $Subscription->getCardNumber(); ?></td>
                                     <td class="value"><?php echo $Subscription->getCardType(); ?></td>
                                     <td class="value"><?php echo $Subscription->getStatus(); ?></td>
-                                    <td class="value"><?php echo $Transaction ? $Transaction->getTransactionID() : "N/A"; ?></td>
+                                    <td class="value"><?php echo $Transaction ? $Transaction->getIntegrationRemoteID() : "N/A"; ?></td>
                                     <td class="value"><?php echo $Subscription->getID(); ?></td>
                                 </tr>
                             </tbody>
@@ -189,7 +189,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                                 <td class="value"><?php echo $Subscription->getCheckAccountType(); ?></td>
                                 <td class="value"><?php echo $Subscription->getCheckNumber(); ?></td>
                                 <td class="value"><?php echo $Subscription->getStatus(); ?></td>
-                                <td class="value"><?php echo $Transaction ? $Transaction->getTransactionID() : 'N/A'; ?></td>
+                                <td class="value"><?php echo $Transaction ? $Transaction->getIntegrationRemoteID() : 'N/A'; ?></td>
                                 <td class="value"><?php echo $Subscription->getID(); ?></td>
                             </tr>
                             </tbody>
@@ -256,7 +256,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="hide-on-layout-narrow"><a href='/subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getTransactionID(); ?></a></td>
+                                <td class="hide-on-layout-narrow"><a href='/subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
                                 <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>

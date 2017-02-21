@@ -12,6 +12,7 @@ use Merchant\Model\MerchantRow;
 
 // Go to root directory
 chdir('../..');
+define("BASE_HREF", '../../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -26,7 +27,7 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
@@ -57,8 +58,10 @@ try {
     /** @var ProtectPayMerchantIdentity $MerchantIdentity */
     $MerchantIdentity = $Integration->getMerchantIdentity($MerchantRow, $IntegrationRow);
 
+    // Provision Merchant if not yet provisioned
+    if(!$MerchantIdentity->isProvisioned())
+        $MerchantIdentity->provisionRemote();
 
-    $PayerID = null;
     $data = $Integration->requestTempToken($MerchantIdentity, $OrderForm, $_POST);
 
     $JSON['Name'] = $_POST['payee_full_name'];

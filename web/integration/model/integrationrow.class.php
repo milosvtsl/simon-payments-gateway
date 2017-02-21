@@ -89,7 +89,7 @@ FROM integration i
     public function getAPIType()        { return $this->api_type; }
     public function getNotes()          { return $this->notes; }
 
-    public function getAPICredentials() {
+    public function getAPICredentialString() {
         return $this->api_credentials;
     }
 

@@ -1,0 +1,878 @@
+/** Page Body **/
+
+.utilitypay-theme {
+    color: #000000;
+    font-family: arial, serif;
+    margin: 0 auto;
+    /* background: #f0f4f6 linear-gradient(0deg, #f0f4f6 0%, #f0f4f6 50%, #f0f4f6 100%); */
+    /* background-color: #ffffff; */
+    background: linear-gradient(to right,  rgba(36,53,42,1) 0%,rgba(69,119,82,1) 15%,rgba(69,119,82,1) 85%,rgba(36,53,42,1) 101%);
+}
+
+.utilitypay-theme header.themed {
+    /* background-color: #FFF; */
+    min-height: 45px;
+}
+
+
+/** Vertical and Horizontal layout options **/
+
+.utilitypay-theme.layout-full .inline-block-on-layout-full {
+    display: inline-block !important;
+}
+.utilitypay-theme.layout-narrow .inline-block-on-layout-narrow {
+    display: inline-block !important;
+}
+
+body.layout-guest.utilitypay-theme .hide-on-layout-guest,
+body.layout-narrow.utilitypay-theme .hide-on-layout-narrow,
+body.layout-vertical.utilitypay-theme .hide-on-layout-vertical,
+body.layout-horizontal.utilitypay-theme .hide-on-layout-horizontal {
+    display: none;
+}
+
+body.layout-horizontal.utilitypay-theme .float-left-on-layout-horizontal {
+    float: left;
+}
+body.layout-horizontal.utilitypay-theme .float-right-on-layout-horizontal {
+    float: right;
+}
+
+
+/** Header **/
+
+.utilitypay-theme div.logo {
+    background: url('img/logo.png') no-repeat center;
+    width: 248px;
+    height: 88px;
+    margin: 4px 0px 0px 3px;
+    /* margin: 17px auto; */
+}
+.utilitypay-theme div.logo-full {
+    background-image: url('img/logo_full.png');
+    width: 496px;
+    height: 175px;
+}
+
+.utilitypay-theme header hr.themed {
+    border: 1px solid #d8e9ed;
+    margin-bottom: 0;
+}
+
+.utilitypay-theme .site-welcome-text {
+    font-style:italic;
+    vertical-align: bottom;
+    text-decoration: none;
+    color: #3b7593;
+    font-size: 1em;
+    display: inline-block;
+    line-height: 3em;
+}
+.utilitypay-theme a {
+    text-decoration: none;
+}
+
+.utilitypay-theme .menu-search {
+    /* float: right; */
+    padding: 8px 16px 8px 28px;
+    margin: 3px 3px 3px 3px;
+    border-radius: 8px;
+    border: 1px inset;
+    opacity: 0.7;
+    transition: opacity 1s, max-width 1.4s ease-out;
+    transition-delay: 0.8s;
+    max-width: 3.2em;
+    z-index: 99;
+    position: relative;
+    background: url('img/icons/btn_search.png') no-repeat #FFF;
+    background-size: 24px;
+    background-position: 3px 4px;
+}
+
+.utilitypay-theme .menu-search:focus,
+.utilitypay-theme .menu-search:hover {
+    opacity: 1;
+    max-width: 30em;
+    transition-delay: 0s;
+    transition-duration: 0.6s;
+}
+
+/** Article **/
+
+.utilitypay-theme > article.themed {
+     /*margin-top: 0.5em;*/
+}
+.utilitypay-theme > article.themed > section.content {
+}
+
+/** Footer **/
+
+.utilitypay-theme > footer {
+    text-align: center;
+    padding: 3em;
+    clear: both;
+    font-size: 0.8em;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000033;
+    text-transform: uppercase;
+}
+
+
+/** Page Menu **/
+
+.utilitypay-theme ul.page-menu {
+    padding: 0 4px;
+    margin: 0 0;
+    display: inline-block;
+    overflow: hidden;
+    float: left;
+    font-size: larger;
+}
+
+.utilitypay-theme ul.page-menu > li > ul {
+    list-style: none;
+    padding: 0 0;
+    margin: 0 0px 0 12px;
+    max-height: 0;
+    overflow:hidden;
+    transition: max-height 0.6s ease-in;
+    font-size: smaller;
+    /* transition-delay: .8s; */
+}
+
+.utilitypay-theme ul.page-menu > li > ul .menu-icon {
+    font-size: 7px;
+}
+
+
+.utilitypay-theme ul.page-menu a.button > span {
+    margin: 0px 0px 0px 5px;
+}
+
+
+/** Menu Animation **/
+
+.utilitypay-theme.layout-full ul.page-menu + article.themed,
+.utilitypay-theme.layout-narrow ul.page-menu:hover + article.themed {
+    margin-left: 12em;
+}
+.utilitypay-theme.layout-narrow ul.page-menu + article.themed {
+    margin-left: 60px;
+}
+
+body.layout-narrow.utilitypay-theme ul.page-menu:not(:hover) ul {
+    margin-left: 3px;
+    transition: margin-left 0.4s;
+}
+body.layout-narrow.utilitypay-theme ul.page-menu {
+    transition: max-width 0.4s ease-out, margin-left 0.4s;
+}
+
+.utilitypay-theme ul.page-menu span {
+    transition: opacity 0.4s, max-width 0.4s;
+    max-width: 100px;
+    opacity: 1;
+}
+
+body.layout-narrow.utilitypay-theme ul.page-menu:not(:hover) span {
+    max-width: 0;
+    opacity: 0;
+    padding: 0 0;
+    margin: 0 0;
+    display: inline-block;
+}
+
+body.menu-hidden.utilitypay-theme ul.page-menu {
+    max-width: 0;
+}
+
+body.layout-narrow .hide-on-layout-narrow {
+    display: none;
+}
+
+
+
+.utilitypay-theme nav.page-menu {
+    float: left;
+    margin: 0em 0.5em 1em 0.1em;
+    /* max-width: 4em; */
+    overflow-x: hidden;
+}
+
+body.layout-vertical.utilitypay-theme nav.page-menu {
+    float: inherit;
+    margin: 0.6em;
+}
+
+
+/** Sub Menu **/
+
+/** Opens on hover or current selection **/
+.utilitypay-theme ul.page-menu > li:hover > a + ul,
+.utilitypay-theme ul.page-menu > li > a.current + ul {
+    /*     display: block; */
+    max-height: 40em;
+    transition-delay: 0.1s;
+}
+
+.utilitypay-theme ul.page-menu .menu-submenu {
+    border-radius: 2px 2px 2px 6px;
+    margin-bottom: 1px;
+}
+
+.utilitypay-theme ul.page-menu .menu-submenu-dashboard    { background-color: lightblue; }
+.utilitypay-theme ul.page-menu .menu-submenu-order        {background-color: #ecf5f1;}
+.utilitypay-theme ul.page-menu .menu-submenu-merchant     { background-color: #f0f4f6; }
+.utilitypay-theme ul.page-menu .menu-submenu-user         { background-color: #f0f4f6; }
+.utilitypay-theme ul.page-menu .menu-submenu-integration  { background-color: #f0f4f6; }
+
+
+
+/** Menu Icons **/
+
+.utilitypay-theme .menu-icon {
+    font-size: 9px;
+    background: url(img/nav_icons.png?v=3) no-repeat top left;
+    background-size: 16em 24em;
+    width: 4em;
+    height: 4em;
+    transition: margin-left 0.3s ease-out;
+    display: inline-block;
+    padding: 0 0;
+    margin: 0 0;
+}
+
+
+.utilitypay-theme .menu-icon.menu-icon-toggle {
+    background-position: -4em 0;
+    transform: rotate(0deg);
+    transition: transform 0.5s;
+}
+
+.utilitypay-theme.layout-narrow .menu-icon.menu-icon-toggle {
+    transform: rotate(90deg);
+    transition: transform 0.5s;
+}
+.utilitypay-theme .sub-header .menu-button-toggle {
+    display: inline-block;
+    padding: 0px 0px 0px 5px;
+    margin: 1px 0 -2px 5px;
+}
+
+.utilitypay-theme .sub-header .menu-button-account {
+    /* height: 47px; */
+    /* width: 52px; */
+    padding: 0px 3px 0px 0px;
+}
+
+
+.utilitypay-theme ul.menu-sub-menu a.button .menu-icon {
+    font-size: 7px;
+}
+.utilitypay-theme ul.menu-sub-menu a.button > span {
+    margin: 0px 0px 0px 4px;
+    display: inline-block;
+    font-size: larger;
+}
+
+
+.utilitypay-theme ul.menu-sub-menu {
+    max-height: 0px;
+    max-width: 0px;
+    overflow: hidden;
+    min-width: 11em;
+    /* display: none; */
+    transition: max-height 1s ease-in, max-width 0.5s ease-in, display 1s;
+    position: absolute;
+    right: 0;
+    z-index: 999;
+    list-style: none;
+    /* margin: 2px 0px 0px 0px; */
+    margin: 3px 0px;
+    padding: 0 0px 0px 1px;
+    border-radius: 0 0  0 4px;
+    background-color: #bcc5d1;
+    /* box-shadow: 0px 1px 2px #222; */
+}
+
+.utilitypay-theme ul.menu-sub-menu:hover,
+.utilitypay-theme .menu-button-account:hover + ul.menu-sub-menu {
+    max-height: 400px;
+    max-width: 400px;
+    /* display: block; */
+}
+/** Nav Menu Icon Types **/
+
+.utilitypay-theme .menu-icon.menu-icon-dashboard   { background-position: 0 -16em;}
+.utilitypay-theme .menu-icon.menu-icon-charge      { background-position: 0 -4em;}
+.utilitypay-theme .menu-icon.menu-icon-account     { background-position: -8em 0;}
+.utilitypay-theme .menu-icon.menu-icon-list        { background-position: -4em -16em;}
+.utilitypay-theme .menu-icon.menu-icon-report      { background-position: -12em -8em;}
+.utilitypay-theme .menu-icon.menu-icon-batch       { background-position: -4em -20em;}
+.utilitypay-theme .menu-icon.menu-icon-transaction { background-position: -8em -12em;}
+.utilitypay-theme .menu-icon.menu-icon-subscription{ background-position: 0em -20em;}
+.utilitypay-theme .menu-icon.menu-icon-merchant    { background-position: -12em 0;}
+.utilitypay-theme .menu-icon.menu-icon-user        { background-position: -8em -8em;}
+.utilitypay-theme .menu-icon.menu-icon-integration { background-position: -4em -8em;}
+.utilitypay-theme .menu-icon.menu-icon-provision   { background-position: -4em -8em;}
+.utilitypay-theme .menu-icon.menu-icon-logout      { background-position: -12em -4em;}
+.utilitypay-theme .menu-icon.menu-icon-sub-menu    { background-position: -12em -16em;}
+.utilitypay-theme .menu-icon.menu-icon-customize   { background-position: 0 -4em;}
+
+.utilitypay-theme .menu-icon.menu-icon-edit        { background-position: -4em -4em; }
+.utilitypay-theme .menu-icon.menu-icon-add         { background-position: -8em -4em; }
+.utilitypay-theme .menu-icon.menu-icon-delete      { background-position: 0 -8em; }
+.utilitypay-theme .menu-icon.menu-icon-view        { background-position: -8em 0; }
+.utilitypay-theme .menu-icon.menu-icon-print       { background-position: 0 -12em; }
+.utilitypay-theme .menu-icon.menu-icon-download    { background-position: -4em -12em; }
+.utilitypay-theme .menu-icon.menu-icon-receipt     { background-position: -8em -12em; }
+
+/** Dashboard Apps **/
+
+.utilitypay-theme .app-chart {
+    box-shadow: 2px 2px 7px #2a4131;
+    transition: box-shadow 0.5s ease;
+}
+
+.utilitypay-theme .app-chart a {
+    color: white;
+}
+
+/** App Menu Icons **/
+
+
+
+.utilitypay-theme .app-button  {
+    width: 1em;
+    height: 1em;
+    background-image: url('img/btn_icons.png');
+    background-size: 4em 4em;
+    font-size: 16px;
+    text-decoration: none;
+    margin: 0 auto;
+}
+.utilitypay-theme .app-button.large {
+    font-size: 32px;
+}
+.utilitypay-theme .app-button.small {
+    font-size: 16px;
+}
+
+.utilitypay-theme .app-button.app-button-up            { background-position: -1em 0em; }
+.utilitypay-theme .app-button.app-button-down          { background-position: -2em 0em; }
+.utilitypay-theme .app-button.app-button-top           { background-position: -3em 0em; }
+.utilitypay-theme .app-button.app-button-bottom        { background-position: 0em -1em; }
+.utilitypay-theme .app-button.app-button-config        { background-position: 0em 0em; }
+.utilitypay-theme .app-button.app-button-remove        { background-position: -1em -1em; }
+.utilitypay-theme .app-button.app-button-edit          { background-position: -3em -1em; }
+.utilitypay-theme .app-button.app-button-search        { background-position: -3em -1em; }
+.utilitypay-theme .app-button.app-button-fullscreen    { background-position: -3em -1em; }
+.utilitypay-theme .app-button.app-button-print         { background-position: -1em -2em;}
+.utilitypay-theme .app-button.app-button-download      { background-position: -4em -1em;}
+
+.utilitypay-theme .app-button-config {
+
+}
+
+.utilitypay-theme .app-button.app-button-top-right {
+    right: 0px;
+    top: 0px;
+    position: absolute;
+    z-index: 1;
+    margin: 4px;
+}
+
+.utilitypay-theme ul.app-menu .app-button {
+    float: left;
+    margin-right: 8px;
+}
+
+.utilitypay-theme .app-button > ul.app-menu {
+    margin-left: -33px;
+    margin-top: 7px;
+    position: absolute;
+    z-index: 2;
+    list-style-type: none;
+    text-align: left;
+    max-height: 0px;
+    max-width: 0px;
+    transition: all 0.5s;
+    transition-delay: 0.3s;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.utilitypay-theme .app-button:hover > ul.app-menu {
+    max-height: 400px;
+    max-width: 400px;
+    display: block;
+    z-index: 3;
+    transition-delay: 0.1s;
+}
+
+.utilitypay-theme .app-button > ul.app-menu > li {
+    background-color: #ffc074;
+    padding: 5px 10px;
+    white-space: nowrap;
+    border: 1px outset;
+    min-width: 9em;
+}
+
+.utilitypay-theme .app-button > ul.app-menu > li:hover {
+    background-color: gray;
+    border: 1px inset;
+    font-weight: bold;
+}
+
+.utilitypay-theme .app-button > ul.app-menu > li > a {
+    text-decoration: none;
+    color: black;
+}
+
+/** App Sections **/
+
+.app-section-top {
+    height: 3.5em;
+    /* padding: 0.5em 0.0em; */
+    /* text-align: center; */
+}
+
+.app-section-text-large {
+    font-size: 1.4em;
+    /* text-decoration: underline; */
+    text-shadow: 2px 2px 3px #444;
+    padding: 0.7em 0 0.2em 0;
+    /* font-family: monospace; */
+}
+
+
+/** Menu Buttons **/
+
+.utilitypay-theme a.button {
+    text-decoration: none;
+    padding: 5px 5px 5px 5px;
+    margin: 0 0;
+    display: block;
+    color: #666;
+    white-space: nowrap;
+    background-color: rgb(255, 255, 255);
+}
+.utilitypay-theme a.button > * {
+    vertical-align: middle;
+}
+
+.utilitypay-theme li.menu-submenu > a.button {
+    background-color: rgb(255, 255, 255);
+}
+
+.utilitypay-theme a.button:hover {
+    background-color: #f0f4f6;
+    background: linear-gradient(90deg, #d8e8e0 0%, #ffffff 100%);
+    /* color: #ffffff; */
+    font-weight: bold;
+}
+.utilitypay-theme a.button.current {
+    font-weight: bold;
+    color: #78b68e;
+    background: linear-gradient(90deg, #ecf5f1 0%, #ffffff 100%);
+}
+
+.utilitypay-theme a.button[disabled] {
+    color: gray;
+    cursor: default;
+}
+
+
+
+
+.utilitypay-theme nav.page-menu {
+    float: left;
+    margin: 0em 0.5em 1em 0.1em;
+    overflow-x: hidden;
+}
+
+body.layout-vertical.utilitypay-theme nav.page-menu {
+    float: inherit;
+    margin: 0.6em;
+}
+
+
+
+
+/** Bread Crumbs **/
+
+.utilitypay-theme .sub-header {
+    border-bottom: 1px solid #8fa2ad;
+    border-top: 1px solid #b3c5d0;
+    /* padding: 0.8em 0.5em 0.4em 0.9em; */
+    background-color: #d8e8e0;
+    /* position: relative; */
+    /* min-height: 38px; */
+    /* display: block; */
+    box-shadow: 2px 2px 7px #2a4131;
+}
+
+.utilitypay-theme .sub-header > * {
+    vertical-align: middle;
+}
+
+.utilitypay-theme .bread-crumbs {
+}
+
+.utilitypay-theme .bread-crumbs > a {
+    text-decoration: none;
+    color: #1c4a35;
+    font-size: 0.9em;
+    /*text-transform: lowercase;*/
+    display: inline-block;
+    /* font-style: italic; */
+    padding: 0.4em;
+    border-radius: 4px;
+}
+
+.utilitypay-theme .bread-crumbs > a:hover {
+    background-color: #d2eade;
+    font-weight: bold;
+}
+
+
+/** Page Buttons **/
+
+.page-buttons {
+    padding: 5px 0 4px 0px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.page-buttons .page-button {
+    padding: 8px 0px 0 0;
+    margin: 0px 4px 0px 4px;
+    border-radius: 0.8em 0.8em 0 0;
+    border: 1px outset;
+    cursor: pointer;
+    width: 22%;
+    min-width: 4em;
+    display: inline-block;
+    background-color: #e7f0f3;
+    color: black;
+    line-height: 34px;
+    text-align: center;
+    font-weight:  bold;
+    transition: all 1s;
+}
+
+.page-buttons .page-button.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-buttons .page-button:not(.disabled):hover {
+    opacity: 1;
+    background-color: #b7d0d3;
+    box-shadow: 2px 2px 7px #2a4131;
+}
+
+
+
+/** Messages **/
+
+.utilitypay-theme .alert {
+    font-weight: bold;
+    color: #0074af;
+}
+
+
+.utilitypay-theme .error,
+.utilitypay-theme .info {
+    border-radius: 0.8em;
+    font-weight: bold;
+    color: #061375;
+    /* white-space: pre-wrap; */
+    text-align: left;
+}
+
+.utilitypay-theme div.error,
+.utilitypay-theme div.info {
+    font-size: 1.1em;
+    padding: 0.5em 1em;
+    margin: 10px 2.5em;
+    overflow-x: auto;
+    display: inline-block;
+    width: 80%;
+}
+
+.utilitypay-theme .info {
+    background: rgba(59, 117, 147, 0.53);
+}
+.utilitypay-theme .error {
+    background: rgba(255, 112, 29, 0.45);
+    color: red;
+}
+
+
+/** Tables **/
+
+.utilitypay-theme form.themed > fieldset,
+.utilitypay-theme fieldset.themed {
+    border: 0px inset #d4e7ec;
+    /* padding: 0.5em 1px 0.3em 1px; */
+    margin: 0.5em 0.25em 0.25em 0.25em;
+    vertical-align: top;
+    background-color: #FAFAFA;
+    border-radius: 4px;
+    /* background: linear-gradient(-3deg, #ffffff 0%, #ffffff 60%, rgb(214, 223, 234) 100%); */
+    /* background-image: url(img/bk/fieldset.png); */
+    /* background-repeat: repeat-x; */
+    /* overflow: hidden; */
+    background-color: white;
+    box-shadow: 2px 2px 7px #2a4131;
+}
+
+
+.utilitypay-theme form.themed > fieldset > legend,
+.utilitypay-theme fieldset.themed > legend,
+.utilitypay-theme fieldset > .legend,
+.utilitypay-theme th.legend,
+.utilitypay-theme td.legend,
+.utilitypay-theme legend.themed {
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 1px inset #b1ced6;
+    border-radius: 3px 0px 8px 3px;
+    margin: 2px 0 7px 0;
+    padding: 4px 3px 2px 4px;
+    font-size: larger !important;
+    background: linear-gradient(90deg, #ecf5f1 40%, #ffffff 90%);
+}
+
+.utilitypay-theme form.themed select, .utilitypay-theme form.themed textarea, .utilitypay-theme form.themed button, .utilitypay-theme form.themed input[type=text] {
+    padding: 0.4em 0.6em;
+    /* border-radius: 0.3em; */
+    /* border-width: 1px; */
+    /* margin: 0px 0px 1px 0px; */
+    border: 1px inset rgba(33, 69, 91, 0.22);
+    border-radius: 3px;
+    box-shadow: 2px 2px 7px #2a4131;
+}
+
+.utilitypay-theme form.themed select.large,
+.utilitypay-theme form.themed input.large {
+    padding: 0.5em 1em;
+    border-radius: 0.3em;
+    font-size: large;
+}
+
+.utilitypay-theme input[type=reset].themed,
+.utilitypay-theme input[type=submit].themed,
+.utilitypay-theme input[type=button].themed,
+.utilitypay-theme button.themed {
+    /* background: url('img/bk/input.button.png') repeat-x; */
+    margin: 0.1em 0.1em;
+    /* min-width: 80px; */
+    border-radius: 5px;
+    text-transform: capitalize;
+    background-color: #457752;
+    background: linear-gradient(0deg, #457752 0%, #447551 50%, #395e43 79%);
+    color: white;
+    cursor: pointer;
+    border: 1px solid #CCCCCC;
+    border-right-color: #adabab;
+    border-bottom-color: #adabab;
+    box-shadow: 2px 2px 7px #2a4131;
+    font-size: .9em;
+    font-weight: normal;
+    text-align: center;
+    padding: 7px 10px;
+}
+
+.utilitypay-theme input[type=reset].themed:hover,
+.utilitypay-theme input[type=submit].themed:hover,
+.utilitypay-theme input[type=button].themed:hover,
+.utilitypay-theme button.themed:hover {
+    background: linear-gradient(0deg, #416f4d 0%, #293f30 50%, #2e4936 100%);
+    box-shadow: 2px 2px 7px #2a4131;
+}
+
+
+.utilitypay-theme table.themed {border-spacing: 0 0;margin: 0 0px 0.5em 0px;/* min-width: 48%; *//* width: 100%; */}
+
+.utilitypay-theme table.themed > tbody > tr > th.section {
+    background-color: #bcc5d1;
+    color: #000;
+    text-align: left;
+    padding-left: 0.5em;
+}
+
+.utilitypay-theme table.themed > tbody > tr > td {
+    padding: 0.3em 0 0.3em 0.6em;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    /* text-align: center; */
+}
+.utilitypay-theme table.themed > tbody > tr > td > a {
+    text-decoratioN: none;
+}
+
+/* .utilitypay-theme table.themed.small > tbody > tr > th, */
+.utilitypay-theme table.themed.small > tbody > tr > td {
+    font-size: smaller;
+    /*max-width: 5em;*/
+}
+
+.utilitypay-theme table.cell-borders {
+}
+
+.utilitypay-theme table.cell-borders > tbody > tr > th,
+.utilitypay-theme table.cell-borders > tbody > tr > td {
+    border: 1px outset #EEE;
+    padding: 2px 1em;
+}
+
+.utilitypay-theme table.striped-rows > tbody > tr.row-even {
+    background-color: rgba(61, 118, 148, 0.08);
+}
+
+.utilitypay-theme table.themed > tbody > tr:hover {
+    background-color: #dce6ea;
+}
+
+.utilitypay-theme table.themed > tbody > tr > th {
+    background-color: #e7f0f3;
+}
+
+
+.utilitypay-theme table.themed > tbody > tr > th.name,
+.utilitypay-theme table.themed > tbody > tr > td.name {
+    /* text-align: right; */
+    /* text-transform: uppercase; */
+    font-size: smaller;
+    padding: 0.5em 0 0.5em 0.5em;
+    vertical-align: top;
+    font-weight: bold;
+    min-width: 6em;
+}
+
+
+.utilitypay-theme table.themed > tbody > tr > td.value {
+    text-align: left;
+    /* font-size: smaller; */
+    padding: 0.5em 0.5em;
+}
+
+.utilitypay-theme table.themed > tbody > tr > td.name::after {
+    content: ':';
+    color: gray;
+}
+
+.utilitypay-theme table.themed > tbody > tr.required > td.name::before {
+    content: '*';
+    color: red;
+}
+
+.utilitypay-theme table.themed > tbody > tr.required > td.name {}
+
+
+
+/** Payment **/
+
+.utilitypay-theme .credit-image {
+    background: url('img/payment/credit-image.png') no-repeat;
+    width: 270px;
+    height: 44px;
+}
+
+.utilitypay-theme .credit-image.small {
+    background: url('img/payment/credit-image-small.png') no-repeat;
+    width: 192px;
+    height: 32px;
+}
+
+.utilitypay-theme .check-image {
+    background: url('img/payment/check-image.png') no-repeat;
+    width: 300px;
+    height: 162px;
+}
+
+.utilitypay-theme .cvv2-image {
+    background: url('img/payment/cvv2-image.png') no-repeat;
+    width: 225px;
+    height: 170px;
+    display: inline-block;
+}
+
+.utilitypay-theme .cvv2-image.small {
+    transform: scale(0.8);
+    margin: 12px -26px;
+}
+
+
+
+
+
+.utilitypay-theme h1,
+.utilitypay-theme h2,
+.utilitypay-theme h3,
+.utilitypay-theme h4,
+.utilitypay-theme h5,
+.utilitypay-theme h6 {
+    margin: 0.1em 0 0.1em 0;
+    font-style: italic;
+    font-size: 1.2em;
+}
+
+/** Pagination **/
+
+.pagination a {
+    padding: 0.2em;
+    margin: 0.5em 0;
+    min-width: 0.8em;
+    display: inline-block;
+    text-align: center;
+    border-radius: 0.2em;
+    background-color: #f0f4f6;
+    font-weight: bold;
+}
+
+.pagination a:hover {
+    background-color: #BBB;
+}
+.pagination a:visited {
+}
+
+.pagination a.current {
+    background-color: #bcc5d1;
+}
+
+
+/** Printing **/
+
+.show-on-print {
+    display: none;
+}
+
+@media print
+{
+    .hide-on-print, .hide-on-print *
+    {
+        display: none !important;
+    }
+
+    .show-on-print {
+        display: inherit;
+    }
+
+    .small-font-on-print {
+        font-size: 8px;
+    }
+
+
+    .utilitypay-theme fieldset {
+        box-shadow: none !important;
+        border: 0;
+    }
+
+    .utilitypay-theme > article.themed {
+        margin-left: 0 !important;
+    }
+}

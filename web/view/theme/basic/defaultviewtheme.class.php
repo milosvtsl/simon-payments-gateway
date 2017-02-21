@@ -31,7 +31,7 @@ class DefaultViewTheme extends AbstractViewTheme
 //                $this->addNavLink('integration', "Integration");
 
             } else {
-                $this->addNavLink('user?id=' . $SessionUser->getID(), "My Account");
+                $this->addNavLink('user?uid=' . $SessionUser->getUID(), "My Account");
             }
 
             if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
@@ -52,7 +52,7 @@ class DefaultViewTheme extends AbstractViewTheme
         ?>
         <body class="basic-theme">
         <header>
-            <a href="/">
+            <a href=".">
                 <img src="view/theme/basic/assets/img/logo.png" alt="Simon Payments Gateway">
             </a>
 
@@ -92,10 +92,23 @@ class DefaultViewTheme extends AbstractViewTheme
     }
 
     public function printHTMLMenu($category, $action_url=null) {
+        throw new \Exception("Not implemented");
         // TODO: Implement printHTMLMenu() method.
     }
 
     public function printBreadCrumbs($getFullName, $string) {
+        throw new \Exception("Not implemented");
         // TODO: Implement printBreadCrumbs() method.
+    }
+
+    /**
+     * Add a path (bread crumb) url
+     * @param $name
+     * @param $url
+     * @return mixed
+     */
+    public function addPathURL($url, $name) {
+        throw new \Exception("Not implemented");
+        // TODO: Implement addPathURL() method.
     }
 }

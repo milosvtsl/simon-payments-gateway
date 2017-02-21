@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -25,11 +26,16 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 //$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
-if(!empty($_GET['id'])) {
+if(!empty($_GET['uid'])) {
+    $Merchant = \Merchant\Model\MerchantRow::fetchByUID($_GET['uid']);
+    $View = new \Merchant\View\MerchantView($Merchant->getID(), @$_GET['action']);
+    $View->handleRequest();
+
+} else if(!empty($_GET['id'])) {
     $View = new \Merchant\View\MerchantView($_GET['id'], @$_GET['action']);
     $View->handleRequest();
 

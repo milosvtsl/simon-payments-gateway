@@ -9,10 +9,15 @@
 namespace Integration\Element\Test;
 
 use Integration\Model\IntegrationRow;
+use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
+
+if(!isset($argv))
+    die("Console Only");
 
 echo "\nTesting ... ", __FILE__, PHP_EOL;
 
@@ -31,18 +36,19 @@ $SessionUser = new SystemUser();
 
 // Test Data
 $Merchant = MerchantRow::fetchByUID('011e1bcb-9c88-4ecc-8a08-07ba5c3e005260'); // Test Merchant #27
-$ElementAPITest = IntegrationRow::fetchByUID('t3caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
-$ElementAPI = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
+$ElementAPI = IntegrationRow::fetchByUID('t3caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
+$ElementAPILive = IntegrationRow::fetchByUID('73caa82c-c423-428b-927b-15a796bbc0c7'); // Element.io
 //$Integration = new TestElementIntegrationRow();
 
 // Real API Health Check
 $MerchantIdentity = $ElementAPI->getMerchantIdentity($Merchant);
+$MerchantIdentityLive = $ElementAPILive->getMerchantIdentity($Merchant);
 
-$HealthCheckRequest = $MerchantIdentity->performHealthCheck($SessionUser, array());
-echo "\nHealth Check: ", $HealthCheckRequest->isRequestSuccessful() ? "Success" : "Fail";
+$HealthCheckRequest = $MerchantIdentityLive->performHealthCheck($SessionUser, array());
+echo "\nHealth Check: ", $HealthCheckRequest->getResult();
 
 try {
-    $stats = $MerchantIdentity->performTransactionQuery($SessionUser,
+    $stats = $MerchantIdentityLive->performTransactionQuery($SessionUser,
         array(
             'status' => 'Settled',
             'reverse' => 'True',
@@ -50,7 +56,7 @@ try {
             'date_end' => date('Y-m-d', time()),
         ),
         function(OrderRow $OrderRow, TransactionRow $TransactionRow, $item) {
-            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getTransactionID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
+            echo "\n\tOrder #" . $OrderRow->getID(), ' ', $TransactionRow->getIntegrationRemoteID(), ' ', $OrderRow->getStatus(), ' => ', $item['TransactionStatus'];
             return NULL;
         }
     );
@@ -60,8 +66,7 @@ try {
 }
 
 
-// Test API
-$MerchantIdentity = $ElementAPITest->getMerchantIdentity($Merchant);
+// Test Provision
 if(!$MerchantIdentity->isProvisioned())
     $MerchantIdentity->provisionRemote();
 
@@ -94,6 +99,7 @@ $data = array(
 
     // Check
     'check_account_name' => 'Test Checker',
+    'check_account_bank_name' => 'Test Bank',
     'check_account_number' => 11111111,
     'check_routing_number' => 122187238,
     'check_account_type' => 'Checking',
@@ -103,7 +109,7 @@ $data = array(
 
 $tests = array(
     // Keyed Tests
-//    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
+    array('amount' => '2.04', 'entry_mode' => 'keyed', 'void' => true),
 //    array('amount' => '2.05', 'entry_mode' => 'keyed', 'reversal' => true),
 //    array('amount' => '2.06', 'entry_mode' => 'keyed'),
 //    array('amount' => '23.05', 'entry_mode' => 'keyed'),
@@ -149,7 +155,7 @@ $tests = array(
 //    array('amount' => '2.13', 'entry_mode' => 'check'),
 
 //    array('amount' => '33.39', 'entry_mode' => 'check', 'return' => true),
-//    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
+    array('amount' => '2.31', 'entry_mode' => 'Check', 'void' => true),
 );
 
 // Don't run long tests on anything but dev
@@ -160,35 +166,32 @@ if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
 
 $batch_id = null;
 
+$OrderForm = MerchantFormRow::fetchGlobalForm();
 
 foreach($tests as $testData) {
-    $Order = $MerchantIdentity->createOrResumeOrder($testData+$data);
-
-    if(!$batch_id) {
-        $batch_id = $Order->calculateCurrentBatchID();
-        echo "\nCalculating Current Batch ID: ", $batch_id;
-    }
+    $PaymentInfo = PaymentRow::createPaymentFromPost($testData+$data);
+    $Order = $MerchantIdentity->createNewOrder($PaymentInfo, $OrderForm, $testData+$data);
 
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
-    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getTransactionID();
+    echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getIntegrationRemoteID();
 
     // Void transaction
     if(!empty($testData['void'])) {
         $VoidTransaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, array());
-        echo "\nVoided: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getTransactionID();
+        echo "\nVoided: " . $VoidTransaction->getStatusCode(), ' ' . $VoidTransaction->getAction(), ' #' . $VoidTransaction->getIntegrationRemoteID();
     }
 
     // Return transaction
     if(!empty($testData['return'])) {
         $ReturnTransaction = $MerchantIdentity->returnTransaction($Order, $SessionUser, array());
-        echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' ' . $ReturnTransaction->getAction(), ' #' . $ReturnTransaction->getTransactionID();
+        echo "\nReturn: " . $ReturnTransaction->getStatusCode(), ' ' . $ReturnTransaction->getAction(), ' #' . $ReturnTransaction->getIntegrationRemoteID();
     }
 
     // Reverse transaction
     if(!empty($testData['reversal'])) {
         $ReverseTransaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, array());
-        echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getTransactionID();
+        echo "\nReverse: " . $ReverseTransaction->getStatusCode(), ' ' . $ReverseTransaction->getAction(), ' #' . $ReverseTransaction->getIntegrationRemoteID();
     }
 
 

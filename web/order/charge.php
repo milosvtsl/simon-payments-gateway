@@ -11,6 +11,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -25,9 +26,9 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 //$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
-$View = new \Order\View\ChargeView();
+$View = new \Order\View\ChargeView(@$_GET['merchant_id'], @$_GET['form_uid']);
 $View->handleRequest();

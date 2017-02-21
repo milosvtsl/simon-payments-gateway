@@ -1,12 +1,14 @@
 <?php
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use User\Session\SessionManager;
 
 /**
  * @var \View\AbstractListView $this
  * @var PDOStatement $Query
  **/
 
+$SessionManager = new SessionManager();
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('integration',                   'Integration');
@@ -20,7 +22,7 @@ $Theme->printHTMLMenu('integration-request-list');
 
         <section class="content">
 
-            <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-search themed">
                 <fieldset class="search-fields">
@@ -105,9 +107,9 @@ $Theme->printHTMLMenu('integration-request-list');
                             <td><?php echo $Request->getResponseCode(); ?></td>
                             <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
                             <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
-                            <td><a href='order?id=<?php echo $Request->getOrderItemID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
-                            <td class="hide-on-layout-narrow"><a href='transaction?id=<?php echo $Request->getTransactionID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
-                            <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
+                            <td><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='user?uid=<?php echo $Request->getUserUID(); ?>'><?php echo $Request->getUserID(); ?></a></td>
                             <td class="hide-on-layout-narrow"><?php echo round($Request->getDuration(), 3); ?>s</td>
                         </tr>
                         <?php } ?>

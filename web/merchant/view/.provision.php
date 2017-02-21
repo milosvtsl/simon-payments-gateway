@@ -7,7 +7,7 @@ use Integration\Model\IntegrationRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('merchant',      'Merchants');
@@ -23,13 +23,32 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
 <article class="themed">
      <section class="content">
 
-            <?php if($this->hasMessage()) echo "<h5>", $this->getMessage(), "</h5>"; ?>
+            <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form class="form-view-merchant themed" method="POST">
 
                 <fieldset class="themed">
                     <div class="legend">Merchant Information</div>
-                    <table class="table-merchant-info themed striped-rows" style="float: left;">
+
+                    <div class="page-buttons order-page-buttons hide-on-print">
+                        <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
+                            <div class="app-button large app-button-view" ></div>
+                            View
+                        </a>
+                        <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
+                            <div class="app-button large app-button-edit" ></div>
+                            Edit
+                        </a>
+                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
+                            <div class="app-button large app-button-provision" ></div>
+                            Provision
+                        </a>
+                    </div>
+
+                    <hr/>
+
+
+                    <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
@@ -64,7 +83,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
 
                 <?php if(empty($_GET['integration_id'])) { ?>
 
-                <fieldset class="themed" style="max-width: 59em;">
+                <fieldset class="themed">
                     <div class="legend">Choose Integration</div>
                     <?php
 
@@ -89,7 +108,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                                 <?php echo $IntegrationRow->getName(); ?>
                                 (<?php echo ucwords($IntegrationRow->getAPIType()); ?>)
                             </div>
-                            <table class="table-merchant-info themed striped-rows" style="float: left; min-width: 27em; min-height: 22em;">
+                            <table class="table-merchant-info themed striped-rows" style="min-width: 27em; min-height: 22em; width: 100%">
                                 <tr>
                                     <th>Field</th>
                                     <th>Value</th>
@@ -131,11 +150,11 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td>Created</td>
-                                    <td colspan="2"><?php echo $MerchantIdentity->getCreateDate() ?: 'N/A'; ?></td>
+                                    <td colspan="2"><?php // echo $MerchantIdentity->getCreateDate() ?: 'N/A'; ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td>Updated</td>
-                                    <td colspan="2"><?php echo $MerchantIdentity->getUpdateDate() ?: 'N/A'; ?></td>
+                                    <td colspan="2"><?php // echo $MerchantIdentity->getUpdateDate() ?: 'N/A'; ?></td>
                                 </tr>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td colspan="3">
@@ -151,7 +170,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
 
                 <?php } else { ?>
 
-                <fieldset class="themed" style="max-width: 59em;">
+                <fieldset class="themed">
                     <?php
                     $integration_id = $_GET['integration_id'];
                     $IntegrationRow = IntegrationRow::fetchByID($integration_id);
@@ -160,7 +179,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                     ?>
 
                     <div class="legend">Provision Now: <?php echo $IntegrationRow->getName(); ?></div>
-                    <table class="table-merchant-info themed" style="float: left; min-width: 27em;">
+                    <table class="table-merchant-info themed" style="min-width: 27em; width: 100%">
                         <tr>
                             <th>Action</th>
                             <th>Notes</th>

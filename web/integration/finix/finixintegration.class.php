@@ -12,9 +12,12 @@ use Integration\Model\AbstractMerchantIdentity;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
+use Merchant\Model\MerchantFormRow;
+use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
+use Payment\Model\PaymentRow;
 use Subscription\Mail\CancelEmail;
 use Subscription\Model\SubscriptionRow;
 use User\Model\UserRow;
@@ -28,23 +31,23 @@ class FinixIntegration extends AbstractIntegration
     const POST_URL_PAYMENT_INSTRUMENT = "/payment_instruments/";
     const POST_URL_MERCHANT_PROVISION = "/identities/:IDENTITY_ID/merchants/";
 
-
     /**
-     * @param MerchantRow $Merchant
-     * @param IntegrationRow $integrationRow
+     * @param MerchantRow $MerchantRow
+     * @param IntegrationRow $IntegrationRow
      * @return AbstractMerchantIdentity
      */
-    public function getMerchantIdentity(MerchantRow $Merchant, IntegrationRow $integrationRow) {
-        return new FinixMerchantIdentity($Merchant, $integrationRow);
+    public function getMerchantIdentity(MerchantRow $MerchantRow, IntegrationRow $IntegrationRow) {
+        $MerchantIdentity = MerchantIntegrationRow::fetch($MerchantRow->getID(), $IntegrationRow->getID());
+        return new FinixMerchantIdentity($MerchantRow, $IntegrationRow, $MerchantIdentity);
     }
 
     /**
      * Execute a prepared request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
-     * @return void
-     * @throws IntegrationException if the request execution failed
+     * @throws IntegrationException
      */
-    function execute(IntegrationRequestRow $Request) {
+    function execute(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
         if(!$Request->getRequest())
             throw new IntegrationException("Request content is empty");
         if($Request->getResponse())
@@ -83,56 +86,8 @@ class FinixIntegration extends AbstractIntegration
         // Save the response
         $Request->setResponse($response);
 
-        $error = null;
-        try {
-            // Try parsing the response
-            $Request->parseResponseData();
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_FAIL);
-            if($Request->isRequestSuccessful($error))
-                $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-
-        } catch (IntegrationException $ex) {
-            $error = $ex->getMessage();
-            $Request->setResult(IntegrationRequestRow::ENUM_RESULT_ERROR);
-        }
-
-        // Insert Request
-        IntegrationRequestRow::insert($Request);
-
-        if($Request->getResult() !== IntegrationRequestRow::ENUM_RESULT_SUCCESS)
-            throw new IntegrationException($error);
     }
 
-    /**
-     * Was this request successful?
-     * @param IntegrationRequestRow $Request
-     * @param null $reason
-     * @param null $code
-     * @return bool
-     */
-    function isRequestSuccessful(IntegrationRequestRow $Request, &$reason = null, &$code = null) {
-        $data = $Request->parseResponseData();
-        switch($Request->getIntegrationType()) {
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
-                if(!empty($data['id']))
-                    return true;
-                $reason = "Missing 'id' field";
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PAYMENT:
-                if(!empty($data['fingerprint']))
-                    return true;
-                $reason = "Missing 'fingerprint' field";
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_MERCHANT_PROVISION:
-                if(!empty($data['identity']))
-                    return true;
-                $reason = "Missing 'identity' field";
-                return false;
-            case IntegrationRequestRow::ENUM_TYPE_TRANSACTION:
-                return false;
-        }
-        return false;
-    }
 
     /**
      * Print an HTML form containing the request fields
@@ -153,14 +108,16 @@ class FinixIntegration extends AbstractIntegration
         }
     }
 
+
     /**
      * Return the API Request URL for this request
+     * @param AbstractMerchantIdentity $MerchantIdentity
      * @param IntegrationRequestRow $Request
      * @return string
      * @throws IntegrationException
      */
-    function getRequestURL(IntegrationRequestRow $Request) {
-        $APIData = IntegrationRow::fetchByID($Request->getIntegrationID());
+    function getRequestURL(AbstractMerchantIdentity $MerchantIdentity, IntegrationRequestRow $Request) {
+        $APIData = $MerchantIdentity->getIntegrationRow();
         switch($Request->getIntegrationType()) {
             case IntegrationRequestRow::ENUM_TYPE_MERCHANT_IDENTITY:
                 return $APIData->getAPIURLBase() . self::POST_URL_IDENTITIES;
@@ -220,13 +177,13 @@ class FinixIntegration extends AbstractIntegration
         try {
             // Store Transaction Result
             $Transaction->setAction("Authorized");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
+//            $Transaction->setAuthCodeOrBatchID("Authorized");
             $Transaction->setStatus("Success", "Mock Transaction Approved");
 
         } catch (IntegrationException $Ex) {
             // Catch Integration Exception
             $Transaction->setAction("Error");
-            $Transaction->setAuthCodeOrBatchID("Authorized");
+//            $Transaction->setAuthCodeOrBatchID("Authorized");
             $Transaction->setStatus("Error", $Ex->getMessage());
 
         }
@@ -234,18 +191,19 @@ class FinixIntegration extends AbstractIntegration
         return $Transaction;
     }
 
+
     /**
-     * Create or resume an order item
+     * Create a new order, optionally set up a new payment entry with the remote integration
      * @param AbstractMerchantIdentity $MerchantIdentity
-     * @param array $post
+     * @param PaymentRow $PaymentInfo
+     * @param MerchantFormRow $OrderForm
+     * @param array $post Order Information
      * @return OrderRow
      */
-    function createOrResumeOrder(AbstractMerchantIdentity $MerchantIdentity, Array $post) {
-        $Order = OrderRow::createOrderFromPost($MerchantIdentity, $post);
+    function createNewOrder(AbstractMerchantIdentity $MerchantIdentity, PaymentRow $PaymentInfo, MerchantFormRow $OrderForm, Array $post) {
+        $Order = OrderRow::createNewOrder($MerchantIdentity, $PaymentInfo, $OrderForm, $post);
         return $Order;
     }
-
-
 
     /**
      * Void an existing Transaction
@@ -320,5 +278,22 @@ class FinixIntegration extends AbstractIntegration
                 error_log($CancelReceipt->ErrorInfo);
         }
     }
+
+    /**
+     * Render Charge Form Integration Headers
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHTMLHeadLinks(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHTMLHeadLinks() method.
+    }
+
+    /**
+     * Render Charge Form Hidden Fields
+     * @param AbstractMerchantIdentity $MerchantIdentity
+     */
+    function renderChargeFormHiddenFields(AbstractMerchantIdentity $MerchantIdentity) {
+        // TODO: Implement renderChargeFormHiddenFields() method.
+    }
+
 }
 

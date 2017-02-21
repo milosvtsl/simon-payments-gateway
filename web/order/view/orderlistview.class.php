@@ -5,6 +5,7 @@ use Merchant\Model\MerchantRow;
 use Order\Model\OrderQueryStats;
 use Order\Model\OrderRow;
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 
@@ -34,7 +35,7 @@ class OrderListView extends AbstractListView {
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = OrderRow::SQL_WHERE;
 		$statsMessage = '';
 
 		$action = strtolower(@$params['action'] ?: 'view');
@@ -69,31 +70,38 @@ class OrderListView extends AbstractListView {
         }
 
         // Get Timezone diff
-        $offset = 0; // $SessionUser->getTimeZoneOffset('now');
+        $offset = -$SessionUser->getTimeZoneOffset('now');
+//		$offset = 0;
 
         // Set up Date conditions
+		$date_from = null;
+		$date_to = null;
 		if(!empty($params['date_from'])) {
+			$date_from = strtotime($params['date_from']);
 			$whereSQL .= "\nAND oi.date >= :from";
-			$sqlParams['from'] = date("Y-m-d G:00:00", strtotime($params['date_from']) + $offset);
-			$statsMessage .= " from " . date("M dS Y G:00", strtotime($params['date_from']) + $offset);
-			$export_filename = date("Y-m-d", strtotime($params['date_from']) + $offset) . $export_filename;
+			$sqlParams['from'] = date("Y-m-d G:00:00", $date_from + $offset);
+			$statsMessage .= " from " . date("M dS Y G:00", $date_from + $offset);
+			$export_filename = date("Y-m-d", $date_from + $offset) . $export_filename;
 		}
 		if(!empty($params['date_to'])) {
+			$date_to = strtotime($params['date_to']);
+			if($date_to < $date_from) $date_to = $date_from;
 			$whereSQL .= "\nAND oi.date <= :to";
-			$sqlParams['to'] = date("Y-m-d G:00:00", strtotime($params['date_to']) + $offset);
-			$statsMessage .= " to " . date("M dS Y G:00", strtotime($params['date_to']) + $offset);
-			$export_filename = date("Y-m-d", strtotime($params['date_to']) + $offset) . $export_filename;
+			$sqlParams['to'] = date("Y-m-d G:00:00", $date_to + $offset + 24*60*60);
+			$statsMessage .= " to " . date("M dS Y G:00", $date_to + $offset);
+			$export_filename = date("Y-m-d", $date_to + $offset) . $export_filename;
 		}
 
 
 		// Handle authority
 		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-			$list = $SessionUser->getMerchantList() ?: array(0);
-			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
+//			$list = $SessionUser->getMerchantList() ?: array(0);
+//			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
+			$whereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
 
             if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
-				$this->setMessage(
-					"<span class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</span>"
+				$SessionManager->setMessage(
+					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
 				);
 				$whereSQL .= "\nAND 0=1";
 			}
@@ -171,10 +179,11 @@ class OrderListView extends AbstractListView {
 		$statsMessage = $this->getRowCount() . " orders found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
         $statsMessage .= " (GMT " . $offset/(60*60) . ")";
 
-		if(!$this->getMessage())
-			$this->setMessage($statsMessage);
+//		if(!$SessionManager->hasMessage())
+//			$SessionManager->setMessage($statsMessage);
 
         $action_url = 'order/list.php?' . http_build_query($_GET);
+		$SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
 
 		if(strtolower(substr(@$params['action'], 0, 6)) == 'export') {
 			// Export Data
@@ -213,15 +222,15 @@ class OrderListView extends AbstractListView {
             foreach($Query as $Order) {
                 /** @var OrderRow $Order */
                 echo
-                "\n", $Order->getUID(false),
+                "\n", $Order->getUID(),
                 ', $', $Order->getAmount(),
         //            ", $", $Order->getConvenienceFee() ?: 0,
                 ', ', $Order->getStatus(),
                 ', ', $Order->getEntryMode(),
-                ', ', $Order->getDate(),
+                ', ', $Order->getDate($SessionUser->getTimeZone())->format("M dS h:i A"),
                 ', ', str_replace(',', ';', $Order->getInvoiceNumber()),
                 ', ', str_replace(',', ';', $Order->getCustomerID()),
-                ', ', str_replace(',', ';', $Order->getCardHolderFullName()),
+                ', ', str_replace(',', ';', $Order->getPayeeFullName()),
                 '';
             }
 		} else {
@@ -236,9 +245,7 @@ class OrderListView extends AbstractListView {
 		<article class="themed">
 
 			<section class="content">
-
-
-				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 				<form name="form-order-search" class="themed">
 
@@ -301,7 +308,7 @@ class OrderListView extends AbstractListView {
 							<tr>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_ID); ?>">ID</a></th>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_DATE); ?>">Date</a></th>
-								<th>Customer/ID</th>
+								<th><?php echo $SITE_CUSTOMER_NAME; ?>/ID</th>
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
                                 <th>Amount</th>
 								<th class="hide-on-layout-narrow">Mode</th>
@@ -375,7 +382,7 @@ class OrderListView extends AbstractListView {
                             <tr>
                                 <td colspan="6" style="text-align: right">
                                     <span style="font-size: 0.7em; color: grey; float: left;">
-                                        <?php if($this->hasMessage()) echo $this->getMessage(); ?>
+										<?php echo $statsMessage; ?>
                                     </span>
                                 </td>
                             </tr>
@@ -391,13 +398,15 @@ class OrderListView extends AbstractListView {
 
 	}
 
-    public function processFormRequest(Array $post) {
+	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
+
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: home.php");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+            header("Location: index.php");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

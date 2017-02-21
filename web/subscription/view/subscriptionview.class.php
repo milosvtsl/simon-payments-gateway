@@ -92,60 +92,24 @@ class SubscriptionView extends AbstractView
 
                 case 'cancel':
                     $message = "Canceled by " . $SessionUser->getUsername();
-                    $Subscription = SubscriptionRow::fetchByID($Subscription->getSubscriptionID());
-                    $MerchantIdentity->cancelSubscription($Subscription, $message);
+                    $MerchantIdentity->cancelSubscription($Subscription, $SessionUser, $message);
 
-                    $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Subscription->getStatusMessage() . "</span>"
+                    $SessionManager->setMessage(
+                        "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
-                    header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
+                    header('Location: subscription/receipt.php?uid=' . $Subscription->getUID() . '');
                     die();
 
-                case 'void':
-                    if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
-                        throw new \Exception("Invalid Authority to Void Charges");
-
-                    $Transaction = $MerchantIdentity->voidTransaction($Subscription, $post);
-
-                    $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
-                    );
-                    header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
-                    die();
-
-                case 'return':
-                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
-                        throw new \Exception("Invalid Authority to Return Charges");
-
-                    $Transaction = $MerchantIdentity->returnTransaction($Subscription, $post);
-
-                    $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
-                    );
-                    header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
-                    die();
-
-                case 'reverse':
-                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGES', 'ROLE_ADMIN'))
-                        throw new \Exception("Invalid Authority to Return Charges");
-
-                    $Transaction = $MerchantIdentity->reverseTransaction($Subscription, $post);
-
-                    $this->setSessionMessage(
-                        "<span class='info'>Success: ".$Transaction->getStatusMessage() . "</span>"
-                    );
-                    header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
-                    die();
 
                 default:
                     throw new \InvalidArgumentException("Invalid Action: " . $this->_action);
             }
 
         } catch (\Exception $ex) {
-            $this->setSessionMessage(
-                "<span class='error'>Error: ".$ex->getMessage() . "</span>"
+            $SessionManager->setMessage(
+                "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
-            header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
+            header('Location: subscription/receipt.php?uid=' . $Subscription->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }

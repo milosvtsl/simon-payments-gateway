@@ -30,6 +30,7 @@ class DBConfig
             throw new \Exception($ex->getMessage());
         }
         $PDO->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $PDO->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
         static::$_dbInstance = $PDO;
         return $PDO;
     }
@@ -37,4 +38,5 @@ class DBConfig
 
 }
 
+require_once 'siteconfig.class.php';
 include_once __DIR__ .'/../../../config.php';

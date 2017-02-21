@@ -6,6 +6,9 @@
  * Time: 10:47 PM
  */
 
+if(!isset($argv))
+    die("Console Only");
+
 chdir(__DIR__ . '/web');
 
 $cwd0 = getcwd().'';
@@ -22,24 +25,30 @@ echo "\nTesting ... ", __FILE__, PHP_EOL;
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
-//assert(!$SessionManager->isLoggedIn(), "Guest should not be logged in");
+// Includes & Class Unit Tests
+$Directory = new RecursiveDirectoryIterator(__DIR__);
+$Iterator = new RecursiveIteratorIterator($Directory);
+$Regex = new RegexIterator($Iterator, '/^.+\.class\.php$/i', RecursiveRegexIterator::GET_MATCH);
+foreach($Regex as $classFile) {
+    $path = $classFile[0];
+    echo "\nClass " . $path;
+    include_once $classFile[0];
+}
 
-// TODO: Create Test User
 
-// TODO: Set Test User Password
-
-
-// TODO: Validate login
-
-//$TestUser = \User\Model\UserRow::fetchByUsername('testuser');
-
+// Test Finix Integration
 chdir('integration/finix/test');
 require ('test.php');
 chdir($cwd0);
 
-
+// Test Element Integration
 chdir('integration/element/test');
 require ('test.php');
 chdir($cwd0);
+
+// Test ProPay/ProtectPay Integration
+//chdir('integration/protectpay/test');
+//require ('test.php');
+//chdir($cwd0);
 
 echo "\nAll Tests successful";

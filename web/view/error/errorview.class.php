@@ -9,35 +9,35 @@ use View\AbstractView;
 
 class ErrorView extends AbstractView {
 
-	private $ex;
+    private $ex;
 
-	/**
-	 * @param \Exception $ex
-	 */
-	public function __construct($ex) {
-		parent::__construct("Error: " . $ex->getMessage());
-		$this->ex = $ex;
-	}
+    /**
+     * @param \Exception $ex
+     */
+    public function __construct($ex) {
+        parent::__construct("Error: " . $ex->getMessage());
+        $this->ex = $ex;
+    }
 
-	/**
-	 * @return \Exception
-	 */
-	public function getException() {
-		return $this->ex;
-	}
+    /**
+     * @return \Exception
+     */
+    public function getException() {
+        return $this->ex;
+    }
 
     protected function renderHTMLHeadLinks() {
         echo "\t\t<link href='view/error/assets/error.css' type='text/css' rel='stylesheet' />\n";
         parent::renderHTMLHeadLinks();
     }
 
-	public function renderHTMLBody(Array $params) {
-		$Theme = $this->getTheme();
+    public function renderHTMLBody(Array $params) {
+        $Theme = $this->getTheme();
 
-	    // Render Header
-		$Theme->renderHTMLBodyHeader();
+        // Render Header
+        $Theme->renderHTMLBodyHeader();
 
-		// Render Page
+        // Render Page
 
         /** @var $this \View\Error\ErrorView */
         $SessionManager = new SessionManager();
@@ -68,19 +68,19 @@ class ErrorView extends AbstractView {
 
         </article>
         <?php
-		// Render footer
+        // Render footer
         $Theme->renderHTMLBodyFooter();
-	}
+    }
 
-	public function processFormRequest(Array $post) {
-		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: /");
+    public function processFormRequest(Array $post) {
+        try {
+            $this->setSessionMessage("Unhandled Form Post");
+            header("Location: index.php");
 
-		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
-			header("Location: login.php");
-		}
-	}
+        } catch (\Exception $ex) {
+            $this->setSessionMessage($ex->getMessage());
+            header("Location: login.php");
+        }
+    }
 }
 

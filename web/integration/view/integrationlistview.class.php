@@ -16,7 +16,7 @@ class IntegrationListView extends AbstractListView {
 	public function renderHTMLBody(Array $params) {
 
 		$sqlParams = array();
-		$whereSQL = "WHERE 1";
+		$whereSQL = IntegrationRow::SQL_WHERE;
 		$statsMessage = '';
 
 		// Handle authority
@@ -57,7 +57,7 @@ class IntegrationListView extends AbstractListView {
 		$this->setRowCount($ListQuery->rowCount());
 
 		$statsMessage = $this->getRowCount() . " integrations found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
-		$this->setMessage($statsMessage);
+		$SessionManager->setMessage($statsMessage);
 
 		// Render Page
 		$Theme = $this->getTheme();
@@ -71,7 +71,7 @@ class IntegrationListView extends AbstractListView {
 		<article class="themed">
 			<section class="content">
 
-				<?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+				<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
 				<form class="form-search themed">
 					<fieldset>
@@ -109,12 +109,13 @@ class IntegrationListView extends AbstractListView {
 
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: /");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: index.php");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

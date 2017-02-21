@@ -116,7 +116,7 @@ class IntegrationRequestListView extends AbstractListView {
         $time += microtime(true);
 
         $statsMessage = $this->getRowCount() . " requests found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $this->setMessage($statsMessage);
+        $SessionManager->setMessage($statsMessage);
 
 		// Render Page
         $Theme = $this->getTheme();
@@ -131,7 +131,7 @@ class IntegrationRequestListView extends AbstractListView {
 
             <section class="content">
 
-                <?php if($this->hasSessionMessage()) echo "<h5>", $this->popSessionMessage(), "</h5>"; ?>
+                <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-search themed">
                     <fieldset class="search-fields">
@@ -216,9 +216,9 @@ class IntegrationRequestListView extends AbstractListView {
                                     <td><?php echo $Request->getResponseCode(); ?></td>
                                     <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
                                     <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
-                                    <td><a href='order?id=<?php echo $Request->getOrderItemID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
-                                    <td class="hide-on-layout-narrow"><a href='transaction?id=<?php echo $Request->getTransactionID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
-                                    <td class="hide-on-layout-narrow"><a href='user?id=<?php echo $Request->getUserID(); ?>'><?php echo $Request->getUserName(); ?></a></td>
+                                    <td><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
+                                    <td class="hide-on-layout-narrow"><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
+                                    <td class="hide-on-layout-narrow"><a href='user?uid=<?php echo $Request->getUserUID(); ?>'><?php echo $Request->getUserName(); ?></a></td>
                                     <td class="hide-on-layout-narrow"><?php echo round($Request->getDuration(), 3); ?>s</td>
                                 </tr>
                             <?php } ?>
@@ -238,12 +238,13 @@ class IntegrationRequestListView extends AbstractListView {
 	}
 
 	public function processFormRequest(Array $post) {
+        $SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: /integration/request");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: integration/request");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

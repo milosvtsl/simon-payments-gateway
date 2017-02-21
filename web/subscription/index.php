@@ -1,4 +1,6 @@
 <?php
+use Subscription\Model\SubscriptionRow;
+
 /**
  * Created by PhpStorm.
  * User: ari
@@ -11,6 +13,7 @@ ini_set('display_errors', 1);
 
 // Go up 1 directory
 chdir('..');
+define("BASE_HREF", '../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -25,13 +28,13 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 //$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
 if(isset($_GET['id'])) {
     // TODO handle admin access
-    $Subscription = $SubscriptionRow::fetchByID($_GET['id']);
+    $Subscription = SubscriptionRow::fetchByID($_GET['id']);
     $View = new \Order\View\OrderView($Subscription->getOrderID());
 //    $View = new \Subscription\View\SubscriptionView($_GET['id'], @$_GET['action']);
     $View->handleRequest();

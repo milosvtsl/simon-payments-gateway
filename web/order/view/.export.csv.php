@@ -44,7 +44,7 @@ if(in_array(strtolower(@$params['action']), array('export', 'export-data'))) {
     foreach($Query as $Order) {
         /** @var OrderRow $Order */
         echo
-            "\n", $Order->getUID(false),
+            "\n", $Order->getUID(),
             ', $', $Order->getAmount(),
 //            ", $", $Order->getConvenienceFee() ?: 0,
             ', ', $Order->getStatus(),
@@ -52,7 +52,7 @@ if(in_array(strtolower(@$params['action']), array('export', 'export-data'))) {
             ', ', $Order->getDate($SessionUser->getTimeZone())->format('M dS h:i A'),
             ', ', str_replace(',', ';', $Order->getInvoiceNumber()),
             ', ', str_replace(',', ';', $Order->getCustomerID()),
-            ', ', str_replace(',', ';', $Order->getCardHolderFullName()),
+            ', ', str_replace(',', ';', $Order->getPayeeFullName()),
             '';
     }
 }

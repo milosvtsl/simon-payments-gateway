@@ -7,7 +7,6 @@
  */
 namespace Integration\Element;
 
-use Integration\Model\Ex\IntegrationException;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 
@@ -68,10 +67,10 @@ class ElementAPIUtil {
             'NewAccountToken' => $MerchantIdentity->getAccountToken(), // ?
         );
 
-        if(!$args['credentials']['AccountID'])          throw new IntegrationException("Invalid AccountID");
-        if(!$args['credentials']['AccountToken'])       throw new IntegrationException("Invalid AccountToken");
-        if(!$args['credentials']['AcceptorID'])         throw new IntegrationException("Invalid AcceptorID");
-        if(!$args['credentials']['NewAccountToken'])    throw new IntegrationException("Invalid NewAccountToken");
+        if(!$args['credentials']['AccountID'])          throw new \InvalidArgumentException("Invalid AccountID");
+        if(!$args['credentials']['AccountToken'])       throw new \InvalidArgumentException("Invalid AccountToken");
+        if(!$args['credentials']['AcceptorID'])         throw new \InvalidArgumentException("Invalid AcceptorID");
+        if(!$args['credentials']['NewAccountToken'])    throw new \InvalidArgumentException("Invalid NewAccountToken");
 
         $args['application'] += array(
             'ApplicationID' => $MerchantIdentity->getApplicationID(),
@@ -140,7 +139,7 @@ XML;
                 'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
                 'ExpirationMonth' => $OrderRow->getCardExpMonth(),
                 'ExpirationYear' => $OrderRow->getCardExpYear(),
-                'CardholderName' => $OrderRow->getCardHolderFullName(),
+                'CardholderName' => $OrderRow->getPayeeFullName(),
                 'CVV' => @$post['card_cvv2'],
                 'CAVV' => '',
                 'XID' => '',
@@ -188,7 +187,7 @@ XML;
                 'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
             ),
             'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
+                'BillingName' => $OrderRow->getPayeeFullName(),
                 'BillingAddress1' => $OrderRow->getPayeeAddress(),
                 'BillingAddress2' => $OrderRow->getPayeeAddress2(),
                 'BillingCity' => $OrderRow->getPayeeCity(),
@@ -248,7 +247,7 @@ XML;
                 'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
                 'ExpirationMonth' => $OrderRow->getCardExpMonth(),
                 'ExpirationYear' => $OrderRow->getCardExpYear(),
-                'CardholderName' => $OrderRow->getCardHolderFullName(),
+                'CardholderName' => $OrderRow->getPayeeFullName(),
                 'CVV' => @$post['card_cvv2'],
                 'CAVV' => '',
                 'XID' => '',
@@ -296,7 +295,7 @@ XML;
                 'ReversalReason' => 'Unknown', // Unknown or RejectedPartialApproval or Timeout or EditError or MACVerifyError or MACSyncError or EncryptionError or SystemError or PossibleFraud or CardRemoval or ChipDecline or TerminalError
             ),
             'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
+                'BillingName' => $OrderRow->getPayeeFullName(),
                 'BillingAddress1' => $OrderRow->getPayeeAddress(),
                 'BillingAddress2' => $OrderRow->getPayeeAddress2(),
                 'BillingCity' => $OrderRow->getPayeeCity(),
@@ -354,7 +353,7 @@ XML;
 //                'TruncatedCardNumber' => substr($OrderRow->getCardNumber(), -4, 4),
 //                'ExpirationMonth' => $OrderRow->getCardExpMonth(),
 //                'ExpirationYear' => $OrderRow->getCardExpYear(),
-//                'CardholderName' => $OrderRow->getCardHolderFullName(),
+//                'CardholderName' => $OrderRow->getPayeeFullName(),
 //                'CVV' => @$post['card_cvv2'],
 //                'CAVV' => '',
 //                'XID' => '',
@@ -376,7 +375,7 @@ XML;
 //                'SecondaryCardNumber' => '',
 //            ),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -446,7 +445,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -543,7 +542,7 @@ XML;
                 'BirthDate' => '',
             ),
             'address' => array(
-                'BillingName' => $OrderRow->getCardHolderFullName(),
+                'BillingName' => $OrderRow->getPayeeFullName(),
                 'BillingAddress1' => $OrderRow->getPayeeAddress(),
                 'BillingAddress2' => $OrderRow->getPayeeAddress2(),
                 'BillingCity' => $OrderRow->getPayeeCity(),
@@ -593,7 +592,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -651,7 +650,7 @@ XML;
             'application' => array(),
             'terminal' => array(),
             'transaction' => array(
-                'TransactionID' => $AuthorizedTransaction->getTransactionID(),
+                'TransactionID' => $AuthorizedTransaction->getIntegrationRemoteID(),
                 'ClerkNumber' => '',
                 'ShiftID' => '',
                 'TransactionAmount' => $TransactionAmount,
@@ -713,10 +712,10 @@ XML;
         $AcceptorID = $MerchantIdentity->getAcceptorID();
         $NewAccountToken = $MerchantIdentity->getAccountToken(); // ?
 
-        if(!$AccountID) throw new IntegrationException("Invalid AccountID");
-        if(!$AccountToken) throw new IntegrationException("Invalid AccountToken");
-        if(!$AcceptorID) throw new IntegrationException("Invalid AcceptorID");
-        if(!$NewAccountToken) throw new IntegrationException("Invalid NewAccountToken");
+        if(!$AccountID) throw new \InvalidArgumentException("Invalid AccountID");
+        if(!$AccountToken) throw new \InvalidArgumentException("Invalid AccountToken");
+        if(!$AcceptorID) throw new \InvalidArgumentException("Invalid AcceptorID");
+        if(!$NewAccountToken) throw new \InvalidArgumentException("Invalid NewAccountToken");
 
         $Action = 'HealthCheck';
 

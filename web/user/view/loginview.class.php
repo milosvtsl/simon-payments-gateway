@@ -25,7 +25,6 @@ class LoginView extends AbstractView {
 
     protected function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();
-
         if(!empty($params['message']))
             $this->setException(new \Exception($params['message']));
 
@@ -59,6 +58,8 @@ class LoginView extends AbstractView {
 
 
     public function processFormRequest(Array $post) {
+        $SessionManager = new SessionManager();
+
         $action = isset($post['action']) ? $post['action'] : $this->action;
         switch ($action) {
             case 'login':
@@ -74,12 +75,11 @@ class LoginView extends AbstractView {
 
                     $SessionManager = new SessionManager();
                     $NewUser = $SessionManager->login($username, $password);
-
-                    $this->setSessionMessage("Logged in as " . $NewUser->getUsername());
+                    $SessionManager->setMessage("Logged in as " . $NewUser->getUsername());
                     header("Location: index.php");
 
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $SessionManager->setMessage($ex->getMessage());
                     header("Location: login.php");
                 }
                 break;
@@ -87,12 +87,20 @@ class LoginView extends AbstractView {
             case 'logout':
                 try {
                     $SessionManager = new SessionManager();
+                    $SessionUser = $SessionManager->getSessionUser();
                     $SessionManager->logout();
+                    $SessionManager->setMessage("Logged out successfully: " . $SessionUser->getUsername());
 
-                    $this->setSessionMessage("Logged out successfully");
-                    header("Location: /");
+                    $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                    if($SessionManager->isLoggedIn()) {
+                        header("Location: {$baseHREF}user?uid={$SessionUser->getUID()}");
+
+                    } else {
+                        header("Location: {$baseHREF}index.php");
+                    }
+
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $SessionManager->setMessage($ex->getMessage());
                     header("Location: login.php");
                 }
                 break;
@@ -108,43 +116,43 @@ class LoginView extends AbstractView {
                     // If Key was given, reset password
                     if($key) {
                         if(!$User->isValidResetKey($key)) {
-                            $this->setSessionMessage("Invalid Reset Key");
+                            $SessionManager->setMessage("Invalid Reset Key");
                             header("Location: reset.php?email=".$email);
                             die();
                         }
 
                         $User->changePassword($post['password'], $post['password_confirm']);
-                        $this->setSessionMessage("Password was reset successfully");
+                        $SessionManager->setMessage("Password was reset successfully");
                         header("Location: login.php");
                         die();
                     }
 
                     // If no key, send a reset link
                     if(!$User) {
-                        $this->setSessionMessage("User was not found");
+                        $SessionManager->setMessage("User was not found");
                         header("Location: reset.php?key={$key}&email={$email}");
                         die();
                     }
 
                     if(!$Email->send()){
-                        $this->setSessionMessage($Email->ErrorInfo);
+                        $SessionManager->setMessage($Email->ErrorInfo);
                         header("Location: reset.php?key={$key}&email={$email}");
                         die();
                     } else {
-                        $this->setSessionMessage("Email was sent successfully");
+                        $SessionManager->setMessage("Email was sent successfully");
                     }
 
                     header("Location: login.php");
                     die();
                 } catch (\Exception $ex) {
-                    $this->setSessionMessage($ex->getMessage());
+                    $SessionManager->setMessage($ex->getMessage());
                     header("Location: reset.php?key={$key}&email={$email}");
                     die();
                 }
             break;
 
             default:
-                $this->setSessionMessage("Unknown action");
+                $SessionManager->setMessage("Unknown action");
                 header("Location: login.php");
                 die();
         }

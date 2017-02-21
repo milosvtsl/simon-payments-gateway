@@ -19,36 +19,37 @@ class DashboardView extends AbstractView {
     }
 
 	public function renderHTMLBody(Array $params) {
-        // Render Page
-        $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
+		// Render Page
+		$SessionManager = new SessionManager();
+		$SessionUser = $SessionManager->getSessionUser();
 
-        $AppManager = new AppManager($SessionUser);
+		$AppManager = new AppManager($SessionUser);
 
-        $Theme = $this->getTheme();
-        $Theme->addPathURL('/', $SessionUser->getFullName());
-        $Theme->renderHTMLBodyHeader();
-        $Theme->printHTMLMenu('dashboard');
-        ?>
-        <article class="themed">
-            <section class="content dashboard-section">
-                <?php
-//                if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>";
-                $AppManager->renderAppHTMLContent();
-                ?>
-            </section>
-        </article>
-        <?php
-        $Theme->renderHTMLBodyFooter();
-    }
+		$Theme = $this->getTheme();
+		$Theme->addPathURL('/', $SessionUser->getFullName());
+		$Theme->renderHTMLBodyHeader();
+		$Theme->printHTMLMenu('dashboard');
+		?>
+		<article class="themed">
+			<section class="content dashboard-section">
+				<?php
+				if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>";
+				$AppManager->renderAppHTMLContent();
+				?>
+			</section>
+		</article>
+		<?php
+		$Theme->renderHTMLBodyFooter();
+	}
 
 	public function processFormRequest(Array $post) {
+		$SessionManager = new SessionManager();
 		try {
-			$this->setSessionMessage("Unhandled Form Post");
-			header("Location: /");
+			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
+			header("Location: index.php");
 
 		} catch (\Exception $ex) {
-			$this->setSessionMessage($ex->getMessage());
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

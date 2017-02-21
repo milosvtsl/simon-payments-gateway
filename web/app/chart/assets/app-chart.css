@@ -49,16 +49,16 @@
 
 .app-chart-daily,
 .app-chart-today {
-    background: linear-gradient(to bottom, #b9c4e2 0%, #FFF 100%);
+    background: linear-gradient(to bottom, #cfe7e8 0%, #FFF 100%);
 }
 .app-chart-wtd {
-    background: linear-gradient(to bottom, #daa2b7 0%, #FFF 100%);
+    background: linear-gradient(to bottom, #dbe9f3 0%, #FFF 100%);
 }
 .app-chart-mtd {
-    background: linear-gradient(to bottom, #e8b473 0%, #FFF 100%);
+    background: linear-gradient(to bottom, #eeecf3 0%, #FFF 100%);
 }
 .app-chart-ytd {
-    background: linear-gradient(to bottom, #84b585 0%, #FFF 100%);
+    background: linear-gradient(to bottom, #f3f2ec 0%, #FFF 100%);
 }
 
 
