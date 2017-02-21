@@ -31,13 +31,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 if(!/^-?[0-9.]+$/.test(form.amount.value)) {
                     e.preventDefault();
                     form.amount.focus();
-                } else if(form.fraud_high_limit && form.fraud_high_limit.value > 0.1 && form.fraud_high_limit.value < form.amount.value) {
-                    e.preventDefault();
-                    form.amount.focus();
-                    alert("Order amount must be below max value: " + form.fraud_high_limit.value);
-                } else {
-                    // Validation Success
                 }
+                // else if(form.fraud_high_limit && form.fraud_high_limit.value > 0.1 && form.fraud_high_limit.value < form.amount.value) {
+                //     e.preventDefault();
+                //     form.amount.focus();
+                //     alert("Order amount must be below max value: " + form.fraud_high_limit.value);
+                // } else {
+                    // Validation Success
+                // }
 
                 var submitEvent = new CustomEvent('order:submit', {
                     //detail: commandString,
