@@ -175,20 +175,19 @@ SQL;
             'datasets' => array(
                 array(
                     'label' => "Amount",
-                    'backgroundColor' => "#20465c",
+                    'backgroundColor' => "#81aaba",
                     'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Returned",
-                    'backgroundColor' => "#d27171",
+                    'backgroundColor' => "#ba919e",
                     'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Count",
-                    'backgroundColor' => "#71d271",
+                    'backgroundColor' => "#8bc6bb",
                     'data' => array_pad(array(), 32, 0)
                 )
-
             )
         );
         for($i=1; $i<32; $i++) {

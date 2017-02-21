@@ -120,6 +120,7 @@ function insertOrder(Array $O, $schema) {
         ':merchant_id' => $O['id_merchant'],
         ':integration_id' => 99,
         ':amount' => -1,
+        ':status' => 'Authorized',
         ':date' => '0000/00/00 00:00:00',
         ':entry_mode' => 'None',
         ':customer_first_name' => $O['first_name'],
