@@ -7,7 +7,7 @@ use Integration\Model\IntegrationRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 $this->getTheme()->printHTMLMenu('merchant-settle', $action_url);
 ?>
 

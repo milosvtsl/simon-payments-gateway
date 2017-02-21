@@ -240,7 +240,7 @@ HEAD;
                                     </select>
                                 </label>
 
-                                <div class="credit-image small" style="margin: 7px 0 0 5px;"></div>
+                                <div class="credit-image small" style="margin: 7px auto -3px auto;"></div>
                                 <div style="font-size: x-small; color: grey; padding: 1em; max-width: 300px;">
                                     **The CVV Number ("Card Verification Value") on your credit card
                                     or debit card is a 3-4 digit number on credit and debit cards.
@@ -366,12 +366,13 @@ HEAD;
 
 
                         <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <span>Total Charge Amount</span>
+                            <span>Total</span>
                             <input type="text" size="6" name="total_amount" value="$0.00" disabled="disabled" />
                         </label>
 
-                        <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
-                            <span class="conv-fee-text">*Includes Conv. Fee</span>
+                        <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> ">
+                            <span>Fee</span>
+                            <div style="display: inline-block;" class="conv-fee-text">Includes Conv. Fee</div>
                             <div class="conv-fee-pop-up-box">
                                 *Charge includes a
                                 <br />

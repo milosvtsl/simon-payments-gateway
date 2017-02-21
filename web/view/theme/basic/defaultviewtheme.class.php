@@ -52,7 +52,7 @@ class DefaultViewTheme extends AbstractViewTheme
         ?>
         <body class="basic-theme">
         <header>
-            <a href="/">
+            <a href=".">
                 <img src="view/theme/basic/assets/img/logo.png" alt="Simon Payments Gateway">
             </a>
 

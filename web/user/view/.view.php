@@ -112,12 +112,12 @@ $Theme->printHTMLMenu($category,    $action_url);
                                         </tr>
                                         <?php
                                         foreach($User->getAuthorityList() as $auth=>$name)
-                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button><a href='/user/account.php?action=edit'>X</a></button></td></th>";
+                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button><a href='user/account.php?action=edit'>X</a></button></td></th>";
                                         ?>
                                         </tbody>
                                     </table>
                                     <?php } else { ?>
-                                    <a href='/user/account.php?action=edit'>Add Roles...</a>
+                                    <a href='user/account.php?action=edit'>Add Roles...</a>
                                     <?php } ?>
                                 </td>
                             </tr>

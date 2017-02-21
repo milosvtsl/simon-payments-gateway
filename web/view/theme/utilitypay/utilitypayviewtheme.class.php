@@ -52,7 +52,7 @@ class UtilityPayViewTheme extends AbstractViewTheme
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/">
+            <a href=".">
                 <div class="logo"></div>
             </a>
         </header>
@@ -167,7 +167,7 @@ HEAD;
 
         <ul class="page-menu hide-on-print">
             <li>
-                <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
+                <a href="." class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
                     <span>Dashboard</span></a>
             </li>
 

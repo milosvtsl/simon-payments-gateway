@@ -241,7 +241,7 @@ class IntegrationRequestListView extends AbstractListView {
         $SessionManager = new SessionManager();
 		try {
 			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
-			header("Location: /integration/request");
+			header("Location: integration/request");
 
 		} catch (\Exception $ex) {
 			$SessionManager->setMessage($ex->getMessage());

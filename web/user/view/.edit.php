@@ -15,7 +15,7 @@ $SessionUser = $SessionManager->getSessionUser();
 $User = $this->getUser();
 
 $odd = false;
-$action_url = '/user/index.php?uid=' . $User->getUID() . '&action=';
+$action_url = 'user/index.php?uid=' . $User->getUID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account-edit' : 'user-edit';
 
 $Theme = $this->getTheme();

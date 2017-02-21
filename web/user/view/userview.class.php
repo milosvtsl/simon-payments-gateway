@@ -45,6 +45,8 @@ class UserView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+
         $User = $this->getUser();
 
         $this->handleAuthority();
@@ -99,7 +101,7 @@ class UserView extends AbstractView
                     $updates > 0
                         ? $SessionManager->setMessage("<div class='info'>" . $updates . " user fields updated successfully: " . $User->getUID() . '</div>')
                         : $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUID() . '</div>');
-                    header('Location: /user?uid=' . $User->getUID());
+                    header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
 
                 } catch (\Exception $ex) {
@@ -107,7 +109,7 @@ class UserView extends AbstractView
 //                    $this->renderHTML(array(
 //                        'action' => 'edit'
 //                    ));
-                    header('Location: /user?uid=' . $User->getUID() . '&action=edit&message=' . $ex->getMessage());
+                    header("Location: {$baseHREF}user/?uid={$User->getUID()}" . '&action=edit&message=' . $ex->getMessage());
                     die();
                 }
                 break;
@@ -124,23 +126,23 @@ class UserView extends AbstractView
 
                     UserRow::delete($User);
                     $SessionManager->setMessage("Successfully deleted user: " . $User->getUsername());
-                    header('Location: /user');
+                    header("Location: {$baseHREF}user/");
                     die();
                 } catch (\Exception $ex) {
                     $SessionManager->setMessage($ex->getMessage());
-                    header('Location: /user?uid=' . $User->getUID() . '&action=delete&message=' . $ex->getMessage());
+                    header("Location: {$baseHREF}user/?uid={$User->getUID()}" . '&action=delete&message=' . $ex->getMessage());
                     die();
                 }
 
             case 'login':
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
                     $SessionManager->setMessage("Could not log in as user. Permission required: ROLE_ADMIN");
-                    header('Location: /user?uid=' . $User->getUID());
+                    header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
                 }
                 $SessionManager->adminLoginAsUser($User);
                 $SessionManager->setMessage("Admin Login as: " . $User->getUsername());
-                header('Location: /user?uid=' . $User->getUID());
+                header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                 die();
 
             default:
@@ -159,7 +161,8 @@ class UserView extends AbstractView
             if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
                 $SessionManager->setMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
 
-                header('Location: /user?message=Could not make changes to other user. Permission required: ROLE_ADMIN');
+                $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                header("Location: {$baseHREF}user?message=Could not make changes to other user. Permission required: ROLE_ADMIN");
                 die();
             }
         }

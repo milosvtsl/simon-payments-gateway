@@ -112,7 +112,7 @@ class SupportTicketListView extends AbstractListView {
         $SessionManager = new SessionManager();
         try {
             $SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
-            header("Location: /support/ticket");
+            header("Location: support/ticket");
 
 		} catch (\Exception $ex) {
             $SessionManager->setMessage($ex->getMessage());

@@ -8,7 +8,7 @@ use Merchant\Model\MerchantRow;
  **/
 
 $odd = false;
-$action_url = '/user/index.php?uid=' . $User->getUID() . '&action=';
+$action_url = 'user/index.php?uid=' . $User->getUID() . '&action=';
 $category = 'user-delete';
 
 $Theme = $this->getTheme();

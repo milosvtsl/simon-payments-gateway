@@ -52,14 +52,16 @@ class MerchantFormView extends AbstractView
             if(!$merchant_id) {
                 // Only admins may edit default templates
                 $SessionManager->setMessage("Only admins may edit default templates. Permission required: ROLE_ADMIN");
-                header('Location: /merchant/form.php');
+                $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                header('Location: ' . $baseHREF . 'merchant/form.php');
                 die();
             }
             $list = $SessionUser->getMerchantList();
             if(!in_array($merchant_id, $list)) {
                 // Invalid Access
                 $SessionManager->setMessage("Merchant not assigned to user");
-                header('Location: /merchant/form.php');
+                $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                header('Location: ' . $baseHREF . 'merchant/form.php');
                 die();
             }
         }
@@ -84,7 +86,8 @@ class MerchantFormView extends AbstractView
                 } catch (\Exception $ex) {
                     $SessionManager->setMessage($ex->getMessage());
                 }
-                header('Location: /merchant/form.php?uid=' . $Form->getUID());
+                $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                header('Location: ' . $baseHREF . 'merchant/form.php?uid=' . $Form->getUID());
                 break;
 
             case 'delete':
@@ -110,8 +113,8 @@ HEAD;
         $Form = $this->form;
         $odd = false;
         $action_url = 'merchant/form.php?uid=' . $Form->getUID() . '&action=';
-//        $SessionManager = new SessionManager();
-//        $SessionUser = $SessionManager->getSessionUser();
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
 
         $Theme = $this->getTheme();
         $Theme->addPathURL('merchant',      'Merchants');

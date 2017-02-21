@@ -7,7 +7,7 @@ use Merchant\Model\MerchantRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = '/merchant/index.php?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant/index.php?id=' . $Merchant->getID() . '&action=';
 
 
 $Theme = $this->getTheme();

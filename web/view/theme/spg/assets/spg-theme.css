@@ -800,8 +800,8 @@ body.layout-vertical.spg-theme nav.page-menu {
 }
 
 .spg-theme .cvv2-image.small {
-    transform: scale(0.8);
-    margin: 12px -26px;
+    /* transform: scale(0.8); */
+    /* margin: 12px -44px 12px -26px; */
 }
 
 

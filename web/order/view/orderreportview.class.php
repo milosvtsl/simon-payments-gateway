@@ -317,7 +317,7 @@ class OrderReportView extends AbstractListView {
 		$SessionManager = new SessionManager();
 		try {
 			$SessionManager->setMessage("Unhandled Form Post: " . __CLASS__);
-			header("Location: /");
+            header("Location: index.php");
 
 		} catch (\Exception $ex) {
 			$SessionManager->setMessage($ex->getMessage());

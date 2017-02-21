@@ -20,7 +20,8 @@ class AddMerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add other merchants
             $SessionManager->setMessage("Unable to add merchant. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
-            header('Location: /merchant?action=add&message=Unable to manage integration: Admin required');
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header("Location: {$baseHREF}merchant?action=add&message=Unable to manage integration: Admin required");
             die();
         }
 
@@ -29,12 +30,13 @@ class AddMerchantView extends AbstractView
     }
 
     public function processFormRequest(Array $post) {
+        $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
         $SessionManager = new SessionManager();
         $SessionUser = SessionManager::get()->getSessionUser();
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may add merchants
             $SessionManager->setMessage("Unable to add merchant. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
-                header('Location: /merchant?action=add&message=Unable to manage integration: Admin required');
+                header("Location: {$baseHREF}merchant?action=add&message=Unable to manage integration: Admin required");
                 die();
         }
 
@@ -42,7 +44,7 @@ class AddMerchantView extends AbstractView
         $SessionUser->addMerchantID($Merchant->getID());
 
         $SessionManager->setMessage("Merchant created successfully: " . $Merchant->getUID());
-        header('Location: /merchant?id=' . $Merchant->getID() . '&action=edit');
+        header("Location: {$baseHREF}?uid=' . $Merchant->getUID() . '&action=edit");
         die();
 
     }

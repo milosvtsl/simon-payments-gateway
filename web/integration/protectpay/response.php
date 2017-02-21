@@ -10,6 +10,7 @@ use Integration\Model\Ex\IntegrationException;
 
 // Go to root directory
 chdir('../..');
+define("BASE_HREF", '../../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -24,7 +25,7 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
@@ -55,11 +56,11 @@ try {
     $SessionManager->setMessage(
         "<div class='info'>Success: " . $OrderRow->getStatus() . "</div>"
     );
-    header('Location: /order/receipt.php?uid=' . $OrderRow->getUID());
+    header('Location: ' . BASE_HREF . 'order/receipt.php?uid=' . $OrderRow->getUID());
 
 } catch (\Exception $ex) {
     $SessionManager->setMessage(
         "<div class='error'>Error: " . $ex->getMessage() . "</div>"
     );
-    header('Location: /order/charge.php');
+    header('Location: ' . BASE_HREF . 'order/charge.php');
 }

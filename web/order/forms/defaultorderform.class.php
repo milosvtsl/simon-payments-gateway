@@ -216,9 +216,9 @@ HEAD;
                             <tr>
                                 <td colspan="2" style="white-space: normal;">
 
-
                                     <div class="credit-image small" style="margin: 7px 0 0 5px;"></div>
-                                    <div style="font-size: x-small; color: grey; padding: 1em; max-width: 300px;">
+                                    <div class="cvv2-image small" style="display: inline-block; "></div>
+                                    <div style="font-size: x-small; color: grey; padding: 1em; max-width: 250px;">
                                         **The CVV Number ("Card Verification Value") on your credit card
                                         or debit card is a 3-4 digit number on credit and debit cards.
                                     </div>
@@ -228,10 +228,6 @@ HEAD;
                             </tr>
 
                         </table>
-
-                        <div style="margin: 0px 5px; vertical-align: top; display: inline-block;">
-                            <div class="cvv2-image small" style="display: inline-block; float: left; "></div>
-                        </div>
                     </fieldset>
 
 
@@ -439,7 +435,7 @@ HEAD;
                     </fieldset>
                     <?php } ?>
 
-                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;"
+                    <fieldset class="<?php if($MerchantForm->isRecurAvailable()) { ?>inline-block-on-layout-full<?php } ?>" style="clear: both; min-width: 45%; min-height: 12em;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>
                     >
                         <div class="legend">Submit Payment</div>

@@ -104,7 +104,8 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                    header('Location: ' . $baseHREF . 'order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'void':
@@ -119,7 +120,8 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                    header('Location: ' . $baseHREF . 'order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'return':
@@ -135,7 +137,8 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                    header('Location: ' . $baseHREF . 'order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 case 'reverse':
@@ -147,7 +150,8 @@ class OrderView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Transaction->getStatusMessage() . "</div>"
                     );
-                    header('Location: /order/receipt.php?uid=' . $Order->getUID() . '');
+                    $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                    header('Location: ' . $baseHREF . 'order/receipt.php?uid=' . $Order->getUID() . '');
                     die();
 
                 default:
@@ -158,7 +162,8 @@ class OrderView extends AbstractView
             $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
-            header('Location: /order/receipt.php?uid=' . $Order->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header('Location: ' . $baseHREF . 'order/receipt.php?uid=' . $Order->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }

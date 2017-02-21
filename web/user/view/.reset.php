@@ -46,7 +46,7 @@ $SessionManager = new SessionManager();
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="login-text">
-                            <a href="/">Back to Login</a>
+                            <a href=".">Back to Login</a>
                         </td>
                     </tr>
 
@@ -78,7 +78,7 @@ $SessionManager = new SessionManager();
                     </tr>
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                         <td class="login-text">
-                            <a href="/">Back to Login</a>
+                            <a href=".">Back to Login</a>
                         </td>
                     </tr>
 

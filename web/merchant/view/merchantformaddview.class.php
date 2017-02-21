@@ -100,7 +100,8 @@ HEAD;
 
         $SessionManager = new SessionManager();
         $SessionManager->setMessage("Custom Form created successfully: " . $Form->getUID());
-        header('Location: /merchant/form.php?uid=' . $Form->getUID() . '&action=edit');
+        $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+        header('Location: ' . $baseHREF . 'merchant/form.php?uid=' . $Form->getUID() . '&action=edit');
         die();
 
     }

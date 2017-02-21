@@ -97,7 +97,7 @@ class SubscriptionView extends AbstractView
                     $SessionManager->setMessage(
                         "<div class='info'>Success: ".$Subscription->getStatusMessage() . "</div>"
                     );
-                    header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '');
+                    header('Location: subscription/receipt.php?uid=' . $Subscription->getUID() . '');
                     die();
 
 
@@ -109,7 +109,7 @@ class SubscriptionView extends AbstractView
             $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
-            header('Location: /subscription/receipt.php?uid=' . $Subscription->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
+            header('Location: subscription/receipt.php?uid=' . $Subscription->getUID() . '&action='.$this->_action.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }

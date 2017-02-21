@@ -10,7 +10,7 @@ use System\Config\SiteConfig;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 

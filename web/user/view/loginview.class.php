@@ -75,9 +75,8 @@ class LoginView extends AbstractView {
 
                     $SessionManager = new SessionManager();
                     $NewUser = $SessionManager->login($username, $password);
-
                     $SessionManager->setMessage("Logged in as " . $NewUser->getUsername());
-                    header("Location: /");
+                    header("Location: index.php");
 
                 } catch (\Exception $ex) {
                     $SessionManager->setMessage($ex->getMessage());
@@ -92,11 +91,12 @@ class LoginView extends AbstractView {
                     $SessionManager->logout();
                     $SessionManager->setMessage("Logged out successfully: " . $SessionUser->getUsername());
 
+                    $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
                     if($SessionManager->isLoggedIn()) {
-                        header("Location: /user?uid=" . $SessionUser->getUID());
+                        header("Location: {$baseHREF}user?uid={$SessionUser->getUID()}");
 
                     } else {
-                        header("Location: /");
+                        header("Location: {$baseHREF}index.php");
                     }
 
                 } catch (\Exception $ex) {

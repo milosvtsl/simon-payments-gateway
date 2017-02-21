@@ -173,15 +173,17 @@ class ChargeView extends AbstractView
             $SessionManager->setMessage(
                 "<div class='info'>Success: " . $Transaction->getStatusMessage() . "</div>"
             );
-            header('Location: /order/receipt.php?uid=' . $Order->getUID());
 //            unset($_SESSION['order/charge.php']);
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header('Location: ' . $baseHREF . 'order/receipt.php?uid=' . $Order->getUID());
             die();
 
         } catch (\Exception $ex) {
             $SessionManager->setMessage(
                 "<div class='error'>Error: " . $ex->getMessage() . "</div>"
             );
-            header('Location: /order/charge.php');
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header('Location: ' . $baseHREF . 'order/charge.php');
 
             // Delete pending orders that didn't complete
             if($Order)

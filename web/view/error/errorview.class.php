@@ -75,7 +75,7 @@ class ErrorView extends AbstractView {
     public function processFormRequest(Array $post) {
         try {
             $this->setSessionMessage("Unhandled Form Post");
-            header("Location: /");
+            header("Location: index.php");
 
         } catch (\Exception $ex) {
             $this->setSessionMessage($ex->getMessage());

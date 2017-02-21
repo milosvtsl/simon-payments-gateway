@@ -36,7 +36,8 @@ class MerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may edit/view merchants
             $SessionManager->setMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
-            header('Location: /merchant?id=' . $this->getMerchant()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}&action={$this->_action}&message=Unable to manage integration: Admin required");
             die();
         }
 
@@ -69,7 +70,8 @@ class MerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
             // Only admins may edit/view merchants
             $SessionManager->setMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
-            header('Location: /merchant?id=' . $Merchant->getID());
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header('Location: ' . $baseHREF . 'merchant?uid=' . $Merchant->getUID());
             die();
         }
 
@@ -77,23 +79,26 @@ class MerchantView extends AbstractView
             if(!in_array($Merchant->getID(), $SessionUser->getMerchantList())) {
                 // Only admins may edit/view merchants
                 $SessionManager->setMessage("Unable to view/edit merchant. This account does not have permission.");
-                header('Location: /merchant?id=' . $Merchant->getID());
+                $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+                header('Location: ' . $baseHREF . 'merchant?uid=' . $Merchant->getUID());
                 die();
             }
         }
 
-            // Render Page
+        $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+
+        // Render Page
         switch($this->_action) {
             case 'view':
                 $User = UserRow::fetchByUID($_POST['login_user_uid']);
                 if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
                     $SessionManager->setMessage("Could not log in as user. Permission required: ROLE_ADMIN");
-                    header('Location: /user?uid=' . $User->getUID());
+                    header("Location: {$baseHREF}user?uid={$User->getUID()}");
                     die();
                 }
                 $SessionManager->adminLoginAsUser($User);
                 $SessionManager->setMessage("Admin Login as: " . $User->getUsername());
-                header('Location: /user?uid=' . $User->getUID());
+                header("Location: {$baseHREF}user?uid={$User->getUID()}");
                 die();
 
             case 'edit':
@@ -105,7 +110,7 @@ class MerchantView extends AbstractView
                 } catch (\Exception $ex) {
                     $SessionManager->setMessage($ex->getMessage());
                 }
-                header('Location: /merchant?id=' . $Merchant->getID());
+                header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}");
                 die();
                 break;
 
@@ -114,7 +119,7 @@ class MerchantView extends AbstractView
                 $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
                 if($MerchantIdentity->isProvisioned()) {
                     $SessionManager->setMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
-                    header('Location: /merchant?id=' . $this->getMerchant()->getID());
+                    header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}");
                     die();
                 }
 
@@ -124,7 +129,7 @@ class MerchantView extends AbstractView
                 } catch (IntegrationException $ex) {
                     $SessionManager->setMessage("Merchant failed to provision: " . $ex->getMessage());
                 }
-                header('Location: /merchant?id=' . $this->getMerchant()->getID());
+                header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}");
                 die();
 
                 break;

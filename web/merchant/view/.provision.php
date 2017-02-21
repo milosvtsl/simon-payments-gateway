@@ -7,7 +7,7 @@ use Integration\Model\IntegrationRow;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 
 $Theme = $this->getTheme();
 $Theme->addPathURL('merchant',      'Merchants');

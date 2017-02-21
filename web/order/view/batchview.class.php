@@ -67,7 +67,8 @@ class BatchView extends AbstractView
             $SessionManager->setMessage(
                 "<div class='error'>Error: ".$ex->getMessage() . "</div>"
             );
-            header('Location: /order/batch.php?batch_id=' . $this->batch_id . '&merchant_id='.$this->merchant_id.'&message=' . $ex->getMessage()  . '');
+            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+            header('Location: ' . $baseHREF . 'order/batch.php?batch_id=' . $this->batch_id . '&merchant_id='.$this->merchant_id.'&message=' . $ex->getMessage()  . '');
             die();
         }
     }

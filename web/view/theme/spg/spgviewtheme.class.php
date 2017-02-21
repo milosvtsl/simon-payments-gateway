@@ -52,7 +52,7 @@ class SPGViewTheme extends AbstractViewTheme
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
         <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href="/">
+            <a href=".">
                 <div class="logo"></div>
             </a>
         </header>
@@ -167,7 +167,7 @@ HEAD;
 
         <ul class="page-menu hide-on-print">
             <li>
-                <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
+                <a href="." class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
                     <span>Dashboard</span></a>
             </li>
 
@@ -212,10 +212,10 @@ HEAD;
 <!--                                <a href="order/batch.php" class="button--><?php //echo @$mc['order-batch-list']; ?><!--"><div class="menu-icon menu-icon-batch"></div>-->
 <!--                                    <span>Batch Report</span> </a>-->
 <!--                            </li>-->
-                            <li>
-                                <a href="subscription" class="button<?php echo @$mc['order-subscription-list']; ?>"><div class="menu-icon menu-icon-subscription"></div>
-                                    <span>Client Profiles</span> </a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a href="subscription" class="button--><?php //echo @$mc['order-subscription-list']; ?><!--"><div class="menu-icon menu-icon-subscription"></div>-->
+<!--                                    <span>Client Profiles</span> </a>-->
+<!--                            </li>-->
                         <?php } ?>
 
                     </ul>

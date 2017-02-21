@@ -12,6 +12,7 @@ use Merchant\Model\MerchantRow;
 
 // Go to root directory
 chdir('../..');
+define("BASE_HREF", '../../'); // Set relative path
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
@@ -26,7 +27,7 @@ session_start();
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
-    header('Location: /login.php?message=session has ended');
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 

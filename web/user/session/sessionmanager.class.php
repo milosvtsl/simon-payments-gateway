@@ -41,7 +41,12 @@ class SessionManager
             throw new \InvalidArgumentException("Username not found: " . $username);
 
         $User->validatePassword($password);
+
         self::$_session_user = $User;
+
+        session_regenerate_id(true);
+        session_write_close();
+        session_start();
 
         // Reset login session data
         $_SESSION[static::SESSION_KEY] = array (

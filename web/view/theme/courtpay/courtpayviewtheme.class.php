@@ -53,7 +53,7 @@ class CourtPayViewTheme extends AbstractViewTheme
         <div class="body-container">
 
             <header class="themed hide-on-print hide-on-layout-vertical">
-                <a href="/">
+                <a href=".">
                     <div class="logo"></div>
                 </a>
             </header>
@@ -128,7 +128,7 @@ HEAD;
 
         <ul class="page-menu hide-on-print">
             <li class="menu-submenu menu-submenu-order">
-                <a href="/" class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
+                <a href="." class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
                     <span>Dashboard</span></a>
             </li>
 
