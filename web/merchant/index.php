@@ -30,7 +30,12 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-if(!empty($_GET['id'])) {
+if(!empty($_GET['uid'])) {
+    $Merchant = \Merchant\Model\MerchantRow::fetchByUID($_GET['uid']);
+    $View = new \Merchant\View\MerchantView($Merchant->getID(), @$_GET['action']);
+    $View->handleRequest();
+
+} else if(!empty($_GET['id'])) {
     $View = new \Merchant\View\MerchantView($_GET['id'], @$_GET['action']);
     $View->handleRequest();
 
