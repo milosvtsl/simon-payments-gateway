@@ -147,7 +147,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Location</td>
                             <td><?php echo $Merchant->getCity(), ' ' ,
-                                \System\Arrays\Locations::$STATES[$Merchant->getRegionCode()],
+                                @\System\Arrays\Locations::$STATES[$Merchant->getRegionCode()],
                                 ', ', $Merchant->getZipCode(),
                                 '<br/>', @\System\Arrays\Locations::$COUNTRIES[$Merchant->getCountryCode()]; ?>
                             </td>
