@@ -126,15 +126,10 @@ class OrderRow
     // Table order_field
     protected $order_fields;
 
-    protected $form_id;
-    // Table order_field
-
-    protected $order_fields;
     // Table integration
-
     protected $integration_name;
-    // Table merchant
 
+    // Table merchant
     protected $merchant_short_name;
 
     // Table subscription
