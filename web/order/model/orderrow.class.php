@@ -597,7 +597,7 @@ SQL;
             $OrderRow->username = $post['username'];
 
         if ($OrderRow->payee_reciept_email && !filter_var($OrderRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid Payee Email Format");
 
 
         if(!$OrderRow->uid)

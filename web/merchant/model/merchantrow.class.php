@@ -585,7 +585,7 @@ LEFT JOIN state s on m.state_id = s.id
             throw new \InvalidArgumentException("Merchant Name must be at least 5 characters");
 
         if (!filter_var($post['main_email_id'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid Merchant Email");
 
         $params = array();
         $Merchant = new MerchantRow();

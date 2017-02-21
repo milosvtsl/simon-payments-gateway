@@ -199,7 +199,7 @@ LEFT JOIN state st on st.short_code = p.payee_state
         if(isset($post['payee_reciept_email'])) {
             $PayeeRow->payee_reciept_email = $post['payee_reciept_email'];
             if (!filter_var($PayeeRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
-                throw new \Exception("Invalid Email");
+                throw new \Exception("Invalid Email Format");
         }
 
         $PayeeRow->uid = strtoupper(self::generateGUID($PayeeRow));
