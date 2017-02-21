@@ -124,7 +124,7 @@ LEFT JOIN state st on st.short_code = p.payee_state
             $values[':id'] = $PayerRow->id;
             $SQL = "UPDATE payee SET\n" . $SQL . "\nWHERE id = :id\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO payee SET `created` = NOW(),\n" . $SQL;
+            $SQL = "INSERT INTO payee SET `created` = UTC_TIMESTAMP(),\n" . $SQL;
         }
 
         $DB = DBConfig::getInstance();
@@ -196,10 +196,10 @@ LEFT JOIN state st on st.short_code = p.payee_state
         $PayeeRow->payee_city = @$post['payee_city'];
         $PayeeRow->payee_state = @$post['payee_state'];
 
-        if(isset($post['payee_reciept_email'])) {
+        if(!empty($post['payee_reciept_email'])) {
             $PayeeRow->payee_reciept_email = $post['payee_reciept_email'];
             if (!filter_var($PayeeRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
-                throw new \Exception("Invalid Email");
+                throw new \Exception("Invalid Email Format");
         }
 
         $PayeeRow->uid = strtoupper(self::generateGUID($PayeeRow));

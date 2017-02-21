@@ -141,7 +141,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
         $SQL = '';
         foreach($values as $key=>$value)
             $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL = "UPDATE subscription\nSET recur_cancel_date = NOW(), "
+        $SQL = "UPDATE subscription\nSET recur_cancel_date = UTC_TIMESTAMP(), "
             . $SQL
             . "\nWHERE id = :id LIMIT 1";
 

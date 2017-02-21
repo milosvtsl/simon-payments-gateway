@@ -184,7 +184,7 @@ FROM user u
 
     public function updateFields($post) {
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid User Email");
 
         $this->fname = $post['fname'];
         $this->lname = $post['lname'];
@@ -355,7 +355,7 @@ SQL;
             throw new \InvalidArgumentException("Password Mismatch");
 
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid User Email Format");
 
         $password = md5($post['password']);
 
@@ -423,7 +423,7 @@ SQL;
         $SQL = '';
         foreach($values as $key=>$value)
             $SQL .= ($SQL?",\n":"") . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL .= ",\n\t`date` = NOW()";
+        $SQL .= ",\n\t`date` = UTC_TIMESTAMP()";
         $User->date = date('Y-m-d G:i:s');
 
         $SQL = "INSERT INTO user\nSET" . $SQL;

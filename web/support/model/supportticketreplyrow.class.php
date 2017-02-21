@@ -147,7 +147,7 @@ LEFT JOIN merchant m on st.merchant_id = m.id
         foreach($values as $key=>$value)
             if($value !== null)
                 $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL = "INSERT INTO support_ticket_reply\nSET date = NOW()," . $SQL;
+        $SQL = "INSERT INTO support_ticket_reply\nSET date = UTC_TIMESTAMP()," . $SQL;
 
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);

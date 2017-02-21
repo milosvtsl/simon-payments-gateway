@@ -183,7 +183,7 @@ LEFT JOIN state st on st.short_code = p.payee_state
             $values[':id'] = $PaymentRow->id;
             $SQL = "UPDATE payment SET\n" . $SQL . "\nWHERE id = :id\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO payment SET `created` = NOW(),\n" . $SQL;
+            $SQL = "INSERT INTO payment SET `created` = UTC_TIMESTAMP(),\n" . $SQL;
         }
 
         $DB = DBConfig::getInstance();

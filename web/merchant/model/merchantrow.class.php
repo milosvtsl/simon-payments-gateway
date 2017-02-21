@@ -585,7 +585,7 @@ LEFT JOIN state s on m.state_id = s.id
             throw new \InvalidArgumentException("Merchant Name must be at least 5 characters");
 
         if (!filter_var($post['main_email_id'], FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid Merchant Email");
 
         $params = array();
         $Merchant = new MerchantRow();
@@ -627,7 +627,7 @@ LEFT JOIN state s on m.state_id = s.id
 
     public static function generateGUID() {
         $site_type = SiteConfig::$SITE_UID_PREFIX;
-        return sprintf('M' . $site_type . '-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
+        return sprintf($site_type . 'M' . '-%04X-%04X-%04X-%04X%04X%04X', mt_rand(0, 65535), mt_rand(16384, 20479), mt_rand(32768, 49151), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535));
     }
 
     /**

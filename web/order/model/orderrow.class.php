@@ -471,7 +471,7 @@ SQL;
         if($OrderRow->id) {
             $SQL = "UPDATE order_item\nSET" . $SQL . "\nWHERE id = " . $OrderRow->id . "\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO order_item\nSET `date` = NOW(), `date_utc` = UTC_TIMESTAMP(), " . $SQL;
+            $SQL = "INSERT INTO order_item\nSET `date` = UTC_TIMESTAMP(), `date_utc` = UTC_TIMESTAMP(), " . $SQL;
         }
 
         $DB = DBConfig::getInstance();
@@ -597,7 +597,7 @@ SQL;
             $OrderRow->username = $post['username'];
 
         if ($OrderRow->payee_reciept_email && !filter_var($OrderRow->payee_reciept_email, FILTER_VALIDATE_EMAIL))
-            throw new \InvalidArgumentException("Invalid Email");
+            throw new \InvalidArgumentException("Invalid Payee Email Format");
 
 
         if(!$OrderRow->uid)
@@ -640,7 +640,7 @@ SQL;
     public static function generateGUID(OrderRow $Row=null) {
         $site_type = SiteConfig::$SITE_UID_PREFIX;
         $type = $Row ? strtoupper(substr($Row->getEntryMode(), 0, 1)) : 'E';
-        return 'O' . $type . $site_type . '-' . sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479));
+        return $site_type . 'O' . $type . '-' . sprintf('%04X-%04X-%04X-%04X', mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(0, 65535), mt_rand(16384, 20479));
     }
 
     public static function sanitizeNumber($number, $lastDigits=4, $char='X') {
