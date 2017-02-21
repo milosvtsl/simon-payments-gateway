@@ -210,18 +210,23 @@ class OrderView extends AbstractView
                                 <div class="app-button large app-button-download" ></div>
                                 Download
                             </a>
+
+                            <?php if($SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN')) { ?>
                             <a onclick='return confirmOrderViewAction("Void", event);' class="page-button page-button-void
-                            <?php if($Order->getStatus() !== 'Authorized') echo ' disabled'; ?>
+                                <?php if($Order->getStatus() !== 'Authorized') echo ' disabled'; ?>
                                 ">
                                 <div class="app-button large app-button-void" ></div>
                                 Void
                             </a>
+                            <?php } ?>
+                            <?php if($SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN')) { ?>
                             <a onclick='return confirmOrderViewAction("Return", event);' class="page-button page-button-refund
                             <?php if($Order->getStatus() !== 'Settled') echo ' disabled'; ?>
                                 ">
                                 <div class="app-button large app-button-refund" ></div>
                                 Return
                             </a>
+                            <?php } ?>
                         </div>
 
                         <hr/>
@@ -524,25 +529,27 @@ class OrderView extends AbstractView
                                     </td>
                                     <td>
                                         <?php
-                                        switch($Transaction->getAction()) {
-                                            case 'Authorized':
-                                                if($Order->getStatus() === 'Authorized') {
-                                                    $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo <<<HTML
+                                        if($SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_RETURN_CHARGE', 'ROLE_ADMIN')) {
+                                            switch ($Transaction->getAction()) {
+                                                case 'Authorized':
+                                                    if ($Order->getStatus() === 'Authorized') {
+                                                        $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                        echo <<<HTML
                                         <input name='action' type='submit' value='Void'`{$disabled} onclick='return confirmOrderViewAction("Void", event);' class="themed"/>
 HTML;
-                                                }
-                                                break;
+                                                    }
+                                                    break;
 
-                                            case 'Settled':
-                                                if($Order->getStatus() === 'Settled' && !floatval($Order->getTotalReturnedAmount())) {
-                                                    $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
-                                                    echo <<<HTML
+                                                case 'Settled':
+                                                    if ($Order->getStatus() === 'Settled' && !floatval($Order->getTotalReturnedAmount())) {
+                                                        $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                        echo <<<HTML
                                         <input name='partial_return_amount' size="10" placeholder="Return Amount" />
                                         <input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction("Return", event);' class="themed"/>
 HTML;
-                                                }
-                                                break;
+                                                    }
+                                                    break;
+                                            }
                                         }
                                         ?>
                                     </td>
