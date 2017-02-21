@@ -57,7 +57,7 @@ FROM merchant_integration mi
         );
 
         $sql = "INSERT INTO " . self::TABLE_NAME
-            . "\nSET created=NOW(), updated=NOW(), "
+            . "\nSET created=UTC_TIMESTAMP(), updated=UTC_TIMESTAMP(), "
             . "merchant_id=:merchant_id, "
             . "integration_id=:integration_id, "
             . "credentials=:credentials"

@@ -248,7 +248,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $SQL = "INSERT INTO transaction SET";
         foreach($values as $key=>$value)
             $SQL .= "\n\t`" . substr($key, 1) . "` = " . $key . ',';
-        $SQL .= "\n\t`date` = NOW()";
+        $SQL .= "\n\t`date` = UTC_TIMESTAMP()";
         $TransactionRow->date = date('Y-m-d G:i:s');
 
         $DB = DBConfig::getInstance();

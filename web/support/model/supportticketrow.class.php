@@ -118,7 +118,7 @@ LEFT JOIN merchant m on st.merchant_id = m.id
         $SQL = '';
         foreach($values as $key=>$value)
             $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL = "UPDATE support_ticket\nSET recur_cancel_date = NOW(), "
+        $SQL = "UPDATE support_ticket\nSET recur_cancel_date = UTC_TIMESTAMP(), "
             . $SQL
             . "\nWHERE id = :id LIMIT 1";
 
@@ -184,7 +184,7 @@ LEFT JOIN merchant m on st.merchant_id = m.id
         foreach($values as $key=>$value)
             if($value !== null)
                 $SQL .= ($SQL ? ',' : '') . "\n\t`" . substr($key, 1) . "` = " . $key;
-        $SQL = "INSERT INTO support_ticket\nSET date = NOW()," . $SQL;
+        $SQL = "INSERT INTO support_ticket\nSET date = UTC_TIMESTAMP()," . $SQL;
 
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($SQL);

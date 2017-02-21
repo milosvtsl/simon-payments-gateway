@@ -124,7 +124,7 @@ LEFT JOIN state st on st.short_code = p.payee_state
             $values[':id'] = $PayerRow->id;
             $SQL = "UPDATE payee SET\n" . $SQL . "\nWHERE id = :id\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO payee SET `created` = NOW(),\n" . $SQL;
+            $SQL = "INSERT INTO payee SET `created` = UTC_TIMESTAMP(),\n" . $SQL;
         }
 
         $DB = DBConfig::getInstance();
