@@ -453,7 +453,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     display: block;
     color: #666;
     white-space: nowrap;
-    background-color: rgb(238, 245, 247);
+    background-color: rgb(235, 242, 245);
 }
 .spg-theme a.button > * {
     vertical-align: middle;
