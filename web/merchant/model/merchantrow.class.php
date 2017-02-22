@@ -589,7 +589,7 @@ LEFT JOIN state s on m.state_id = s.id
 
         $params = array();
         $Merchant = new MerchantRow();
-        $Merchant->uid = strtolower(self::generateGUID());
+        $Merchant->uid = strtoupper(self::generateGUID());
         $params[':uid'] = $Merchant->uid;
 
         $sqlSet = "";

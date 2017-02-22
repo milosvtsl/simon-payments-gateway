@@ -255,7 +255,7 @@ LEFT JOIN integration i on oi.integration_id = i.id
             throw new \InvalidArgumentException("Order was not entered into database");
 
         $SubscriptionRow = new SubscriptionRow();
-        $SubscriptionRow->uid = strtolower(self::generateGUID());
+        $SubscriptionRow->uid = strtoupper(self::generateGUID());
         $SubscriptionRow->order_item_id = $OrderRow->getID();
         $SubscriptionRow->status = self::ENUM_STATUS_ACTIVE;
 

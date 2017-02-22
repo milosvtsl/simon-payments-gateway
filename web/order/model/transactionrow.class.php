@@ -173,7 +173,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function createVoidTransaction() {
         $VoidTransaction = clone $this;
         $VoidTransaction->id = null;
-        $VoidTransaction->uid = strtolower(self::generateGUID());
+        $VoidTransaction->uid = strtoupper(self::generateGUID());
         $VoidTransaction->date = date('Y-m-d G:i:s');
 //        $VoidTransaction->is_reviewed = 0;
         return $VoidTransaction;
@@ -186,7 +186,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function createReturnTransaction() {
         $ReturnTransaction = clone $this;
         $ReturnTransaction->id = null;
-        $ReturnTransaction->uid = strtolower(self::generateGUID());
+        $ReturnTransaction->uid = strtoupper(self::generateGUID());
         $ReturnTransaction->date = date('Y-m-d G:i:s');
 //        $ReturnTransaction->is_reviewed = 0;
         return $ReturnTransaction;
@@ -200,7 +200,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function createSettledTransaction() {
         $SettledTransaction = clone $this;
         $SettledTransaction->id = null;
-        $SettledTransaction->uid = strtolower(self::generateGUID());
+        $SettledTransaction->uid = strtoupper(self::generateGUID());
         $SettledTransaction->date = date('Y-m-d G:i:s');
 //        $SettledTransaction->is_reviewed = 0;
         return $SettledTransaction;
@@ -317,7 +317,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
         $TransactionRow = new TransactionRow();
 //        $TransactionRow->transaction_id = !empty($post['transaction_id'])
 //            ? $post['transaction_id'] : strtoupper(self::generateTransactionID());
-        $TransactionRow->uid = strtolower(self::generateGUID());
+        $TransactionRow->uid = strtoupper(self::generateGUID());
         $TransactionRow->date = date('Y-m-d G:i:s');
 
         $TransactionRow->order_item_id = $OrderRow->getID();

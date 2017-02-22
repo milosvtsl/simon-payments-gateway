@@ -360,7 +360,7 @@ SQL;
         $password = md5($post['password']);
 
         $User = new UserRow();
-        $User->uid = strtolower(self::generateGUID());
+        $User->uid = strtoupper(self::generateGUID());
         $User->version = 1;
         $User->email = $post['email'];
         $User->enabled = 1;
@@ -374,6 +374,7 @@ SQL;
             $User->admin_id = $AdminUserRow->getID();
 
         UserRow::insert($User);
+
         return $User;
     }
 

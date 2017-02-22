@@ -46,7 +46,7 @@ class ReceiptEmail extends \PHPMailer
         $this->Subject = "Receipt: " . $Merchant->getName();
 
         $pu = parse_url(@$_SERVER['REQUEST_URI']);
-        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID(false);
+        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID();
         $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y g:i a e");
 
         $next_date = $Order->getSubscriptionNextDate() ? date('M dS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
