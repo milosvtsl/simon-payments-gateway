@@ -27,15 +27,16 @@ SiteConfig::$EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
 SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
 
-// Per Branch Config
-$gitBranch = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-$gitBranch = @$gitBranch[0] ?: null;
-if($gitBranch) {
-    $gitBranch = explode("/", $gitBranch, 3);
-    $gitBranch = @$gitBranch[2] ?: null;
+// Per Git Branch Config
+
+$GIT_BRANCH = @file('.git/HEAD', FILE_USE_INCLUDE_PATH);
+$GIT_BRANCH = @$GIT_BRANCH[0] ?: null;
+if($GIT_BRANCH) {
+    $GIT_BRANCH = explode("/", $GIT_BRANCH, 3);
+    $GIT_BRANCH = @$GIT_BRANCH[2] ?: null;
 }
 
-switch(trim($gitBranch)) {
+switch(trim($GIT_BRANCH)) {
     case 'dev':
         SiteConfig::$DEBUG_MODE = true;
         break;
