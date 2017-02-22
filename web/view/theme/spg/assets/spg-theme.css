@@ -644,7 +644,12 @@ body.layout-vertical.spg-theme nav.page-menu {
     background: linear-gradient(90deg, #eef5f7 40%, #ffffff 90%);
 }
 
-.spg-theme form.themed select, .spg-theme form.themed textarea, .spg-theme form.themed button, .spg-theme form.themed input[type=text] {
+.spg-theme form.themed select,
+.spg-theme form.themed textarea,
+.spg-theme form.themed button,
+.spg-theme form.themed input[type=email],
+.spg-theme form.themed input[type=password],
+.spg-theme form.themed input[type=text] {
     padding: 0.4em 0.6em;
     /* border-radius: 0.3em; */
     /* border-width: 1px; */

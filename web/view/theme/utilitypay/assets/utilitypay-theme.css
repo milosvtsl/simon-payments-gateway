@@ -645,7 +645,12 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
     background: linear-gradient(90deg, #ecf5f1 40%, #ffffff 90%);
 }
 
-.utilitypay-theme form.themed select, .utilitypay-theme form.themed textarea, .utilitypay-theme form.themed button, .utilitypay-theme form.themed input[type=text] {
+.utilitypay-theme form.themed select,
+.utilitypay-theme form.themed textarea,
+.utilitypay-theme form.themed button,
+.utilitypay-theme form.themed input[type=email],
+.utilitypay-theme form.themed input[type=password],
+.utilitypay-theme form.themed input[type=text] {
     padding: 0.4em 0.6em;
     /* border-radius: 0.3em; */
     /* border-width: 1px; */
