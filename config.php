@@ -27,7 +27,22 @@ SiteConfig::$EMAIL_SMTP_SECURE = 'ssl'; // 'tls';
 SiteConfig::$EMAIL_USERNAME = 'support@simonpayments.com';
 SiteConfig::$EMAIL_PASSWORD = 's1m0np4ss18';
 
+// Per Branch Config
+$gitBranch = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
+$gitBranch = @$gitBranch[0] ?: null;
+if($gitBranch) {
+    $gitBranch = explode("/", $gitBranch, 3);
+    $gitBranch = @$gitBranch[2] ?: null;
+}
+
+switch(trim($gitBranch)) {
+    case 'dev':
+        SiteConfig::$DEBUG_MODE = true;
+        break;
+}
+
 // Per Domain Config
+
 $domain = parse_url('http://' . (@$_SERVER['HTTP_HOST'] ?: 'localhost'));
 $host = strtolower(@$domain['host'] ?: 'localhost');
 
@@ -43,16 +58,6 @@ switch($host) {
 
     case 'localhost':
     case 'dev.courtpay.org':
-        SiteConfig::$DEBUG_MODE = true;
-        SiteConfig::$SITE_UID_PREFIX = "DCP";
-        SiteConfig::$SITE_NAME = "CourtPay.org";
-        SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
-        SiteConfig::$SITE_URL = "https://dev.courtpay.org";
-        SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
-        SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
-        DBConfig::$DB_NAME = 'courtpay';
-        break;
-
     case 'courtpay.org':
     case 'access.courtpay.org':
     case 'demo.courtpay.org':
@@ -66,16 +71,6 @@ switch($host) {
         break;
 
     case 'dev.utilitypay.org':
-        SiteConfig::$DEBUG_MODE = true;
-        SiteConfig::$SITE_UID_PREFIX = "DUP";
-        SiteConfig::$SITE_NAME = "UtilityPay.org";
-        SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
-        SiteConfig::$SITE_URL = "https://dev.utilitypay.org";
-        SiteConfig::$DEFAULT_THEME = 'View\Theme\UtilityPay\UtilityPayViewTheme';
-        SiteConfig::$EMAIL_FROM_ADDRESS = 'support@utilitypay.org';
-        DBConfig::$DB_NAME = 'utilitypay';
-        break;
-
     case 'utilitypay.org':
     case 'access.utilitypay.org':
     case 'demo.utilitypay.org':
