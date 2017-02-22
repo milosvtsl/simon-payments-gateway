@@ -145,7 +145,9 @@ $Theme->printHTMLMenu($category,    $action_url);
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Resend Welcome Email</td>
-                                <td class="value"><button type="submit" class="themed" value="resend-welcome-email" name="action" >Resend Email</button></td>
+                                <td class="value">
+                                    <button type="submit" class="themed" value="resend-welcome-email" name="action" onclick="if(!confirm('Are you sure you want to resend the welcome email to <?php echo $User->getEmail(); ?>?')) return false;">Resend Email</button>
+                                </td>
                             </tr>
 
 
