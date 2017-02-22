@@ -49,11 +49,13 @@ $host = parse_url('http://' . (@$_SERVER['HTTP_HOST']), PHP_URL_HOST);
 switch($host) {
     default:
     case 'access.simonpayments.com':
+        SiteConfig::$SITE_URL = "https://" . $host;
         SiteConfig::$SITE_LIVE = TRUE;
         break;
 
     case 'dev.simonpayments.com':
     case 'demo.simonpayments.com':
+        SiteConfig::$SITE_URL = "https://" . $host;
         break;
 
     case 'localhost':
@@ -64,7 +66,7 @@ switch($host) {
         SiteConfig::$SITE_UID_PREFIX = "CP";
         SiteConfig::$SITE_NAME = "CourtPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
-        SiteConfig::$SITE_URL = "https://www.courtpay.org";
+        SiteConfig::$SITE_URL = "https://" . $host;
         SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
         DBConfig::$DB_NAME = 'courtpay';
@@ -77,7 +79,7 @@ switch($host) {
         SiteConfig::$SITE_UID_PREFIX = "UP";
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
-        SiteConfig::$SITE_URL = "https://www.utilitypay.org";
+        SiteConfig::$SITE_URL = "https://" . $host;
         SiteConfig::$DEFAULT_THEME = 'View\Theme\UtilityPay\UtilityPayViewTheme';
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@utilitypay.org';
         DBConfig::$DB_NAME = 'utilitypay';
