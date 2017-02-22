@@ -54,7 +54,10 @@ class ChargeView extends AbstractView
         } else {
             // Assign the first merchant id from the user's list
             $MerchantQuery = $SessionUser->queryUserMerchants();
-            $merchant_id = $MerchantQuery->fetch()->getID();
+            $MerchantRow = $MerchantQuery->fetch();
+            if(!$MerchantRow)
+                throw new \Exception("No Merchants assigned to user yet");
+            $merchant_id = $MerchantRow->getID();
         }
 
         $Merchant = MerchantRow::fetchByID($merchant_id);
