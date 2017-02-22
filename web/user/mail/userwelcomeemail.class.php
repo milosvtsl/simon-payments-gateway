@@ -42,7 +42,7 @@ class UserWelcomeEmail extends \PHPMailer
         $this->addAddress($User->getEmail(), $User->getFullName());
         if($User->getAdminID()) {
             $AdminUser = UserRow::fetchByID($User->getAdminID());
-            $this->addAddress($AdminUser->getEmail(), $User->getFullName());
+            $this->addAddress($AdminUser->getEmail(), $AdminUser->getFullName());
         }
         $this->addBCC("support@simonpayments.com", $User->getFullName());
 
