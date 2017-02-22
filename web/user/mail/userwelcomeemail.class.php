@@ -65,9 +65,9 @@ Password:   {$password}
 If you want to perform a password reset on this account, please click the following link:
 Reset:      <a href="{$url_reset}">{$url_reset}</a>
 
-User Information
-Date:               {$date}
-UID:                {$User->getUID()}
+Request Information
+Date: {$date}
+UID: {$User->getUID()}
 HTML;
 // Status:             {$User->getStatus()}
 
@@ -82,6 +82,7 @@ HTML;
         $sig = SiteConfig::$SITE_NAME;
 
         $content .= <<<HTML
+
 
 ____
 {$sig}
