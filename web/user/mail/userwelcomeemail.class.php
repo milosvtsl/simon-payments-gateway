@@ -19,7 +19,7 @@ require_once PHPMAILER_DIR . 'class.smtp.php';
 
 class UserWelcomeEmail extends \PHPMailer
 {
-    public function __construct(UserRow $User, $password=null) {
+    public function __construct(UserRow $User, $password='****') {
         parent::__construct();
 
         $SessionManager = new SessionManager();
@@ -48,25 +48,29 @@ class UserWelcomeEmail extends \PHPMailer
 
         $this->Subject = "Welcome: " . $User->getFullName();
 
-        $pu = parse_url(@$_SERVER['REQUEST_URI']);
         $key = crypt($User->getPasswordHash(), md5(time()));
-        $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/reset.php?key='.$key.'&email='.$User->getEmail();
+        $url = SiteConfig::$SITE_URL;
+        $url_reset = SiteConfig::$SITE_URL . '/reset.php?key='.$key.'&email='.$User->getEmail();
         $date = date("M dS Y g:i a e");
         $siteName = SiteConfig::$SITE_NAME;
 
         $content = <<<HTML
+Welcome to {$siteName}, {$User->getFullName()}
+
+You may use this url to log in:
+URL:        <a href="{$url}">{$url}</a>
+Username:   {$User->getUsername()}
+Password:   {$password}
+
+If you want to perform a password reset on this account, please click the following link:
+Reset:      <a href="{$url_reset}">{$url_reset}</a>
+
 User Information
 Date:               {$date}
 UID:                {$User->getUID()}
-Full Name:          {$User->getFullName()}
-Username:           {$User->getUsername()}
 HTML;
 // Status:             {$User->getStatus()}
 
-        if($password)
-            $content .= "\n" . <<<HTML
-Password:           {$password}
-HTML;
 
         if(!empty($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -77,32 +81,22 @@ HTML;
 
         $sig = SiteConfig::$SITE_NAME;
 
+        $content .= <<<HTML
+
+____
+{$sig}
+HTML;
+
         $this->isHTML(true);
         $this->Body = <<<HTML
 <html>
     <body>
         <pre>{$content}</pre>
-        <br/>
-        Welcome to {$siteName}, {$User->getFullName()}<br/>
-        If you want to perform a password reset on this account, please click the following link:<br/>
-        <a href="{$url}">{$url}</a><br/>
-
-        ____<br/>
-        {$sig}
     </body>
 </html>
 HTML;
 
-$this->AltBody = <<<TEXT
-{$content}
-
-Welcome to {$siteName}, {$User->getFullName()}
-If you want to perform a password reset on this account, please click the following link:
-{$url}
-
-____
-{$sig}
-TEXT;
+    $this->AltBody = strip_tags($content);
 
     }
 
