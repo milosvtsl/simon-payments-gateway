@@ -144,7 +144,7 @@ class AddUserView extends AbstractView
         }
 
         try {
-            $password = null;
+            $password = '****';
             if(empty($post['password'])) {
                 $password = $this->randomPassword();
                 $post['password'] = $password;
