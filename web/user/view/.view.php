@@ -97,7 +97,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 </td>
                             </tr>
 
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN') && $SessionUser->getID() !== $User->getID()) { ?>
+                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Roles</td>
@@ -135,10 +135,20 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     ?>
                                 </td>
                             </tr>
+
+                            <?php if($SessionUser->getID() !== $User->getID()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin Access</td>
                                 <td class="value"><input type="submit" class="themed" value="Login" name="action" /></td>
                             </tr>
+                            <?php } ?>
+
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Resend Welcome Email</td>
+                                <td class="value"><button type="submit" class="themed" value="resend-welcome-email" name="action" >Resend Email</button></td>
+                            </tr>
+
+
                             <?php } ?>
                         </table>
                     </fieldset>

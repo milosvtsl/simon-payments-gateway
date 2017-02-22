@@ -7,6 +7,7 @@
  */
 namespace User\View;
 
+use User\Mail\UserWelcomeEmail;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
@@ -142,6 +143,13 @@ class UserView extends AbstractView
                 }
                 $SessionManager->adminLoginAsUser($User);
                 $SessionManager->setMessage("Admin Login as: " . $User->getUsername());
+                header("Location: {$baseHREF}user/?uid={$User->getUID()}");
+                die();
+
+            case 'resend-welcome-email':
+                $Email = new UserWelcomeEmail($User);
+                $Email->send();
+                $SessionManager->setMessage("Resent welcome email to " . $User->getEmail());
                 header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                 die();
 
