@@ -25,6 +25,8 @@ class SiteConfig
 
     static $BASE_HREF = '/';
 
+    static $DEBUG_MODE = false;
+
     static $EMAIL_SERVER_HOST = null;
     static $EMAIL_USERNAME;
     static $EMAIL_PASSWORD;

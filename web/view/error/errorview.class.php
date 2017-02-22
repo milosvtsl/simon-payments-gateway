@@ -41,13 +41,12 @@ class ErrorView extends AbstractView {
 
         /** @var $this \View\Error\ErrorView */
         $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
 
         $Exception = $this->getException();
         $Theme->printHTMLMenu('error');
 
         $message = $Exception->getMessage();
-        if($SessionUser->hasAuthority("ROLE_DEBUG"))
+        if($SessionManager->isDebugMode())
             $message = $Exception;
 
         ?>

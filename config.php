@@ -33,7 +33,6 @@ $host = strtolower(@$domain['host'] ?: 'localhost');
 
 switch($host) {
     default:
-    case 'localhost':
     case 'access.simonpayments.com':
         SiteConfig::$SITE_LIVE = TRUE;
         break;
@@ -42,27 +41,48 @@ switch($host) {
     case 'demo.simonpayments.com':
         break;
 
-    case 'courtpay.org':
-    case 'access.courtpay.org':
+    case 'localhost':
     case 'dev.courtpay.org':
-    case 'demo.courtpay.org':
-        SiteConfig::$SITE_UID_PREFIX = "CP";
+        SiteConfig::$DEBUG_MODE = true;
+        SiteConfig::$SITE_UID_PREFIX = "DCP";
         SiteConfig::$SITE_NAME = "CourtPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
-        SiteConfig::$SITE_URL = "https://CourtPay.org";
+        SiteConfig::$SITE_URL = "https://dev.courtpay.org";
         SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
         DBConfig::$DB_NAME = 'courtpay';
         break;
 
+    case 'courtpay.org':
+    case 'access.courtpay.org':
+    case 'demo.courtpay.org':
+        SiteConfig::$SITE_UID_PREFIX = "CP";
+        SiteConfig::$SITE_NAME = "CourtPay.org";
+        SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
+        SiteConfig::$SITE_URL = "https://www.courtpay.org";
+        SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
+        SiteConfig::$EMAIL_FROM_ADDRESS = 'support@courtpay.org';
+        DBConfig::$DB_NAME = 'courtpay';
+        break;
+
+    case 'dev.utilitypay.org':
+        SiteConfig::$DEBUG_MODE = true;
+        SiteConfig::$SITE_UID_PREFIX = "DUP";
+        SiteConfig::$SITE_NAME = "UtilityPay.org";
+        SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
+        SiteConfig::$SITE_URL = "https://dev.utilitypay.org";
+        SiteConfig::$DEFAULT_THEME = 'View\Theme\UtilityPay\UtilityPayViewTheme';
+        SiteConfig::$EMAIL_FROM_ADDRESS = 'support@utilitypay.org';
+        DBConfig::$DB_NAME = 'utilitypay';
+        break;
+
     case 'utilitypay.org':
     case 'access.utilitypay.org':
-    case 'dev.utilitypay.org':
     case 'demo.utilitypay.org':
         SiteConfig::$SITE_UID_PREFIX = "UP";
         SiteConfig::$SITE_NAME = "UtilityPay.org";
         SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Resident";
-        SiteConfig::$SITE_URL = "https://UtilityPay.org";
+        SiteConfig::$SITE_URL = "https://www.utilitypay.org";
         SiteConfig::$DEFAULT_THEME = 'View\Theme\UtilityPay\UtilityPayViewTheme';
         SiteConfig::$EMAIL_FROM_ADDRESS = 'support@utilitypay.org';
         DBConfig::$DB_NAME = 'utilitypay';

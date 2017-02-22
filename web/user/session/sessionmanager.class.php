@@ -10,6 +10,7 @@ namespace User\Session;
 
 
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use User\Model\GuestUser;
 use User\Model\UserRow;
 
@@ -138,6 +139,17 @@ class SessionManager
     public static function get() {
         static $inst = null;
         return $inst ?: $inst = new SessionManager();
+    }
+
+    public function isDebugMode() {
+        if(SiteConfig::$DEBUG_MODE)
+            return true;
+
+        $SessionUser = $this->getSessionUser();
+        if($SessionUser->hasAuthority("ROLE_DEBUG"))
+            return true;
+
+        return false;
     }
 
 }
