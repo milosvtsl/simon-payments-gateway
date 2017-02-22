@@ -43,12 +43,10 @@ switch(trim($gitBranch)) {
 
 // Per Domain Config
 
-$domain = parse_url('http://' . (@$_SERVER['HTTP_HOST'] ?: 'localhost'));
-$host = strtolower(@$domain['host'] ?: 'localhost');
+$host = parse_url('http://' . (@$_SERVER['HTTP_HOST']), PHP_URL_HOST);
 
 switch($host) {
     default:
-    case 'localhost':
     case 'access.simonpayments.com':
         SiteConfig::$SITE_LIVE = TRUE;
         break;
@@ -57,6 +55,7 @@ switch($host) {
     case 'demo.simonpayments.com':
         break;
 
+    case 'localhost':
     case 'dev.courtpay.org':
     case 'courtpay.org':
     case 'access.courtpay.org':
