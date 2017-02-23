@@ -40,6 +40,7 @@ switch($host) {
     case 'localhost':
     case 'demo.simonpayments.com':
         include __DIR__ . '/site/spg/config.php';
+        DBConfig::$DB_NAME = 'spgdemo';
         SiteConfig::$SITE_AUTO_LOGIN_ENABLED = true;
         SiteConfig::$SITE_AUTO_LOGIN_ACCOUNT = 'demo';
         break;
