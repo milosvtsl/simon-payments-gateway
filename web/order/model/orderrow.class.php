@@ -68,7 +68,6 @@ class OrderRow
     protected $uid;
     protected $amount;
     protected $date;
-    protected $date_utc;
     protected $version;
 
     protected $card_exp_month;
@@ -185,7 +184,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
 
     /** @return \DateTime */
     public function getDate($timezone=null) {
-        $dt = new \DateTime($this->date_utc, new \DateTimeZone('UTC'));
+        $dt = new \DateTime($this->date, new \DateTimeZone('UTC'));
         if($timezone) {
             $tz = new \DateTimeZone($timezone);
             $dt->setTimezone($tz);
@@ -470,7 +469,7 @@ SQL;
         if($OrderRow->id) {
             $SQL = "UPDATE order_item\nSET" . $SQL . "\nWHERE id = " . $OrderRow->id . "\nLIMIT 1";
         } else {
-            $SQL = "INSERT INTO order_item\nSET `date` = UTC_TIMESTAMP(), `date_utc` = UTC_TIMESTAMP(), " . $SQL;
+            $SQL = "INSERT INTO order_item\nSET `date` = UTC_TIMESTAMP(), " . $SQL;
         }
 
         $DB = DBConfig::getInstance();

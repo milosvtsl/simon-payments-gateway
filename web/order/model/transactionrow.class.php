@@ -123,7 +123,17 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
     public function getStatusCode()         { return $this->status_code; }
     public function getStatusMessage()      { return $this->status_message; }
     public function getDate()               { return $this->date; }
-    public function getTransactionDate()    { return $this->transaction_date; }
+
+    /** @return \DateTime */
+    public function getTransactionDate($timezone=null) {
+        $dt = new \DateTime($this->transaction_date, new \DateTimeZone('UTC'));
+        if($timezone) {
+            $tz = new \DateTimeZone($timezone);
+            $dt->setTimezone($tz);
+        }
+        return $dt;
+    }
+
     public function getOrderDate()          { return $this->order_date; }
     public function getOrderStatus()        { return $this->order_status; }
     public function getInvoiceNumber()      { return $this->invoice_number; }
