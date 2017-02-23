@@ -37,15 +37,18 @@ switch($host) {
         SiteConfig::$SITE_LIVE = TRUE;
         break;
 
+    case 'localhost':
     case 'demo.simonpayments.com':
         include __DIR__ . '/site/spg/config.php';
+        SiteConfig::$SITE_AUTO_LOGIN_ENABLED = true;
+        SiteConfig::$SITE_AUTO_LOGIN_ACCOUNT = 'demo';
         break;
 
-    case 'localhost':
     case 'dev.simonpayments.com':
         SiteConfig::$DEBUG_MODE = true;
         include __DIR__ . '/site/spg/config.php';
         break;
+
 
     // Court Pay
     case 'dev.courtpay.org':
@@ -55,8 +58,13 @@ switch($host) {
 
     case 'courtpay.org':
     case 'access.courtpay.org':
+        include __DIR__ . '/site/courtpay/config.php';
+        break;
+
     case 'demo.courtpay.org':
         include __DIR__ . '/site/courtpay/config.php';
+        SiteConfig::$SITE_AUTO_LOGIN_ENABLED = true;
+        SiteConfig::$SITE_AUTO_LOGIN_ACCOUNT = 'demo';
         break;
 
 
@@ -68,7 +76,12 @@ switch($host) {
 
     case 'utilitypay.org':
     case 'access.utilitypay.org':
+        include __DIR__ . '/site/utilitypay/config.php';
+        break;
+
     case 'demo.utilitypay.org':
         include __DIR__ . '/site/utilitypay/config.php';
+        SiteConfig::$SITE_AUTO_LOGIN_ENABLED = true;
+        SiteConfig::$SITE_AUTO_LOGIN_ACCOUNT = 'demo';
         break;
 }

@@ -17,6 +17,7 @@ use User\Model\UserRow;
 class SessionManager
 {
     const SESSION_ID = 'id';
+    const SESSION_IS_GUEST = 'is_guest';
     const SESSION_KEY = '_spg';
     const SESSION_OLD = '_old';
     const SESSION_MESSAGE_KEY = __CLASS__;
@@ -25,10 +26,28 @@ class SessionManager
 
 
     public function isLoggedIn() {
-        return isset(
+        if (isset(
             $_SESSION,
             $_SESSION[self::SESSION_KEY],
-            $_SESSION[self::SESSION_KEY][self::SESSION_ID]);
+            $_SESSION[self::SESSION_KEY][self::SESSION_ID]))
+                return true;
+
+        if(SiteConfig::$SITE_AUTO_LOGIN_ENABLED) {
+            $this->loginGuestAccount(SiteConfig::$SITE_AUTO_LOGIN_ACCOUNT);
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isGuestAccount() {
+        if (isset(
+            $_SESSION,
+            $_SESSION[self::SESSION_KEY],
+            $_SESSION[self::SESSION_KEY][self::SESSION_IS_GUEST]))
+            return true;
+
+        return false;
     }
 
     /**
@@ -36,8 +55,7 @@ class SessionManager
      * @param $password
      * @return UserRow
      */
-    public function login($username, $password)
-    {
+    public function login($username, $password) {
         $User = UserRow::fetchByUsername($username);
         if(!$User)
             throw new \InvalidArgumentException("Username not found: " . $username);
@@ -72,6 +90,21 @@ class SessionManager
         return true;
     }
 
+    function loginGuestAccount($username) {
+        $User = UserRow::fetchByUsername($username);
+        self::$_session_user = $User;
+        @session_regenerate_id(true);
+        @session_write_close();
+        @session_start();
+        // Reset login session data
+        $_SESSION[static::SESSION_KEY] = array (
+            static::SESSION_ID => $User->getID(),
+            static::SESSION_IS_GUEST => true,
+        );
+
+        return $User;
+    }
+
     /**
      * @return UserRow
      */
@@ -96,6 +129,7 @@ class SessionManager
         return $User;
     }
 
+
     public function adminLoginAsUser(UserRow $User) {
         if($User->hasAuthority('ROLE_ADMIN'))
             throw new \Exception("Only non-admin accounts may be logged into");
@@ -118,7 +152,6 @@ class SessionManager
         return $User;
     }
 
-
     public function setMessage($message) {
         $_SESSION[static::SESSION_MESSAGE_KEY] = $message;
     }
@@ -127,12 +160,12 @@ class SessionManager
         return isset($_SESSION, $_SESSION[static::SESSION_MESSAGE_KEY]);
     }
 
+
     public function popMessage() {
         $message = $_SESSION[static::SESSION_MESSAGE_KEY];
         unset($_SESSION[static::SESSION_MESSAGE_KEY]);
         return $message;
     }
-
 
     // Static
 

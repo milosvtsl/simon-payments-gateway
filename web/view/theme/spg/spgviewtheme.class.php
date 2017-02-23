@@ -267,6 +267,7 @@ HEAD;
                 </li>
             <?php } ?>
 
+            <?php if(!$SessionManager->isGuestAccount()) { ?>
             <li class="menu-submenu menu-submenu-user">
                 <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
                     <span>Users</span> </a>
@@ -312,6 +313,7 @@ HEAD;
                     </li>
                 </ul>
             </li>
+            <?php } ?>
 
             <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-integration">
