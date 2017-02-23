@@ -485,7 +485,7 @@ class OrderView extends AbstractView
                                 <td>$<?php echo $Order->getSubscriptionAmount(), ' (', $Order->getSubscriptionCount(),')'; ?></td>
                                 <td><?php echo $Order->getSubscriptionStatus(), $Order->getSubscriptionMessage() ? ': ' : '', $Order->getSubscriptionMessage(); ?></td>
                                 <td><?php echo $Order->getSubscriptionFrequency(); ?></td>
-                                <td><?php echo date("Y M j g:i A", strtotime($Order->getSubscriptionNextDate()) + $offset); ?></td>
+                                <td><?php echo date("Y M j g:i A", strtotime($Order->getSubscriptionNextDate())); ?></td>
                                 <td>
                                     <?php
                                     $disabled = $Order->getSubscriptionStatus() == 'Active' ? '' : " disabled='disabled'";
@@ -519,7 +519,7 @@ class OrderView extends AbstractView
                             foreach($TransactionQuery as $Transaction) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="hide-on-layout-narrow"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
-                                    <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
+                                    <td><?php echo $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"); ?></td>
                                     <td>$<?php echo $Transaction->getAmount(); ?></td>
                                     <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                                     <td>

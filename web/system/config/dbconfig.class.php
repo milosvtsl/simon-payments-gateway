@@ -7,7 +7,7 @@ class DBConfig
     static $DB_USERNAME = 'root';
     static $DB_PASSWORD = null;
     static $DB_NAME = 'spg';
-    static $DB_HOST = null;
+    static $DB_HOST = 'localhost';
     static $DB_PORT = null;
 
     private static $_dbInstance = null;
