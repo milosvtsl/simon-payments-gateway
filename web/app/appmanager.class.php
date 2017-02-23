@@ -78,10 +78,12 @@ class AppManager {
     }
 
     public function renderAppHTMLContent() {
+        $i=0;
         $this->forEachApp(
-            function(AbstractApp $App) {
+            function(AbstractApp $App) use (&$i) {
                 try {
-                $App->renderAppHTML();
+                    $App->renderAppHTML();
+                    if(++$i%2===0) echo '<br />';
                 } catch (\Exception $ex) {
                     error_log($ex->getMessage());
                 }
