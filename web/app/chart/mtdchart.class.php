@@ -93,7 +93,7 @@ HTML;
                     });
                      
                     canvasElm.parentNode.addEventListener('click', function(e) {
-                         document.location.href = 'order?date_from={$stats['time_mtd']}';
+                         document.location.href = 'order?date_from={$stats['time_mtd_url']}';
                     });
                  }
             });
@@ -106,8 +106,9 @@ HTML;
 
     public function fetchStats() {
         $SessionUser = $this->getSessionUser();
-        $offset = -$SessionUser->getTimeZoneOffset('now');
-        $mtd  = date('Y-m-01', time() + $offset);
+        $offset = $SessionUser->getTimeZoneOffset('now');
+        $mtd  = date('Y-m-01 G:00:00', time() - $offset);
+        $mtd_url  = date('Y-m-01', time());
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
@@ -134,6 +135,7 @@ SQL;
 //        $duration += microtime(true);
 //        $stats['duration'] = $duration;
         $stats['time_mtd'] = $mtd;
+        $stats['time_mtd_url'] = $mtd_url;
 
         return $stats;
     }
@@ -141,8 +143,8 @@ SQL;
 
     public function fetchBarData() {
         $SessionUser = $this->getSessionUser();
-        $offset = -$SessionUser->getTimeZoneOffset('now');
-        $mtd  = date('Y-m-01', time() + $offset);
+        $offset = $SessionUser->getTimeZoneOffset('now');
+        $mtd  = date('Y-m-01 G:00:00', time() - $offset);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))

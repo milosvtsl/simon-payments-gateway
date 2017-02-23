@@ -104,8 +104,8 @@ HTML;
 
     public function fetchStats() {
         $SessionUser = $this->getSessionUser();
-        $offset = -$SessionUser->getTimeZoneOffset('now');
-        $weekly  = date('Y-m-d G:i:s', time() - 24*60*60*7 + $offset);
+        $offset = $SessionUser->getTimeZoneOffset('now');
+        $weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
@@ -144,8 +144,8 @@ SQL;
 
     public function fetchBarData() {
         $SessionUser = $this->getSessionUser();
-        $offset = -$SessionUser->getTimeZoneOffset('now');
-        $weekly  = date('Y-m-d G:i:s', time() - 24*60*60*7 + $offset);
+        $offset = $SessionUser->getTimeZoneOffset('now');
+        $weekly  = date('Y-m-d', time() - 24*60*60*7 + $offset);
 
         $SQL = <<<SQL
 SELECT

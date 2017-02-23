@@ -70,26 +70,28 @@ class OrderListView extends AbstractListView {
         }
 
         // Get Timezone diff
-        $offset = -$SessionUser->getTimeZoneOffset('now');
-//		$offset = 0;
+        $offset = $SessionUser->getTimeZoneOffset('now');
 
         // Set up Date conditions
 		$date_from = null;
 		$date_to = null;
 		if(!empty($params['date_from'])) {
 			$date_from = strtotime($params['date_from']);
+			$date_from-= $offset;
 			$whereSQL .= "\nAND oi.date >= :from";
-			$sqlParams['from'] = date("Y-m-d G:00:00", $date_from + $offset);
-			$statsMessage .= " from " . date("M dS Y G:00", $date_from + $offset);
-			$export_filename = date("Y-m-d", $date_from + $offset) . $export_filename;
+			$sqlParams['from'] = date("Y-m-d G:00:00", $date_from);
+			$statsMessage .= " from " . date("M dS Y G:00", $date_from);
+			$export_filename = date("Y-m-d", $date_from) . $export_filename;
 		}
+
 		if(!empty($params['date_to'])) {
 			$date_to = strtotime($params['date_to']);
+            $date_to-= $offset;
 			if($date_to < $date_from) $date_to = $date_from;
 			$whereSQL .= "\nAND oi.date <= :to";
-			$sqlParams['to'] = date("Y-m-d G:00:00", $date_to + $offset + 24*60*60);
-			$statsMessage .= " to " . date("M dS Y G:00", $date_to + $offset);
-			$export_filename = date("Y-m-d", $date_to + $offset) . $export_filename;
+			$sqlParams['to'] = date("Y-m-d G:00:00", $date_to + 24*60*60);
+			$statsMessage .= " to " . date("M dS Y G:00", $date_to);
+			$export_filename = date("Y-m-d", $date_to) . $export_filename;
 		}
 
 
