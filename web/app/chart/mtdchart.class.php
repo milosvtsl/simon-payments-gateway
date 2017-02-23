@@ -69,7 +69,7 @@ HTML;
                     var canvasElm = canvasElms[i];
                     var ctx = canvasElm.getContext("2d");
                     canvasElm.bar = new Chart(ctx, {
-                        type: 'bar',
+                        type: 'line',
                         data: barChartData,
                         options: {
                             title:{
@@ -176,29 +176,29 @@ SQL;
             'labels' => array(),
             'datasets' => array(
                 array(
-                    'label' => "Amount",
-                    'backgroundColor' => "#81aaba",
-                    'data' => array_pad(array(), 32, 0)
-                ),
-                array(
                     'label' => "Returned",
                     'backgroundColor' => "#ba919e",
                     'data' => array_pad(array(), 32, 0)
                 ),
                 array(
-                    'label' => "Count",
-                    'backgroundColor' => "#8bc6bb",
+                    'label' => "Amount",
+                    'backgroundColor' => "#81aaba",
                     'data' => array_pad(array(), 32, 0)
-                )
+                ),
+//                array(
+//                    'label' => "Count",
+//                    'backgroundColor' => "#8bc6bb",
+//                    'data' => array_pad(array(), 32, 0)
+//                )
             )
         );
         for($i=1; $i<32; $i++) {
-            $chartData['labels'][] = $i % 3 === 0 ? $i : '';
+            $chartData['labels'][] = $i . ($i%10==1?'st':($i%10==2?'nd':($i%10==3?'rd':'th')));
         }
         while($order = $stmt->fetch()) {
-            $chartData['datasets'][0]['data'][intval($order['day'])-1] = intval($order['amount']);
-            $chartData['datasets'][1]['data'][intval($order['day'])-1] = intval($order['returned']);
-            $chartData['datasets'][2]['data'][intval($order['day'])-1] = intval($order['count']);
+            $chartData['datasets'][0]['data'][intval($order['day'])-1] = intval($order['returned']);
+            $chartData['datasets'][1]['data'][intval($order['day'])-1] = intval($order['amount']);
+//            $chartData['datasets'][2]['data'][intval($order['day'])-1] = intval($order['count']);
         }
 
         return $chartData;

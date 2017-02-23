@@ -67,7 +67,7 @@ HTML;
                     for(var i=0; i<canvasElms.length; i++) {
                     var canvasElm = canvasElms[i];
                     canvasElm.bar = new Chart(canvasElm, {
-                        type: 'bar',
+                        type: 'line',
                         data: barChartData,
                         options: {
                             title:{
@@ -91,7 +91,7 @@ HTML;
                     });
                      
                     canvasElm.parentNode.addEventListener('click', function(e) {
-                         document.location.href = 'order?date_from={$stats['time_today']}';
+                         document.location.href = 'order?date_from={$stats['time_today_url']}';
                     });
                  }
             });
@@ -106,6 +106,7 @@ HTML;
         $SessionUser = $this->getSessionUser();
         $offset = $SessionUser->getTimeZoneOffset('now');
         $today = date('Y-m-d G:00:00', time() - $offset);
+        $today_url = date('Y-m-d', time() - $offset);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
@@ -130,7 +131,7 @@ SQL;
         $stats = $stmt->fetch();
 //        $duration += microtime(true);
 //        $stats['duration'] = $duration;
-        $stats['time_today'] = $today;
+        $stats['time_today_url'] = $today_url;
 
         return $stats;
     }
@@ -139,7 +140,8 @@ SQL;
     public function fetchBarData() {
         $SessionUser = $this->getSessionUser();
         $offset = $SessionUser->getTimeZoneOffset('now');
-        $today = date('Y-m-d', time() - $offset);
+        $today = date('Y-m-d G:00:00', time() - $offset);
+        $end = date('Y-m-d G:00:00', time() - $offset + 24*60*60);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
@@ -154,10 +156,11 @@ SELECT
 FROM order_item oi
 
 WHERE
-    date>='{$today}'
+    date BETWEEN '{$today}' AND '{$end}'
     AND status in ('Settled', 'Authorized')
     {$WhereSQL}
 GROUP BY DATE_FORMAT(oi.date, '%Y%m%d%H')
+order by hour;
 LIMIT 24
 SQL;
 
@@ -172,29 +175,31 @@ SQL;
             'labels' => array(),
             'datasets' => array(
                 array(
-                    'label' => "Amount",
-                    'backgroundColor' => "#81aaba",
-                    'data' => array_pad(array(), 24, 0)
-                ),
-                array(
                     'label' => "Returned",
                     'backgroundColor' => "#ba919e",
                     'data' => array_pad(array(), 24, 0)
                 ),
                 array(
-                    'label' => "Count",
-                    'backgroundColor' => "#8bc6bb",
+                    'label' => "Amount",
+                    'backgroundColor' => "#81aaba",
                     'data' => array_pad(array(), 24, 0)
-                )
+                ),
+//                array(
+//                    'label' => "Count",
+//                    'backgroundColor' => "#8bc6bb",
+//                    'data' => array_pad(array(), 24, 0)
+//                )
             )
         );
         for($i=1; $i<24; $i++) {
-            $chartData['labels'][] = $i % 4 === 0 ? $i : '';
+            $chartData['labels'][] = ($i<12?$i.'am':($i>12?$i-12:$i).'pm');
         }
         while($order = $stmt->fetch()) {
-            $chartData['datasets'][0]['data'][intval($order['hour'])] = intval($order['amount']);
-            $chartData['datasets'][1]['data'][intval($order['hour'])] = intval($order['returned']);
-            $chartData['datasets'][2]['data'][intval($order['hour'])] = intval($order['count']);
+            $hour = (intval($order['hour']) - $offset/(60*60) ) % 24;
+
+            $chartData['datasets'][0]['data'][$hour] = intval($order['returned']);
+            $chartData['datasets'][1]['data'][$hour] = number_format(intval($order['amount']), 2);
+//            $chartData['datasets'][2]['data'][intval($order['hour'])] = intval($order['count']);
         }
 
         return $chartData;

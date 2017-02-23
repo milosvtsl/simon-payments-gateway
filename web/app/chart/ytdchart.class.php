@@ -67,7 +67,7 @@ HTML;
                     for(var i=0; i<canvasElms.length; i++) {
                     var canvasElm = canvasElms[i];
                     canvasElm.bar = new Chart(canvasElm, {
-                        type: 'bar',
+                        type: 'line',
                         data: barChartData,
                         options: {
                             title:{
@@ -174,26 +174,26 @@ SQL;
             'labels' => array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'),
             'datasets' => array(
                 array(
-                    'label' => "Amount",
-                    'backgroundColor' => "#81aaba",
-                    'data' => array_pad(array(), 12, 0)
-                ),
-                array(
                     'label' => "Returned",
                     'backgroundColor' => "#ba919e",
                     'data' => array_pad(array(), 12, 0)
                 ),
                 array(
-                    'label' => "Count",
-                    'backgroundColor' => "#8bc6bb",
+                    'label' => "Amount",
+                    'backgroundColor' => "#81aaba",
                     'data' => array_pad(array(), 12, 0)
-                )
+                ),
+//                array(
+//                    'label' => "Count",
+//                    'backgroundColor' => "#8bc6bb",
+//                    'data' => array_pad(array(), 12, 0)
+//                )
             )
         );
         while($order = $stmt->fetch()) {
-            $chartData['datasets'][0]['data'][intval($order['month'])-1] = intval($order['amount']);
-            $chartData['datasets'][1]['data'][intval($order['month'])-1] = intval($order['returned']);
-            $chartData['datasets'][2]['data'][intval($order['month'])-1] = intval($order['count']);
+            $chartData['datasets'][0]['data'][intval($order['month'])-1] = intval($order['returned']);
+            $chartData['datasets'][1]['data'][intval($order['month'])-1] = intval($order['amount']);
+//            $chartData['datasets'][2]['data'][intval($order['month'])-1] = intval($order['count']);
         }
 
         return $chartData;
