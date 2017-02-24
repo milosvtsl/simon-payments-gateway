@@ -23,6 +23,8 @@ class SiteConfig
     static $SITE_AUTO_LOGIN_ENABLED = false;
     static $SITE_AUTO_LOGIN_ACCOUNT = 'guest';
 
+    static $MAX_UPLOAD_SIZE = 102400;
+
     static $DEFAULT_THEME = null;
 
     static $BASE_HREF = '/';

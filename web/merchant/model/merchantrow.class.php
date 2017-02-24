@@ -234,6 +234,15 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function updateLogo($file) {
         $tmp_name = $file['tmp_name'];
+
+        $maxsize = SiteConfig::$MAX_UPLOAD_SIZE;
+        if($file['size'] >= $maxsize)
+            throw new \InvalidArgumentException('File too large. File must be less than ' . SiteConfig::$MAX_UPLOAD_SIZE/1024 . ' kb');
+
+        $acceptable = array('png');
+        if(!in_array(strtolower($file['type']), $acceptable))
+            throw new \InvalidArgumentException('Invalid file type. Only PNG types are accepted.');
+
         $this->logo_path = self::LOGO_PATH . strtoupper($this->getUID()) . '.png';
         if(!move_uploaded_file($tmp_name, dirname(dirname(__DIR__)) . '/' . $this->logo_path))
             throw new \Exception("Upload failed: " . print_r(error_get_last(), true));
