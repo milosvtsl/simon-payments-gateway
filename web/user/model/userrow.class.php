@@ -46,6 +46,7 @@ class UserRow
     protected $timezone;
     protected $admin_id;
     protected $merchant_form_id;
+    protected $merchant_logo_path;
 
     // Table authority
     protected $merchant_list;
@@ -54,6 +55,7 @@ class UserRow
     const SQL_SELECT = "
 SELECT u.*,
  (SELECT GROUP_CONCAT(m.id SEPARATOR ';') FROM user_merchants um LEFT JOIN merchant m ON m.id = um.id_merchant WHERE um.id_user = u.id ) as merchant_list,
+ (SELECT m.logo_path FROM user_merchants um LEFT JOIN merchant m ON m.id = um.id_merchant WHERE um.id_user = u.id AND m.logo_path IS NOT NULL LIMIT 1) as merchant_logo_path,
  (SELECT GROUP_CONCAT(CONCAT_WS(';', a.authority, a.authority_name) SEPARATOR '\n') FROM user_authorities ua, authority a WHERE a.id = ua.id_authority AND ua.id_user = u.id ) as authority_list
 FROM user u
 ";
@@ -75,6 +77,7 @@ FROM user u
     public function getAdminID()        { return $this->admin_id; }
     public function getAppConfig()      { return $this->app_config; }
     public function getMerchantFormID() { return $this->merchant_form_id; }
+    public function getMerchantLogo()   { return $this->merchant_logo_path; }
 
     public function getTimeZoneOffset($date='now') {
         $tz = new \DateTimeZone($this->getTimeZone());

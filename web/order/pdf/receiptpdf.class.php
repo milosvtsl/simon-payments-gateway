@@ -130,7 +130,6 @@ namespace Order\PDF {
             $output = ob_get_contents();
 
             ob_end_clean();
-
             $this->loadHtml($output);
 
             //        $this->setPaper('A4', 'landscape');

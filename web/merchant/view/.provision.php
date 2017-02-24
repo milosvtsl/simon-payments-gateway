@@ -33,22 +33,31 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
                             <div class="app-button large app-button-view" ></div>
-                            View
+                            View Merchant
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit
+                            Edit Merchant
                         </a>
-                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
+                        <a href="merchant/form.php" class="page-button page-button-edit">
                             <div class="app-button large app-button-provision" ></div>
-                            Provision
+                            Order Forms
                         </a>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_PROVISION')) { ?>
+                            <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
+                                <div class="app-button large app-button-provision" ></div>
+                                Provision
+                            </a>
+                        <?php } ?>
                     </div>
 
                     <hr/>
 
 
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
+                        <tr>
+                            <th colspan="2" class="section-break">Information</th>
+                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>

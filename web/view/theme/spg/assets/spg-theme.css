@@ -40,6 +40,9 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 
 /** Header **/
 
+.spg-theme img.logo {
+    padding: 2px 8px;
+}
 
 .spg-theme div.logo {
     background-image: url('img/logo.png');
@@ -700,11 +703,11 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme table.themed {border-spacing: 0 0;margin: 0 0px 0.5em 0px;/* min-width: 48%; *//* width: 100%; */}
 
-.spg-theme table.themed > tbody > tr > th.section {
+.spg-theme table.themed > tbody > tr > th.section-break {
     background-color: #bcc5d1;
     color: #000;
-    text-align: left;
-    padding-left: 0.5em;
+    text-align: center;
+    padding: 2px 4px;
 }
 
 .spg-theme table.themed > tbody > tr > td {
@@ -743,6 +746,8 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme table.themed > tbody > tr > th {
     background-color: #e7f0f3;
+    text-align: left;
+    padding-left: 0.5em;
 }
 
 

@@ -58,7 +58,7 @@ class AddUserView extends AbstractView
                         <div class="legend">Create New User</div>
                         <table class="table-user-info themed striped-rows" style="width: 100%;">
                             <tr>
-                                <th colspan="2">Required Fields</th>
+                                <th colspan="2" class="section-break">Required Fields</th>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Username</td>
@@ -102,7 +102,7 @@ class AddUserView extends AbstractView
                                 </td>
                             </tr>
                             <tr>
-                                <th colspan="2">Optional Fields</th>
+                                <th colspan="2" class="section-break">Optional Fields</th>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Password</td>
@@ -113,7 +113,7 @@ class AddUserView extends AbstractView
                                 <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
                             </tr>
                             <tr>
-                                <th colspan="2">Submit Form</th>
+                                <th colspan="2" class="section-break">Submit Form</th>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Send Email Confirmation</td>

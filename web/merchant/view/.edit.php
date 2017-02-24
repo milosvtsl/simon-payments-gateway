@@ -25,7 +25,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
 
             <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
-            <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit">
+            <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
                 <fieldset>
@@ -34,16 +34,22 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
                             <div class="app-button large app-button-view" ></div>
-                            View
+                            View Merchant
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit
+                            Edit Merchant
                         </a>
-                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
+                        <a href="merchant/form.php" class="page-button page-button-edit">
                             <div class="app-button large app-button-provision" ></div>
-                            Provision
+                            Order Forms
                         </a>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_PROVISION')) { ?>
+                            <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
+                                <div class="app-button large app-button-provision" ></div>
+                                Provision
+                            </a>
+                        <?php } ?>
                     </div>
 
                     <hr/>
@@ -51,7 +57,20 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
 
                     <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
                         <tr>
-                            <th colspan="2">Information</th>
+                            <th colspan="2" class="section-break">Logo</th>
+                        </tr>
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Upload</td>
+                            <td><input type="file" name="logo_path" accept="image/png" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Current Logo</td>
+                            <td><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo"/></td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="2" class="section-break">Information</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Name</td>
@@ -96,7 +115,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             </td>
                         </tr>
                         <tr>
-                            <th colspan="2">Convenience Fee</th>
+                            <th colspan="2" class="section-break">Convenience Fee</th>
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -116,7 +135,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="text" name="convenience_fee_limit" size="12" value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>" /></td>
                         </tr>
                         <tr>
-                            <th colspan="2">Batch</th>
+                            <th colspan="2" class="section-break">Batch</th>
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -128,7 +147,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="datetime-local" name="open_date" value="<?php echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?>" /></td>
                         </tr>
                         <tr>
-                            <th colspan="2">Accounts & IDs</th>
+                            <th colspan="2" class="section-break">Accounts & IDs</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Store ID</td>
@@ -155,7 +174,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="text" name="business_tax_id" size="24" value="<?php echo $Merchant->getBusinessTaxID(); ?>" /></td>
                         </tr>
                         <tr>
-                            <th colspan="2">Business</th>
+                            <th colspan="2" class="section-break">Business</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Business Type</td>
@@ -222,10 +241,14 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             </td>
                         </tr>
                     </table>
+
+
+
+
                     <?php $odd = false; ?>
                     <table class="table-merchant-info themed small striped-rows" style="width: 49%">
                         <tr>
-                            <th colspan="2">Contact Information</th>
+                            <th colspan="2" class="section-break">Contact Information</th>
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -247,7 +270,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
 
                         <tr>
-                            <th colspan="2">Fraud Scrubbing</th>
+                            <th colspan="2" class="section-break">Fraud Scrubbing</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Transaction High Limit</td>
@@ -276,7 +299,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <?php } ?>
                         <tr>
-                            <th colspan="2">Payment Instrument</th>
+                            <th colspan="2" class="section-break">Payment Instrument</th>
                         </tr>
                         <?php $odd = false; ?>
 
@@ -322,7 +345,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
 
                         <tr>
-                            <th colspan="2">Notes: <?php echo $Merchant->getShortName(); ?></th>
+                            <th colspan="2" class="section-break">Notes: <?php echo $Merchant->getShortName(); ?></th>
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

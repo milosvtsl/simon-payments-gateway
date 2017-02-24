@@ -49,7 +49,7 @@ HEAD;
                         <?php $odd = false; ?>
                         <table class="table-merchant-info themed small striped-rows" style="float: left; width: 49%;">
                             <tr>
-                                <th colspan="2">Template Information</th>
+                                <th colspan="2" class="section-break">Template Information</th>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">ID</td>

@@ -73,16 +73,16 @@ class MerchantView extends AbstractView
         $Merchant = $this->getMerchant();
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
-            // Only admins may edit/view merchants
-            $SessionManager->setMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
-            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
-            header('Location: ' . $baseHREF . 'merchant?uid=' . $Merchant->getUID());
-            die();
-        }
+//        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+//            // Only admins may edit/view merchants
+//            $SessionManager->setMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
+//            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+//            header('Location: ' . $baseHREF . 'merchant?uid=' . $Merchant->getUID());
+//            die();
+//        }
 
         if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-            if(!in_array($Merchant->getID(), $SessionUser->getMerchantList())) {
+            if(!$SessionUser->hasMerchantID($Merchant->getID())) {
                 // Only admins may edit/view merchants
                 $SessionManager->setMessage("Unable to view/edit merchant. This account does not have permission.");
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
@@ -109,7 +109,13 @@ class MerchantView extends AbstractView
 
             case 'edit':
                 try {
-                    $Merchant->updateFields($post)
+                    $updated = false;
+                    if(!empty($_FILES['logo_path'])) {
+                        $Merchant->updateLogo($_FILES['logo_path']);
+                        $updated = true;
+                    }
+
+                    $Merchant->updateFields($post) || $updated
                         ? $SessionManager->setMessage("<div class='info'>Merchant Updated Successfully: " . $Merchant->getName() . "</div>")
                         : $SessionManager->setMessage("<div class='info'>No changes detected: " . $Merchant->getName() . "</div>");
 

@@ -41,6 +41,11 @@ body.layout-horizontal.utilitypay-theme .float-right-on-layout-horizontal {
 
 /** Header **/
 
+
+.utilitypay-theme img.logo {
+    padding: 2px 8px;
+}
+
 .utilitypay-theme div.logo {
     background: url('img/logo.png') no-repeat center;
     width: 248px;
@@ -701,7 +706,7 @@ body.layout-vertical.utilitypay-theme nav.page-menu {
 
 .utilitypay-theme table.themed {border-spacing: 0 0;margin: 0 0px 0.5em 0px;/* min-width: 48%; *//* width: 100%; */}
 
-.utilitypay-theme table.themed > tbody > tr > th.section {
+.utilitypay-theme table.themed > tbody > tr > th.section-break {
     background-color: #bcc5d1;
     color: #000;
     text-align: left;

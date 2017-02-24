@@ -192,7 +192,9 @@ SQL;
 //                )
             )
         );
-        for($i=1; $i<32; $i++) {
+
+        $days = cal_days_in_month(CAL_GREGORIAN, date('m'), date('Y'));
+        for($i=1; $i<$days; $i++) {
             $chartData['labels'][] = $i . ($i%10==1?'st':($i%10==2?'nd':($i%10==3?'rd':'th')));
         }
         while($order = $stmt->fetch()) {

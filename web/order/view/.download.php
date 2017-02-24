@@ -17,12 +17,14 @@ $SessionUser = $SessionManager->getSessionUser();
 $offset = $SessionUser->getTimeZoneOffset('now');
 
 $SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
+
+// TODO: Receipt logo
+
 ?>
 
 <article class="themed">
 
     <section class="content">
-
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset>

@@ -31,7 +31,7 @@ $Theme->printHTMLMenu('merchant-add');
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
 
                         <tr>
-                            <th colspan="2">Contact Info</th>
+                            <th colspan="2" class="section-break">Contact Info</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name" style="width: 20%;">Name</td>
@@ -55,7 +55,7 @@ $Theme->printHTMLMenu('merchant-add');
                             <td><input type="text" name="url" value="" required/></td>
                         </tr>
                         <tr>
-                            <th colspan="2">Business Info</th>
+                            <th colspan="2" class="section-break">Business Info</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Business Type</td>

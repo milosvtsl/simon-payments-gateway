@@ -24,6 +24,7 @@ class MerchantRow
     const FRAUD_FLAG_DUPLICATE_DECLINE_CARD_10MINUTE = 0x08;
 
     const SORT_BY_ID = 'm.id';
+    const LOGO_PATH = 'upload/logo/';
 
     public static $FRAUD_FLAG_DESCRIPTIONS = array(
         self::FRAUD_FLAG_DUPLICATE_CARD_DAILY => "Duplicate Approves (Same Day)",
@@ -94,7 +95,10 @@ LEFT JOIN state s on m.state_id = s.id
         'open_date',
         'status_id',
         'store_id',
+
         'url',
+        'logo_path',
+
         'discover_external',
         'amex_external',
         'agent_chain',
@@ -162,6 +166,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $zipcode;
     protected $country;
     protected $url;
+    protected $logo_path;
 //    protected $charge_form_classes;
 
     protected $state_id;
@@ -220,7 +225,32 @@ LEFT JOIN state s on m.state_id = s.id
         return $this->short_name ?: $this->name;
     }
 
+    public function hasLogoPath() {
+        return $this->logo_path ? true : false;
+    }
+    public function getLogoImageURL($baseHREF=null, $default='no-logo.png') {
+        return $baseHREF . ($this->logo_path ?: self::LOGO_PATH . $default);
+    }
+
+    public function updateLogo($file) {
+        $tmp_name = $file['tmp_name'];
+        $this->logo_path = self::LOGO_PATH . strtoupper($this->getUID()) . '.png';
+        if(!move_uploaded_file($tmp_name, dirname(dirname(__DIR__)) . '/' . $this->logo_path))
+            throw new \Exception("Upload failed: " . print_r(error_get_last(), true));
+
+        $sql = "UPDATE " . self::TABLE_NAME
+            . "\nSET logo_path = :logo_path"
+            . "\nWHERE id=:id";
+        $params[':id'] = $this->getID();
+        $params[':logo_path'] = $this->logo_path;
+
+        $DB = DBConfig::getInstance();
+        $LogoQuery = $DB->prepare($sql);
+        $LogoQuery->execute($params);
+    }
+
 //    public function getMerchantID()     { return $this->merchant_id; }
+
     public function getMerchantSIC() {
         return $this->sic;
     }
@@ -389,6 +419,7 @@ LEFT JOIN state s on m.state_id = s.id
         return $this->url;
     }
 
+
     public function getUserList() {
         if (is_array($this->user_list))
             return $this->user_list;
@@ -402,27 +433,26 @@ LEFT JOIN state s on m.state_id = s.id
         return count($this->getUserList());
     }
 
-
     public function getCheckFormClasses() {
         return 'default';
     }
+
 
     public function isConvenienceFeeEnabled() {
         return
             $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
     }
 
+
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $first;
     }
 
-
     public function getMainContactLastName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $last;
     }
-
 
     public function updateFields($post) {
         $flags = 0;
@@ -450,6 +480,7 @@ LEFT JOIN state s on m.state_id = s.id
         return $EditQuery->rowCount();
     }
 
+
     public function getProvisionRequest(IntegrationRow $IntegrationRow) {
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare(IntegrationRequestRow::SQL_SELECT
@@ -465,7 +496,6 @@ LEFT JOIN state s on m.state_id = s.id
             ':integration_id' => $IntegrationRow->getID(),
         ));
     }
-
 
     /**
      * @return AbstractMerchantIdentity[]
@@ -495,13 +525,13 @@ LEFT JOIN state s on m.state_id = s.id
         return explode(";", $this->integration_provisioned_ids);
     }
 
+
     public function getDefaultIntegrationID() {
         if ($this->integration_default_id)
             return $this->integration_default_id;
         $ids = $this->getProvisionedIntegrationIDs();
         return $ids[0];
     }
-
 
     // Static
 
@@ -571,6 +601,7 @@ LEFT JOIN state s on m.state_id = s.id
         return $MerchantQuery;
     }
 
+
     /**
      * @param $post
      * @return MerchantRow
@@ -607,7 +638,6 @@ LEFT JOIN state s on m.state_id = s.id
         $Merchant->id = $DB->lastInsertId();
         return $Merchant;
     }
-
 
     public static function delete(MerchantRow $MerchantRow) {
         $SQL = "DELETE FROM merchant WHERE id = ?";

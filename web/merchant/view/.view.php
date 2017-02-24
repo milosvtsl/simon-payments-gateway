@@ -11,7 +11,6 @@ use System\Config\SiteConfig;
 $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
-$action_url_forms = 'merchant/form.php';
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
@@ -44,13 +43,13 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view disabled">
                             <div class="app-button large app-button-view" ></div>
-                            View
+                            View Merchant
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit
+                            Edit Merchant
                         </a>
-                        <a href="<?php echo $action_url_forms; ?>" class="page-button page-button-edit">
+                        <a href="merchant/form.php" class="page-button page-button-edit">
                             <div class="app-button large app-button-provision" ></div>
                             Order Forms
                         </a>
@@ -68,9 +67,16 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
                         <tr>
-                            <th colspan="2">Information</th>
+                            <th colspan="2" class="section-break">Logo</th>
                         </tr>
 
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo" </td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="2" class="section-break">Information</th>
+                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">ID</td>
                             <td><?php echo $Merchant->getID(); ?></td>
@@ -102,7 +108,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
 
                         <tr>
-                            <th colspan="2">Business</th>
+                            <th colspan="2" class="section-break">Business</th>
                         </tr>
                         <?php $odd = true; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -178,7 +184,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                     <table class="table-merchant-info themed small striped-rows" style="width: 50%;">
 
                         <tr>
-                            <th colspan="2">Fees</th>
+                            <th colspan="2" class="section-break">Fees</th>
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -195,7 +201,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
 
                         <tr>
-                            <th colspan="2">Fraud Scrubbing</th>
+                            <th colspan="2" class="section-break">Fraud Scrubbing</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Transaction High Limit (USD)</td>
@@ -222,20 +228,20 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
 
 
-                        <tr>
-                            <th colspan="2">Batching</th>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Batch Close</td>
-                            <td><?php echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Open Date</td>
-                            <td><?php echo $Merchant->getOpenDate(); ?></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <th colspan="2" class="section-break">Batching</th>-->
+<!--                        </tr>-->
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Batch Close</td>-->
+<!--                            <td>--><?php //echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?><!--</td>-->
+<!--                        </tr>-->
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Open Date</td>-->
+<!--                            <td>--><?php //echo $Merchant->getOpenDate(); ?><!--</td>-->
+<!--                        </tr>-->
 
                         <tr>
-                            <th colspan="2">Notes</th>
+                            <th colspan="2" class="section-break">Notes</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td colspan="2">
