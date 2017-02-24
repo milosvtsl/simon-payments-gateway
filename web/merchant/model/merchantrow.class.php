@@ -143,17 +143,16 @@ LEFT JOIN state s on m.state_id = s.id
     protected $convenience_fee_variable_rate;
     protected $amex_external;
     protected $discover_external;
-    protected $gateway_id;
-    protected $gateway_token;
+//    protected $gateway_id;
+//    protected $gateway_token;
     protected $main_contact;
     protected $main_email_id;
-    protected $merchant_id;
     protected $name;
     protected $title;
     protected $dob;
     protected $notes;
     protected $open_date;
-    protected $profile_id;
+//    protected $profile_id;
     protected $sale_rep;
     protected $short_name;
     protected $sic;
@@ -163,7 +162,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $zipcode;
     protected $country;
     protected $url;
-    protected $charge_form_classes;
+//    protected $charge_form_classes;
 
     protected $state_id;
 
@@ -401,10 +400,6 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getUserCount() {
         return count($this->getUserList());
-    }
-
-    public function getChargeFormClasses() {
-        return $this->charge_form_classes ?: 'default';
     }
 
 
@@ -658,15 +653,15 @@ LEFT JOIN state s on m.state_id = s.id
             'convenience_fee_variable_rate' => 3.95,
             'amex_external' => 1096643534,
             'discover_external' => 601105011666431,
-            'gateway_id' => 4445018852749,
-            'gateway_token' => null,
+//            'gateway_id' => 4445018852749,
+//            'gateway_token' => null,
             'main_contact' => 'Sandra Test',
             'main_email_id' => 'sandra@test.com',
             'merchant_id' => 4445017451724,
             'name' => 'Interamerica Data Florida',
             'notes' => 'Test Notes',
             'open_date' => '2015-03-04 00:00:00',
-            'profile_id' => 4445017451721,
+//            'profile_id' => 4445017451721,
             'sale_rep' => 'Referral',
             'short_name' => 'In Da Fl',
             'sic' => 7549,
