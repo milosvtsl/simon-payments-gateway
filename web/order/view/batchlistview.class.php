@@ -237,7 +237,7 @@ class BatchListView extends AbstractListView {
 									<td><a href="order/batch.php?id=<?php echo $Batch->getBatchID(); ?>"><?php echo $Batch->getBatchID(); ?></a></td>
                                     <td><?php echo date('Y-m-d', strtotime($Batch->getStartDate())); ?></td>
                                     <td>$<?php echo number_format($Batch->getAmount(), 2), ' (', $Batch->getCount(), ')'; ?></td>
-                                    <td><a href="merchant?id=<?php echo $Batch->getMerchantID(); ?>"><?php echo $Batch->getMerchantShrtName(); ?></a></td>
+                                    <td><a href="merchant?id=<?php echo $Batch->getMerchantID(); ?>"><?php echo $Batch->getMerchantShortName(); ?></a></td>
 								</tr>
 							<?php } ?>
 

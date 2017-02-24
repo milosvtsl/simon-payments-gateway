@@ -62,7 +62,7 @@ $SessionManager = new SessionManager();
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Merchant</td>
-                            <td><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
+                            <td><a href='merchant?uid=<?php echo $Request->getMerchantUID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
                         </tr>
 
                         <?php if($Request->getOrderItemUID()) { ?>

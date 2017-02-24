@@ -100,7 +100,7 @@ FROM user u
         return $this->merchant_list;
     }
 
-    public function hasMerchant($merchant_id) {
+    public function hasMerchantID($merchant_id) {
         return in_array($merchant_id, $this->getMerchantList());
     }
 
@@ -361,7 +361,6 @@ SQL;
 
         $User = new UserRow();
         $User->uid = strtoupper(self::generateGUID());
-        $User->version = 1;
         $User->email = $post['email'];
         $User->enabled = 1;
         $User->fname = $post['fname'];
@@ -411,7 +410,6 @@ SQL;
     public static function insert(UserRow $User) {
         $values = array(
             ':uid' => $User->uid,
-            ':version' => $User->version,
             ':email' => $User->email,
             ':enabled' => $User->enabled,
             ':fname' => $User->fname,

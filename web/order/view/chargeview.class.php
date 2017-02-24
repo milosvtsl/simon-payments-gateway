@@ -129,7 +129,7 @@ class ChargeView extends AbstractView
             if($SessionUser->hasAuthority('ROLE_ADMIN')) {
 
             } else {
-                if(!$SessionUser->hasMerchant($Merchant->getID()))
+                if(!$SessionUser->hasMerchantID($Merchant->getID()))
                     throw new \Exception("User does not have authority");
             }
 

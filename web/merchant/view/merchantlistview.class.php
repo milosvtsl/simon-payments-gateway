@@ -159,8 +159,8 @@ class MerchantListView extends AbstractListView {
 							$odd = false;
 							foreach($this->getListQuery() as $Merchant) { ?>
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-									<td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
-									<td><a href='merchant?id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
+									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
+									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
 									<td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo preg_replace('/^https?:\/\//i', '', $Merchant->getURL()); ?></a></td>
 									<td><?php echo $Merchant->getRegionCode(); ?></td>
 									<td><?php echo $Merchant->getZipCode(); ?></td>

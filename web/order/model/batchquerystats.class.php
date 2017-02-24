@@ -14,6 +14,7 @@ class BatchQueryStats
     protected $count;
     protected $batch_id;
     protected $merchant_id;
+    protected $merchant_uid;
     protected $merchant_short_name;
     protected $amount;
     protected $max_date;
@@ -25,6 +26,7 @@ class BatchQueryStats
 SELECT count(*) count,
     oi.batch_id,
     oi.merchant_id,
+    m.uid as merchant_uid,
     m.short_name as merchant_short_name,
     sum(amount) amount,
     MAX(oi.date) max_date,
@@ -37,8 +39,9 @@ WHERE oi.status IN ('Settled')
     public function getCount()              { return $this->count; }
     public function getBatchID()            { return $this->batch_id; }
     public function getMerchantID()         { return $this->merchant_id; }
-    public function getMerchantShrtName()   { return $this->merchant_short_name; }
+    public function getMerchantUID()        { return $this->merchant_uid; }
+    public function getMerchantShortName()  { return $this->merchant_short_name; }
     public function getAmount()             { return $this->amount; }
-    public function getStartDate()            { return $this->max_date; }
+    public function getStartDate()          { return $this->max_date; }
     public function getEndDate()            { return $this->min_date; }
 }

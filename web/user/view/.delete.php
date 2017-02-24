@@ -64,7 +64,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     $MerchantQuery = $SessionUser->queryUserMerchants();
                                 foreach($User->queryUserMerchants() as $i=>$Merchant)
                                     /** @var \Merchant\Model\MerchantRow $Merchant */
-                                    echo "<a href='merchant?id=" . $Merchant->getID() . "'>"
+                                    echo "<a href='merchant?uid=" . $Merchant->getUID() . "'>"
                                         . $Merchant->getShortName()
                                         . "</a><br/>";
                                 ?>

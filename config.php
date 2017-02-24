@@ -32,12 +32,12 @@ $host = parse_url('http://' . (@$_SERVER['HTTP_HOST']), PHP_URL_HOST);
 switch($host) {
     // Simon Payments Gateway
     default:
+    case 'localhost':
     case 'access.simonpayments.com':
         include __DIR__ . '/site/spg/config.php';
         SiteConfig::$SITE_LIVE = TRUE;
         break;
 
-    case 'localhost':
     case 'demo.simonpayments.com':
         include __DIR__ . '/site/spg/config.php';
         DBConfig::$DB_NAME = 'spgdemo';

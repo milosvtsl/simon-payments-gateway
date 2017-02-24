@@ -16,7 +16,7 @@ class UserListView extends AbstractListView {
 	 */
 	public function renderHTMLBody(Array $params) {
 		// Set up page parameters
-		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
+		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
 
 		$sqlParams = array();
 		$whereSQL = "WHERE 1";
@@ -127,7 +127,7 @@ class UserListView extends AbstractListView {
 						<td class="value">
 							<select name="limit">
 								<?php
-								$limit = @$_GET['limit'] ?: 10;
+								$limit = @$_GET['limit'] ?: 25;
 								foreach(array(10,25,50,100,250) as $opt)
 									echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
 								?>

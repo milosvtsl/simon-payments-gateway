@@ -29,7 +29,6 @@ FROM state s
 
     public function getID()                 { return $this->id; }
     public function getUID()                { return $this->uid; }
-    public function getVersion()            { return $this->version; }
     public function getName()               { return $this->name; }
     public function getShortCode()          { return $this->short_code; }
 

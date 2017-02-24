@@ -28,7 +28,6 @@ FROM merchant_status ms
     public function getID()             { return $this->id; }
     public function getUID()            { return $this->uid; }
     public function getName()           { return $this->name; }
-    public function getVersion()        { return $this->version; }
 
 
     // Static

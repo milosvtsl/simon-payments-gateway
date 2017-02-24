@@ -11,6 +11,7 @@ use System\Config\SiteConfig;
 $Merchant = $this->getMerchant();
 $odd = false;
 $action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
+$action_url_forms = 'merchant/form.php';
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
@@ -49,10 +50,16 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <div class="app-button large app-button-edit" ></div>
                             Edit
                         </a>
+                        <a href="<?php echo $action_url_forms; ?>" class="page-button page-button-edit">
+                            <div class="app-button large app-button-provision" ></div>
+                            Order Forms
+                        </a>
+                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_PROVISION')) { ?>
                         <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
                             <div class="app-button large app-button-provision" ></div>
                             Provision
                         </a>
+                        <?php } ?>
                     </div>
 
                     <hr/>

@@ -340,7 +340,7 @@ class OrderListView extends AbstractListView {
                                     <td class="hide-on-layout-narrow"><?php echo substr($Order->getCardNumber(), -8); ?></td>
                                     <td class="hide-on-layout-narrow"><?php echo $Order->getCardType(); ?></td>
 									<?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-										<td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+										<td class="hide-on-layout-narrow"><a href='merchant?uid=<?php echo $Order->getMerchantUID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
 									<?php } ?>
 								</tr>
 							<?php } ?>

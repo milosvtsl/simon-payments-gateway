@@ -424,7 +424,7 @@ HEAD;
                             foreach ($MerchantFormQuery as $Form) {
                                 echo "\n\t\t\t\t\t\t\t<option",
                                 ($Form->getID() === $MerchantForm->getID() ? ' selected="selected" value=""' :
-                                    " value='?form_uid=" . $Form->getUID() . "&merchant_id=" . $Merchant->getID() . "'"),
+                                    " value='?form_uid=" . $Form->getUID() . "&merchant_uid=" . $Merchant->getUID() . "'"),
                                 ">",
                                 $Form->getTitle(),
                                 "</option>";

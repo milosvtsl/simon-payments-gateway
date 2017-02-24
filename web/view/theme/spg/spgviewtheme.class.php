@@ -267,70 +267,47 @@ HEAD;
                 </li>
             <?php } ?>
 
-            <?php if(!$SessionManager->isGuestAccount()) { ?>
-            <li class="menu-submenu menu-submenu-user">
-                <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
-                    <span>Users</span> </a>
+        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+            <li class="menu-submenu menu-submenu-integration">
+                <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>
+                    <span>Admin</span></a>
                 <ul>
-                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
-                        <li>
-                            <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>List Users</span></a>
-                        </li>
-                        <li>
-                            <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>"> <div class="menu-icon menu-icon-add"></div>
-                                <span>Add User</span></a>
-                        </li>
-                    <?php } ?>
-
-                    <?php if(in_array($category, array('user-view', 'user-edit', 'user-delete'))) { ?>
-                        <li>
-                            <a href="<?php echo $action_url; ?>view" class="button<?php echo @$mc['user-view']; ?>"><div class="menu-icon menu-icon-view"></div>
-                                <span>View User</span></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $action_url; ?>edit" class="button<?php echo @$mc['user-edit']; ?>"><div class="menu-icon menu-icon-edit"></div>
-                                <span>Edit User</span></a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $action_url; ?>delete" class="button<?php echo @$mc['user-delete']; ?>"><div class="menu-icon menu-icon-delete"></div>
-                                <span>Delete User</span></a>
-                        </li>
-                    <?php } else { ?>
-                        <li>
-                            <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
-                                <span>My Account</span></a>
-                        </li>
-                        <li>
-                            <a href="user/account.php?action=edit" class="button<?php echo @$mc['user-account-edit']; ?>"> <div class="menu-icon menu-icon-edit"></div>
-                                <span>Edit Account</span></a>
-                        </li>
-                    <?php } ?>
-
                     <li>
-                        <a href="user/logout.php" class="button<?php echo @$mc['user-logout']; ?>"><div class="menu-icon menu-icon-logout"></div>
-                            <span>Log out</span></a>
+                        <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>
+                            <span>List Users</span></a>
                     </li>
+                    <li>
+                        <a href="user/add.php" class="button<?php echo @$mc['user-add']; ?>"> <div class="menu-icon menu-icon-add"></div>
+                            <span>Add User</span></a>
+                    </li>
+
+                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                    <li>
+                        <a href="integration" class="button<?php echo @$mc['integration']; ?>"><div class="menu-icon menu-icon-list"></div>
+                            <span>API Endpoints</span></a>
+                    </li>
+                    <li>
+                        <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>
+                            <span>API Requests</span></a>
+                    </li>
+                    <?php } ?>
                 </ul>
             </li>
-            <?php } ?>
+        <?php } ?>
 
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
-                <li class="menu-submenu menu-submenu-integration">
-                    <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>
-                        <span>Integration</span></a>
-                    <ul>
-                        <li>
-                            <a href="integration" class="button<?php echo @$mc['integration']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>API Endpoints</span></a>
-                        </li>
-                        <li>
-                            <a href="integration/request/" class="button<?php echo @$mc['integration-requests']; ?>"><div class="menu-icon menu-icon-list"></div>
-                                <span>API Requests</span></a>
-                        </li>
-                    </ul>
-                </li>
-            <?php } ?>
+
+        <?php if(!$SessionManager->isGuestAccount()) { ?>
+            <li>
+                <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
+                    <span>My Account</span></a>
+            </li>
+            <li>
+                <a href="user/logout.php" class="button<?php echo @$mc['user-logout']; ?>"><div class="menu-icon menu-icon-logout"></div>
+                    <span>Log out</span></a>
+            </li>
+        <?php } ?>
+
+
 
         </ul>
 

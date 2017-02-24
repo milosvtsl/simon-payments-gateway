@@ -106,7 +106,7 @@ $Theme->printHTMLMenu('integration-request-list');
                             <td><?php echo $Request->getResponseMessage(); ?></td>
                             <td><?php echo $Request->getResponseCode(); ?></td>
                             <td><?php echo date("M dS Y G:i:s", strtotime($Request->getDate())); ?></td>
-                            <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Request->getMerchantID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
+                            <td class="hide-on-layout-narrow"><a href='merchant?uid=<?php echo $Request->getMerchantUID(); ?>'><?php echo $Request->getMerchantName(); ?></a></td>
                             <td><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getOrderItemID(); ?></a></td>
                             <td class="hide-on-layout-narrow"><a href='order?uid=<?php echo $Request->getOrderItemUID(); ?>'><?php echo $Request->getTransactionID(); ?></a></td>
                             <td class="hide-on-layout-narrow"><a href='user?uid=<?php echo $Request->getUserUID(); ?>'><?php echo $Request->getUserID(); ?></a></td>

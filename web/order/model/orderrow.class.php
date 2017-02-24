@@ -130,6 +130,7 @@ class OrderRow
 
     // Table merchant
     protected $merchant_short_name;
+    protected $merchant_uid;
 
     // Table subscription
     protected $subscription_uid;
@@ -153,6 +154,7 @@ s.recur_next_date as subscription_recur_next_date,
 s.recur_frequency as subscription_recur_frequency,
 
 m.short_name as merchant_short_name,
+m.uid as merchant_uid,
 i.name integration_name,
 (SELECT GROUP_CONCAT(
   CONCAT_WS(':', of.field_name, of.field_value) SEPARATOR '|')
@@ -213,29 +215,33 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeePhone()         { return $this->payee_phone_number; }
     public function getUsername()           { return $this->username; }
     public function getCardHolderFullName() { return $this->getPayeeFullName() ?: $this->getCustomerFullName(); }
+
+
+    public function getMerchantID()         { return $this->merchant_id; }
+    public function getMerchantUID()        { return $this->merchant_uid; }
     public function getMerchantShortName()  { return $this->merchant_short_name; }
 
     public function getCardExpMonth()       { return $this->card_exp_month; }
     public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }
     public function getCardNumber()         { return $this->card_number; }
-    public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
 
+    public function getCardNumberTruncated(){ return substr($this->card_number, -4); }
     public function getCardTrack()          { return $this->card_track; }
     public function getCheckAccountName()   { return $this->check_account_name; }
     public function getCheckAccountNumber() { return $this->check_account_number; }
     public function getCheckAccountBank()   { return $this->check_account_bank_name; }
     public function getCheckAccountType()   { return $this->check_account_type; }
     public function getCheckRoutingNumber() { return $this->check_routing_number; }
-    public function getCheckNumber()        { return $this->check_number; }
 
+    public function getCheckNumber()        { return $this->check_number; }
     public function getCheckType()          { return $this->check_type; }
-    public function getMerchantID()         { return $this->merchant_id; }
     public function getIntegrationID()      { return $this->integration_id; }
     public function getIntegrationName()    { return $this->integration_name; }
-    public function getFormID()             { return $this->form_id; }
 
+    public function getFormID()             { return $this->form_id; }
 //    public function getOrderItemID()        { return $this->order_item_id; }
+
     public function getConvenienceFee()     { return $this->convenience_fee; }
 
     public function getEntryMode()          { return $this->entry_mode; }
@@ -243,7 +249,6 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function setStatus($status)      { $this->status = $status; }
 
     public function setPayeeEmail($email)   { $this->payee_reciept_email = $email; }
-
     public function setTotalReturnedAmount($total_returned_amount) {
         $this->total_returned_amount = $total_returned_amount;
     }
@@ -256,11 +261,12 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getSubscriptionMessage()    { return $this->subscription_status_message; }
     public function getSubscriptionAmount()     { return $this->subscription_recur_amount; }
     public function getSubscriptionCount()      { return $this->subscription_recur_count; }
+
     public function getSubscriptionNextDate()   { return $this->subscription_recur_next_date; }
 
     public function getSubscriptionCancelDate() { return $this->subscription_recur_cancel_date; }
-
     public function getSubscriptionFrequency()  { return $this->subscription_recur_frequency; }
+
     public function setSubscriptionID($subscription_id) {
         $this->subscription_id = $subscription_id;
     }
@@ -274,6 +280,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     }
 
     public function getBatchID()            { return $this->batch_id; }
+
 
     public function getCustomFieldValues() {
         if(!is_array($this->order_fields)) {
@@ -289,7 +296,6 @@ LEFT JOIN state st on st.short_code = oi.payee_state
         }
         return $this->order_fields;
     }
-
 
     public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
 
@@ -322,7 +328,6 @@ SQL;
 
         return $batch_id;
     }
-
     /**
      * Return the first authorized transaction for this order
      * @return TransactionRow
@@ -337,6 +342,8 @@ SQL;
         $AuthorizedTransaction = $stmt->fetch();
         return $AuthorizedTransaction;
     }
+
+
     public function performFraudScrubbing(AbstractMerchantIdentity $MerchantIdentity, UserRow $SessionUser, Array $post)
     {
         $Merchant = $MerchantIdentity->getMerchantRow();
@@ -353,7 +360,6 @@ SQL;
                 throw new FraudException("Order is below Low Limit ($amount < $min)");
 
     }
-
 
     public function insertCustomField($field, $value) {
         OrderFieldRow::insertOrUpdate($this, $field, $value);
@@ -390,6 +396,7 @@ SQL;
 
     const STAT_MONTHLY = 'monthly';
 
+
     public static function delete(OrderRow $OrderRow) {
         $SQL = "DELETE FROM order_item WHERE id = ?";
         $DB = DBConfig::getInstance();
@@ -407,7 +414,6 @@ SQL;
             throw new \InvalidArgumentException("Order Row has already been inserted");
         self::insertOrUpdate($OrderRow);
     }
-
 
     public static function update(OrderRow $OrderRow) {
         if(!$OrderRow->id)
@@ -604,6 +610,7 @@ SQL;
         return $OrderRow;
     }
 
+
     static function getCCType($cardNumber, $throwException=true) {
         $cardNumber = preg_replace('/\D/', '', $cardNumber);
 
@@ -634,7 +641,6 @@ SQL;
         }
     }
 
-
     public static function generateGUID(OrderRow $Row=null) {
         $site_type = SiteConfig::$SITE_UID_PREFIX;
         $type = $Row ? strtoupper(substr($Row->getEntryMode(), 0, 1)) : 'E';
@@ -652,69 +658,69 @@ SQL;
      * Unit Test
      * @throws \InvalidArgumentException
      */
-    public static function unitTest() {
-        // Go up 2 directories
-        $cwd = getcwd();
-        chdir(__DIR__ . '/../..');
-
-        // Enable class autoloader for this page instance
-        spl_autoload_extensions('.class.php');
-        spl_autoload_register();
-
-        $MockMerchantIdentity = new MockMerchantIdentity();
-
-        $post = array(
-            'amount' => 0.01,
-
-            'payee_first_name' => 'test',
-            'payee_last_name' => 'test',
-            'payee_phone_number' => '1234321',
-            'payee_reciept_email' => 'test@test.com',
-            'payee_address' => 'test 123',
-            'payee_address2' => '',
-            'payee_zipcode' => '21234',
-            'payee_city' => 'test',
-            'payee_state' => 'FL',
-        );
-        $post_cc = array(
-            'entry_mode' => 'Keyed',
-            'card_number' => '4111111111111111',
-            'card_type' => 'Visa',
-            'card_exp_month' => '12',
-            'card_exp_year' => '18',
-        );
-        $post_check = array(
-            'entry_mode' => 'Check',
-            'check_account_name' => 'test',
-            'check_account_number' => '123456789',
-            'check_account_type' => 'Savings',
-            'check_routing_number' => '123456789',
-            'check_type' => 'Personal',
-            'check_number' => '123',
-        );
-
-        $TestPaymentInfo = PaymentRow::createPaymentFromPost($post + $post_cc);
-
-        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $TestPaymentInfo, $TestForm, $post + $post_cc);
-        self::insert($TestOrderRow);
-        $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
-        OrderRow::delete($TestOrderRow);
-
-        $TestPaymentInfo = PaymentRow::createPaymentFromPost($post + $post_check);
-
-        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $TestPaymentInfo, $TestForm, $post + $post_check);
-        self::insert($TestOrderRow);
-        $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
-        OrderRow::delete($TestOrderRow);
-
-        $TestPaymentInfo = $TestOrderRow->getPaymentInformation();
-        PaymentRow::insertOrUpdate($TestPaymentInfo);
-        $TestOrderRow->getPaymentInformation()->getID() > 0 || error_log(__FUNCTION__ . ": getPaymentInformation()->getID() failed");
-
-//        print_r($TestPaymentInfo);
-
-        chdir($cwd);
-    }
+//    public static function unitTest() {
+//        // Go up 2 directories
+//        $cwd = getcwd();
+//        chdir(__DIR__ . '/../..');
+//
+//        // Enable class autoloader for this page instance
+//        spl_autoload_extensions('.class.php');
+//        spl_autoload_register();
+//
+//        $MockMerchantIdentity = new MockMerchantIdentity();
+//
+//        $post = array(
+//            'amount' => 0.01,
+//
+//            'payee_first_name' => 'test',
+//            'payee_last_name' => 'test',
+//            'payee_phone_number' => '1234321',
+//            'payee_reciept_email' => 'test@test.com',
+//            'payee_address' => 'test 123',
+//            'payee_address2' => '',
+//            'payee_zipcode' => '21234',
+//            'payee_city' => 'test',
+//            'payee_state' => 'FL',
+//        );
+//        $post_cc = array(
+//            'entry_mode' => 'Keyed',
+//            'card_number' => '4111111111111111',
+//            'card_type' => 'Visa',
+//            'card_exp_month' => '12',
+//            'card_exp_year' => '18',
+//        );
+//        $post_check = array(
+//            'entry_mode' => 'Check',
+//            'check_account_name' => 'test',
+//            'check_account_number' => '123456789',
+//            'check_account_type' => 'Savings',
+//            'check_routing_number' => '123456789',
+//            'check_type' => 'Personal',
+//            'check_number' => '123',
+//        );
+//
+//        $TestPaymentInfo = PaymentRow::createPaymentFromPost($post + $post_cc);
+//
+//        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $TestPaymentInfo, $TestForm, $post + $post_cc);
+//        self::insert($TestOrderRow);
+//        $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
+//        OrderRow::delete($TestOrderRow);
+//
+//        $TestPaymentInfo = PaymentRow::createPaymentFromPost($post + $post_check);
+//
+//        $TestOrderRow = OrderRow::createNewOrder($MockMerchantIdentity, $TestPaymentInfo, $TestForm, $post + $post_check);
+//        self::insert($TestOrderRow);
+//        $TestOrderRow = OrderRow::fetchByUID($TestOrderRow->getUID());
+//        OrderRow::delete($TestOrderRow);
+//
+//        $TestPaymentInfo = $TestOrderRow->getPaymentInformation();
+//        PaymentRow::insertOrUpdate($TestPaymentInfo);
+//        $TestOrderRow->getPaymentInformation()->getID() > 0 || error_log(__FUNCTION__ . ": getPaymentInformation()->getID() failed");
+//
+////        print_r($TestPaymentInfo);
+//
+//        chdir($cwd);
+//    }
 }
 
 //if(isset($argv) && in_array(@$argv[1], array('test-order', 'test-all')))

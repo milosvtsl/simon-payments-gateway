@@ -33,12 +33,18 @@ class MerchantView extends AbstractView
     public function renderHTMLBody(Array $params) {
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
+        $Merchant = $this->_merchant;
         if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
-            // Only admins may edit/view merchants
-            $SessionManager->setMessage("Unable to view merchant. Permission required: ROLE_ADMIN");
-            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
-            header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}&action={$this->_action}&message=Unable to manage integration: Admin required");
-            die();
+
+            if(!$SessionUser->hasMerchantID($Merchant->getID())) {
+                // Only admins may edit/view merchants, unless it's their own account
+                $SessionManager->setMessage("Unable to view merchant. Permission required: ROLE_ADMIN/ROLE_SUB_ADMIN");
+                $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
+
+                $Merchant = $this->_merchant;
+                header("Location: {$baseHREF}index.php");
+                die();
+            }
         }
 
         // Render Page
@@ -110,7 +116,8 @@ class MerchantView extends AbstractView
                 } catch (\Exception $ex) {
                     $SessionManager->setMessage($ex->getMessage());
                 }
-                header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}");
+
+                header("Location: {$baseHREF}merchant?uid={$Merchant->getUID()}");
                 die();
                 break;
 
@@ -119,7 +126,7 @@ class MerchantView extends AbstractView
                 $MerchantIdentity = $IntegrationRow->getMerchantIdentity($this->getMerchant());
                 if($MerchantIdentity->isProvisioned()) {
                     $SessionManager->setMessage("Merchant already provisioned: " . $this->getMerchant()->getName());
-                    header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}");
+                    header("Location: {$baseHREF}merchant?uid={$Merchant->getUID()}");
                     die();
                 }
 
@@ -129,7 +136,7 @@ class MerchantView extends AbstractView
                 } catch (IntegrationException $ex) {
                     $SessionManager->setMessage("Merchant failed to provision: " . $ex->getMessage());
                 }
-                header("Location: {$baseHREF}merchant?uid={Merchant->getUID()}");
+                header("Location: {$baseHREF}merchant?uid={$Merchant->getUID()}");
                 die();
 
                 break;
