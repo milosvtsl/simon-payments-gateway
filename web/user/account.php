@@ -28,6 +28,12 @@ session_start();
 
 $SessionManager = new \User\Session\SessionManager();
 
+
+if(!$SessionManager->isLoggedIn()) {
+    header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
+    die();
+}
+
 // Render View
 $View = new User\View\UserView($SessionManager->getSessionUser()->getUID());
 $View->handleRequest();
