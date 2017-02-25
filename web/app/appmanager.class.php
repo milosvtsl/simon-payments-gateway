@@ -29,7 +29,7 @@ class AppManager {
     private $config;
 
     public function __construct(UserRow $SessionUser, $config=null) {
-        $config = $config ?: $SessionUser->getAppConfig() ?: self::DEFAULT_CONFIG;
+        $config = $config ?: self::DEFAULT_CONFIG; // $SessionUser->getAppConfig() ?:
         $config = json_decode($config, true);
         if(!$config)
             throw new \InvalidArgumentException("Invalid Config JSON: " . $config);

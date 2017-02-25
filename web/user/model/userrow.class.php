@@ -36,13 +36,13 @@ class UserRow
     protected $uid;
     protected $version;
     protected $email;
-    protected $enabled;
+//    protected $enabled;
     protected $fname;
     protected $lname;
     protected $password;
     protected $username;
     protected $date;
-    protected $app_config;
+//    protected $app_config;
     protected $timezone;
     protected $admin_id;
 //    protected $merchant_form_id;
@@ -75,7 +75,7 @@ FROM user u
     public function getCreateDate()     { return $this->date; }
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
-    public function getAppConfig()      { return $this->app_config; }
+//    public function getAppConfig()      { return $this->app_config; }
     public function getMerchantLogo()   { return $this->merchant_logo_path; }
 
     public function getTimeZoneOffset($date='now') {
@@ -364,7 +364,7 @@ SQL;
         $User = new UserRow();
         $User->uid = strtoupper(self::generateGUID());
         $User->email = $post['email'];
-        $User->enabled = 1;
+//        $User->enabled = 1;
         $User->fname = $post['fname'];
         $User->lname = $post['lname'];
         $User->password = $password;
@@ -413,7 +413,7 @@ SQL;
         $values = array(
             ':uid' => $User->uid,
             ':email' => $User->email,
-            ':enabled' => $User->enabled,
+//            ':enabled' => $User->enabled,
             ':fname' => $User->fname,
             ':lname' => $User->lname,
             ':password' => $User->password,
@@ -452,7 +452,7 @@ SQL;
 
         $values = array(
             ':email' => $User->email,
-            ':enabled' => $User->enabled,
+//            ':enabled' => $User->enabled,
             ':fname' => $User->fname,
             ':lname' => $User->lname,
             ':password' => $User->password,
