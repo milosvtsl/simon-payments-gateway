@@ -33,11 +33,7 @@ class ChargeView extends AbstractView
             if($formUID) {
                 $OrderForm = MerchantFormRow::fetchByUID($formUID);
             } else {
-                if($SessionUser->getMerchantFormID()) {
-                    $OrderForm = MerchantFormRow::fetchByID($SessionUser->getMerchantFormID());
-                } else {
-                    $OrderForm = MerchantFormRow::fetchGlobalForm();
-                }
+                $OrderForm = MerchantFormRow::fetchGlobalForm();
             }
         } catch (\Exception $ex) {
             $SessionManager->setMessage($ex->getMessage());
@@ -62,7 +58,7 @@ class ChargeView extends AbstractView
 
         $Merchant = MerchantRow::fetchByID($merchant_id);
 
-        $SessionUser->setDefaultOrderForm($OrderForm);
+//        $SessionUser->setDefaultOrderForm($OrderForm);
 
         $integrationIDs = $Merchant->getProvisionedIntegrationIDs();
         $selectedIntegrationID = $Merchant->getDefaultIntegrationID() ?: $integrationIDs[0];

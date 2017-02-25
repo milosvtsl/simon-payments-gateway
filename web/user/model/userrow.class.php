@@ -45,7 +45,7 @@ class UserRow
     protected $app_config;
     protected $timezone;
     protected $admin_id;
-    protected $merchant_form_id;
+//    protected $merchant_form_id;
     protected $merchant_logo_path;
 
     // Table authority
@@ -76,7 +76,6 @@ FROM user u
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
     public function getAppConfig()      { return $this->app_config; }
-    public function getMerchantFormID() { return $this->merchant_form_id; }
     public function getMerchantLogo()   { return $this->merchant_logo_path; }
 
     public function getTimeZoneOffset($date='now') {
@@ -177,12 +176,12 @@ FROM user u
         return static::update($this);
     }
 
-    public function setDefaultOrderForm(MerchantFormRow $OrderForm) {
-        if($this->merchant_form_id == $OrderForm->getID())
-            return false;
-        $this->merchant_form_id = $OrderForm->getID();
-        return static::update($this);
-    }
+//    public function setDefaultOrderForm(MerchantFormRow $OrderForm) {
+//        if($this->merchant_form_id == $OrderForm->getID())
+//            return false;
+//        $this->merchant_form_id = $OrderForm->getID();
+//        return static::update($this);
+//    }
 
 
     public function updateFields($post) {
@@ -460,7 +459,7 @@ SQL;
             ':username' => $User->username,
             ':timezone' => $User->timezone,
             ':admin_id' => $User->admin_id,
-            ':merchant_form_id' => $User->merchant_form_id,
+//            ':merchant_form_id' => $User->merchant_form_id,
         );
         $SQL = '';
         foreach($values as $key=>$value)

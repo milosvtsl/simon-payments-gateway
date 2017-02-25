@@ -10,8 +10,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Go up 1 directory
-chdir('..');
 define("BASE_HREF", '../'); // Set relative path
+chdir(__DIR__ . '/' . BASE_HREF);
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
