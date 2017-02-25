@@ -153,6 +153,10 @@ abstract class AbstractView
                 $this->processFormRequest($_POST);
                 break;
 
+            case 'HEAD':
+                // DO Nothing
+                break;
+
             default:
                 throw new \InvalidArgumentException("Unknown method: " . $_SERVER['REQUEST_METHOD']);
         }

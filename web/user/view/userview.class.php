@@ -100,8 +100,8 @@ class UserView extends AbstractView
 
                     // Set message and redirect
                     $updates > 0
-                        ? $SessionManager->setMessage("<div class='info'>" . $updates . " user fields updated successfully: " . $User->getUID() . '</div>')
-                        : $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUID() . '</div>');
+                        ? $SessionManager->setMessage("<div class='info'>" . $updates . " user updated successfully: " . $User->getUsername() . '</div>')
+                        : $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUserName() . '</div>');
                     header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
 
