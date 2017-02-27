@@ -602,7 +602,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     margin: 10px 2.5em;
     overflow-x: auto;
     display: inline-block;
-    width: 80%;
+    min-width: 17em;
 }
 
 .spg-theme .info {

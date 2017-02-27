@@ -17,15 +17,15 @@ $SessionManager = new SessionManager();
 
         <?php if(!empty($_GET['key']) && !empty($_GET['email'])) { ?>
         <form name="form-reset" class="themed" action='reset.php?action=reset' method='POST' id='form-reset'>
-            <div class="logo" style="margin: 17px auto;"></div>
+            <div class="logo" style=" margin: 17px auto;"></div>
 
             <input type="hidden" name="action" value="reset" />
             <input type="hidden" name="key" value="<?php echo $_GET['key']; ?>" />
             <input type="hidden" name="email" value="<?php echo $_GET['email']; ?>" />
-            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
+            <fieldset style=" padding: 0.5em; margin: 0.3em; text-align: left;">
                 <div class="legend">RESET Password</div>
 
-                <h3>Please enter your email address to receive a password reset link</h3>
+                <h3>Please enter your new password</h3>
 
                 <table class="table-user-info themed">
                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -60,7 +60,7 @@ $SessionManager = new SessionManager();
             <div class="logo" style="margin: 17px auto;"></div>
 
             <input type="hidden" name="action" value="reset" />
-            <fieldset style="display: inline-block; padding: 0.5em; margin: 0.3em; text-align: left;">
+            <fieldset style=" padding: 0.5em; margin: 0.3em; text-align: left;">
                 <div class="legend">Password Reset</div>
 
                 <div class="info" style="width: 300px;">Please enter your email address to receive a password reset link</div>

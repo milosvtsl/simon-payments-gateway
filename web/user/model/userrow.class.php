@@ -137,6 +137,7 @@ LEFT JOIN merchant m on u.merchant_id = m.id
 
 //    }
 
+
     public function updateFields($post, UserRow $SessionUser=null) {
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid User Email");

@@ -116,36 +116,39 @@ class LoginView extends AbstractView {
                     // If Key was given, reset password
                     if($key) {
                         if(!$User->isValidResetKey($key)) {
-                            $SessionManager->setMessage("Invalid Reset Key");
+                            $SessionManager->setMessage("<div class='error'>Invalid Reset Key</div>");
                             header("Location: reset.php?email=".$email);
                             die();
                         }
 
-                        $User->changePassword($post['password'], $post['password_confirm']);
-                        $SessionManager->setMessage("Password was reset successfully");
+                        $update = $User->updateFields($post);
+                        if($update)
+                            $SessionManager->setMessage("<div class='info'>Password was reset successfully</div>");
+                        else
+                            $SessionManager->setMessage("<div class='error'>Error: Password was not reset</div>");
                         header("Location: login.php");
                         die();
                     }
 
                     // If no key, send a reset link
                     if(!$User) {
-                        $SessionManager->setMessage("User was not found");
+                        $SessionManager->setMessage("<div class='error'>User was not found</div>");
                         header("Location: reset.php?key={$key}&email={$email}");
                         die();
                     }
 
                     if(!$Email->send()){
-                        $SessionManager->setMessage($Email->ErrorInfo);
+                        $SessionManager->setMessage("<div class='error'>". $Email->ErrorInfo . "</div>");
                         header("Location: reset.php?key={$key}&email={$email}");
                         die();
                     } else {
-                        $SessionManager->setMessage("Email was sent successfully");
+                        $SessionManager->setMessage("<div class='info'>Email was sent successfully</div>");
                     }
 
                     header("Location: login.php");
                     die();
                 } catch (\Exception $ex) {
-                    $SessionManager->setMessage($ex->getMessage());
+                    $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
                     header("Location: reset.php?key={$key}&email={$email}");
                     die();
                 }
