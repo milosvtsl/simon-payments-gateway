@@ -109,7 +109,7 @@ HEAD;
                                 <td>
                                     <select name="change_form_url" class=""
                                             title="Select a charge form template">
-                                        <option value="">Switch Templates</option>
+                                        <optgroup label="Switch Templates">
                                         <?php
                                         $MerchantFormQuery = MerchantFormRow::queryAvailableForms($SessionUser->getMerchantID());
                                         foreach ($MerchantFormQuery as $Form) {
@@ -121,6 +121,7 @@ HEAD;
                                             "</option>";
                                         }
                                         ?>
+                                        </optgroup>
                                     </select>
                                     <a href="merchant/form.php?uid=<?php echo $MerchantForm->getUID(); ?>" style="float: right; display: inline-block; padding: 2px 8px;">
                                         <div class="app-button app-button-edit" style="font-size: 24px;"></div>
