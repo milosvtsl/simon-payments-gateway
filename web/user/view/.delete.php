@@ -112,7 +112,9 @@ $Theme->printHTMLMenu($category,    $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Delete</td>
-                            <td><input type="submit" value="Delete" class="themed" /></td>
+                            <td>
+                                <button type="submit" class="themed" value="delete" name="action" onclick="if(!confirm('Are you sure you want to delete this user: <?php echo $User->getEmail(); ?>?')) return false;">Delete</button>
+                            </td>
                         </tr>
                     </table>
                 </fieldset>
