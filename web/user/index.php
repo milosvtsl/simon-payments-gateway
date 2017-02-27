@@ -23,6 +23,7 @@ spl_autoload_register();
 // Start or resume the session
 session_start();
 
+
 $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {

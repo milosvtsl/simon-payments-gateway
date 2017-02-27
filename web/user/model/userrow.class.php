@@ -57,7 +57,7 @@ class UserRow
     const SQL_SELECT = "
 SELECT u.*,
  m.uid as merchant_uid,
- m.short_name as merchant_name,
+ m.name as merchant_name,
  (SELECT m.logo_path FROM merchant m WHERE m.id = u.merchant_id AND m.logo_path IS NOT NULL LIMIT 1) as merchant_logo_path
 FROM user u
 LEFT JOIN merchant m on u.merchant_id = m.id

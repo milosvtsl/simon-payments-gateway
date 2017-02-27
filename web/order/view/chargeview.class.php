@@ -82,8 +82,8 @@ class ChargeView extends AbstractView
 
 
         $Theme = $this->getTheme();
-        $Theme->addPathURL('/merchant?uid='.$Merchant->getUID(), $Merchant->getName());
-        $Theme->addPathURL('/order/charge.php', 'New Charge');
+        $Theme->addPathURL('merchant?uid='.$Merchant->getUID(), $Merchant->getName());
+        $Theme->addPathURL('order/charge.php', 'New Charge');
         $Theme->renderHTMLBodyHeader();
 
         if(!@$params['iframe']) {

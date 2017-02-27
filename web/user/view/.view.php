@@ -14,7 +14,7 @@ $SessionUser = $SessionManager->getSessionUser();
 $User = $this->getUser();
 
 $odd = false;
-$action_url = 'user?uid=' . $User->getUID() . '&action=';
+$action_url = 'user/index.php?uid=' . $User->getUID() . '&action=';
 $category = $User->getID() == $SessionUser->getID() ? 'user-account' : 'user-view';
 
 $Theme = $this->getTheme();
@@ -50,7 +50,14 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 <div class="app-button large app-button-edit" ></div>
                                 Edit
                             </a>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
+                                <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete">
+                                    <div class="app-button large app-button-delete" ></div>
+                                    Delete
+                                </a>
+                            <?php } ?>
                         </div>
+
 
                         <hr/>
 
@@ -83,12 +90,12 @@ $Theme->printHTMLMenu($category,    $action_url);
                             </tr>
 
 
-                            <?php if($User->getMerchantID()) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name">Merchant</td>
                                     <td class="value"><?php
                                         echo "<a href='merchant?uid=" . $User->getMerchantUID() . "'>"
-                                            . $User->getMerchantName()
+                                            . $User->getMerchantName() ?: "Not Assigned"
                                             . "</a><br/>";
                                         ?>
                                     </td>
@@ -148,7 +155,6 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <button type="submit" class="themed" value="resend-welcome-email" name="action" onclick="if(!confirm('Are you sure you want to resend the welcome email to <?php echo $User->getEmail(); ?>?')) return false;">Resend Email</button>
                                 </td>
                             </tr>
-
 
                             <?php } ?>
                         </table>

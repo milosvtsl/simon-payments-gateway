@@ -237,7 +237,16 @@ LEFT JOIN state s on m.state_id = s.id
 
         $maxsize = SiteConfig::$MAX_UPLOAD_SIZE;
         if($file['size'] >= $maxsize)
-            throw new \InvalidArgumentException('File too large. File must be less than ' . SiteConfig::$MAX_UPLOAD_SIZE/1024 . ' kb');
+            throw new \InvalidArgumentException('File is too large. File must be less than ' . SiteConfig::$MAX_UPLOAD_SIZE/1024 . ' kb');
+
+        $image_info = getimagesize($tmp_name);
+        $image_width = $image_info[0];
+        $image_height = $image_info[1];
+        if($image_width > SiteConfig::$SITE_MAX_LOGO_WIDTH)
+            throw new \InvalidArgumentException('Logo width is too wide. Image width must be less than ' . SiteConfig::$SITE_MAX_LOGO_WIDTH . ' pixels');
+        if($image_height > SiteConfig::$SITE_MAX_LOGO_HEIGHT)
+            throw new \InvalidArgumentException('Logo height is too wide. Image height must be less than ' . SiteConfig::$SITE_MAX_LOGO_HEIGHT . ' pixels');
+
 
         $acceptable = array('image/png');
         if(!in_array(strtolower($file['type']), $acceptable))

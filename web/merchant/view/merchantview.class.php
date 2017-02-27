@@ -36,15 +36,15 @@ class MerchantView extends AbstractView
         $Merchant = $this->_merchant;
         if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
 
-            if($SessionUser->getMerchantID() !== $Merchant->getID()) {
+//            if($SessionUser->getMerchantID() !== $Merchant->getID()) {
                 // Only admins may edit/view merchants, unless it's their own account
-                $SessionManager->setMessage("Unable to view merchant. Permission required: ADMIN/SUB_ADMIN");
+                $SessionManager->setMessage("Unable to view merchant. Permission required: ADMIN, SUB_ADMIN");
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
 
                 $Merchant = $this->_merchant;
                 header("Location: {$baseHREF}index.php");
                 die();
-            }
+//            }
         }
 
         // Render Page
@@ -110,7 +110,7 @@ class MerchantView extends AbstractView
             case 'edit':
                 try {
                     $updated = false;
-                    if(!empty($_FILES['logo_path'])) {
+                    if(!empty($_FILES['logo_path']) && !empty($_FILES['logo_path']['tmp_name'])) {
                         $Merchant->updateLogo($_FILES['logo_path']);
                         $updated = true;
                     }

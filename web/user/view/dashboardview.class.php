@@ -26,7 +26,8 @@ class DashboardView extends AbstractView {
 		$AppManager = new AppManager($SessionUser);
 
 		$Theme = $this->getTheme();
-		$Theme->addPathURL('index.php', $SessionUser->getFullName());
+        $Theme->addPathURL('user/account.php', $SessionUser->getMerchantName() ?: $SessionUser->getFullName());
+        $Theme->addPathURL('index.php', "Dashboard");
 		$Theme->renderHTMLBodyHeader();
 		$Theme->printHTMLMenu('dashboard');
 		?>

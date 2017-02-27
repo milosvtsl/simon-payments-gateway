@@ -145,7 +145,7 @@ class UserListView extends AbstractListView {
 						<th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
 						<th>Timezone</th>
 						<th>Created</th>
-						<th>Merchant</th>
+                        <th>Merchant</th>
 					</tr>
 					<?php
 					/** @var \User\Model\UserRow $User */

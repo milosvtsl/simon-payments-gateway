@@ -89,31 +89,34 @@ class UserView extends AbstractView
                     if($User->getID() === $SessionUser->getID())
                         throw new \Exception("Cannot delete self");
 
+                    if($User->getID() <= 0)
+                        throw new \Exception("Cannot delete system users");
+
                     UserRow::delete($User);
-                    $SessionManager->setMessage("Successfully deleted user: " . $User->getUsername());
+                    $SessionManager->setMessage("<div class='info'>Successfully deleted user: " . $User->getUsername() . '</div>');
                     header("Location: {$baseHREF}user/");
                     die();
                 } catch (\Exception $ex) {
-                    $SessionManager->setMessage($ex->getMessage());
+                    $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . '</div>');
                     header("Location: {$baseHREF}user/?uid={$User->getUID()}" . '&action=delete&message=' . $ex->getMessage());
                     die();
                 }
 
             case 'login':
                 if(!$SessionUser->hasAuthority('ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
-                    $SessionManager->setMessage("Could not log in as user. Permission required: ADMIN");
+                    $SessionManager->setMessage("<div class='error'>Could not log in as user. Permission required: ADMIN</div>");
                     header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
                 }
                 $SessionManager->adminLoginAsUser($User);
-                $SessionManager->setMessage("Admin Login as: " . $User->getUsername());
+                $SessionManager->setMessage("<div class='info'>Admin logged in as: {$User->getUsername()}</div>");
                 header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                 die();
 
             case 'resend-welcome-email':
                 $Email = new UserWelcomeEmail($User);
                 $Email->send();
-                $SessionManager->setMessage("Resent welcome email to " . $User->getEmail());
+                $SessionManager->setMessage("<div class='info'>Resent welcome email to : {$User->getEmail()}</div>");
                 header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                 die();
 

@@ -181,13 +181,6 @@ HEAD;
                 </li>
             <?php } ?>
 
-            <?php if(!$SessionManager->isGuestAccount()) { ?>
-                <li>
-                    <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
-                        <span>My Account</span></a>
-                </li>
-            <?php } ?>
-
             <!--            --><?php //if(in_array($category, array('order-view', 'order-edit', 'order-delete'))) { ?>
 <!--                <li>-->
 <!--                    <a href="--><?php //echo $action_url; ?><!--view" class="button--><?php //echo @$mc['order-view']; ?><!--"><div class="menu-icon menu-icon-receipt"></div>-->
@@ -257,6 +250,13 @@ HEAD;
             </li>
         <?php } ?>
 
+
+        <?php if(!$SessionManager->isGuestAccount()) { ?>
+            <li>
+                <a href="user/account.php" class="button<?php echo @$mc['user-account']; ?>"> <div class="menu-icon menu-icon-account"></div>
+                    <span>My Account</span></a>
+            </li>
+        <?php } ?>
 
         <?php if(!$SessionManager->isGuestAccount()) { ?>
             <li>

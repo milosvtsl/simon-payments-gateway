@@ -89,7 +89,7 @@ class LoginView extends AbstractView {
                     $SessionManager = new SessionManager();
                     $SessionUser = $SessionManager->getSessionUser();
                     $SessionManager->logout();
-                    $SessionManager->setMessage("Logged out successfully: " . $SessionUser->getUsername());
+                    $SessionManager->setMessage("<div class='info'>Logged out successfully: " . $SessionUser->getUsername() . "</div>");
 
                     $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
                     if($SessionManager->isLoggedIn()) {

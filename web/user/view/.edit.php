@@ -29,7 +29,6 @@ $Theme->printHTMLMenu($category,    $action_url);
 
             <section class="content">
 
-
                 <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
                 <form class="form-view-user themed" method="POST" action="<?php echo $action_url; ?>edit">
@@ -48,6 +47,12 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 <div class="app-button large app-button-edit" ></div>
                                 Edit
                             </a>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
+                                <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete">
+                                    <div class="app-button large app-button-delete" ></div>
+                                    Delete
+                                </a>
+                            <?php } ?>
                         </div>
 
                         <hr/>
