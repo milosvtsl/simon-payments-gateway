@@ -284,7 +284,7 @@ SQL;
         $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.username = :name OR u.email = :name OR u.uid = :name");
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
-        $stmt->execute(array($name));
+        $stmt->execute(array(':name' => $name));
         $Row = $stmt->fetch();
         if(!$Row)
             throw new \InvalidArgumentException("Username or Email not found: " . $name);
