@@ -56,7 +56,7 @@ class SessionManager
      * @return UserRow
      */
     public function login($username, $password) {
-        $User = UserRow::fetchByUsername($username);
+        $User = UserRow::fetchByUsernameOrEmail($username);
         if(!$User)
             throw new \InvalidArgumentException("Username not found: " . $username);
 

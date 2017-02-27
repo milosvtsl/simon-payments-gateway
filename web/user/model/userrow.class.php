@@ -271,7 +271,23 @@ SQL;
         $stmt->execute(array($value));
         $Row = $stmt->fetch();
         if(!$Row)
-            throw new \InvalidArgumentException("{$field} not found: " . $value);
+            throw new \InvalidArgumentException(ucfirst($field) . " not found: " . $value);
+        return $Row;
+    }
+
+    /**
+     * @param $name
+     * @return UserRow
+     */
+    public static function fetchByUsernameOrEmail($name) {
+        $DB = DBConfig::getInstance();
+        $stmt = $DB->prepare(static::SQL_SELECT . "WHERE u.username = :name OR u.email = :name OR u.uid = :name");
+        /** @noinspection PhpMethodParametersCountMismatchInspection */
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'User\Model\UserRow');
+        $stmt->execute(array($name));
+        $Row = $stmt->fetch();
+        if(!$Row)
+            throw new \InvalidArgumentException("Username or Email not found: " . $name);
         return $Row;
     }
 

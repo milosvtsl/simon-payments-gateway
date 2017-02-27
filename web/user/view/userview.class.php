@@ -68,10 +68,10 @@ class UserView extends AbstractView
                         if(!empty($post['send_email_welcome'])) {
                             $Email = new UserWelcomeEmail($User, $post['password']);
                             $Email->send();
-                            $msg = 'Welcome email sent to ' . $User->getEmail();
+                            $msg = "Welcome email sent to " . $User->getEmail() . ".\n";
                         }
 
-                        $SessionManager->setMessage("<div class='info'>User updated successfully: " . $User->getUsername() . $msg . '</div>');
+                        $SessionManager->setMessage("<div class='info'>{$msg}User updated successfully: " . $User->getUsername() . '</div>');
                         header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                         die();
                     }
