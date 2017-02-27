@@ -151,7 +151,10 @@ $Theme->printHTMLMenu($category,    $action_url);
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Change Password</td>
-                                <td><input type="password" name="password" value="" autocomplete="off" /></td>
+                                <td>
+                                    <input type="password" name="password" value="" autocomplete="off" />
+                                    <button type="button" onclick="this.form.password.value = this.form.password_confirm.value = randomPassword(12); this.form.send_email_welcome.checked = true; ">Generate</button>
+                                </td>
                             </tr>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Confirm Password</td>
@@ -182,11 +185,17 @@ $Theme->printHTMLMenu($category,    $action_url);
                             </tr>
 
                                 <?php if($SessionUser->getID() != $User->getID()) { ?>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name"><?php echo $SessionUser->getUsername(); ?> Password</td>
-                                <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
-                            </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name"><?php echo $SessionUser->getUsername(); ?> Password</td>
+                                    <td><input type="password" name="admin_password" value="" required autocomplete="on" /></td>
+                                </tr>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name">Send email to <br/><?php echo $User->getEmail(); ?></td>
+                                    <td><input type="checkbox" name="send_email_welcome" value="1" style="transform: scale(1.5);" /></td>
+                                </tr>
                                 <?php } ?>
+
+
                             <?php } ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Update</td>
@@ -197,6 +206,18 @@ $Theme->printHTMLMenu($category,    $action_url);
                 </form>
             </section>
         </article>
+        <script>
+            function randomPassword(length) {
+                var chars = "abcdefghijklmnopqrstuvwxyz!@#$%&ABCDEFGHIJKLMNOP1234567890";
+                var pass = "";
+                for (var x = 0; x < length; x++) {
+                    var i = Math.floor(Math.random() * chars.length);
+                    pass += chars.charAt(i);
+                }
+                return pass;
+            }
+
+        </script>
 
 
 <?php $Theme->renderHTMLBodyFooter(); ?>

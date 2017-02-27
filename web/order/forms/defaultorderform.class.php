@@ -204,7 +204,7 @@ HEAD;
                     </fieldset>
 
 
-                    <div class="swipe-fullscreen-box-container show-on-payment-method-swipe" style="display: none;">
+                    <div class="swipe-fullscreen-box-container show-on-payment-method-swipe">
                         <fieldset class="themed swipe-fullscreen-box " style="min-width:45%; padding: 8px;">
                             <div class="legend alert reader-status">Please swipe your card now</div>
                             <br />

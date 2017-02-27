@@ -165,7 +165,7 @@ HEAD;
                     <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Choose a Payment Method</div>
 
-                        <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required" style="display: none;">
+                        <label class="field-row row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                             <span>Payment Method</span>
 
                             <select name="entry_mode2" class="" required autofocus title="Choose an entry method">

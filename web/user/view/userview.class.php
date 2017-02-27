@@ -63,9 +63,19 @@ class UserView extends AbstractView
                     $updates = $User->updateFields($post, $SessionUser);
 
                     // Set message and redirect
-                    $updates > 0
-                        ? $SessionManager->setMessage("<div class='info'>User updated successfully: " . $User->getUsername() . '</div>')
-                        : $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUserName() . '</div>');
+                    if($updates) {
+                        $msg = '';
+                        if(!empty($post['send_email_welcome'])) {
+                            $Email = new UserWelcomeEmail($User, $post['password']);
+                            $Email->send();
+                            $msg = 'Welcome email sent to ' . $User->getEmail();
+                        }
+
+                        $SessionManager->setMessage("<div class='info'>User updated successfully: " . $User->getUsername() . $msg . '</div>');
+                        header("Location: {$baseHREF}user/?uid={$User->getUID()}");
+                        die();
+                    }
+                    $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUserName() . '</div>');
                     header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
 

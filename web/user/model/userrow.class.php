@@ -153,7 +153,7 @@ LEFT JOIN merchant m on u.merchant_id = m.id
             if ($password != $post['password_confirm'])
                 throw new \InvalidArgumentException("Password confirm mismatch");
 
-            $this->password = crypt($password);
+            $this->password = crypt($password, md5(time()));
         }
 
         if($SessionUser && $SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
