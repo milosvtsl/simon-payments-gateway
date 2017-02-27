@@ -109,8 +109,8 @@ HTML;
         $ytd_url  = date('Y-01-01', time());
 
         $WhereSQL = '';
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
         $SQL = <<<SQL
 SELECT
@@ -145,8 +145,8 @@ SQL;
         $ytd  = date('Y-01-01', time() + $offset);
 
         $WhereSQL = '';
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
         $SQL = <<<SQL
 SELECT

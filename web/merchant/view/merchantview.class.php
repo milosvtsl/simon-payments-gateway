@@ -34,11 +34,11 @@ class MerchantView extends AbstractView
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
         $Merchant = $this->_merchant;
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
 
-            if(!$SessionUser->hasMerchantID($Merchant->getID())) {
+            if($SessionUser->getMerchantID() !== $Merchant->getID()) {
                 // Only admins may edit/view merchants, unless it's their own account
-                $SessionManager->setMessage("Unable to view merchant. Permission required: ROLE_ADMIN/ROLE_SUB_ADMIN");
+                $SessionManager->setMessage("Unable to view merchant. Permission required: ADMIN/SUB_ADMIN");
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
 
                 $Merchant = $this->_merchant;
@@ -73,16 +73,16 @@ class MerchantView extends AbstractView
         $Merchant = $this->getMerchant();
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-//        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+//        if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
 //            // Only admins may edit/view merchants
-//            $SessionManager->setMessage("Unable to view/edit merchant. Permission required: ROLE_ADMIN");
+//            $SessionManager->setMessage("Unable to view/edit merchant. Permission required: ADMIN");
 //            $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
 //            header('Location: ' . $baseHREF . 'merchant?uid=' . $Merchant->getUID());
 //            die();
 //        }
 
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-            if(!$SessionUser->hasMerchantID($Merchant->getID())) {
+        if(!$SessionUser->hasAuthority('ADMIN')) {
+            if($SessionUser->getMerchantID() !== $Merchant->getID()) {
                 // Only admins may edit/view merchants
                 $SessionManager->setMessage("Unable to view/edit merchant. This account does not have permission.");
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
@@ -97,8 +97,8 @@ class MerchantView extends AbstractView
         switch($this->_action) {
             case 'view':
                 $User = UserRow::fetchByUID($_POST['login_user_uid']);
-                if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
-                    $SessionManager->setMessage("Could not log in as user. Permission required: ROLE_ADMIN");
+                if(!$SessionUser->hasAuthority('ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
+                    $SessionManager->setMessage("Could not log in as user. Permission required: ADMIN");
                     header("Location: {$baseHREF}user?uid={$User->getUID()}");
                     die();
                 }

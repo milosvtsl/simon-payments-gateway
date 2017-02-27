@@ -32,7 +32,7 @@ if(!$SessionManager->isLoggedIn()) {
 
 // Check for User UID parameter
 if(isset($_GET['uid'])) {
-    if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')
+    if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')
         || $_GET['uid'] === $SessionUser->getUID()) {
         $View = new \User\View\UserView($_GET['uid']);
         $View->handleRequest();

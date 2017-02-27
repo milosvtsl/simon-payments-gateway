@@ -45,13 +45,13 @@ class UserListView extends AbstractListView {
 
 		// Handle authority
 		$SessionUser = SessionManager::get()->getSessionUser();
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-			$whereSQL .= "\nAND u.admin_id = :admin_id\n";
+		if(!$SessionUser->hasAuthority('ADMIN')) {
+			$whereSQL .= "\nAND u.admin_id = :admin_id ";
 			$sqlParams[':admin_id'] = $SessionUser->getID();
 		}
 
 		if(isset($params['merchant_id'])) {
-			$whereSQL .= "\nAND u.id = (SELECT um.id_user FROM user_merchants um WHERE um.id_merchant = :id_merchant AND um.id_user = u.id)";
+			$whereSQL .= "\nAND u.merchant_id = :id_merchant ";
 			$sqlParams[':id_merchant'] = $params['merchant_id'];
 		}
 
@@ -145,7 +145,7 @@ class UserListView extends AbstractListView {
 						<th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
 						<th>Timezone</th>
 						<th>Created</th>
-						<th>Merchants</th>
+						<th>Merchant</th>
 					</tr>
 					<?php
 					/** @var \User\Model\UserRow $User */
@@ -157,7 +157,7 @@ class UserListView extends AbstractListView {
 							<td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
 							<td><?php echo str_replace('_', '', $User->getTimeZone()); ?></td>
 							<td><?php echo $User->getCreateDate() ? date('Y-m-d', strtotime($User->getCreateDate())) : 'N/A'; ?></td>
-							<td><a href='merchant/list.php?user_id=<?php echo $User->getID(); ?>'><?php echo $User->getMerchantCount(); ?></a></td>
+                            <td><a href='merchant/?uid=<?php echo $User->getMerchantUID(); ?>'><?php echo $User->getMerchantName() ?: "N/A"; ?></a></td>
 						</tr>
 					<?php } ?>
 				</table>

@@ -94,8 +94,7 @@ FROM merchant_integration mi
      */
     public static function queryAvailableMerchantIntegrations($userID) {
         $sql = static::SQL_SELECT
-            . "\nLEFT JOIN user_merchants um on mi.merchant_id = um.id_merchant "
-            . "\nWHERE um.id_user = ? OR mi.merchant_id is NULL"
+            . "\nWHERE (u.id = ? AND u.merchant_id = mi.merchant_id) OR mi.merchant_id is NULL"
             . "\nORDER BY mi.merchant_id desc, mi.id desc";
         $DB = DBConfig::getInstance();
         $MerchantIntegrationQuery = $DB->prepare($sql);

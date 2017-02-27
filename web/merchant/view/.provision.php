@@ -43,7 +43,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                             <div class="app-button large app-button-provision" ></div>
                             Order Forms
                         </a>
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_PROVISION')) { ?>
+                        <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                             <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
                                 <div class="app-button large app-button-provision" ></div>
                                 Provision

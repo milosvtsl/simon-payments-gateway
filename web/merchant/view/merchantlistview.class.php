@@ -45,7 +45,7 @@ class MerchantListView extends AbstractListView {
 
 		if(!empty($params['user_id'])) {
 			$whereSQL .= "\nAND EXISTS (
-				SELECT * FROM user_merchants um WHERE um.id_user = :user_id AND um.id_merchant = m.id
+				SELECT * FROM user u WHERE u.id = :user_id AND u.merchant_id = m.id
 			)";
 			$sqlParams[':user_id'] = $params['user_id'];
 		}
@@ -54,7 +54,7 @@ class MerchantListView extends AbstractListView {
 		// Handle authority
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+		if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
 			$whereSQL .= "\nAND 0\n";
 		}
 

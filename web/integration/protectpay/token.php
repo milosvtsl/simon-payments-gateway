@@ -41,8 +41,8 @@ try {
     $merchant_uid = $_POST['merchant_uid'];
     $MerchantRow = MerchantRow::fetchByUID($merchant_uid);
 
-    if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-        if(!in_array($MerchantRow->getID(), $SessionUser->getMerchantList()))
+    if(!$SessionUser->hasAuthority('ADMIN')) {
+        if($SessionUser->getMerchantID() !== $MerchantRow->getID())
             throw new \Exception("Invalid authorization to merchant: " . $MerchantRow->getUID());
     }
 

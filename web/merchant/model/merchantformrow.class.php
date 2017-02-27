@@ -12,6 +12,7 @@ use Order\Forms\AbstractForm;
 use Order\Forms\SimpleOrderForm;
 use Order\Model\OrderRow;
 use System\Config\DBConfig;
+use User\Model\UserRow;
 
 class MerchantFormRow
 {
@@ -289,20 +290,19 @@ FROM merchant_form mf
     }
 
     /**
-     * @param $userID
+     * @param $merchantID
      * @return MerchantFormRow[] | \PDOStatement
      * @throws \Exception
      */
-    public static function queryAvailableForms($userID) {
+    public static function queryAvailableForms($merchantID) {
         $sql = static::SQL_SELECT
-            . "\nLEFT JOIN user_merchants um on mf.merchant_id = um.id_merchant "
-            . "\nWHERE um.id_user = ? OR mf.merchant_id is NULL"
+            . "\nWHERE mf.merchant_id = ? OR mf.merchant_id is NULL"
             . "\nORDER BY mf.merchant_id desc, mf.id desc";
         $DB = DBConfig::getInstance();
         $MerchantFormQuery = $DB->prepare($sql);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $MerchantFormQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $MerchantFormQuery->execute(array($userID));
+        $MerchantFormQuery->execute(array($merchantID));
         return $MerchantFormQuery;
     }
 
@@ -325,7 +325,7 @@ FROM merchant_form mf
      * @param $post
      * @return MerchantFormRow
      */
-    public static function createNewMerchantForm($post) {
+    public static function createNewMerchantForm($post, UserRow $SessionUser=null) {
         $params = array();
         $params[':uid'] = self::generateGUID();
         $sqlSet = "\nSET uid = :uid";
@@ -335,9 +335,10 @@ FROM merchant_form mf
         $params[':title'] = $post['title'];
         $sqlSet .= ",title = :title";
 
-        $MerchantRow = MerchantRow::fetchByUID($post['merchant_uid']);
-        $params[':merchant_id'] = $MerchantRow->getID();
-        $sqlSet .= ",merchant_id = :merchant_id";
+        if($SessionUser && $SessionUser->getMerchantID()) {
+            $params[':merchant_id'] = $SessionUser->getMerchantID();
+            $sqlSet .= ",merchant_id = :merchant_id";
+        }
 
         $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet;
         $DB = DBConfig::getInstance();

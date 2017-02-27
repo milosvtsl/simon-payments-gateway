@@ -131,11 +131,11 @@ class SessionManager
 
 
     public function adminLoginAsUser(UserRow $User) {
-        if($User->hasAuthority('ROLE_ADMIN'))
+        if($User->hasAuthority('ADMIN'))
             throw new \Exception("Only non-admin accounts may be logged into");
 
         $SessionUser = $this->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN'))
+        if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN'))
             throw new \Exception("Only admins and sub-admins may log in as other users");
 
         self::$_session_user = $User;
@@ -179,7 +179,7 @@ class SessionManager
             return true;
 
         $SessionUser = $this->getSessionUser();
-        if($SessionUser->hasAuthority("ROLE_DEBUG"))
+        if($SessionUser->hasAuthority("DEBUG"))
             return true;
 
         return false;

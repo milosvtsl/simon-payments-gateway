@@ -19,9 +19,9 @@ class AddUserView extends AbstractView
     public function renderHTMLBody(Array $params) {
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
             // Only admins may add other users
-            $SessionManager->setMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
+            $SessionManager->setMessage("Unable to add user. Permission required: ADMIN or SUB_ADMIN");
 
             $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
             header("Location: {$baseHREF}user?action=add&message=Unable to manage integration: Admin required");
@@ -136,9 +136,9 @@ class AddUserView extends AbstractView
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
             // Only admins may add users
-            $SessionManager->setMessage("Unable to add user. Permission required: ROLE_ADMIN or ROLE_SUB_ADMIN");
+            $SessionManager->setMessage("Unable to add user. Permission required: ADMIN or SUB_ADMIN");
                 header("Location: {$baseHREF}user?action=add&message=Unable to manage integration: Admin required");
                 die();
         }

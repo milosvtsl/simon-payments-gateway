@@ -101,7 +101,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 </td>
                             </tr>
 
-                            <?php if($SessionUser->hasAuthority("ROLE_ADMIN")) { ?>
+                            <?php if($SessionUser->hasAuthority("ADMIN")) { ?>
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin</td>
@@ -109,10 +109,8 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <select name="admin_id" required>
                                         <?php
                                         $SQL = UserRow::SQL_SELECT
-                                            . "\n\tLEFT JOIN user_authorities ua on u.id = ua.id_user"
-                                            . "\n\tLEFT JOIN authority a on a.id = ua.id_authority"
-                                            . "\n\tWHERE a.authority IN ('ROLE_ADMIN', 'ROLE_SUB_ADMIN')"
-                                            . "\n\tORDER BY a.authority ASC";
+                                            . "\n\tWHERE FIND_IN_SET('admin', u.authority) OR FIND_IN_SET('sub_admin', u.authority) "
+                                            . "\n\tORDER BY u.authority ASC";
                                         $DB = \System\Config\DBConfig::getInstance();
                                         $stmt = $DB->prepare($SQL);
                                         /** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -128,6 +126,21 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 </td>
                             </tr>
 
+                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                <td class="name">Merchant</td>
+                                <td class="value">
+                                    <select name="merchant_id">
+                                    <?php
+                                    $MerchantQuery = MerchantRow::queryAll();
+                                    foreach($MerchantQuery as $Merchant)
+                                        /** @var \Merchant\Model\MerchantRow $Merchant */
+                                        echo "<option value='", $Merchant->getID(), "'",
+                                        ($Merchant->getID() === $User->getMerchantID() ? 'selected="selected"' : ''),
+                                        ">", $Merchant->getShortName(), "</option>";
+                                    ?>
+                                    </select>
+                                </td>
+                            </tr>
                             <?php } ?>
 
 
@@ -140,7 +153,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 <td><input type="password" name="password_confirm" value="" autocomplete="off" /></td>
                             </tr>
 
-                            <?php if($SessionUser->hasAuthority("ROLE_ADMIN", "ROLE_SUB_ADMIN")) { ?>
+                            <?php if($SessionUser->hasAuthority("ADMIN", "SUB_ADMIN")) { ?>
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Authorities</td>
@@ -148,38 +161,21 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <?php
                                     $AuthQuery = AuthorityRow::queryAll();
                                     foreach($AuthQuery as $Authority) {
-                                        if(in_array($Authority->getAuthority(), array('ROLE_ADMIN', 'ROLE_SUB_ADMIN'))
-                                            && !$SessionUser->hasAuthority("ROLE_ADMIN"))
+                                        $authority = strtoupper(str_replace('ROLE_', '', $Authority->getAuthority()));
+                                        if(in_array($authority, array('ADMIN', 'SUB_ADMIN'))
+                                            && !$SessionUser->hasAuthority("ADMIN"))
                                             continue;
                                         /** @var UserAuthorityRow $Authority */
                                         echo "<label>",
-                                        "\n\t<input type='hidden' name='authority[", $Authority->getAuthority(), "]' value='0' />",
-                                        "\n\t<input type='checkbox' name='authority[", $Authority->getAuthority(), "]' value='1'",
-                                        ($User->hasAuthority($Authority->getAuthority()) ? ' checked="checked"' : ''),
+                                        "\n\t<input type='hidden' name='authority[", $authority, "]' value='0' />",
+                                        "\n\t<input type='checkbox' name='authority[", $authority, "]' value='1'",
+                                        ($User->hasAuthority($authority) ? ' checked="checked"' : ''),
                                         "/>", $Authority->getName(), "</label><br/>\n";
                                     }
                                     ?>
                                 </td>
                             </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Merchants</td>
-                                <td class="value">
-                                    <?php
-                                    $list = $User->getMerchantList();
-                                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
-                                        $MerchantQuery = MerchantRow::queryAll();
-                                    else
-                                        $MerchantQuery = $SessionUser->queryUserMerchants();
-                                    foreach($MerchantQuery as $Merchant)
-                                        /** @var \Merchant\Model\MerchantRow $Merchant */
-                                        echo "<label>",
-                                        "\n\t<input type='hidden' name='merchant[", $Merchant->getID(), "]' value='0' />",
-                                        "\n\t<input type='checkbox' name='merchant[", $Merchant->getID(), "]' value='1'",
-                                        (in_array($Merchant->getID(), $list) ? ' checked="checked"' : ''),
-                                        "/>", $Merchant->getName(), "</label><br/>\n";
-                                    ?>
-                                </td>
-                            </tr>
+
                                 <?php if($SessionUser->getID() != $User->getID()) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name"><?php echo $SessionUser->getUsername(); ?> Password</td>

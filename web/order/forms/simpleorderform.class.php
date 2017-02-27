@@ -397,30 +397,12 @@ HEAD;
 
                     <fieldset class="" style="max-width: 45em;">
                         <div class="legend">Form Options: <?php echo $Merchant->getShortName(); ?></div>
-                        <?php if(sizeof($SessionUser->getMerchantList()) > 1) { ?>
-                            <label class="">
-                                <select name="change_merchant_url" class="">
-                                    <option value="">Switch Merchant</option>
-                                    <?php
-                                    $MerchantQuery = $SessionUser->queryUserMerchants();
-                                    foreach ($MerchantQuery as $MerchantOption) {
-                                        /** @var MerchantRow $MerchantOption */
-                                        echo "\n\t\t\t\t\t\t\t<option",
-                                        ($MerchantOption->getID() === $Merchant->getID() ? ' selected="selected" value=""' :
-                                            " value='?form_uid=" . $MerchantForm->getUID() . "&merchant_id=" . $MerchantOption->getID() . "'"), '>',
-                                        $MerchantOption->getShortName(),
-                                        "</option>";
-                                    }
-                                    ?>
-                                </select>
-                                </label>
-                        <?php } ?>
 
                         <select name="change_form_url" class=""
                                 title="Select a charge form template">
                             <option value="">Switch Templates</option>
                             <?php
-                            $MerchantFormQuery = MerchantFormRow::queryAvailableForms($SessionUser->getID());
+                            $MerchantFormQuery = MerchantFormRow::queryAvailableForms($SessionUser->getMerchantID());
                             foreach ($MerchantFormQuery as $Form) {
                                 echo "\n\t\t\t\t\t\t\t<option",
                                 ($Form->getID() === $MerchantForm->getID() ? ' selected="selected" value=""' :

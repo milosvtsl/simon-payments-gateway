@@ -171,13 +171,13 @@ HEAD;
                     <span>Dashboard</span></a>
             </li>
 
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
+            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN', 'RUN_REPORTS')) { ?>
                 <li class="menu-submenu menu-submenu-order">
                     <a href="order" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['order']; ?>"><div class="menu-icon menu-icon-transaction"></div>
                         <span>Transactions</span></a>
                     <ul>
 
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_POST_CHARGE')) { ?>
+                        <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN', 'POST_CHARGE')) { ?>
                             <li>
                                 <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>
                                     <span>Charge</span> </a>
@@ -199,7 +199,7 @@ HEAD;
                         </li>
                         <?php } ?>
 
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN', 'ROLE_RUN_REPORTS')) { ?>
+                        <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN', 'RUN_REPORTS')) { ?>
                             <li>
                                 <a href="order/list.php?date_from=<?php echo date('Y-m-d', time() - 60*60*4); ?>" class="button<?php echo @$mc['order-list']; ?>"><div class="menu-icon menu-icon-list"></div>
                                     <span>Search</span> </a>
@@ -222,13 +222,13 @@ HEAD;
                 </li>
             <?php } ?>
 
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
                     <a href="merchant" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['merchant']; ?>"> <div class="menu-icon menu-icon-merchant"></div>
                         <span>Merchants</span> </a>
                     <ul>
 
-                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                    <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
 
                     <?php if(in_array($category, array('merchant-view', 'merchant-edit', 'merchant-delete', 'merchant-provision'))) { ?>
                         <li>
@@ -272,7 +272,7 @@ HEAD;
                 <a href="user" onclick="if (this.classList.toggle('current')); return false;" class="button<?php echo @$mc['user']; ?>"> <div class="menu-icon menu-icon-user"></div>
                     <span>Users</span> </a>
                 <ul>
-                    <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                    <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                         <li>
                             <a href="user/list.php" class="button<?php echo @$mc['user-list']; ?>"><div class="menu-icon menu-icon-list"></div>
                                 <span>List Users</span></a>
@@ -314,7 +314,7 @@ HEAD;
                 </ul>
             </li>
 
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-integration">
                     <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button<?php echo @$mc['integration']; ?>"> <div class="menu-icon menu-icon-integration"></div>
                         <span>Integration</span></a>

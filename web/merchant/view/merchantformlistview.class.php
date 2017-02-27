@@ -13,6 +13,8 @@ class MerchantFormListView extends AbstractListView {
 	 * @param array $params
 	 */
 	public function renderHTMLBody(Array $params) {
+        $SessionManager = new SessionManager();
+        $SessionUser = $SessionManager->getSessionUser();
 
 		// Set up page parameters
 		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
@@ -40,6 +42,10 @@ class MerchantFormListView extends AbstractListView {
 			);
 		}
 
+        // Handle authority
+        if(!$SessionUser->hasAuthority('ADMIN')) {
+            $whereSQL .= "\nAND mf.merchant_id = " . $SessionUser->getMerchantID();
+        }
 
 		// Calculate GROUP BY
 		$groupSQL = MerchantFormRow::SQL_GROUP_BY;
@@ -77,7 +83,6 @@ class MerchantFormListView extends AbstractListView {
 		$Theme->renderHTMLBodyHeader();
 		$Theme->printHTMLMenu('merchant-form-list');
 
-		$SessionManager = new SessionManager();
 ?>
 		<article class="themed">
 			<section class="content">

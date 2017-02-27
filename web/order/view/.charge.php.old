@@ -42,7 +42,7 @@ $Theme->printHTMLMenu('order-charge');
                             <td>
                                 <select name="merchant_id" class="" required autofocus>
                                     <?php
-                                    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+                                    if($SessionUser->hasAuthority('ADMIN')) {
                                         echo '<option value="">Choose a Merchant (as Admin ', $SessionUser->getUsername(), ')</option>';
                                         $MerchantQuery = MerchantRow::queryAll();
                                     } else {
@@ -67,7 +67,7 @@ $Theme->printHTMLMenu('order-charge');
 //                                                (@$LASTPOST['merchant_id'] == $Merchant->getID() ? 'selected="selected" ' : ''),
                                                 " value='", $Merchant->getID(), "'>",
                                                     $Merchant->getShortName(),
-                                                    ( $testing || $SessionUser->hasAuthority('ROLE_ADMIN')
+                                                    ( $testing || $SessionUser->hasAuthority('ADMIN')
                                                     ? " (" . $Integration->getName() . ")" : ''),
                                                 "</option>";
                                             } else {

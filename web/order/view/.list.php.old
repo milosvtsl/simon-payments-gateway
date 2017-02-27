@@ -51,7 +51,7 @@ $Theme->printHTMLMenu('order-list');
                                 <select name="merchant_id" style="min-width: 20.5em;" >
                                     <option value="">By Merchant</option>
                                     <?php
-                                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
+                                    if($SessionUser->hasAuthority('ADMIN'))
                                         $MerchantQuery = MerchantRow::queryAll();
                                     else
                                         $MerchantQuery = $SessionUser->queryUserMerchants();
@@ -95,7 +95,7 @@ $Theme->printHTMLMenu('order-list');
                             <th>Authorized</th>
                             <th>Void</th>
                             <th>Returned</th>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                             <th>Conv. Fee</th>
                             <?php } ?>
                         </tr>
@@ -111,7 +111,7 @@ $Theme->printHTMLMenu('order-list');
 <!--                            <td><a href="--><?php //echo $report_url; ?><!--&status=Settled">--><?php //echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?><!--</a></td>-->
                             <td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Return"><?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                             <td><?php echo number_format($Report->getConvenienceFeeTotal(),2), ' (', $Report->getConvenienceFeeCount(), ')'; ?></td>
                             <?php } ?>
                         </tr>
@@ -122,7 +122,7 @@ $Theme->printHTMLMenu('order-list');
 <!--                            <td><a href="--><?php //echo $action_url; ?><!--&status=Settled">--><?php //echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?><!--</a></td>-->
                             <td><a href="<?php echo $action_url; ?>&status=Void"><?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                                 <td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
                             <?php } ?>
                         </tr>
@@ -151,7 +151,7 @@ $Theme->printHTMLMenu('order-list');
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_INVOICE_NUMBER); ?>">Invoice</a></th>
                             <th class="hide-on-layout-narrow">Mode</th>
                             <th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                             <th class="hide-on-layout-narrow"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                             <?php } ?>
                         </tr>
@@ -171,7 +171,7 @@ $Theme->printHTMLMenu('order-list');
                             <td style="max-width: 8em;"><?php echo $Order->getInvoiceNumber(); ?></td>
                             <td class="hide-on-layout-narrow"><?php echo ucfirst($Order->getEntryMode()); ?></td>
                             <td><?php echo $Order->getStatus(); ?></td>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                             <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Order->getMerchantID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
                             <?php } ?>
                         </tr>

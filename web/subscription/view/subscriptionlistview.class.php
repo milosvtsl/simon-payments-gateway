@@ -83,13 +83,13 @@ class SubscriptionListView extends AbstractListView {
 
 
 		// Handle authority
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-			$list = $SessionUser->getMerchantList() ?: array(0);
-			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
+		if(!$SessionUser->hasAuthority('ADMIN')) {
+            $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
+            $sqlParams['merchant_id'] = $SessionUser->getMerchantID();
 
-            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+            if(!$SessionUser->hasAuthority('RUN_REPORTS', 'SUB_ADMIN')) {
 				$SessionManager->setMessage(
-					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
+					"<div class='error'>Authorization required to run reports: RUN_REPORTS</div>"
 				);
 				$whereSQL .= "\nAND 0=1";
 			}

@@ -96,15 +96,15 @@ class OrderListView extends AbstractListView {
 
 
 		// Handle authority
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+		if(!$SessionUser->hasAuthority('ADMIN')) {
 //			$list = $SessionUser->getMerchantList() ?: array(0);
 //			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
-			$whereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+			$whereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
-            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+            if(!$SessionUser->hasAuthority('RUN_REPORTS', 'SUB_ADMIN')) {
 				$SessionManager->setMessage(
-					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
-				);
+					"<div class='error'>Authorization required to run reports: RUN_REPORTS</div>"
+				); // TODO UGLY
 				$whereSQL .= "\nAND 0=1";
 			}
 		}
@@ -262,26 +262,27 @@ class OrderListView extends AbstractListView {
 									<input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
 								</td>
 							</tr>
-							<tr>
-								<td class="name">Merchant</td>
-								<td>
-									<select name="merchant_id" style="min-width: 20.5em;" >
-										<option value="">By Merchant</option>
-										<?php
-										if($SessionUser->hasAuthority('ROLE_ADMIN'))
-											$MerchantQuery = MerchantRow::queryAll();
-										else
-											$MerchantQuery = $SessionUser->queryUserMerchants();
-										foreach($MerchantQuery as $Merchant)
-											/** @var \Merchant\Model\MerchantRow $Merchant */
-											echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
-											($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
-											"'>", $Merchant->getShortName(), "</option>";
-										?>
-									</select>
-								</td>
-							</tr>
-							<tr>
+
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
+                                <tr>
+                                    <td class="name">Limit</td>
+                                    <td>
+                                        <select name="merchant_id" style="min-width: 20.5em;" >
+                                            <option value="">By Merchant</option>
+                                            <?php
+                                            $MerchantQuery = MerchantRow::queryAll();
+                                            foreach($MerchantQuery as $Merchant)
+                                                /** @var \Merchant\Model\MerchantRow $Merchant */
+                                                echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
+                                                ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+                                                "'>", $Merchant->getShortName(), "</option>";
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+
+                            <tr>
 								<td class="name">Search</td>
 								<td>
 									<input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="ID, UID, MID, Amount, Card, Name, Invoice ID" size="42" />
@@ -317,7 +318,7 @@ class OrderListView extends AbstractListView {
 								<th><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_STATUS); ?>">Status</a></th>
                                 <th class="hide-on-layout-narrow">Account</th>
                                 <th class="hide-on-layout-narrow">Type</th>
-                                <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                                <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
 									<th class="hide-on-layout-narrow"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
 								<?php } ?>
 							</tr>
@@ -339,7 +340,7 @@ class OrderListView extends AbstractListView {
 									<td><?php echo $Order->getStatus(); ?></td>
                                     <td class="hide-on-layout-narrow"><?php echo substr($Order->getCardNumber(), -8); ?></td>
                                     <td class="hide-on-layout-narrow"><?php echo $Order->getCardType(); ?></td>
-									<?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+									<?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
 										<td class="hide-on-layout-narrow"><a href='merchant?uid=<?php echo $Order->getMerchantUID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
 									<?php } ?>
 								</tr>
@@ -374,7 +375,7 @@ class OrderListView extends AbstractListView {
                                 <td class="name"">Returned</td>
                                 <td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
                             </tr>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="name">Conv. Fee</td>
                                     <td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>

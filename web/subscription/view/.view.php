@@ -26,7 +26,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
     <article class="themed">
         <!-- Bread Crumbs -->
         <aside class="bread-crumbs hide-on-print">
-            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                 <a href="subscription" class="nav_subscription">Subscriptions</a>
             <?php } ?>
             <a href="<?php echo $action_url; ?>view" class="nav_transaction_view">#<?php echo $Subscription->getUID(); ?></a>
@@ -256,7 +256,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                         $odd = false;
                         foreach($TransactionQuery as $Transaction) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="hide-on-layout-narrow"><a href='/subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
+                                <td class="hide-on-layout-narrow"><a href='subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
                                 <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>
@@ -270,14 +270,14 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                                     switch($Transaction->getAction()) {
                                         case 'Authorized':
                                             if($Subscription->getStatus() === 'Authorized') {
-                                                $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                $disabled = $SessionUser->hasAuthority('VOID_CHARGE', 'ADMIN') ? '' : " disabled='disabled'";
                                                 echo "<input name='action' type='submit' value='Void'{$disabled}/>";
                                             }
                                             break;
 
                                         case 'Settled':
                                             if($Subscription->getStatus() === 'Settled') {
-                                                $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                $disabled = $SessionUser->hasAuthority('RETURN_CHARGE', 'ADMIN') ? '' : " disabled='disabled'";
                                                 echo "<input name='action' type='submit' value='Return'{$disabled}/>";
                                             }
                                             break;

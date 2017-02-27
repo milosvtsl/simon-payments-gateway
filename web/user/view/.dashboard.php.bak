@@ -18,7 +18,7 @@ if(!empty($_SESSION[__FILE__])) {
         $stats = null;
 }
 if(!$stats) {
-    if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+    if($SessionUser->hasAuthority('ADMIN')) {
         $stats = OrderRow::queryMerchantStats(null, $offset);
     } else {
         $stats = OrderRow::queryMerchantStats($SessionUser, $offset);
@@ -44,13 +44,13 @@ $DB = DBConfig::getInstance();
 
 $whereSQL = "WHERE 1";
 // Handle authority
-if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+if(!$SessionUser->hasAuthority('ADMIN')) {
     $list = $SessionUser->getMerchantList() ?: array(0);
     $whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
 
-    if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+    if(!$SessionUser->hasAuthority('RUN_REPORTS', 'SUB_ADMIN')) {
         $this->setMessage(
-            "<span class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</span>"
+            "<span class='error'>Authorization required to run reports: RUN_REPORTS</span>"
         );
         $whereSQL .= "\nAND 0=1";
     }
@@ -124,7 +124,7 @@ $this->getTheme()->printHTMLMenu('dashboard');
                         <th>Settled</th>
                         <th>Void</th>
                         <th>Returned</th>
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                        <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                             <th>Conv. Fee</th>
                         <?php } ?>
                     </tr>
@@ -141,7 +141,7 @@ $this->getTheme()->printHTMLMenu('dashboard');
                             <td><a href="<?php echo $report_url; ?>&status=Settled"><?php echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
                             <td><a href="<?php echo $report_url; ?>&status=Return"><?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                                 <td><?php echo number_format($Report->getConvenienceFeeTotal(),2), ' (', $Report->getConvenienceFeeCount(), ')'; ?></td>
                             <?php } ?>
                         </tr>

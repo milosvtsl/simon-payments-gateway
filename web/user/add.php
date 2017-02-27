@@ -30,7 +30,7 @@ if(!$SessionManager->isLoggedIn()) {
     die();
 }
 
-if(!$SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
+if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
     header('Location: ' . BASE_HREF . 'login.php?message=invalid access');
     die();
 }

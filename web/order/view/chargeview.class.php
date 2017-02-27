@@ -43,17 +43,12 @@ class ChargeView extends AbstractView
 
 //        $merchant_id = $OrderForm->getMerchantID();
         if($merchant_id !== null) {
-            if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-                if(!in_array($merchant_id, $SessionUser->getMerchantList()))
+            if(!$SessionUser->hasAuthority('ADMIN')) {
+                if($SessionUser->getMerchantID() !== $merchant_id)
                     throw new \Exception("Invalid authorization to use form uid: " . $OrderForm->getUID());
             }
         } else {
-            // Assign the first merchant id from the user's list
-            $MerchantQuery = $SessionUser->queryUserMerchants();
-            $MerchantRow = $MerchantQuery->fetch();
-            if(!$MerchantRow)
-                throw new \Exception("No Merchants assigned to user yet");
-            $merchant_id = $MerchantRow->getID();
+            $merchant_id = $SessionUser->getMerchantID();
         }
 
         $Merchant = MerchantRow::fetchByID($merchant_id);
@@ -122,11 +117,11 @@ class ChargeView extends AbstractView
             $Merchant = $MerchantIdentity->getMerchantRow();
 //            $Integration = $MerchantIdentity->getIntegrationRow();
 
-            if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+            if($SessionUser->hasAuthority('ADMIN')) {
 
             } else {
-                if(!$SessionUser->hasMerchantID($Merchant->getID()))
-                    throw new \Exception("User does not have authority");
+                if($SessionUser->getMerchantID() !== $Merchant->getID())
+                    throw new \Exception("User does not have authority to this merchant");
             }
 
             $OrderForm = $this->form;

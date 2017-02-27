@@ -46,20 +46,22 @@ $Theme->printHTMLMenu('order-subscription-list');
                                         echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                     ?>
                                 </select>
+
+
+
+                                <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
                                 <select name="merchant_id" style="min-width: 20.5em;" >
                                     <option value="">By Merchant</option>
                                     <?php
-                                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
-                                        $MerchantQuery = MerchantRow::queryAll();
-                                    else
-                                        $MerchantQuery = $SessionUser->queryUserMerchants();
+                                    $MerchantQuery = MerchantRow::queryAll();
                                     foreach($MerchantQuery as $Merchant)
                                         /** @var \Merchant\Model\MerchantRow $Merchant */
                                         echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
-                                            ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
-                                            "'>", $Merchant->getShortName(), "</option>";
+                                        ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+                                        "'>", $Merchant->getShortName(), "</option>";
                                     ?>
                                 </select>
+                                <?php } ?>
                             </td>
                         </tr>
                         <tr>
@@ -96,7 +98,7 @@ $Theme->printHTMLMenu('order-subscription-list');
                             <th>Customer/ID</th>
                             <th><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_STATUS); ?>">Status</a></th>
                             <th><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_DATE); ?>">Next Date</a></th>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                             <th class="hide-on-layout-narrow"><a href="subscription?<?php echo $this->getSortURL(SubscriptionRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
                             <?php } ?>
                         </tr>
@@ -116,7 +118,7 @@ $Theme->printHTMLMenu('order-subscription-list');
                             <td style="max-width: 8em;"><?php echo $Subscription->getCustomerFullName(); ?></td>
                             <td><?php echo $Subscription->getStatus(); ?></td>
                             <td><?php echo date("M dS g:i A", strtotime($Subscription->getRecurNextDate()) + $offset); ?></td>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                             <td class="hide-on-layout-narrow"><a href='merchant?id=<?php echo $Subscription->getMerchantID(); ?>'><?php echo $Subscription->getMerchantShortName(); ?></a></td>
                             <?php } ?>
                         </tr>

@@ -24,7 +24,7 @@ class DefaultViewTheme extends AbstractViewTheme
         $this->addNavLink('transaction', "Transactions");
 
         if($SessionManager->isLoggedIn()) {
-            if($SessionUser->hasAuthority('ROLE_ADMIN')) {
+            if($SessionUser->hasAuthority('ADMIN')) {
                 $this->addNavLink('merchant', "Merchant");
 //                $this->addNavLink('user', "Users");
 //                $this->addNavLink('batch', "Batch");
@@ -34,7 +34,7 @@ class DefaultViewTheme extends AbstractViewTheme
                 $this->addNavLink('user?uid=' . $SessionUser->getUID(), "My Account");
             }
 
-            if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_POST_CHARGE')) {
+            if($SessionUser->hasAuthority('ADMIN', 'POST_CHARGE')) {
                 $this->addNavLink('order/charge.php', "Charge");
             }
 

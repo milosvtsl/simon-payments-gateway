@@ -34,9 +34,8 @@ class ProvisionStatusApp extends AbstractApp {
         $SessionUser = $this->user;
 
         $statusHTML = '';
-        $MerchantQuery = $SessionUser->queryUserMerchants();
-        foreach ($MerchantQuery as $Merchant) {
-            /** @var MerchantRow $Merchant */
+        if($SessionUser->getMerchantID()) {
+            $Merchant = MerchantRow::fetchByID($SessionUser->getMerchantID());
             foreach ($Merchant->getMerchantIdentities() as $MerchantIdentity) {
                 $reason = null;
                 $Integration = $MerchantIdentity->getIntegrationRow();

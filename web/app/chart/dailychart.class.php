@@ -109,8 +109,8 @@ HTML;
         $today_url = date('Y-m-d', time() - $offset);
 
         $WhereSQL = '';
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
         $SQL = <<<SQL
 SELECT
@@ -144,8 +144,8 @@ SQL;
         $end = date('Y-m-d G:00:00', time() - $offset + 24*60*60);
 
         $WhereSQL = '';
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
         $SQL = <<<SQL
 SELECT

@@ -84,13 +84,13 @@ class OrderReportView extends AbstractListView {
 
 
 		// Handle authority
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
-			$list = $SessionUser->getMerchantList() ?: array(0);
-			$whereSQL .= "\nAND oi.merchant_id IN (" . implode(', ', $list) . ")\n";
+		if(!$SessionUser->hasAuthority('ADMIN')) {
+            $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
+            $sqlParams['merchant_id'] = $SessionUser->getMerchantID();
 
-            if(!$SessionUser->hasAuthority('ROLE_RUN_REPORTS', 'ROLE_SUB_ADMIN')) {
+            if(!$SessionUser->hasAuthority('RUN_REPORTS', 'SUB_ADMIN')) {
 				$SessionManager->setMessage(
-					"<div class='error'>Authorization required to run reports: ROLE_RUN_REPORTS</div>"
+					"<div class='error'>Authorization required to run reports: RUN_REPORTS</div>"
 				);
 				$whereSQL .= "\nAND 0=1";
 			}
@@ -206,26 +206,29 @@ class OrderReportView extends AbstractListView {
 									<input type="date" name="date_to"   value="<?php echo @$_GET['date_to']; ?>"  />
 								</td>
 							</tr>
-							<tr>
-								<td class="name">Merchant</td>
-								<td>
-									<select name="merchant_id" style="min-width: 20.5em;" >
-										<option value="">By Merchant</option>
-										<?php
-										if($SessionUser->hasAuthority('ROLE_ADMIN'))
-											$MerchantQuery = MerchantRow::queryAll();
-										else
-											$MerchantQuery = $SessionUser->queryUserMerchants();
-										foreach($MerchantQuery as $Merchant)
-											/** @var \Merchant\Model\MerchantRow $Merchant */
-											echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
-											($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
-											"'>", $Merchant->getShortName(), "</option>";
-										?>
-									</select>
-								</td>
-							</tr>
-							<tr>
+
+
+                            <?php if($SessionUser->hasAuthority('ADMIN')) { ?>
+                                <tr>
+                                    <td class="name">Limit</td>
+                                    <td>
+                                        <select name="merchant_id" style="min-width: 20.5em;" >
+                                            <option value="">By Merchant</option>
+                                            <?php
+                                            $MerchantQuery = MerchantRow::queryAll();
+                                            foreach($MerchantQuery as $Merchant)
+                                                /** @var \Merchant\Model\MerchantRow $Merchant */
+                                                echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
+                                                ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
+                                                "'>", $Merchant->getShortName(), "</option>";
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+
+
+                            <tr>
 								<td class="name">Submit</td>
 								<td>
 									<select name="stats_group">
@@ -257,7 +260,7 @@ class OrderReportView extends AbstractListView {
 								<th>Authorized</th>
 								<th>Void</th>
 								<th>Returned</th>
-								<?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+								<?php if($SessionUser->hasAuthority('ADMIN')) { ?>
 									<th>Conv. Fee</th>
 								<?php } ?>
 							</tr>
@@ -274,7 +277,7 @@ class OrderReportView extends AbstractListView {
 									<!--                            <td><a href="--><?php //echo $report_url; ?><!--&status=Settled">--><?php //echo number_format($Report->getSettledTotal(),2), ' (', $Report->getSettledCount(), ')'; ?><!--</a></td>-->
 									<td><a href="<?php echo $report_url; ?>&status=Void"><?php echo number_format($Report->getVoidTotal(),2), ' (', $Report->getVoidCount(), ')'; ?></a></td>
 									<td><a href="<?php echo $report_url; ?>&status=Return"><?php echo number_format($Report->getReturnTotal(),2), ' (', $Report->getReturnCount(), ')'; ?></a></td>
-									<?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+									<?php if($SessionUser->hasAuthority('ADMIN')) { ?>
 										<td><?php echo number_format($Report->getConvenienceFeeTotal(),2), ' (', $Report->getConvenienceFeeCount(), ')'; ?></td>
 									<?php } ?>
 								</tr>
@@ -285,7 +288,7 @@ class OrderReportView extends AbstractListView {
 								<!--                            <td><a href="--><?php //echo $action_url; ?><!--&status=Settled">--><?php //echo number_format($Stats->getSettledTotal(),2), ' (', $Stats->getSettledCount(), ')'; ?><!--</a></td>-->
 								<td><a href="<?php echo $action_url; ?>&status=Void"><?php echo number_format($Stats->getVoidTotal(),2), ' (', $Stats->getVoidCount(), ')'; ?></a></td>
 								<td><a href="<?php echo $action_url; ?>&status=Return"><?php echo number_format($Stats->getReturnTotal(),2), ' (', $Stats->getReturnCount(), ')'; ?></a></td>
-								<?php if($SessionUser->hasAuthority('ROLE_ADMIN')) { ?>
+								<?php if($SessionUser->hasAuthority('ADMIN')) { ?>
 									<td><?php echo number_format($Stats->getConvenienceFeeTotal(),2), ' (', $Stats->getConvenienceFeeCount(), ')'; ?></td>
 								<?php } ?>
 							</tr>

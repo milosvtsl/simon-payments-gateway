@@ -10,6 +10,7 @@ namespace User\Model;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
 use System\Config\DBConfig;
+use User\Session\SessionManager;
 
 class UserRow
 {
@@ -45,23 +46,24 @@ class UserRow
 //    protected $app_config;
     protected $timezone;
     protected $admin_id;
-//    protected $merchant_form_id;
-    protected $merchant_logo_path;
+    protected $merchant_id;
+    protected $authority;
 
-    // Table authority
-    protected $merchant_list;
-    protected $authority_list;
+    // Table merchant
+    protected $merchant_uid;
+    protected $merchant_name;
+    protected $merchant_logo_path;
 
     const SQL_SELECT = "
 SELECT u.*,
- (SELECT GROUP_CONCAT(m.id SEPARATOR ';') FROM user_merchants um LEFT JOIN merchant m ON m.id = um.id_merchant WHERE um.id_user = u.id ) as merchant_list,
- (SELECT m.logo_path FROM user_merchants um LEFT JOIN merchant m ON m.id = um.id_merchant WHERE um.id_user = u.id AND m.logo_path IS NOT NULL LIMIT 1) as merchant_logo_path,
- (SELECT GROUP_CONCAT(CONCAT_WS(';', a.authority, a.authority_name) SEPARATOR '\n') FROM user_authorities ua, authority a WHERE a.id = ua.id_authority AND ua.id_user = u.id ) as authority_list
+ m.uid as merchant_uid,
+ m.short_name as merchant_name,
+ (SELECT m.logo_path FROM merchant m WHERE m.id = u.merchant_id AND m.logo_path IS NOT NULL LIMIT 1) as merchant_logo_path
 FROM user u
+LEFT JOIN merchant m on u.merchant_id = m.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY u.id";
     const SQL_ORDER_BY = "\nORDER BY u.id DESC";
-
 
 
     public function getID()             { return $this->id; }
@@ -76,6 +78,8 @@ FROM user u
     public function getTimeZone()       { return $this->timezone ?: 'America/New_York'; }
     public function getAdminID()        { return $this->admin_id; }
 //    public function getAppConfig()      { return $this->app_config; }
+    public function getMerchantUID()    { return $this->merchant_uid; }
+    public function getMerchantName()   { return $this->merchant_name; }
     public function getMerchantLogo()   { return $this->merchant_logo_path; }
 
     public function getTimeZoneOffset($date='now') {
@@ -85,45 +89,23 @@ FROM user u
         return $tz->getOffset($date);
     }
 
-    public function getMerchantCount() {
-        return sizeof($this->getMerchantList());
-    }
-
-    /**
-     * @return array
-     * @deprecated 
-     */
-    public function getMerchantList() {
-        if(is_array($this->merchant_list))
-            return $this->merchant_list;
-        if(!$this->merchant_list)
-            return $this->merchant_list = array();
-        $this->merchant_list = explode(';', $this->merchant_list);
-        return $this->merchant_list;
-    }
-
-    public function hasMerchantID($merchant_id) {
-        return in_array($merchant_id, $this->getMerchantList());
+    public function getMerchantID() {
+        return $this->merchant_id;
     }
 
     public function getAuthorityList() {
-        if(is_array($this->authority_list))
-            return $this->authority_list;
-        if(!$this->authority_list)
+        if(is_array($this->authority))
+            return $this->authority;
+        if(!$this->authority)
             return array();
-        $list = explode("\n", $this->authority_list);
-        $this->authority_list = array();
-        foreach($list as $authority) {
-            list($id, $name) = explode(';', $authority);
-            $this->authority_list[strtoupper($id)] = $name;
-        }
-        return $this->authority_list;
+        $this->authority = explode(",", strtoupper($this->authority));
+        return $this->authority;
     }
 
     public function hasAuthority($authority) {
         $list = $this->getAuthorityList();
         foreach(func_get_args() as $i => $arg)
-            if (isset($list[strtoupper($arg)]))
+            if (in_array(strtoupper($arg), $list))
                 return true;
         return false;
     }
@@ -141,39 +123,9 @@ FROM user u
         throw new \InvalidArgumentException("Invalid Password. Please try again");
     }
 
-    public function queryUserMerchants() {
-        return MerchantRow::queryByUserID($this->getID());
-    }
-
     public function isValidResetKey($key) {
         $valid = $key === crypt($this->password, $key);
         return $valid;
-    }
-
-    public function changePassword($password, $password_confirm) {
-        if (strlen($password) < 5)
-            throw new \InvalidArgumentException("Password must be at least 5 characters");
-        if ($password != $password_confirm)
-            throw new \InvalidArgumentException("Password confirm mismatch");
-//        $password = crypt($password);
-        $password = md5($password);
-        $sql = "UPDATE " . self::TABLE_NAME
-            . "\nSET password=:password"
-            . "\nWHERE id = :id";
-        $DB = DBConfig::getInstance();
-        $PasswordQuery = $DB->prepare($sql);
-        $PasswordQuery->execute(array(
-            ':password' => $password,
-            ':id' => $this->id
-        ));
-        return $PasswordQuery->rowCount();
-    }
-
-    public function updateAdminID($admin_id) {
-        if($admin_id == $this->admin_id)
-            return false;
-        $this->admin_id = $admin_id;
-        return static::update($this);
     }
 
 //    public function setDefaultOrderForm(MerchantFormRow $OrderForm) {
@@ -181,16 +133,49 @@ FROM user u
 //            return false;
 //        $this->merchant_form_id = $OrderForm->getID();
 //        return static::update($this);
+
+
 //    }
 
-
-    public function updateFields($post) {
+    public function updateFields($post, UserRow $SessionUser=null) {
         if (!filter_var($post['email'], FILTER_VALIDATE_EMAIL))
             throw new \InvalidArgumentException("Invalid User Email");
+
+        if($SessionUser && $SessionUser->getID() !== $this->getID()
+            && $SessionUser->getID() !== $this->getAdminID())
+            $SessionUser->validatePassword($post['admin_password']);
+
+        // Change Password
+        if(!empty($post['password'])) {
+            $password = $post['password'];
+            if (strlen($password) < 5)
+                throw new \InvalidArgumentException("Password must be at least 5 characters");
+            if ($password != $post['password_confirm'])
+                throw new \InvalidArgumentException("Password confirm mismatch");
+
+            $this->password = crypt($password);
+        }
+
+        if($SessionUser && $SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
+            $this->authority = '';
+            foreach($post['authority'] as $authority => $added) {
+                if(in_array($authority, array('ADMIN', 'SUB_ADMIN'))
+                    && !$SessionUser->hasAuthority("ADMIN"))
+                    continue;
+                if($added)
+                    $this->authority .= ($this->authority ? ',' : '') . $authority;
+            }
+        }
+
 
         $this->fname = $post['fname'];
         $this->lname = $post['lname'];
         $this->email = $post['email'];
+
+        if($SessionUser && $SessionUser->hasAuthority('ADMIN')) {
+            if(!empty($post['merchant_id'])) $this->merchant_id = $post['merchant_id'];
+            if(!empty($post['admin_id'])) $this->admin_id = $post['admin_id'];
+        }
 
         $time = new \DateTimeZone($post['timezone']);
         $this->timezone = $time->getName();
@@ -238,46 +223,8 @@ SQL;
         return $stmt->rowCount() >= 1;
     }
 
-    public function addMerchantID($merchant_id, $ignore_duplicate=true) {
-        $sql_ignore = $ignore_duplicate ? "IGNORE " : "";
-        $SQL = <<<SQL
-INSERT {$sql_ignore}INTO user_merchants
-SET
-  id_user = :id_user,
-  id_merchant = :id_merchant
-SQL;
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare($SQL);
-        $ret = $stmt->execute(array(
-            ':id_user' => $this->getID(),
-            ':id_merchant' => $merchant_id,
-        ));
-        if(!$ret)
-            throw new \PDOException("Failed to insert new row");
-        return $stmt->rowCount() >= 1;
-    }
-
-    public function removeMerchantID($merchant_id) {
-        $SQL = <<<SQL
-DELETE FROM user_merchants
-WHERE
-  id_user = :id_user
-  AND id_merchant = :id_merchant
-SQL;
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare($SQL);
-        $ret = $stmt->execute(array(
-            ':id_user' => $this->getID(),
-            ':id_merchant' => $merchant_id,
-        ));
-        if(!$ret)
-            throw new \PDOException("Failed to remove row");
-        return $stmt->rowCount() >= 1;
-    }
-
-
-
     // Static
+
     public static function fetchByUID($uid)
     {
         $DB = DBConfig::getInstance();
@@ -328,6 +275,8 @@ SQL;
         return $Row;
     }
 
+
+
     /**
      * @param $username
      * @return UserRow
@@ -335,8 +284,6 @@ SQL;
     public static function fetchByUsername($username) {
         return static::fetchByField('username', $username);
     }
-
-
 
     public static function fetchByEmail($email) {
         return static::fetchByField('email', $email);
@@ -404,6 +351,7 @@ SQL;
             error_log("Failed to delete row: " . print_r($User, true));
     }
 
+
     /**
      * @param UserRow $User
      * @return UserRow
@@ -440,10 +388,9 @@ SQL;
         return $User;
     }
 
-
     /**
      * @param UserRow $User
-     * @return UserRow
+     * @return int
      * @throws \Exception
      */
     public static function update(UserRow $User) {
@@ -458,7 +405,9 @@ SQL;
             ':password' => $User->password,
             ':username' => $User->username,
             ':timezone' => $User->timezone,
+            ':authority' => $User->authority,
             ':admin_id' => $User->admin_id,
+            ':merchant_id' => $User->merchant_id,
 //            ':merchant_form_id' => $User->merchant_form_id,
         );
         $SQL = '';

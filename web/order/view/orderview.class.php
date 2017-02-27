@@ -112,7 +112,7 @@ class OrderView extends AbstractView
                     if(!SiteConfig::$SITE_LIVE)
                         throw new \Exception("Live Transaction Functions are disabled");
 
-                    if(!$SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN'))
+                    if(!$SessionUser->hasAuthority('VOID_CHARGE', 'ADMIN'))
                         throw new \Exception("Invalid Authority to Void Charges");
 
                     $Transaction = $MerchantIdentity->voidTransaction($Order, $SessionUser, $post);
@@ -128,7 +128,7 @@ class OrderView extends AbstractView
                     if(!SiteConfig::$SITE_LIVE)
                         throw new \Exception("Live Transaction Functions are disabled");
 
-                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
+                    if(!$SessionUser->hasAuthority('RETURN_CHARGE', 'ADMIN'))
                         throw new \Exception("Invalid Authority to Return Charges");
 
 //                    $partial_return_amount = $post['partial_return_amount'];
@@ -142,7 +142,7 @@ class OrderView extends AbstractView
                     die();
 
                 case 'reverse':
-                    if(!$SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN'))
+                    if(!$SessionUser->hasAuthority('RETURN_CHARGE', 'ADMIN'))
                         throw new \Exception("Invalid Authority to Return Charges");
 
                     $Transaction = $MerchantIdentity->reverseTransaction($Order, $SessionUser, $post);
@@ -211,7 +211,7 @@ class OrderView extends AbstractView
                                 Download
                             </a>
 
-                            <?php if($SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('VOID_CHARGE', 'ADMIN')) { ?>
                             <a onclick='return confirmOrderViewAction("Void", event);' class="page-button page-button-void
                                 <?php if($Order->getStatus() !== 'Authorized') echo ' disabled'; ?>
                                 ">
@@ -219,7 +219,7 @@ class OrderView extends AbstractView
                                 Void
                             </a>
                             <?php } ?>
-                            <?php if($SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('RETURN_CHARGE', 'ADMIN')) { ?>
                             <a onclick='return confirmOrderViewAction("Return", event);' class="page-button page-button-refund
                             <?php if($Order->getStatus() !== 'Settled') echo ' disabled'; ?>
                                 ">
@@ -518,7 +518,7 @@ class OrderView extends AbstractView
                             $odd = false;
                             foreach($TransactionQuery as $Transaction) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                    <td class="hide-on-layout-narrow"><a href='/order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
+                                    <td class="hide-on-layout-narrow"><a href='order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
                                     <td><?php echo $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"); ?></td>
                                     <td>$<?php echo $Transaction->getAmount(); ?></td>
                                     <td>$<?php echo $Transaction->getServiceFee(); ?></td>
@@ -529,11 +529,11 @@ class OrderView extends AbstractView
                                     </td>
                                     <td>
                                         <?php
-                                        if($SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_RETURN_CHARGE', 'ROLE_ADMIN')) {
+                                        if($SessionUser->hasAuthority('VOID_CHARGE', 'RETURN_CHARGE', 'ADMIN')) {
                                             switch ($Transaction->getAction()) {
                                                 case 'Authorized':
                                                     if ($Order->getStatus() === 'Authorized') {
-                                                        $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                        $disabled = $SessionUser->hasAuthority('VOID_CHARGE', 'ADMIN') ? '' : " disabled='disabled'";
                                                         echo <<<HTML
                                         <input name='action' type='submit' value='Void'`{$disabled} onclick='return confirmOrderViewAction("Void", event);' class="themed"/>
 HTML;
@@ -542,7 +542,7 @@ HTML;
 
                                                 case 'Settled':
                                                     if ($Order->getStatus() === 'Settled' && !floatval($Order->getTotalReturnedAmount())) {
-                                                        $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                        $disabled = $SessionUser->hasAuthority('RETURN_CHARGE', 'ADMIN') ? '' : " disabled='disabled'";
                                                         echo <<<HTML
                                         <input name='partial_return_amount' size="10" placeholder="Return Amount" />
                                         <input name='action' type='submit' value='Return'{$disabled} onclick='return confirmOrderViewAction("Return", event);' class="themed"/>

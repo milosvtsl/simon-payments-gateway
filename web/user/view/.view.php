@@ -81,23 +81,22 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 <td class="name">TimeZone</td>
                                 <td class="value"><?php echo str_replace('_', '', $User->getTimeZone()); ?></td>
                             </tr>
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Merchants</td>
-                                <td class="value"><?php
-                                    if($SessionUser->hasAuthority('ROLE_ADMIN'))
-                                        $MerchantQuery = MerchantRow::queryAll();
-                                    else
-                                        $MerchantQuery = $SessionUser->queryUserMerchants();
-                                    foreach($User->queryUserMerchants() as $Merchant) {
-                                        /** @var \Merchant\Model\MerchantRow $Merchant */
-                                        echo "<a href='merchant?uid=" . $Merchant->getUID() . "'>"
-                                            . $Merchant->getShortName()
-                                            . "</a><br/>";
-                                    } ?>
-                                </td>
-                            </tr>
 
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+
+                            <?php if($User->getMerchantID()) { ?>
+                                <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                    <td class="name">Merchant</td>
+                                    <td class="value"><?php
+                                        echo "<a href='merchant?uid=" . $User->getMerchantUID() . "'>"
+                                            . $User->getMerchantName()
+                                            . "</a><br/>";
+                                        ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+
+
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Roles</td>
                                 <td class="value">
@@ -105,13 +104,14 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <table class="themed striped-rows ">
                                         <tbody>
                                         <tr>
-                                            <th>Auth</th>
-                                            <th>Name</th>
+                                            <th>Authority</th>
                                             <th>Revoke</th>
                                         </tr>
                                         <?php
-                                        foreach($User->getAuthorityList() as $auth=>$name)
-                                            echo "<tr><td>", $auth, "</td><td>", $name, "</td><td><button><a href='user/account.php?action=edit'>X</a></button></td></th>";
+                                        foreach($User->getAuthorityList() as $auth) {
+                                            $name = ucwords(str_replace('_', ' ', strtolower($auth)));
+                                            echo "<tr><td>", $name, "</td><td><button><a href='user/account.php?action=edit'>X</a></button></td></th>";
+                                        }
                                         ?>
                                         </tbody>
                                     </table>
@@ -127,7 +127,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                     <?php
                                     try {
                                         $AdminUser = \User\Model\UserRow::fetchByID($User->getAdminID());
-                                        echo "<a href='/user?uid=", $AdminUser->getUID(), "'>", $AdminUser->getFullName(), "</a>";
+                                        echo "<a href='user?uid=", $AdminUser->getUID(), "'>", $AdminUser->getFullName(), "</a>";
                                     } catch (InvalidArgumentException $ex) {
 
                                     }

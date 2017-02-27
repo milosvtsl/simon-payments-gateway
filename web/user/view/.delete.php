@@ -55,21 +55,19 @@ $Theme->printHTMLMenu($category,    $action_url);
                             <td class="name">UID</td>
                             <td class="value"><?php echo $User->getUID(); ?></td>
                         </tr>
+
+                        <?php if($User->getMerchantID()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchants</td>
+                            <td class="name">Merchant</td>
                             <td class="value"><?php
-                                if($SessionUser->hasAuthority('ROLE_ADMIN'))
-                                    $MerchantQuery = MerchantRow::queryAll();
-                                else
-                                    $MerchantQuery = $SessionUser->queryUserMerchants();
-                                foreach($User->queryUserMerchants() as $i=>$Merchant)
-                                    /** @var \Merchant\Model\MerchantRow $Merchant */
-                                    echo "<a href='merchant?uid=" . $Merchant->getUID() . "'>"
-                                        . $Merchant->getShortName()
-                                        . "</a><br/>";
+                                echo "<a href='merchant?uid=" . $User->getMerchantUID() . "'>"
+                                    . $User->getMerchantName()
+                                    . "</a><br/>";
                                 ?>
                             </td>
                         </tr>
+                        <?php } ?>
+
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Roles</td>
                             <td class="value"><?php

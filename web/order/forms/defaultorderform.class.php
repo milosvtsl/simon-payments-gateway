@@ -107,34 +107,11 @@ HEAD;
                         <table class="table-choose-merchant" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
-                                    <?php if(sizeof($SessionUser->getMerchantList()) > 1) { ?>
-                                        <select name="change_merchant_url" class="">
-                                            <option value="">Switch Merchant</option>
-                                            <?php
-                                            $MerchantQuery = $SessionUser->queryUserMerchants();
-                                            foreach ($MerchantQuery as $MerchantOption) {
-                                                /** @var MerchantRow $MerchantOption */
-                                                echo "\n\t\t\t\t\t\t\t<option",
-                                                ($MerchantOption->getID() === $Merchant->getID() ? ' selected="selected" value=""' :
-                                                    " value='?form_uid=" . $MerchantForm->getUID() . "&merchant_id=" . $MerchantOption->getID() . "'"), '>',
-                                                $MerchantOption->getShortName(),
-                                                "</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    <?php } ?>
-
                                     <select name="change_form_url" class=""
                                             title="Select a charge form template">
                                         <option value="">Switch Templates</option>
                                         <?php
-
-                                        //                                        if($SessionUser->hasAuthority('ROLE_ADMIN')) {
-                                        //                                            echo '<option value="">Choose an Order Form (as Admin ', $SessionUser->getUsername(), ')</option>';
-                                        //                                            $MerchantFormQuery = MerchantFormRow::queryAll();
-                                        //                                        } else {
-                                        $MerchantFormQuery = MerchantFormRow::queryAvailableForms($SessionUser->getID());
-                                        //                                        }
+                                        $MerchantFormQuery = MerchantFormRow::queryAvailableForms($SessionUser->getMerchantID());
                                         foreach ($MerchantFormQuery as $Form) {
                                             echo "\n\t\t\t\t\t\t\t<option",
                                             ($Form->getID() === $MerchantForm->getID() ? ' selected="selected" value=""' :

@@ -64,22 +64,6 @@ HEAD;
                                 <td><input type="text" name="title" value="" placeholder="Custom Order Form Name" autofocus required /></td>
                             </tr>
 
-                            <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Merchant</td>
-                                <td>
-                                    <select name="merchant_uid" class="">
-                                        <?php
-                                        $MerchantQuery = $SessionUser->queryUserMerchants();
-                                        foreach ($MerchantQuery as $MerchantOption) {
-                                            /** @var MerchantRow $MerchantOption */
-                                            echo "\n\t\t\t\t\t\t\t<option value='" . $MerchantOption->getUID() . "'>",
-                                            $MerchantOption->getShortName(),
-                                            "</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
                             <tr >
                                 <td colspan="2">
                                     <input type="submit" value="Create New Template" class="themed"/>

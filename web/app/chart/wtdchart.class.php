@@ -109,8 +109,8 @@ HTML;
         $wtd_url  = date('Y-m-d', time() - 24*60*60*date('w'));
 
         $WhereSQL = '';
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
         $SQL = <<<SQL
 SELECT
@@ -145,8 +145,8 @@ SQL;
         $wtd  = date('Y-m-d G:00:00', time() - 24*60*60*date('w', time() - $offset));
 
         $WhereSQL = '';
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
-            $WhereSQL .= "\nAND oi.merchant_id = (SELECT um.id_merchant FROM user_merchants um WHERE um.id_user = " . $SessionUser->getID() . " AND um.id_merchant = oi.merchant_id)";
+        if(!$SessionUser->hasAuthority('ADMIN'))
+            $WhereSQL .= "\nAND oi.merchant_id = " . $SessionUser->getMerchantID();
 
         $SQL = <<<SQL
 SELECT

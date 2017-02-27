@@ -22,7 +22,7 @@ class IntegrationListView extends AbstractListView {
 		// Handle authority
 		$SessionManager = new SessionManager();
 		$SessionUser = $SessionManager->getSessionUser();
-		if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+		if(!$SessionUser->hasAuthority('ADMIN')) {
 			$whereSQL .= "\nAND 0\n";
 		}
 

@@ -261,14 +261,14 @@ $Theme->printHTMLMenu('order-view', $action_url);
                                     switch($Transaction->getAction()) {
                                         case 'Authorized':
                                             if($Order->getStatus() === 'Authorized') {
-                                                $disabled = $SessionUser->hasAuthority('ROLE_VOID_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                $disabled = $SessionUser->hasAuthority('VOID_CHARGE', 'ADMIN') ? '' : " disabled='disabled'";
                                                 echo "<input name='action' type='submit' value='Void'{$disabled}/>";
                                             }
                                             break;
 
                                         case 'Settled':
                                             if($Order->getStatus() === 'Settled') {
-                                                $disabled = $SessionUser->hasAuthority('ROLE_RETURN_CHARGE', 'ROLE_ADMIN') ? '' : " disabled='disabled'";
+                                                $disabled = $SessionUser->hasAuthority('RETURN_CHARGE', 'ADMIN') ? '' : " disabled='disabled'";
                                                 echo "<input name='action' type='submit' value='Return'{$disabled}/>";
                                             }
                                             break;

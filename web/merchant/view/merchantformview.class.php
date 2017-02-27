@@ -47,17 +47,16 @@ class MerchantFormView extends AbstractView
 
         $SessionManager = new SessionManager();
         $SessionUser = SessionManager::get()->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ADMIN')) {
             $merchant_id = $Form->getMerchantID();
             if(!$merchant_id) {
                 // Only admins may edit default templates
-                $SessionManager->setMessage("Only admins may edit default templates. Permission required: ROLE_ADMIN");
+                $SessionManager->setMessage("Only admins may edit default templates. Permission required: ADMIN");
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
                 header('Location: ' . $baseHREF . 'merchant/form.php');
                 die();
             }
-            $list = $SessionUser->getMerchantList();
-            if(!in_array($merchant_id, $list)) {
+            if($SessionUser->getMerchantID() !== $merchant_id) {
                 // Invalid Access
                 $SessionManager->setMessage("Merchant not assigned to user");
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';

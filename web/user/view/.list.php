@@ -48,7 +48,7 @@ $Theme->printHTMLMenu('user-list');
                             <th><a href="user?<?php echo $this->getSortURL(UserRow::SORT_BY_EMAIL); ?>">Email</a></th>
                             <th>Timezone</th>
                             <th>Created</th>
-                            <th>Merchants</th>
+                            <th>Merchant</th>
                         </tr>
                         <?php
                         /** @var \User\Model\UserRow $User */
@@ -60,7 +60,7 @@ $Theme->printHTMLMenu('user-list');
                             <td><a href='mailto:<?php echo $User->getEmail(); ?>'><?php echo $User->getEmail(); ?></a></td>
                             <td><?php echo str_replace('_', '', $User->getTimeZone()); ?></td>
                             <td><?php echo $User->getCreateDate() ? date('Y-m-d', strtotime($User->getCreateDate())) : 'N/A'; ?></td>
-                            <td><a href='merchant/list.php?user_id=<?php echo $User->getID(); ?>'><?php echo $User->getMerchantCount(); ?></a></td>
+                            <td><a href='merchant/?uid=<?php echo $User->getMerchantUID(); ?>'><?php echo $User->getMerchantName() ?: "N/A"; ?></a></td>
                         </tr>
                         <?php } ?>
                     </table>

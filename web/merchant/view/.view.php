@@ -53,7 +53,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <div class="app-button large app-button-provision" ></div>
                             Order Forms
                         </a>
-                        <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_PROVISION')) { ?>
+                        <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                         <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
                             <div class="app-button large app-button-provision" ></div>
                             Provision
@@ -312,7 +312,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                            <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                             <th>Admin Login</th>
                             <?php } ?>
                         </tr>
@@ -321,8 +321,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         $DB = \System\Config\DBConfig::getInstance();
                         $UserQuery = $DB->prepare(
                             "SELECT * FROM user u "
-                            . "\nLEFT JOIN user_merchants um ON u.id = um.id_user"
-                            . "\nWHERE um.id_merchant=?");
+                            . "\nWHERE u.merchant_id=?");
                         /** @noinspection PhpMethodParametersCountMismatchInspection */
                         $UserQuery->setFetchMode(\PDO::FETCH_CLASS, \User\Model\UserRow::_CLASS);
                         $UserQuery->execute(array($this->getMerchant()->getID()));
@@ -334,7 +333,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getID(); ?></a></td>
                                 <td><a href="user?uid=<?php echo $UserRow->getUID(); ?>"><?php echo $UserRow->getUsername(); ?></a></td>
-                                <?php if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) { ?>
+                                <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                                 <td class="value">
                                     <?php if($SessionUser->getID() !== $UserRow->getID()) { ?>
                                     <button type="submit" class="themed" value="<?php echo $UserRow->getUID(); ?>" name="login_user_uid">Login</button>

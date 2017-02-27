@@ -59,48 +59,12 @@ class UserView extends AbstractView
         switch(strtolower(@$post['action'])) {
             case 'edit':
                 try {
-                    if($SessionUser->getID() !== $User->getID()
-                    && $SessionUser->getID() !== $User->getAdminID())
-                        $SessionUser->validatePassword($post['admin_password']);
-
                     // Update User fields
-                    $updates = $User->updateFields($post);
-
-                    // Change Password
-                    if(!empty($post['password']))
-                        $updates += $User->changePassword($post['password'], $post['password_confirm']);
-
-
-                    if($SessionUser->hasAuthority('ROLE_ADMIN', 'ROLE_SUB_ADMIN')) {
-                        if(!empty($post['admin_id']))
-                            $updates += $User->updateAdminID($post['admin_id']);
-
-
-                        foreach($post['merchant'] as $merchant_id => $added) {
-                            if(!in_array($merchant_id, $SessionUser->getMerchantList())
-                                && !$SessionUser->hasAuthority("ROLE_ADMIN"))
-                                continue;
-
-                            if ($added)
-                                $updates += $User->addMerchantID($merchant_id);
-                            else
-                                $updates += $User->removeMerchantID($merchant_id);
-                        }
-
-                        foreach($post['authority'] as $authority => $added) {
-                            if(in_array($authority, array('ROLE_ADMIN', 'ROLE_SUB_ADMIN'))
-                                && !$SessionUser->hasAuthority("ROLE_ADMIN"))
-                                continue;
-                            if($added)
-                                $updates += $User->addAuthority($authority);
-                            else
-                                $updates += $User->removeAuthority($authority);
-                        }
-                    }
+                    $updates = $User->updateFields($post, $SessionUser);
 
                     // Set message and redirect
                     $updates > 0
-                        ? $SessionManager->setMessage("<div class='info'>" . $updates . " user updated successfully: " . $User->getUsername() . '</div>')
+                        ? $SessionManager->setMessage("<div class='info'>User updated successfully: " . $User->getUsername() . '</div>')
                         : $SessionManager->setMessage("<div class='info'>No changes detected: " . $User->getUserName() . '</div>');
                     header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
@@ -117,7 +81,7 @@ class UserView extends AbstractView
 
             case 'delete':
                 try {
-                    if(!$SessionUser->hasAuthority('ROLE_ADMIN'))
+                    if(!$SessionUser->hasAuthority('ADMIN'))
                         throw new \Exception("Only super admins may delete users");
 
                     $SessionUser->validatePassword($post['admin_password']);
@@ -136,8 +100,8 @@ class UserView extends AbstractView
                 }
 
             case 'login':
-                if(!$SessionUser->hasAuthority('ROLE_ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
-                    $SessionManager->setMessage("Could not log in as user. Permission required: ROLE_ADMIN");
+                if(!$SessionUser->hasAuthority('ADMIN') && $SessionUser->getID() !== $User->getAdminID()) {
+                    $SessionManager->setMessage("Could not log in as user. Permission required: ADMIN");
                     header("Location: {$baseHREF}user/?uid={$User->getUID()}");
                     die();
                 }
@@ -164,13 +128,13 @@ class UserView extends AbstractView
         $User = $this->getUser();
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionUser->hasAuthority('ROLE_ADMIN')) {
+        if(!$SessionUser->hasAuthority('ADMIN')) {
             // Only admins may edit other users
             if($SessionUser->getID() !== $User->getID() && $SessionUser->getID() !== $User->getAdminID()) {
-                $SessionManager->setMessage("Could not make changes to other user. Permission required: ROLE_ADMIN");
+                $SessionManager->setMessage("Could not make changes to other user. Permission required: ADMIN");
 
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
-                header("Location: {$baseHREF}user?message=Could not make changes to other user. Permission required: ROLE_ADMIN");
+                header("Location: {$baseHREF}user?message=Could not make changes to other user. Permission required: ADMIN");
                 die();
             }
         }

@@ -39,7 +39,7 @@ class MerchantRow
     const SQL_SELECT = "
 SELECT m.*,
   (SELECT ms.name FROM merchant_status ms WHERE ms.id = m.status_id) as status_name,
-  (SELECT GROUP_CONCAT(um.id_user SEPARATOR ';') FROM user_merchants um WHERE um.id_merchant = m.id) as user_list,
+  (SELECT GROUP_CONCAT(u.merchant_id SEPARATOR ';') FROM user u WHERE u.merchant_id = m.id) as user_list,
   (SELECT GROUP_CONCAT(mi.integration_id SEPARATOR ';') FROM merchant_integration mi WHERE mi.merchant_id = m.id) as integration_provisioned_ids,
   s.name as state_name, s.short_code as state_short_code
 FROM merchant m
@@ -600,8 +600,8 @@ LEFT JOIN state s on m.state_id = s.id
 
     public static function queryByUserID($id) {
         $sql = MerchantRow::SQL_SELECT
-            . "\nLEFT JOIN user_merchants um on m.id = um.id_merchant "
-            . "\nWHERE m.status_id = ? AND um.id_user = ?";
+            . "\nLEFT JOIN user u on m.id = u.merchant_id "
+            . "\nWHERE m.status_id = ? AND u.id = ?";
         $DB = DBConfig::getInstance();
         $MerchantQuery = $DB->prepare($sql);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
