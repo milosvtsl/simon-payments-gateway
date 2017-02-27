@@ -192,7 +192,7 @@ HEAD;
                             </tr>
                             <tr>
                                 <td colspan="2" style="white-space: normal; padding-left: 2em;">
-                                    <div class="credit-image small" style="margin: 7px 0 0 5px;"></div>
+                                    <div class="credit-image small" style="margin: 7px 0 5px 5px;"></div>
                                     <div class="cvv2-image small" style="display: inline-block; "></div>
                                     <div style="font-size: x-small; color: grey; padding: 1em; max-width: 200px;">
                                         **The CVV Number ("Card Verification Value") on your credit card
@@ -204,7 +204,7 @@ HEAD;
                     </fieldset>
 
 
-                    <div class="swipe-fullscreen-box-container show-on-payment-method-swipe">
+                    <div class="swipe-fullscreen-box-container show-on-payment-method-swipe" style="display: none;">
                         <fieldset class="themed swipe-fullscreen-box " style="min-width:45%; padding: 8px;">
                             <div class="legend alert reader-status">Please swipe your card now</div>
                             <br />
@@ -364,7 +364,7 @@ HEAD;
 
 
                     <?php if($MerchantForm->isRecurAvailable()) { ?>
-                    <fieldset class="inline-block-on-layout-full" style="clear: both; min-width: 45%; min-height: 12em;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
+                    <fieldset class="inline-block-on-layout-full" style="display: inline-block; min-width: 94%;" <?php echo $MerchantForm->isRecurAvailable() ? '' : 'disabled '; ?>>
                         <div class="legend">Re-bill Schedule</div>
                         <table class="table-transaction-charge themed" style="float: left; width: 45%;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -408,7 +408,7 @@ HEAD;
                     </fieldset>
                     <?php } ?>
 
-                    <fieldset class="<?php if($MerchantForm->isRecurAvailable()) { ?>inline-block-on-layout-full<?php } ?>" style="clear: both; min-width: 45%; min-height: 12em;"
+                    <fieldset class="<?php if($MerchantForm->isRecurAvailable()) { ?>inline-block-on-layout-full<?php } ?>" style="display: inline-block; min-width: 94%;"
                         <?php if(!empty($_GET['disabled'])) echo 'disabled="disabled"'; ?>
                     >
                         <div class="legend">Submit Payment</div>
