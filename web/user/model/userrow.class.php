@@ -178,8 +178,10 @@ LEFT JOIN merchant m on u.merchant_id = m.id
             if(!empty($post['admin_id'])) $this->admin_id = $post['admin_id'];
         }
 
-        $time = new \DateTimeZone($post['timezone']);
-        $this->timezone = $time->getName();
+        if(!empty($post['timezone'])) {
+            $time = new \DateTimeZone($post['timezone']);
+            $this->timezone = $time->getName();
+        }
         return static::update($this);
     }
 
