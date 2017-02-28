@@ -122,10 +122,9 @@ class SessionManager
 
         self::$_session_user = $User;
 
-        $DB = DBConfig::getInstance();
-        $tz = $User->getTimeZone();
-        $ret = $DB->exec("SET time_zone='{$tz}'");
-
+//        $DB = DBConfig::getInstance();
+//        $tz = $User->getTimeZone();
+//        $ret = $DB->exec("SET time_zone='{$tz}'");
         return $User;
     }
 
