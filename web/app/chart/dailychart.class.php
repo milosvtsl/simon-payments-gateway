@@ -84,7 +84,8 @@ HTML;
                                     stacked: true
                                 }],
                                 yAxes: [{
-                                    stacked: true
+                                    stacked: true,
+                                    fontSize: 40
                                 }]
                             }
                         }

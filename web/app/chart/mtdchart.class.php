@@ -177,12 +177,12 @@ SQL;
             'datasets' => array(
                 array(
                     'label' => "Returned",
-                    'backgroundColor' => "#ba919e",
+                    'backgroundColor' => "#f0614d",
                     'data' => array_pad(array(), 32, 0)
                 ),
                 array(
                     'label' => "Amount",
-                    'backgroundColor' => "#81aaba",
+                    'backgroundColor' => "#87cb27",
                     'data' => array_pad(array(), 32, 0)
                 ),
 //                array(
