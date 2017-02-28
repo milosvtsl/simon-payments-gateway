@@ -105,10 +105,11 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td class="name">Status</td>
                             <td>
                                 <select name="status_id">
+                                    <option>Not Set</option>
                                     <?php
                                     foreach(MerchantRow::$ENUM_STATUS as $code=>$title)
                                         echo "<option value='", $code, "'",
-                                        ($Merchant->getStatusID() === $code ? ' selected="selected"' : ''),
+                                        ($Merchant->getStatusID() == $code ? ' selected="selected"' : ''),
                                         ">", $title, "</option>\n";
                                     ?>
                                 </select>
