@@ -252,7 +252,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
             ':status_message' => $TransactionRow->status_message ?: '',
 //            ':transaction_date' => $TransactionRow->transaction_date ?: '',
             ':transaction_id' => $TransactionRow->transaction_id,
-            ':batch_item_id' => $TransactionRow->batch_item_id,
+//            ':batch_item_id' => $TransactionRow->batch_item_id,
             ':order_item_id' => $TransactionRow->order_item_id,
         );
         $SQL = "INSERT INTO transaction SET";

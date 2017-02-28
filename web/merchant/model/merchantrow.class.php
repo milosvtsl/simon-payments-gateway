@@ -90,8 +90,8 @@ LEFT JOIN state s on m.state_id = s.id
         'convenience_fee_flat',
         'convenience_fee_limit',
         'convenience_fee_variable_rate',
-        'batch_capture_time',
-        'batch_capture_time_zone',
+//        'batch_capture_time',
+//        'batch_capture_time_zone',
         'open_date',
         'status_id',
         'store_id',
@@ -145,6 +145,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $convenience_fee_flat;
     protected $convenience_fee_limit;
     protected $convenience_fee_variable_rate;
+    protected $convenience_fee_merchant_id;
     protected $amex_external;
     protected $discover_external;
 //    protected $gateway_id;
@@ -287,6 +288,10 @@ LEFT JOIN state s on m.state_id = s.id
 
     public function getConvenienceFeeVariable() {
         return floatval($this->convenience_fee_variable_rate);
+    }
+
+    public function getConvenienceFeeMerchantID() {
+        return $this->convenience_fee_merchant_id;
     }
 
     public function getBatchTime() {
@@ -433,10 +438,10 @@ LEFT JOIN state s on m.state_id = s.id
         return $this->notes;
     }
 
+
     public function getURL() {
         return $this->url;
     }
-
 
     public function getUserList() {
         if (is_array($this->user_list))
@@ -451,6 +456,7 @@ LEFT JOIN state s on m.state_id = s.id
         return count($this->getUserList());
     }
 
+
     public function getCheckFormClasses() {
         return 'default';
     }
@@ -461,7 +467,6 @@ LEFT JOIN state s on m.state_id = s.id
             $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
     }
 
-
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $first;
@@ -471,6 +476,7 @@ LEFT JOIN state s on m.state_id = s.id
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $last;
     }
+
 
     public function updateFields($post) {
         $flags = 0;
@@ -497,7 +503,6 @@ LEFT JOIN state s on m.state_id = s.id
         $EditQuery->execute($params);
         return $EditQuery->rowCount();
     }
-
 
     public function getProvisionRequest(IntegrationRow $IntegrationRow) {
         $DB = DBConfig::getInstance();
@@ -539,10 +544,10 @@ LEFT JOIN state s on m.state_id = s.id
         return $Identities;
     }
 
+
     public function getProvisionedIntegrationIDs() {
         return explode(";", $this->integration_provisioned_ids);
     }
-
 
     public function getDefaultIntegrationID() {
         if ($this->integration_default_id)
@@ -607,6 +612,7 @@ LEFT JOIN state s on m.state_id = s.id
         return $stmt;
     }
 
+
     public static function queryByUserID($id) {
         $sql = MerchantRow::SQL_SELECT
             . "\nLEFT JOIN user u on m.id = u.merchant_id "
@@ -618,7 +624,6 @@ LEFT JOIN state s on m.state_id = s.id
         $MerchantQuery->execute(array(MerchantRow::ENUM_STATUS_LIVE, $id));
         return $MerchantQuery;
     }
-
 
     /**
      * @param $post
@@ -647,7 +652,7 @@ LEFT JOIN state s on m.state_id = s.id
         if (!$sqlSet)
             return 0;
         $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet
-            . ", uid = :uid, version = 10";
+            . ", uid = :uid";
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($sql);
         $ret = $stmt->execute($params);

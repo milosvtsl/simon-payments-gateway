@@ -46,19 +46,19 @@ class UserAppRow
 
     // Static
 
-    public static function queryUserApps($id_user) {
-        $sql = "
-            SELECT *
-            FROM user_app ua
-            WHERE ua.id_user IN (?, ?)
-            ORDER BY ua.position, ua.app_name";
-        $DB = DBConfig::getInstance();
-        $UserAppQuery = $DB->prepare($sql);
-        /** @noinspection PhpMethodParametersCountMismatchInspection */
-        $UserAppQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
-        $UserAppQuery->execute(array($id_user, self::ALL_USERS_ID));
-        return $UserAppQuery;
-    }
+//    public static function queryUserApps($id_user) {
+//        $sql = "
+//            SELECT *
+//            FROM user_app ua
+//            WHERE ua.id_user IN (?, ?)
+//            ORDER BY ua.position, ua.app_name";
+//        $DB = DBConfig::getInstance();
+//        $UserAppQuery = $DB->prepare($sql);
+//        /** @noinspection PhpMethodParametersCountMismatchInspection */
+//        $UserAppQuery->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
+//        $UserAppQuery->execute(array($id_user, self::ALL_USERS_ID));
+//        return $UserAppQuery;
+//    }
 
 }
 

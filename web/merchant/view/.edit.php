@@ -40,16 +40,16 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <div class="app-button large app-button-edit" ></div>
                             Edit Merchant
                         </a>
+                        <a href="<?php echo $action_url; ?>fee" class="page-button page-button-fee">
+                            <div class="app-button large app-button-fee" ></div>
+                            Rates & Fees
+                        </a>
                         <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                             <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
                                 <div class="app-button large app-button-provision" ></div>
                                 Provision
                             </a>
                         <?php } ?>
-                        <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
-                            <div class="app-button large app-button-delete" ></div>
-                            Delete Merchant
-                        </a>
                     </div>
 
                     <hr/>
@@ -114,39 +114,39 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                 </select>
                             </td>
                         </tr>
-                        <tr>
-                            <th colspan="2" class="section-break">Convenience Fee</th>
-                        </tr>
-                        <?php $odd = false; ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Enable</td>
-                            <td><input type="checkbox" name="convenience_fee_enabled" <?php echo $Merchant->isConvenienceFeeEnabled() ? "checked='checked'" : ''; ?> /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Variable</td>
-                            <td><input type="text" name="convenience_fee_variable" size="12" value="<?php echo $Merchant->getConvenienceFeeVariable(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Flat</td>
-                            <td><input type="text" name="convenience_fee_flat" size="12" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>" /></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Limit</td>
-                            <td><input type="text" name="convenience_fee_limit" size="12" value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>" /></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2" class="section-break">Batch</th>
-                        </tr>
-                        <?php $odd = false; ?>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Batch Close</td>
-                            <td><?php echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Open Date</td>
-                            <td><input type="datetime-local" name="open_date" value="<?php echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?>" /></td>
-                        </tr>
-                        <tr>
+<!--                        <tr>-->
+<!--                            <th colspan="2" class="section-break">Convenience Fee</th>-->
+<!--                        </tr>-->
+<!--                        --><?php //$odd = false; ?>
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Enable</td>-->
+<!--                            <td><input type="checkbox" name="convenience_fee_enabled" --><?php //echo $Merchant->isConvenienceFeeEnabled() ? "checked='checked'" : ''; ?><!-- /></td>-->
+<!--                        </tr>-->
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Variable</td>-->
+<!--                            <td><input type="text" name="convenience_fee_variable" size="12" value="--><?php //echo $Merchant->getConvenienceFeeVariable(); ?><!--" /></td>-->
+<!--                        </tr>-->
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Flat</td>-->
+<!--                            <td><input type="text" name="convenience_fee_flat" size="12" value="--><?php //echo $Merchant->getConvenienceFeeFlat(); ?><!--" /></td>-->
+<!--                        </tr>-->
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Limit</td>-->
+<!--                            <td><input type="text" name="convenience_fee_limit" size="12" value="--><?php //echo $Merchant->getConvenienceFeeLimit(); ?><!--" /></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <th colspan="2" class="section-break">Batch</th>-->
+<!--                        </tr>-->
+<!--                        --><?php //$odd = false; ?>
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Batch Close</td>-->
+<!--                            <td>--><?php //echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?><!--</td>-->
+<!--                        </tr>-->
+<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
+<!--                            <td class="name">Open Date</td>-->
+<!--                            <td><input type="datetime-local" name="open_date" value="--><?php //echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?><!--" /></td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
                             <th colspan="2" class="section-break">Accounts & IDs</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

@@ -1,4 +1,7 @@
 <?php
+use System\Exception\ExceptionHandler;
+use User\Session\SessionManager;
+
 /**
  * Created by PhpStorm.
  * User: ari
@@ -7,30 +10,25 @@
  */
 
 // Go up 1 directory
-define("BASE_HREF", '../'); // Set relative path
-chdir(__DIR__ . '/' . BASE_HREF);
+define("BASE_HREF", '../../'); // Set relative path
+chdir(BASE_HREF);
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // Register Exception Handler
-\System\Exception\ExceptionHandler::register();
-
-// Register Exception Handler
-\System\Exception\ExceptionHandler::register();
+ExceptionHandler::register();
 
 // Start or resume the session
 session_start();
 
-$SessionManager = new \User\Session\SessionManager();
-
-
+$SessionManager = new SessionManager();
+//$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
     header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
     die();
 }
 
-// Render View
-$View = new User\View\UserView($SessionManager->getSessionUser()->getUID());
+$View = new \Order\Fee\View\FeeListView();
 $View->handleRequest();

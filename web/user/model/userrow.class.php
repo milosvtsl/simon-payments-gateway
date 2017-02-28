@@ -31,7 +31,6 @@ class UserRow
         self::SORT_BY_EMAIL,
     );
 
-
     // Table user
     protected $id;
     protected $uid;
@@ -185,46 +184,6 @@ LEFT JOIN merchant m on u.merchant_id = m.id
         return static::update($this);
     }
 
-    public function addAuthority($authority, $ignore_duplicate=true) {
-        $Authority = AuthorityRow::fetchByName($authority);
-
-        $sql_ignore = $ignore_duplicate ? "IGNORE " : "";
-        $SQL = <<<SQL
-INSERT {$sql_ignore}INTO user_authorities
-SET
-  id_user = :id_user,
-  id_authority = :id_authority
-SQL;
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare($SQL);
-        $ret = $stmt->execute(array(
-            ':id_user' => $this->getID(),
-            ':id_authority' => $Authority->getID(),
-        ));
-        if(!$ret)
-            throw new \PDOException("Failed to insert new row");
-        return $stmt->rowCount() >= 1;
-    }
-
-    public function removeAuthority($authority) {
-        $Authority = AuthorityRow::fetchByName($authority);
-
-        $SQL = <<<SQL
-DELETE FROM user_authorities
-WHERE
-  id_user = :id_user
-  AND id_authority = :id_authority
-SQL;
-        $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare($SQL);
-        $ret = $stmt->execute(array(
-            ':id_user' => $this->getID(),
-            ':id_authority' => $Authority->getID(),
-        ));
-        if(!$ret)
-            throw new \PDOException("Failed to remove row");
-        return $stmt->rowCount() >= 1;
-    }
 
     // Static
 
@@ -354,13 +313,11 @@ SQL;
 
         $SQL = "DELETE FROM user_authorities \nWHERE id_user=?";
         $stmt = $DB->prepare($SQL);
-        if(!$stmt->execute(array($User->getID())))
-            throw new \PDOException("Failed to insert new row");
+        $stmt->execute(array($User->getID()));
 
         $SQL = "DELETE FROM user_merchants \nWHERE id_user=?";
         $stmt = $DB->prepare($SQL);
-        if(!$stmt->execute(array($User->getID())))
-            throw new \PDOException("Failed to insert new row");
+        $stmt->execute(array($User->getID()));
 
         $SQL = "DELETE FROM user\nWHERE id=?";
         $stmt = $DB->prepare($SQL);

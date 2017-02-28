@@ -266,8 +266,8 @@ class ElementIntegration extends AbstractIntegration
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
-        $Transaction->setServiceFee($service_fee);
+//        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
+//        $Transaction->setServiceFee($service_fee);
 
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
@@ -739,8 +739,8 @@ class ElementIntegration extends AbstractIntegration
 
                             $OrderRow->setStatus("Settled");
 
-                            $batch_id = $OrderRow->calculateCurrentBatchID();
-                            $OrderRow->setBatchID($batch_id);
+//                            $batch_id = $OrderRow->calculateCurrentBatchID();
+//                            $OrderRow->setBatchID($batch_id);
 
                             OrderRow::update($OrderRow);
                             $updated = true;

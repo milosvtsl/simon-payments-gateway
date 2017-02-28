@@ -39,16 +39,16 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                             <div class="app-button large app-button-edit" ></div>
                             Edit Merchant
                         </a>
+                        <a href="<?php echo $action_url; ?>fee" class="page-button page-button-fee">
+                            <div class="app-button large app-button-fee" ></div>
+                            Rates & Fees
+                        </a>
                         <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                             <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
                                 <div class="app-button large app-button-provision" ></div>
                                 Provision
                             </a>
                         <?php } ?>
-                        <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
-                            <div class="app-button large app-button-delete" ></div>
-                            Delete Merchant
-                        </a>
                     </div>
 
                     <hr/>

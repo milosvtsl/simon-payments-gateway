@@ -119,7 +119,7 @@ class OrderRow
     protected $integration_id;
     protected $integration_remote_id;
     protected $subscription_id;
-    protected $batch_id;
+//    protected $batch_id;
     protected $form_id;
 
     // Table order_field
@@ -279,8 +279,6 @@ LEFT JOIN state st on st.short_code = oi.payee_state
         return $this->integration_remote_id;
     }
 
-    public function getBatchID()            { return $this->batch_id; }
-
 
     public function getCustomFieldValues() {
         if(!is_array($this->order_fields)) {
@@ -297,37 +295,7 @@ LEFT JOIN state st on st.short_code = oi.payee_state
         return $this->order_fields;
     }
 
-    public function setBatchID($batch_id)   { $this->batch_id = $batch_id; }
 
-    public function calculateCurrentBatchID($time=null) {
-        $DB = DBConfig::getInstance();
-
-        $batch_date = date('Y-m-d', $time);
-
-        $sql = <<<SQL
-SELECT MAX(oi.batch_id)
-FROM paylogic.order_item oi
-WHERE oi.date > ?
-AND oi.merchant_id = ?
-SQL;
-        $stmt = $DB->prepare($sql);
-        $stmt->execute(array($batch_date, $this->merchant_id));
-        $batch_id = $stmt->fetchColumn(0);
-
-        if(!$batch_id) {
-            $sql = <<<SQL
-SELECT MAX(oi.batch_id)
-FROM paylogic.order_item oi
-WHERE oi.merchant_id = ?
-SQL;
-            $stmt = $DB->prepare($sql);
-            $stmt->execute(array($this->merchant_id));
-            $batch_id = $stmt->fetchColumn(0);
-            $batch_id += 1; // Increase batch id for new day
-        }
-
-        return $batch_id;
-    }
     /**
      * Return the first authorized transaction for this order
      * @return TransactionRow
@@ -428,7 +396,7 @@ SQL;
             ':integration_id' => $OrderRow->integration_id,
             ':integration_remote_id' => $OrderRow->integration_remote_id,
             ':subscription_id' => $OrderRow->subscription_id,
-            ':batch_id' => $OrderRow->batch_id,
+//            ':batch_id' => $OrderRow->batch_id,
             ':form_id' => $OrderRow->form_id,
 //            ':version' => $OrderRow->version,
             ':amount' => $OrderRow->amount,

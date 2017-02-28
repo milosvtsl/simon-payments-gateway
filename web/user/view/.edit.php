@@ -4,6 +4,7 @@ use User\Model\AuthorityRow;
 use User\Model\UserAuthorityRow;
 use User\Model\UserRow;
 use User\Session\SessionManager;
+use User\Model\Authority;
 
 /**
  * @var \User\View\UserView $this
@@ -167,9 +168,8 @@ $Theme->printHTMLMenu($category,    $action_url);
                                 <td class="name">Authorities</td>
                                 <td class="value">
                                     <?php
-                                    $AuthQuery = AuthorityRow::queryAll();
-                                    foreach($AuthQuery as $Authority) {
-                                        $authority = strtoupper(str_replace('ROLE_', '', $Authority->getAuthority()));
+                                    foreach(Authority::$AUTHORITIES as $authority => $name) {
+                                        $authority = strtoupper($authority);
                                         if(in_array($authority, array('ADMIN', 'SUB_ADMIN'))
                                             && !$SessionUser->hasAuthority("ADMIN"))
                                             continue;

@@ -5,9 +5,11 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
+use System\Exception\ExceptionHandler;
+use User\Session\SessionManager;
+use User\View\DashboardView;
+use User\View\LoginView;
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 // Enable class autoloader
 spl_autoload_extensions('.class.php');
@@ -18,19 +20,20 @@ spl_autoload_register(function ($class) {
 
 
 // Register Exception Handler
-\System\Exception\ExceptionHandler::register();
+ExceptionHandler::register();
 
 // Start or resume the session
 session_start();
 
-$SessionManager = new \User\Session\SessionManager();
+$SessionManager = new SessionManager();
 
 // Render View
 if($SessionManager->isLoggedIn()) {
-//    $View = new User\View\UserView($SessionManager->getSessionUser()->getID());
-    $View = new \User\View\DashboardView();
+    $View = new DashboardView();
     $View->handleRequest();
+
 } else {
-    $View = new User\View\LoginView();
+    $View = new LoginView();
     $View->handleRequest();
+
 }

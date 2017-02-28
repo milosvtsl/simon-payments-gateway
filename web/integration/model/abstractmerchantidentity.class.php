@@ -4,6 +4,7 @@ use Integration\Model\Ex\IntegrationException;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
+use Order\Fee\Model\FeeRow;
 use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 use Payment\Model\PaymentRow;
@@ -34,7 +35,7 @@ abstract class AbstractMerchantIdentity {
 
     /**
      * Return an array of remote credentials
-     * @return Array
+     * @return array
      */
     abstract function getCredentials();
 
@@ -66,12 +67,11 @@ abstract class AbstractMerchantIdentity {
     abstract public function calculateConvenienceFee(OrderRow $OrderRow);
 
     /**
-     * Calculate Transaction Convenience Fee
+     * Calculate all transaction fees
      * @param OrderRow $OrderRow
-     * @param $action
-     * @return mixed
+     * @return FeeRow[]
      */
-    abstract public function calculateServiceFee(OrderRow $OrderRow, $action);
+    abstract public function calculateFees(OrderRow $OrderRow);
 
     /**
      * Construct a new Merchant Identity

@@ -5,25 +5,27 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
-// Enable error reporting for this page
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+use System\Exception\ExceptionHandler;
+use User\Session\SessionManager;
+use Order\View\OrderView;
+use Order\Model\OrderRow;
+use Order\View\OrderListView;
 
 // Go up 1 directory
-chdir('..');
 define("BASE_HREF", '../'); // Set relative path
+chdir(BASE_HREF);
 
 // Enable class autoloader for this page instance
 spl_autoload_extensions('.class.php');
 spl_autoload_register();
 
 // Register Exception Handler
-\System\Exception\ExceptionHandler::register();
+ExceptionHandler::register();
 
 // Start or resume the session
 session_start();
 
-$SessionManager = new \User\Session\SessionManager();
+$SessionManager = new SessionManager();
 //$SessionUser = $SessionManager->getSessionUser();
 if(!$SessionManager->isLoggedIn()) {
     header('Location: ' . BASE_HREF . 'login.php?message=session has ended');
@@ -32,15 +34,15 @@ if(!$SessionManager->isLoggedIn()) {
 
 if(isset($_GET['id'])) {
     // TODO handle admin access
-    $View = new \Order\View\OrderView($_GET['id'], @$_GET['action']);
+    $View = new OrderView($_GET['id'], @$_GET['action']);
     $View->handleRequest();
 
 } else if(isset($_GET['uid'])) {
-    $OrderRow = \Order\Model\OrderRow::fetchByUID($_GET['uid']);
-    $View = new \Order\View\OrderView($OrderRow->getID(), @$_GET['action']);
+    $OrderRow = OrderRow::fetchByUID($_GET['uid']);
+    $View = new OrderView($OrderRow->getID(), @$_GET['action']);
     $View->handleRequest();
 
 } else {
-    $View = new \Order\View\OrderListView();
+    $View = new OrderListView();
     $View->handleRequest();
 }
