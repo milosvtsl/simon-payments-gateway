@@ -107,7 +107,7 @@ HTML;
         $offset = $SessionUser->getTimeZoneOffset('now');
         $today = date('Y-m-d G:00:00', time() - $offset - 24*60*60);
 
-        $today_url = date('Y-m-d', time());
+        $today_url = date('Y-m-d', time() - 24*60*60);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ADMIN'))
