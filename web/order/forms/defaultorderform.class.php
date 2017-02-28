@@ -134,7 +134,7 @@ HEAD;
 
 
 
-                    <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:45%; min-height: 21em;">
+                    <fieldset class="form-payment-method-credit inline-block-on-layout-full show-on-payment-method-card" style="min-width:45%; min-height: 35em;">
                         <div class="legend">Cardholder Information</div>
                         <table class="table-transaction-charge themed" style="display: inline-block;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
@@ -220,7 +220,7 @@ HEAD;
                         </fieldset>
                     </div>
 
-                    <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:45%; min-height: 21em;">
+                    <fieldset class="form-payment-method-check inline-block-on-layout-full show-on-payment-method-check" style="min-width:45%; min-height: 35em;">
                         <div class="legend">e-Check Information</div>
                         <table class="table-transaction-charge themed">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -271,7 +271,7 @@ HEAD;
                         </table>
                     </fieldset>
 
-                    <fieldset class="inline-block-on-layout-full" style="min-width:45%; min-height: 21em;">
+                    <fieldset class="inline-block-on-layout-full" style="min-width:45%; min-height: 35em;">
                         <div class="legend"><?php echo $SITE_CUSTOMER_NAME; ?> Fields</div>
                         <table class="table-transaction-charge themed" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
