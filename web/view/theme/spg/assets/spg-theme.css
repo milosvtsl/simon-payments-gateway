@@ -828,9 +828,10 @@ body.layout-vertical.spg-theme nav.page-menu {
 .spg-theme h4,
 .spg-theme h5,
 .spg-theme h6 {
-    margin: 0.1em 0 0.1em 0;
+    margin: 1.4em 0 0.1em 0;
     font-style: italic;
-    font-size: 1.2em;
+    font-size: .7em;
+    font-weight: lighter;
 }
 
 /** Pagination **/
