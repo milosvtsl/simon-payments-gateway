@@ -178,7 +178,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                         "\n\t<input type='hidden' name='authority[", $authority, "]' value='0' />",
                                         "\n\t<input type='checkbox' name='authority[", $authority, "]' value='1'",
                                         ($User->hasAuthority($authority) ? ' checked="checked"' : ''),
-                                        "/>", $Authority->getName(), "</label><br/>\n";
+                                        "/>", $name, "</label><br/>\n";
                                     }
                                     ?>
                                 </td>
