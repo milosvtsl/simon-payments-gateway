@@ -105,8 +105,9 @@ HTML;
     public function fetchStats() {
         $SessionUser = $this->getSessionUser();
         $offset = $SessionUser->getTimeZoneOffset('now');
-        $today = date('Y-m-d G:00:00', time() - $offset);
-        $today_url = date('Y-m-d', time() - $offset);
+        $today = date('Y-m-d G:00:00', time() - $offset - 24*60*60);
+
+        $today_url = date('Y-m-d', time());
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ADMIN'))
@@ -140,8 +141,8 @@ SQL;
     public function fetchBarData() {
         $SessionUser = $this->getSessionUser();
         $offset = $SessionUser->getTimeZoneOffset('now');
-        $today = date('Y-m-d G:00:00', time() - $offset);
-        $end = date('Y-m-d G:00:00', time() - $offset + 24*60*60);
+        $today = date('Y-m-d 00:00:00', time() - $offset - 24*60*60);
+        $end = date('Y-m-d 00:00:00', time() - $offset);
 
         $WhereSQL = '';
         if(!$SessionUser->hasAuthority('ADMIN'))
@@ -163,7 +164,6 @@ GROUP BY DATE_FORMAT(oi.date, '%Y%m%d%H')
 order by hour;
 LIMIT 24
 SQL;
-
 //        $SQL .= "\nAND oi.merchant_id IN (" . implode(', ', $ids) . ")";
 
 
