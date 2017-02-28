@@ -145,6 +145,7 @@ LEFT JOIN state s on m.state_id = s.id
     protected $convenience_fee_flat;
     protected $convenience_fee_limit;
     protected $convenience_fee_variable_rate;
+    protected $convenience_fee_merchant_id;
     protected $amex_external;
     protected $discover_external;
 //    protected $gateway_id;
