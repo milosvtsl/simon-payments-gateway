@@ -1,10 +1,10 @@
 /** Page Body **/
 
 .spg-theme {
-    color: #000000;
+    /* color: #000000; */
     font-family: arial, serif;
     margin: 0 auto;
-    background: #F0F4F8 linear-gradient(90deg, #e7f0f3 0%, #ffffff 85%, #e7f0f3 100%);
+    /* background: #F0F4F8 linear-gradient(90deg, #e7f0f3 0%, #ffffff 85%, #e7f0f3 100%); */
     /* background-color: #ffffff; */
 }
 
@@ -74,7 +74,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
     line-height: 3em;
 }
 .spg-theme a {
-    text-decoration: none;
+    /* text-decoration: none; */
     color: #3997b9;
 }
 
@@ -239,7 +239,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     background-size: 16em 24em;
     width: 4em;
     height: 4em;
-    transition: margin-left 0.3s ease-out;
+    transition: margin-left 0.4s ease-out;
     display: inline-block;
     padding: 0 0;
     margin: 0 0;
@@ -458,7 +458,8 @@ body.layout-vertical.spg-theme nav.page-menu {
     display: block;
     color: #666;
     white-space: nowrap;
-    background-color: rgb(235, 242, 245);
+    background: linear-gradient(90deg, #dee9ec 0%, #ffffff 100%);
+    border-bottom: 1px solid #c4cfd3;
 }
 .spg-theme a.button > * {
     vertical-align: middle;
@@ -470,14 +471,14 @@ body.layout-vertical.spg-theme nav.page-menu {
 
 .spg-theme a.button:hover {
     /* background-color: #f0f4f6; */
-    background: linear-gradient(90deg, #e0f1f5 3%, #f4f8fb 60%, #eef8fb 100%);
+    background: linear-gradient(90deg, #e0f1f5 3%, #f4f8fb 60%, #ffffff 100%);
     /* color: #ffffff; */
     font-weight: bold;
 }
 .spg-theme a.button.current {
     font-weight: bold;
     color: #4d97b2;
-    background: linear-gradient(90deg, #ffffff 0%, #f1f6f8 100%);
+    background: linear-gradient(90deg, #e9f7fc 0%, #ffffff  100%);
 }
 
 .spg-theme a.button[disabled] {
@@ -505,7 +506,7 @@ body.layout-vertical.spg-theme nav.page-menu {
 /** Bread Crumbs **/
 
 .spg-theme .sub-header {
-    border-bottom: 1px solid #8fa2ad;
+    /* border-bottom: 1px solid #8fa2ad; */
     border-top: 1px solid #b3c5d0;
     /* padding: 0.8em 0.5em 0.4em 0.9em; */
     background-color: #dae6ea;
