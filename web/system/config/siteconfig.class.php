@@ -25,7 +25,7 @@ class SiteConfig
     static $SITE_AUTO_LOGIN_ACCOUNT = 'guest';
     static $SITE_MAX_LOGO_WIDTH = 600;
     static $SITE_MAX_LOGO_HEIGHT = 300;
-    static $MAX_UPLOAD_SIZE = 102400;
+    static $MAX_UPLOAD_SIZE = 409600;
 
     static $DEFAULT_THEME = null;
 
