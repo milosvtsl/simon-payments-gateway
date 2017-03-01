@@ -154,7 +154,7 @@ class ReceiptPDF extends \FPDF
 
         if($Merchant->hasLogoPath()) {
             // Logo
-            $this->Image($webDir . '/' . $Merchant->getLogoImageURL(),10,6,NULL, 24, NULL, $url);
+            $this->Image($webDir . '/' . $Merchant->getLogoImageURL(),10,6,NULL, 18, NULL, $url);
         }
 
         $this->Line(10, 32, 200, 32);
