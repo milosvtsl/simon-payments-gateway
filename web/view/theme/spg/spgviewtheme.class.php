@@ -50,60 +50,60 @@ class SPGViewTheme extends AbstractViewTheme
     <body class="spg-theme <?php echo $body_class; ?>">
         <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
 
-        <header class="themed hide-on-print hide-on-layout-vertical">
-            <a href=".">
-                <?php if ($SessionUser->getMerchantLogo()) { ?>
-                    <img class="logo" src="<?php echo $SessionUser->getMerchantLogo();?>" />
-                <?php } else { ?>
-                    <div class="logo"></div>
-                <?php } ?>
-            </a>
-        </header>
+        <div class="body-container">
+            <header class="themed hide-on-print hide-on-layout-vertical">
+                <a href=".">
+                    <?php if ($SessionUser->getMerchantLogo()) { ?>
+                        <img class="logo" src="<?php echo $SessionUser->getMerchantLogo();?>" />
+                    <?php } else { ?>
+                        <div class="logo"></div>
+                    <?php } ?>
+                </a>
+            </header>
 
-        <aside class="sub-header hide-on-print">
+            <aside class="sub-header hide-on-print">
 
-            <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
-                <div class="menu-icon menu-icon-toggle"></div>
-            </a>
-            <span class="bread-crumbs">
-            <?php
-            foreach($this->breadcrumbs as $i => $breadcrumb) {
-                list($url, $name) = $breadcrumb;
-                if($i > 0)
-                    echo ' | ';
-                echo "\n\t\t\t<a class='breadcrumb' href='", $url, "'>", $name, "</a>";
-            }
-            ?>
-            </span>
+                <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
+                    <div class="menu-icon menu-icon-toggle"></div>
+                </a>
+                <span class="bread-crumbs">
+                <?php
+                foreach($this->breadcrumbs as $i => $breadcrumb) {
+                    list($url, $name) = $breadcrumb;
+                    if($i > 0)
+                        echo ' | ';
+                    echo "\n\t\t\t<a class='breadcrumb' href='", $url, "'>", $name, "</a>";
+                }
+                ?>
+                </span>
 
 
-            <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
-                <div class="menu-icon menu-icon-sub-menu"></div>
-                <ul class="menu-sub-menu">
-                    <li>
-                        <a href="user/account.php" class="button">
-                            <div class="menu-icon menu-icon-account"></div>
-                            <span>My Account</span></a>
-                    </li>
-                    <li>
-                        <a href="user/account.php?action=edit" class="button">
-                            <div class="menu-icon menu-icon-edit"></div>
-                            <span>Edit Account</span></a>
-                    </li>
-                    <li>
-                        <a href="user/logout.php" class="button">
-                            <div class="menu-icon menu-icon-logout"></div>
-                            <span>Log out</span></a>
-                    </li>
-                </ul>
-            </a>
+                <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
+                    <div class="menu-icon menu-icon-sub-menu"></div>
+                    <ul class="menu-sub-menu">
+                        <li>
+                            <a href="user/account.php" class="button">
+                                <div class="menu-icon menu-icon-account"></div>
+                                <span>My Account</span></a>
+                        </li>
+                        <li>
+                            <a href="user/account.php?action=edit" class="button">
+                                <div class="menu-icon menu-icon-edit"></div>
+                                <span>Edit Account</span></a>
+                        </li>
+                        <li>
+                            <a href="user/logout.php" class="button">
+                                <div class="menu-icon menu-icon-logout"></div>
+                                <span>Log out</span></a>
+                        </li>
+                    </ul>
+                </a>
 
-            <form action="order" style="display: inline-block; float: right;">
-                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
-            </form>
-        </aside>
-
-    <?php } ?>
+                <form action="order" style="display: inline-block; float: right;">
+                    <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
+                </form>
+            </aside>
+        <?php } ?>
         <?php
     }
 
@@ -111,6 +111,9 @@ class SPGViewTheme extends AbstractViewTheme
     {
 //        </article>
         ?>
+        <?php if(!($flags && static::FLAG_HEADER_MINIMAL)) { ?>
+        </div>
+        <?php } ?>
         <?php if(!($flags && static::FLAG_FOOTER_MINIMAL)) { ?>
         <footer class="hide-on-print">
             <span>&copy; <?php echo date('Y'); ?> Simon Payments, LLC. All rights reserved.</span>

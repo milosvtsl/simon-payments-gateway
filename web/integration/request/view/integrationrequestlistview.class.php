@@ -21,7 +21,7 @@ class IntegrationRequestListView extends AbstractListView {
 		$whereSQL = "WHERE 1";
 
         // Set up page parameters
-        $this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
+        $this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
 
         // Set up WHERE conditions
 		if(!empty($params['search'])) {
@@ -39,12 +39,12 @@ class IntegrationRequestListView extends AbstractListView {
 
         // Set up Date conditions
         if(!empty($params['date_from'])) {
-            $whereSQL .= "\nAND oi.date >= :from";
+            $whereSQL .= "\nAND ir.date >= :from";
             $sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']));
             $statsMessage .= " from " . date("M dS Y", strtotime($params['date_from']));
         }
         if(!empty($params['date_to'])) {
-            $whereSQL .= "\nAND oi.date <= :to";
+            $whereSQL .= "\nAND ir.date <= :to";
             $sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']));
             $statsMessage .= " to " . date("M dS Y", strtotime($params['date_to']));
         }
@@ -151,7 +151,7 @@ class IntegrationRequestListView extends AbstractListView {
                                 <td>
                                     <select name="limit">
                                         <?php
-                                        $limit = @$_GET['limit'] ?: 10;
+                                        $limit = @$_GET['limit'] ?: 25;
                                         foreach(array(10,25,50,100,250) as $opt)
                                             echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                         ?>

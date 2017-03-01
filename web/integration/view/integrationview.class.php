@@ -100,6 +100,7 @@ class IntegrationView extends AbstractView
     
     private function renderHTMLViewBody($params)
     {
+        $SessionManager = new SessionManager();
         $Integration = $this->getIntegration();
         $odd = false;
         $action_url = 'integration?id=' . $Integration->getID() . '&action=';

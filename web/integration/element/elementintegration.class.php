@@ -337,6 +337,10 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($Transaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($Transaction->getID());
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+        $Request->setResponseCode($code);
+        $Request->setResponseMessage($message);
+
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::update($Request);
@@ -419,6 +423,9 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($ReverseTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($ReverseTransaction->getID());
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+        $Request->setResponseCode($code);
+        $Request->setResponseMessage($message);
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
@@ -504,6 +511,9 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($VoidTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($VoidTransaction->getID());
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+        $Request->setResponseCode($code);
+        $Request->setResponseMessage($message);
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
@@ -587,6 +597,9 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($ReturnTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($ReturnTransaction->getID());
+        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+        $Request->setResponseCode($code);
+        $Request->setResponseMessage($message);
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
@@ -631,6 +644,8 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException($message);
 
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
+        $Request->setResponseCode($code);
+        $Request->setResponseMessage($message);
 
         return $Request;
     }

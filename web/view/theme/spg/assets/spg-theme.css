@@ -14,6 +14,17 @@
 }
 
 
+/** Page Body Container **/
+
+.body-container {
+    background-color: white;
+    max-width: 1200px;
+    /*border-radius: 7px;*/
+    margin: 10px auto 0px auto;
+    padding: 0 0 8px 0px;
+    /*border: 1px solid #8FA2BF;*/
+}
+
 /** Vertical and Horizontal layout options **/
 
 .spg-theme.layout-full .inline-block-on-layout-full {
