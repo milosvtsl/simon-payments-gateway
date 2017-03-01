@@ -612,9 +612,10 @@ body.layout-vertical.spg-theme nav.page-menu {
     font-size: 1.1em;
     padding: 0.5em 1em;
     margin: 10px 2.5em;
-    overflow-x: auto;
+    /* overflow-x: auto; */
     display: inline-block;
     min-width: 17em;
+    font-weight: lighter;
 }
 
 .spg-theme .info {
