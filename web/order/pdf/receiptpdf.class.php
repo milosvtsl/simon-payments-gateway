@@ -58,7 +58,7 @@ class ReceiptPDF extends \FPDF
 
         $this->SetFont('Courier','',12);
 
-        $this->Cell(0,6,'Address:      ' . $Merchant->getAddress() . $Merchant->getAddress2(),0,1);
+        $this->Cell(0,6,'Address:      ' . $Merchant->getAddress() . ' ' . $Merchant->getAddress2(),0,1);
         $this->Cell(0,6,'City:         ' . $Merchant->getCity(),0,1);
         $this->Cell(0,6,'State:        ' . $Merchant->getState(),0,1);
         $this->Cell(0,6,'Zip:          ' . $Merchant->getZipCode(),0,1);
@@ -98,14 +98,14 @@ class ReceiptPDF extends \FPDF
 
         $this->SetFont('Courier', 'B', 10);
         $this->Cell(0, 6,
-            sprintf("%-' 24s %-' 24s %-' 24s %-' 24s ", "TID", "Date", "Amount", "Action")
+            sprintf("%-' 36s %-' 20s %-' 12s %-' 16s ", "TID", "Date", "Amount", "Action")
             , 1, 1);
 
 
         $this->SetFont('Courier', '', 10);
         foreach($TransactionQuery as $Transaction) {
             $this->Cell(0, 6,
-                sprintf("%-' 24s %-' 24s %-' 24s %-' 24s ",
+                sprintf("%-' 36s %-' 20s %-' 12s %-' 16s ",
                     $Transaction->getIntegrationRemoteID(),
                     $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"),
                     $Transaction->getAmount(),
@@ -154,7 +154,12 @@ class ReceiptPDF extends \FPDF
 
         if($Merchant->hasLogoPath()) {
             // Logo
-            $this->Image($webDir . '/' . $Merchant->getLogoImageURL(),10,6,NULL, 18, NULL, $url);
+            $logoPath = $webDir . '/' . $Merchant->getLogoImageURL();
+            if(file_exists($logoPath)) {
+                $this->Image($logoPath,10,6,NULL, 18, NULL, $url);
+            } else {
+                error_log("Logo file missing: " . $logoPath);
+            }
         }
 
         $this->Line(10, 32, 200, 32);
