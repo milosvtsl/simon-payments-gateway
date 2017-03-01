@@ -212,7 +212,15 @@ LEFT JOIN state st on st.short_code = oi.payee_state
     public function getPayeeState()         { return $this->payee_state; }
     public function getPayeeCountry()       { return "USA"; }
     public function getPayeeEmail()         { return $this->payee_reciept_email; }
-    public function getPayeePhone()         { return $this->payee_phone_number; }
+
+    public function getPayeePhone($format='($1) $2-$3') {
+        $number = $this->payee_phone_number;
+        if($format)
+            $number = preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', $format, $number);
+        return $number;
+    }
+
+
     public function getUsername()           { return $this->username; }
     public function getCardHolderFullName() { return $this->getPayeeFullName() ?: $this->getCustomerFullName(); }
 

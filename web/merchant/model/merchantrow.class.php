@@ -360,8 +360,11 @@ LEFT JOIN state s on m.state_id = s.id
         return $this->main_contact;
     }
 
-    public function getTelephone() {
-        return $this->telephone;
+    public function getTelephone($format='($1) $2-$3') {
+        $number = $this->telephone;
+        if($format)
+            $number = preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', $format, $number);
+        return $number;
     }
 
     public function getAddress() {
