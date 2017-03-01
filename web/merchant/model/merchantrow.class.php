@@ -248,7 +248,7 @@ LEFT JOIN state s on m.state_id = s.id
         if($image_width > SiteConfig::$SITE_MAX_LOGO_WIDTH)
             throw new \InvalidArgumentException('Logo width is too wide. Image width must be less than ' . SiteConfig::$SITE_MAX_LOGO_WIDTH . ' pixels');
         if($image_height > SiteConfig::$SITE_MAX_LOGO_HEIGHT)
-            throw new \InvalidArgumentException('Logo height is too wide. Image height must be less than ' . SiteConfig::$SITE_MAX_LOGO_HEIGHT . ' pixels');
+            throw new \InvalidArgumentException('Logo height is too tall. Image height must be less than ' . SiteConfig::$SITE_MAX_LOGO_HEIGHT . ' pixels');
 
 
         $acceptable = array('image/png');
