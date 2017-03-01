@@ -66,7 +66,7 @@ class ReceiptPDF extends \FPDF
 
 
         $this->Cell(0,6,'Date:         ' . $Order->getDate($SessionUser->getTimeZone())->format("F jS Y"),0,1);
-        $this->Cell(0,6,'Time:         ' . $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A"),0,1);
+        $this->Cell(0,6,'Time:         ' . $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A T"),0,1);
 
 
         // Line break
@@ -137,6 +137,8 @@ class ReceiptPDF extends \FPDF
 
 
     public function render($dest='', $name='', $isUTF8=false) {
+        if($name)
+            $this->SetTitle($name);
         $this->Output($dest, $name, $isUTF8);
     }
 
@@ -163,7 +165,7 @@ class ReceiptPDF extends \FPDF
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
         $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y");
-        $time = $Order->getDate($SessionUser->getTimeZone())->format("g:i A e");
+        $time = $Order->getDate($SessionUser->getTimeZone())->format("g:i A T");
 
         $TEXT = <<<TEXT
 {$Merchant->getShortName()}
