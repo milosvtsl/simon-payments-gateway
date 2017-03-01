@@ -36,7 +36,7 @@ class ChargeView extends AbstractView
                 $OrderForm = MerchantFormRow::fetchGlobalForm();
             }
         } catch (\Exception $ex) {
-            $SessionManager->setMessage($ex->getMessage());
+            $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
             $OrderForm = MerchantFormRow::fetchGlobalForm();
         }
         $this->form = $OrderForm;

@@ -63,7 +63,7 @@ class IntegrationRequestView extends AbstractView
 
         } catch (\Exception $ex) {
             $SessionManager = new SessionManager();
-            $SessionManager->setMessage($ex->getMessage());
+            $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
             $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
             header("Location: {$baseHREF}integration/request?id=" . $this->getRequest()->getID() . '&action=edit&message=Unable to manage batch: ' . $ex->getMessage());
 

@@ -323,7 +323,7 @@ class OrderReportView extends AbstractListView {
             header("Location: index.php");
 
 		} catch (\Exception $ex) {
-			$SessionManager->setMessage($ex->getMessage());
+			$SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
 			header("Location: login.php");
 		}
 	}

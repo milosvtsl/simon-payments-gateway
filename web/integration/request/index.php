@@ -34,7 +34,7 @@ if(!empty($_GET['id'])) {
 
     } catch (Exception $ex) {
         $View = new Integration\Request\View\IntegrationRequestListView();
-        $SessionManager->setMessage($ex->getMessage());
+        $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
         $View->redirectRequest();
     }
 } else {

@@ -244,7 +244,7 @@ class IntegrationRequestListView extends AbstractListView {
 			header("Location: integration/request");
 
 		} catch (\Exception $ex) {
-			$SessionManager->setMessage($ex->getMessage());
+			$SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
 			header("Location: login.php");
 		}
 	}

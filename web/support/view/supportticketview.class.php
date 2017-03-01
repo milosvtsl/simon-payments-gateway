@@ -63,7 +63,7 @@ class SupportTicketView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $SessionManager->setMessage($ex->getMessage());
+            $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
             header('Location: support/ticket?id=' . $this->getTicket()->getID() . '&action=edit&message=Unable to manage batch: ' . $ex->getMessage());
 
             die();

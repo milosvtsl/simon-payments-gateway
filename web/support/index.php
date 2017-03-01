@@ -34,7 +34,7 @@ if(!empty($_GET['uid'])) {
 
     } catch (Exception $ex) {
         $View = new \Support\View\SupportTicketListView();
-        $SessionManager->setMessage($ex->getMessage());
+        $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
         $View->redirectRequest();
     }
 } else {

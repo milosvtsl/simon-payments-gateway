@@ -123,7 +123,7 @@ class MerchantView extends AbstractView
                         : $SessionManager->setMessage("<div class='info'>No changes detected: " . $Merchant->getName() . "</div>");
 
                 } catch (\Exception $ex) {
-                    $SessionManager->setMessage($ex->getMessage());
+                    $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
                 }
 
                 header("Location: {$baseHREF}merchant?uid={$Merchant->getUID()}");

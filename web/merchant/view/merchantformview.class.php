@@ -83,7 +83,7 @@ class MerchantFormView extends AbstractView
                         : $SessionManager->setMessage("<div class='info'>No changes detected: " . $Form->getTitle() . "</div>");
 
                 } catch (\Exception $ex) {
-                    $SessionManager->setMessage($ex->getMessage());
+                    $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
                 }
                 $baseHREF = defined("BASE_HREF") ? \BASE_HREF : '';
                 header('Location: ' . $baseHREF . 'merchant/form.php?uid=' . $Form->getUID());
