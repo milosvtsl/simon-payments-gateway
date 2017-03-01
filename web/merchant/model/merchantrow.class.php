@@ -249,7 +249,7 @@ LEFT JOIN state s on m.state_id = s.id
             throw new \InvalidArgumentException('Logo height is too wide. Image height must be less than ' . SiteConfig::$SITE_MAX_LOGO_HEIGHT . ' pixels');
 
 
-        $acceptable = array('image/png');
+        $acceptable = array('image/png', 'image/jpeg', 'image/jpg', 'image/gif');
         if(!in_array(strtolower($file['type']), $acceptable))
             throw new \InvalidArgumentException('Invalid file type: ' . $file['type'] . '. Only PNG types are accepted.');
 
