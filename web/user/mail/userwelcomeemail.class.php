@@ -13,7 +13,7 @@ use User\Model\UserRow;
 use System\Config\SiteConfig;
 use User\Session\SessionManager;
 
-@define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
+@define("PHPMAILER_DIR", dirname(dirname(dirname(__DIR__))) . '/support/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
 require_once PHPMAILER_DIR . 'class.smtp.php';
 
@@ -22,8 +22,8 @@ class UserWelcomeEmail extends \PHPMailer
     public function __construct(UserRow $User, $password='****') {
         parent::__construct();
 
-        $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
+//        $SessionManager = new SessionManager();
+//        $SessionUser = $SessionManager->getSessionUser();
 
         $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
         $this->Username = SiteConfig::$EMAIL_USERNAME;

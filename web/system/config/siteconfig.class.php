@@ -20,6 +20,7 @@ class SiteConfig
     static $SITE_URL = 'https://access.simonpayments.com';
     static $SITE_MAX_TRANSACTION_AMOUNT = 20000;
     static $SITE_DEFAULT_CUSTOMER_NAME = "Customer";
+    static $SITE_DEFAULT_MERCHANT_NAME = "Merchant";
     static $SITE_AUTO_LOGIN_ENABLED = false;
     static $SITE_AUTO_LOGIN_ACCOUNT = 'guest';
     static $SITE_MAX_LOGO_WIDTH = 600;

@@ -229,8 +229,10 @@ LEFT JOIN state s on m.state_id = s.id
     public function hasLogoPath() {
         return $this->logo_path ? true : false;
     }
-    public function getLogoImageURL($baseHREF=null, $default='no-logo.png') {
-        return $baseHREF . ($this->logo_path ?: self::LOGO_PATH . $default);
+    public function getLogoImageURL() {
+        if(!$this->hasLogoPath())
+            throw new \InvalidArgumentException("Merchant has not uploaded a logo yet");
+        return $this->logo_path;
     }
 
     public function updateLogo($file) {

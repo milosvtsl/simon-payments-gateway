@@ -13,7 +13,7 @@ use Order\Model\OrderRow;
 use Support\Model\SupportTicketRow;
 use System\Config\SiteConfig;
 
-@define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
+@define("PHPMAILER_DIR", dirname(dirname(dirname(__DIR__))) . '/support/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
 require_once PHPMAILER_DIR . 'class.smtp.php';
 

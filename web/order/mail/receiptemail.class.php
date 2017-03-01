@@ -13,7 +13,7 @@ use Order\Model\OrderRow;
 use System\Config\SiteConfig;
 use User\Session\SessionManager;
 
-@define("PHPMAILER_DIR", dirname(dirname(__DIR__)) . '/system/lib/PHPMailer/');
+@define("PHPMAILER_DIR", dirname(dirname(dirname(__DIR__))) . '/support/PHPMailer/');
 require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
 require_once PHPMAILER_DIR . 'class.smtp.php';
 
@@ -51,10 +51,12 @@ class ReceiptEmail extends \PHPMailer
 
         $next_date = $Order->getSubscriptionNextDate() ? date('M dS Y G:i', strtotime($Order->getSubscriptionNextDate())) : 'N/A';
 
+        $MERCHANT_NAME = SiteConfig::$SITE_DEFAULT_MERCHANT_NAME;
+
         $content = <<<HTML
 Order Information
 Amount:             \${$Order->getAmount()}
-Merchant:           {$Merchant->getName()}
+{$MERCHANT_NAME}:           {$Merchant->getName()}
 Date:               {$date}
 HTML;
 // Status:             {$Order->getStatus()}

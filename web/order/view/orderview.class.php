@@ -388,10 +388,24 @@ class OrderView extends AbstractView
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="legend">
-                                            Merchant: <?php echo $Merchant->getName(); ?>
+                                            <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>: <?php echo $Merchant->getName(); ?>
                                         </td>
                                     </tr>
                                 <?php $odd = true; ?>
+
+                                    <!-- Date and Time -->
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Date</td>
+                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("F jS, Y"); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Time</td>
+                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A"); ?></td>
+                                    </tr>
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%;">Time Zone</td>
+                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("e P"); ?></td>
+                                    </tr>
 
                                     <!-- Merchant Location Information -->
                                     <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -416,23 +430,13 @@ class OrderView extends AbstractView
                                     </tr>
 
 
-                                    <!-- Date and Time -->
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Date</td>
-                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("F jS, Y"); ?></td>
-                                    </tr>
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Time</td>
-                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A"); ?></td>
-                                    </tr>
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%;">Time Zone</td>
-                                        <td class="value"><?php echo $Order->getDate($SessionUser->getTimeZone())->format("e P"); ?></td>
-                                    </tr>
-
-
 
                                     <!-- Totals and Fees -->
+                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                                        <td class="name" style="width: 30%; font-size: larger;">Total</td>
+                                        <td class="value" style="font-size: larger;">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
+                                    </tr>
+
                                     <?php if ($Order->getConvenienceFee()) { ?>
                                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                             <td class="name" style="width: 30%;">Subtotal</td>
@@ -443,11 +447,6 @@ class OrderView extends AbstractView
                                             <td class="value">$<?php echo $Order->getConvenienceFee(); ?></td>
                                         </tr>
                                     <?php } ?>
-
-                                    <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                        <td class="name" style="width: 30%; font-size: larger;">Total</td>
-                                        <td class="value" style="font-size: larger;">$<?php echo number_format($Order->getAmount()+$Order->getConvenienceFee(), 2); ?></td>
-                                    </tr>
 
                                     <?php if ($Order->getTotalReturnedAmount() > 0) { ?>
                                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

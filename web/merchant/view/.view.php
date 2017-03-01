@@ -36,7 +36,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
                             <div class="app-button app-button-edit" style="display: inline-block;"></div>
                         </a>
-                        Merchant: <?php echo $Merchant->getName(); ?>
+                        <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>: <?php echo $Merchant->getName(); ?>
                     </div>
 
 
@@ -70,7 +70,11 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo" </td>
+                            <td colspan="2" style="text-align: center;">
+                            <?php if($Merchant->hasLogoPath()) { ?>
+                                <img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo"  />
+                            <?php } ?>
+                        </td>
                         </tr>
 
                         <tr>

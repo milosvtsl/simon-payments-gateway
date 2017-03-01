@@ -30,8 +30,8 @@ $OrderRow = OrderRow::fetchByUID($_GET['uid']);
 $Merchant = MerchantRow::fetchByID($OrderRow->getMerchantID());
 $PDF = new Order\PDF\ReceiptPDF($OrderRow, $Merchant);
 
-$PDF->render();
+//$PDF->render();
 
 $filename = $Merchant->getShortName() . '-' . date("Y-m-d") . '-' . $OrderRow->getID();
 $filename = str_replace(' ', '_', $filename);
-$PDF->stream($filename);
+$PDF->render('I', $filename);

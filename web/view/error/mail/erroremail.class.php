@@ -10,7 +10,7 @@ namespace View\Error\Mail;
 
 use System\Config\SiteConfig;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/system/lib/PHPMailer/PHPMailerAutoload.php';
+require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/support/PHPMailer/PHPMailerAutoload.php';
 
 class ErrorEmail extends \PHPMailer
 {

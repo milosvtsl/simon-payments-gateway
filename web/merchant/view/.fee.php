@@ -2,6 +2,7 @@
 use Integration\Model\IntegrationRow;
 use Order\Fee\Model\MerchantFeeRow;
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
@@ -93,7 +94,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                 </fieldset>
 
                 <fieldset>
-                    <div class="legend">Set Rates and Fees for Merchant: <?php echo $Merchant->getName(); ?></div>
+                    <div class="legend">Set Rates and Fees for <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>: <?php echo $Merchant->getName(); ?></div>
                     <table class="table-merchant-fee-info themed striped-rows" style="width: 100%;">
                         <tr>
                             <th>ID</th>
