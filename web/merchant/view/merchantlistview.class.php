@@ -18,7 +18,7 @@ class MerchantListView extends AbstractListView {
 	public function renderHTMLBody(Array $params) {
 
 		// Set up page parameters
-		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
+		$this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
 
 		$sqlParams = array();
 		$whereSQL = MerchantRow::SQL_WHERE;
@@ -149,9 +149,10 @@ class MerchantListView extends AbstractListView {
 						<table class="table-results themed small striped-rows" style="width: 100%;">
 							<tr>
 								<th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_ID); ?>">ID</a></th>
-								<th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>
-								<th>URL</th>
-								<th>State</th>
+                                <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_NAME); ?>">Name</a></th>
+                                <th><a href="merchant?<?php echo $this->getSortURL(MerchantRow::SORT_BY_STATUS); ?>">Status</a></th>
+                                <th>Email</th>
+                                <th>State</th>
 								<th>Zip</th>
 								<th>Users</th>
 							</tr>
@@ -162,7 +163,8 @@ class MerchantListView extends AbstractListView {
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
 									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
 									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
-									<td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo preg_replace('/^https?:\/\//i', '', $Merchant->getURL()); ?></a></td>
+                                    <td><?php echo $Merchant->getStatusName(); ?></td>
+									<td><a target="_blank" href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo preg_replace('/^https?:\/\//i', '', $Merchant->getMainEmailID()); ?></a></td>
 									<td><?php echo $Merchant->getRegionCode(); ?></td>
 									<td><?php echo $Merchant->getZipCode(); ?></td>
 									<td><a href='user?merchant_id=<?php echo $Merchant->getID(); ?>'><?php echo $Merchant->getUserCount(); ?></a></td>

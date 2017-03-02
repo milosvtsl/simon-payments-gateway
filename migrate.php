@@ -90,9 +90,9 @@ function insertMerchant(Array $M, $schema) {
 //        'name' => $M['conv_fee_acct'],
 
         ':branch' => $M['branch'],
-        ':merchant_description' => $M['type'],
-        ':default_contact_label' => $M['contact_lbl'],
-        ':default_item_label' => $M['item_lbl'],
+        ':description' => $M['type'],
+        ':label_contact' => $M['contact_lbl'],
+        ':label_item' => $M['item_lbl'],
 //        'timepayment' => 'FALSE',
 //        'status' => '0'
     );

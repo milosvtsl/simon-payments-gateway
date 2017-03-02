@@ -786,7 +786,9 @@ body.layout-vertical.courtpay-theme nav.page-menu {
 }
 
 .courtpay-theme table.themed > tbody > tr > th {
-    background-color: #e7f0f3;
+    background-color: #bcc5d1;
+    text-align: left;
+    padding-left: 0.5em;
 }
 
 
