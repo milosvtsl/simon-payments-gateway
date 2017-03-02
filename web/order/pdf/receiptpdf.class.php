@@ -184,13 +184,12 @@ class ReceiptPDF extends \FPDF
 
         $SessionManager = new SessionManager();
         $SessionUser = $SessionManager->getSessionUser();
-        $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y");
-        $time = $Order->getDate($SessionUser->getTimeZone())->format("g:i A T");
+        $date = $Order->getDate($SessionUser->getTimeZone())->format("M dS Y G:i A");
 
         $TEXT = <<<TEXT
-{$Merchant->getName()}
 {$date}
-{$time}
+{$Merchant->getName()}
+{$Merchant->getTelephone()}
 TEXT;
 
 
