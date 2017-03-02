@@ -24,7 +24,7 @@ class SubscriptionRow
     const SORT_BY_DATE              = 's.date';
     const SORT_BY_ORDER_ITEM        = 's.order_item_id';
 
-    const SORT_BY_BATCH_ITEM        = 's.batch_item_id';
+//    const SORT_BY_BATCH_ITEM        = 's.batch_item_id';
     const SORT_BY_STATUS            = 'oi.status';
     const SORT_BY_MERCHANT_ID       = 'oi.merchant_id';
     const SORT_BY_USERNAME          = 'oi.username';
@@ -34,7 +34,7 @@ class SubscriptionRow
         self::SORT_BY_ID,
         self::SORT_BY_DATE,
         self::SORT_BY_ORDER_ITEM,
-        self::SORT_BY_BATCH_ITEM,
+//        self::SORT_BY_BATCH_ITEM,
 
         self::SORT_BY_STATUS,
         self::SORT_BY_MERCHANT_ID,

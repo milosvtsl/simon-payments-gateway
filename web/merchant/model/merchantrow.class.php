@@ -34,6 +34,7 @@ class MerchantRow
     );
 
     const SORT_BY_NAME = 'm.name';
+    const SORT_BY_STATUS = 'm.status_id';
     const SORT_BY_MAIN_EMAIL_ID = 'm.main_email_id';
 
     const SQL_SELECT = "
@@ -61,12 +62,14 @@ LEFT JOIN state s on m.state_id = s.id
     );
 
     const ENUM_STATUS_LIVE = 1;
+    const ENUM_STATUS_DRAFT = 5;
 
     public static $ENUM_STATUS = array(
         1 => "Live",
         2 => "In Progress",
         3 => "Canceled",
         4 => "Hidden",
+        5 => "Draft",
     );
     public static $ENUM_PAYOUT_TYPES = array(
         'BANK_ACCOUNT' => 'Bank Account',
@@ -79,6 +82,7 @@ LEFT JOIN state s on m.state_id = s.id
     public static $SORT_FIELDS = array(
         self::SORT_BY_ID,
         self::SORT_BY_NAME,
+        self::SORT_BY_STATUS,
         self::SORT_BY_MAIN_EMAIL_ID,
     );
     public static $UPDATE_FIELDS = array(
@@ -90,8 +94,8 @@ LEFT JOIN state s on m.state_id = s.id
         'convenience_fee_flat',
         'convenience_fee_limit',
         'convenience_fee_variable_rate',
-        'batch_capture_time',
-        'batch_capture_time_zone',
+//        'batch_capture_time',
+//        'batch_capture_time_zone',
         'open_date',
         'status_id',
         'store_id',
@@ -127,6 +131,9 @@ LEFT JOIN state s on m.state_id = s.id
         'fraud_high_limit',
         'fraud_low_limit',
         'fraud_high_monthly_limit',
+
+        'label_item',
+        'label_contact',
         'fraud_flags',
 
         'notes',
@@ -135,7 +142,8 @@ LEFT JOIN state s on m.state_id = s.id
 
     protected $id;
     protected $uid;
-    protected $version;
+    protected $branch;
+    protected $description;
     protected $address1;
     protected $address2;
     protected $agent_chain;
@@ -188,6 +196,10 @@ LEFT JOIN state s on m.state_id = s.id
     protected $fraud_low_limit;
     protected $fraud_high_monthly_limit;
     protected $fraud_flags;
+
+    protected $label_contact;
+    protected $label_item;
+
     protected $integration_default_id;
     protected $integration_provisioned_ids;
 
@@ -210,27 +222,19 @@ LEFT JOIN state s on m.state_id = s.id
         error_log("Property does not exist: " . $key);
     }
 
-    public function getID() {
-        return $this->id;
-    }
+    public function getID() {        return $this->id;    }
 
-    public function getUID() {
-        return $this->uid;
-    }
+    public function getUID() {        return $this->uid;    }
 
-    public function getName() {
-        return $this->name;
-    }
+    public function getName() {        return $this->name;    }
 
-    public function getShortName() {
-        return $this->short_name ?: $this->name;
-    }
+    public function getShortName() {        return $this->short_name ?: $this->name;    }
 
-    public function hasLogoPath() {
-        return $this->logo_path ? true : false;
-    }
-    public function getLogoImageURL($baseHREF=null, $default='no-logo.png') {
-        return $baseHREF . ($this->logo_path ?: self::LOGO_PATH . $default);
+    public function hasLogoPath() {        return $this->logo_path ? true : false;    }
+    public function getLogoImageURL() {
+        if(!$this->hasLogoPath())
+            throw new \InvalidArgumentException("Merchant has not uploaded a logo yet");
+        return $this->logo_path;
     }
 
     public function updateLogo($file) {
@@ -246,10 +250,10 @@ LEFT JOIN state s on m.state_id = s.id
         if($image_width > SiteConfig::$SITE_MAX_LOGO_WIDTH)
             throw new \InvalidArgumentException('Logo width is too wide. Image width must be less than ' . SiteConfig::$SITE_MAX_LOGO_WIDTH . ' pixels');
         if($image_height > SiteConfig::$SITE_MAX_LOGO_HEIGHT)
-            throw new \InvalidArgumentException('Logo height is too wide. Image height must be less than ' . SiteConfig::$SITE_MAX_LOGO_HEIGHT . ' pixels');
+            throw new \InvalidArgumentException('Logo height is too tall. Image height must be less than ' . SiteConfig::$SITE_MAX_LOGO_HEIGHT . ' pixels');
 
 
-        $acceptable = array('image/png', 'image/jpeg', 'image/jpg', 'image/gif');
+        $acceptable = array('image/png');
         if(!in_array(strtolower($file['type']), $acceptable))
             throw new \InvalidArgumentException('Invalid file type: ' . $file['type'] . '. Only PNG types are accepted.');
 
@@ -270,177 +274,79 @@ LEFT JOIN state s on m.state_id = s.id
 
 //    public function getMerchantID()     { return $this->merchant_id; }
 
-    public function getMerchantSIC() {
-        return $this->sic;
-    }
+    public function getMerchantSIC() {        return $this->sic;    }
 
-    public function getMerchantMCC() {
-        return $this->mcc;
-    }
+    public function getMerchantMCC() {        return $this->mcc;    }
 
-    public function getConvenienceFeeLimit() {
-        return floatval($this->convenience_fee_limit);
-    }
+    public function getConvenienceFeeLimit() {        return floatval($this->convenience_fee_limit);    }
 
-    public function getConvenienceFeeFlat() {
-        return floatval($this->convenience_fee_flat);
-    }
+    public function getConvenienceFeeFlat() {        return floatval($this->convenience_fee_flat);    }
 
-    public function getConvenienceFeeVariable() {
-        return floatval($this->convenience_fee_variable_rate);
-    }
+    public function getConvenienceFeeVariable() {        return floatval($this->convenience_fee_variable_rate);    }
 
-    public function getBatchTime() {
-        return $this->batch_capture_time;
-    }
+    public function getConvenienceFeeMerchantID() {        return $this->convenience_fee_merchant_id;    }
 
-    public function getBatchTimeZone() {
-        return $this->batch_capture_time_zone;
-    }
+    public function getBatchTime() {        return $this->batch_capture_time;    }
 
-    public function getOpenDate() {
-        return $this->open_date;
-    }
+    public function getBatchTimeZone() {        return $this->batch_capture_time_zone;    }
 
-    public function getStatusID() {
-        return $this->status_id;
-    }
+    public function getOpenDate() {        return $this->open_date;    }
 
-    public function getStatusName() {
-        return $this->status_name;
-    }
+    public function getStatusID() {        return $this->status_id;    }
 
-    public function getStoreID() {
-        return $this->store_id;
-    }
+    public function getStatusName() {        return $this->status_name;    }
 
-    public function getCountryCode() {
-        return $this->country;
-    }
+    public function getStoreID() {        return $this->store_id;    }
 
-    public function getTitle() {
-        return $this->title;
-    }
+    public function getCountryCode() {        return $this->country;    }
 
-    public function getTaxID() {
-        return $this->tax_id;
-    }
+    public function getTitle() {        return $this->title;    }
 
-    public function getBusinessTaxID() {
-        return $this->business_tax_id;
-    }
+    public function getTaxID() {        return $this->tax_id;    }
 
-    public function getBusinessType() {
-        return $this->business_type;
-    }
+    public function getBusinessTaxID() {        return $this->business_tax_id;    }
 
-    public function getDOB() {
-        return $this->dob;
-    }
+    public function getBusinessType() {        return $this->business_type;    }
 
-    public function getDiscoverExt() {
-        return $this->discover_external;
-    }
+    public function getDOB() {        return $this->dob;    }
 
-    public function getAmexExt() {
-        return $this->amex_external;
-    }
+    public function getDiscoverExt() {        return $this->discover_external;    }
 
-    public function getAgentChain() {
-        return $this->agent_chain;
-    }
+    public function getAmexExt() {        return $this->amex_external;    }
 
-    public function getMainContact() {
-        return $this->main_contact;
-    }
+    public function getAgentChain() {        return $this->agent_chain;    }
+
+    public function getMainContact() {        return $this->main_contact;    }
 
     public function getTelephone($format='($1) $2-$3') {
         $number = $this->telephone;
         if($format)
             $number = preg_replace('~.*(\d{3})[^\d]{0,7}(\d{3})[^\d]{0,7}(\d{4}).*~', $format, $number);
-        return $number;
-    }
+        return $number;    }
 
-    public function getAddress() {
-        return $this->address1;
-    }
+    public function getBranch()                     { return $this->branch; }
+    public function getDescription()                { return $this->description; }
+    public function getAddress()                    { return $this->address1;    }
+    public function getAddress2()                   { return $this->address2;    }
+    public function getCity()                       { return $this->city;    }
+    public function getState()                      { return $this->state_name;    }
+    public function getRegionCode()                 { return $this->state_short_code;    }
+    public function getZipCode()                    { return $this->zipcode;    }
+    public function getMainEmailID()                { return $this->main_email_id;    }
+    public function getSaleRep()                    { return $this->sale_rep;    }
+    public function getPayoutType()                 { return $this->payout_type;    }
+    public function getPayoutAccountName()          { return $this->payout_account_name;    }
+    public function getPayoutAccountType()          { return $this->payout_account_type;    }
+    public function getPayoutAccountNumber()        { return $this->payout_account_number;    }
+    public function getPayoutRoutingNumber()        { return $this->payout_bank_code;    }
+    public function getFraudHighLimit()             { return $this->fraud_high_limit;    }
+    public function getFraudLowLimit()              { return $this->fraud_low_limit;    }
+    public function getFraudHighMonthlyLimit()      { return $this->fraud_high_monthly_limit;    }
+    public function getFraudFlags()                 { return $this->fraud_flags;    }
+    public function hasFlag($type)                  { return (intval($type) & intval($this->fraud_flags));    }
 
-    public function getAddress2() {
-        return $this->address2;
-    }
-
-    public function getCity() {
-        return $this->city;
-    }
-
-    public function getState() {
-        return $this->state_name;
-    }
-
-    public function getRegionCode() {
-        return $this->state_short_code;
-    }
-
-    public function getZipCode() {
-        return $this->zipcode;
-    }
-
-    public function getMainEmailID() {
-        return $this->main_email_id;
-    }
-
-    public function getSaleRep() {
-        return $this->sale_rep;
-    }
-
-    public function getPayoutType() {
-        return $this->payout_type;
-    }
-
-    public function getPayoutAccountName() {
-        return $this->payout_account_name;
-    }
-
-    public function getPayoutAccountType() {
-        return $this->payout_account_type;
-    }
-
-    public function getPayoutAccountNumber() {
-        return $this->payout_account_number;
-    }
-
-    public function getPayoutRoutingNumber() {
-        return $this->payout_bank_code;
-    }
-
-    public function getFraudHighLimit() {
-        return $this->fraud_high_limit;
-    }
-
-    public function getFraudLowLimit() {
-        return $this->fraud_low_limit;
-    }
-
-    public function getFraudHighMonthlyLimit() {
-        return $this->fraud_high_monthly_limit;
-    }
-
-    public function getFraudFlags() {
-        return $this->fraud_flags;
-    }
-
-    public function hasFlag($type) {
-        return (intval($type) & intval($this->fraud_flags));
-    }
-
-    public function getNotes() {
-        return $this->notes;
-    }
-
-    public function getURL() {
-        return $this->url;
-    }
-
+    public function getNotes()                      { return $this->notes;    }
+    public function getURL()                        { return $this->url;    }
 
     public function getUserList() {
         if (is_array($this->user_list))
@@ -451,20 +357,16 @@ LEFT JOIN state s on m.state_id = s.id
         return $this->user_list;
     }
 
-    public function getUserCount() {
-        return count($this->getUserList());
-    }
+    public function getUserCount() {        return count($this->getUserList());    }
 
-    public function getCheckFormClasses() {
-        return 'default';
-    }
+
+    public function getCheckFormClasses() {        return 'default';    }
 
 
     public function isConvenienceFeeEnabled() {
         return
             $this->convenience_fee_flat || $this->convenience_fee_limit || $this->convenience_fee_variable_rate;
     }
-
 
     public function getMainContactFirstName() {
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
@@ -475,6 +377,7 @@ LEFT JOIN state s on m.state_id = s.id
         list($first, $last) = explode(" ", $this->getMainContact(), 2);
         return $last;
     }
+
 
     public function updateFields($post) {
         $flags = 0;
@@ -501,7 +404,6 @@ LEFT JOIN state s on m.state_id = s.id
         $EditQuery->execute($params);
         return $EditQuery->rowCount();
     }
-
 
     public function getProvisionRequest(IntegrationRow $IntegrationRow) {
         $DB = DBConfig::getInstance();
@@ -543,10 +445,9 @@ LEFT JOIN state s on m.state_id = s.id
         return $Identities;
     }
 
-    public function getProvisionedIntegrationIDs() {
-        return explode(";", $this->integration_provisioned_ids);
-    }
 
+    public function getProvisionedIntegrationIDs() {        return explode(";", $this->integration_provisioned_ids);
+    }
 
     public function getDefaultIntegrationID() {
         if ($this->integration_default_id)
@@ -590,17 +491,13 @@ LEFT JOIN state s on m.state_id = s.id
         return $Row;
     }
 
-    public static function fetchByEmail($email) {
-        return static::fetchByField('main_email_id', $email);
-    }
+    public static function fetchByEmail($email) {        return static::fetchByField('main_email_id', $email);    }
 
     /**
      * @param $uid
      * @return MerchantRow
      */
-    public static function fetchByUID($uid) {
-        return static::fetchByField('uid', $uid);
-    }
+    public static function fetchByUID($uid) {        return static::fetchByField('uid', $uid);    }
 
     public static function queryAll($order = 'm.id DESC') {
         $DB = DBConfig::getInstance();
@@ -610,6 +507,7 @@ LEFT JOIN state s on m.state_id = s.id
         $stmt->execute();
         return $stmt;
     }
+
 
     public static function queryByUserID($id) {
         $sql = MerchantRow::SQL_SELECT
@@ -622,7 +520,6 @@ LEFT JOIN state s on m.state_id = s.id
         $MerchantQuery->execute(array(MerchantRow::ENUM_STATUS_LIVE, $id));
         return $MerchantQuery;
     }
-
 
     /**
      * @param $post
@@ -651,7 +548,7 @@ LEFT JOIN state s on m.state_id = s.id
         if (!$sqlSet)
             return 0;
         $sql = "INSERT INTO " . self::TABLE_NAME . $sqlSet
-            . ", uid = :uid, version = 10";
+            . ", uid = :uid";
         $DB = DBConfig::getInstance();
         $stmt = $DB->prepare($sql);
         $ret = $stmt->execute($params);

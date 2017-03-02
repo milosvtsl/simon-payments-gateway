@@ -19,7 +19,7 @@ class TransactionRow
     const SORT_BY_DATE              = 't.date';
     const SORT_BY_ORDER_ITEM        = 't.order_item_id';
 
-    const SORT_BY_BATCH_ITEM        = 't.batch_item_id';
+//    const SORT_BY_BATCH_ITEM        = 't.batch_item_id';
     const SORT_BY_STATUS            = 'oi.status';
     const SORT_BY_MERCHANT_ID       = 'oi.merchant_id';
     const SORT_BY_USERNAME          = 'oi.username';
@@ -29,7 +29,7 @@ class TransactionRow
         self::SORT_BY_ID,
         self::SORT_BY_DATE,
         self::SORT_BY_ORDER_ITEM,
-        self::SORT_BY_BATCH_ITEM,
+//        self::SORT_BY_BATCH_ITEM,
 
         self::SORT_BY_STATUS,
         self::SORT_BY_MERCHANT_ID,
@@ -58,7 +58,7 @@ class TransactionRow
     protected $status_code;
     protected $status_message;
     protected $transaction_id;
-    protected $batch_item_id;
+//    protected $batch_item_id;
     protected $order_item_id;
     protected $merchant_id;
 
@@ -115,7 +115,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
 
     public function getID()                 { return $this->id; }
     public function getOrderID()            { return $this->order_item_id; }
-    public function getBatchID()            { return $this->batch_item_id; }
+//    public function getBatchID()            { return $this->batch_item_id; }
     public function getUID()                { return $this->uid; }
     public function getAmount()             { return $this->amount; }
     public function getServiceFee()         { return $this->service_fee; }
@@ -252,7 +252,7 @@ LEFT JOIN integration_request ir on t.id = ir.type_id AND ir.type LIKE 'transact
             ':status_message' => $TransactionRow->status_message ?: '',
 //            ':transaction_date' => $TransactionRow->transaction_date ?: '',
             ':transaction_id' => $TransactionRow->transaction_id,
-            ':batch_item_id' => $TransactionRow->batch_item_id,
+//            ':batch_item_id' => $TransactionRow->batch_item_id,
             ':order_item_id' => $TransactionRow->order_item_id,
         );
         $SQL = "INSERT INTO transaction SET";
