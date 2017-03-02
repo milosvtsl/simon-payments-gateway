@@ -59,7 +59,6 @@ class ReceiptPDF extends \FPDF
 
         // TODO: custom fields
         $orderFields = $Order->getCustomFieldValues();
-        $orderFields['custom'] = 'value';
         foreach($orderFields as $field=>$value) {
             $field = ucwords(str_replace('_', ' ', $field));
             $this->Cell(0,6,sprintf("%-' 16s %s", $field, $value) ,0,1);

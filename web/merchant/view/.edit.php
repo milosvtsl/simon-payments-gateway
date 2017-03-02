@@ -193,7 +193,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Phone Number</td>
-                            <td><input type="text" name="telephone" size="24" value="<?php echo $Merchant->getTelephone(); ?>" /></td>
+                            <td><input type="text" name="telephone" size="24" value="<?php echo $Merchant->getTelephone(NULL); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Address</td>
