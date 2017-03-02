@@ -122,7 +122,7 @@ class ReceiptPDF extends \FPDF
             $this->Cell(0, 6,
                 sprintf("%-' 36s %-' 20s %-' 12s %-' 16s ",
                     $Transaction->getIntegrationRemoteID(),
-                    $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"),
+                    $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M jS g:i A"),
                     $Transaction->getAmount(),
                     $Transaction->getAction())
                 , 0, 1);

@@ -519,7 +519,7 @@ class OrderView extends AbstractView
                             foreach($TransactionQuery as $Transaction) { ?>
                                 <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                     <td class="hide-on-layout-narrow"><a href='order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
-                                    <td><?php echo $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"); ?></td>
+                                    <td><?php echo $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M jS g:i A"); ?></td>
                                     <td>$<?php echo $Transaction->getAmount(); ?></td>
                                     <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                                     <td>

@@ -257,7 +257,7 @@ $this->getTheme()->printHTMLMenu('subscription-view', $action_url, array(
                         foreach($TransactionQuery as $Transaction) { ?>
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="hide-on-layout-narrow"><a href='subscription/receipt.php?uid=<?php echo $Subscription->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
-                                <td><?php echo date("M j g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
+                                <td><?php echo date("M jS g:i A", strtotime($Transaction->getTransactionDate()) + $offset); ?></td>
                                 <td>$<?php echo $Transaction->getAmount(); ?></td>
                                 <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                                 <td>
