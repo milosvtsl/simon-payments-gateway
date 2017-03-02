@@ -40,6 +40,10 @@ class ReceiptPDF extends \FPDF
         $this->AliasNbPages();
         $this->AddPage();
 
+
+        $this->SetFont('Courier','B',16);
+        $this->Cell(0,10,sprintf("%-' 12s %s", SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME . ':', $Order->getCustomerFullName()) ,0,1);
+
         switch(strtolower($Order->getEntryMode())) {
             case 'keyed':
             case 'swipe':
@@ -50,40 +54,52 @@ class ReceiptPDF extends \FPDF
                 $this->addCheckInfo();
         }
 
+        if($Order->getInvoiceNumber())
+            $this->Cell(0,6,sprintf("%-' 16s %s", 'Invoice', $Order->getInvoiceNumber()),0,1);
+
+        // TODO: custom fields
+        $orderFields = $Order->getCustomFieldValues();
+        $orderFields['custom'] = 'value';
+        foreach($orderFields as $field=>$value) {
+            $field = ucwords(str_replace('_', ' ', $field));
+            $this->Cell(0,6,sprintf("%-' 16s %s", $field, $value) ,0,1);
+        }
+
         // Line break
         $this->Ln(4);
 
         $this->SetFont('Courier','B',16);
-        $this->Cell(0,10,SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . ': ' . $Merchant->getName(),0,1);
+        $this->Cell(0,10,sprintf("%-' 12s %s", SiteConfig::$SITE_DEFAULT_MERCHANT_NAME.':', $Merchant->getName()),0,1);
 
         $this->SetFont('Courier','',12);
 
-        $this->Cell(0,6,'Address:      ' . $Merchant->getAddress() . $Merchant->getAddress2(),0,1);
-        $this->Cell(0,6,'City:         ' . $Merchant->getCity(),0,1);
-        $this->Cell(0,6,'State:        ' . $Merchant->getState(),0,1);
-        $this->Cell(0,6,'Zip:          ' . $Merchant->getZipCode(),0,1);
-        $this->Cell(0,6,'Phone:        ' . $Merchant->getTelephone(),0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", 'Phone:',      $Merchant->getTelephone()),0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", 'Address:',    $Merchant->getAddress() . ' ' . $Merchant->getAddress2()),0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", 'City:',      $Merchant->getCity()),0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", 'State:',      $Merchant->getState()),0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", 'ZipCode:',      $Merchant->getZipCode()),0,1);
 
 
-        $this->Cell(0,6,'Date:         ' . $Order->getDate($SessionUser->getTimeZone())->format("F jS Y"),0,1);
-        $this->Cell(0,6,'Time:         ' . $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A T"),0,1);
 
 
         // Line break
         $this->Ln(4);
 
         $this->SetFont('Courier','B',16);
-        $this->Cell(0,10,"Total:    $" . $Order->getAmount(),0,1);
+        $this->Cell(0,10,sprintf("%-' 12s \$%01.2f", "Total", $Order->getAmount()),0,1);
 
         $this->SetFont('Courier', '', 12);
         if($Order->getConvenienceFee()) {
-            $this->Cell(0, 6, 'Conv. Fee:    ' . $Order->getConvenienceFee(), 0, 1);
-            $this->Cell(0, 6, 'Subtotal:     ' . number_format($Order->getAmount()+$Order->getConvenienceFee(), 2), 0, 1);
+            $this->Cell(0, 6, sprintf("%-' 16s $%01.2f", 'Conv. Fee:',   $Order->getConvenienceFee()),0,1);
+            $this->Cell(0, 6, sprintf("%-' 16s $%01.2f", 'Subtotal:',    $Order->getAmount()+$Order->getConvenienceFee()),0,1);
         }
 
         if($Order->getTotalReturnedAmount()>0) {
-            $this->Cell(0, 6, 'Returned:     ' . number_format($Order->getTotalReturnedAmount(), 2), 0, 1);
+            $this->Cell(0, 6, sprintf("%-' 16s $%01.2f", 'Returned:',    $Order->getTotalReturnedAmount()),0,1);
         }
+
+        $this->Cell(0, 6, sprintf("%-' 16s %s", 'Date:',    $Order->getDate($SessionUser->getTimeZone())->format("F jS Y")),0,1);
+        $this->Cell(0, 6, sprintf("%-' 16s %s", 'Time:',    $Order->getDate($SessionUser->getTimeZone())->format("g:i:s A T")),0,1);
 
         // Line break
         $this->Ln(6);
@@ -98,14 +114,14 @@ class ReceiptPDF extends \FPDF
 
         $this->SetFont('Courier', 'B', 10);
         $this->Cell(0, 6,
-            sprintf("%-' 24s %-' 24s %-' 24s %-' 24s ", "TID", "Date", "Amount", "Action")
+            sprintf("%-' 36s %-' 20s %-' 12s %-' 16s ", "TID", "Date", "Amount", "Action")
             , 1, 1);
 
 
         $this->SetFont('Courier', '', 10);
         foreach($TransactionQuery as $Transaction) {
             $this->Cell(0, 6,
-                sprintf("%-' 24s %-' 24s %-' 24s %-' 24s ",
+                sprintf("%-' 36s %-' 20s %-' 12s %-' 16s ",
                     $Transaction->getIntegrationRemoteID(),
                     $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"),
                     $Transaction->getAmount(),
@@ -118,21 +134,21 @@ class ReceiptPDF extends \FPDF
 
     private function addCreditCardInfo() {
         $Order = $this->order;
-        $this->SetFont('Courier','B',16);
-        $this->Cell(0,10,SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME . ': ' . $Order->getCustomerFullName(),0,1);
 
         $this->SetFont('Courier','',12);
-        $this->Cell(0,6,'Credit Card   ' . $Order->getCardNumber(),0,1);
-        $this->Cell(0,6,'Card Type     ' . $Order->getCardType(),0,1);
-        $this->Cell(0,6,'Card Exp      ' . $Order->getCardExpMonth(). '/'. $Order->getCardExpYear(),0,1);
-        if($Order->getInvoiceNumber())
-            $this->Cell(0,6,'Invoice       ' . $Order->getInvoiceNumber(),0,1);
-
+        $this->Cell(0,6,sprintf("%-' 16s %s", "Credit Card:", $Order->getCardNumber()) ,0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", "Credit Type:", $Order->getCardType()) ,0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", "Credit Exp:", $Order->getCardExpMonth(). '/'. $Order->getCardExpYear()) ,0,1);
 
     }
 
     private function addCheckInfo() {
+        $Order = $this->order;
 
+        $this->SetFont('Courier','',12);
+        $this->Cell(0,6,sprintf("%-' 16s %s", "Account Name:", $Order->getCheckAccountName()) ,0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", "Account Number:", $Order->getCheckAccountNumber()) ,0,1);
+        $this->Cell(0,6,sprintf("%-' 16s %s", "Routing Number:", $Order->getCheckRoutingNumber()) ,0,1);
     }
 
 
@@ -154,7 +170,12 @@ class ReceiptPDF extends \FPDF
 
         if($Merchant->hasLogoPath()) {
             // Logo
-            $this->Image($webDir . '/' . $Merchant->getLogoImageURL(),10,6,NULL, 18, NULL, $url);
+            $logoPath = $webDir . '/' . $Merchant->getLogoImageURL();
+            if(file_exists($logoPath)) {
+                $this->Image($logoPath,10,6,NULL, 18, NULL, $url);
+            } else {
+                error_log("Logo file missing: " . $logoPath);
+            }
         }
 
         $this->Line(10, 32, 200, 32);
@@ -168,7 +189,7 @@ class ReceiptPDF extends \FPDF
         $time = $Order->getDate($SessionUser->getTimeZone())->format("g:i A T");
 
         $TEXT = <<<TEXT
-{$Merchant->getShortName()}
+{$Merchant->getName()}
 {$date}
 {$time}
 TEXT;
