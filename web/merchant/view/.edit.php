@@ -65,10 +65,13 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td class="name">Upload</td>
                             <td><input type="file" name="logo_path" accept="image/png" /></td>
                         </tr>
+
+                        <?php if($Merchant->hasLogoPath()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Current Logo</td>
                             <td><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo"/></td>
                         </tr>
+                        <?php } ?>
 
                         <tr>
                             <th colspan="2" class="section-break">Information</th>
