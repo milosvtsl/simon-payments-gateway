@@ -388,7 +388,7 @@ class OrderView extends AbstractView
                                 <tbody>
                                     <tr>
                                         <td colspan="2" class="legend">
-                                            Merchant: <?php echo $Merchant->getName(); ?>
+                                            <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>: <?php echo $Merchant->getName(); ?>
                                         </td>
                                     </tr>
                                 <?php $odd = true; ?>

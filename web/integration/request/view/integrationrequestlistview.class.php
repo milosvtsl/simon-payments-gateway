@@ -116,7 +116,7 @@ class IntegrationRequestListView extends AbstractListView {
         $time += microtime(true);
 
         $statsMessage = $this->getRowCount() . " requests found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $SessionManager->setMessage($statsMessage);
+//        $SessionManager->setMessage($statsMessage);
 
 		// Render Page
         $Theme = $this->getTheme();
@@ -228,6 +228,10 @@ class IntegrationRequestListView extends AbstractListView {
                         <div class="legend">Page</div>
                         <!--                    <legend>Page</legend>-->
                         <?php $this->printPagination('integration/request?'); ?>
+                        <br/>
+                        <span style="font-size: 0.7em; color: grey; float: left;">
+                            <?php echo $statsMessage; ?>
+                        </span>
                     </fieldset>
                 </form>
             </section>

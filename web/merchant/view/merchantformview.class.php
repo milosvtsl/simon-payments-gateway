@@ -8,6 +8,7 @@
 namespace Merchant\View;
 
 use Merchant\Model\MerchantFormRow;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -116,7 +117,7 @@ HEAD;
         $SessionUser = $SessionManager->getSessionUser();
 
         $Theme = $this->getTheme();
-        $Theme->addPathURL('merchant',      'Merchants');
+        $Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
         $Theme->addPathURL('merchant/form.php',     'Forms');
         $Theme->addPathURL($action_url,     $Form->getTitle());
         $Theme->renderHTMLBodyHeader();

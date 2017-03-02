@@ -4,6 +4,7 @@ namespace Merchant\View;
 use Merchant\Model\MerchantQueryStats;
 use Merchant\Model\MerchantRow;
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 
@@ -97,11 +98,11 @@ class MerchantListView extends AbstractListView {
 		$time += microtime(true);
 		$this->setListQuery($ListQuery);
 
-		$statsMessage = $this->getRowCount() . " merchants found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$statsMessage = $this->getRowCount() . " " . SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . "s found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
 //		$this->setMessage($statsMessage);
 
 		$Theme = $this->getTheme();
-		$Theme->addPathURL('merchant',             'Merchants');
+		$Theme->addPathURL('merchant',             SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 		$Theme->addPathURL('merchant/list.php',    'Search');
 		$Theme->renderHTMLBodyHeader();
 		$Theme->printHTMLMenu('merchant-list');
@@ -115,12 +116,12 @@ class MerchantListView extends AbstractListView {
 
 				<form class="form-search themed">
 					<fieldset class="search-fields">
-						<div class="legend">Search all Merchants</div>
+						<div class="legend">Search all <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>s</div>
 
 						<table class="themed" >
 							<tbody>
 								<tr>
-									<td class="name">Merchant</td>
+									<td class="name"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?></td>
 									<td>
 										<input type="text" name="search" value="<?php echo @$_GET['search']; ?>" placeholder="Name, ID, UID" />
 									</td>

@@ -3,6 +3,7 @@ namespace Merchant\View;
 
 use Merchant\Model\MerchantFormRow;
 use System\Config\DBConfig;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractListView;
 
@@ -74,11 +75,11 @@ class MerchantFormListView extends AbstractListView {
 		$time += microtime(true);
 		$this->setListQuery($ListQuery);
 
-		$statsMessage = $this->getRowCount() . " merchants found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
+		$statsMessage = $this->getRowCount() . " " . SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . "s found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
 //		$this->setMessage($statsMessage);
 
 		$Theme = $this->getTheme();
-		$Theme->addPathURL('merchant',             'Merchants');
+		$Theme->addPathURL('merchant',             SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 		$Theme->addPathURL('merchant/form.php',    'Forms');
 		$Theme->renderHTMLBodyHeader();
 		$Theme->printHTMLMenu('merchant-form-list');
@@ -140,9 +141,10 @@ class MerchantFormListView extends AbstractListView {
 					<fieldset class="pagination">
 						<div class="legend">Page</div>
 						<?php $this->printPagination('merchant/form.php?'); ?>
-
-						<?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
-
+                        <br/>
+                        <span style="font-size: 0.7em; color: grey; float: left;">
+                            <?php echo $statsMessage; ?>
+                        </span>
 					</fieldset>
 				</form>
 			</section>

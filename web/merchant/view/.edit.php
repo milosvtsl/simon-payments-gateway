@@ -1,5 +1,6 @@
 <?php
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
@@ -11,7 +12,7 @@ $action_url = 'merchant/index.php?id=' . $Merchant->getID() . '&action=';
 
 
 $Theme = $this->getTheme();
-$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 $Theme->addPathURL($action_url,     $Merchant->getShortName());
 $Theme->addPathURL($action_url.'edit',     'Edit');
 $Theme->renderHTMLBodyHeader();
@@ -29,16 +30,16 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
                 <fieldset>
-                    <div class="legend">Edit Merchant #<?php echo $Merchant->getID(); ?></div>
+                    <div class="legend">Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> #<?php echo $Merchant->getID(); ?></div>
 
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
                             <div class="app-button large app-button-view" ></div>
-                            View Merchant
+                            View <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit Merchant
+                            Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                             <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
@@ -48,7 +49,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         <?php } ?>
                         <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
                             <div class="app-button large app-button-delete" ></div>
-                            Delete Merchant
+                            Delete <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                     </div>
 
@@ -66,7 +67,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Current Logo</td>
-                            <td><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo"/></td>
+                            <td><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo"/></td>
                         </tr>
 
                         <tr>
@@ -89,7 +90,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="text" name="url" size="24" value="<?php echo $Merchant->getURL(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant MCC Code</td>
+                            <td class="name"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> MCC Code</td>
                             <td>
                                 <select name="mcc" style="width: 16em;" title="Select Merchant MCC Code">
                                     <?php
@@ -350,7 +351,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="Merchant-specific notes" style="width: 96%;" ><?php echo $Merchant->getNotes(); ?></textarea></td>
+                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="<?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> specific notes" style="width: 96%;" ><?php echo $Merchant->getNotes(); ?></textarea></td>
                         </tr>
 
                         <tr >

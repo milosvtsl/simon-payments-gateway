@@ -18,7 +18,7 @@ $SessionUser = $SessionManager->getSessionUser();
 $offset = $SessionUser->getTimeZoneOffset('now');
 
 $Theme = $this->getTheme();
-$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 $Theme->addPathURL($action_url,     $Merchant->getShortName());
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('merchant-view', $action_url);
@@ -36,18 +36,18 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
                             <div class="app-button app-button-edit" style="display: inline-block;"></div>
                         </a>
-                        Merchant: <?php echo $Merchant->getName(); ?>
+                        <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>: <?php echo $Merchant->getName(); ?>
                     </div>
 
 
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view disabled">
                             <div class="app-button large app-button-view" ></div>
-                            View Merchant
+                            View <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit Merchant
+                            Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                         <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
@@ -57,7 +57,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <?php } ?>
                         <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
                             <div class="app-button large app-button-delete" ></div>
-                            Delete Merchant
+                            Delete <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                     </div>
                     <hr/>
@@ -70,7 +70,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         </tr>
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo" </td>
+                            <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo" </td>
                         </tr>
 
                         <tr>
@@ -102,7 +102,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 <!--                        </tr>-->
 
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant MCC</td>
+                            <td class="name"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> MCC</td>
                             <td style="max-width: 200px;"><?php echo $Merchant->getMerchantMCC(), ' - ', \System\Arrays\Merchants::getDescription($Merchant->getMerchantMCC(), false); ?></td>
                         </tr>
 
