@@ -19,6 +19,7 @@ DBConfig::$DB_PASSWORD = 'eVw{P7mphBn';
 SiteConfig::$SITE_UID_PREFIX = "CP";
 SiteConfig::$SITE_NAME = "CourtPay.org";
 SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
+SiteConfig::$SITE_DEFAULT_MERCHANT_NAME = "Client";
 SiteConfig::$SITE_URL = "https://courtpay.org";
 SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
 

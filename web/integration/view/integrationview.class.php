@@ -88,7 +88,7 @@ class IntegrationView extends AbstractView
             }
 
         } catch (\Exception $ex) {
-            $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+            $SessionManager->setMessage($ex->getMessage());
             header("Location: {$baseHREF}integration?id=" . $this->getIntegration()->getID() . '&action='.$this->_action.'&message=Unable to manage integration: Admin required');
             die();
         }
@@ -100,7 +100,6 @@ class IntegrationView extends AbstractView
     
     private function renderHTMLViewBody($params)
     {
-        $SessionManager = new SessionManager();
         $Integration = $this->getIntegration();
         $odd = false;
         $action_url = 'integration?id=' . $Integration->getID() . '&action=';

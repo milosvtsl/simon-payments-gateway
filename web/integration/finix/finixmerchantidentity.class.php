@@ -13,7 +13,6 @@ use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
-use Order\Fee\Model\FeeRow;
 use Order\Model\OrderRow;
 
 class FinixMerchantIdentity extends AbstractMerchantIdentity
@@ -264,15 +263,21 @@ class FinixMerchantIdentity extends AbstractMerchantIdentity
     }
 
 
+
     /**
-     * Calculate all transaction fees
+     * Calculate Transaction Service Fee
      * @param OrderRow $OrderRow
-     * @return FeeRow[]
+     * @param $action
+     * @return mixed
      */
-    public function calculateFees(OrderRow $OrderRow) {
-
+    public function calculateServiceFee(OrderRow $OrderRow, $action) {
+        switch(strtolower($action)) {
+            default:
+            case 'settled':
+            case 'authorized':
+                return 0;
+        }
     }
-
     /**
      * Calculate Transaction Service Fee
      * @param OrderRow $OrderRow

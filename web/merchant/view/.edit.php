@@ -1,5 +1,6 @@
 <?php
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
@@ -11,7 +12,7 @@ $action_url = 'merchant/index.php?id=' . $Merchant->getID() . '&action=';
 
 
 $Theme = $this->getTheme();
-$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 $Theme->addPathURL($action_url,     $Merchant->getShortName());
 $Theme->addPathURL($action_url.'edit',     'Edit');
 $Theme->renderHTMLBodyHeader();
@@ -29,20 +30,16 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
                 <fieldset>
-                    <div class="legend">Edit Merchant #<?php echo $Merchant->getID(); ?></div>
+                    <div class="legend">Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> #<?php echo $Merchant->getID(); ?></div>
 
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
                             <div class="app-button large app-button-view" ></div>
-                            View Merchant
+                            View <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit disabled">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit Merchant
-                        </a>
-                        <a href="<?php echo $action_url; ?>fee" class="page-button page-button-fee">
-                            <div class="app-button large app-button-fee" ></div>
-                            Rates & Fees
+                            Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                             <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
@@ -50,6 +47,10 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                 Provision
                             </a>
                         <?php } ?>
+                        <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
+                            <div class="app-button large app-button-delete" ></div>
+                            Delete <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
+                        </a>
                     </div>
 
                     <hr/>
@@ -66,11 +67,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Current Logo</td>
-                            <td>
-                                <?php if($Merchant->hasLogoPath()) { ?>
-                                <img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom Merchant Logo"/>
-                                <?php } ?>
-                            </td>
+                            <td><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo"/></td>
                         </tr>
 
                         <tr>
@@ -93,7 +90,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <td><input type="text" name="url" size="24" value="<?php echo $Merchant->getURL(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Merchant MCC Code</td>
+                            <td class="name"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> MCC Code</td>
                             <td>
                                 <select name="mcc" style="width: 16em;" title="Select Merchant MCC Code">
                                     <?php
@@ -119,39 +116,39 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                 </select>
                             </td>
                         </tr>
-<!--                        <tr>-->
-<!--                            <th colspan="2" class="section-break">Convenience Fee</th>-->
-<!--                        </tr>-->
-<!--                        --><?php //$odd = false; ?>
-<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                            <td class="name">Enable</td>-->
-<!--                            <td><input type="checkbox" name="convenience_fee_enabled" --><?php //echo $Merchant->isConvenienceFeeEnabled() ? "checked='checked'" : ''; ?><!-- /></td>-->
-<!--                        </tr>-->
-<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                            <td class="name">Variable</td>-->
-<!--                            <td><input type="text" name="convenience_fee_variable" size="12" value="--><?php //echo $Merchant->getConvenienceFeeVariable(); ?><!--" /></td>-->
-<!--                        </tr>-->
-<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                            <td class="name">Flat</td>-->
-<!--                            <td><input type="text" name="convenience_fee_flat" size="12" value="--><?php //echo $Merchant->getConvenienceFeeFlat(); ?><!--" /></td>-->
-<!--                        </tr>-->
-<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                            <td class="name">Limit</td>-->
-<!--                            <td><input type="text" name="convenience_fee_limit" size="12" value="--><?php //echo $Merchant->getConvenienceFeeLimit(); ?><!--" /></td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
-<!--                            <th colspan="2" class="section-break">Batch</th>-->
-<!--                        </tr>-->
-<!--                        --><?php //$odd = false; ?>
-<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                            <td class="name">Batch Close</td>-->
-<!--                            <td>--><?php //echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?><!--</td>-->
-<!--                        </tr>-->
-<!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
-<!--                            <td class="name">Open Date</td>-->
-<!--                            <td><input type="datetime-local" name="open_date" value="--><?php //echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?><!--" /></td>-->
-<!--                        </tr>-->
-<!--                        <tr>-->
+                        <tr>
+                            <th colspan="2" class="section-break">Convenience Fee</th>
+                        </tr>
+                        <?php $odd = false; ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Enable</td>
+                            <td><input type="checkbox" name="convenience_fee_enabled" <?php echo $Merchant->isConvenienceFeeEnabled() ? "checked='checked'" : ''; ?> /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Variable</td>
+                            <td><input type="text" name="convenience_fee_variable" size="12" value="<?php echo $Merchant->getConvenienceFeeVariable(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Flat</td>
+                            <td><input type="text" name="convenience_fee_flat" size="12" value="<?php echo $Merchant->getConvenienceFeeFlat(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Limit</td>
+                            <td><input type="text" name="convenience_fee_limit" size="12" value="<?php echo $Merchant->getConvenienceFeeLimit(); ?>" /></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="section-break">Batch</th>
+                        </tr>
+                        <?php $odd = false; ?>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Batch Close</td>
+                            <td><?php echo $Merchant->getBatchTime(), ' ', $Merchant->getBatchTimeZone(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Open Date</td>
+                            <td><input type="datetime-local" name="open_date" value="<?php echo date("Y-m-d\TH:i:s", strtotime($Merchant->getOpenDate())); ?>" /></td>
+                        </tr>
+                        <tr>
                             <th colspan="2" class="section-break">Accounts & IDs</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -354,7 +351,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="Merchant-specific notes" style="width: 96%;" ><?php echo $Merchant->getNotes(); ?></textarea></td>
+                            <td colspan="2"><textarea type="text" name="notes" rows="45" cols="38" placeholder="<?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> specific notes" style="width: 96%;" ><?php echo $Merchant->getNotes(); ?></textarea></td>
                         </tr>
 
                         <tr >

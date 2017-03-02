@@ -21,7 +21,7 @@ class IntegrationRequestListView extends AbstractListView {
 		$whereSQL = "WHERE 1";
 
         // Set up page parameters
-        $this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 25);
+        $this->setPageParameters(@$params['page'] ?: 1, @$params['limit'] ?: 10);
 
         // Set up WHERE conditions
 		if(!empty($params['search'])) {
@@ -39,12 +39,12 @@ class IntegrationRequestListView extends AbstractListView {
 
         // Set up Date conditions
         if(!empty($params['date_from'])) {
-            $whereSQL .= "\nAND ir.date >= :from";
+            $whereSQL .= "\nAND oi.date >= :from";
             $sqlParams['from'] = date("Y-m-d 00:00:00", strtotime($params['date_from']));
             $statsMessage .= " from " . date("M dS Y", strtotime($params['date_from']));
         }
         if(!empty($params['date_to'])) {
-            $whereSQL .= "\nAND ir.date <= :to";
+            $whereSQL .= "\nAND oi.date <= :to";
             $sqlParams['to'] = date("Y-m-d 23:59:59", strtotime($params['date_to']));
             $statsMessage .= " to " . date("M dS Y", strtotime($params['date_to']));
         }
@@ -116,7 +116,7 @@ class IntegrationRequestListView extends AbstractListView {
         $time += microtime(true);
 
         $statsMessage = $this->getRowCount() . " requests found in " . sprintf('%0.2f', $time) . ' seconds ' . $statsMessage;
-        $SessionManager->setMessage($statsMessage);
+//        $SessionManager->setMessage($statsMessage);
 
 		// Render Page
         $Theme = $this->getTheme();
@@ -151,7 +151,7 @@ class IntegrationRequestListView extends AbstractListView {
                                 <td>
                                     <select name="limit">
                                         <?php
-                                        $limit = @$_GET['limit'] ?: 25;
+                                        $limit = @$_GET['limit'] ?: 10;
                                         foreach(array(10,25,50,100,250) as $opt)
                                             echo "<option", $limit == $opt ? ' selected="selected"' : '' ,">", $opt, "</option>\n";
                                         ?>
@@ -228,6 +228,10 @@ class IntegrationRequestListView extends AbstractListView {
                         <div class="legend">Page</div>
                         <!--                    <legend>Page</legend>-->
                         <?php $this->printPagination('integration/request?'); ?>
+                        <br/>
+                        <span style="font-size: 0.7em; color: grey; float: left;">
+                            <?php echo $statsMessage; ?>
+                        </span>
                     </fieldset>
                 </form>
             </section>
@@ -244,7 +248,7 @@ class IntegrationRequestListView extends AbstractListView {
 			header("Location: integration/request");
 
 		} catch (\Exception $ex) {
-			$SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

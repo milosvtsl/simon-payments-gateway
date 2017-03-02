@@ -13,7 +13,6 @@ use Integration\Model\IntegrationRow;
 use Integration\Request\Model\IntegrationRequestRow;
 use Merchant\Model\MerchantIntegrationRow;
 use Merchant\Model\MerchantRow;
-use Order\Fee\Model\FeeRow;
 use Order\Model\OrderRow;
 
 class ElementMerchantIdentity extends AbstractMerchantIdentity
@@ -138,23 +137,18 @@ class ElementMerchantIdentity extends AbstractMerchantIdentity
 
 
     /**
-     * Calculate all transaction fees
+     * Calculate Transaction Service Fee
      * @param OrderRow $OrderRow
-     * @return FeeRow[]
+     * @param $action
+     * @return mixed
      */
-    public function calculateFees(OrderRow $OrderRow) {
-        $fees = array();
-
-        $SaleAmount = $OrderRow->getAmount();
-        $fees[] = FeeRow::create($SaleAmount, FeeRow::TYPE_SALE_AMOUNT, $OrderRow->getID(), $OrderRow->getMerchantID());
-
-        $ConvFee = $this->calculateConvenienceFee($OrderRow);
-        if($ConvFee) {
-            $fee_account_id = $this->getMerchantRow()->getConvenienceFeeMerchantID();
-            $fees[] = FeeRow::create($ConvFee, FeeRow::TYPE_CONVENIENCE_FEE, $OrderRow->getID(), $fee_account_id);
+    public function calculateServiceFee(OrderRow $OrderRow, $action) {
+        switch(strtolower($action)) {
+            default:
+            case 'settled':
+            case 'authorized':
+                return 0;
         }
-
-
     }
 
 

@@ -1,5 +1,6 @@
 <?php
 use Integration\Model\IntegrationRow;
+use System\Config\SiteConfig;
 
 /**
  * @var \Merchant\View\MerchantView $this
@@ -10,7 +11,7 @@ $odd = false;
 $action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 
 $Theme = $this->getTheme();
-$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 $Theme->addPathURL($action_url,     $Merchant->getShortName());
 $Theme->addPathURL($action_url.'provision',     'Provision');
 $Theme->renderHTMLBodyHeader();
@@ -28,20 +29,16 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
             <form class="form-view-merchant themed" method="POST">
 
                 <fieldset class="themed">
-                    <div class="legend">Merchant Information</div>
+                    <div class="legend"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Information</div>
 
                     <div class="page-buttons order-page-buttons hide-on-print">
                         <a href="<?php echo $action_url; ?>view" class="page-button page-button-view">
                             <div class="app-button large app-button-view" ></div>
-                            View Merchant
+                            View <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <a href="<?php echo $action_url; ?>edit" class="page-button page-button-edit">
                             <div class="app-button large app-button-edit" ></div>
-                            Edit Merchant
-                        </a>
-                        <a href="<?php echo $action_url; ?>fee" class="page-button page-button-fee">
-                            <div class="app-button large app-button-fee" ></div>
-                            Rates & Fees
+                            Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
                         <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
                             <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision disabled">
@@ -49,6 +46,10 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                                 Provision
                             </a>
                         <?php } ?>
+                        <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
+                            <div class="app-button large app-button-delete" ></div>
+                            Delete <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
+                        </a>
                     </div>
 
                     <hr/>

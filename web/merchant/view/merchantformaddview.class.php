@@ -9,6 +9,7 @@ namespace Merchant\View;
 
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -30,10 +31,10 @@ HEAD;
     {
         $action_url = 'merchant/addform.php';
         $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
+//        $SessionUser = $SessionManager->getSessionUser();
 
         $Theme = $this->getTheme();
-        $Theme->addPathURL('merchant',              'Merchants');
+        $Theme->addPathURL('merchant',              SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
         $Theme->addPathURL('merchant/form.php',     'Forms');
         $Theme->addPathURL($action_url,             'Add New Custom Order Form');
         $Theme->renderHTMLBodyHeader();

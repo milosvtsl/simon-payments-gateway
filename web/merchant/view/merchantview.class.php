@@ -61,9 +61,6 @@ class MerchantView extends AbstractView
             case 'edit':
                 include('.edit.php');
                 break;
-            case 'fee':
-                include('.fee.php');
-                break;
             case 'delete':
                 include('.delete.php');
                 break;
@@ -123,7 +120,7 @@ class MerchantView extends AbstractView
                         : $SessionManager->setMessage("<div class='info'>No changes detected: " . $Merchant->getName() . "</div>");
 
                 } catch (\Exception $ex) {
-                    $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+                    $SessionManager->setMessage($ex->getMessage());
                 }
 
                 header("Location: {$baseHREF}merchant?uid={$Merchant->getUID()}");
@@ -149,12 +146,6 @@ class MerchantView extends AbstractView
                 die();
 
                 break;
-
-            case 'fee':
-                print_r($post);
-                die();
-                break;
-
             case 'delete':
                 print_r($post);
                 die();

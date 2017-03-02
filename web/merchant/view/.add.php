@@ -1,5 +1,6 @@
 <?php
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 
 /**
  * @var \User\View\UserView $this
@@ -11,7 +12,7 @@ $odd = false;
 
 
 $Theme = $this->getTheme();
-$Theme->addPathURL('merchant',      'Merchants');
+$Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 $Theme->addPathURL('merchant/add.php',  'Add New Merchant');
 $Theme->renderHTMLBodyHeader();
 $Theme->printHTMLMenu('merchant-add');

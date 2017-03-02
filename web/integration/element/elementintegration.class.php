@@ -266,8 +266,8 @@ class ElementIntegration extends AbstractIntegration
 
         // Create Transaction
         $Transaction = TransactionRow::createTransactionFromPost($MerchantIdentity, $Order, $post);
-//        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
-//        $Transaction->setServiceFee($service_fee);
+        $service_fee = $MerchantIdentity->calculateServiceFee($Order, 'Authorized');
+        $Transaction->setServiceFee($service_fee);
 
         /** @var ElementMerchantIdentity $MerchantIdentity */
 
@@ -337,10 +337,6 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($Transaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($Transaction->getID());
-        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-        $Request->setResponseCode($code);
-        $Request->setResponseMessage($message);
-
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::update($Request);
@@ -423,9 +419,6 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($ReverseTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($ReverseTransaction->getID());
-        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-        $Request->setResponseCode($code);
-        $Request->setResponseMessage($message);
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
@@ -511,9 +504,6 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($VoidTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($VoidTransaction->getID());
-        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-        $Request->setResponseCode($code);
-        $Request->setResponseMessage($message);
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
@@ -597,9 +587,6 @@ class ElementIntegration extends AbstractIntegration
         $Request->setTypeID($ReturnTransaction->getID());
         $Request->setOrderItemID($Order->getID());
         $Request->setTransactionID($ReturnTransaction->getID());
-        $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-        $Request->setResponseCode($code);
-        $Request->setResponseMessage($message);
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
@@ -644,8 +631,6 @@ class ElementIntegration extends AbstractIntegration
             throw new IntegrationException($message);
 
         $Request->setResult(IntegrationRequestRow::ENUM_RESULT_SUCCESS);
-        $Request->setResponseCode($code);
-        $Request->setResponseMessage($message);
 
         return $Request;
     }
@@ -754,8 +739,8 @@ class ElementIntegration extends AbstractIntegration
 
                             $OrderRow->setStatus("Settled");
 
-//                            $batch_id = $OrderRow->calculateCurrentBatchID();
-//                            $OrderRow->setBatchID($batch_id);
+                            $batch_id = $OrderRow->calculateCurrentBatchID();
+                            $OrderRow->setBatchID($batch_id);
 
                             OrderRow::update($OrderRow);
                             $updated = true;

@@ -5,6 +5,9 @@
  * Date: 8/27/2016
  * Time: 10:47 PM
  */
+// Enable error reporting for this page
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Go up 2 directories
 chdir('../..');
@@ -34,7 +37,7 @@ if(!empty($_GET['id'])) {
 
     } catch (Exception $ex) {
         $View = new Integration\Request\View\IntegrationRequestListView();
-        $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+        $SessionManager->setMessage($ex->getMessage());
         $View->redirectRequest();
     }
 } else {

@@ -7,6 +7,7 @@
  */
 namespace View\Theme\CourtPay;
 
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\Theme\AbstractViewTheme;
 
@@ -129,13 +130,13 @@ HEAD;
         <ul class="page-menu hide-on-print">
             <li class="menu-submenu menu-submenu-order">
                 <a href="." class="button<?php echo @$mc['dashboard']; ?>"><div class="menu-icon menu-icon-dashboard"></div>
-                    <span>Dashboard</span></a>
+                    <span>Home</span></a>
             </li>
 
             <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN', 'POST_CHARGE')) { ?>
                 <li class="menu-submenu menu-submenu-charge">
                     <a href="order/charge.php" class="button<?php echo @$mc['order-charge']; ?>"><div class="menu-icon menu-icon-charge"></div>
-                        <span>Charge</span> </a>
+                        <span>Charge Card</span> </a>
                 </li>
             <?php } ?>
 
@@ -149,7 +150,7 @@ HEAD;
             <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
                 <li class="menu-submenu menu-submenu-merchant">
                     <a href="merchant/list.php" class="button<?php echo @$mc['merchant-list']; ?>"><div class="menu-icon menu-icon-list"></div>
-                        <span>Merchants</span> </a>
+                        <span><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>s</span> </a>
                 </li>
             <?php } ?>
 

@@ -57,7 +57,7 @@ class IntegrationListView extends AbstractListView {
 		$this->setRowCount($ListQuery->rowCount());
 
 		$statsMessage = $this->getRowCount() . " integrations found in " . sprintf('%0.2f', $time) . ' seconds <br/>' . $statsMessage;
-		$SessionManager->setMessage($statsMessage);
+//		$SessionManager->setMessage($statsMessage);
 
 		// Render Page
 		$Theme = $this->getTheme();
@@ -99,7 +99,16 @@ class IntegrationListView extends AbstractListView {
 							<?php } ?>
 						</table>
 					</fieldset>
-				</form>
+                    <fieldset class="pagination">
+                        <div class="legend">Page</div>
+                        <!--                    <legend>Page</legend>-->
+                        <?php $this->printPagination('integration/request?'); ?>
+                        <br/>
+                        <span style="font-size: 0.7em; color: grey; float: left;">
+                            <?php echo $statsMessage; ?>
+                        </span>
+                    </fieldset>
+                </form>
 			</section>
 		</article>
 
@@ -115,7 +124,7 @@ class IntegrationListView extends AbstractListView {
 			header("Location: index.php");
 
 		} catch (\Exception $ex) {
-			$SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+			$SessionManager->setMessage($ex->getMessage());
 			header("Location: login.php");
 		}
 	}

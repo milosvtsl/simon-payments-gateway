@@ -88,7 +88,6 @@ SELECT
     i.name integration_name,
     i.class_path integration_class_path,
     m.short_name as merchant_name,
-    m.uid as merchant_uid,
     u.username as user_name,
     u.uid as user_uid
 FROM integration_request ir
@@ -133,7 +132,6 @@ LEFT JOIN user u ON u.id = ir.user_id
     // Table: merchant
 
     protected $merchant_name;
-    protected $merchant_uid;
 
     // Table: user
 
@@ -169,7 +167,6 @@ LEFT JOIN user u ON u.id = ir.user_id
     public function getUserUID()            { return $this->user_uid; }
     public function getUserName()           { return $this->user_name; }
     public function getMerchantID()         { return $this->merchant_id; }
-    public function getMerchantUID()        { return $this->merchant_uid; }
     public function getMerchantName()       { return $this->merchant_name; }
     public function getOrderItemID()        { return $this->order_item_id; }
     public function getOrderItemUID()       { return $this->order_item_uid; }
