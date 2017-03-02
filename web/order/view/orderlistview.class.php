@@ -319,7 +319,11 @@ class OrderListView extends AbstractListView {
                                 <th class="hide-on-layout-narrow">Account</th>
                                 <th class="hide-on-layout-narrow">Type</th>
                                 <?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
-									<th class="hide-on-layout-narrow"><a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">Merchant</a></th>
+									<th class="hide-on-layout-narrow">
+                                        <a href="order?<?php echo $this->getSortURL(OrderRow::SORT_BY_MERCHANT_ID); ?>">
+                                            <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
+                                        </a>
+                                    </th>
 								<?php } ?>
 							</tr>
 							<?php

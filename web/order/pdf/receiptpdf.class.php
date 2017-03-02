@@ -45,6 +45,7 @@ class ReceiptPDF extends \FPDF
         $this->Cell(0,10,sprintf("%-' 12s %s", SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME . ':', $Order->getCustomerFullName()) ,0,1);
 
         switch(strtolower($Order->getEntryMode())) {
+            default:
             case 'keyed':
             case 'swipe':
                 $this->addCreditCardInfo();

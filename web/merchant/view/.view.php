@@ -65,13 +65,14 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                     <?php $odd = true; ?>
                     <table class="table-merchant-info themed small striped-rows float-left-on-layout-horizontal" style="width: 50%;">
+                        <?php if($Merchant->hasLogoPath()) { ?>
                         <tr>
                             <th colspan="2" class="section-break">Logo</th>
                         </tr>
-
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo" </td>
                         </tr>
+                        <?php } ?>
 
                         <tr>
                             <th colspan="2" class="section-break">Information</th>

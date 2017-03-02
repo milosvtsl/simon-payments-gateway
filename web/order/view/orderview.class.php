@@ -202,13 +202,9 @@ class OrderView extends AbstractView
 
 
                         <div class="page-buttons order-page-buttons hide-on-print">
-                            <a onclick="window.print(); return false;" class="page-button page-button-print">
+                            <a href="<?php echo $action_url_pdf; ?>" class="page-button page-button-print">
                                 <div class="app-button large app-button-print" ></div>
-                                Print
-                            </a>
-                            <a href="<?php echo $action_url_pdf; ?>" class="page-button page-button-download">
-                                <div class="app-button large app-button-download" ></div>
-                                Download
+                                Print  Receipt
                             </a>
 
                             <?php if($SessionUser->hasAuthority('VOID_CHARGE', 'ADMIN')) { ?>
@@ -504,7 +500,6 @@ class OrderView extends AbstractView
                                 <th class="hide-on-layout-narrow">TID</th>
                                 <th>Date</th>
                                 <th>Amount</th>
-                                <th>Fee</th>
                                 <th>Action</th>
                                 <th>Perform</th>
                             </tr>
@@ -521,7 +516,6 @@ class OrderView extends AbstractView
                                     <td class="hide-on-layout-narrow"><a href='order/receipt.php?uid=<?php echo $Order->getUID(); ?>'><?php echo $Transaction->getIntegrationRemoteID(); ?></a></td>
                                     <td><?php echo $Transaction->getTransactionDate($SessionUser->getTimeZone())->format("M j g:i A"); ?></td>
                                     <td>$<?php echo $Transaction->getAmount(); ?></td>
-                                    <td>$<?php echo $Transaction->getServiceFee(); ?></td>
                                     <td>
                                         <a href="integration/request?id=<?php echo $Transaction->getIntegrationRequestID(); ?>">
                                             <?php echo $Transaction->getAction(); ?>
