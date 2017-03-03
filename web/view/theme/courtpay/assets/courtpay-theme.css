@@ -90,8 +90,8 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
 
 .courtpay-theme .menu-search {
     /* float: right; */
-    padding: 5px 16px 4px 28px;
-    margin: 1px 3px 1px 3px;
+    padding: 6px 16px 6px 28px;
+    margin: 2px 3px 2px 3px;
     border-radius: 8px;
     border: 1px inset;
     opacity: 0.7;
@@ -102,7 +102,7 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
     position: relative;
     background: url('img/icons/btn_search.png') no-repeat #FFF;
     background-size: 24px;
-    background-position: 3px 1px;
+    background-position: 3px 3px;
 }
 
 .courtpay-theme .menu-search:focus,
@@ -150,7 +150,7 @@ body.layout-horizontal.courtpay-theme .float-right-on-layout-horizontal {
     /* padding: 0.8em 0.5em 0.4em 0.9em; */
     background-color: #e7f0f3;
     background: linear-gradient(0deg, #c1e0ff 0%, #98b4c5 50%, #bfd1e3 51%, #e2f1f9 100%);
-    /* position: relative; */
+    position: relative;
     /* min-height: 38px; */
     /* display: block; */
     box-shadow: 0px 2px 2px #20323e;

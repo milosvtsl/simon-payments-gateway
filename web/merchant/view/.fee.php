@@ -146,7 +146,7 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                                             /** @var \Merchant\Model\MerchantRow $MerchantAccount */
                                             echo "<option value='", $MerchantAccount->getID(), "'",
                                             ($MerchantAccount->getID() === $merchant_fee_account_id ? 'selected="selected"' : ''),
-                                            ">", $MerchantAccount->getShortName(), "</option>";
+                                            ">", $MerchantAccount->getName(), "</option>";
                                         ?>
                                     </select>
                                 </td>

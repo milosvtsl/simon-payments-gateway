@@ -48,51 +48,68 @@ class UserWelcomeEmail extends \PHPMailer
 
         $this->Subject = "Welcome: " . $User->getFullName();
 
-        $key = crypt($User->getPasswordHash(), md5(time()));
-        $url = SiteConfig::$SITE_URL;
-        $url_reset = SiteConfig::$SITE_URL . '/reset.php?key='.$key.'&email='.$User->getEmail();
-        $date = date("M dS Y g:i a e");
-        $siteName = SiteConfig::$SITE_NAME;
 
-        $content = <<<HTML
-Welcome to {$siteName}, {$User->getFullName()}
+        $ip_details = NULL;
+        if(!empty($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
+            foreach($details as $k=>$v)
+                $ip_details .= "\n{$k}: {$v}" ;
+        }
+
+
+        $params = array(
+            'key' => crypt($User->getPasswordHash(), md5(time())),
+            'url' => SiteConfig::$SITE_URL,
+            'url_reset' => SiteConfig::$SITE_URL . '/reset.php?key='.$key.'&email='.$User->getEmail(),
+            'date' => date("M dS Y g:i a e"),
+            'site_name' => SiteConfig::$SITE_NAME,
+            'user_full_name' => $User->getFullName(),
+            'username' => $User->getUsername(),
+            'userUID' => $User->getUID(),
+            'sig' => SiteConfig::$SITE_NAME,
+            'ip_details' => $ip_details,
+    );
+
+        $content = <<<'HTML'
+<pre>
+Welcome to {$site_name}, {$user_full_name}
 
 You may use this url to log in:
 URL:        <a href="{$url}">{$url}</a>
-Username:   {$User->getUsername()}
+Username:   {$username}
 Password:   {$password}
 
 If you want to perform a password reset on this account, please click the following link:
 Reset:      <a href="{$url_reset}">{$url_reset}</a>
 
 Request Information
-Date: {$date}
-UID: {$User->getUID()}
-HTML;
-// Status:             {$User->getStatus()}
-
-
-        if(!empty($_SERVER['REMOTE_ADDR'])) {
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"));
-            foreach($details as $k=>$v)
-                $content .= "\n{$k}: {$v}" ;
-        }
-
-        $sig = SiteConfig::$SITE_NAME;
-
-        $content .= <<<HTML
-
+Date:       {$date}
+UID:        {$userUID}
 
 ____
 {$sig}
+</pre>
+HTML;
+
+        // Send template to email customizer
+
+        foreach($params as $name => $value)
+            $content = str_replace('{$' . $name . '}', $value, $content);
+
+        if(strpos($content, '{$')>=0)
+            error_log("Not all variables were replaced: \n" . $content);
+
+
+
+        $content .= <<<HTML
 HTML;
 
         $this->isHTML(true);
         $this->Body = <<<HTML
 <html>
     <body>
-        <pre>{$content}</pre>
+        {$content}
     </body>
 </html>
 HTML;

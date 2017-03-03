@@ -194,8 +194,7 @@ HEAD;
                     </ul>
                 </li>
             <?php } ?>
-
-            <li class="menu-submenu " style="float: right ;">
+            <li class="menu-submenu " style="float: right;">
                 <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest">
                     <div class="menu-icon menu-icon-sub-menu"></div>
                     <ul class="menu-sub-menu">
@@ -216,8 +215,14 @@ HEAD;
                         </li>
                     </ul>
                 </a>
-
             </li>
+
+            <li class="menu-submenu" style="float: right;">
+                <form action="order" style="display: inline-block; float: right;">
+                    <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
+                </form>
+            </li>
+
         </ul>
 
 
@@ -234,11 +239,6 @@ HEAD;
             ?>
             </span>
 
-
-
-            <form action="order" style="display: inline-block; float: right;">
-                <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
-            </form>
         </aside>
 
         <?php

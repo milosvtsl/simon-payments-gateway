@@ -275,7 +275,7 @@ class OrderListView extends AbstractListView {
                                                 /** @var \Merchant\Model\MerchantRow $Merchant */
                                                 echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
                                                 ($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
-                                                "'>", $Merchant->getShortName(), "</option>";
+                                                "'>", $Merchant->getName(), "</option>";
                                             ?>
                                         </select>
                                     </td>

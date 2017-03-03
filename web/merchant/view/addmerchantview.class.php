@@ -8,6 +8,7 @@
 namespace Merchant\View;
 
 use Merchant\Model\MerchantRow;
+use System\Config\SiteConfig;
 use User\Session\SessionManager;
 use View\AbstractView;
 
@@ -42,9 +43,8 @@ class AddMerchantView extends AbstractView
 
         try {
             $Merchant = MerchantRow::createNewMerchant($post);
-//        $SessionUser->addMerchantID($Merchant->getID());
 
-            $SessionManager->setMessage("Merchant created successfully: " . $Merchant->getUID());
+            $SessionManager->setMessage("<div class='info'>New " . SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . " created successfully: " . $Merchant->getName() . "</div>");
             header("Location: {$baseHREF}merchant?uid=" . $Merchant->getUID() . "&action=edit");
             die();
         } catch (\Exception $ex) {

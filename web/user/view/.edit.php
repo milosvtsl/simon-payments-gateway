@@ -142,7 +142,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                                         /** @var \Merchant\Model\MerchantRow $Merchant */
                                         echo "<option value='", $Merchant->getID(), "'",
                                         ($Merchant->getID() === $User->getMerchantID() ? 'selected="selected"' : ''),
-                                        ">", $Merchant->getShortName(), "</option>";
+                                        ">", $Merchant->getName(), "</option>";
                                     ?>
                                     </select>
                                 </td>

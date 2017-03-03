@@ -501,9 +501,9 @@ LEFT JOIN state s on m.state_id = s.id
      */
     public static function fetchByUID($uid) {        return static::fetchByField('uid', $uid);    }
 
-    public static function queryAll($order = 'm.id DESC') {
+    public static function queryAll($sqlOrderBy = self::SQL_ORDER_BY) {
         $DB = DBConfig::getInstance();
-        $stmt = $DB->prepare(static::SQL_SELECT . static::SQL_WHERE . "\nORDER BY " . $order);
+        $stmt = $DB->prepare(static::SQL_SELECT . static::SQL_WHERE . "\n" . $sqlOrderBy);
         /** @noinspection PhpMethodParametersCountMismatchInspection */
         $stmt->setFetchMode(\PDO::FETCH_CLASS, self::_CLASS);
         $stmt->execute();
