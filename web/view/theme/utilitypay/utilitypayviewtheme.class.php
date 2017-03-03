@@ -136,7 +136,13 @@ class UtilityPayViewTheme extends AbstractViewTheme
 
         echo <<<HEAD
         <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
+        
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
+        
+        <script src="assets/js/froala_editor/froala_editor.min.js"></script>
+        <link href='assets/js/froala_editor/froala_editor.min.css' type='text/css' rel='stylesheet'>
+        <link href='assets/js/froala_editor/froala_style.min.css' type='text/css' rel='stylesheet'>
+
         <link href='view/theme/utilitypay/assets/utilitypay-theme.css{$vcss}' type='text/css' rel='stylesheet'>
         <script src="view/theme/utilitypay/assets/utilitypay-theme.js{$vjs}"></script>
         <link rel="icon" href="view/theme/utilitypay/assets/img/favicon.ico">
