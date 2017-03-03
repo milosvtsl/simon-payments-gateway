@@ -45,7 +45,7 @@ class AddMerchantView extends AbstractView
 //        $SessionUser->addMerchantID($Merchant->getID());
 
             $SessionManager->setMessage("Merchant created successfully: " . $Merchant->getUID());
-            header("Location: {$baseHREF}?uid=' . $Merchant->getUID() . '&action=edit");
+            header("Location: {$baseHREF}merchant?uid=" . $Merchant->getUID() . "&action=edit");
             die();
         } catch (\Exception $ex) {
             $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
