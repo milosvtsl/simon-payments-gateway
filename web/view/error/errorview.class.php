@@ -34,21 +34,24 @@ class ErrorView extends AbstractView {
     public function renderHTMLBody(Array $params) {
         $Theme = $this->getTheme();
 
-        // Render Header
-        $Theme->renderHTMLBodyHeader();
-
-        // Render Page
-
         /** @var $this \View\Error\ErrorView */
         $SessionManager = new SessionManager();
 
-        $Exception = $this->getException();
-        $Theme->printHTMLMenu('error');
+        // Render Header
+        try {
+            $Theme->renderHTMLBodyHeader();
 
+            $Exception = $this->getException();
+            $Theme->printHTMLMenu('error');
+
+        } catch (\Exception $ex) {
+            $Exception = $ex;
+        }
         $message = $Exception->getMessage();
         if($SessionManager->isDebugMode())
             $message = $Exception;
 
+        // Render Page
         ?>
         <article class="themed">
 
