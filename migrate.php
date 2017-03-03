@@ -27,6 +27,7 @@ $SessionManager = new \User\Session\SessionManager();
 $SessionUser = $SessionManager->getSessionUser();
 
 $limit = 100000000;
+$_SERVER['HTTP_HOST'] = 'courtpay.org';
 
 // Query Statistics
 $DB = DBConfig::getInstance();

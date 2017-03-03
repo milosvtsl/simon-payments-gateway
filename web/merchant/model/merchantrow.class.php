@@ -47,7 +47,7 @@ FROM merchant m
 LEFT JOIN state s on m.state_id = s.id
 ";
     const SQL_GROUP_BY = "\nGROUP BY m.id";
-    const SQL_ORDER_BY = "\nORDER BY m.id DESC";
+    const SQL_ORDER_BY = "\nORDER BY m.name ASC";
     const SQL_WHERE = "\nWHERE m.status_id != 4";
 
     public static $ENUM_BUSINESS_TYPE = array(
@@ -344,6 +344,8 @@ LEFT JOIN state s on m.state_id = s.id
     public function getFraudHighMonthlyLimit()      { return $this->fraud_high_monthly_limit;    }
     public function getFraudFlags()                 { return $this->fraud_flags;    }
     public function hasFlag($type)                  { return (intval($type) & intval($this->fraud_flags));    }
+    public function getLabelItem()                  { return $this->label_item; }
+    public function getLabelContact()               { return $this->label_contact; }
 
     public function getNotes()                      { return $this->notes;    }
     public function getURL()                        { return $this->url;    }

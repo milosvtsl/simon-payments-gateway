@@ -36,16 +36,21 @@ class AddMerchantView extends AbstractView
         if(!$SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) {
             // Only admins may add merchants
             $SessionManager->setMessage("Unable to add merchant. Permission required: ADMIN or SUB_ADMIN");
-                header("Location: {$baseHREF}merchant?action=add&message=Unable to manage integration: Admin required");
-                die();
+            header("Location: {$baseHREF}merchant?action=add&message=Unable to manage integration: Admin required");
+            die();
         }
 
-        $Merchant = MerchantRow::createNewMerchant($post);
-        $SessionUser->addMerchantID($Merchant->getID());
+        try {
+            $Merchant = MerchantRow::createNewMerchant($post);
+//        $SessionUser->addMerchantID($Merchant->getID());
 
-        $SessionManager->setMessage("Merchant created successfully: " . $Merchant->getUID());
-        header("Location: {$baseHREF}?uid=' . $Merchant->getUID() . '&action=edit");
-        die();
-
+            $SessionManager->setMessage("Merchant created successfully: " . $Merchant->getUID());
+            header("Location: {$baseHREF}?uid=' . $Merchant->getUID() . '&action=edit");
+            die();
+        } catch (\Exception $ex) {
+            $SessionManager->setMessage("<div class='error'>" . $ex->getMessage() . "</div>");
+            header("Location: {$baseHREF}merchant?action=add&message=" . $ex->getMessage());
+            die();
+        }
     }
 }

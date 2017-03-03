@@ -53,7 +53,7 @@ $Theme->printHTMLMenu('merchant-add');
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">URL</td>
-                            <td><input type="text" name="url" value="" required/></td>
+                            <td><input type="text" name="url" value=""/></td>
                         </tr>
                         <tr>
                             <th colspan="2" class="section-break">Business Info</th>

@@ -97,6 +97,28 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <td class="name">URL</td>
                             <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
                         </tr>
+
+
+
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Description</td>
+                            <td><?php echo $Merchant->getDescription(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Branch</td>
+                            <td><?php echo $Merchant->getBranch(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Item Label</td>
+                            <td><?php echo $Merchant->getLabelItem(); ?></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Item Contact</td>
+                            <td><?php echo $Merchant->getLabelContact(); ?></td>
+                        </tr>
+
+
 <!--                        <tr class="row---><?php //echo ($odd=!$odd)?'odd':'even';?><!--">-->
 <!--                            <td class="name">Merchant ID</td>-->
 <!--                            <td>--><?php //echo $Merchant->getMerchantID(); ?><!--</td>-->

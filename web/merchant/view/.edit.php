@@ -86,16 +86,36 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Email</td>
-                            <td><input type="text" name="main_email_id" size="24" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
+                            <td><input type="email" name="main_email_id" size="24" value="<?php echo $Merchant->getMainEmailID(); ?>" /></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">URL</td>
                             <td><input type="text" name="url" size="24" value="<?php echo $Merchant->getURL(); ?>" /></td>
                         </tr>
+
+
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Description</td>
+                            <td><input type="text" name="description" size="24" value="<?php echo $Merchant->getDescription(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Branch</td>
+                            <td><input type="text" name="branch" size="24" value="<?php echo $Merchant->getBranch(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Item Label</td>
+                            <td><input type="text" name="label_item" size="24" value="<?php echo $Merchant->getLabelItem(); ?>" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Item Contact</td>
+                            <td><input type="text" name="label_contact" size="24" value="<?php echo $Merchant->getLabelContact(); ?>" /></td>
+                        </tr>
+
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> MCC Code</td>
                             <td>
                                 <select name="mcc" style="width: 16em;" title="Select Merchant MCC Code">
+                                    <option>Not Set</option>
                                     <?php
                                     foreach(\System\Arrays\Merchants::$MCC as $code=>$title)
                                         echo "<option value='", $code, "'",
@@ -119,6 +139,9 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                                 </select>
                             </td>
                         </tr>
+
+
+
                         <tr>
                             <th colspan="2" class="section-break">Convenience Fee</th>
                         </tr>
