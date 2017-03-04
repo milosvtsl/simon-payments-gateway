@@ -162,7 +162,7 @@ class MerchantListView extends AbstractListView {
 							foreach($this->getListQuery() as $Merchant) { ?>
 								<tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
 									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getID(); ?></a></td>
-									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getShortName(); ?></a></td>
+									<td><a href='merchant?uid=<?php echo $Merchant->getUID(); ?>'><?php echo $Merchant->getName(); ?></a></td>
                                     <td><?php echo $Merchant->getStatusName(); ?></td>
 									<td><a target="_blank" href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo preg_replace('/^https?:\/\//i', '', $Merchant->getMainEmailID()); ?></a></td>
 									<td><?php echo $Merchant->getRegionCode(); ?></td>

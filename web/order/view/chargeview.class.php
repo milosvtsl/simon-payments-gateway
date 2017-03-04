@@ -64,7 +64,7 @@ class ChargeView extends AbstractView
         $MerchantIdentity = $Integration->getMerchantIdentity($Merchant, $IntegrationRow);
         $this->merchantIdentity = $MerchantIdentity;
 
-        parent::__construct($OrderForm->getTitle() . ' - ' . $Merchant->getShortName());
+        parent::__construct($OrderForm->getTitle() . ' - ' . $Merchant->getName());
     }
 
     /**

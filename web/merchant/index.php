@@ -32,10 +32,6 @@ if(!empty($_GET['uid'])) {
     $View = new \Merchant\View\MerchantView($Merchant->getID(), @$_GET['action']);
     $View->handleRequest();
 
-} else if(!empty($_GET['id'])) {
-    $View = new \Merchant\View\MerchantView($_GET['id'], @$_GET['action']);
-    $View->handleRequest();
-
 } else {
     $View = new Merchant\View\MerchantListView();
     $View->handleRequest();

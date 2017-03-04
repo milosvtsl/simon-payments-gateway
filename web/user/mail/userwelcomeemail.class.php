@@ -13,7 +13,10 @@ use System\Config\SiteConfig;
 
 class UserWelcomeEmail extends AbstractEmail
 {
-    const TEMPLATE_HTML = '
+    const TITLE = "User Welcome Email";
+    const BCC = '{$admin_email}, support@simonpayments.com';
+    const TEMPLATE_SUBJECT = 'Welcome: {$user_full_name}';
+    const TEMPLATE_BODY = '
 <pre>
 Welcome to {$site_name}, {$user_full_name}
 
@@ -35,19 +38,9 @@ ____
 {$sig}
 </pre>';
 
-    
+
     public function __construct(UserRow $User, $password='****') {
         parent::__construct();
-
-        $this->addAddress($User->getEmail(), $User->getFullName());
-        if($User->getAdminID()) {
-            // Send a copy to admin
-            $AdminUser = UserRow::fetchByID($User->getAdminID());
-            $this->addAddress($AdminUser->getEmail(), $AdminUser->getFullName());
-        }
-
-        // Send a copy to support
-        $this->addBCC("support@simonpayments.com", $User->getFullName());
 
         // Get IP Details
         $ip_details = NULL;
@@ -68,29 +61,31 @@ ____
             'site_name' => SiteConfig::$SITE_NAME,
             'user_full_name' => $User->getFullName(),
             'username' => $User->getUsername(),
+            'user_email' => $User->getEmail(),
             'user_uid' => $User->getUID(),
             'sig' => SiteConfig::$SITE_NAME,
             'ip' => $ip,
             'ip_details' => $ip_details,
-    );
+            'admin_email' => NULL,
+        );
+
+        if(SiteConfig::$EMAIL_FROM_ADDRESS)
+            $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
+
+        $this->addAddress($User->getEmail(), $User->getFullName());
+        $this->addBCC(SiteConfig::$EMAIL_FROM_ADDRESS, $User->getFullName());
+        if($User->getAdminID()) {
+            // Send a copy to admin
+            $AdminUser = UserRow::fetchByID($User->getAdminID());
+            $params['admin_email'] = $AdminUser->getEmail();
+        }
+
 
         // Customize Email Template
-        $body = static::TEMPLATE_HTML;
-        $subject = "Welcome: " . $User->getFullName();
-        $this->processTemplate($body, $subject, $params);
-        $this->Subject = $subject;
-
-
-        $this->isHTML(true);
-        $this->Body = <<<HTML
-<html>
-    <body>
-        {$body}
-    </body>
-</html>
-HTML;
-
-        $this->AltBody = strip_tags($body);
+        $body = static::TEMPLATE_BODY;
+        $subject = static::TEMPLATE_SUBJECT;
+        $bcc = static::BCC;
+        $this->processTemplate($body, $subject, $bcc, $params, $User->getMerchantID());
     }
 
 }

@@ -49,12 +49,10 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <div class="app-button large app-button-edit" ></div>
                             Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
-                        <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
-                        <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
-                            <div class="app-button large app-button-provision" ></div>
-                            Provision
+                        <a href="<?php echo $action_url; ?>email-templates" class="page-button page-button-edit">
+                            <div class="app-button large app-button-edit" ></div>
+                            Email Templates
                         </a>
-                        <?php } ?>
                         <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
                             <div class="app-button large app-button-delete" ></div>
                             Delete <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
@@ -278,7 +276,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
                             <div class="app-button app-button-edit" style="display: inline-block;"></div>
                         </a>
-                        Provisions: <?php echo $Merchant->getShortName(); ?>
+                        Provisions: <?php echo $Merchant->getName(); ?>
                     </div>
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr>
@@ -328,7 +326,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                         <a href="merchant?action=edit&id=<?php echo $Merchant->getID(); ?>" style="text-decoration: none;">
                             <div class="app-button app-button-edit" style="display: inline-block;"></div>
                         </a>
-                        Users: <?php echo $Merchant->getShortName(); ?>
+                        Users: <?php echo $Merchant->getName(); ?>
                     </div>
                     <table class="table-merchant-users themed striped-rows" style="width: 100%;">
                         <tr>
@@ -372,7 +370,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
 
                 <fieldset>
                     <div class="legend">
-                        Recent Orders: <?php echo $Merchant->getShortName(); ?>
+                        Recent Orders: <?php echo $Merchant->getName(); ?>
                     </div>
                     <table class="table-results themed small striped-rows" style="width: 100%;">
                         <tr>

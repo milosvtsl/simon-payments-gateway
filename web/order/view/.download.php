@@ -28,7 +28,7 @@ $SITE_CUSTOMER_NAME = SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME;
 
         <form name="form-order-view" id="form-order-view" class="themed" method="POST">
             <fieldset>
-                <legend><?php echo $Merchant->getShortName(); ?></legend>
+                <legend><?php echo $Merchant->getName(); ?></legend>
                 <table class="table-transaction-info themed striped-rows" style="width:60%">
                     <tbody>
                     <?php $odd = true; ?>

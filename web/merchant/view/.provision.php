@@ -80,10 +80,6 @@ $Theme->printHTMLMenu('merchant-provision', $action_url);
                             <td><?php echo $Merchant->getName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Short Name</td>
-                            <td><?php echo $Merchant->getShortName(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td colspan="2">
                                 <pre><?php echo $Merchant->getNotes() ?: "No Notes"; ?></pre>
                             </td>

@@ -115,7 +115,7 @@ class OrderListView extends AbstractListView {
             $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
             $sqlParams['merchant_id'] = $Merchant->getID();
 			$export_filename = $Merchant->getShortName() . $export_filename;
-//            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
+//            $statsMessage .= " by merchant '" . $Merchant->getName() . "' ";
         }
 
         // Limit to status
@@ -347,7 +347,7 @@ class OrderListView extends AbstractListView {
                                     <td class="hide-on-layout-narrow"><?php echo substr($Order->getCardNumber(), -8); ?></td>
                                     <td class="hide-on-layout-narrow"><?php echo $Order->getCardType(); ?></td>
 									<?php if($SessionUser->hasAuthority('ADMIN', 'SUB_ADMIN')) { ?>
-										<td class="hide-on-layout-narrow"><a href='merchant?uid=<?php echo $Order->getMerchantUID(); ?>'><?php echo $Order->getMerchantShortName(); ?></a></td>
+										<td class="hide-on-layout-narrow"><a href='merchant?uid=<?php echo $Order->getMerchantUID(); ?>'><?php echo $Order->getMerchantName(); ?></a></td>
 									<?php } ?>
 								</tr>
 							<?php } ?>

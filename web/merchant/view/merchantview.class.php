@@ -10,6 +10,7 @@ namespace Merchant\View;
 use Integration\Model\Ex\IntegrationException;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantRow;
+use System\Model\EmailTemplateRow;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 use View\AbstractView;
@@ -60,6 +61,9 @@ class MerchantView extends AbstractView
                 break;
             case 'edit':
                 include('.edit.php');
+                break;
+            case 'email-templates':
+                include('.email-templates.php');
                 break;
             case 'delete':
                 include('.delete.php');
@@ -146,6 +150,19 @@ class MerchantView extends AbstractView
                 die();
 
                 break;
+
+
+            case 'email-templates':
+                $AvailableEmailTemplates = EmailTemplateRow::getAvailableEmailTemplateClasses();
+                if(!in_array($post['class'], $AvailableEmailTemplates))
+                    throw new \Exception("Unknown template: " . $post['class']);
+
+                $id = EmailTemplateRow::insertOrUpdate($Merchant->getID(), $post);
+                $EmailTemplate = EmailTemplateRow::fetchByID($id);
+                $SessionManager->setMessage("<div class='info'>Email Template updated successfully: {$EmailTemplate->getClass()}</div>");
+                header("Location: {$baseHREF}merchant?uid={$Merchant->getUID()}&action=email-templates&class=" . $EmailTemplate->getClass());
+                die();
+
             case 'delete':
                 print_r($post);
                 die();

@@ -396,7 +396,7 @@ HEAD;
 
 
                     <fieldset class="" style="max-width: 45em;">
-                        <div class="legend">Form Options: <?php echo $Merchant->getShortName(); ?></div>
+                        <div class="legend">Form Options: <?php echo $Merchant->getName(); ?></div>
 
                         <select name="change_form_url" class=""
                                 title="Select a charge form template">

@@ -153,7 +153,7 @@ s.recur_count as subscription_recur_count,
 s.recur_next_date as subscription_recur_next_date,
 s.recur_frequency as subscription_recur_frequency,
 
-m.short_name as merchant_short_name,
+m.name as merchant_name,
 m.uid as merchant_uid,
 i.name integration_name,
 (SELECT GROUP_CONCAT(
@@ -227,8 +227,9 @@ LEFT JOIN state st on st.short_code = oi.payee_state
 
     public function getMerchantID()         { return $this->merchant_id; }
     public function getMerchantUID()        { return $this->merchant_uid; }
-    public function getMerchantShortName()  { return $this->merchant_short_name; }
+    public function getMerchantName()       { return $this->merchant_name; }
 
+    public function getCardExp()            { return $this->card_exp_month . '/' . $this->card_exp_year; }
     public function getCardExpMonth()       { return $this->card_exp_month; }
     public function getCardExpYear()        { return $this->card_exp_year; }
     public function getCardType()           { return $this->card_type; }

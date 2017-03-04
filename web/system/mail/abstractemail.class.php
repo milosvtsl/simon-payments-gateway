@@ -9,6 +9,7 @@ namespace System\Mail;
 
 
 use Merchant\Model\MerchantRow;
+use System\Model\EmailTemplateRow;
 use User\Model\UserRow;
 use System\Config\SiteConfig;
 use User\Session\SessionManager;
@@ -19,6 +20,11 @@ require_once PHPMAILER_DIR . 'class.smtp.php';
 
 abstract class AbstractEmail extends \PHPMailer
 {
+    const TITLE = null;
+    const BCC = null;
+    const TEMPLATE_SUBJECT = null;
+    const TEMPLATE_BODY = null;
+
     public function __construct() {
         parent::__construct();
 
@@ -38,19 +44,45 @@ abstract class AbstractEmail extends \PHPMailer
 
     }
 
-    protected function processTemplate(&$body, &$subject, Array &$params) {
+    protected function processTemplate($body, $subject, $bcc, Array $params, $merchant_id=null) {
         // Query email template
+        if($merchant_id) {
+            $class = get_class($this);
+            $EmailTemplate = EmailTemplateRow::fetchAvailableTemplate($class, $merchant_id);
+            if($EmailTemplate) {
+                // Replace email template
+                $body = $EmailTemplate->getBody();
+                $subject = $EmailTemplate->getSubject();
+            }
+        }
+
+        foreach(array(
+            'Body' => &$body,
+            'Subject' => &$subject,
+            'BCC' => &$bcc,
+        ) as $typeName => &$typeValue) {
+
+            foreach($params as $name => $value)
+                $typeValue = str_replace('{$' . $name . '}', $value, $typeValue);
+
+            if(strpos($typeValue, '{$')>=0)
+                error_log("Not all variables were replaced: \n" . $typeValue);
+        }
 
 
-        foreach($params as $name => $value)
-            $body = str_replace('{$' . $name . '}', $value, $body);
-        foreach($params as $name => $value)
-            $subject = str_replace('{$' . $name . '}', $value, $subject);
+        $this->addBCC($bcc);
+        $this->Subject = $subject;
 
-        if(strpos($body, '{$')>=0)
-            error_log("Not all variables were replaced: \n" . $body);
-        if(strpos($subject, '{$')>=0)
-            error_log("Not all variables were replaced: \n" . $subject);
+        $this->isHTML(true);
+        $this->Body = <<<HTML
+<html>
+    <body>
+        {$body}
+    </body>
+</html>
+HTML;
+
+        $this->AltBody = strip_tags($body);
     }
 }
 

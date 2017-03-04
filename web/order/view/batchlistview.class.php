@@ -102,7 +102,7 @@ class BatchListView extends AbstractListView {
             $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
             $sqlParams['merchant_id'] = $Merchant->getID();
 			$export_filename = $Merchant->getShortName() . $export_filename;
-//            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
+//            $statsMessage .= " by merchant '" . $Merchant->getName() . "' ";
         }
 
 		// Query Statistics
@@ -197,7 +197,7 @@ class BatchListView extends AbstractListView {
 											/** @var \Merchant\Model\MerchantRow $Merchant */
 											echo "\n\t\t\t\t\t\t\t<option value='", $Merchant->getID(), "' ",
 											($Merchant->getID() == @$_GET['merchant_id'] ? 'selected="selected" ' : ''),
-											"'>", $Merchant->getShortName(), "</option>";
+											"'>", $Merchant->getName(), "</option>";
 										?>
 									</select>
 								</td>

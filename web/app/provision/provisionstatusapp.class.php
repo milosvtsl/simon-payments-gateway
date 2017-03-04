@@ -45,7 +45,7 @@ class ProvisionStatusApp extends AbstractApp {
                     continue;
 
                 $statusHTML .= "\n\t\t\t\t<li>"
-                            . "<a href='merchant?uid=" . $Merchant->getUID() . "'>" . $Merchant->getShortName() . "</a>: ";
+                            . "<a href='merchant?uid=" . $Merchant->getUID() . "'>" . $Merchant->getName() . "</a>: ";
 
                 if($MerchantIdentity->isProvisioned($reason)) {
                     $statusHTML .= "<span class='ready'>Ready</span></li>";

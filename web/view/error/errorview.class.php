@@ -27,7 +27,7 @@ class ErrorView extends AbstractView {
     }
 
     protected function renderHTMLHeadLinks() {
-        echo "\t\t<link href='view/error/assets/error.css' type='text/css' rel='stylesheet' />\n";
+//        echo "\t\t<link href='view/error/assets/error.css' type='text/css' rel='stylesheet' />\n";
         parent::renderHTMLHeadLinks();
     }
 

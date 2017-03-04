@@ -8,7 +8,7 @@ use System\Config\SiteConfig;
  **/
 $Merchant = $this->getMerchant();
 $odd = false;
-$action_url = 'merchant/index.php?id=' . $Merchant->getID() . '&action=';
+$action_url = 'merchant/?uid=' . $Merchant->getUID() . '&action=';
 
 
 $Theme = $this->getTheme();
@@ -23,12 +23,12 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
 
         <section class="content">
 
-
             <?php if($SessionManager->hasMessage()) echo "<h5>", $SessionManager->popMessage(), "</h5>"; ?>
 
             <form name="form-merchant-edit" class="themed" method="POST" action="<?php echo $action_url; ?>edit" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?php echo $Merchant->getID(); ?>" />
                 <input type="hidden" name="action" value="edit" />
+
                 <fieldset>
                     <div class="legend">Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> #<?php echo $Merchant->getID(); ?></div>
 
@@ -41,12 +41,12 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                             <div class="app-button large app-button-edit" ></div>
                             Edit <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
                         </a>
-                        <?php if($SessionUser->hasAuthority('ADMIN', 'PROVISION')) { ?>
-                            <a href="<?php echo $action_url; ?>provision" class="page-button page-button-provision">
-                                <div class="app-button large app-button-provision" ></div>
-                                Provision
-                            </a>
-                        <?php } ?>
+
+                        <a href="<?php echo $action_url; ?>email-templates" class="page-button page-button-edit">
+                            <div class="app-button large app-button-edit" ></div>
+                            Email Templates
+                        </a>
+
                         <a href="<?php echo $action_url; ?>delete" class="page-button page-button-delete disabled">
                             <div class="app-button large app-button-delete" ></div>
                             Delete <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?>
@@ -373,7 +373,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         </tr>
 
                         <tr>
-                            <th colspan="2" class="section-break">Notes: <?php echo $Merchant->getShortName(); ?></th>
+                            <th colspan="2" class="section-break">Notes: <?php echo $Merchant->getName(); ?></th>
                         </tr>
                         <?php $odd = false; ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">

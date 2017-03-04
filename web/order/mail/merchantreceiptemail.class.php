@@ -14,15 +14,14 @@ use System\Config\SiteConfig;
 use System\Mail\AbstractEmail;
 use User\Session\SessionManager;
 
-class ReceiptEmail extends AbstractEmail
+class MerchantReceiptEmail extends AbstractEmail
 {
-    const TITLE = "Order Receipt Email";
+    const TITLE = "Merchant Order Receipt Email";
     const BCC = '';
-    const TEMPLATE_SUBJECT = 'Receipt: {$merchant_name}';
+    const TEMPLATE_SUBJECT = 'Receipt: {$customer_name}';
     const TEMPLATE_BODY = '
 <pre>
-Hello {$customer_full_name},
-Thank you for your payment to {$merchant_name}.
+A successful payment has been made to {$merchant_name} by {$ctype} {$customer_name}.
 
 Order Information
 Amount:             ${$amount}

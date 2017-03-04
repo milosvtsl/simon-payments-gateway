@@ -101,7 +101,7 @@ class SubscriptionListView extends AbstractListView {
             $whereSQL .= "\nAND oi.merchant_id = :merchant_id";
             $sqlParams['merchant_id'] = $Merchant->getID();
 			$export_filename = $Merchant->getShortName() . $export_filename;
-//            $statsMessage .= " by merchant '" . $Merchant->getShortName() . "' ";
+//            $statsMessage .= " by merchant '" . $Merchant->getName() . "' ";
         }
 
         // Limit to status

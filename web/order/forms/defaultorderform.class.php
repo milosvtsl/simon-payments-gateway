@@ -87,7 +87,7 @@ HEAD;
                     <?php $Integration->renderChargeFormHiddenFields($MerchantIdentity); ?>
 
                     <fieldset class="inline-block-on-layout-full" style="min-width:45%; ">
-                        <div class="legend">Payment Method: <?php echo $Merchant->getShortName(); ?></div>
+                        <div class="legend">Payment Method: <?php echo $Merchant->getName(); ?></div>
                         <table class="table-payment-method" style="float: left;">
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?> required">
                                 <td>
