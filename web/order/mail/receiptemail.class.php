@@ -32,17 +32,14 @@ Thank you for your payment to <b>{$merchant_name}</b>.<br/>
 <b>Payment Information</b><br/>
 <div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
 {$payment_information}<br/>
-<br/>
 {$subscription_information}<br/>
 <br/>
 You may use this link to view your order at any time:<br/>
 <a href="{$url}">{$url}</a><br/>
-<br/>
 <hr/>
 <a href="{$url}">
     <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" />
 </a>
-<br />
 ';
 
     public function __construct(OrderRow $Order, MerchantRow $Merchant) {
@@ -94,9 +91,7 @@ You may use this link to view your order at any time:<br/>
             $order_fields .= "<div style='display: inline-block; width: 160px;'>{$name}:</div>       {$value}<br/>";
             $params['custom_' . $field] = $value;
         }
-        $order_fields .= "\n</dl>";
         $params['order_fields']  = $order_fields;
-
 
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
