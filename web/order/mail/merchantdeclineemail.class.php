@@ -18,38 +18,31 @@ class MerchantDeclineEmail extends DeclineEmail
 {
     const TITLE = "Merchant Payment Failed Email";
     const BCC = '';
-    const TEMPLATE_SUBJECT  = '{$customer_name}: Payment Failure';
+    const TEMPLATE_SUBJECT = '{$customer_name}: Payment Failure';
     const TEMPLATE_BODY = '
 A transaction failure occured in a payment attempt to <strong>{$merchant_name}</strong>.<br/> 
 The attempting customer\'s information is below for your records.<br/>
 <br/> 
 <b>Order Information</b><br/>
-{$order_information}<br/>
+<div style="display: inline-block; width: 160px;">Amount:</div>   {$amount}<br/>
+<div style="display: inline-block; width: 160px;">Date:</div>     {$date}<br/>
+<div style="display: inline-block; width: 160px;">Ref ID:</div>   <a href="{$url}">{$reference_number}</a><br/>
+{$order_fields}<br/>
 <br/>
 <b>Payment Information</b><br/>
+<div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
 {$payment_information}<br/>
 <br/>
 {$subscription_information}<br/>
 <br/>
+You may use this link to view your order at any time:<br/>
+<a href="{$url}">{$url}</a><br/>
+<br/>
 <hr/>
-<img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" /><br />
-<style>
-dl.inline dd {
-    display: inline;
-}
-dl.inline dd:after{
-    display: block;
-    content: "";
-}
-dl.inline dt{
-    display: inline-block;
-    min-width: 100px;
-}
-dl.inline dt:after{
-    content: ":";
-}
-
-</style>
+<a href="{$url}">
+    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" />
+</a>
+<br />
 ';
 
 }

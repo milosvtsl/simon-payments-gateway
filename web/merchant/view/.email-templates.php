@@ -69,13 +69,13 @@ if(!empty($_GET['class'])) {
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Name</td>
                             <td><?php echo $Merchant->getName(); ?></td>
+                            <td rowspan="2" style="width: 50%; vertical-align: top;">
+                                <pre><?php echo $Merchant->getNotes() ?: "No Notes"; ?></pre>
+                            </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>UID</td>
                             <td><?php echo $Merchant->getUID(); ?></td>
-                            <td rowspan="2" style="width: 50%; vertical-align: top;">
-                                <pre><?php echo $Merchant->getNotes() ?: "No Notes"; ?></pre>
-                            </td>
                         </tr>
                     </table>
                 </fieldset>
@@ -127,7 +127,7 @@ if(!empty($_GET['class'])) {
                     <div class="legend">
                         Customize Email '<?php echo $title; ?>'
                     </div>
-                    <table class="table-merchant-info themed striped-rows" style="width: 95%">
+                    <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Subject</td>
                             <td>
@@ -142,7 +142,7 @@ if(!empty($_GET['class'])) {
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Body</td>
-                            <td>
+                            <td style="padding-right: 24px;">
                                 <textarea name="body" style="width: 95%; min-height: 30em;"><?php echo $body; ?></textarea>
                             </td>
                         </tr>

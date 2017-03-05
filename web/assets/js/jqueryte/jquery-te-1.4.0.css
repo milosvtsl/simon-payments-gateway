@@ -353,7 +353,7 @@
 	resize:vertical
 }
 .jqte_editor div, .jqte_editor p {
-	margin:0 0 7px
+	/* margin:0 0 7px */
 }
 .jqte_editor a:link, .jqte_editor a:link * {
 	color:#0066FF !important;

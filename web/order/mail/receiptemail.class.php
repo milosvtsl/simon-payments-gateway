@@ -16,7 +16,7 @@ use User\Session\SessionManager;
 
 class ReceiptEmail extends AbstractEmail
 {
-    const TITLE = "Order Receipt Email";
+    const TITLE = "Customer Payment Success Receipt Email";
     const BCC = '';
     const TEMPLATE_SUBJECT = 'Receipt: {$merchant_name}';
     const TEMPLATE_BODY = '
@@ -24,9 +24,13 @@ Hello {$customer_full_name},<br/>
 Thank you for your payment to <b>{$merchant_name}</b>.<br/>
 <br/> 
 <b>Order Information</b><br/>
-{$order_information}<br/>
+<div style="display: inline-block; width: 160px;">Amount:</div>   {$amount}<br/>
+<div style="display: inline-block; width: 160px;">Date:</div>     {$date}<br/>
+<div style="display: inline-block; width: 160px;">Ref ID:</div>   <a href="{$url}">{$reference_number}</a><br/>
+{$order_fields}<br/>
 <br/>
 <b>Payment Information</b><br/>
+<div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
 {$payment_information}<br/>
 <br/>
 {$subscription_information}<br/>
@@ -35,24 +39,10 @@ You may use this link to view your order at any time:<br/>
 <a href="{$url}">{$url}</a><br/>
 <br/>
 <hr/>
-<img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" /><br />
-<style>
-dl.inline dd {
-    display: inline;
-}
-dl.inline dd:after{
-    display: block;
-    content: "";
-}
-dl.inline dt{
-    display: inline-block;
-    min-width: 100px;
-}
-dl.inline dt:after{
-    content: ":";
-}
-
-</style>
+<a href="{$url}">
+    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" />
+</a>
+<br />
 ';
 
     public function __construct(OrderRow $Order, MerchantRow $Merchant) {
@@ -65,7 +55,7 @@ dl.inline dt:after{
         $url = (@$pu["host"]?:SiteConfig::$SITE_URL?:'localhost') . '/order/receipt.php?uid='.$Order->getUID();
 
         $params = array(
-            'order_information' => null,
+            'order_fields' => null,
             'payment_information' => null,
             'subscription_information' => null,
 
@@ -95,42 +85,32 @@ dl.inline dt:after{
             'card_exp' => $Order->getCardExp(),
         );
 
-        $order_info = <<<'HTML'
-<dl class="inline">
-    <dt>Amount</dt><dd>{$amount}</dd>
-    <dt>Date</dt><dd>{$date}</dd>
-    <dt>Ref ID</dt><dd><a href="{$url}">{$reference_number}</a></dd>
-HTML;
+        $order_fields = '';
         if($Order->getInvoiceNumber())
-            $order_info .= "\n\t<dt>Invoice</dt><dd>{$Order->getInvoiceNumber()}</dd>";
+            $order_fields .= "\n\t<dt>Invoice</dt><dd>{$Order->getInvoiceNumber()}</dd>";
 
         foreach($Order->getCustomFieldValues() as $field => $value) {
             $name = ucwords(str_replace('_', ' ', $field));
-            $order_info .= "\n\t<dt>{$name}</dt><dd>{$value}</dd>";
+            $order_fields .= "\n\t<dt>{$name}</dt><dd>{$value}</dd>";
             $params['custom_' . $field] = $value;
         }
-        $order_info .= "\n</dl>";
-        $params['order_information']  = $order_info;
+        $order_fields .= "\n</dl>";
+        $params['order_fields']  = $order_fields;
 
 
 
         if($Order->getEntryMode() == OrderRow::ENUM_ENTRY_MODE_CHECK)
             $payment_info = <<<'HTML'
-<dl class="inline">
-    <dt>Account Name</dt><dd>{$check_account_name}</dd>
-    <dt>Account Type</dt><dd>{$check_account_type}</dd>
-    <dt>Account Number</dt><dd>{$check_account_number}</dd>
-    <dt>Routing Number</dt><dd>{$check_routing_number}</dd>
-    <dt>Type</dt><dd>{$check_type}</dd>
-</dl>
+<div style="display: inline-block; width: 160px;">Account Name:</div>       {$check_account_name}<br/>
+<div style="display: inline-block; width: 160px;">Account Type:</div>       {$check_account_type}<br/>
+<div style="display: inline-block; width: 160px;">Account Number:</div>     {$check_account_number}<br/>
+<div style="display: inline-block; width: 160px;">Routing Number:</div>     {$check_routing_number}<br/>
+<div style="display: inline-block; width: 160px;">Type:</div>               {$check_type}<br/>
 HTML;
         else $payment_info = <<<'HTML'
-<dl class="inline">
-    <dt>Full Name</dt><dd>{$card_name}</dd>
-    <dt>Number</dt><dd>{$card_number}</dd>
-    <dt>Exp</dt><dd>{$card_exp}</dd>
-    <dt>Type</dt><dd>{$card_type}</dd>
-</dl>
+<div style="display: inline-block; width: 160px;">CC Number:</div>          {$card_number}<br/>
+<div style="display: inline-block; width: 160px;">CC Exp:</div>             {$card_exp}<br/>
+<div style="display: inline-block; width: 160px;">CC Type:</div>            {$card_type}<br/>
 HTML;
         $params['payment_information']  = $payment_info;
 

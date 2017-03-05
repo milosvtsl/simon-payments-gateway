@@ -123,8 +123,9 @@ SQL;
     public static function getAvailableEmailTemplateClasses() {
         return array(
             ReceiptEmail::TITLE => ReceiptEmail::class,
-            MerchantReceiptEmail::TITLE => MerchantReceiptEmail::class,
             DeclineEmail::TITLE => DeclineEmail::class,
+
+            MerchantReceiptEmail::TITLE => MerchantReceiptEmail::class,
             MerchantDeclineEmail::TITLE => MerchantDeclineEmail::class,
         );
     }
