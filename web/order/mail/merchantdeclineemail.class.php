@@ -32,8 +32,8 @@ The attempting customer\'s information is below for your records.<br/>
 <b>Payment Information</b><br/>
 <div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
 {$payment_information}
-{$subscription_information}
-You may use this link to view your order at any time:<br/>
+<br/>
+<br/>You may use this link to view your order at any time:<br/>
 <a href="{$url}">{$url}</a><br/>
 <br/>
 <hr/>
