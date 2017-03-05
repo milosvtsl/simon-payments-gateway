@@ -80,18 +80,18 @@ You may use this link to view your order at any time:<br/>
             'check_type' => $Order->getCheckType(),
 
             'card_name' => $Order->getCardHolderFullName(),
-            'card_number' => $Order->getCardNumber(),
+            'card_number' => '***'.$Order->getCardNumberTruncated(),
             'card_type' => $Order->getCardType(),
             'card_exp' => $Order->getCardExp(),
         );
 
         $order_fields = '';
         if($Order->getInvoiceNumber())
-            $order_fields .= "\n\t<dt>Invoice</dt><dd>{$Order->getInvoiceNumber()}</dd>";
+            $order_fields .= "<div style='display: inline-block; width: 160px;'>Invoice:</div>       {$Order->getInvoiceNumber()}<br/>";
 
         foreach($Order->getCustomFieldValues() as $field => $value) {
             $name = ucwords(str_replace('_', ' ', $field));
-            $order_fields .= "\n\t<dt>{$name}</dt><dd>{$value}</dd>";
+            $order_fields .= "<div style='display: inline-block; width: 160px;'>{$name}:</div>       {$value}<br/>";
             $params['custom_' . $field] = $value;
         }
         $order_fields .= "\n</dl>";
