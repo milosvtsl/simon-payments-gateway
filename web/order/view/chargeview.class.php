@@ -10,6 +10,10 @@ namespace Order\View;
 use Integration\Model\IntegrationRow;
 use Merchant\Model\MerchantFormRow;
 use Merchant\Model\MerchantRow;
+use Order\Mail\DeclineEmail;
+use Order\Mail\MerchantDeclineEmail;
+use Order\Mail\MerchantReceiptEmail;
+use Order\Mail\ReceiptEmail;
 use Order\Model\OrderRow;
 use Payment\Model\PayeeRow;
 use Payment\Model\PaymentRow;
@@ -151,16 +155,21 @@ class ChargeView extends AbstractView
             $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $post);
 
             // Insert custom order fields
-
             foreach($OrderForm->getAllCustomFields(false) as $customField) {
                 if(!empty($post[$customField])) {
                     $Order->insertCustomField($customField, $post[$customField]);
                 }
             }
 
+            // Send Receipt Emails
+            if($Order->getPayeeEmail()) {
+                $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+                $EmailReceipt->send();
+                $EmailReceipt = new MerchantReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
+                $EmailReceipt->send();
+            }
 
             // TODO: If AJAX
-
 
             // Else POST
 
@@ -180,9 +189,18 @@ class ChargeView extends AbstractView
             header('Location: ' . $baseHREF . 'order/charge.php');
 
             // Delete pending orders that didn't complete
-            if($Order)
-                OrderRow::delete($Order);
+            if($Order) {
 
+                // Send Decline Emails
+                if($Order->getPayeeEmail()) {
+                    $EmailReceipt = new DeclineEmail($Order, $MerchantIdentity->getMerchantRow());
+                    $EmailReceipt->send();
+                    $EmailReceipt = new MerchantDeclineEmail($Order, $MerchantIdentity->getMerchantRow());
+                    $EmailReceipt->send();
+                }
+
+                OrderRow::delete($Order);
+            }
             error_log($ex->getMessage());
             
             // Send error email

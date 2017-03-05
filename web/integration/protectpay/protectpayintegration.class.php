@@ -182,12 +182,6 @@ class ProtectPayIntegration extends AbstractIntegration
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::update($Request);
 
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            if(!$EmailReceipt->send())
-                error_log($EmailReceipt->ErrorInfo);
-        }
-
 
     }
 
@@ -420,12 +414,6 @@ class ProtectPayIntegration extends AbstractIntegration
         // Update Order
         OrderRow::update($OrderRow);
 
-        if($OrderRow->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($OrderRow, $MerchantIdentity->getMerchantRow());
-            if(!$EmailReceipt->send())
-                error_log($EmailReceipt->ErrorInfo);
-        }
-
         // Clear session data
         unset($_SESSION[__FILE__]);
 
@@ -507,11 +495,6 @@ class ProtectPayIntegration extends AbstractIntegration
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
 
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
-        }
-
         return $ReverseTransaction;
     }
 
@@ -591,11 +574,6 @@ class ProtectPayIntegration extends AbstractIntegration
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
 
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
-        }
-
         return $VoidTransaction;
     }
 
@@ -673,11 +651,6 @@ class ProtectPayIntegration extends AbstractIntegration
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
-
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
-        }
 
         return $ReturnTransaction;
     }

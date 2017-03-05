@@ -27,7 +27,7 @@ Thank you for your payment to <b>{$merchant_name}</b>.<br/>
 <div style="display: inline-block; width: 160px;">Amount:</div>   {$amount}<br/>
 <div style="display: inline-block; width: 160px;">Date:</div>     {$date}<br/>
 <div style="display: inline-block; width: 160px;">Ref ID:</div>   <a href="{$url}">{$reference_number}</a><br/>
-{$order_fields}<br/>
+{$order_fields}
 <br/>
 <b>Payment Information</b><br/>
 <div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>

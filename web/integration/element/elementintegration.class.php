@@ -341,12 +341,6 @@ class ElementIntegration extends AbstractIntegration
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::update($Request);
 
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            if(!$EmailReceipt->send())
-                error_log($EmailReceipt->ErrorInfo);
-        }
-
         return $Transaction;
     }
 
@@ -422,11 +416,6 @@ class ElementIntegration extends AbstractIntegration
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
-
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
-        }
 
         return $ReverseTransaction;
     }
@@ -508,11 +497,6 @@ class ElementIntegration extends AbstractIntegration
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
 
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
-        }
-
         return $VoidTransaction;
     }
 
@@ -590,11 +574,6 @@ class ElementIntegration extends AbstractIntegration
         if($SessionUser)
             $Request->setUserID($SessionUser->getID());
         IntegrationRequestRow::insert($Request);
-
-        if($Order->getPayeeEmail()) {
-            $EmailReceipt = new ReceiptEmail($Order, $MerchantIdentity->getMerchantRow());
-            $EmailReceipt->send();
-        }
 
         return $ReturnTransaction;
     }
