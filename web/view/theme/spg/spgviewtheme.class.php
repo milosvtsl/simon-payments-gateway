@@ -145,10 +145,6 @@ class SPGViewTheme extends AbstractViewTheme
         
         <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
         
-        <script src="assets/js/froala_editor/froala_editor.min.js"></script>
-        <link href='assets/js/froala_editor/froala_editor.min.css' type='text/css' rel='stylesheet'>
-        <link href='assets/js/froala_editor/froala_style.min.css' type='text/css' rel='stylesheet'>
-
         <link href='view/theme/spg/assets/spg-theme.css{$vcss}' type='text/css' rel='stylesheet'>
         <script src="view/theme/spg/assets/spg-theme.js{$vjs}"></script>
         <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">

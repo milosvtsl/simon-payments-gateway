@@ -134,7 +134,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
 /** Page Menu **/
 
 .spg-theme ul.page-menu {
-    padding: 0 4px;
+    padding: 0 0px;
     margin: 0 0;
     display: inline-block;
     overflow: hidden;
