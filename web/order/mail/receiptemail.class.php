@@ -61,7 +61,7 @@ You may use this link to view your order at any time:<br/>
             'amount' => '$'.number_format($Order->getAmount(), 2),
             'customer_full_name' => $Order->getCustomerFullName(),
             'customer_email' => $Order->getPayeeEmail(),
-            'merchant_name' => $Order->getMerchantName(),
+            'merchant_name' => $Merchant->getName() ?: SiteConfig::$SITE_DEFAULT_MERCHANT_NAME,
             'username' => $Order->getUsername(),
             'invoice' => $Order->getInvoiceNumber(),
             'reference_number' => $Order->getReferenceNumber(),
