@@ -30,8 +30,8 @@ A successful payment has been made to {$merchant_name} by {$SITE_DEFAULT_CUSTOME
 <br/>
 <b>Payment Information</b><br/>
 <div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
-{$payment_information}<br/>
-{$subscription_information}<br/>
+{$payment_information}
+{$subscription_information}
 <br/>
 You may use this link to view your order at any time:<br/>
 <a href="{$url}">{$url}</a><br/>
