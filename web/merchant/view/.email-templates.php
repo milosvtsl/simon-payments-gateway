@@ -14,9 +14,9 @@ $action_url = 'merchant?uid=' . $Merchant->getUID() . '&action=';
 $Theme = $this->getTheme();
 $Theme->addPathURL('merchant',      SiteConfig::$SITE_DEFAULT_MERCHANT_NAME . 's');
 $Theme->addPathURL($action_url,     $Merchant->getShortName());
-$Theme->addPathURL($action_url.'provision',     'Provision');
+$Theme->addPathURL($action_url.'email-templates',     'Email Templates');
 $Theme->renderHTMLBodyHeader();
-$Theme->printHTMLMenu('merchant-provision', $action_url);
+$Theme->printHTMLMenu('merchant-email-templates', $action_url);
 
 $AvailableEmailTemplates = EmailTemplateRow::getAvailableEmailTemplateClasses();
 $Class = null;
@@ -64,30 +64,16 @@ if(!empty($_GET['class'])) {
 
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr>
-                            <th colspan="2" class="section-break">Information</th>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>ID</td>
-                            <td><?php echo $Merchant->getID(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Status</td>
-                            <td><?php echo $Merchant->getStatusName(); ?></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>Email</td>
-                            <td><a href='mailto:<?php echo $Merchant->getMainEmailID(); ?>'><?php echo $Merchant->getMainEmailID(); ?></a></td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td>URL</td>
-                            <td><a target="_blank" href='<?php echo $Merchant->getURL(); ?>'><?php echo $Merchant->getURL(); ?></a></td>
+                            <th colspan="3" class="section-break"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Information</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td>Name</td>
                             <td><?php echo $Merchant->getName(); ?></td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2">
+                            <td>UID</td>
+                            <td><?php echo $Merchant->getUID(); ?></td>
+                            <td rowspan="2" style="width: 50%; vertical-align: top;">
                                 <pre><?php echo $Merchant->getNotes() ?: "No Notes"; ?></pre>
                             </td>
                         </tr>
@@ -133,6 +119,8 @@ if(!empty($_GET['class'])) {
                         $subject = $EmailTemplate->getSubject();
                     }
 
+                    AbstractEmail::processTemplateConstants($body, $subject, $bcc, $Merchant);
+
                     ?>
 
                 <fieldset>
@@ -140,10 +128,6 @@ if(!empty($_GET['class'])) {
                         Customize Email '<?php echo $title; ?>'
                     </div>
                     <table class="table-merchant-info themed striped-rows" style="width: 95%">
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">Title</td>
-                            <td><?php echo $title; ?></td>
-                        </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Subject</td>
                             <td>
@@ -159,7 +143,7 @@ if(!empty($_GET['class'])) {
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Body</td>
                             <td>
-                                <textarea name="body" style="width: 95%; min-height: 20em;"><?php echo $body; ?></textarea>
+                                <textarea name="body" style="width: 95%; min-height: 30em;"><?php echo $body; ?></textarea>
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -179,7 +163,7 @@ if(!empty($_GET['class'])) {
                 <script>
 
                     $(function() {
-                        $('textarea[name=bpbody]').jqte({
+                        $('textarea[name=body]').jqte({
                             'left': false,
                             'center': false,
                             'right': false,

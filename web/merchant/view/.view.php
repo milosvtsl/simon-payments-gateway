@@ -68,7 +68,7 @@ $Theme->printHTMLMenu('merchant-view', $action_url);
                             <th colspan="2" class="section-break">Logo</th>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo" </td>
+                            <td colspan="2" style="text-align: center;"><img src="<?php echo $Merchant->getLogoPathURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo" </td>
                         </tr>
                         <?php } ?>
 

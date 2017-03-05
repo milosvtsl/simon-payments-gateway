@@ -18,6 +18,7 @@ class SiteConfig
     static $SITE_LIVE = FALSE;
     static $SITE_NAME = 'Simon Payments Gateway';
     static $SITE_URL = 'https://access.simonpayments.com';
+    static $SITE_URL_LOGO = 'https://access.simonpayments.com/view/theme/spg/assets/img/logo.png';
     static $SITE_MAX_TRANSACTION_AMOUNT = 20000;
     static $SITE_DEFAULT_CUSTOMER_NAME = "Customer";
     static $SITE_DEFAULT_MERCHANT_NAME = "Merchant";

@@ -231,7 +231,7 @@ LEFT JOIN state s on m.state_id = s.id
     public function getShortName() {        return $this->short_name ?: $this->name;    }
 
     public function hasLogoPath() {        return $this->logo_path ? true : false;    }
-    public function getLogoImageURL() {
+    public function getLogoPathURL() {
         if(!$this->hasLogoPath())
             throw new \InvalidArgumentException("Merchant has not uploaded a logo yet");
         return $this->logo_path;

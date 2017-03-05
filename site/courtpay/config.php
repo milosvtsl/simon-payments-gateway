@@ -21,6 +21,7 @@ SiteConfig::$SITE_NAME = "CourtPay.org";
 SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME = "Defendant";
 SiteConfig::$SITE_DEFAULT_MERCHANT_NAME = "Client";
 SiteConfig::$SITE_URL = "https://courtpay.org";
+SiteConfig::$SITE_URL_LOGO = 'http://dev.courtpay.org/view/theme/courtpay/assets/img/logo.png';
 SiteConfig::$DEFAULT_THEME = 'View\Theme\CourtPay\CourtPayViewTheme';
 
 // Email Config

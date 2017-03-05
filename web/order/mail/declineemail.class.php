@@ -14,24 +14,14 @@ use System\Config\SiteConfig;
 use System\Mail\AbstractEmail;
 use User\Session\SessionManager;
 
-class MerchantReceiptEmail extends ReceiptEmail
+class DeclineEmail extends ReceiptEmail
 {
-    const TITLE = "Merchant Order Receipt Email";
+    const TITLE = "Customer Payment Failed Email";
     const BCC = '';
-    const TEMPLATE_SUBJECT = '{$customer_name}: Successful Payment';
+    const TEMPLATE_SUBJECT = 'Receipt: {$customer_name}';
     const TEMPLATE_BODY = '
-A successful payment has been made to {$merchant_name} by {$SITE_DEFAULT_CUSTOMER_NAME} {$customer_name}.<br/>
-<br/>
-<b>Order Information</b><br/>
-{$order_information}<br/>
-<br/>
-<b>Payment Information</b><br/>
-{$payment_information}<br/>
-<br/>
-{$subscription_information}<br/>
-<br/>
-You may use this link to view your order at any time:<br/>
-<a href="{$url}">{$url}</a><br/>
+Your payment attempt to {$merchant_name} has failed. Please verify your payment information. 
+Also, verify with your bank if your account has enough funds and/or is being denied for some other reason before proceeding.<br/>
 <br/>
 <hr/>
 <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" /><br />

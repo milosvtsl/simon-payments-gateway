@@ -71,6 +71,5 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     document.location.href = href; //TODO: BROKEN??
 //             }
         }
-        console.log(e, form);
     }
 });

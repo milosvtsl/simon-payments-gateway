@@ -7,6 +7,8 @@
  */
 namespace System\Model;
 
+use Order\Mail\DeclineEmail;
+use Order\Mail\MerchantDeclineEmail;
 use Order\Mail\MerchantReceiptEmail;
 use Order\Mail\ReceiptEmail;
 use System\Config\DBConfig;
@@ -120,9 +122,10 @@ SQL;
 
     public static function getAvailableEmailTemplateClasses() {
         return array(
-//            UserWelcomeEmail::TITLE => UserWelcomeEmail::class,
             ReceiptEmail::TITLE => ReceiptEmail::class,
             MerchantReceiptEmail::TITLE => MerchantReceiptEmail::class,
+            DeclineEmail::TITLE => DeclineEmail::class,
+            MerchantDeclineEmail::TITLE => MerchantDeclineEmail::class,
         );
     }
 }

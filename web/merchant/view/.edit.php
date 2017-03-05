@@ -69,7 +69,7 @@ $Theme->printHTMLMenu('merchant-edit', $action_url);
                         <?php if($Merchant->hasLogoPath()) { ?>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Current Logo</td>
-                            <td><img src="<?php echo $Merchant->getLogoImageURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo"/></td>
+                            <td><img src="<?php echo $Merchant->getLogoPathURL(); ?>" alt="Custom <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?> Logo"/></td>
                         </tr>
                         <?php } ?>
 

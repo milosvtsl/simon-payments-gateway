@@ -44,11 +44,11 @@ abstract class AbstractEmail extends \PHPMailer
 
     }
 
-    protected function processTemplate($body, $subject, $bcc, Array $params, $merchant_id=null) {
+    protected function processTemplate($body, $subject, $bcc, Array $params, MerchantRow $Merchant=null) {
         // Query email template
-        if($merchant_id) {
+        if($Merchant) {
             $class = get_class($this);
-            $EmailTemplate = EmailTemplateRow::fetchAvailableTemplate($class, $merchant_id);
+            $EmailTemplate = EmailTemplateRow::fetchAvailableTemplate($class, $Merchant->getID());
             if($EmailTemplate) {
                 // Replace email template
                 $body = $EmailTemplate->getBody();
@@ -56,18 +56,18 @@ abstract class AbstractEmail extends \PHPMailer
             }
         }
 
-        foreach(array(
-            'Body' => &$body,
-            'Subject' => &$subject,
-            'BCC' => &$bcc,
-        ) as $typeName => &$typeValue) {
+        // Pre-process site constants
+        self::processTemplateConstants($body, $subject, $bcc);
 
-            foreach($params as $name => $value)
-                $typeValue = str_replace('{$' . $name . '}', $value, $typeValue);
-
-            if(strpos($typeValue, '{$')>=0)
-                error_log("Not all variables were replaced: \n" . $typeValue);
+        foreach($params as $name => $value) {
+            $body = str_replace('{$' . $name . '}', $value, $body);
+            $subject = str_replace('{$' . $name . '}', $value, $subject);
+            $bcc = str_replace('{$' . $name . '}', $value, $bcc);
         }
+
+        if(strpos($body, '{$')!==false) error_log("Not all variables were replaced: \n" . $body);
+        if(strpos($subject, '{$')!==false) error_log("Not all variables were replaced: \n" . $subject);
+        if(strpos($bcc, '{$')!==false) error_log("Not all variables were replaced: \n" . $bcc);
 
 
         $this->addBCC($bcc);
@@ -82,7 +82,29 @@ abstract class AbstractEmail extends \PHPMailer
 </html>
 HTML;
 
-        $this->AltBody = strip_tags($body);
+        $this->AltBody = strip_tags(
+            preg_replace('/<br[^>]*>/i', "\r\n", $body)
+        );
+    }
+
+    static function processTemplateConstants(&$body, &$subject, &$bcc, MerchantRow $Merchant=null) {
+        $constants = array(
+            'SITE_NAME' => SiteConfig::$SITE_NAME,
+            'SITE_URL_LOGO' => SiteConfig::$SITE_URL_LOGO,
+            'SITE_URL_MERCHANT_LOGO' => SiteConfig::$SITE_URL_LOGO,
+            'SITE_DEFAULT_MERCHANT_NAME' => SiteConfig::$SITE_DEFAULT_MERCHANT_NAME,
+            'SITE_DEFAULT_CUSTOMER_NAME' => SiteConfig::$SITE_DEFAULT_CUSTOMER_NAME,
+        );
+        if($Merchant && $Merchant->hasLogoPath())
+            $constants['SITE_URL_MERCHANT_LOGO'] = $Merchant->getLogoPathURL();
+
+        // Pre-process site constants
+        foreach($constants as $name => $value) {
+            $body = str_replace('{$' . $name . '}', $value, $body);
+            $subject = str_replace('{$' . $name . '}', $value, $subject);
+            $bcc = str_replace('{$' . $name . '}', $value, $bcc);
+        }
+
     }
 }
 

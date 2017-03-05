@@ -115,7 +115,6 @@ class OrderRow
     protected $total_returned_service_fee;
     protected $convenience_fee;
     protected $username;
-    protected $merchant_id;
     protected $integration_id;
     protected $integration_remote_id;
     protected $subscription_id;
@@ -130,7 +129,9 @@ class OrderRow
 
     // Table merchant
     protected $merchant_short_name;
+    protected $merchant_id;
     protected $merchant_uid;
+    protected $merchant_name;
 
     // Table subscription
     protected $subscription_uid;
