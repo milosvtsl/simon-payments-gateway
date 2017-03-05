@@ -18,7 +18,7 @@ class DeclineEmail extends ReceiptEmail
 {
     const TITLE = "Customer Payment Failed Email";
     const BCC = '';
-    const TEMPLATE_SUBJECT = 'Receipt: {$customer_name}';
+    const TEMPLATE_SUBJECT = 'Receipt: {$customer_full_name}';
     const TEMPLATE_BODY = '
 Your payment attempt to <strong>{$merchant_name}</strong> has failed. Please verify your payment information. <br/>
 Also, verify with your bank if your account has enough funds and/or <br/>
