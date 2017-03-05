@@ -28,7 +28,7 @@ A successful payment has been made to {$merchant_name} by {$SITE_DEFAULT_CUSTOME
 <div style="display: inline-block; width: 160px;">Ref ID:</div>   <a href="{$url}">{$reference_number}</a><br/>
 {$order_fields}
 <br/>
-<b>Payment Information</b><br/>
+<br/><b>Payment Information</b><br/>
 <div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
 {$payment_information}
 <br/>
@@ -36,7 +36,7 @@ A successful payment has been made to {$merchant_name} by {$SITE_DEFAULT_CUSTOME
 <a href="{$url}">{$url}</a><br/>
 <hr/>
 <a href="{$url}">
-    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" />
+    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" style="max-width: 512px; max-height: 64px;"/>
 </a>
 ';
        }

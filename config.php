@@ -32,6 +32,7 @@ $host = parse_url('http://' . (@$_SERVER['HTTP_HOST']), PHP_URL_HOST);
 switch($host) {
     // Simon Payments Gateway
     default:
+    case 'localhost':
     case 'access.simonpayments.com':
         include __DIR__ . '/site/spg/config.php';
         SiteConfig::$SITE_LIVE = TRUE;
@@ -51,7 +52,6 @@ switch($host) {
 
 
     // Court Pay
-    case 'localhost':
     case 'dev.courtpay.org':
         include __DIR__ . '/site/courtpay/config.php';
         SiteConfig::$DEBUG_MODE = true;

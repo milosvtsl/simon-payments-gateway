@@ -29,7 +29,7 @@ The attempting customer\'s information is below for your records.<br/>
 <div style="display: inline-block; width: 160px;">Ref ID:</div>   <a href="{$url}">{$reference_number}</a><br/>
 {$order_fields}<br/>
 <br/>
-<b>Payment Information</b><br/>
+<br/><b>Payment Information</b><br/>
 <div style="display: inline-block; width: 160px;">Full Name:</div>   {$customer_full_name}<br/>
 {$payment_information}
 <br/>
@@ -38,7 +38,7 @@ The attempting customer\'s information is below for your records.<br/>
 <br/>
 <hr/>
 <a href="{$url}">
-    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" />
+    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" style="max-width: 512px; max-height: 64px;"/>
 </a>
 <br />
 ';

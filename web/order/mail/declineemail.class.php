@@ -26,7 +26,7 @@ is being denied for some other reason before proceeding.<br/>
 <br/>
 <hr/>
 <a href="{$url}">
-    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" />
+    <img src="{$SITE_URL_MERCHANT_LOGO}" alt="{$merchant_name}" style="max-width: 512px; max-height: 64px;"/>
 </a>
 ';
 
