@@ -15,6 +15,8 @@ use Order\Model\OrderRow;
 use Order\Model\TransactionRow;
 use Payment\Model\PaymentRow;
 use User\Model\SystemUser;
+use Order\Mail\ReceiptEmail;
+use Order\Mail\MerchantReceiptEmail;
 
 if(!isset($argv))
     die("Console Only");
@@ -167,7 +169,7 @@ if(!in_array(@$_SERVER['COMPUTERNAME'], array('NOBISERV', 'KADO')))
 $batch_id = null;
 
 $OrderForm = MerchantFormRow::fetchGlobalForm();
-
+$EmailOrder = null;
 foreach($tests as $testData) {
     $PaymentInfo = PaymentRow::createPaymentFromPost($testData+$data);
     $Order = $MerchantIdentity->createNewOrder($PaymentInfo, $OrderForm, $testData+$data);
@@ -175,6 +177,8 @@ foreach($tests as $testData) {
     // Create transaction
     $Transaction = $MerchantIdentity->submitNewTransaction($Order, $SessionUser, $testData+$data);
     echo "\n$" . $Transaction->getAmount(), ' ' . $Transaction->getStatusCode(), ' ' . $Transaction->getAction(), ' #' . $Transaction->getIntegrationRemoteID();
+
+    $EmailOrder = $Order;
 
     // Void transaction
     if(!empty($testData['void'])) {
@@ -200,6 +204,15 @@ foreach($tests as $testData) {
 //    TransactionRow::delete($VoidTransaction);
 //    TransactionRow::delete($Transaction);
 //    OrderRow::delete($Order);
+}
+
+
+// Send Receipt Emails
+if($EmailOrder->getPayeeEmail()) {
+    $EmailReceipt = new ReceiptEmail($EmailOrder, $MerchantIdentity->getMerchantRow());
+    $EmailReceipt->send();
+    $EmailReceipt = new MerchantReceiptEmail($EmailOrder, $MerchantIdentity->getMerchantRow());
+    $EmailReceipt->send();
 }
 
 echo "\nElement Integration Test finished";
