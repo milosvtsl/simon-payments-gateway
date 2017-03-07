@@ -87,11 +87,11 @@ if(!empty($_GET['class'])) {
                             <td class="name">Template</td>
                             <td>
                                 <select name="class_change">
-                                    <option>Choose an email template:</option>
+                                    <option value="">Choose an email template:</option>
                                     <?php
                                     foreach($AvailableEmailTemplates as $title => $class_option)
                                         echo "<option value='", $class_option, "'",
-                                        (@$_GET['class'] == $class_option ? ' selected="selected"' : ''),
+//                                        (@$_GET['class'] == $class_option ? ' selected="selected"' : ''),
                                         ">", $title, "</option>\n";
                                     ?>
                                 </select>
@@ -107,19 +107,17 @@ if(!empty($_GET['class'])) {
 
                     /** @var AbstractEmail $Class */
                     $title = $Class::TITLE;
-                    $bcc = $Class::BCC;
                     $body = $Class::TEMPLATE_BODY;
                     $subject = $Class::TEMPLATE_SUBJECT;
 
                     $EmailTemplate = EmailTemplateRow::fetchAvailableTemplate($Class, $Merchant->getID());
                     if($EmailTemplate) {
                         // Replace email template
-                        $bcc = $EmailTemplate->getBCC();
                         $body = $EmailTemplate->getBody();
                         $subject = $EmailTemplate->getSubject();
                     }
 
-                    AbstractEmail::processTemplateConstants($body, $subject, $bcc, $Merchant);
+                    AbstractEmail::processTemplateConstants($body, $subject, $Merchant);
 
                     ?>
 
@@ -129,15 +127,13 @@ if(!empty($_GET['class'])) {
                     </div>
                     <table class="table-merchant-info themed striped-rows" style="width: 100%;">
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
+                            <td class="name">Enabled</td>
+                            <td><input type="checkbox" name="status[enabled]" value="1" style="transform: scale(1.5);" /></td>
+                        </tr>
+                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Subject</td>
                             <td>
                                 <input type="text" name="subject" value="<?php echo $subject; ?>" style="width: 95%;"/>
-                            </td>
-                        </tr>
-                        <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                            <td class="name">BCC</td>
-                            <td>
-                                <input type="text" name="bcc" value="<?php echo $bcc; ?>" style="width: 95%;"/>
                             </td>
                         </tr>
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
@@ -149,7 +145,7 @@ if(!empty($_GET['class'])) {
                         <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                             <td class="name">Update</td>
                             <td>
-                                <button type="submit">Update Email Template</button>
+                                <button type="submit" name="submit">Update Email Template</button>
                             </td>
                         </tr>
                     </table>
@@ -163,7 +159,8 @@ if(!empty($_GET['class'])) {
                 <script>
 
                     $(function() {
-                        $('textarea[name=body]').jqte({
+                        var txt = $('textarea[name=body]');
+                        txt[0].jqtei = txt.jqte({
                             'left': false,
                             'center': false,
                             'right': false,

@@ -17,7 +17,6 @@ use User\Session\SessionManager;
 class MerchantReceiptEmail extends ReceiptEmail
 {
     const TITLE = "Merchant Payment Success Receipt Email";
-    const BCC = '';
     const TEMPLATE_SUBJECT = '{$customer_full_name}: Successful Payment';
     const TEMPLATE_BODY = '
 A successful payment has been made to {$merchant_name} by {$SITE_DEFAULT_CUSTOMER_NAME} {$customer_full_name}.<br/>

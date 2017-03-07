@@ -17,7 +17,6 @@ use User\Session\SessionManager;
 class ReceiptEmail extends AbstractEmail
 {
     const TITLE = "Customer Payment Success Receipt Email";
-    const BCC = '';
     const TEMPLATE_SUBJECT = 'Receipt: {$merchant_name}';
     const TEMPLATE_BODY = '
 Hello {$customer_full_name},<br/>
@@ -61,6 +60,7 @@ Thank you for your payment to <b>{$merchant_name}</b>.<br/>
             'customer_full_name' => $Order->getCustomerFullName(),
             'customer_email' => $Order->getPayeeEmail(),
             'merchant_name' => $Merchant->getName() ?: SiteConfig::$SITE_DEFAULT_MERCHANT_NAME,
+            'merchant_phone' => $Merchant->getTelephone(),
             'username' => $Order->getUsername(),
             'invoice' => $Order->getInvoiceNumber(),
             'reference_number' => $Order->getReferenceNumber(),
@@ -119,9 +119,8 @@ HTML;
         // Customize Email Template
         $body = static::TEMPLATE_BODY;
         $subject = static::TEMPLATE_SUBJECT;
-        $bcc = static::BCC;
 
-        $this->processTemplate($body, $subject, $bcc, $params, $Merchant);
+        $this->processTemplate($body, $subject, $params, $Merchant);
     }
 }
 

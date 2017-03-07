@@ -17,7 +17,6 @@ use User\Session\SessionManager;
 class MerchantDeclineEmail extends DeclineEmail
 {
     const TITLE = "Merchant Payment Failed Email";
-    const BCC = '';
     const TEMPLATE_SUBJECT = '{$customer_full_name}: Payment Failure';
     const TEMPLATE_BODY = '
 A transaction failure occured in a payment attempt to <strong>{$merchant_name}</strong>.<br/> 

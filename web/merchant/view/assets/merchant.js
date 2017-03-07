@@ -62,14 +62,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     function updateMerchantEmailTemplatesForm(e, form) {
         if(form.class_change && form.class_change.value) {
-//             if(!form.class_path.value) {
-                var href =
-                    'merchant/?uid=' + form.merchant_uid.value
-                    + '&class=' + form.class_change.value
-                    + '&action=email-templates';
-                if(document.location.href != href)
-                    document.location.href = href; //TODO: BROKEN??
-//             }
+            var href =
+                'merchant/?uid=' + form.merchant_uid.value
+                + '&class=' + form.class_change.value
+                + '&action=email-templates';
+            if(document.location.href != href)
+                document.location.href = href; //TODO: BROKEN??
+            return;
         }
+
+        form.subject.disabled =
+        form.body.disabled =
+        form.submit.disabled = form['status[enabled]'].checked;
+
     }
 });

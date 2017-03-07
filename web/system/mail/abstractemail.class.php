@@ -21,7 +21,6 @@ require_once PHPMAILER_DIR . 'class.smtp.php';
 abstract class AbstractEmail extends \PHPMailer
 {
     const TITLE = null;
-    const BCC = null;
     const TEMPLATE_SUBJECT = null;
     const TEMPLATE_BODY = null;
 
@@ -44,7 +43,7 @@ abstract class AbstractEmail extends \PHPMailer
 
     }
 
-    protected function processTemplate($body, $subject, $bcc, Array $params, MerchantRow $Merchant=null) {
+    protected function processTemplate($body, $subject, Array $params, MerchantRow $Merchant=null) {
         // Query email template
         if($Merchant) {
             $class = get_class($this);
@@ -57,20 +56,16 @@ abstract class AbstractEmail extends \PHPMailer
         }
 
         // Pre-process site constants
-        self::processTemplateConstants($body, $subject, $bcc);
+        self::processTemplateConstants($body, $subject, $Merchant);
 
         foreach($params as $name => $value) {
             $body = str_replace('{$' . $name . '}', $value, $body);
             $subject = str_replace('{$' . $name . '}', $value, $subject);
-            $bcc = str_replace('{$' . $name . '}', $value, $bcc);
         }
 
         if(strpos($body, '{$')!==false) error_log("Not all variables were replaced: \n" . $body);
         if(strpos($subject, '{$')!==false) error_log("Not all variables were replaced: \n" . $subject);
-        if(strpos($bcc, '{$')!==false) error_log("Not all variables were replaced: \n" . $bcc);
 
-
-        $this->addBCC($bcc);
         $this->Subject = $subject;
 
         $this->isHTML(true);
@@ -87,7 +82,7 @@ HTML;
         );
     }
 
-    static function processTemplateConstants(&$body, &$subject, &$bcc, MerchantRow $Merchant=null) {
+    static function processTemplateConstants(&$body, &$subject, MerchantRow $Merchant=null) {
         $constants = array(
             'SITE_NAME' => SiteConfig::$SITE_NAME,
             'SITE_URL_LOGO' => SiteConfig::$SITE_URL_LOGO,
@@ -102,7 +97,6 @@ HTML;
         foreach($constants as $name => $value) {
             $body = str_replace('{$' . $name . '}', $value, $body);
             $subject = str_replace('{$' . $name . '}', $value, $subject);
-            $bcc = str_replace('{$' . $name . '}', $value, $bcc);
         }
 
     }
