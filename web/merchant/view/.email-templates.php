@@ -23,7 +23,7 @@ $Class = null;
 if(!empty($_GET['class'])) {
     $Class = $_GET['class'];
     if(!in_array($Class, $AvailableEmailTemplates))
-        throw new Exception("Unknown templates: " . $Class);
+        throw new Exception("Unknown template: " . $Class);
 }
 ?>
 
