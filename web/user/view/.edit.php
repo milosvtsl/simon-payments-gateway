@@ -5,6 +5,8 @@ use User\Model\UserAuthorityRow;
 use User\Model\UserRow;
 use User\Session\SessionManager;
 
+use \System\Config\SiteConfig;
+
 /**
  * @var \User\View\UserView $this
  * @var PDOStatement $UserQuery
@@ -111,6 +113,7 @@ $Theme->printHTMLMenu($category,    $action_url);
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
                                 <td class="name">Admin</td>
                                 <td>
+                                    <option value="">Choose Admin</option>
                                     <select name="admin_id" required>
                                         <?php
                                         $SQL = UserRow::SQL_SELECT
@@ -132,10 +135,11 @@ $Theme->printHTMLMenu($category,    $action_url);
                             </tr>
 
                             <tr class="row-<?php echo ($odd=!$odd)?'odd':'even';?>">
-                                <td class="name">Merchant</td>
+                                <td class="name"><?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?></td>
                                 <td class="value">
                                     <select name="merchant_id">
-                                    <?php
+                                        <option value="">Choose <?php echo SiteConfig::$SITE_DEFAULT_MERCHANT_NAME; ?></option>
+                                        <?php
                                     $MerchantQuery = MerchantRow::queryAll();
                                     foreach($MerchantQuery as $Merchant)
                                         /** @var \Merchant\Model\MerchantRow $Merchant */
