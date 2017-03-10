@@ -8,6 +8,7 @@
 namespace View\Theme\CourtPay;
 
 use System\Config\SiteConfig;
+use User\Model\GuestUser;
 use User\Session\SessionManager;
 use View\Theme\AbstractViewTheme;
 
@@ -44,9 +45,10 @@ class CourtPayViewTheme extends AbstractViewTheme
         }
 
         $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
-        if(!$SessionManager->isLoggedIn())
+        if(!$SessionManager->isLoggedIn()) {
             $body_class .= ' layout-guest';
+//        $SessionUser = $SessionManager->getSessionUser();
+        }
 
         ?>
     <body class="courtpay-theme <?php echo $body_class; ?>">
@@ -118,10 +120,11 @@ HEAD;
 
 
         $SessionManager = new SessionManager();
-        $SessionUser = $SessionManager->getSessionUser();
 
         if(!$SessionManager->isLoggedIn())
             return;
+
+        $SessionUser = $SessionManager->getSessionUser();
 
         list($main) = explode('-', $category, 2);
         $mc = array();

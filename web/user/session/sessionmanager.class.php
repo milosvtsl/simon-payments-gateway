@@ -116,7 +116,12 @@ class SessionManager
             return new GuestUser();
 
         $id = $_SESSION[self::SESSION_KEY][self::SESSION_ID];
-        $User = UserRow::fetchByID($id);
+        try {
+            $User = UserRow::fetchByID($id);
+        } catch (\Exception $ex) {
+            unset($_SESSION[self::SESSION_KEY][self::SESSION_ID]);
+            throw $ex;
+        }
         if(!$User)
             throw new \InvalidArgumentException("Session ID User not found: " . $id);
 
