@@ -70,22 +70,26 @@ ____
         );
 
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
-            $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
+            $this->from = array(
+                SiteConfig::$EMAIL_FROM_ADDRESS => SiteConfig::$EMAIL_FROM_TITLE
+            );
 
-        $this->addAddress($User->getEmail(), $User->getFullName());
-        $this->addBCC(SiteConfig::$EMAIL_FROM_ADDRESS, $User->getFullName());
+
+
+        $this->to = array(
+            $User->getEmail() => $User->getFullName()
+        );
+        $this->bcc = array(
+            SiteConfig::$EMAIL_FROM_ADDRESS => $User->getFullName()
+        );
         if($User->getAdminID()) {
             // Send a copy to admin
             $AdminUser = UserRow::fetchByID($User->getAdminID());
             $params['admin_email'] = $AdminUser->getEmail();
         }
 
-
         // Customize Email Template
-        $body = static::TEMPLATE_BODY;
-        $subject = static::TEMPLATE_SUBJECT;
-        $bcc = static::BCC;
-        $this->processTemplate($body, $subject, $bcc, $params, $User->getMerchantID());
+        $this->processTemplate($params, $User->getMerchantID());
     }
 
 }
