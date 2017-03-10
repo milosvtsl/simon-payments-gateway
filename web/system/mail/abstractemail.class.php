@@ -14,73 +14,90 @@ use User\Model\UserRow;
 use System\Config\SiteConfig;
 use User\Session\SessionManager;
 
-@define("PHPMAILER_DIR", dirname(dirname(dirname(__DIR__))) . '/support/PHPMailer/');
-require_once PHPMAILER_DIR . 'PHPMailerAutoload.php';
-require_once PHPMAILER_DIR . 'class.smtp.php';
+@define("SWIFTMAILER_DIR", dirname(dirname(dirname(__DIR__))) . '/support/swiftmailer/');
+require_once SWIFTMAILER_DIR . 'lib/swift_required.php';
 
-abstract class AbstractEmail extends \PHPMailer
+abstract class AbstractEmail
 {
     const TITLE = null;
     const TEMPLATE_SUBJECT = null;
     const TEMPLATE_BODY = null;
 
+    protected $subject;
+    protected $body;
+
+    protected $to = array();
+    protected $from = array();
+    protected $bcc = array();
+
     public function __construct() {
-        parent::__construct();
-
-        $this->Host = SiteConfig::$EMAIL_SERVER_HOST;
-        $this->Username = SiteConfig::$EMAIL_USERNAME;
-        $this->Password = SiteConfig::$EMAIL_PASSWORD;
-        $this->Port = SiteConfig::$EMAIL_SERVER_PORT;
-        $this->Timeout = SiteConfig::$EMAIL_TIMEOUT;
-        $this->SMTPAuth = SiteConfig::$EMAIL_SMTP_AUTH;
-        $this->SMTPSecure = SiteConfig::$EMAIL_SMTP_SECURE;
-        if(SiteConfig::$EMAIL_SMTP_AUTH)
-            $this->isSMTP();
-
+        $this->subject = static::TEMPLATE_SUBJECT;
+        $this->body = static::TEMPLATE_BODY;
 
         if(SiteConfig::$EMAIL_FROM_ADDRESS)
-            $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
-
+            $this->from = array(
+                SiteConfig::$EMAIL_FROM_ADDRESS => SiteConfig::$EMAIL_FROM_TITLE
+            );
     }
 
-    protected function processTemplate($body, $subject, Array $params, MerchantRow $Merchant=null) {
+    protected function processTemplate(Array $params, MerchantRow $Merchant=null) {
         // Query email template
         if($Merchant) {
             $class = get_class($this);
             $EmailTemplate = EmailTemplateRow::fetchAvailableTemplate($class, $Merchant->getID());
             if($EmailTemplate) {
                 // Replace email template
-                $body = $EmailTemplate->getBody();
-                $subject = $EmailTemplate->getSubject();
+                $this->body = $EmailTemplate->getBody();
+                $this->subject = $EmailTemplate->getSubject();
             }
         }
 
         // Pre-process site constants
-        self::processTemplateConstants($body, $subject, $Merchant);
+        self::processTemplateConstants($this->body, $this->subject, $Merchant);
 
         foreach($params as $name => $value) {
-            $body = str_replace('{$' . $name . '}', $value, $body);
-            $subject = str_replace('{$' . $name . '}', $value, $subject);
+            $this->body = str_replace('{$' . $name . '}', $value, $this->body);
+            $this->subject = str_replace('{$' . $name . '}', $value, $this->subject);
         }
 
-        if(strpos($body, '{$')!==false) error_log("Not all variables were replaced: \n" . $body);
-        if(strpos($subject, '{$')!==false) error_log("Not all variables were replaced: \n" . $subject);
+        if(strpos($this->body, '{$')!==false) error_log("Not all variables were replaced: \n" . $this->body);
+        if(strpos($this->subject, '{$')!==false) error_log("Not all variables were replaced: \n" . $this->subject);
 
-        $this->Subject = $subject;
+    }
 
-        $this->isHTML(true);
-        $this->Body = <<<HTML
+    public function send() {
+        $Transport = \Swift_SmtpTransport::newInstance(SiteConfig::$EMAIL_SERVER_HOST, SiteConfig::$EMAIL_SERVER_PORT);
+        $Transport->setUsername(SiteConfig::$EMAIL_USERNAME);
+        $Transport->setPassword(SiteConfig::$EMAIL_PASSWORD);
+
+        $Mailer = \Swift_Mailer::newInstance($Transport);
+
+        $Message = \Swift_Message::newInstance($this->subject);
+        if($this->from)
+            $Message->setFrom($this->from);
+        if($this->to)
+            $Message->setTo($this->to);
+        if($this->bcc)
+            $Message->setBcc($this->bcc);
+
+
+        $HTML = <<<HTML
 <html>
     <body>
-        {$body}
+        {$this->body}
     </body>
 </html>
 HTML;
-
-        $this->AltBody = strip_tags(
-            preg_replace('/<br[^>]*>/i', "\r\n", $body)
+        $Text = strip_tags(
+            preg_replace('/<br[^>]*>/i', "\r\n", $this->body)
         );
+        $Message->setBody($HTML, 'text/html');
+        $Message->addPart($Text, 'text/plain');
+
+        return $Mailer->send($Message);
     }
+
+    // Static
 
     static function processTemplateConstants(&$body, &$subject, MerchantRow $Merchant=null) {
         $constants = array(

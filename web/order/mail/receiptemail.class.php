@@ -110,17 +110,15 @@ HTML;
 
 
 
-        if(SiteConfig::$EMAIL_FROM_ADDRESS)
-            $this->setFrom(SiteConfig::$EMAIL_FROM_ADDRESS, SiteConfig::$EMAIL_FROM_TITLE);
+        $this->to = array(
+            $Order->getPayeeEmail() => $Order->getPayeeFullName()
+        );
+        $this->bcc = array(
+            SiteConfig::$EMAIL_FROM_ADDRESS => $Order->getPayeeFullName()
+        );
 
-        $this->addAddress($Order->getPayeeEmail(), $Order->getPayeeFullName());
-        $this->addBCC(SiteConfig::$EMAIL_FROM_ADDRESS, $Order->getPayeeFullName());
-
-        // Customize Email Template
-        $body = static::TEMPLATE_BODY;
-        $subject = static::TEMPLATE_SUBJECT;
-
-        $this->processTemplate($body, $subject, $params, $Merchant);
+        // Process Email Template
+        $this->processTemplate($params, $Merchant);
     }
 }
 
