@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <title>Simon Payments Gateway</title>
+    <meta charset='utf-8' />
+    <base href="../../web/" />
+    <script src='app/chart/assets/Chart.bundle.js'></script>
+    <script src='app/chart/assets/app-chart.js'></script>
+    <link href='app/chart/assets/app-chart.css' type='text/css' rel='stylesheet' />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            var barChartData = {"labels":["1am","2am","3am","4am","5am","6am","7am","8am","9am","10am","11am","12pm","1pm","2pm","3pm","4pm","5pm","6pm","7pm","8pm","9pm","10pm","11pm"],"datasets":[{"label":"Returned","backgroundColor":"#f0614d","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"label":"Amount","backgroundColor":"#87cb27","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]};
+            var canvasElms = document.getElementsByClassName('app-chart-canvas-daily');
+            for(var i=0; i<canvasElms.length; i++) {
+                var canvasElm = canvasElms[i];
+                canvasElm.bar = new Chart(canvasElm, {
+                    type: 'line',
+                    data: barChartData,
+                    options: {
+                        title:{
+                            display:true,
+                            text:"Today's Sales $0.00 (0)"
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }],
+                            yAxes: [{
+                                stacked: true,
+                                fontSize: 40
+                            }]
+                        }
+                    }
+                });
+
+                canvasElm.parentNode.addEventListener('click', function(e) {
+                    document.location.href = 'order?date_from=2017-03-10';
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            var barChartData = {"labels":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"datasets":[{"label":"Returned","backgroundColor":"#f0614d","data":[0,0,0,0,0,0,0]},{"label":"Amount","backgroundColor":"#87cb27","data":[0,0,0,0,0,0,0]}]};
+            var canvasElms = document.getElementsByClassName('app-chart-canvas-wtd');
+            for(var i=0; i<canvasElms.length; i++) {
+                var canvasElm = canvasElms[i];
+                canvasElm.bar = new Chart(canvasElm, {
+                    type: 'line',
+                    data: barChartData,
+                    options: {
+                        title:{
+                            display:true,
+                            text:"Week To Date $0.00 (0)"
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        }
+                    }
+                });
+
+                canvasElm.parentNode.addEventListener('click', function(e) {
+                    document.location.href = 'order?date_from=2017-03-05';
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            var barChartData = {"labels":["1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th","11st","12nd","13rd","14th","15th","16th","17th","18th","19th","20th","21st","22nd","23rd","24th","25th","26th","27th","28th","29th","30th"],"datasets":[{"label":"Returned","backgroundColor":"#f0614d","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},{"label":"Amount","backgroundColor":"#87cb27","data":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]};
+            var canvasElms = document.getElementsByClassName('app-chart-canvas-mtd');
+
+            for(var i=0; i<canvasElms.length; i++) {
+                var canvasElm = canvasElms[i];
+                var ctx = canvasElm.getContext("2d");
+                canvasElm.bar = new Chart(ctx, {
+                    type: 'line',
+                    data: barChartData,
+                    options: {
+                        title:{
+                            display:true,
+                            text:"Month To Date $0.00 (0)"
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        }
+                    }
+                });
+
+                canvasElm.parentNode.addEventListener('click', function(e) {
+                    document.location.href = 'order?date_from=2017-03-01';
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(e) {
+            var barChartData = {"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"datasets":[{"label":"Returned","backgroundColor":"#f0614d","data":[0,0,0,0,0,0,0,0,0,0,0,0]},{"label":"Amount","backgroundColor":"#87cb27","data":[0,0,0,0,0,0,0,0,0,0,0,0]}]};
+            var canvasElms = document.getElementsByClassName('app-chart-canvas-ytd');
+            for(var i=0; i<canvasElms.length; i++) {
+                var canvasElm = canvasElms[i];
+                canvasElm.bar = new Chart(canvasElm, {
+                    type: 'line',
+                    data: barChartData,
+                    options: {
+                        title:{
+                            display:true,
+                            text:"Year To Date Sales $0.00 (0)"
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        responsive: true,
+                        scales: {
+                            xAxes: [{
+                                stacked: true
+                            }],
+                            yAxes: [{
+                                stacked: true
+                            }]
+                        }
+                    }
+                });
+
+                canvasElm.addEventListener('click', function(e) {
+                    document.location.href = 'order?date_from=2017-01-01';
+                });
+            }
+        });
+    </script>
+    <link href='user/view/assets/dashboard.css' type='text/css' rel='stylesheet' />
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=2, user-scalable=1">
+
+    <script src="assets/js/date-input/nodep-date-input-polyfill.dist.js"></script>
+
+    <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
+    <script src="view/theme/spg/assets/spg-theme.js"></script>
+    <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
+</head>
+<body class="spg-theme layout-vertical layout-narrow layout-full">
+
+<div class="body-container">
+    <header class="themed hide-on-print hide-on-layout-vertical">
+        <a href=".">
+            <div class="logo"></div>
+        </a>
+    </header>
+
+    <aside class="sub-header hide-on-print">
+
+        <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
+            <div class="menu-icon menu-icon-toggle"></div>
+        </a>
+        <span class="bread-crumbs">
+
+			<a class='breadcrumb' href='merchant/?uid=011e1bcb-9c88-4ecc-8a08-07ba5c3e005261'>Test Merchant (Element)</a> |
+			<a class='breadcrumb' href='index.php'>Dashboard</a>                </span>
+
+
+        <a href="#" onclick="return false;" class="menu-button-account hide-on-layout-guest" style="float: right;">
+            <div class="menu-icon menu-icon-sub-menu"></div>
+            <ul class="menu-sub-menu">
+                <li>
+                    <a href="user/account.php" class="button">
+                        <div class="menu-icon menu-icon-account"></div>
+                        <span>My Account</span></a>
+                </li>
+                <li>
+                    <a href="user/account.php?action=edit" class="button">
+                        <div class="menu-icon menu-icon-edit"></div>
+                        <span>Edit Account</span></a>
+                </li>
+                <li>
+                    <a href="user/logout.php" class="button">
+                        <div class="menu-icon menu-icon-logout"></div>
+                        <span>Log out</span></a>
+                </li>
+            </ul>
+        </a>
+
+        <form action="order" style="display: inline-block; float: right;">
+            <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
+        </form>
+    </aside>
+
+    <ul class="page-menu hide-on-print">
+        <li>
+            <a href="." class="button current"><div class="menu-icon menu-icon-dashboard"></div>
+                <span>Dashboard</span></a>
+        </li>
+
+        <li>
+            <a href="order/charge.php" class="button"><div class="menu-icon menu-icon-charge"></div>
+                <span>Charge</span> </a>
+        </li>
+
+        <!--            --><!--                <li>-->
+        <!--                    <a href="--><!--view" class="button--><!--"><div class="menu-icon menu-icon-receipt"></div>-->
+        <!--                        <span>View Receipt</span></a>-->
+        <!--                </li>-->
+        <!--                <li>-->
+        <!--                    <a href="javascript:window.print();" class="button--><!--"><div class="menu-icon menu-icon-print"></div>-->
+        <!--                        <span>Print</span></a>-->
+        <!--                </li>-->
+        <!--                <li>-->
+        <!--                    <a href="--><!--view" class="button--><!--"><div class="menu-icon menu-icon-download"></div>-->
+        <!--                        <span>Download</span></a>-->
+        <!--            </li>-->
+        <!--            -->
+        <li>
+            <a href="order/list.php?date_from=2017-03-09" class="button"><div class="menu-icon menu-icon-list"></div>
+                <span>Search</span> </a>
+        </li>
+        <li>
+            <a href="order/report.php?date_from=2017-03-01" class="button"><div class="menu-icon menu-icon-report"></div>
+                <span>Reports</span> </a>
+        </li>
+        <!--                            <li>-->
+        <!--                                <a href="subscription" class="button--><!--"><div class="menu-icon menu-icon-subscription"></div>-->
+        <!--                                    <span>Client Profiles</span> </a>-->
+        <!--                            </li>-->
+
+        <li>
+            <a href="merchant/list.php" class="button"><div class="menu-icon menu-icon-list"></div>
+                <span>Merchants</span> </a>
+        </li>
+
+        <li class="menu-submenu menu-submenu-integration">
+            <a href="integration" onclick="if (this.classList.toggle('current')) return false;" class="button"> <div class="menu-icon menu-icon-integration"></div>
+                <span>Admin</span></a>
+            <ul>
+                <li>
+                    <a href="user/list.php" class="button"><div class="menu-icon menu-icon-list"></div>
+                        <span>List Users</span></a>
+                </li>
+                <li>
+                    <a href="user/add.php" class="button"> <div class="menu-icon menu-icon-add"></div>
+                        <span>Add User</span></a>
+                </li>
+                <li>
+                    <a href="merchant/add.php" class="button"><div class="menu-icon menu-icon-add"></div>
+                        <span>Add Merchant</span> </a>
+                </li>
+
+                <li>
+                    <a href="integration" class="button"><div class="menu-icon menu-icon-list"></div>
+                        <span>API Endpoints</span></a>
+                </li>
+                <li>
+                    <a href="integration/request/" class="button"><div class="menu-icon menu-icon-list"></div>
+                        <span>API Requests</span></a>
+                </li>
+            </ul>
+        </li>
+
+
+        <li>
+            <a href="user/account.php" class="button"> <div class="menu-icon menu-icon-account"></div>
+                <span>My Account</span></a>
+        </li>
+
+        <li>
+            <a href="user/logout.php" class="button"><div class="menu-icon menu-icon-logout"></div>
+                <span>Log out</span></a>
+        </li>
+
+
+
+    </ul>
+
+    <article class="themed">
+        <section class="content dashboard-section">
+            <div class="app-chart app-chart-today">
+                <canvas class="app-chart-canvas app-chart-canvas-daily" ></canvas>
+            </div>        <div class="app-chart app-chart-wtd">
+            <canvas class="app-chart-canvas app-chart-canvas-wtd" ></canvas>
+        </div><br />        <div class="app-chart app-chart-mtd">
+            <canvas class="app-chart-canvas app-chart-canvas-mtd" ></canvas>
+        </div>        <div class="app-chart app-chart-ytd">
+            <canvas class="app-chart-canvas app-chart-canvas-ytd" ></canvas>
+        </div><br />			</section>
+    </article>
+</div>
+<footer class="hide-on-print">
+    <span>&copy; 2017 Simon Payments, LLC. All rights reserved.</span>
+</footer>
+</body>
+</html>
