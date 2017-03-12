@@ -167,16 +167,18 @@
     <link href='view/theme/spg/assets/spg-theme.css' type='text/css' rel='stylesheet'>
     <script src="view/theme/spg/assets/spg-theme.js"></script>
     <link rel="icon" href="view/theme/spg/assets/img/favicon.ico">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 <body class="spg-theme  layout-horizontal layout-full">
 
 <div class="body-container">
+<!-- CENTRIRATI GA ZA 767 / OK-->
     <header class="themed hide-on-print hide-on-layout-vertical">
         <a href=".">
             <div class="logo"></div>
         </a>
     </header>
-
+<!-- SKRATITI GA ZA 767 / OK  -->
     <aside class="sub-header hide-on-print">
 
         <a href="#" onclick="return toggleNavMenu(event);" class="menu-button-toggle" style="">
@@ -209,11 +211,11 @@
             </ul>
         </a>
 
-        <form action="order" style="display: inline-block; float: right;">
+        <form action="order" style="display: inline-block; float: right;" class="search_box">
             <input name="search" tabindex="1" type="text" class="menu-search themed" placeholder="Search TID, MID, Name, Invoice ID..." />
         </form>
     </aside>
-
+<!-- ul skloniti za  ZA 767 / OK-->
     <ul class="page-menu hide-on-print">
         <li>
             <a href="." class="button current"><div class="menu-icon menu-icon-dashboard"></div>
@@ -298,7 +300,7 @@
 
 
     </ul>
-
+<!-- prepakovati ga  ZA 767 -->
     <article class="themed">
         <section class="content dashboard-section">
             <div class="app-chart app-chart-today">
@@ -312,8 +314,10 @@
         </div><br />			</section>
     </article>
 </div>
+<a href="#top"><div class="pointer"><i class="fa fa-hand-pointer-o fa-2x" ></i></div></a>
 <footer class="hide-on-print">
     <span>&copy; 2017 Simon Payments, LLC. All rights reserved.</span>
 </footer>
+
 </body>
 </html>
