@@ -129,6 +129,28 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
     padding: 3em;
     clear: both;
 }
+.pointer{
+	display:none;
+		position:fixed;
+		right:3%;
+		bottom:10%;
+		width:30px;
+		height:30px;
+		border-radius:15px;
+		text-align:center;
+		margin:0 auto;
+		padding-top:5px;
+		color:#21455b;
+		vertical-align: top;
+		}
+	.pointer:hover{
+		color:#2b89ab;
+		}
+		
+		.pointer:active{
+		color:lightblue;
+		}
+
 
 
 /** Page Menu **/
@@ -171,7 +193,7 @@ body.layout-horizontal.spg-theme .float-right-on-layout-horizontal {
     margin-left: 12em;
 }
 .spg-theme.layout-narrow ul.page-menu + article.themed {
-    margin-left: 60px;
+    margin-left: 8px;
 }
 
 body.layout-narrow.spg-theme ul.page-menu:not(:hover) ul {
@@ -298,7 +320,7 @@ body.layout-vertical.spg-theme nav.page-menu {
     /* display: none; */
     transition: max-height 1s ease-in, max-width 0.5s ease-in, display 1s;
     position: absolute;
-    right: 0;
+    right: 75px;
     z-index: 999;
     list-style: none;
     /* margin: 2px 0px 0px 0px; */
@@ -901,3 +923,76 @@ body.layout-vertical.spg-theme nav.page-menu {
         margin-left: 0 !important;
     }
 }
+
+@media screen  and (min-width:480px) and (max-width:767px) {
+.spg-theme header.themed {
+   	text-align:center;
+}
+.body-container {
+    overflow:hidden;
+}
+.spg-theme.layout-narrow ul.page-menu + article.themed {
+    margin: 0px;
+	position:absolute;
+	background:#ffffff;
+}
+.search_box{
+	position:absolute;
+	top:12%;
+	right:8%;
+}
+.spg-theme ul.menu-sub-menu {
+	right:0;
+    overflow: hidden;
+    min-width: 100%;
+    position: relative;
+}
+.spg-theme ul.menu-sub-menu a{
+	padding-left:40%;
+}
+.pointer{
+	display:block;	
+}
+
+	}
+
+@media screen and (max-width:480px) {
+.spg-theme header.themed {
+   	text-align:center;
+}
+
+.spg-theme.layout-narrow ul.page-menu + article.themed {
+    margin: 0px;
+	position:absolute;
+	background:#ffffff;
+}
+.search_box{
+	position:absolute;
+	top:12%;
+	right:8%;
+}
+.spg-theme ul.menu-sub-menu {
+	right:0;
+	overflow: hidden;
+    min-width: 100%;
+    position: relative;
+}
+.spg-theme ul.menu-sub-menu a{
+	padding-left:40%;
+}
+
+.body-container {
+    overflow:hidden;
+}
+.body-container.themed  div{
+    text-align:justify;
+}
+.spg-theme .app-chart {
+    width:422px;
+	height:203px;
+}
+.pointer{
+	display:block;		
+}
+	
+	}
